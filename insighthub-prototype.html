@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InsightHub · 洞察中枢</title>
+<style>
+:root {
+  --bg: #FEFDF9;
+  --o:  #FF5722;
+  --bd: #E8E2D9;
+  --tx: #2A2A2A;
+  --sub:#666;
+  --mu: #999;
+  --card:#fff;
+  --teal:#3DBFBF;
+  --blue:#4361EE;
+  --purp:#7C3AED;
+  --grn: #16A34A;
+  --amb: #D97706;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,'PingFang SC','Microsoft Yahei',sans-serif;background:var(--bg);color:var(--tx);height:100vh;display:flex;flex-direction:column;overflow:hidden;font-size:13px}
+
+/* ─── HEADER ─── */
+header{height:52px;background:var(--bg);border-bottom:1.5px solid var(--bd);display:flex;align-items:center;padding:0 20px;gap:8px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:15px;letter-spacing:-0.3px;cursor:pointer;margin-right:12px}
+.logo-icon{width:30px;height:30px;background:var(--o);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px}
+
+.vtabs{display:flex;gap:2px}
+.vtab{padding:6px 14px;border-radius:8px;font-size:12.5px;font-weight:500;color:var(--sub);cursor:pointer;border:none;background:none;transition:all .2s;display:flex;align-items:center;gap:5px}
+.vtab.on{background:rgba(255,87,34,.1);color:var(--o);font-weight:700}
+.vtab:hover:not(.on){background:rgba(0,0,0,.04)}
+
+.hdr-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.stat-pill{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--sub);background:white;border:1.5px solid var(--bd);padding:4px 10px;border-radius:8px}
+.stat-pill strong{color:var(--tx);font-size:14px;font-weight:800}
+.btn-o{background:var(--o);color:white;border:none;padding:7px 14px;border-radius:9px;font-size:12.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px}
+.btn-ghost{background:white;color:var(--sub);border:1.5px solid var(--bd);padding:7px 14px;border-radius:9px;font-size:12.5px;cursor:pointer}
+
+/* ─── LAYOUT ─── */
+.main{flex:1;display:flex;overflow:hidden}
+
+/* ─── SIDEBAR ─── */
+.sidebar{width:196px;flex-shrink:0;border-right:1.5px solid var(--bd);overflow-y:auto;padding:16px 12px;display:flex;flex-direction:column;gap:22px}
+.fg-title{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--mu);margin-bottom:7px}
+.fo{display:flex;align-items:center;gap:7px;padding:5px 8px;border-radius:7px;font-size:12.5px;color:var(--sub);cursor:pointer;transition:all .15s;user-select:none}
+.fo:hover{background:rgba(0,0,0,.04)}
+.fo.on{background:rgba(255,87,34,.08);color:var(--o);font-weight:600}
+.fo-dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex-shrink:0}
+.fo-cnt{margin-left:auto;font-size:10px;color:var(--mu);background:rgba(0,0,0,.06);padding:1px 5px;border-radius:100px}
+
+/* ─── CONTENT ─── */
+.content{flex:1;overflow:hidden;display:flex;flex-direction:column}
+.toolbar{padding:10px 24px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px;flex-shrink:0;background:var(--bg)}
+.search{display:flex;align-items:center;gap:7px;padding:6px 12px;border:1.5px solid var(--bd);border-radius:9px;background:white;font-size:12.5px;color:var(--mu);width:220px}
+.sort-sel{font-size:12px;border:1.5px solid var(--bd);border-radius:7px;padding:5px 8px;background:white;color:var(--sub);cursor:pointer}
+
+.panel{flex:1;overflow-y:auto;padding:22px 24px;display:none}
+.panel.on{display:block}
+
+/* ─── TAGS ─── */
+.tag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px}
+.to{background:rgba(255,87,34,.1);color:var(--o)}
+.tt{background:rgba(61,191,191,.1);color:var(--teal)}
+.tb{background:rgba(67,97,238,.1);color:var(--blue)}
+.ty{background:rgba(217,119,6,.1);color:var(--amb)}
+.tg{background:rgba(22,163,74,.1);color:var(--grn)}
+.tp{background:rgba(124,58,237,.1);color:var(--purp)}
+.tgr{background:rgba(0,0,0,.06);color:var(--sub)}
+
+/* ─── DOT: 项目库 ─── */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:15px}
+.pc{background:var(--card);border:1.5px solid var(--bd);border-radius:14px;padding:17px;cursor:pointer;transition:all .2s;box-shadow:2px 3px 0 rgba(0,0,0,.04)}
+.pc:hover{border-color:var(--o);box-shadow:3px 5px 0 rgba(255,87,34,.1);transform:translateY(-1px)}
+.pc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:9px}
+.pc-tags{display:flex;gap:4px;flex-wrap:wrap}
+.pc-date{font-size:11px;color:var(--mu);flex-shrink:0}
+.pc-name{font-size:14.5px;font-weight:800;line-height:1.45;margin-bottom:7px;letter-spacing:-0.2px}
+.pc-meta{display:flex;gap:6px;align-items:center;font-size:11px;color:var(--mu)}
+.pc-sep{color:var(--bd)}
+.depth{display:flex;gap:3px;margin:13px 0 11px}
+.ds{height:4px;flex:1;border-radius:2px;background:var(--bd)}
+.ds.on{background:var(--o)}
+.pc-foot{display:flex;align-items:center;justify-content:space-between;padding-top:11px;border-top:1px solid var(--bd)}
+.pc-impact{font-size:11px;color:var(--sub)}
+.pc-links{display:flex;gap:5px}
+.plk{width:24px;height:24px;border-radius:6px;border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;color:var(--sub);transition:all .15s}
+.plk:hover{border-color:var(--o);color:var(--o)}
+.pc-add{border-style:dashed;background:rgba(0,0,0,.01);cursor:default;box-shadow:none}
+.pc-add:hover{transform:none;border-color:var(--bd);box-shadow:none}
+.pc-add-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;height:150px;gap:6px;color:var(--mu)}
+
+/* ─── LINE: 用户档案 ─── */
+.persona-wrap{display:grid;grid-template-columns:228px 1fr;gap:18px;height:100%;min-height:0}
+.persona-list{display:flex;flex-direction:column;gap:9px}
+.prs{background:var(--card);border:1.5px solid var(--bd);border-radius:12px;padding:13px;cursor:pointer;transition:all .2s}
+.prs.on{border-color:var(--o);box-shadow:2px 3px 0 rgba(255,87,34,.1)}
+.prs:hover:not(.on){border-color:rgba(255,87,34,.35)}
+.prs-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:7px}
+.prs-name{font-size:13px;font-weight:800;margin-bottom:2px}
+.prs-desc{font-size:11px;color:var(--sub);line-height:1.5}
+.prs-cnt{margin-top:7px;font-size:11px;color:var(--mu);display:flex;align-items:center;gap:4px}
+.prs-dot{width:6px;height:6px;border-radius:50%}
+
+.prs-detail{background:var(--card);border:1.5px solid var(--bd);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.prs-dhead{padding:18px 22px;border-bottom:1px solid var(--bd);flex-shrink:0;background:linear-gradient(135deg,rgba(255,87,34,.04) 0%,transparent 60%)}
+.ai-block{background:rgba(255,87,34,.04);border:1px solid rgba(255,87,34,.12);border-radius:8px;padding:10px 13px;font-size:12.5px;color:var(--sub);line-height:1.7;margin-top:10px}
+.ai-label{font-size:9px;font-weight:800;color:var(--o);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:3px}
+
+.timeline{padding:18px 22px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:16px}
+.ti-row{display:flex;gap:13px}
+.ti-line{display:flex;flex-direction:column;align-items:center}
+.ti-dot{width:10px;height:10px;border-radius:50%;background:var(--o);flex-shrink:0;margin-top:4px}
+.ti-conn{width:2px;flex:1;background:var(--bd);margin-top:4px}
+.ti-body{flex:1}
+.ti-proj{font-size:11px;color:var(--mu);margin-bottom:4px;display:flex;align-items:center;gap:5px}
+.ti-quote{background:rgba(255,87,34,.03);border:1px solid rgba(255,87,34,.13);border-radius:8px;padding:9px 13px;font-size:12.5px;color:var(--sub);line-height:1.7;font-style:italic;margin-bottom:7px}
+.play-sm{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:100px;border:1px solid var(--bd);font-size:11px;color:var(--sub);cursor:pointer;background:white;transition:all .15s}
+.play-sm:hover{border-color:var(--o);color:var(--o)}
+
+/* ─── SURFACE: 聚类 ─── */
+.cluster-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px}
+.cc{background:var(--card);border:1.5px solid var(--bd);border-radius:16px;overflow:hidden;box-shadow:2px 3px 0 rgba(0,0,0,.04);cursor:pointer;transition:all .2s}
+.cc:hover{transform:translateY(-1px);box-shadow:3px 5px 0 rgba(0,0,0,.07)}
+.cc-head{padding:18px 20px 14px}
+.cc-label{font-size:9.5px;font-weight:800;letter-spacing:1.5px;color:var(--mu);text-transform:uppercase;margin-bottom:5px}
+.cc-title{font-size:16px;font-weight:900;letter-spacing:-0.3px;margin-bottom:7px}
+.cc-summary{font-size:12.5px;color:var(--sub);line-height:1.7}
+.cc-projs{padding:11px 20px;border-top:1px solid var(--bd);display:flex;flex-wrap:wrap;gap:5px}
+.cc-chip{font-size:11px;padding:3px 9px;border-radius:100px;background:rgba(0,0,0,.04);color:var(--sub);border:1px solid var(--bd)}
+.cc-foot{padding:10px 20px;border-top:1px solid var(--bd);display:flex;align-items:flex-start;gap:7px;background:rgba(0,0,0,.02);font-size:12px;color:var(--sub);line-height:1.6}
+.ai-badge{font-size:9px;font-weight:800;background:var(--o);color:white;padding:2px 5px;border-radius:4px;flex-shrink:0;margin-top:2px}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">🔬</div>
+    <span>InsightHub</span>
+    <span style="font-weight:400;color:var(--mu);font-size:13px"> · 洞察中枢</span>
+  </div>
+
+  <div class="vtabs">
+    <button class="vtab on" onclick="sv('dot',this)">🔵 点状 · 项目库</button>
+    <button class="vtab"    onclick="sv('line',this)">📖 线状 · 用户档案</button>
+    <button class="vtab"    onclick="sv('surf',this)">🗺 面状 · 聚类洞察</button>
+  </div>
+
+  <div class="hdr-right">
+    <div class="stat-pill"><strong>1</strong> 个项目</div>
+    <div class="stat-pill"><strong>—</strong> 条原声</div>
+    <div class="stat-pill"><strong>—</strong> 位访谈员</div>
+    <button class="btn-ghost">↑ 导出</button>
+    <button class="btn-o">＋ 新建项目</button>
+  </div>
+</header>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <div>
+      <div class="fg-title">项目类别</div>
+      <div class="fo on" onclick="fi(this)"><span class="fo-dot" style="color:var(--sub)"></span>全部 <span class="fo-cnt">1</span></div>
+      <div class="fo"    onclick="fi(this)"><span class="fo-dot" style="color:var(--o)"></span>新课定位 <span class="fo-cnt">1</span></div>
+      <div class="fo"    onclick="fi(this)"><span class="fo-dot" style="color:var(--teal)"></span>用户画像 <span class="fo-cnt">0</span></div>
+      <div class="fo"    onclick="fi(this)"><span class="fo-dot" style="color:var(--blue)"></span>产品功能 <span class="fo-cnt">0</span></div>
+      <div class="fo"    onclick="fi(this)"><span class="fo-dot" style="color:var(--amb)"></span>用户体验 <span class="fo-cnt">0</span></div>
+    </div>
+
+    <div>
+      <div class="fg-title">研究方法</div>
+      <div class="fo" onclick="fi(this)"><span class="fo-dot" style="color:#94A3B8"></span>桌面研究 <span class="fo-cnt">1</span></div>
+      <div class="fo" onclick="fi(this)"><span class="fo-dot" style="color:var(--blue)"></span>定量调研 <span class="fo-cnt">1</span></div>
+      <div class="fo" onclick="fi(this)"><span class="fo-dot" style="color:var(--teal)"></span>定性调研 <span class="fo-cnt">1</span></div>
+    </div>
+
+    <div>
+      <div class="fg-title">协同团队</div>
+      <div class="fo on" onclick="fi(this)"><span class="fo-dot" style="color:var(--o)"></span>策略</div>
+      <div class="fo"    onclick="fi(this)"><span class="fo-dot" style="color:var(--blue)"></span>销售</div>
+      <div class="fo"    onclick="fi(this)"><span class="fo-dot" style="color:var(--teal)"></span>BI</div>
+      <div class="fo"    onclick="fi(this)"><span class="fo-dot" style="color:var(--purp)"></span>产品</div>
+    </div>
+
+  </div><!-- /sidebar -->
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <div class="toolbar">
+      <div class="search">🔍&nbsp; 搜索项目、关键词…</div>
+      <span style="font-size:12px;color:var(--mu)">排序：</span>
+      <select class="sort-sel"><option>最近更新</option><option>项目类别</option><option>研究方法</option></select>
+      <span style="margin-left:auto;font-size:12px;color:var(--mu)">显示 1 个项目</span>
+    </div>
+
+    <!-- ══ DOT ══ -->
+    <div class="panel on" id="p-dot">
+      <div class="proj-grid">
+
+        <!-- P1 小学物理新课定位调研 -->
+        <div class="pc" style="border-color:rgba(255,87,34,.35);box-shadow:3px 4px 0 rgba(255,87,34,.1)">
+          <div class="pc-top">
+            <div class="pc-tags">
+              <span class="tag to">新课定位</span>
+              <span class="tag tgr">桌面研究</span>
+              <span class="tag tb">定量调研</span>
+              <span class="tag tt">定性调研</span>
+            </div>
+            <span class="pc-date">进行中</span>
+          </div>
+          <div class="pc-name">小学物理<br>新课定位调研</div>
+          <div class="pc-meta">
+            <span>协同：策略</span>
+            <span class="pc-sep">·</span>
+            <span>桌面 + 定量 + 定性</span>
+          </div>
+          <div class="depth"><div class="ds on"></div><div class="ds"></div><div class="ds"></div><div class="ds"></div></div>
+          <div class="pc-foot">
+            <div class="pc-impact">🎯 新课定位 · 策略支撑</div>
+            <div class="pc-links"><div class="plk" title="报告">📊</div><div class="plk" title="纪要">📝</div></div>
+          </div>
+        </div>
+
+        <!-- Add -->
+        <div class="pc pc-add">
+          <div class="pc-add-inner">
+            <span style="font-size:30px;opacity:.3">＋</span>
+            <span style="font-weight:700;opacity:.5">录入历史项目</span>
+            <span style="font-size:11px;color:var(--bd)">补充已有调研成果</span>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /dot -->
+
+    <!-- ══ LINE ══ -->
+    <div class="panel" id="p-line">
+      <div class="persona-wrap">
+
+        <div class="persona-list">
+          <div class="fg-title" style="margin-bottom:4px">用户原型</div>
+
+          <div class="prs on" onclick="sp(this)">
+            <div class="prs-av" style="background:rgba(255,87,34,.1)">👩</div>
+            <div class="prs-name">焦虑型妈妈</div>
+            <div class="prs-desc">一线城市，30–38岁，重视早规划，学习焦虑高</div>
+            <div class="prs-cnt"><span class="prs-dot" style="background:var(--o)"></span> 出现于 6 个项目</div>
+          </div>
+
+          <div class="prs" onclick="sp(this)">
+            <div class="prs-av" style="background:rgba(61,191,191,.1)">👨</div>
+            <div class="prs-name">佛系爸爸</div>
+            <div class="prs-desc">二三线城市，35–45岁，随遇而安型，孩子主导</div>
+            <div class="prs-cnt"><span class="prs-dot" style="background:var(--teal)"></span> 出现于 3 个项目</div>
+          </div>
+
+          <div class="prs" onclick="sp(this)">
+            <div class="prs-av" style="background:rgba(67,97,238,.1)">👩‍💼</div>
+            <div class="prs-name">精打细算型</div>
+            <div class="prs-desc">各线城市，价格敏感，ROI驱动，需要具体理由</div>
+            <div class="prs-cnt"><span class="prs-dot" style="background:var(--blue)"></span> 出现于 4 个项目</div>
+          </div>
+
+          <div class="prs" onclick="sp(this)">
+            <div class="prs-av" style="background:rgba(245,158,11,.1)">🧑‍🏫</div>
+            <div class="prs-name">素质教育派</div>
+            <div class="prs-desc">高学历，反应试，强调兴趣与综合发展</div>
+            <div class="prs-cnt"><span class="prs-dot" style="background:var(--amb)"></span> 出现于 4 个项目</div>
+          </div>
+
+          <button class="btn-o" style="width:100%;justify-content:center;margin-top:6px">＋ 新增用户原型</button>
+        </div>
+
+        <div class="prs-detail">
+          <div class="prs-dhead">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
+              <div style="width:46px;height:46px;border-radius:50%;background:rgba(255,87,34,.1);display:flex;align-items:center;justify-content:center;font-size:23px">👩</div>
+              <div>
+                <div style="font-size:17px;font-weight:900;letter-spacing:-0.3px">焦虑型妈妈</div>
+                <div style="font-size:11.5px;color:var(--mu);margin-top:2px">一线城市 · 30–38岁 · 出现于 6 个项目</div>
+              </div>
+              <div style="margin-left:auto;display:flex;gap:5px">
+                <span class="tag to">新课定位 ×3</span>
+                <span class="tag tt">用户画像 ×2</span>
+                <span class="tag ty">用户体验 ×1</span>
+              </div>
+            </div>
+            <div class="ai-block">
+              <span class="ai-label">AI 综合画像</span>
+              核心焦虑来自「无法量化学习效果」——买课是为了安心，而非确信有效。购课行为常被包装成「帮孩子看着玩」，本质是在规避家庭内部阻力。购买决策高度依赖口碑与试用体验，价格敏感度中等，但对续费障碍极其敏感。
+            </div>
+          </div>
+
+          <div class="timeline">
+            <div class="fg-title" style="margin-bottom:2px">原声积累时间线</div>
+
+            <div class="ti-row">
+              <div class="ti-line"><div class="ti-dot"></div><div class="ti-conn"></div></div>
+              <div class="ti-body">
+                <div class="ti-proj"><span class="tag tgr" style="font-size:9px;padding:1px 5px">综合报告</span> 竞品学科启蒙课用户研究 · 2026.01</div>
+                <div class="ti-quote">「我就给他说的是帮你看嘛，看着玩。诶，他就没那么抵触。」</div>
+                <button class="play-sm">▶ 听原声 · v003.mp3</button>
+              </div>
+            </div>
+
+            <div class="ti-row">
+              <div class="ti-line"><div class="ti-dot" style="background:var(--blue)"></div><div class="ti-conn"></div></div>
+              <div class="ti-body">
+                <div class="ti-proj"><span class="tag tb" style="font-size:9px;padding:1px 5px">定性调研</span> 营课用户体验深度调研 · 2025.11</div>
+                <div class="ti-quote">「我想知道他到底学了什么？学到了什么？学了多少？能记住什么？」</div>
+                <button class="play-sm">▶ 听原声 · v060.mp3</button>
+              </div>
+            </div>
+
+            <div class="ti-row">
+              <div class="ti-line"><div class="ti-dot" style="background:var(--teal)"></div><div class="ti-conn"></div></div>
+              <div class="ti-body">
+                <div class="ti-proj"><span class="tag tgr" style="font-size:9px;padding:1px 5px">定量调研</span> 家长付费决策路径研究 · 2025.09</div>
+                <div class="ti-quote">「就是有一种上当的感觉……你，我买你这个洋葱也是花了好几千的。」</div>
+                <button class="play-sm">▶ 听原声 · v045.mp3</button>
+              </div>
+            </div>
+
+            <div class="ti-row">
+              <div class="ti-line"><div class="ti-dot" style="background:var(--amb)"></div></div>
+              <div class="ti-body">
+                <div class="ti-proj"><span class="tag ty" style="font-size:9px;padding:1px 5px">定性调研</span> K12理科学习动机研究 · 2025.06</div>
+                <div class="ti-quote">「还是不想让他之后对理科失去兴趣，所以抓住从小应该掌握这个理科的黄金期。」</div>
+                <button class="play-sm">▶ 听原声 · v025.mp3</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /line -->
+
+    <!-- ══ SURFACE ══ -->
+    <div class="panel" id="p-surf">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <div>
+          <div style="font-size:18px;font-weight:900;letter-spacing:-0.3px">跨项目聚类洞察</div>
+          <div style="font-size:12px;color:var(--mu);margin-top:3px">AI 自动从 23 个项目中提炼 · 点击任意聚类深入</div>
+        </div>
+        <button class="btn-o">⟳ 重新聚类</button>
+      </div>
+
+      <div class="cluster-grid">
+
+        <div class="cc">
+          <div class="cc-head">
+            <div class="cc-label">聚类 · 01 &nbsp;·&nbsp; 4 个项目</div>
+            <div class="cc-title" style="color:var(--o)">🔥 购买决策的焦虑隐藏</div>
+            <div class="cc-summary">家长购课时普遍存在「跟孩子说是玩，跟自己说是投资」的认知包装。购买行为由家长焦虑驱动，但消费理由需要被合理化，产品叙事需顺势而为。</div>
+          </div>
+          <div class="cc-projs">
+            <span class="cc-chip">竞品学科启蒙课</span><span class="cc-chip">营课调研</span><span class="cc-chip">付费决策路径</span><span class="cc-chip">续费障碍访谈</span>
+          </div>
+          <div class="cc-foot">
+            <span class="ai-badge">AI</span>
+            策略建议：将营销话术从「让孩子学会 X」转向「让孩子自发想学 X」，降低家长的自我辩护负担。
+          </div>
+        </div>
+
+        <div class="cc">
+          <div class="cc-head">
+            <div class="cc-label">聚类 · 02 &nbsp;·&nbsp; 3 个项目</div>
+            <div class="cc-title" style="color:var(--teal)">📊 学习效果外化需求</div>
+            <div class="cc-summary">「看不见孩子学了什么」是跨项目反复出现的核心痛点。家长无法量化学习进度，导致续费意愿下降，产品价值被严重低估。</div>
+          </div>
+          <div class="cc-projs">
+            <span class="cc-chip">营课调研</span><span class="cc-chip">小学数学思维课评估</span><span class="cc-chip">续费障碍访谈</span>
+          </div>
+          <div class="cc-foot">
+            <span class="ai-badge">AI</span>
+            产品机会：将「学了几节课」升级为「掌握了哪些概念 · 做题正确率」的可视化学习报告。
+          </div>
+        </div>
+
+        <div class="cc">
+          <div class="cc-head">
+            <div class="cc-label">聚类 · 03 &nbsp;·&nbsp; 3 个项目</div>
+            <div class="cc-title" style="color:var(--blue)">🌱 「黄金期」叙事的驱动力</div>
+            <div class="cc-summary">「小学是理科兴趣的黄金期」在竞品分析和访谈中反复触发购买决策。这一叙事有效降低了家长的价格敏感度，是高杠杆增长点。</div>
+          </div>
+          <div class="cc-projs">
+            <span class="cc-chip">竞品学科启蒙课</span><span class="cc-chip">K12理科动机研究</span><span class="cc-chip">付费决策路径</span>
+          </div>
+          <div class="cc-foot">
+            <span class="ai-badge">AI</span>
+            增长杠杆：在关键触点强化「错过黄金期」的时间紧迫感，配合试用降低门槛。
+          </div>
+        </div>
+
+        <div class="cc">
+          <div class="cc-head">
+            <div class="cc-label">聚类 · 04 &nbsp;·&nbsp; 3 个项目</div>
+            <div class="cc-title" style="color:var(--amb)">😌 亲子冲突与使用频次</div>
+            <div class="cc-summary">孩子不主动、家长施压带来亲子紧张，是产品使用频次的关键隐性障碍。「被动使用」无法建立粘性，也无法形成口碑传播。</div>
+          </div>
+          <div class="cc-projs">
+            <span class="cc-chip">营课调研</span><span class="cc-chip">K12理科动机研究</span><span class="cc-chip">小学数学思维课</span>
+          </div>
+          <div class="cc-foot">
+            <span class="ai-badge">AI</span>
+            产品方向：降低家长干预门槛，设计让孩子自驱打开的触发机制。
+          </div>
+        </div>
+
+        <div class="cc" style="border-style:dashed;background:rgba(0,0,0,.01);cursor:default">
+          <div class="cc-head" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:180px;gap:8px;color:var(--mu)">
+            <span style="font-size:30px;opacity:.35">🤖</span>
+            <span style="font-size:13px;font-weight:700;opacity:.5">待挖掘聚类</span>
+            <span style="font-size:11.5px;color:var(--bd)">继续补充项目后自动生成</span>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /surface -->
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+function sv(id, btn) {
+  document.querySelectorAll('.vtab').forEach(t => t.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+  document.getElementById('p-' + id).classList.add('on');
+}
+function sp(card) {
+  document.querySelectorAll('.prs').forEach(c => c.classList.remove('on'));
+  card.classList.add('on');
+}
+function fi(opt) {
+  const grp = opt.closest('div');
+  grp.querySelectorAll('.fo').forEach(o => o.classList.remove('on'));
+  opt.classList.add('on');
+}
+</script>
+</body>
+</html>

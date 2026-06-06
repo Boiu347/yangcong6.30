@@ -1,0 +1,27 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "./tailwind-theme.css";
+@import "./typography.css";
+
+/* Evidence audio progress slider */
+.evidence-audio-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #4361EE;
+  cursor: pointer;
+  border: none;
+}
+.evidence-audio-range::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #4361EE;
+  cursor: pointer;
+  border: none;
+}
+
+@source "../../node_modules/streamdown/dist/*.js";
+@config "../../tailwind.config.ts";
