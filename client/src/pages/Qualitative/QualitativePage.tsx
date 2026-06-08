@@ -19,7 +19,7 @@ import { JISUANYING_QUALITATIVE_DATA } from '../../store/jisuanyingData';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-const CALC_DIMENSIONS = ['用户分层与需求', '购买决策', '产品体验与服务价值', '续费诊断', '用户调研报告'] as const;
+const CALC_DIMENSIONS = ['用户分层与需求', '购买决策', '产品体验与服务价值', '续费诊断'] as const;
 const LEGACY_DIMENSIONS = ['需求认知', '购买决策', '产品体验', '用户调研报告', '访谈录音'] as const;
 const DIMENSIONS = [...CALC_DIMENSIONS, ...LEGACY_DIMENSIONS] as const;
 type Dimension = (typeof DIMENSIONS)[number];
