@@ -751,53 +751,64 @@ export default function CompetitivePage() {
 
   const isMulti = selectedBrands.length > 1;
   const brandFilterBar = (
-    <div className="mb-4 flex items-center gap-1.5 flex-wrap min-w-0">
-      <span className="text-[11px] text-gray-400 shrink-0">筛选品牌：</span>
-      {allBrands.map((brand) => {
-        const active = selectedBrands.includes(brand);
-        const color = brandColor(brand);
-        return (
+    <div className="mb-4 flex items-center justify-between gap-4 flex-wrap">
+      <div className="flex items-center gap-1.5 flex-wrap min-w-0">
+        <span className="text-[11px] text-gray-400 shrink-0">筛选品牌：</span>
+        {allBrands.map((brand) => {
+          const active = selectedBrands.includes(brand);
+          const color = brandColor(brand);
+          return (
+            <button
+              key={brand}
+              onClick={() => toggleBrand(brand)}
+              className={cn(
+                'flex items-center gap-1 px-2.5 py-1 rounded-full text-[12px] font-medium border transition-all',
+                active
+                  ? 'text-white border-transparent shadow-sm'
+                  : 'bg-white border-gray-200 text-gray-500 hover:border-gray-300 hover:text-gray-700',
+              )}
+              style={active ? { backgroundColor: color, borderColor: color } : {}}
+            >
+              {active && <span className="w-1.5 h-1.5 rounded-full bg-white/70 shrink-0" />}
+              {brand}
+            </button>
+          );
+        })}
+
+        {selectedBrands.length < allBrands.length && (
           <button
-            key={brand}
-            onClick={() => toggleBrand(brand)}
-            className={cn(
-              'flex items-center gap-1 px-2.5 py-1 rounded-full text-[12px] font-medium border transition-all',
-              active
-                ? 'text-white border-transparent shadow-sm'
-                : 'bg-white border-gray-200 text-gray-500 hover:border-gray-300 hover:text-gray-700',
-            )}
-            style={active ? { backgroundColor: color, borderColor: color } : {}}
+            onClick={() => setSelectedBrands([...allBrands])}
+            className="flex items-center gap-1 px-2 py-1 rounded-full text-[11px] text-gray-400 hover:text-gray-600 border border-gray-200 hover:border-gray-300 transition-colors"
           >
-            {active && <span className="w-1.5 h-1.5 rounded-full bg-white/70 shrink-0" />}
-            {brand}
+            全选
           </button>
-        );
-      })}
+        )}
 
-      {selectedBrands.length < allBrands.length && (
-        <button
-          onClick={() => setSelectedBrands([...allBrands])}
-          className="flex items-center gap-1 px-2 py-1 rounded-full text-[11px] text-gray-400 hover:text-gray-600 border border-gray-200 hover:border-gray-300 transition-colors"
-        >
-          全选
-        </button>
-      )}
+        {selectedBrands.length > 1 && (
+          <button
+            onClick={() => setSelectedBrands([])}
+            className="flex items-center gap-1 px-2 py-1 rounded-full text-[11px] text-gray-400 hover:text-gray-600 border border-gray-200 hover:border-gray-300 transition-colors"
+          >
+            <X size={10} />
+            清空
+          </button>
+        )}
 
-      {selectedBrands.length > 1 && (
-        <button
-          onClick={() => setSelectedBrands([])}
-          className="flex items-center gap-1 px-2 py-1 rounded-full text-[11px] text-gray-400 hover:text-gray-600 border border-gray-200 hover:border-gray-300 transition-colors"
-        >
-          <X size={10} />
-          清空
-        </button>
-      )}
+        {selectedBrands.length > 0 && (
+          <span className="text-[11px] text-gray-400">
+            已选 {selectedBrands.length} 个品牌{isMulti ? '·对比模式' : ''}
+          </span>
+        )}
+      </div>
 
-      {selectedBrands.length > 0 && (
-        <span className="text-[11px] text-gray-400">
-          已选 {selectedBrands.length} 个品牌{isMulti ? '·对比模式' : ''}
-        </span>
-      )}
+      <div className="flex items-center gap-3 shrink-0">
+        {Object.entries(SENTIMENT_CONFIG).map(([k, v]) => (
+          <div key={k} className="flex items-center gap-1">
+            <span className={cn('w-1.5 h-1.5 rounded-full', v.dot)} />
+            <span className="text-[10px] text-gray-400">{v.label}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 
@@ -834,20 +845,6 @@ export default function CompetitivePage() {
         </div>
 
       </div>
-
-      {/* Legend */}
-      {activeSection === 'voice' && (
-      <div className="bg-white border-b border-gray-50 px-6 py-2 flex items-center gap-4">
-        <div className="flex items-center gap-3 ml-auto">
-          {Object.entries(SENTIMENT_CONFIG).map(([k, v]) => (
-            <div key={k} className="flex items-center gap-1">
-              <span className={cn('w-1.5 h-1.5 rounded-full', v.dot)} />
-              <span className="text-[10px] text-gray-400">{v.label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-      )}
 
       {/* Content */}
       {activeSection === 'voice' ? (
