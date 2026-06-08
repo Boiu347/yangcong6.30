@@ -6,6 +6,7 @@
 import { useState, useEffect } from 'react';
 import { DEFAULT_FILE_DEFS } from './defaultData';
 import { EVIDENCE_SOURCE_MAP } from '../utils/evidenceLookup';
+import { JISUANYING_EVIDENCE_SOURCE_MAP } from './jisuanyingData';
 
 const STORAGE_KEY = 'active_default_file_ids';
 
@@ -103,6 +104,8 @@ export function filterEvidenceByActiveFiles(evidence: string[]): string[] {
   const activeNames = new Set([..._activeIds].map((id) => FILE_ID_TO_NAME[id]).filter(Boolean));
   return evidence.filter((e) => {
     const plain = e.replace(/\*\*/g, '');
+    const calcSource = JISUANYING_EVIDENCE_SOURCE_MAP[plain] ?? JISUANYING_EVIDENCE_SOURCE_MAP[e];
+    if (calcSource) return true;
     const src = EVIDENCE_SOURCE_MAP[plain] ?? EVIDENCE_SOURCE_MAP[e];
     if (!src) return false;
     if (activeNames.has(src)) return true;

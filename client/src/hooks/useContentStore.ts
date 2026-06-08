@@ -19,6 +19,10 @@ export function useContentStore<T>(
   const [saving, setSaving] = useState(false);
   const defaultRef = useRef(defaultData);
 
+  useEffect(() => {
+    defaultRef.current = defaultData;
+  }, [defaultData]);
+
   const load = useCallback(async () => {
     const remote = await fetchContent<T>(key);
     if (remote !== null) {

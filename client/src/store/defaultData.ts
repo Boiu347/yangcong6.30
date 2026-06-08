@@ -1,4 +1,5 @@
 import { VOCItem, ProjectFile, Project } from '../types/voc';
+import { buildJisuanyingProject as buildJisuanyingSeed } from './jisuanyingData';
 
 // ── Default VOC items (extracted from 6 user interviews) ─────────────────
 // Interview files: 小学物理用研 2026年5月
@@ -1998,14 +1999,5 @@ export function buildDefaultProject(): Project {
 }
 
 export function buildJisuanyingProject(): Project {
-  return {
-    id: 'jisuanying_project',
-    name: '计算营项目',
-    createdAt: 1748736000000, // 2025-06
-    files: [],
-    category: '新课定位',
-    team: ['课程', '新媒体'],
-    methods: ['桌面研究', '定量调研'],
-    status: '部分完成',
-  };
+  return buildJisuanyingSeed();
 }

@@ -17,12 +17,16 @@ import CompetitiveEditor from '../../components/edit/CompetitiveEditor';
 import CrossBrandEditor, { type CrossBrandOverviewData } from '../../components/edit/CrossBrandEditor';
 import CompetitiveReportsView from '../CompetitiveReports/CompetitiveReportsView';
 import { cn } from '@/lib/utils';
+import {
+  JISUANYING_COMPETITIVE_DATA,
+  JISUANYING_CROSS_BRAND_DATA,
+} from '../../store/jisuanyingData';
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
-const L1_ORDER = ['启蒙认知', '购买决策', '产品体验'];
+const L1_ORDER = ['购买决策', '产品体验', '留存与复购', '启蒙认知'];
 
-const BRAND_ORDER = ['洋葱', '妙懂', '万物指南', 'NB虚拟实验室'];
+const BRAND_ORDER = ['计算营', '教辅/题卡', '计算App', '综合数学班', '1v1私教', '洋葱', '妙懂', '万物指南', 'NB虚拟实验室'];
 
 function sortBrands(brands: string[]): string[] {
   return brands.sort((a, b) => {
@@ -36,9 +40,10 @@ function sortBrands(brands: string[]): string[] {
 }
 
 const L1_CONFIG: Record<string, { color: string; bg: string; border: string; text: string }> = {
-  启蒙认知: { color: '#5B7BBF', bg: 'bg-slate-50', border: 'border-slate-100', text: 'text-[#5B7BBF]' },
   购买决策: { color: '#BF9455', bg: 'bg-stone-50', border: 'border-stone-100', text: 'text-[#BF9455]' },
   产品体验: { color: '#4BA69E', bg: 'bg-gray-50', border: 'border-gray-100', text: 'text-[#4BA69E]' },
+  留存与复购: { color: '#5B7BBF', bg: 'bg-slate-50', border: 'border-slate-100', text: 'text-[#5B7BBF]' },
+  启蒙认知: { color: '#5B7BBF', bg: 'bg-slate-50', border: 'border-slate-100', text: 'text-[#5B7BBF]' },
 };
 
 const SENTIMENT_CONFIG = {
@@ -48,14 +53,15 @@ const SENTIMENT_CONFIG = {
 };
 
 const BRAND_COLORS: Record<string, string> = {
-  '洋葱':            '#E07A6E',
-  '妙懂':            '#A87DB0',
-  '万物指南':        '#5AABB8',
-  'NB虚拟实验室':    '#7578C8',
-  '学而思':          '#D49E55',
-  '叫叫':            '#5BBF96',
-  '赛先生科学课':    '#5DAD8A',
-  '南开大学AI物理课':'#CC9450',
+  '计算营': '#E07A6E',
+  '教辅/题卡': '#5AABB8',
+  '计算App': '#7578C8',
+  '综合数学班': '#D49E55',
+  '1v1私教': '#5BBF96',
+  '洋葱': '#E07A6E',
+  '妙懂': '#A87DB0',
+  '万物指南': '#5AABB8',
+  'NB虚拟实验室': '#7578C8',
 };
 
 function brandColor(brand: string) {
@@ -77,11 +83,9 @@ function groupByL1(insight: BrandInsight): Record<string, BrandInsightGroup[]> {
 // ── Cross-brand summary data (edit conclusions here) ─────────────────────────
 
 // Brand order: 洋葱 first, then alphabetically
-const BRAND_SUMMARY_ORDER = [
-  '洋葱', 'NB虚拟实验室', '万物指南', '妙懂', '学而思', '叫叫', '南开大学AI物理课',
-];
+const BRAND_SUMMARY_ORDER = ['计算营', '教辅/题卡', '计算App', '综合数学班', '1v1私教'];
 
-const PRIMARY_BRANDS = new Set(['洋葱', 'NB虚拟实验室', '万物指南', '妙懂']);
+const PRIMARY_BRANDS = new Set(BRAND_SUMMARY_ORDER);
 
 const DEFAULT_CROSS_BRAND_DATA: CrossBrandOverviewData = {
   conclusions: [
@@ -723,10 +727,18 @@ export default function CompetitivePage() {
   const [activeSection, setActiveSection] = React.useState<'voice' | 'reports'>('voice');
 
   const { data: compData, saving, save } =
-    useContentStore<Record<string, BrandInsight>>('competitive', DEFAULT_COMPETITIVE_DATA);
+    useContentStore<Record<string, BrandInsight>>(
+      projectId === 'jisuanying_project' ? 'competitive:jisuanying' : 'competitive',
+      projectId === 'jisuanying_project'
+        ? JISUANYING_COMPETITIVE_DATA as Record<string, BrandInsight>
+        : DEFAULT_COMPETITIVE_DATA,
+    );
 
   const { data: overviewData, saving: overviewSaving, save: saveOverview } =
-    useContentStore<CrossBrandOverviewData>('competitive-overview', DEFAULT_CROSS_BRAND_DATA);
+    useContentStore<CrossBrandOverviewData>(
+      projectId === 'jisuanying_project' ? 'competitive-overview:jisuanying' : 'competitive-overview',
+      projectId === 'jisuanying_project' ? JISUANYING_CROSS_BRAND_DATA : DEFAULT_CROSS_BRAND_DATA,
+    );
 
   const sentimentMatrix = React.useMemo(() => computeSentimentMatrix(compData), [compData]);
 

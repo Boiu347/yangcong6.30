@@ -101,6 +101,14 @@ let _projects: Project[] = (() => {
     if (jisuanyingIdx === -1) {
       migrated.push(buildJisuanyingProject());
       _persist(migrated);
+    } else {
+      const current = migrated[jisuanyingIdx];
+      const seeded = buildJisuanyingProject();
+      const hasSeededFiles = current.files.some((f) => f.id.startsWith('jisuanying_file_'));
+      if (!hasSeededFiles) {
+        migrated[jisuanyingIdx] = { ...current, ...seeded, id: current.id };
+        _persist(migrated);
+      }
     }
 
     return migrated;

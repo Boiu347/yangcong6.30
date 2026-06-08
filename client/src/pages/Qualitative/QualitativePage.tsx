@@ -15,16 +15,22 @@ import { useContentStore } from '../../hooks/useContentStore';
 import { useIsEditor } from '../../components/auth/PasswordGate';
 import QualitativeEditor from '../../components/edit/QualitativeEditor';
 import { cn } from '@/lib/utils';
+import { JISUANYING_QUALITATIVE_DATA } from '../../store/jisuanyingData';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-const DIMENSIONS = ['需求认知', '购买决策', '产品体验', '用户调研报告', '访谈录音'] as const;
+const CALC_DIMENSIONS = ['用户分层与需求', '购买决策', '产品体验与服务价值', '续费诊断', '用户调研报告'] as const;
+const LEGACY_DIMENSIONS = ['需求认知', '购买决策', '产品体验', '用户调研报告', '访谈录音'] as const;
+const DIMENSIONS = [...CALC_DIMENSIONS, ...LEGACY_DIMENSIONS] as const;
 type Dimension = (typeof DIMENSIONS)[number];
 
 const DIM_CONFIG: Record<Dimension, { color: string; tab: string }> = {
-  需求认知:     { color: '#5B7BBF', tab: 'border-[#5B7BBF] text-[#5B7BBF]' },
-  购买决策:     { color: '#BF9455', tab: 'border-[#BF9455] text-[#BF9455]' },
-  产品体验:     { color: '#4BA69E', tab: 'border-[#4BA69E] text-[#4BA69E]' },
+  用户分层与需求: { color: '#5B7BBF', tab: 'border-[#5B7BBF] text-[#5B7BBF]' },
+  需求认知: { color: '#5B7BBF', tab: 'border-[#5B7BBF] text-[#5B7BBF]' },
+  购买决策: { color: '#BF9455', tab: 'border-[#BF9455] text-[#BF9455]' },
+  产品体验与服务价值: { color: '#4BA69E', tab: 'border-[#4BA69E] text-[#4BA69E]' },
+  产品体验: { color: '#4BA69E', tab: 'border-[#4BA69E] text-[#4BA69E]' },
+  续费诊断: { color: '#E07A6E', tab: 'border-[#E07A6E] text-[#E07A6E]' },
   用户调研报告: { color: '#8B5CF6', tab: 'border-[#8B5CF6] text-[#8B5CF6]' },
   访谈录音:     { color: '#FF5722', tab: 'border-[#FF5722] text-[#FF5722]' },
 };
@@ -750,14 +756,22 @@ function SubDimSection({
 // ── Main page ─────────────────────────────────────────────────────────────────
 
 export default function QualitativePage() {
-  useParams<{ projectId: string }>();
+  const { projectId } = useParams<{ projectId: string }>();
   useActiveFileIds();
   const editor = useIsEditor();
 
   const { data: qualData, saving, save } =
-    useContentStore<Record<string, QualDimension>>('qualitative', DEFAULT_QUALITATIVE_DATA);
+    useContentStore<Record<string, QualDimension>>(
+      projectId === 'jisuanying_project' ? 'qualitative:jisuanying' : 'qualitative',
+      projectId === 'jisuanying_project'
+        ? JISUANYING_QUALITATIVE_DATA as Record<string, QualDimension>
+        : DEFAULT_QUALITATIVE_DATA,
+    );
 
-  const [activeDim, setActiveDim] = React.useState<Dimension>('需求认知');
+  const visibleDimensions = projectId === 'jisuanying_project' ? CALC_DIMENSIONS : LEGACY_DIMENSIONS;
+  const [activeDim, setActiveDim] = React.useState<Dimension>(
+    projectId === 'jisuanying_project' ? '用户分层与需求' : '需求认知',
+  );
   const [selectedBrands, setSelectedBrands] = React.useState<Set<string>>(new Set());
   const [editingEntry, setEditingEntry] = React.useState<{
     dimKey: string;
@@ -840,7 +854,7 @@ export default function QualitativePage() {
 
         {/* Dimension tabs */}
         <div className="flex">
-          {DIMENSIONS.map((dim) => (
+          {visibleDimensions.map((dim) => (
             <button
               key={dim}
               onClick={() => setActiveDim(dim)}

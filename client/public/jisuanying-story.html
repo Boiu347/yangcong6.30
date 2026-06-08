@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>洋葱计算营用户研究与续费诊断</title>
+  <style>
+    :root { --ink:#202124; --muted:#6f7177; --line:#ebe3d7; --orange:#e87461; --paper:#fffdf8; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif; color:var(--ink); background:var(--paper); line-height:1.65; }
+    .wrap { max-width:1180px; margin:0 auto; padding:42px 40px 64px; }
+    .hero { display:grid; grid-template-columns:1.1fr .9fr; gap:36px; align-items:end; padding-bottom:32px; border-bottom:1px solid var(--line); }
+    h1 { margin:0; font-size:42px; line-height:1.15; letter-spacing:0; }
+    .lead { color:var(--muted); font-size:16px; margin:18px 0 0; }
+    .meta { display:flex; gap:10px; flex-wrap:wrap; margin-top:24px; }
+    .pill { border:1px solid var(--line); border-radius:999px; padding:6px 11px; color:#706960; background:white; font-size:12px; }
+    .hero-card, .card, .metric, .step { background:white; border:1px solid var(--line); border-radius:8px; box-shadow:3px 4px 0 rgba(0,0,0,.05); }
+    .hero-card { padding:20px; }
+    .hero-card strong { display:block; font-size:28px; color:var(--orange); line-height:1.1; margin-bottom:6px; }
+    .grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:28px; }
+    .metric { padding:16px; }
+    .metric b { display:block; font-size:22px; }
+    .metric span { color:var(--muted); font-size:12px; }
+    section { margin-top:38px; }
+    h2 { font-size:22px; margin:0 0 16px; }
+    .cards { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+    .card { padding:18px; }
+    .card h3, .step h3 { margin:0 0 8px; font-size:16px; }
+    .tag { display:inline-block; font-size:11px; color:white; background:var(--orange); border-radius:999px; padding:3px 8px; margin-bottom:10px; }
+    .quote { margin:10px 0 0; color:#555; border-left:3px solid var(--orange); padding-left:12px; font-size:13px; }
+    .flow { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+    .step { padding:16px; min-height:136px; }
+    .step em { display:inline-flex; width:24px; height:24px; border-radius:50%; align-items:center; justify-content:center; background:#f4eee5; color:#b98b43; font-style:normal; font-weight:700; margin-bottom:10px; }
+    .priority { display:grid; grid-template-columns:160px 1fr; gap:14px; align-items:start; padding:14px 0; border-top:1px solid var(--line); }
+    .priority:first-child { border-top:none; }
+    .level { font-weight:800; color:var(--orange); }
+    @media (max-width:900px) { .wrap{padding:28px 18px 48px;} .hero,.cards,.grid,.flow{grid-template-columns:1fr;} h1{font-size:32px;} .priority{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="hero">
+      <div>
+        <h1>洋葱计算营用户研究与续费诊断</h1>
+        <p class="lead">基于4份计算营行业、用户、购买决策与商业模式报告，复用 InsightHub 的研究框架，形成一套可浏览、可编辑、可追溯的项目底稿。</p>
+        <div class="meta">
+          <span class="pill">用户分层</span><span class="pill">购买决策</span><span class="pill">服务价值</span><span class="pill">续费诊断</span><span class="pill">竞品分析</span>
+        </div>
+      </div>
+      <div class="hero-card"><strong>核心判断</strong>家长买的不是“计算课”，而是有人持续帮孩子练对、诊断错因、安排下一步，并让家长少盯一点的服务保障。</div>
+    </div>
+
+    <div class="grid">
+      <div class="metric"><b>90.2%</b><span>家长高度看重即时批改</span></div>
+      <div class="metric"><b>86.3%</b><span>家长高度看重深度诊断</span></div>
+      <div class="metric"><b>59.7%</b><span>高于300元会明显谨慎</span></div>
+      <div class="metric"><b>4层</b><span>续费提升杠杆</span></div>
+    </div>
+
+    <section>
+      <h2>关键洞察</h2>
+      <div class="cards">
+        <div class="card"><span class="tag">用户分层</span><h3>主力人群不是补差，而是巩固夯实</h3><p>补差型痛感强，适合公域拉新；巩固夯实型规模更大，购买路径最自然；提前学用户对内容深度更敏感，需要单独承接。</p><p class="quote">“对孩子来说有些简单。”</p></div>
+        <div class="card"><span class="tag">价值感</span><h3>价格问题本质是服务增量没有被看见</h3><p>老会员会把计算营理解成会员内容的二次收费；如果诊断、反馈、督学和效果证明不外化，300元会被拿来和教辅比较。</p><p class="quote">“这本来就是洋葱里的内容，我们本来就有会员。”</p></div>
+        <div class="card"><span class="tag">体验</span><h3>省心承诺与实际交付存在落差</h3><p>家长期待外包“持续练习”这件事，但当前体验仍需要家长催促，辅导老师也容易被感知为只是在提醒和夸奖。</p><p class="quote">“报了这个课后发现自己没有省太多事。”</p></div>
+        <div class="card"><span class="tag">续费</span><h3>低月度续费不等于需求消失</h3><p>计算训练有明显季节性。学期中适合轻量保温，寒暑假适合系统突破，指标应从月度续费扩展到跨季复购和专题流转。</p><p class="quote">“学期内比较耽误时间，假期会考虑。”</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>续费提升框架</h2>
+      <div class="flow">
+        <div class="step"><em>1</em><h3>价值外化</h3><p>用入营诊断、每周报告、结营对比证明孩子错因减少、速度提升、坚持完成。</p></div>
+        <div class="step"><em>2</em><h3>本期留存</h3><p>缩短学期中任务颗粒度，用AI提醒、进度激励和真人解释降低坚持成本。</p></div>
+        <div class="step"><em>3</em><h3>跨期衔接</h3><p>结营后给保温练习包和下一阶段建议，避免“开营-结营-结束”的断点。</p></div>
+        <div class="step"><em>4</em><h3>流转承接</h3><p>计算完成后承接应用题、思维、几何等专题，经营数学学习关系而不是单品续费。</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>行动优先级</h2>
+      <div class="card">
+        <div class="priority"><div class="level">P0</div><div><b>效果可视化</b><br />每周展示错因、正确率、速度、完成率变化，让家长在21天内看见“为什么值”。</div></div>
+        <div class="priority"><div class="level">P0</div><div><b>学期轻量化</b><br />把学期中任务改成10-15分钟高频小闭环，寒暑假再卖系统突破。</div></div>
+        <div class="priority"><div class="level">P1</div><div><b>会员增量权益</b><br />面向洋葱老会员明确“会员是内容库，计算营是服务订阅”，提供专项服务权益。</div></div>
+        <div class="priority"><div class="level">P1</div><div><b>专题流转</b><br />结营时输出下一步学习建议，把“计算问题解决”转化为应用题/思维的承接机会。</div></div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,5 +1,6 @@
 import { EVIDENCE_SOURCE_MAP } from './evidenceLookup';
 import { EVIDENCE_CLIP_MAP, EvidenceClip } from './evidenceClipLookup';
+import { JISUANYING_EVIDENCE_SOURCE_MAP } from '../store/jisuanyingData';
 
 /**
  * Look up the source interview file for an evidence quote.
@@ -7,7 +8,11 @@ import { EVIDENCE_CLIP_MAP, EvidenceClip } from './evidenceClipLookup';
  */
 export function lookupSource(evidence: string, _brand?: string): string | null {
   const plain = evidence.replace(/\*\*/g, '');
-  return EVIDENCE_SOURCE_MAP[plain] ?? EVIDENCE_SOURCE_MAP[evidence] ?? null;
+  return JISUANYING_EVIDENCE_SOURCE_MAP[plain]
+    ?? JISUANYING_EVIDENCE_SOURCE_MAP[evidence]
+    ?? EVIDENCE_SOURCE_MAP[plain]
+    ?? EVIDENCE_SOURCE_MAP[evidence]
+    ?? null;
 }
 
 /**
