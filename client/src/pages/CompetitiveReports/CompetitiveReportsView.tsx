@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { FileText, FileUp, Trash2 } from 'lucide-react';
@@ -10,13 +11,23 @@ import {
   ReportMeta,
 } from '../../api/reports';
 
-const PRESET_REPORTS = [
+const DEFAULT_PRESET_REPORTS = [
   { id: 'preset-miaodong',       label: '妙懂',     color: '#4ECDC4' },
   { id: 'preset-wulishifentong', label: '物理十分通', color: '#45B7D1' },
   { id: 'preset-sanwuxiaoxing',  label: '三五小星',  color: '#FF5722' },
 ];
 
+const JISUANYING_PRESET_REPORTS = [
+  { id: 'preset-jisuanying-survey1',     label: '产品定位与商业策略报告',         color: '#5B7BBF' },
+  { id: 'preset-jisuanying-survey2',     label: '用户需求和购买决策调研报告',     color: '#BF9455' },
+  { id: 'preset-jisuanying-integrated',  label: '行业与用户调研整合版报告',       color: '#4BA69E' },
+  { id: 'preset-jisuanying-business',    label: '商业模式和提升续费的阶段性思考', color: '#E07A6E' },
+];
+
 export default function CompetitiveReportsView() {
+  const { projectId } = useParams<{ projectId: string }>();
+  const PRESET_REPORTS = projectId === 'jisuanying_project' ? JISUANYING_PRESET_REPORTS : DEFAULT_PRESET_REPORTS;
+
   const [reports, setReports] = useState<ReportMeta[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [content, setContent] = useState('');
@@ -32,8 +43,9 @@ export default function CompetitiveReportsView() {
     } catch {
       setError('加载报告列表失败');
     }
-  }, [activeId]);
+  }, [activeId, PRESET_REPORTS]);
 
+  useEffect(() => { setActiveId(PRESET_REPORTS[0].id); }, [projectId]);
   useEffect(() => { loadList(); }, []);
 
   useEffect(() => {

@@ -263,6 +263,7 @@ export default function FileBar() {
   // User-uploaded files (non-default)
   const userFiles = project.files.filter((f) => !f.id.startsWith('default_file_'));
   const processingCount = userFiles.filter((f) => f.status === 'uploading' || f.status === 'processing').length;
+  const isJisuanying = projectId === 'jisuanying_project';
   const allDefaultActive = DEFAULT_FILE_IDS.every((id) => activeIds.has(id));
 
   return (
@@ -284,7 +285,8 @@ export default function FileBar() {
           数据来源
         </span>
 
-        {/* ── Default interview file toggles ── */}
+        {/* ── Default interview file toggles (hide for jisuanying project) ── */}
+        {!isJisuanying && (
         <div className="flex items-center gap-1.5 flex-wrap">
           {DEFAULT_FILE_IDS.map((id) => {
             const on = activeIds.has(id);
@@ -325,6 +327,7 @@ export default function FileBar() {
             </button>
           )}
         </div>
+        )}
 
         {/* ── User-uploaded file chips ── */}
         {userFiles.length > 0 && (
