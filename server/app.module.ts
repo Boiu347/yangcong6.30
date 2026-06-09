@@ -8,6 +8,7 @@ import { ViewModule } from './modules/view/view.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ContentModule } from './modules/content/content.module';
 import { ReportsModule } from './modules/reports/reports.module';
+import { ResearchModule } from './modules/research/research.module';
 import { PasswordMiddleware } from './middleware/password.middleware';
 
 @Module({
@@ -16,6 +17,7 @@ import { PasswordMiddleware } from './middleware/password.middleware';
     AiModule,
     AuthModule,
     ReportsModule,
+    ResearchModule,
     ContentModule,
     ViewModule,
   ],
@@ -30,6 +32,6 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(PasswordMiddleware)
-      .forRoutes('/api/ai', '/api/content');
+      .forRoutes('/api/ai', '/api/content', '/api/research');
   }
 }

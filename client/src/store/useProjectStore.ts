@@ -61,13 +61,13 @@ let _projects: Project[] = (() => {
     if (!raw) {
       // First run: seed with default project containing real interview data
       const defaultProject = buildDefaultProject();
-      const initial = [defaultProject];
+      const initial = [defaultProject, buildJisuanyingProject()];
       _persist(initial);
       return initial;
     }
     const parsed = JSON.parse(raw) as unknown[];
     if (!Array.isArray(parsed) || parsed.length === 0) {
-      const initial = [buildDefaultProject()];
+      const initial = [buildDefaultProject(), buildJisuanyingProject()];
       _persist(initial);
       return initial;
     }
@@ -113,7 +113,7 @@ let _projects: Project[] = (() => {
 
     return migrated;
   } catch {
-    const fallback = [buildDefaultProject()];
+    const fallback = [buildDefaultProject(), buildJisuanyingProject()];
     _persist(fallback);
     return fallback;
   }

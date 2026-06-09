@@ -4,11 +4,13 @@ import MainLayout from './components/layout/MainLayout';
 import TopNavLayout from './components/layout/TopNavLayout';
 import ProjectsPage from './pages/Projects/ProjectsPage';
 import ProfilePage from './pages/Profile/ProfilePage';
+import UsersPage from './pages/Users/UsersPage';
 import SummaryPage from './pages/Summary/SummaryPage';
 import QualitativePage from './pages/Qualitative/QualitativePage';
 import CompetitivePage from './pages/Competitive/CompetitivePage';
 import QuantitativePage from './pages/Quantitative/QuantitativePage';
 import MarketingPage from './pages/Marketing/MarketingPage';
+import ResearchReportsPage from './pages/Reports/ResearchReportsPage';
 import NotFound from './pages/NotFound/NotFound';
 
 const RoutesComponent = () => {
@@ -21,6 +23,7 @@ const RoutesComponent = () => {
       <Route element={<MainLayout />}>
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/users" element={<UsersPage />} />
       </Route>
 
       {/* All project detail pages share the top tab bar */}
@@ -31,6 +34,7 @@ const RoutesComponent = () => {
         <Route path="competitive" element={<CompetitivePage />} />
         <Route path="quantitative" element={<QuantitativePage />} />
         <Route path="marketing" element={<MarketingPage />} />
+        <Route path="reports" element={<ResearchReportsPage />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />

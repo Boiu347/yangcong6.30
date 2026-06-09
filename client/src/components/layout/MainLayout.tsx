@@ -1,72 +1,33 @@
-import React from 'react';
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { BookOpen, Library, UserCircle2 } from 'lucide-react';
+import { BookOpen, Library, UserRoundSearch, UsersRound } from 'lucide-react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+
+const items = [
+  { path: '/projects', label: '项目库', icon: Library },
+  { path: '/profile', label: '用户画像', icon: UserRoundSearch },
+  { path: '/users', label: '用户库', icon: UsersRound },
+];
 
 export default function MainLayout() {
   const navigate = useNavigate();
   const location = useLocation();
-  const isProfile = location.pathname.startsWith('/profile');
-
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: '#FEFDF9' }}>
-      <header
-        className="shrink-0 flex items-center px-5 gap-2"
-        style={{
-          height: 52,
-          background: '#FEFDF9',
-          borderBottom: '1.5px solid #E8E2D9',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
-        }}
-      >
-        {/* Logo */}
-        <div className="flex items-center gap-2 mr-3 shrink-0">
-          <div
-            className="w-[30px] h-[30px] rounded-[9px] flex items-center justify-center"
-            style={{ background: '#FF5722' }}
-          >
-            <BookOpen size={15} color="white" />
-          </div>
-          <span style={{ fontSize: 15, fontWeight: 800, letterSpacing: '-0.3px', color: '#2A2A2A' }}>
-            InsightHub
-          </span>
-          <span style={{ fontSize: 13, fontWeight: 400, color: '#999' }}>· 洞见中枢</span>
-        </div>
-
-        {/* Nav tabs — orange style matching TopNavLayout */}
-        <div className="flex items-center gap-0.5">
-          <button
-            onClick={() => navigate('/projects')}
-            className="flex items-center gap-1.5 rounded-lg transition-all"
-            style={{
-              padding: '6px 14px',
-              fontSize: 12.5,
-              fontWeight: !isProfile ? 700 : 500,
-              color: !isProfile ? '#FF5722' : '#666',
-              background: !isProfile ? 'rgba(255,87,34,0.1)' : 'none',
-              border: 'none',
-              cursor: 'pointer',
-            }}
-          >
-            <Library size={13} />
-            项目库
-          </button>
-          <button
-            onClick={() => navigate('/profile')}
-            className="flex items-center gap-1.5 rounded-lg transition-all"
-            style={{
-              padding: '6px 14px',
-              fontSize: 12.5,
-              fontWeight: isProfile ? 700 : 500,
-              color: isProfile ? '#FF5722' : '#666',
-              background: isProfile ? 'rgba(255,87,34,0.1)' : 'none',
-              border: 'none',
-              cursor: 'pointer',
-            }}
-          >
-            <UserCircle2 size={13} />
-            用户档案
-          </button>
-        </div>
+    <div className="flex min-h-screen flex-col bg-[#f8f8f5]">
+      <header className="flex h-[52px] shrink-0 items-center gap-1 border-b border-[#dddcd5] bg-white px-2 sm:gap-5 sm:px-5">
+        <button onClick={() => navigate('/projects')} className="flex items-center gap-2">
+          <span className="flex h-8 w-8 items-center justify-center rounded-md bg-[#e65532]"><BookOpen size={16} color="white" /></span>
+          <span className="hidden text-[15px] font-extrabold text-[#282826] sm:inline">InsightHub</span>
+        </button>
+        <nav className="flex h-full items-center">
+          {items.map(({ path, label, icon: Icon }) => {
+            const active = location.pathname.startsWith(path);
+            return (
+              <button key={path} onClick={() => navigate(path)} className={`relative flex h-full items-center gap-1 px-2 text-xs sm:gap-1.5 sm:px-4 sm:text-[13px] ${active ? 'font-bold text-[#e65532]' : 'font-medium text-[#666]'}`}>
+                <Icon size={14} />{label}
+                {active && <span className="absolute inset-x-3 bottom-0 h-0.5 bg-[#e65532]" />}
+              </button>
+            );
+          })}
+        </nav>
       </header>
       <Outlet />
     </div>

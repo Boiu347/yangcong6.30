@@ -1,113 +1,56 @@
-import React from 'react';
-import { Outlet, useParams, useNavigate, useLocation } from 'react-router-dom';
-import { BookOpen, PenLine, LayoutGrid } from 'lucide-react';
-import FileBar from './FileBar';
+import { BookOpen, LayoutGrid, PenLine } from 'lucide-react';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useIsEditor } from '../auth/PasswordGate';
+import FileBar from './FileBar';
 
-const NAV_ITEMS = [
-  { label: '项目总结',  path: 'summary' },
-  { label: '定性洞察',  path: 'qualitative' },
-  { label: '竞品分析',  path: 'competitive' },
-  { label: '定量报告',  path: 'quantitative' },
-  { label: '营销落地',  path: 'marketing' },
-] as const;
+const standardItems = [
+  { label: '项目总结', path: 'summary' },
+  { label: '定性洞察', path: 'qualitative' },
+  { label: '竞品分析', path: 'competitive' },
+  { label: '定量报告', path: 'quantitative' },
+  { label: '营销落地', path: 'marketing' },
+];
+
+const computingItems = [
+  { label: '总览', path: 'summary' },
+  { label: '研究洞察', path: 'qualitative' },
+  { label: '竞品与市场', path: 'competitive' },
+  { label: '研究报告', path: 'reports' },
+];
 
 export default function TopNavLayout() {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
   const location = useLocation();
   const editor = useIsEditor();
-
   const active = location.pathname.split('/').pop() ?? 'summary';
-  const hideFileBar = active === 'summary' || active === 'marketing' || active === 'reports';
+  const items = projectId === 'jisuanying_project' ? computingItems : standardItems;
+  const showFileBar = active === 'qualitative' || active === 'competitive';
 
   return (
-    <div className="fixed inset-0 flex flex-col" style={{ background: '#FEFDF9' }}>
-      {/* ── Top nav bar ── */}
-      <nav
-        className="shrink-0 flex items-center gap-1 px-5"
-        style={{
-          height: 48,
-          background: '#FEFDF9',
-          borderBottom: '1.5px solid #E8E2D9',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
-        }}
-      >
-        {/* Logo */}
-        <div
-          className="flex items-center gap-2 mr-5 shrink-0"
-          style={{ cursor: 'pointer' }}
-          onClick={() => navigate('/projects')}
-        >
-          <div
-            className="w-7 h-7 rounded-lg flex items-center justify-center"
-            style={{ background: '#FF5722' }}
-          >
-            <BookOpen size={14} color="white" />
-          </div>
-          <span style={{ fontSize: 14, fontWeight: 800, color: '#2A2A2A', letterSpacing: '-0.3px' }}>
-            InsightHub｜洞见中枢
-          </span>
-        </div>
-
-        {/* Switch project button */}
-        <button
-          onClick={() => navigate('/projects')}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg mr-3 shrink-0 transition-colors hover:bg-gray-100"
-          style={{ fontSize: 12, fontWeight: 600, color: '#888', border: '1.5px solid #E8E2D9' }}
-        >
-          <LayoutGrid size={12} />
-          切换项目
+    <div className="fixed inset-0 flex flex-col bg-[#f8f8f5]">
+      <nav className="flex h-12 shrink-0 items-center gap-1 border-b border-[#dddcd5] bg-white px-2 sm:px-5">
+        <button onClick={() => navigate('/projects')} className="mr-1 flex shrink-0 items-center gap-2 sm:mr-5">
+          <span className="flex h-7 w-7 items-center justify-center rounded-md bg-[#e65532]"><BookOpen size={14} color="white" /></span>
+          <span className="hidden text-sm font-extrabold text-[#282826] sm:inline">InsightHub</span>
         </button>
-
-        {/* Nav items */}
-        <div className="flex items-center gap-0.5">
-          {NAV_ITEMS.map(({ label, path }) => {
-            const isActive = active === path;
+        <button onClick={() => navigate('/projects')} title="切换项目" className="mr-1 flex shrink-0 items-center gap-1.5 rounded-md border border-[#dddcd5] p-2 text-xs font-semibold text-[#777] sm:mr-3 sm:px-3 sm:py-1.5">
+          <LayoutGrid size={12} /><span className="hidden sm:inline">切换项目</span>
+        </button>
+        <div className="flex h-full min-w-0 flex-1 items-center overflow-x-auto">
+          {items.map(({ label, path }) => {
+            const current = active === path;
             return (
-              <button
-                key={path}
-                onClick={() => navigate(`/projects/${projectId}/${path}`)}
-                className="relative px-4 flex items-center transition-colors"
-                style={{
-                  height: 48,
-                  fontSize: 13,
-                  fontWeight: isActive ? 700 : 500,
-                  color: isActive ? '#FF5722' : '#666',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  letterSpacing: '0.1px',
-                }}
-              >
-                {label}
-                {/* Active underline */}
-                {isActive && (
-                  <span
-                    className="absolute bottom-0 left-3 right-3 rounded-t-full"
-                    style={{ height: 2.5, background: '#FF5722' }}
-                  />
-                )}
+              <button key={path} onClick={() => navigate(`/projects/${projectId}/${path}`)} className={`relative h-full shrink-0 whitespace-nowrap px-3 text-xs sm:px-4 sm:text-[13px] ${current ? 'font-bold text-[#e65532]' : 'font-medium text-[#666]'}`}>
+                {label}{current && <span className="absolute inset-x-3 bottom-0 h-0.5 bg-[#e65532]" />}
               </button>
             );
           })}
         </div>
-
-        {editor && (
-          <div className="ml-auto flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 border border-amber-200 shrink-0">
-            <PenLine size={11} className="text-amber-600" />
-            <span className="text-[11px] font-medium text-amber-700">编辑模式</span>
-          </div>
-        )}
+        {editor && <div className="ml-auto hidden shrink-0 items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[11px] font-medium text-amber-700 md:flex"><PenLine size={11} />编辑模式</div>}
       </nav>
-
-      {/* FileBar only for data-analysis pages */}
-      {!hideFileBar && <FileBar />}
-
-      {/* Page content */}
-      <div style={{ flex: 1, minHeight: 0, overflowY: 'auto' }}>
-        <Outlet />
-      </div>
+      {showFileBar && <FileBar />}
+      <div className="min-h-0 flex-1 overflow-y-auto"><Outlet /></div>
     </div>
   );
 }
