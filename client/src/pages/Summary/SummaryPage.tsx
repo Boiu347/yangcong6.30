@@ -6,7 +6,7 @@ import fromPrimaryBriefing from '../../content/from-primary-brief.md?raw';
 
 const FROM_PRIMARY_BRIEFING = {
   title: '前情提要',
-  summary: '围绕“有戏、有差、有路”，补充从小学系列的市场空间、差异化定位、人群、渠道与 SKU/价格研究背景。',
+  summary: '从增长目标、研究问题、目标人群与预期产出四个方面，说明本次“从小学”研究为何开展。',
   markdown: fromPrimaryBriefing,
 };
 
