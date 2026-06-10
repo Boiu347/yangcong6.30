@@ -615,10 +615,8 @@ function ComparisonMatrix({
   }
 
   const colWidth = Math.max(180, Math.floor(700 / brands.length));
-  let firstItemRendered = false;
-
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Sticky brand header */}
       <div
         className="sticky top-0 z-10 bg-[#F4F5F7] py-1 grid gap-3"
@@ -648,7 +646,7 @@ function ComparisonMatrix({
         const cfg = L1_CONFIG[l1] ?? L1_CONFIG['产品体验'];
 
         return (
-          <div key={l1} className="space-y-2">
+          <div key={l1} className="space-y-1.5">
             {/* L1 heading */}
             <div className="flex items-center gap-2 px-1 pb-0.5">
               <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: cfg.color }} />
@@ -663,7 +661,7 @@ function ComparisonMatrix({
                 style={{ gridTemplateColumns: `140px repeat(${brands.length}, ${colWidth}px)` }}
               >
                 {/* L2 label cell */}
-                <div className="flex items-center h-full pt-3 pb-1 pl-2">
+                <div className="flex items-center h-full py-2 pl-2">
                   <span className="text-[11px] font-semibold text-gray-500 leading-tight">{l2}</span>
                 </div>
 
@@ -678,7 +676,7 @@ function ComparisonMatrix({
                     <div
                       key={brand}
                       className={cn(
-                        'rounded-xl border p-3 min-h-[60px]',
+                        'rounded-xl border px-3 py-2.5 min-h-[52px]',
                         cfg.bg,
                         cfg.border,
                       )}
@@ -688,14 +686,11 @@ function ComparisonMatrix({
                       ) : (
                         <div className="space-y-1.5">
                           {group.items.map((item, i) => {
-                            const shouldOpen = !firstItemRendered && item.evidence.length > 0;
-                            if (shouldOpen) firstItemRendered = true;
                             return (
                               <CompactInsightItem
                                 key={i}
                                 item={item}
                                 brand={brand}
-                                defaultOpen={shouldOpen}
                                 showSources={showSources}
                               />
                             );
@@ -718,15 +713,13 @@ function ComparisonMatrix({
 function CompactInsightItem({
   item,
   brand,
-  defaultOpen,
   showSources,
 }: {
   item: BrandInsightItem;
   brand: string;
-  defaultOpen?: boolean;
   showSources: boolean;
 }) {
-  const [open, setOpen] = React.useState(defaultOpen ?? false);
+  const [open, setOpen] = React.useState(false);
   const sc = SENTIMENT_CONFIG[item.sentiment];
   const evidence = filterEvidenceByActiveFiles(item.evidence);
 
