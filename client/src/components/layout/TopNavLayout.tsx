@@ -1,4 +1,4 @@
-import { BookOpen, LayoutGrid, PenLine } from 'lucide-react';
+import { LayoutGrid, PenLine } from 'lucide-react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useIsEditor } from '../auth/PasswordGate';
 import FileBar from './FileBar';
@@ -31,7 +31,7 @@ export default function TopNavLayout() {
     <div className="fixed inset-0 flex flex-col bg-[#f8f8f5]">
       <nav className="flex h-12 shrink-0 items-center gap-1 border-b border-[#dddcd5] bg-white px-2 sm:px-5">
         <button onClick={() => navigate('/projects')} className="mr-1 flex shrink-0 items-center gap-2 sm:mr-5">
-          <span className="flex h-7 w-7 items-center justify-center rounded-md bg-[#e65532]"><BookOpen size={14} color="white" /></span>
+          <img src="/insighthub-icon.png" alt="" className="h-7 w-7 rounded-md object-cover" />
           <span className="hidden text-sm font-extrabold text-[#282826] sm:inline">InsightHub</span>
         </button>
         <button onClick={() => navigate('/projects')} title="切换项目" className="mr-1 flex shrink-0 items-center gap-1.5 rounded-md border border-[#dddcd5] p-2 text-xs font-semibold text-[#777] sm:mr-3 sm:px-3 sm:py-1.5">

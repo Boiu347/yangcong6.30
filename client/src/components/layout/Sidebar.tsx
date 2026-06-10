@@ -7,7 +7,6 @@ import {
   BarChart3,
   ChevronDown,
   Plus,
-  Microscope,
 } from 'lucide-react';
 import { useProjects } from '../../store/useProjectStore';
 import { cn } from '@/lib/utils';
@@ -30,9 +29,7 @@ export default function Sidebar() {
     <aside className="w-[220px] shrink-0 flex flex-col h-full bg-[#FEFDF9] border-r border-[#E8E2D9]">
       {/* Logo */}
       <div className="px-5 pt-6 pb-4 flex items-center gap-2.5">
-        <div className="w-8 h-8 rounded-lg bg-[#FF5722] flex items-center justify-center shrink-0">
-          <Microscope size={16} className="text-white" />
-        </div>
+        <img src="/insighthub-icon.png" alt="" className="h-8 w-8 shrink-0 rounded-lg object-cover" />
         <span className="font-bold text-[15px] text-gray-900 tracking-tight">InsightHub｜洞见中枢</span>
       </div>
 
