@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { Upload, FileAudio, FileText, Loader2, X, AlertCircle, ClipboardPaste, Check, Lock, LockOpen } from 'lucide-react';
 import { toast } from 'sonner';
 import { projectActions, useProject } from '../../store/useProjectStore';
@@ -167,6 +167,7 @@ function EditorUnlockModal({ onClose }: { onClose: () => void }) {
 
 export default function FileBar() {
   const { projectId } = useParams<{ projectId: string }>();
+  const location = useLocation();
   const project = useProject(projectId);
   const activeIds = useActiveFileIds();
   const editor = useIsEditor();
@@ -260,10 +261,19 @@ export default function FileBar() {
 
   if (!project) return null;
 
-  // User-uploaded files (non-default)
-  const userFiles = project.files.filter((f) => !f.id.startsWith('default_file_'));
-  const processingCount = userFiles.filter((f) => f.status === 'uploading' || f.status === 'processing').length;
   const isJisuanying = projectId === 'jisuanying_project';
+  const isJisuanyingInsight = isJisuanying && location.pathname.endsWith('/qualitative');
+
+  // User-uploaded files (non-default). The calculation-camp insight page is
+  // based exclusively on the quantitative questionnaire report.
+  const userFiles = project.files
+    .filter((f) => !f.id.startsWith('default_file_'))
+    .filter((f) => (
+      !isJisuanyingInsight
+      || !f.id.startsWith('jisuanying_file_')
+      || f.id === 'jisuanying_file_2'
+    ));
+  const processingCount = userFiles.filter((f) => f.status === 'uploading' || f.status === 'processing').length;
   const allDefaultActive = DEFAULT_FILE_IDS.every((id) => activeIds.has(id));
 
   return (

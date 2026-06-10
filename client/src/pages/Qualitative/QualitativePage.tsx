@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { MessageSquare, ChevronDown, ChevronRight, X, Sparkles, Pencil, Save, RotateCcw, Loader2 } from 'lucide-react';
+import { MessageSquare, BarChart3, ChevronDown, ChevronRight, X, Sparkles, Pencil, Save, RotateCcw, Loader2 } from 'lucide-react';
 import {
   DEFAULT_QUALITATIVE_DATA,
   QualDimension,
@@ -513,19 +513,41 @@ function renderHighlightedText(text: string) {
 
 // ── Single evidence quote ─────────────────────────────────────────────────────
 
-function QuoteItem({ text, color, showSources }: { text: string; color: string; showSources: boolean }) {
+function QuoteItem({
+  text,
+  color,
+  showSources,
+  quantitative,
+}: {
+  text: string;
+  color: string;
+  showSources: boolean;
+  quantitative: boolean;
+}) {
   const src = showSources ? lookupSource(text) : undefined;
-  const clips = lookupClips(text);
+  const clips = quantitative ? [] : lookupClips(text);
+  const [metric, explanation] = quantitative && text.includes('｜')
+    ? text.split(/｜(.+)/, 2)
+    : ['', text];
   return (
     <div className="flex gap-3 pt-3 border-t border-gray-100 first:border-0 first:pt-0">
-      <span
-        className="text-[22px] leading-none font-serif shrink-0 mt-0.5 select-none text-gray-300"
-      >
-        "
-      </span>
+      {quantitative ? (
+        <span
+          className="mt-0.5 inline-flex min-w-[52px] shrink-0 items-center justify-center rounded-lg px-2 py-1 text-[12px] font-bold"
+          style={{ color, backgroundColor: `${color}12` }}
+        >
+          {metric}
+        </span>
+      ) : (
+        <span className="text-[22px] leading-none font-serif shrink-0 mt-0.5 select-none text-gray-300">
+          "
+        </span>
+      )}
       <div className="min-w-0 flex-1">
         <div className="flex items-start gap-2 flex-wrap">
-          <p className="text-[13px] text-gray-700 leading-relaxed flex-1">{renderHighlightedText(text)}</p>
+          <p className="text-[13px] text-gray-700 leading-relaxed flex-1">
+            {renderHighlightedText(explanation)}
+          </p>
         </div>
         {src && (
           <p className="text-[11px] text-gray-400 mt-1.5">
@@ -549,10 +571,12 @@ function BrandCard({
   entry,
   onEdit,
   showSources,
+  quantitative,
 }: {
   entry: QualBrandEntry;
   onEdit?: () => void;
   showSources: boolean;
+  quantitative: boolean;
 }) {
   const [expanded, setExpanded] = React.useState(false);
   const bColor = brandColor(entry.brand);
@@ -576,7 +600,7 @@ function BrandCard({
         <div className="flex items-center justify-between mb-4">
           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[12px] font-semibold bg-gray-100 text-gray-700">
             <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: bColor }} />
-            {entry.brand}用户
+            {quantitative ? '问卷数据' : `${entry.brand}用户`}
           </span>
           <div className="flex items-center gap-2">
             {sourceSummary && (
@@ -598,7 +622,9 @@ function BrandCard({
              style={{ borderColor: bColor, backgroundColor: `${bColor}0A` }}>
           <div className="flex items-center gap-1.5 mb-1.5">
             <Sparkles size={12} style={{ color: bColor }} />
-            <span className="text-[11px] font-semibold" style={{ color: bColor }}>AI 总结</span>
+            <span className="text-[11px] font-semibold" style={{ color: bColor }}>
+              {quantitative ? '结论解释' : 'AI 总结'}
+            </span>
           </div>
           <p className="text-[13px] font-semibold leading-relaxed text-gray-700">
             {entry.subtitle}
@@ -608,7 +634,13 @@ function BrandCard({
         {/* Evidence quotes */}
         <div className="space-y-0">
           {shown.map((e, i) => (
-            <QuoteItem key={i} text={e.text} color={bColor} showSources={showSources} />
+            <QuoteItem
+              key={i}
+              text={e.text}
+              color={bColor}
+              showSources={showSources}
+              quantitative={quantitative}
+            />
           ))}
         </div>
 
@@ -620,7 +652,7 @@ function BrandCard({
           >
             {expanded
               ? <><ChevronDown size={11} />收起</>
-              : <><ChevronRight size={11} />展开全部 {allEvidence.length} 条原声</>}
+              : <><ChevronRight size={11} />展开全部 {allEvidence.length} 条{quantitative ? '数据依据' : '原声'}</>}
           </button>
         )}
       </div>
@@ -637,6 +669,7 @@ function SubDimSection({
   color,
   onEdit,
   showSources,
+  quantitative,
 }: {
   subDim: QualSubDimension;
   subIdx: number;
@@ -644,6 +677,7 @@ function SubDimSection({
   color: string;
   onEdit?: (brandIdx: number, activeTags: string[]) => void;
   showSources: boolean;
+  quantitative: boolean;
 }) {
   const [collapsed, setCollapsed] = React.useState(false);
   const [activeTags, setActiveTags] = React.useState<Set<string>>(new Set());
@@ -667,7 +701,7 @@ function SubDimSection({
         .filter((bullet) => activeTags.size === 0 || (bullet.tag && activeTags.has(bullet.tag)))
         .map((bullet) => ({
           ...bullet,
-          evidence: filterEvidenceByActiveFiles(bullet.evidence),
+          evidence: quantitative ? bullet.evidence : filterEvidenceByActiveFiles(bullet.evidence),
         })),
     }))
     .filter((entry) => entry.bullets.some((b) => b.evidence.length > 0))
@@ -740,7 +774,9 @@ function SubDimSection({
                style={{ borderColor: color, backgroundColor: `${color}08` }}>
             <p className="text-sm text-gray-700 leading-relaxed">
               <Sparkles size={14} className="inline mr-1 -mt-0.5" style={{ color }} />
-              <span className="font-bold mr-1.5" style={{ color }}>AI 概况</span>
+              <span className="font-bold mr-1.5" style={{ color }}>
+                {quantitative ? '数据结论' : 'AI 概况'}
+              </span>
               {subDim.globalSummary}
             </p>
           </div>
@@ -753,6 +789,7 @@ function SubDimSection({
                 key={entry.brand}
                 entry={entry}
                 showSources={showSources}
+                quantitative={quantitative}
                 onEdit={onEdit && brandIdx >= 0 ? () => onEdit(brandIdx, Array.from(activeTags)) : undefined}
               />
             );
@@ -768,13 +805,14 @@ function SubDimSection({
 
 export default function QualitativePage() {
   const { projectId } = useParams<{ projectId: string }>();
+  const quantitative = projectId === 'jisuanying_project';
   const showSources = projectId !== 'jisuanying_project';
   useActiveFileIds();
   const editor = useIsEditor();
 
   const { data: qualData, saving, save } =
     useContentStore<Record<string, QualDimension>>(
-      projectId === 'jisuanying_project' ? 'qualitative:jisuanying' : 'qualitative',
+      projectId === 'jisuanying_project' ? 'qualitative:jisuanying:survey-v2' : 'qualitative',
       projectId === 'jisuanying_project'
         ? JISUANYING_QUALITATIVE_DATA as Record<string, QualDimension>
         : DEFAULT_QUALITATIVE_DATA,
@@ -817,8 +855,12 @@ export default function QualitativePage() {
       <div className="bg-[#FEFDF9] border-b border-[#E8E2D9] px-6 pt-4 pb-0">
         <div className="flex items-center gap-3 mb-3 flex-wrap">
           <div className="flex items-center gap-2 shrink-0">
-            <MessageSquare size={15} className="text-[#FF5722]" />
-            <h2 className="text-[15px] font-bold text-gray-900">定性洞察</h2>
+            {quantitative
+              ? <BarChart3 size={15} className="text-[#FF5722]" />
+              : <MessageSquare size={15} className="text-[#FF5722]" />}
+            <h2 className="text-[15px] font-bold text-gray-900">
+              {quantitative ? '问卷洞察' : '定性洞察'}
+            </h2>
           </div>
 
           <div className="flex-1" />
@@ -905,6 +947,7 @@ export default function QualitativePage() {
                 selectedBrands={selectedBrands}
                 color={color}
                 showSources={showSources}
+                quantitative={quantitative}
                 onEdit={editor ? (brandIdx, tags) => {
                   const bullets = sub.brands[brandIdx]?.bullets ?? [];
                   const tagSet = new Set(tags);
