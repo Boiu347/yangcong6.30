@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Upload, FileAudio, FileText, Loader2, X, AlertCircle, ClipboardPaste, Check, Lock, LockOpen } from 'lucide-react';
 import { toast } from 'sonner';
 import { projectActions, useProject } from '../../store/useProjectStore';
@@ -13,6 +13,13 @@ import { apiTranscribeFile, apiParseDocument, detectFileCategory } from '../../a
 import { getStoredPassword, useIsEditor, unlockEditor, lockEditor } from '../auth/PasswordGate';
 import { ProjectFile, VOCItem, normalizeDimension, fileLabel } from '../../types/voc';
 import { cn } from '@/lib/utils';
+
+const JISUANYING_FILE_LABELS: Record<string, string> = {
+  jisuanying_file_1: '行业整合报告',
+  jisuanying_file_2: '问卷调研2',
+  jisuanying_file_3: '定位策略报告',
+  jisuanying_file_4: '商业模式思考',
+};
 
 // ── PasteModal ─────────────────────────────────────────────────────────────
 
@@ -167,7 +174,6 @@ function EditorUnlockModal({ onClose }: { onClose: () => void }) {
 
 export default function FileBar() {
   const { projectId } = useParams<{ projectId: string }>();
-  const location = useLocation();
   const project = useProject(projectId);
   const activeIds = useActiveFileIds();
   const editor = useIsEditor();
@@ -262,17 +268,8 @@ export default function FileBar() {
   if (!project) return null;
 
   const isJisuanying = projectId === 'jisuanying_project';
-  const isJisuanyingInsight = isJisuanying && location.pathname.endsWith('/qualitative');
 
-  // User-uploaded files (non-default). The calculation-camp insight page is
-  // based exclusively on the quantitative questionnaire report.
-  const userFiles = project.files
-    .filter((f) => !f.id.startsWith('default_file_'))
-    .filter((f) => (
-      !isJisuanyingInsight
-      || !f.id.startsWith('jisuanying_file_')
-      || f.id === 'jisuanying_file_2'
-    ));
+  const userFiles = project.files.filter((f) => !f.id.startsWith('default_file_'));
   const processingCount = userFiles.filter((f) => f.status === 'uploading' || f.status === 'processing').length;
   const allDefaultActive = DEFAULT_FILE_IDS.every((id) => activeIds.has(id));
 
@@ -347,6 +344,7 @@ export default function FileBar() {
               <FileChip
                 key={f.id}
                 file={f}
+                labelOverride={isJisuanying ? JISUANYING_FILE_LABELS[f.id] : undefined}
                 onRetry={f.status === 'error' ? () => projectActions.removeFile(project.id, f.id) : undefined}
                 onRemove={() => {
                   if (f.status === 'ready' || f.status === 'error') {
@@ -426,9 +424,19 @@ export default function FileBar() {
 
 // ── FileChip (user-uploaded files only) ──────────────────────────────────────
 
-function FileChip({ file, onRemove, onRetry }: { file: ProjectFile; onRemove: () => void; onRetry?: () => void }) {
+function FileChip({
+  file,
+  labelOverride,
+  onRemove,
+  onRetry,
+}: {
+  file: ProjectFile;
+  labelOverride?: string;
+  onRemove: () => void;
+  onRetry?: () => void;
+}) {
   const [hover, setHover] = React.useState(false);
-  const label = fileLabel(file.name);
+  const label = labelOverride ?? fileLabel(file.name);
 
   return (
     <div

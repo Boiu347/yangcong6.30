@@ -15,7 +15,7 @@ import { useContentStore } from '../../hooks/useContentStore';
 import { useIsEditor } from '../../components/auth/PasswordGate';
 import QualitativeEditor from '../../components/edit/QualitativeEditor';
 import { cn } from '@/lib/utils';
-import { JISUANYING_QUALITATIVE_DATA } from '../../store/jisuanyingData';
+import CalculationInsightsPage from './CalculationInsightsPage';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -805,22 +805,25 @@ function SubDimSection({
 
 export default function QualitativePage() {
   const { projectId } = useParams<{ projectId: string }>();
-  const quantitative = projectId === 'jisuanying_project';
-  const showSources = projectId !== 'jisuanying_project';
+  if (projectId === 'jisuanying_project') return <CalculationInsightsPage />;
+  return <LegacyQualitativePage projectId={projectId} />;
+}
+
+function LegacyQualitativePage({ projectId }: { projectId?: string }) {
+  const quantitative = false;
+  const showSources = true;
   useActiveFileIds();
   const editor = useIsEditor();
 
   const { data: qualData, saving, save } =
     useContentStore<Record<string, QualDimension>>(
-      projectId === 'jisuanying_project' ? 'qualitative:jisuanying:survey-v2' : 'qualitative',
-      projectId === 'jisuanying_project'
-        ? JISUANYING_QUALITATIVE_DATA as Record<string, QualDimension>
-        : DEFAULT_QUALITATIVE_DATA,
+      'qualitative',
+      DEFAULT_QUALITATIVE_DATA,
     );
 
-  const visibleDimensions = projectId === 'jisuanying_project' ? CALC_DIMENSIONS : LEGACY_DIMENSIONS;
+  const visibleDimensions = LEGACY_DIMENSIONS;
   const [activeDim, setActiveDim] = React.useState<Dimension>(
-    projectId === 'jisuanying_project' ? '用户分层与需求' : '需求认知',
+    '需求认知',
   );
   const [selectedBrands, setSelectedBrands] = React.useState<Set<string>>(new Set());
   const [editingEntry, setEditingEntry] = React.useState<{
