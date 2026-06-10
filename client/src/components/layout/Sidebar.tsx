@@ -29,7 +29,7 @@ export default function Sidebar() {
     <aside className="w-[220px] shrink-0 flex flex-col h-full bg-[#FEFDF9] border-r border-[#E8E2D9]">
       {/* Logo */}
       <div className="px-5 pt-6 pb-4 flex items-center gap-2.5">
-        <img src="/insighthub-icon.png" alt="" className="h-8 w-8 shrink-0 rounded-lg object-cover" />
+        <img src="/insighthub-icon.png?v=2" alt="" className="h-8 w-8 shrink-0 rounded-lg object-cover" />
         <span className="font-bold text-[15px] text-gray-900 tracking-tight">InsightHub｜洞见中枢</span>
       </div>
 

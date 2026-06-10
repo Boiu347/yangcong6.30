@@ -14,7 +14,7 @@ export default function MainLayout() {
     <div className="flex min-h-screen flex-col bg-[#f8f8f5]">
       <header className="flex h-[52px] shrink-0 items-center gap-1 border-b border-[#dddcd5] bg-white px-2 sm:gap-5 sm:px-5">
         <button onClick={() => navigate('/projects')} className="flex items-center gap-2">
-          <img src="/insighthub-icon.png" alt="" className="h-8 w-8 rounded-lg object-cover" />
+          <img src="/insighthub-icon.png?v=2" alt="" className="h-8 w-8 rounded-lg object-cover" />
           <span className="hidden text-[15px] font-extrabold text-[#282826] sm:inline">InsightHub</span>
         </button>
         <nav className="flex h-full items-center">
