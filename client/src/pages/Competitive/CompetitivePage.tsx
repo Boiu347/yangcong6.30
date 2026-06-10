@@ -385,11 +385,19 @@ function CrossBrandOverview({ compData, sentimentMatrix, overviewData, onEdit }:
 
 // ── Evidence list with source tags ───────────────────────────────────────────
 
-function EvidenceList({ evidence, brand }: { evidence: string[]; brand?: string }) {
+function EvidenceList({
+  evidence,
+  brand,
+  showSources,
+}: {
+  evidence: string[];
+  brand?: string;
+  showSources: boolean;
+}) {
   return (
     <div className="mt-2 space-y-1.5">
       {evidence.map((e, i) => {
-        const src = lookupSource(e, brand);
+        const src = showSources ? lookupSource(e, brand) : undefined;
         const clips = lookupClips(e);
         return (
           <div key={i} className="bg-gray-50 border border-gray-100 rounded-lg px-2.5 py-2">
@@ -410,7 +418,15 @@ function EvidenceList({ evidence, brand }: { evidence: string[]; brand?: string 
 
 // ── L3 item card (click to expand evidence) ───────────────────────────────────
 
-function InsightItem({ item, brand }: { item: BrandInsightItem; brand: string }) {
+function InsightItem({
+  item,
+  brand,
+  showSources,
+}: {
+  item: BrandInsightItem;
+  brand: string;
+  showSources: boolean;
+}) {
   const [open, setOpen] = React.useState(false);
   const sc = SENTIMENT_CONFIG[item.sentiment];
   const evidence = filterEvidenceByActiveFiles(item.evidence);
@@ -438,7 +454,9 @@ function InsightItem({ item, brand }: { item: BrandInsightItem; brand: string })
               </span>
             )}
           </div>
-          {open && evidence.length > 0 && <EvidenceList evidence={evidence} brand={brand} />}
+          {open && evidence.length > 0 && (
+            <EvidenceList evidence={evidence} brand={brand} showSources={showSources} />
+          )}
         </div>
       </div>
     </div>
@@ -447,7 +465,15 @@ function InsightItem({ item, brand }: { item: BrandInsightItem; brand: string })
 
 // ── Single brand vertical view ────────────────────────────────────────────────
 
-function SingleBrandView({ insight, onEditGroup }: { insight: BrandInsight; onEditGroup?: (groupIdx: number) => void }) {
+function SingleBrandView({
+  insight,
+  onEditGroup,
+  showSources,
+}: {
+  insight: BrandInsight;
+  onEditGroup?: (groupIdx: number) => void;
+  showSources: boolean;
+}) {
   const byL1 = groupByL1(insight);
   const [openL1, setOpenL1] = React.useState<Record<string, boolean>>(
     Object.fromEntries(L1_ORDER.map((l) => [l, true])),
@@ -530,7 +556,12 @@ function SingleBrandView({ insight, onEditGroup }: { insight: BrandInsight; onEd
                     {/* L3 items */}
                     <div className="space-y-1.5 ml-1">
                       {group.items.map((item, i) => (
-                        <InsightItem key={i} item={item} brand={insight.brand} />
+                        <InsightItem
+                          key={i}
+                          item={item}
+                          brand={insight.brand}
+                          showSources={showSources}
+                        />
                       ))}
                     </div>
                   </div>
@@ -550,9 +581,11 @@ function SingleBrandView({ insight, onEditGroup }: { insight: BrandInsight; onEd
 function ComparisonMatrix({
   brands,
   insights,
+  showSources,
 }: {
   brands: string[];
   insights: Record<string, BrandInsight>;
+  showSources: boolean;
 }) {
   // Collect all unique L2 groups per L1, preserving order
   const l1l2Pairs: { l1: string; l2: string }[] = [];
@@ -657,7 +690,15 @@ function ComparisonMatrix({
                           {group.items.map((item, i) => {
                             const shouldOpen = !firstItemRendered && item.evidence.length > 0;
                             if (shouldOpen) firstItemRendered = true;
-                            return <CompactInsightItem key={i} item={item} brand={brand} defaultOpen={shouldOpen} />;
+                            return (
+                              <CompactInsightItem
+                                key={i}
+                                item={item}
+                                brand={brand}
+                                defaultOpen={shouldOpen}
+                                showSources={showSources}
+                              />
+                            );
                           })}
                         </div>
                       )}
@@ -674,7 +715,17 @@ function ComparisonMatrix({
 }
 
 /** Compact L3 item for comparison cells */
-function CompactInsightItem({ item, brand, defaultOpen }: { item: BrandInsightItem; brand: string; defaultOpen?: boolean }) {
+function CompactInsightItem({
+  item,
+  brand,
+  defaultOpen,
+  showSources,
+}: {
+  item: BrandInsightItem;
+  brand: string;
+  defaultOpen?: boolean;
+  showSources: boolean;
+}) {
   const [open, setOpen] = React.useState(defaultOpen ?? false);
   const sc = SENTIMENT_CONFIG[item.sentiment];
   const evidence = filterEvidenceByActiveFiles(item.evidence);
@@ -696,7 +747,7 @@ function CompactInsightItem({ item, brand, defaultOpen }: { item: BrandInsightIt
       {open && evidence.length > 0 && (
         <div className="mt-1.5 space-y-1.5 ml-3">
           {evidence.map((e, i) => {
-            const src = lookupSource(e, brand);
+            const src = showSources ? lookupSource(e, brand) : undefined;
             const clips = lookupClips(e);
             return (
               <div key={i} className="bg-white/80 border border-gray-100 rounded-md px-2 py-1.5">
@@ -721,6 +772,7 @@ function CompactInsightItem({ item, brand, defaultOpen }: { item: BrandInsightIt
 
 export default function CompetitivePage() {
   const { projectId } = useParams<{ projectId: string }>();
+  const showSources = projectId !== 'jisuanying_project';
   const vocs = useProjectVOCs(projectId);
   useActiveFileIds();
   const editor = useIsEditor();
@@ -886,6 +938,7 @@ export default function CompetitivePage() {
             </div>
             <SingleBrandView
               insight={compData[selectedBrands[0]]}
+              showSources={showSources}
               onEditGroup={editor ? (groupIdx) => setEditingGroup({ brand: selectedBrands[0], groupIdx }) : undefined}
             />
           </>
@@ -899,6 +952,7 @@ export default function CompetitivePage() {
             <ComparisonMatrix
               brands={selectedBrands}
               insights={compData}
+              showSources={showSources}
             />
           </div>
         )}

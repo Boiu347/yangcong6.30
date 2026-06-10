@@ -18,10 +18,7 @@ const DEFAULT_PRESET_REPORTS = [
 ];
 
 const JISUANYING_PRESET_REPORTS = [
-  { id: 'preset-jisuanying-survey1',     label: '产品定位与商业策略报告',         color: '#5B7BBF' },
-  { id: 'preset-jisuanying-survey2',     label: '用户需求和购买决策调研报告',     color: '#BF9455' },
   { id: 'preset-jisuanying-integrated',  label: '行业与用户调研整合版报告',       color: '#4BA69E' },
-  { id: 'preset-jisuanying-business',    label: '商业模式和提升续费的阶段性思考', color: '#E07A6E' },
 ];
 
 export default function CompetitiveReportsView() {

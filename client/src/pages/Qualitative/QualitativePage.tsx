@@ -513,8 +513,8 @@ function renderHighlightedText(text: string) {
 
 // ── Single evidence quote ─────────────────────────────────────────────────────
 
-function QuoteItem({ text, color }: { text: string; color: string }) {
-  const src = lookupSource(text);
+function QuoteItem({ text, color, showSources }: { text: string; color: string; showSources: boolean }) {
+  const src = showSources ? lookupSource(text) : undefined;
   const clips = lookupClips(text);
   return (
     <div className="flex gap-3 pt-3 border-t border-gray-100 first:border-0 first:pt-0">
@@ -545,14 +545,22 @@ interface TaggedEvidence {
   tag?: string;
 }
 
-function BrandCard({ entry, onEdit }: { entry: QualBrandEntry; onEdit?: () => void }) {
+function BrandCard({
+  entry,
+  onEdit,
+  showSources,
+}: {
+  entry: QualBrandEntry;
+  onEdit?: () => void;
+  showSources: boolean;
+}) {
   const [expanded, setExpanded] = React.useState(false);
   const bColor = brandColor(entry.brand);
 
   const allEvidence: TaggedEvidence[] = entry.bullets.flatMap((b) =>
     b.evidence.map((e) => ({ text: e, tag: b.tag }))
   );
-  const sourceSummary = getSourceSummary(allEvidence.map((e) => e.text));
+  const sourceSummary = showSources ? getSourceSummary(allEvidence.map((e) => e.text)) : '';
 
   const PREVIEW = 3;
   const shown = expanded ? allEvidence : allEvidence.slice(0, PREVIEW);
@@ -600,7 +608,7 @@ function BrandCard({ entry, onEdit }: { entry: QualBrandEntry; onEdit?: () => vo
         {/* Evidence quotes */}
         <div className="space-y-0">
           {shown.map((e, i) => (
-            <QuoteItem key={i} text={e.text} color={bColor} />
+            <QuoteItem key={i} text={e.text} color={bColor} showSources={showSources} />
           ))}
         </div>
 
@@ -628,12 +636,14 @@ function SubDimSection({
   selectedBrands,
   color,
   onEdit,
+  showSources,
 }: {
   subDim: QualSubDimension;
   subIdx: number;
   selectedBrands: Set<string>;
   color: string;
   onEdit?: (brandIdx: number, activeTags: string[]) => void;
+  showSources: boolean;
 }) {
   const [collapsed, setCollapsed] = React.useState(false);
   const [activeTags, setActiveTags] = React.useState<Set<string>>(new Set());
@@ -742,6 +752,7 @@ function SubDimSection({
               <BrandCard
                 key={entry.brand}
                 entry={entry}
+                showSources={showSources}
                 onEdit={onEdit && brandIdx >= 0 ? () => onEdit(brandIdx, Array.from(activeTags)) : undefined}
               />
             );
@@ -757,6 +768,7 @@ function SubDimSection({
 
 export default function QualitativePage() {
   const { projectId } = useParams<{ projectId: string }>();
+  const showSources = projectId !== 'jisuanying_project';
   useActiveFileIds();
   const editor = useIsEditor();
 
@@ -892,6 +904,7 @@ export default function QualitativePage() {
                 subIdx={subIdx}
                 selectedBrands={selectedBrands}
                 color={color}
+                showSources={showSources}
                 onEdit={editor ? (brandIdx, tags) => {
                   const bullets = sub.brands[brandIdx]?.bullets ?? [];
                   const tagSet = new Set(tags);

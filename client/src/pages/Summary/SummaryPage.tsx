@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import ReportExportToolbar from '../../components/report/ReportExportToolbar';
-import ComputingDashboard from './ComputingDashboard';
+import QuantitativePage from '../Quantitative/QuantitativePage';
 import fromPrimaryBriefing from '../../content/from-primary-brief.md?raw';
 
 const FROM_PRIMARY_BRIEFING = {
@@ -13,7 +13,7 @@ const FROM_PRIMARY_BRIEFING = {
 export default function SummaryPage() {
   const iframeRef = React.useRef<HTMLIFrameElement>(null);
   const { projectId } = useParams<{ projectId: string }>();
-  if (projectId === 'jisuanying_project') return <ComputingDashboard />;
+  if (projectId === 'jisuanying_project') return <QuantitativePage />;
   return (
     <div className="flex h-full min-h-0 flex-col">
       <ReportExportToolbar

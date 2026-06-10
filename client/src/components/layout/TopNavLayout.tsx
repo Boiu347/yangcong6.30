@@ -15,7 +15,6 @@ const computingItems = [
   { label: '总览', path: 'summary' },
   { label: '研究洞察', path: 'qualitative' },
   { label: '竞品与市场', path: 'competitive' },
-  { label: '研究报告', path: 'reports' },
 ];
 
 export default function TopNavLayout() {
