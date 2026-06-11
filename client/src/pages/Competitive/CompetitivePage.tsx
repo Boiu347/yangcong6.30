@@ -213,14 +213,14 @@ function CrossBrandOverview({ compData, sentimentMatrix, overviewData, onEdit }:
           </div>
 
           {/* Brand differentiation summaries */}
-          <div className="border-t border-gray-50 px-6 pt-4 pb-5">
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">品牌差异总结</p>
+          <div className="border-t border-gray-100 px-6 pt-3 pb-2">
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">品牌差异总结</p>
             <div>
               {BRAND_SUMMARY_ORDER.filter((b) => brandSummaries[b] && PRIMARY_BRANDS.has(b)).map((brand, idx) => (
                 <div
                   key={brand}
                   className={cn(
-                    'flex items-baseline gap-4 py-3',
+                    'flex items-baseline gap-4 py-2.5',
                     idx !== 0 && 'border-t border-gray-100',
                   )}
                 >
@@ -241,7 +241,7 @@ function CrossBrandOverview({ compData, sentimentMatrix, overviewData, onEdit }:
                 <div
                   key={brand}
                   className={cn(
-                    'flex items-baseline gap-4 py-3 border-t border-gray-100',
+                    'flex items-baseline gap-4 py-2.5 border-t border-gray-100',
                   )}
                 >
                   <div className="flex items-center gap-1.5 shrink-0 w-[116px]">
@@ -270,17 +270,17 @@ function CrossBrandOverview({ compData, sentimentMatrix, overviewData, onEdit }:
           </div>
 
           {/* Sentiment matrix table */}
-          <div className="border-t border-gray-50 px-6 pt-4 pb-5">
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">品牌横向对比</p>
+          <div className="border-t border-gray-100 px-6 pt-3 pb-4">
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">品牌横向对比</p>
             <div className="overflow-x-auto">
               <table className="text-left border-collapse w-full">
                 <thead>
                   <tr>
-                    <th className="text-[11px] font-medium text-gray-400 pb-3 pr-4 min-w-[130px]" />
+                    <th className="text-[11px] font-medium text-gray-400 pb-1.5 pr-4 min-w-[130px]" />
                     {L1_ORDER.map((l1) => (
                       <th
                         key={l1}
-                        className="text-[11px] font-bold pb-3 px-4 min-w-[100px] text-center"
+                        className="text-[11px] font-bold pb-1.5 px-4 min-w-[100px] text-center"
                         style={{ color: L1_CONFIG[l1].color }}
                       >
                         {l1}
