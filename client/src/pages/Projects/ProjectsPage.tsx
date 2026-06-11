@@ -191,12 +191,19 @@ export default function ProjectsPage() {
                   {/* meta */}
                   <div className="text-[11px] text-gray-400 flex items-center gap-1 mb-3">
                     {readyFiles > 0
-                      ? <><span>{readyFiles} 个文件</span><span className="text-gray-200">·</span><span>{vocCount} 条原声</span></>
+                      ? (
+                        <>
+                          <span>{readyFiles} 个文件</span>
+                          {p.id !== 'jisuanying_project' && (
+                            <>
+                              <span className="text-gray-200">·</span>
+                              <span>{vocCount} 条原声</span>
+                            </>
+                          )}
+                        </>
+                      )
                       : <span>暂无文件</span>
                     }
-                    {p.team?.length && (
-                      <><span className="text-gray-200">·</span><span>协同：{p.team.join('/')}</span></>
-                    )}
                   </div>
 
                   {/* foot */}
