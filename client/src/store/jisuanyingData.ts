@@ -486,9 +486,9 @@ export function buildJisuanyingProject(): Project {
     name: '洋葱计算营用户与商业增长研究',
     createdAt: 1780905600000,
     files,
-    category: '用户研究与续费诊断',
-    team: ['课程', '策略', '增长'],
-    methods: ['桌面研究', '定量调研', '开放题分析', '业务访谈'],
+    category: '新课定位',
+    team: ['策略'],
+    methods: ['桌面研究', '定量调研'],
     status: '已完成',
     summaryData: {
       coreFindings: [

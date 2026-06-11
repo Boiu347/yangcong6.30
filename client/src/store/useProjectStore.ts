@@ -106,10 +106,19 @@ let _projects: Project[] = (() => {
       const seeded = buildJisuanyingProject();
       const currentFileIds = new Set(current.files.map((file) => file.id));
       const missingSeededFiles = seeded.files.filter((file) => !currentFileIds.has(file.id));
-      if (missingSeededFiles.length > 0) {
+      const metadataChanged =
+        current.category !== seeded.category
+        || JSON.stringify(current.team ?? []) !== JSON.stringify(seeded.team ?? [])
+        || JSON.stringify(current.methods ?? []) !== JSON.stringify(seeded.methods ?? [])
+        || current.status !== seeded.status;
+      if (missingSeededFiles.length > 0 || metadataChanged) {
         migrated[jisuanyingIdx] = {
           ...current,
           files: [...current.files, ...missingSeededFiles],
+          category: seeded.category,
+          team: seeded.team,
+          methods: seeded.methods,
+          status: seeded.status,
         };
         _persist(migrated);
       }
