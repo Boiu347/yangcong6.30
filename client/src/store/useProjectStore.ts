@@ -104,9 +104,13 @@ let _projects: Project[] = (() => {
     } else {
       const current = migrated[jisuanyingIdx];
       const seeded = buildJisuanyingProject();
-      const hasSeededFiles = current.files.some((f) => f.id.startsWith('jisuanying_file_'));
-      if (!hasSeededFiles) {
-        migrated[jisuanyingIdx] = { ...current, ...seeded, id: current.id };
+      const currentFileIds = new Set(current.files.map((file) => file.id));
+      const missingSeededFiles = seeded.files.filter((file) => !currentFileIds.has(file.id));
+      if (missingSeededFiles.length > 0) {
+        migrated[jisuanyingIdx] = {
+          ...current,
+          files: [...current.files, ...missingSeededFiles],
+        };
         _persist(migrated);
       }
     }

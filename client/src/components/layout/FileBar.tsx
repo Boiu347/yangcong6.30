@@ -19,6 +19,7 @@ const JISUANYING_FILE_LABELS: Record<string, string> = {
   jisuanying_file_2: '问卷调研2',
   jisuanying_file_3: '定位策略报告',
   jisuanying_file_4: '商业模式思考',
+  jisuanying_file_5: '满意度问卷',
 };
 
 // ── PasteModal ─────────────────────────────────────────────────────────────

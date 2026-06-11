@@ -5,6 +5,7 @@ export const JISUANYING_FILE_DEFS = [
   { id: 'jisuanying_file_2', name: '洋葱计算营调研2_用户需求和购买决策调研报告.md' },
   { id: 'jisuanying_file_3', name: '洋葱计算营调研1_产品定位与商业策略报告.md' },
   { id: 'jisuanying_file_4', name: '计算营商业模式和提升续费的阶段性思考.md' },
+  { id: 'jisuanying_file_5', name: '3月期计算训练营满意度问卷.xlsx' },
 ] as const;
 
 type VoiceSeed = Omit<VOCItem, 'id' | 'sourceFileId' | 'sourceFileName'> & {

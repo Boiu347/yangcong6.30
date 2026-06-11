@@ -6,13 +6,17 @@ import {
   BriefcaseBusiness,
   CircleAlert,
   Compass,
+  Gauge,
   Lightbulb,
   Scale,
+  TrendingUp,
+  Users,
 } from 'lucide-react';
 import {
   CALCULATION_INSIGHT_THEMES,
   CalculationInsightTheme,
   InsightEvidenceType,
+  SatisfactionInsightTheme,
 } from '../../store/calculationInsightsData';
 import { cn } from '@/lib/utils';
 
@@ -29,6 +33,7 @@ const THEME_COLORS: Record<CalculationInsightTheme['id'], string> = {
   decision: '#BF9455',
   service: '#4BA69E',
   renewal: '#E07A6E',
+  satisfaction: '#8B6BB8',
 };
 
 function SourceBadge({ source }: { source: string }) {
@@ -36,6 +41,207 @@ function SourceBadge({ source }: { source: string }) {
     <span className="inline-flex items-center rounded-full border border-gray-200 bg-white px-2 py-0.5 text-[10px] font-medium text-gray-500">
       {source}
     </span>
+  );
+}
+
+function SatisfactionSurveyView({ theme, color }: { theme: SatisfactionInsightTheme; color: string }) {
+  return (
+    <>
+      <section
+        className="overflow-hidden rounded-[24px] border bg-white shadow-[0_12px_35px_rgba(30,35,40,0.06)]"
+        style={{ borderColor: `${color}35` }}
+      >
+        <div className="grid gap-6 p-6 lg:grid-cols-[1.4fr_0.75fr] lg:p-8">
+          <div>
+            <p className="text-[11px] font-bold tracking-[0.16em]" style={{ color }}>{theme.eyebrow}</p>
+            <h1 className="mt-3 max-w-4xl text-[26px] font-black leading-[1.3] text-[#242421] sm:text-[32px]">
+              {theme.title}
+            </h1>
+            <p className="mt-4 max-w-4xl text-[14px] leading-7 text-gray-600">{theme.thesis}</p>
+          </div>
+          <div className="rounded-2xl border border-violet-100 bg-violet-50/60 p-5">
+            <div className="flex items-center gap-2 text-[11px] font-bold text-violet-700">
+              <Users size={14} />
+              调研样本
+            </div>
+            <p className="mt-3 text-[14px] font-bold leading-6 text-gray-800">{theme.sample}</p>
+            <p className="mt-3 border-t border-violet-100 pt-3 text-[11px] leading-5 text-gray-500">
+              这是结营满意度调查，描述主动填写者的体验，不代表全部购买者或流失用户。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        {theme.metrics.map((metric) => (
+          <article key={metric.label} className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+            <div className="flex items-start justify-between gap-2">
+              <span className="text-[25px] font-black tracking-tight" style={{ color }}>{metric.value}</span>
+              <span className={cn('rounded-full border px-2 py-0.5 text-[9px] font-semibold', TYPE_STYLES[metric.type])}>
+                {metric.type}
+              </span>
+            </div>
+            <h3 className="mt-2 text-[13px] font-bold text-gray-900">{metric.label}</h3>
+            <p className="mt-1.5 min-h-[42px] text-[11px] leading-[1.65] text-gray-500">{metric.detail}</p>
+            <div className="mt-3 flex flex-wrap items-center gap-1.5 border-t border-gray-100 pt-3">
+              <span className="text-[9px] text-gray-400">{metric.scope}</span>
+              <SourceBadge source={metric.source} />
+            </div>
+          </article>
+        ))}
+      </section>
+
+      <section className="rounded-[22px] border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
+        <div className="flex items-center gap-2">
+          <Gauge size={16} style={{ color }} />
+          <h2 className="text-[15px] font-bold text-gray-900">体验满意度结构</h2>
+        </div>
+        <div className="mt-5 grid gap-x-8 gap-y-6 lg:grid-cols-2">
+          {theme.distributionBars.map((item) => (
+            <article key={item.label}>
+              <div className="flex items-end justify-between gap-3">
+                <div>
+                  <h3 className="text-[12px] font-bold text-gray-800">{item.label}</h3>
+                  <p className="mt-0.5 text-[10px] text-gray-400">{item.note}</p>
+                </div>
+                <span className="text-[9px] text-gray-400">N=247</span>
+              </div>
+              <div className="mt-3 flex h-3 overflow-hidden rounded-full bg-gray-100">
+                {item.segments.map((segment) => (
+                  <div
+                    key={segment.label}
+                    title={`${segment.label} ${segment.value}%`}
+                    style={{ width: `${segment.value}%`, backgroundColor: segment.color }}
+                  />
+                ))}
+              </div>
+              <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5">
+                {item.segments.map((segment) => (
+                  <div key={segment.label} className="flex items-center gap-1.5 text-[10px] text-gray-500">
+                    <span className="h-2 w-2 rounded-full" style={{ backgroundColor: segment.color }} />
+                    <span>{segment.label}</span>
+                    <strong className="text-gray-700">{segment.value}%</strong>
+                    <span className="text-gray-300">({segment.count})</span>
+                  </div>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="rounded-[22px] border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
+        <div className="flex items-center gap-2">
+          <TrendingUp size={16} style={{ color }} />
+          <h2 className="text-[15px] font-bold text-gray-900">续购与跨专项意向</h2>
+        </div>
+        <p className="mt-1 text-[11px] text-gray-400">同产品续购和跨专项承接分开计算，避免高估计算营续购率。</p>
+        <div className="mt-5 flex h-5 overflow-hidden rounded-full bg-gray-100">
+          {theme.purchaseIntent.map((segment) => (
+            <div
+              key={segment.label}
+              title={`${segment.label} ${segment.value}%`}
+              style={{ width: `${segment.value}%`, backgroundColor: segment.color }}
+            />
+          ))}
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          {theme.purchaseIntent.map((segment) => (
+            <div key={segment.label} className="rounded-xl border border-gray-100 bg-[#FAFAF8] p-3">
+              <div className="flex items-center gap-2">
+                <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: segment.color }} />
+                <span className="text-[11px] font-semibold text-gray-700">{segment.label}</span>
+              </div>
+              <div className="mt-2 flex items-baseline gap-2">
+                <strong className="text-[20px] font-black" style={{ color: segment.color }}>{segment.value}%</strong>
+                <span className="text-[10px] text-gray-400">{segment.count}/247</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="rounded-[22px] border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
+        <div className="flex items-center gap-2">
+          <Scale size={16} style={{ color }} />
+          <h2 className="text-[15px] font-bold text-gray-900">满意体验与继续付费意向的关联</h2>
+        </div>
+        <p className="mt-1 text-[11px] text-gray-400">
+          “继续付费意向”包含继续计算营和转向其他数学专项；以下仅表示相关，不证明因果。
+        </p>
+        <div className="mt-5 grid gap-4 lg:grid-cols-3">
+          {theme.driverRelations.map((relation) => (
+            <article key={relation.title} className="rounded-2xl border border-gray-100 bg-[#FAFAF8] p-4">
+              <h3 className="text-[12px] font-bold text-gray-800">{relation.title}</h3>
+              <p className="mt-1 min-h-[32px] text-[10px] leading-4 text-gray-400">{relation.note}</p>
+              <div className="mt-4 space-y-3">
+                {relation.groups.map((group) => (
+                  <div key={group.label}>
+                    <div className="flex items-center justify-between gap-2 text-[10px]">
+                      <span className="font-medium text-gray-600">
+                        {group.label}
+                        {group.lowSample && <em className="ml-1 not-italic text-amber-600">低样本</em>}
+                      </span>
+                      <span className="font-bold text-gray-800">{group.value}% · {group.positive}/{group.total}</span>
+                    </div>
+                    <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-gray-200">
+                      <div className="h-full rounded-full" style={{ width: `${group.value}%`, backgroundColor: color }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="grid gap-4 lg:grid-cols-[1.35fr_0.9fr]">
+        <article className="rounded-[22px] border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
+          <div className="flex items-center gap-2">
+            <BookOpenCheck size={16} style={{ color }} />
+            <h2 className="text-[15px] font-bold text-gray-900">改进信号</h2>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            {theme.improvementSignals.map((signal) => (
+              <div key={signal.title} className="rounded-2xl border border-gray-100 bg-[#FAFAF8] p-4">
+                <h3 className="text-[11px] font-bold" style={{ color: signal.color }}>{signal.title}</h3>
+                <div className="mt-3 space-y-3">
+                  {signal.items.map((item) => (
+                    <div key={item.label}>
+                      <div className="flex items-baseline gap-2">
+                        <strong className="text-[17px] font-black" style={{ color: signal.color }}>{item.value}</strong>
+                        <span className="text-[10px] font-semibold text-gray-700">{item.label}</span>
+                      </div>
+                      <p className="mt-1 text-[9px] leading-4 text-gray-400">{item.detail}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <article className="rounded-[22px] border p-5 shadow-sm sm:p-6" style={{ borderColor: `${color}35`, backgroundColor: `${color}08` }}>
+          <div className="flex items-center gap-2">
+            <BriefcaseBusiness size={16} style={{ color }} />
+            <h2 className="text-[15px] font-bold text-gray-900">业务建议</h2>
+          </div>
+          <div className="mt-4 space-y-3">
+            {theme.actions.map((text) => (
+              <div key={text} className="flex gap-2.5">
+                <ArrowRight size={14} className="mt-1 shrink-0" style={{ color }} />
+                <p className="text-[11px] font-medium leading-5 text-gray-700">{text}</p>
+              </div>
+            ))}
+          </div>
+        </article>
+      </section>
+
+      <section className="flex items-start gap-2 rounded-xl border border-amber-100 bg-amber-50/70 px-4 py-3">
+        <CircleAlert size={14} className="mt-0.5 shrink-0 text-amber-600" />
+        <p className="text-[10px] leading-5 text-amber-800"><strong>口径说明：</strong>{theme.caveat}</p>
+      </section>
+    </>
   );
 }
 
@@ -85,6 +291,10 @@ export default function CalculationInsightsPage() {
 
       <main className="min-h-0 flex-1 overflow-y-auto">
         <div className="mx-auto max-w-[1240px] space-y-5 px-4 py-6 sm:px-6 sm:py-8">
+          {theme.layout === 'satisfaction-survey' ? (
+            <SatisfactionSurveyView theme={theme} color={color} />
+          ) : (
+          <>
           <section
             className="overflow-hidden rounded-[24px] border bg-white shadow-[0_12px_35px_rgba(30,35,40,0.06)]"
             style={{ borderColor: `${color}35` }}
@@ -224,6 +434,8 @@ export default function CalculationInsightsPage() {
               <strong>口径说明：</strong>{theme.caveat}
             </p>
           </section>
+          </>
+          )}
         </div>
       </main>
     </div>

@@ -22,7 +22,8 @@ export interface InsightComparison {
   gap: string;
 }
 
-export interface CalculationInsightTheme {
+export interface IndustryInsightTheme {
+  layout: 'industry-story';
   id: 'segments' | 'decision' | 'service' | 'renewal';
   tab: string;
   eyebrow: string;
@@ -37,8 +38,57 @@ export interface CalculationInsightTheme {
   caveat: string;
 }
 
+export interface SatisfactionSegment {
+  label: string;
+  value: number;
+  count: number;
+  color: string;
+}
+
+export interface SatisfactionDistribution {
+  label: string;
+  note: string;
+  segments: SatisfactionSegment[];
+}
+
+export interface SatisfactionRelation {
+  title: string;
+  note: string;
+  groups: Array<{
+    label: string;
+    value: number;
+    positive: number;
+    total: number;
+    lowSample?: boolean;
+  }>;
+}
+
+export interface SatisfactionInsightTheme {
+  layout: 'satisfaction-survey';
+  id: 'satisfaction';
+  tab: string;
+  eyebrow: string;
+  title: string;
+  thesis: string;
+  sample: string;
+  metrics: InsightMetric[];
+  distributionBars: SatisfactionDistribution[];
+  purchaseIntent: SatisfactionSegment[];
+  driverRelations: SatisfactionRelation[];
+  improvementSignals: Array<{
+    title: string;
+    color: string;
+    items: Array<{ value: string; label: string; detail: string }>;
+  }>;
+  actions: string[];
+  caveat: string;
+}
+
+export type CalculationInsightTheme = IndustryInsightTheme | SatisfactionInsightTheme;
+
 export const CALCULATION_INSIGHT_THEMES: CalculationInsightTheme[] = [
   {
+    layout: 'industry-story',
     id: 'segments',
     tab: '用户分层与需求',
     eyebrow: '01 · 市场与用户',
@@ -125,6 +175,7 @@ export const CALCULATION_INSIGHT_THEMES: CalculationInsightTheme[] = [
       '问卷样本来自洋葱私域和公众号，绝对渗透率可能偏高；人群结构、方案差异和服务偏好更适合作为方向判断。',
   },
   {
+    layout: 'industry-story',
     id: 'decision',
     tab: '购买决策',
     eyebrow: '02 · 认知与转化',
@@ -211,6 +262,7 @@ export const CALCULATION_INSIGHT_THEMES: CalculationInsightTheme[] = [
       '“高性价比 1v1 替代”属于定位策略判断，不是用户已经形成的普遍认知；对外使用前应通过落地页与转化实验验证。',
   },
   {
+    layout: 'industry-story',
     id: 'service',
     tab: '产品体验与服务价值',
     eyebrow: '03 · 产品与交付',
@@ -304,6 +356,7 @@ export const CALCULATION_INSIGHT_THEMES: CalculationInsightTheme[] = [
       '竞品能力来自公开资料和案头研究，描述的是可观察交付方式，不等同于真实用户满意度；具体差异仍需产品体验验证。',
   },
   {
+    layout: 'industry-story',
     id: 'renewal',
     tab: '续费诊断',
     eyebrow: '04 · 商业模式与增长',
@@ -388,5 +441,159 @@ export const CALCULATION_INSIGHT_THEMES: CalculationInsightTheme[] = [
     ],
     caveat:
       'LTV 为情景测算，不是已经实现的收入结果；开放题中的时间冲突只能作为原因解释，不能当作独立选择率。',
+  },
+  {
+    layout: 'satisfaction-survey',
+    id: 'satisfaction',
+    tab: '满意度调研',
+    eyebrow: '05 · 结营体验与后续意向',
+    title: '高满意不等于自然续费，效果可见才是转化关键。',
+    thesis:
+      '老师服务和任务安排获得高评价，但明确续购同类计算营的用户只有 41.3%。交叉结果显示，效果感知、任务节奏和及时反馈与继续付费意向存在明显关联，下一步应把满意体验转化为可见进步和清晰的后续学习路径。',
+    sample: '3月期 · N=247 · 96.8%由家长填写 · 一至六年级',
+    metrics: [
+      {
+        value: '96.8%',
+        label: '辅导老师总体满意',
+        detail: '非常满意 76.5%，比较满意 20.2%；及时反馈是老师服务的主要价值。',
+        scope: '239/247',
+        type: '问卷定量',
+        source: '满意度问卷',
+      },
+      {
+        value: '92.7%',
+        label: '每日任务安排总体满意',
+        detail: '多数用户认可当前安排，但开放题显示“太密集”和“题量不足”同时存在。',
+        scope: '229/247',
+        type: '问卷定量',
+        source: '满意度问卷',
+      },
+      {
+        value: '77.7%',
+        label: '感知到学习改善',
+        detail: '52.6%认为做题习惯改善，25.1%认为知识掌握和正确率得到提升。',
+        scope: '192/247',
+        type: '问卷定量',
+        source: '满意度问卷',
+      },
+      {
+        value: '41.3%',
+        label: '明确续购同类计算营',
+        detail: '另有 23.9% 希望继续付费，但转向应用题、思维等其他数学专项。',
+        scope: '102/247',
+        type: '问卷定量',
+        source: '满意度问卷',
+      },
+    ],
+    distributionBars: [
+      {
+        label: '学习难度',
+        note: '偏简单用户接近四分之一，分层仍有必要。',
+        segments: [
+          { label: '难度适中', value: 71.7, count: 177, color: '#5B7BBF' },
+          { label: '偏简单', value: 24.7, count: 61, color: '#A7B7D8' },
+          { label: '偏困难', value: 3.6, count: 9, color: '#E07A6E' },
+        ],
+      },
+      {
+        label: '每日任务量',
+        note: '总体满意度高，但需要为不同家庭提供节奏档位。',
+        segments: [
+          { label: '非常满意', value: 66.0, count: 163, color: '#4BA69E' },
+          { label: '比较满意', value: 26.7, count: 66, color: '#93C9C4' },
+          { label: '一般', value: 7.3, count: 18, color: '#D8DEDF' },
+        ],
+      },
+      {
+        label: '辅导老师服务',
+        note: '高满意主要来自学习情况的及时反馈。',
+        segments: [
+          { label: '非常满意', value: 76.5, count: 189, color: '#4BA69E' },
+          { label: '比较满意', value: 20.2, count: 50, color: '#93C9C4' },
+          { label: '一般', value: 3.2, count: 8, color: '#D8DEDF' },
+        ],
+      },
+      {
+        label: '效果感知',
+        note: '22.2% 暂未看到变化或认为没有效果。',
+        segments: [
+          { label: '习惯改善', value: 52.6, count: 130, color: '#5B7BBF' },
+          { label: '掌握知识', value: 25.1, count: 62, color: '#4BA69E' },
+          { label: '暂未变化', value: 20.2, count: 50, color: '#D9A34F' },
+          { label: '没有效果', value: 2.0, count: 5, color: '#E07A6E' },
+        ],
+      },
+    ],
+    purchaseIntent: [
+      { label: '继续购买计算营', value: 41.3, count: 102, color: '#4BA69E' },
+      { label: '转向其他数学专项', value: 23.9, count: 59, color: '#5B7BBF' },
+      { label: '暂不确定', value: 30.0, count: 74, color: '#D9A34F' },
+      { label: '不购买', value: 4.9, count: 12, color: '#E07A6E' },
+    ],
+    driverRelations: [
+      {
+        title: '效果感知',
+        note: '感知到习惯改善的人群，继续付费意向明显更高。',
+        groups: [
+          { label: '习惯改善', value: 83.8, positive: 109, total: 130 },
+          { label: '暂未看到变化', value: 28.0, positive: 14, total: 50 },
+        ],
+      },
+      {
+        title: '老师服务',
+        note: '及时反馈与继续付费意向同向变化。',
+        groups: [
+          { label: '非常满意', value: 73.0, positive: 138, total: 189 },
+          { label: '比较满意', value: 46.0, positive: 23, total: 50 },
+          { label: '评价一般', value: 0, positive: 0, total: 8, lowSample: true },
+        ],
+      },
+      {
+        title: '任务安排',
+        note: '任务节奏体验越好，继续付费意向越高。',
+        groups: [
+          { label: '非常满意', value: 75.5, positive: 123, total: 163 },
+          { label: '比较满意', value: 53.0, positive: 35, total: 66 },
+          { label: '评价一般', value: 16.7, positive: 3, total: 18, lowSample: true },
+        ],
+      },
+    ],
+    improvementSignals: [
+      {
+        title: '任务节奏存在分化',
+        color: '#D9A34F',
+        items: [
+          { value: '20.6%', label: '希望每周留一天休息', detail: '51/247，连续任务过密是最集中的改进选择。' },
+          { value: '10.9%', label: '希望增加题量', detail: '27/247，部分用户需要更高练习密度。' },
+          { value: '2.4%', label: '希望减少题量', detail: '6/247，说明不能用单一节奏覆盖所有家庭。' },
+        ],
+      },
+      {
+        title: '直播需要更高效、更聚焦',
+        color: '#5B7BBF',
+        items: [
+          { value: '28.7%', label: '希望改为高效讲解视频', detail: '71/247，学期时间冲突是首要问题。' },
+          { value: '18.2%', label: '希望增加题型讲解', detail: '45/247，用户需要更多方法与错题解释。' },
+          { value: '10.5%', label: '希望增加互动带练', detail: '26/247，直播价值应更多体现在现场练习。' },
+        ],
+      },
+      {
+        title: '续购用户重视老师关系',
+        color: '#4BA69E',
+        items: [
+          { value: '67.6%', label: '希望原老师继续带班', detail: '69/102，老师连续性有助于保留信任。' },
+          { value: '32.4%', label: '老师可更换但必须及时反馈', detail: '33/102，服务标准比个人绑定更基础。' },
+        ],
+      },
+    ],
+    actions: [
+      '用入营与结营测评、错因变化和进步报告强化效果可见性。',
+      '提供基础、标准、加练三档任务量，并设置每周缓冲日。',
+      '将直播改为短讲解、错题专题和互动带练，同时保留可回看内容。',
+      '保持老师连续性，并建立及时反馈、问题解释和下一步建议的标准化服务。',
+      '对 23.9% 的跨专项需求承接应用题、思维和几何专题。',
+    ],
+    caveat:
+      '本页来自结营后主动填写问卷的人群，可能高估整体满意度；交叉结果仅表示变量相关，不证明因果，也不能替代真实业务续报率。',
   },
 ];
