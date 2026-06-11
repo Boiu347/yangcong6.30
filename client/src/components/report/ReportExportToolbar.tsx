@@ -26,6 +26,7 @@ interface Props {
   sourceUrl: string;
   fileName: string;
   briefing?: ReportBriefing;
+  showExportActions?: boolean;
 }
 
 function downloadBlob(blob: Blob, filename: string) {
@@ -238,6 +239,7 @@ export default function ReportExportToolbar({
   sourceUrl,
   fileName,
   briefing,
+  showExportActions = true,
 }: Props) {
   const [exporting, setExporting] = React.useState<ExportType | null>(null);
   const [briefingOpen, setBriefingOpen] = React.useState(false);
@@ -286,26 +288,28 @@ export default function ReportExportToolbar({
             {briefingOpen ? <ChevronUp size={14} className="ml-auto shrink-0 text-[#a45b46]" /> : <ChevronDown size={14} className="ml-auto shrink-0 text-[#a45b46]" />}
           </button>
         )}
-        <div className="ml-auto flex shrink-0 items-center gap-2">
-          <button
-            type="button"
-            disabled={!!exporting}
-            onClick={() => void handleExport('word')}
-            className={cn(buttonClass)}
-          >
-            {exporting === 'word' ? <Loader2 size={14} className="animate-spin" /> : <FileText size={14} />}
-            导出 Word
-          </button>
-          <button
-            type="button"
-            disabled={!!exporting}
-            onClick={() => void handleExport('pdf')}
-            className={cn(buttonClass)}
-          >
-            {exporting === 'pdf' ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />}
-            导出 PDF
-          </button>
-        </div>
+        {showExportActions && (
+          <div className="ml-auto flex shrink-0 items-center gap-2">
+            <button
+              type="button"
+              disabled={!!exporting}
+              onClick={() => void handleExport('word')}
+              className={cn(buttonClass)}
+            >
+              {exporting === 'word' ? <Loader2 size={14} className="animate-spin" /> : <FileText size={14} />}
+              导出 Word
+            </button>
+            <button
+              type="button"
+              disabled={!!exporting}
+              onClick={() => void handleExport('pdf')}
+              className={cn(buttonClass)}
+            >
+              {exporting === 'pdf' ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />}
+              导出 PDF
+            </button>
+          </div>
+        )}
       </div>
 
       {briefing && briefingOpen && (

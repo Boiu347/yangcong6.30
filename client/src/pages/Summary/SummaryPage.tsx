@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import ReportExportToolbar from '../../components/report/ReportExportToolbar';
 import QuantitativePage from '../Quantitative/QuantitativePage';
 import fromPrimaryBriefing from '../../content/from-primary-brief.md?raw';
+import jisuanyingBriefing from '../../content/jisuanying-brief.md?raw';
 
 const FROM_PRIMARY_BRIEFING = {
   title: '前情提要',
@@ -10,10 +11,31 @@ const FROM_PRIMARY_BRIEFING = {
   markdown: fromPrimaryBriefing,
 };
 
+const JISUANYING_BRIEFING = {
+  title: '前情提要',
+  summary: '说明计算营的调研目的，以及围绕市场、人群、产品价值和增长模型提出的四项研究假设。',
+  markdown: jisuanyingBriefing,
+};
+
 export default function SummaryPage() {
   const iframeRef = React.useRef<HTMLIFrameElement>(null);
   const { projectId } = useParams<{ projectId: string }>();
-  if (projectId === 'jisuanying_project') return <QuantitativePage />;
+  if (projectId === 'jisuanying_project') {
+    return (
+      <div className="flex h-full min-h-0 flex-col">
+        <ReportExportToolbar
+          iframeRef={iframeRef}
+          sourceUrl="/"
+          fileName="计算营用户研究"
+          briefing={JISUANYING_BRIEFING}
+          showExportActions={false}
+        />
+        <div className="min-h-0 flex-1 overflow-y-auto">
+          <QuantitativePage />
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="flex h-full min-h-0 flex-col">
       <ReportExportToolbar
