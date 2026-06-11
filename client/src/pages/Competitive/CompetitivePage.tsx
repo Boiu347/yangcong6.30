@@ -147,10 +147,11 @@ function renderHighlightedText(text: string) {
 
 // ── Cross-brand overview panel ────────────────────────────────────────────────
 
-function CrossBrandOverview({ compData, sentimentMatrix, overviewData, onEdit }: {
+function CrossBrandOverview({ compData, sentimentMatrix, overviewData, isCalculation, onEdit }: {
   compData: Record<string, BrandInsight>;
   sentimentMatrix: Record<string, Record<string, 'positive' | 'neutral' | 'negative'>>;
   overviewData: CrossBrandOverviewData;
+  isCalculation?: boolean;
   onEdit?: () => void;
 }) {
   const [open, setOpen] = React.useState(true);
@@ -212,9 +213,11 @@ function CrossBrandOverview({ compData, sentimentMatrix, overviewData, onEdit }:
             </div>
           </div>
 
-          {/* Brand differentiation summaries */}
+          {/* Solution comparison summaries */}
           <div className="border-t border-gray-100 px-6 pt-3 pb-2">
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">品牌差异总结</p>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">
+              {isCalculation ? '方案对照总结' : '品牌差异总结'}
+            </p>
             <div>
               {BRAND_SUMMARY_ORDER.filter((b) => brandSummaries[b] && PRIMARY_BRANDS.has(b)).map((brand, idx) => (
                 <div
@@ -917,6 +920,7 @@ export default function CompetitivePage() {
           compData={compData}
           sentimentMatrix={sentimentMatrix}
           overviewData={overviewData}
+          isCalculation={isCalculation}
           onEdit={editor ? () => setEditingOverview(true) : undefined}
         />
 
