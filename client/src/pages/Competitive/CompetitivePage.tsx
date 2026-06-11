@@ -257,14 +257,15 @@ function CrossBrandOverview({ compData, sentimentMatrix, overviewData, onEdit }:
                 </div>
               ))}
 
-              {/* Secondary brands toggle — below content */}
-              <button
-                onClick={() => setShowSecondarySummary((v) => !v)}
-                className="flex items-center gap-1 mt-3 text-[11px] text-gray-400 hover:text-gray-600 transition-colors"
-              >
-                {showSecondarySummary ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
-                {showSecondarySummary ? '收起其他品牌' : `展开其他 ${BRAND_SUMMARY_ORDER.filter(b => brandSummaries[b] && !PRIMARY_BRANDS.has(b)).length} 个品牌`}
-              </button>
+              {BRAND_SUMMARY_ORDER.some((b) => brandSummaries[b] && !PRIMARY_BRANDS.has(b)) && (
+                <button
+                  onClick={() => setShowSecondarySummary((v) => !v)}
+                  className="flex items-center gap-1 mt-3 text-[11px] text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  {showSecondarySummary ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
+                  {showSecondarySummary ? '收起其他品牌' : `展开其他 ${BRAND_SUMMARY_ORDER.filter(b => brandSummaries[b] && !PRIMARY_BRANDS.has(b)).length} 个品牌`}
+                </button>
+              )}
             </div>
           </div>
 
@@ -369,13 +370,15 @@ function CrossBrandOverview({ compData, sentimentMatrix, overviewData, onEdit }:
                 </tbody>
               </table>
             </div>
-            <button
-              onClick={() => setShowSecondaryMatrix((v) => !v)}
-              className="flex items-center gap-1 mt-3 text-[11px] text-gray-400 hover:text-gray-600 transition-colors"
-            >
-              {showSecondaryMatrix ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
-              {showSecondaryMatrix ? '收起其他品牌' : `展开其他 ${brands.filter(b => !PRIMARY_BRANDS.has(b)).length} 个品牌`}
-            </button>
+            {brands.some((b) => !PRIMARY_BRANDS.has(b)) && (
+              <button
+                onClick={() => setShowSecondaryMatrix((v) => !v)}
+                className="flex items-center gap-1 mt-3 text-[11px] text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                {showSecondaryMatrix ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
+                {showSecondaryMatrix ? '收起其他品牌' : `展开其他 ${brands.filter(b => !PRIMARY_BRANDS.has(b)).length} 个品牌`}
+              </button>
+            )}
           </div>
         </>
       )}
@@ -577,125 +580,6 @@ function SingleBrandView({
 }
 
 // ── Multi-brand comparison matrix ─────────────────────────────────────────────
-
-function CalculationEvidenceItem({ item }: { item: BrandInsightItem }) {
-  const [open, setOpen] = React.useState(false);
-  const sc = SENTIMENT_CONFIG[item.sentiment];
-  const evidence = filterEvidenceByActiveFiles(item.evidence);
-
-  return (
-    <button
-      type="button"
-      onClick={() => setOpen((value) => !value)}
-      className="w-full rounded-xl border border-gray-100 bg-white px-3 py-3 text-left transition-colors hover:border-gray-200"
-    >
-      <div className="flex items-start gap-2">
-        <span className={cn('mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full', sc.dot)} />
-        <div className="min-w-0 flex-1">
-          <p className="text-[12px] font-medium leading-5 text-gray-800">{item.l3}</p>
-          {evidence.length > 0 && (
-            <span className="mt-1 inline-flex items-center gap-1 text-[10px] text-gray-400">
-              {evidence.length} 项依据
-              {open ? <ChevronDown size={10} /> : <ChevronRight size={10} />}
-            </span>
-          )}
-          {open && evidence.length > 0 && (
-            <div className="mt-2 space-y-2 border-t border-gray-100 pt-2">
-              {evidence.map((text, index) => (
-                <p key={index} className="rounded-lg bg-gray-50 px-2.5 py-2 text-[10px] leading-5 text-gray-500">
-                  {renderHighlightedText(text)}
-                </p>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-    </button>
-  );
-}
-
-function CalculationComparisonView({
-  brands,
-  insights,
-}: {
-  brands: string[];
-  insights: Record<string, BrandInsight>;
-}) {
-  const cards = brands.flatMap((brand) => {
-    const insight = insights[brand];
-    if (!insight) return [];
-    const groups = groupByL1(insight)['产品体验'] ?? [];
-    if (groups.length === 0) return [];
-    return [{ brand, groups }];
-  });
-
-  return (
-    <section className="space-y-4">
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="h-2.5 w-2.5 rounded-full bg-[#4BA69E]" />
-            <h3 className="text-[14px] font-bold text-[#3C8F88]">产品体验与服务能力</h3>
-          </div>
-          <p className="mt-1 pl-[18px] text-[11px] text-gray-400">
-            只展示各方案实际具备的能力证据，不补空白维度。
-          </p>
-        </div>
-        <span className="rounded-full border border-gray-200 bg-white px-3 py-1 text-[10px] text-gray-400">
-          {cards.length} 个方案参与对照
-        </span>
-      </div>
-
-      <div
-        className="grid gap-4"
-        style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}
-      >
-        {cards.map(({ brand, groups }) => (
-          <article
-            key={brand}
-            className="min-w-0 rounded-2xl border border-gray-200 bg-white p-4 shadow-[0_8px_24px_rgba(30,35,40,0.05)]"
-          >
-            <div className="flex items-center gap-2.5 border-b border-gray-100 pb-3">
-              <div
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl text-[12px] font-bold text-white"
-                style={{ backgroundColor: brandColor(brand) }}
-              >
-                {brand.charAt(0)}
-              </div>
-              <div className="min-w-0">
-                <h4 className="truncate text-[13px] font-bold text-gray-900">{brand}</h4>
-                <p className="text-[10px] text-gray-400">
-                  {groups.reduce((count, group) => count + group.items.length, 0)} 项能力判断
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-3 space-y-4">
-              {groups.map((group) => (
-                <div key={group.l2}>
-                  <div className="mb-2 flex items-center justify-between gap-2">
-                    <span className="text-[11px] font-semibold text-gray-600">{group.l2}</span>
-                    <span className={cn(
-                      'rounded-full border px-1.5 py-0.5 text-[9px] font-medium',
-                      SENTIMENT_CONFIG[group.sentiment].tag,
-                    )}>
-                      {SENTIMENT_CONFIG[group.sentiment].label}
-                    </span>
-                  </div>
-                  <div className="space-y-2">
-                    {group.items.map((item, index) => (
-                      <CalculationEvidenceItem key={index} item={item} />
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
 
 function ComparisonMatrix({
   brands,
@@ -916,9 +800,9 @@ export default function CompetitivePage() {
   // Auto-select first brand
   React.useEffect(() => {
     if (allBrands.length > 0 && selectedBrands.length === 0) {
-      setSelectedBrands(isCalculation ? [...allBrands] : [allBrands[0]]);
+      setSelectedBrands([allBrands[0]]);
     }
-  }, [allBrands.length, isCalculation]);
+  }, [allBrands.length]);
 
   const toggleBrand = (brand: string) => {
     setSelectedBrands((prev) =>
@@ -1026,7 +910,7 @@ export default function CompetitivePage() {
       {/* Content */}
       {activeSection === 'voice' ? (
       <div className="flex-1 overflow-auto p-6">
-        {brandFilterBar}
+        {!isCalculation && brandFilterBar}
 
         {/* Cross-brand overview — always visible */}
         <CrossBrandOverview
@@ -1036,16 +920,12 @@ export default function CompetitivePage() {
           onEdit={editor ? () => setEditingOverview(true) : undefined}
         />
 
-        {selectedBrands.length === 0 && (
+        {!isCalculation && selectedBrands.length === 0 && (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <BarChart2 size={36} className="text-gray-200 mb-4" />
             <p className="text-[14px] font-medium text-gray-400">请在上方选择要查看的品牌</p>
             <p className="text-[12px] text-gray-300 mt-1">支持多选，同时对比多个品牌</p>
           </div>
-        )}
-
-        {isCalculation && selectedBrands.length > 0 && (
-          <CalculationComparisonView brands={selectedBrands} insights={compData} />
         )}
 
         {!isCalculation && !isMulti && selectedBrands.length === 1 && compData[selectedBrands[0]] && (
