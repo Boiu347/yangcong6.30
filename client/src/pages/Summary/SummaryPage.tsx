@@ -6,7 +6,7 @@ import fromPrimaryBriefing from '../../content/from-primary-brief.md?raw';
 
 const FROM_PRIMARY_BRIEFING = {
   title: '前情提要',
-  summary: '从增长目标、研究问题、目标人群与预期产出四个方面，说明本次“从小学”研究为何开展。',
+  summary: '从增长目标、研究问题与目标人群三个方面，说明本次“从小学”研究为何开展。',
   markdown: fromPrimaryBriefing,
 };
 
