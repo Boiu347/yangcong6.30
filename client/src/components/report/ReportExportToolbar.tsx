@@ -274,21 +274,55 @@ export default function ReportExportToolbar({
 
   return (
     <div className="shrink-0 border-b border-gray-100 bg-[#FEFDF9]">
-      <div className="flex min-h-12 flex-wrap items-center gap-2 px-3 py-2 sm:px-5">
+      <div className="flex min-h-12 flex-wrap items-start gap-2 px-3 py-2 sm:px-5">
         {briefing && (
-          <button
-            type="button"
-            onClick={() => setBriefingOpen((open) => !open)}
-            aria-expanded={briefingOpen}
-            className="flex min-w-0 flex-1 items-center gap-2 rounded-md border border-[#f0d7cd] bg-[#fff8f4] px-3 py-2 text-left hover:border-[#e7a993]"
-          >
-            <Info size={15} className="shrink-0 text-[#e65532]" />
-            <span className="shrink-0 text-xs font-bold text-[#b94428]">{briefing.title}</span>
-            <span className="hidden min-w-0 truncate text-xs text-[#777] md:block">{briefing.summary}</span>
-            {briefingOpen ? <ChevronUp size={14} className="ml-auto shrink-0 text-[#a45b46]" /> : <ChevronDown size={14} className="ml-auto shrink-0 text-[#a45b46]" />}
-          </button>
+          <div className="min-w-0 flex-1 overflow-hidden rounded-md border border-[#f0d7cd] bg-[#fff8f4] transition-colors hover:border-[#e7a993]">
+            <div className="flex min-w-0 items-center">
+              <button
+                type="button"
+                onClick={() => setBriefingOpen((open) => !open)}
+                aria-expanded={briefingOpen}
+                className="flex min-w-0 flex-1 items-center gap-2 px-3 py-2 text-left"
+              >
+                <Info size={15} className="shrink-0 text-[#e65532]" />
+                <span className="shrink-0 text-xs font-bold text-[#b94428]">{briefing.title}</span>
+                <span className="hidden min-w-0 truncate text-xs text-[#777] md:block">{briefing.summary}</span>
+                {briefingOpen ? <ChevronUp size={14} className="ml-auto shrink-0 text-[#a45b46]" /> : <ChevronDown size={14} className="ml-auto shrink-0 text-[#a45b46]" />}
+              </button>
+
+              {showExportActions && (
+                <div className="mr-2 flex shrink-0 items-center gap-2">
+                  <button
+                    type="button"
+                    disabled={!!exporting}
+                    onClick={() => void handleExport('word')}
+                    className={cn(buttonClass)}
+                  >
+                    {exporting === 'word' ? <Loader2 size={14} className="animate-spin" /> : <FileText size={14} />}
+                    导出 Word
+                  </button>
+                  <button
+                    type="button"
+                    disabled={!!exporting}
+                    onClick={() => void handleExport('pdf')}
+                    className={cn(buttonClass)}
+                  >
+                    {exporting === 'pdf' ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />}
+                    导出 PDF
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {briefingOpen && (
+              <section className="border-t border-[#f0ded6] bg-white px-4 py-5 sm:px-6">
+                <div className="mb-4 text-[11px] font-bold tracking-wide text-[#e65532]">项目背景 · 不计入研究数据来源</div>
+                <BriefingBody markdown={briefing.markdown} />
+              </section>
+            )}
+          </div>
         )}
-        {showExportActions && (
+        {!briefing && showExportActions && (
           <div className="ml-auto flex shrink-0 items-center gap-2">
             <button
               type="button"
@@ -311,15 +345,6 @@ export default function ReportExportToolbar({
           </div>
         )}
       </div>
-
-      {briefing && briefingOpen && (
-        <section className="max-h-[46vh] overflow-y-auto border-t border-[#f0ded6] bg-white px-4 py-5 sm:px-8">
-          <div className="mx-auto max-w-5xl">
-            <div className="mb-4 text-[11px] font-bold tracking-wide text-[#e65532]">项目背景 · 不计入研究数据来源</div>
-            <BriefingBody markdown={briefing.markdown} />
-          </div>
-        </section>
-      )}
 
       {briefing && exporting === 'pdf' && (
         <div
