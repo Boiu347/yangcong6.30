@@ -887,7 +887,7 @@ export default function CompetitivePage() {
 
         <div className="flex items-center gap-0.5 p-0.5 rounded-lg bg-gray-50 border border-gray-100 shrink-0">
           {[
-            { key: 'voice', label: '用户原声分析' },
+            { key: 'voice', label: isCalculation ? '竞品分析' : '用户原声分析' },
             { key: 'reports', label: '行业研究报告' },
           ].map((item) => {
             const active = activeSection === item.key;
