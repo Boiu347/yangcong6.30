@@ -46,6 +46,28 @@ function SourceBadge({ source }: { source: string }) {
   );
 }
 
+function HighlightedVoice({ text, color }: { text: string; color: string }) {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return (
+    <>
+      {parts.map((part, index) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          return (
+            <mark
+              key={`${part}-${index}`}
+              className="rounded px-0.5 font-bold text-gray-900"
+              style={{ backgroundColor: `${color}20` }}
+            >
+              {part.slice(2, -2)}
+            </mark>
+          );
+        }
+        return <React.Fragment key={`${part}-${index}`}>{part}</React.Fragment>;
+      })}
+    </>
+  );
+}
+
 function SatisfactionSurveyView({ theme, color }: { theme: SatisfactionInsightTheme; color: string }) {
   return (
     <>
@@ -164,9 +186,17 @@ function SatisfactionSurveyView({ theme, color }: { theme: SatisfactionInsightTh
                   <div className="mt-3 space-y-2">
                     {item.voices.map((voice) => (
                       <blockquote key={voice.text} className="rounded-xl border border-gray-100 bg-white px-3.5 py-3">
-                        <p className="text-[11px] leading-5 text-gray-700">“{voice.text}”</p>
-                        <footer className="mt-1.5 text-[9px] font-medium" style={{ color: item.color }}>
-                          {voice.context}
+                        <p className="text-[11px] leading-5 text-gray-700">
+                          “<HighlightedVoice text={voice.text} color={item.color} />”
+                        </p>
+                        <footer className="mt-2 flex flex-wrap items-center gap-1.5 text-[9px] font-medium">
+                          <span
+                            className="rounded-full px-2 py-0.5"
+                            style={{ color: item.color, backgroundColor: `${item.color}12` }}
+                          >
+                            {voice.kind}
+                          </span>
+                          <span className="text-gray-400">{voice.context}</span>
                         </footer>
                       </blockquote>
                     ))}

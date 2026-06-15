@@ -77,6 +77,7 @@ export interface SatisfactionVocPath {
   voices: Array<{
     text: string;
     context: string;
+    kind: '高频代表' | '典型阻力' | '强烈负向' | '具体诉求';
   }>;
 }
 
@@ -561,9 +562,10 @@ export const CALCULATION_INSIGHT_THEMES: CalculationInsightTheme[] = [
         purchaseImpact: '该人群同类计算营续购仅 5.5%（3/55）',
         implication: '优先补齐前后测、错因变化和阶段报告，而不是只强调完成任务。',
         voices: [
-          { text: '孩子的错题还是错题。', context: '犹豫续购' },
-          { text: '目前没看到比较有效果的提升。', context: '犹豫续购' },
-          { text: '没感觉到孩子计算提升。', context: '犹豫续购' },
+          { text: '孩子的**错题还是错题**。', context: '犹豫续购', kind: '高频代表' },
+          { text: '目前**没看到比较有效果的提升**。', context: '犹豫续购', kind: '典型阻力' },
+          { text: '学期内比较耽误时间，另外**学习效果没有达到预期**，没有计算营孩子在家也是这么自己学习。', context: '犹豫续购', kind: '强烈负向' },
+          { text: '希望老师针对孩子错题，提供**有针对性的步骤讲解和同类型加练**，三连对才是真的会。', context: '直播建议', kind: '具体诉求' },
         ],
       },
       {
@@ -578,9 +580,10 @@ export const CALCULATION_INSIGHT_THEMES: CalculationInsightTheme[] = [
         purchaseImpact: '该人群同类计算营续购为 21.4%（18/84）',
         implication: '提供轻量、标准、加练档位，并设置缓冲日和可回看内容。',
         voices: [
-          { text: '每天都有，没有缓冲的时间，孩子还有其他作业要写。', context: '犹豫续购' },
-          { text: '学期内比较耽误时间，假期会考虑。', context: '犹豫续购' },
-          { text: '上课期间每天要看 2—3 集视频课，孩子时间压力太大。', context: '其他建议' },
+          { text: '每天都有，**没有缓冲的时间**，孩子还有其他作业要写。', context: '犹豫续购', kind: '高频代表' },
+          { text: '学期内比较耽误时间，**假期会考虑**。', context: '犹豫续购', kind: '典型阻力' },
+          { text: '上课期间每天要看 2—3 集视频课，孩子**时间压力太大**。', context: '其他建议', kind: '强烈负向' },
+          { text: '连续的任务量太密集了，**每周可以休息消化一天**。', context: '任务改进方向', kind: '具体诉求' },
         ],
       },
       {
@@ -595,9 +598,10 @@ export const CALCULATION_INSIGHT_THEMES: CalculationInsightTheme[] = [
         purchaseImpact: '该人群同类计算营续购为 30.0%（21/70）',
         implication: '入营测评后至少提供基础巩固与拔高加练两条任务路径。',
         voices: [
-          { text: '对于苏教版的小孩来说太简单了，题量也太少了。', context: '犹豫续购' },
-          { text: '孩子幼儿园大班，有些内容还是不太能理解。', context: '犹豫续购' },
-          { text: '计算营是否针对不同年级提供分层教学，比如补基础还是提前学？', context: '犹豫续购' },
+          { text: '对于苏教版的小孩来说**太简单了，题量也太少了**。', context: '犹豫续购', kind: '高频代表' },
+          { text: '孩子幼儿园大班，有些内容还是**不太能理解**。', context: '犹豫续购', kind: '典型阻力' },
+          { text: '此次课程**难度不大，没什么用**。', context: '犹豫续购', kind: '强烈负向' },
+          { text: '计算营是否针对不同年级提供**分层教学**，比如补基础还是提前学？', context: '犹豫续购', kind: '具体诉求' },
         ],
       },
       {
@@ -612,9 +616,10 @@ export const CALCULATION_INSIGHT_THEMES: CalculationInsightTheme[] = [
         purchaseImpact: '8 人中 4 人不购买、4 人不确定，0 人明确续购',
         implication: '把及时反馈、错因解释和针对性加练设为可检查的服务标准。',
         voices: [
-          { text: '这老师信息都不看，不回。', context: '直播建议' },
-          { text: '辅导老师的用处并不多，只是反馈是否做题、是否看视频。', context: '犹豫续购' },
-          { text: '希望老师除了指出问题，还能提供针对问题的附加题。', context: '其他建议' },
+          { text: '辅导老师的用处并不多，**只是反馈是否做题、是否看视频**。', context: '犹豫续购', kind: '高频代表' },
+          { text: '老师反馈能不能**主动及时，而不是需要家长催促**。', context: '其他建议', kind: '典型阻力' },
+          { text: '这老师**信息都不看，不回**。', context: '直播建议', kind: '强烈负向' },
+          { text: '希望老师除了指出问题，还能提供**针对问题的附加题**。', context: '其他建议', kind: '具体诉求' },
         ],
       },
       {
@@ -629,9 +634,10 @@ export const CALCULATION_INSIGHT_THEMES: CalculationInsightTheme[] = [
         purchaseImpact: '开放题为主动提及，不能直接换算总体占比',
         implication: '将收费理由从内容数量转为诊断、反馈、加练和进步证明。',
         voices: [
-          { text: '价格偏高，有洋葱会员，每天还是自己看视频学习、自己批改。', context: '犹豫续购' },
-          { text: '本就是洋葱会员，题库的价值并不会值这个价格。', context: '犹豫续购' },
-          { text: '这本来就是洋葱里的内容，有群、有老师督促打卡，就收费 300 元。', context: '犹豫续购' },
+          { text: '价格偏高，有洋葱会员，每天还是**自己看视频学习、自己批改**。', context: '犹豫续购', kind: '高频代表' },
+          { text: '本就是洋葱会员，**题库的价值并不会值这个价格**。', context: '犹豫续购', kind: '典型阻力' },
+          { text: '这本来就是洋葱里的内容，有群、有老师督促打卡，就**收费 300 元**。', context: '犹豫续购', kind: '强烈负向' },
+          { text: '希望价格亲民，能更针对孩子的**薄弱项有的放矢设计学习方案**。', context: '其他建议', kind: '具体诉求' },
         ],
       },
     ],
