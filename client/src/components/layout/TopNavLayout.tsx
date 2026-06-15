@@ -4,6 +4,7 @@ import { useIsEditor } from '../auth/PasswordGate';
 import FileBar from './FileBar';
 
 const standardItems = [
+  { label: '调研背景', path: 'background' },
   { label: '项目总结', path: 'summary' },
   { label: '定性洞察', path: 'qualitative' },
   { label: '竞品分析', path: 'competitive' },
@@ -12,6 +13,7 @@ const standardItems = [
 ];
 
 const computingItems = [
+  { label: '调研背景', path: 'background' },
   { label: '总览', path: 'summary' },
   { label: '研究洞察', path: 'qualitative' },
   { label: '竞品与市场', path: 'competitive' },

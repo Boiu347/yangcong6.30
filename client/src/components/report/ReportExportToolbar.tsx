@@ -27,6 +27,7 @@ interface Props {
   fileName: string;
   briefing?: ReportBriefing;
   showExportActions?: boolean;
+  showBriefingPanel?: boolean;
 }
 
 function downloadBlob(blob: Blob, filename: string) {
@@ -240,6 +241,7 @@ export default function ReportExportToolbar({
   fileName,
   briefing,
   showExportActions = true,
+  showBriefingPanel = true,
 }: Props) {
   const [exporting, setExporting] = React.useState<ExportType | null>(null);
   const [briefingOpen, setBriefingOpen] = React.useState(false);
@@ -275,7 +277,7 @@ export default function ReportExportToolbar({
   return (
     <div className="shrink-0 border-b border-gray-100 bg-[#FEFDF9]">
       <div className="flex min-h-12 flex-wrap items-start gap-2 px-3 py-2 sm:px-5">
-        {briefing && (
+        {briefing && showBriefingPanel && (
           <div className="min-w-0 flex-1 overflow-hidden rounded-md border border-[#f0d7cd] bg-[#fff8f4] transition-colors hover:border-[#e7a993]">
             <div className="flex min-w-0 items-center">
               <button
@@ -322,7 +324,7 @@ export default function ReportExportToolbar({
             )}
           </div>
         )}
-        {!briefing && showExportActions && (
+        {(!briefing || !showBriefingPanel) && showExportActions && (
           <div className="ml-auto flex shrink-0 items-center gap-2">
             <button
               type="button"
