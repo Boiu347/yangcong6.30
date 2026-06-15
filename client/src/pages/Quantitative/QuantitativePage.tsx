@@ -2,148 +2,138 @@ import React from 'react';
 import {
   ArrowDown,
   ArrowRight,
-  BarChart3,
-  Bot,
-  Check,
+  BadgeCheck,
+  CalendarRange,
   ChevronRight,
   CircleDollarSign,
-  Clock3,
-  Database,
-  Eye,
+  Layers3,
   LineChart,
   RefreshCw,
+  Route,
+  ShieldCheck,
   Sparkles,
   Target,
   Users,
 } from 'lucide-react';
 
-const ORANGE = '#FF5722';
-const INK = '#27231F';
-const MUTED = '#756F68';
+const ORANGE = '#E95B35';
+const INK = '#28241F';
+const MUTED = '#746E67';
 
-const findings = [
-  {
-    value: '1.8%',
-    label: '自然渗透率',
-    note: '需求存在，但品类价值尚未被充分理解',
-    color: '#E8572A',
-  },
+type EvidenceType = '问卷数据' | '业务数据' | '业务反馈' | '研究判断' | '待验证';
+
+const evidenceStyle: Record<EvidenceType, string> = {
+  问卷数据: 'border-[#F2B49F] bg-[#FFF2EC] text-[#B74825]',
+  业务数据: 'border-[#A9CDC7] bg-[#ECF7F5] text-[#176F65]',
+  业务反馈: 'border-[#B9CAE2] bg-[#EFF5FB] text-[#326690]',
+  研究判断: 'border-[#C8B7E7] bg-[#F5F0FC] text-[#6840A0]',
+  待验证: 'border-[#D8D2C9] bg-[#F5F3EF] text-[#77716A]',
+};
+
+const coreProblems = [
   {
     value: '52.2%',
-    label: '流失指向价值感不足',
-    note: '“觉得不值”与“效果不明显”是同一问题的两面',
-    color: '#7C3AED',
-  },
-  {
-    value: '30%→60%',
-    label: '续报率提升情景',
-    note: '人均四期 LTV 可由 626 元提升至 1,047 元',
-    color: '#167D70',
-  },
-  {
-    value: '59.7%',
-    label: '高于 300 元不购买',
-    note: '价格压力背后，是教辅升级版的错误锚点',
-    color: '#B7791F',
-  },
-];
-
-const personas = [
-  {
-    id: 'remedial',
-    title: '补差',
-    share: '13.4%',
-    score: '1.75 / 3',
-    priority: '机会型',
-    summary: '问题紧迫、容易触发，但对短期效果期待最高，问题解决后也容易自然流失。',
-    trigger: '考试失分、速度慢',
-    value: '快速定位问题并稳定正确率',
-    risk: '效果落差与短续报周期',
-    color: '#D95555',
-  },
-  {
-    id: 'foundation',
-    title: '巩固－夯实',
-    share: '31.3%',
-    score: '2.75 / 3',
-    priority: 'P0 主力人群',
-    summary: '规模大、体验课路径自然，需求与诊断反馈、专项练习、督学闭环高度匹配。',
-    trigger: '偶尔出错、新学期准备',
-    value: '把不稳定变成稳定，让家长看见具体改善',
-    risk: '痛感不强，需要被“点醒”',
+    title: '价值感知不足',
+    description: '“价格偏高，觉得不值”与“效果不明显”共同指向：家长没有稳定看见进步证据。',
+    source: '问卷数据' as EvidenceType,
     color: ORANGE,
   },
   {
-    id: 'speed',
-    title: '巩固－提速',
-    share: '30.1%',
-    score: '2.25 / 3',
-    priority: '稳定承接',
-    summary: '孩子当前表现不差，主要追求更快更稳，需要用具体、可量化的进步说服。',
-    trigger: '效率提升、减少低级错误',
-    value: '速度与稳定性双重提升',
-    risk: '痛感弱、决策周期较长',
-    color: '#3478B8',
+    value: '19.6%',
+    title: '孩子不能坚持',
+    description: '学习启动仍依赖家长提醒，产品尚未真正兑现“省心”和持续陪练。',
+    source: '问卷数据' as EvidenceType,
+    color: '#3979A8',
   },
   {
-    id: 'advance',
-    title: '提前学',
-    share: '21.2%',
-    score: '2.35 / 3',
-    priority: 'P1 长期价值',
-    summary: '续报动力天然存在，但首购更依赖品牌、口碑和内容体系感。',
-    trigger: '提前准备、拔高冲分',
-    value: '清晰的进阶路线与领先感',
-    risk: '内容深度不足会迅速损伤信任',
-    color: '#7C3AED',
+    value: '17.4%',
+    title: '计算问题已解决',
+    description: '这是计算品类的自然完成信号，也说明下一专题的承接路径必须提前出现。',
+    source: '问卷数据' as EvidenceType,
+    color: '#6E4AA5',
+  },
+  {
+    value: '假期再学',
+    title: '时间节奏错位',
+    description: '家长倾向在寒暑假系统提前学，学期中更需要轻量巩固，而非连续重任务。',
+    source: '业务反馈' as EvidenceType,
+    color: '#B07A24',
   },
 ];
 
-const serviceNeeds = [
-  ['即时批改', 90.2],
-  ['深度诊断', 86.3],
-  ['算理动画课', 84.8],
-  ['专项推题', 84.4],
-  ['答疑服务', 77.5],
-  ['学习记录', 77.1],
-  ['阶段报告', 73],
-  ['督促提醒', 69.2],
-] as const;
+const mismatches = [
+  {
+    icon: CalendarRange,
+    title: '节奏错位',
+    current: '产品按 21 天月度营连续运营',
+    reality: '家长按学期与寒暑假做学习决策',
+    implication: '月度续费率不能单独代表完整需求，应观察关键窗口回流。',
+    source: '业务反馈' as EvidenceType,
+  },
+  {
+    icon: Users,
+    title: '用户混杂',
+    current: '一套产品同时服务夯实与拔高用户',
+    reality: '两类用户对难度、效果与价格的定义不同',
+    implication: '至少通过入营测评和任务分层提供基础型、拔高型路径。',
+    source: '待验证' as EvidenceType,
+  },
+  {
+    icon: CircleDollarSign,
+    title: '权益不对称',
+    current: '计算续报缺少稳定老用户权益',
+    reality: '应用题转化有优惠，也提供了新内容',
+    implication: '同模块续报、跨模块流转与假期预约应形成统一权益。',
+    source: '业务数据' as EvidenceType,
+  },
+];
 
-const retentionLevers = [
+const levers = [
   {
     level: '01',
-    title: '价值感知',
-    tag: '最高 ROI',
-    description: '让家长明确看到孩子哪里变好了，而不是只知道完成了多少题。',
-    actions: ['入营测与结营测对比', '错因变化追踪', '每周进步摘要'],
+    title: '价值外化',
+    priority: 'P0 · 最高 ROI',
+    question: '为什么值？',
+    description: '把学习过程翻译成家长看得懂的进步证据。',
+    actions: ['入营前测与结营后测', '错因、速度与正确率变化', '阶段报告自然引出下一目标'],
     color: ORANGE,
   },
   {
     level: '02',
     title: '本期留存',
-    tag: '解决坚持',
-    description: '把提醒、反馈与成就机制交给产品，减少家长每天催促。',
-    actions: ['主动学习提醒', '连续学习反馈', '异常进度人工介入'],
-    color: '#3478B8',
+    priority: 'P0 · 解决坚持',
+    question: '能不能学完？',
+    description: '让产品承担学习启动和反馈，减少家长每天催促。',
+    actions: ['可设置的主动学习提醒', '2-4 分钟模块化任务', '连续学习反馈与异常介入'],
+    color: '#3979A8',
   },
   {
     level: '03',
     title: '跨期沉淀',
-    tag: '适配节奏',
-    description: '解决学期内时间冲突与两期之间的学习断档。',
-    actions: ['营期间歇与保温内容', '学期节点运营', '结营前下期规划'],
-    color: '#167D70',
+    priority: 'P1 · 适配节奏',
+    question: '什么时候继续？',
+    description: '结营是阶段里程碑，不是数据和关系的终点。',
+    actions: ['学习档案持续累计', '学期中轻量保温', '假期窗口集中转化'],
+    color: '#17786B',
   },
   {
     level: '04',
-    title: '流转衔接',
-    tag: '放大 LTV',
-    description: '当计算问题阶段性解决后，为用户提供下一步，而不是自然离场。',
-    actions: ['夯实转提前学', '计算转应用题', '老用户专属权益'],
-    color: '#7C3AED',
+    title: '流转承接',
+    priority: '战略杠杆',
+    question: '下一步买什么？',
+    description: '计算问题解决后，顺滑进入新的数学专题需求。',
+    actions: ['计算转应用题', '应用题转后续专题', '基于诊断推荐下一阶段'],
+    color: '#7048A8',
   },
 ];
+
+function EvidenceBadge({ type }: { type: EvidenceType }) {
+  return (
+    <span className={`inline-flex rounded-full border px-2.5 py-1 text-[10px] font-bold ${evidenceStyle[type]}`}>
+      {type}
+    </span>
+  );
+}
 
 function SectionTitle({
   eyebrow,
@@ -155,15 +145,15 @@ function SectionTitle({
   description: string;
 }) {
   return (
-    <div className="max-w-3xl mb-10">
-      <div className="flex items-center gap-2 text-[11px] font-bold tracking-[0.18em] uppercase mb-3" style={{ color: ORANGE }}>
-        <span className="w-5 h-[2px] rounded-full" style={{ background: ORANGE }} />
+    <div className="mb-10 max-w-3xl">
+      <div className="mb-3 flex items-center gap-2 text-[11px] font-bold tracking-[0.18em]" style={{ color: ORANGE }}>
+        <span className="h-0.5 w-5 rounded-full" style={{ background: ORANGE }} />
         {eyebrow}
       </div>
-      <h2 className="text-[30px] md:text-[38px] leading-tight font-black tracking-[-0.04em]" style={{ color: INK }}>
+      <h2 className="text-[30px] font-black leading-tight tracking-[-0.04em] md:text-[40px]" style={{ color: INK }}>
         {title}
       </h2>
-      <p className="text-[15px] md:text-[16px] leading-8 mt-4 max-w-2xl" style={{ color: MUTED }}>
+      <p className="mt-4 max-w-2xl text-[15px] leading-8 md:text-[16px]" style={{ color: MUTED }}>
         {description}
       </p>
     </div>
@@ -182,41 +172,44 @@ function Section({
   return (
     <section
       id={id}
-      className="scroll-mt-20 px-5 md:px-10 py-20 md:py-28"
-      style={{ background: tinted ? '#F5F1EA' : '#FBFAF7' }}
+      className="scroll-mt-20 px-5 py-20 md:px-10 md:py-28"
+      style={{ background: tinted ? '#F4F0E9' : '#FBFAF7' }}
     >
-      <div className="max-w-[1080px] mx-auto">{children}</div>
+      <div className="mx-auto max-w-[1100px]">{children}</div>
     </section>
   );
 }
 
 export default function QuantitativePage() {
-  const [activePersona, setActivePersona] = React.useState(personas[1]);
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     window.history.replaceState(null, '', `#${id}`);
   };
 
+  const navItems = [
+    ['verdict', '核心判断'],
+    ['model', '模式推演'],
+    ['problems', '续费问题'],
+    ['mismatch', '结构错配'],
+    ['growth', '增长路径'],
+    ['levers', '四层杠杆'],
+    ['foundation', '配套机制'],
+    ['metrics', '指标升级'],
+  ];
+
   return (
     <div className="min-h-full" style={{ background: '#FBFAF7', color: INK }}>
       <div className="sticky top-0 z-30 border-b border-[#E7E0D6]/90 bg-[#FBFAF7]/90 backdrop-blur-xl">
-        <div className="max-w-[1080px] mx-auto h-12 px-5 md:px-10 flex items-center gap-5 overflow-x-auto">
-          <span className="text-[12px] font-black whitespace-nowrap" style={{ color: ORANGE }}>
-            计算营研究
+        <div className="mx-auto flex h-12 max-w-[1100px] items-center gap-5 overflow-x-auto px-5 md:px-10">
+          <span className="whitespace-nowrap text-[12px] font-black" style={{ color: ORANGE }}>
+            计算营商业总览
           </span>
-          {[
-            ['overview', '核心发现'],
-            ['users', '用户结构'],
-            ['decision', '购买决策'],
-            ['model', '商业判断'],
-            ['retention', '续报增长'],
-            ['method', '研究说明'],
-          ].map(([id, label]) => (
+          {navItems.map(([id, label]) => (
             <button
               key={id}
               type="button"
               onClick={() => scrollToSection(id)}
-              className="text-[12px] font-medium whitespace-nowrap text-[#7A746D] hover:text-[#FF5722] transition-colors"
+              className="whitespace-nowrap text-[12px] font-medium text-[#7A746D] transition-colors hover:text-[#E95B35]"
             >
               {label}
             </button>
@@ -224,330 +217,264 @@ export default function QuantitativePage() {
         </div>
       </div>
 
-      <header className="relative overflow-hidden px-5 md:px-10 py-20 md:py-28 border-b border-[#E8E1D7]">
+      <header className="relative overflow-hidden border-b border-[#E8E1D7] px-5 py-20 md:px-10 md:py-28">
         <div
-          className="absolute inset-0 pointer-events-none"
+          className="pointer-events-none absolute inset-0"
           style={{
             background:
-              'radial-gradient(circle at 82% 12%, rgba(255,87,34,.13), transparent 30%), radial-gradient(circle at 10% 90%, rgba(124,58,237,.08), transparent 32%)',
+              'radial-gradient(circle at 84% 12%, rgba(233,91,53,.15), transparent 29%), radial-gradient(circle at 12% 88%, rgba(112,72,168,.08), transparent 30%)',
           }}
         />
-        <div className="relative max-w-[1080px] mx-auto grid md:grid-cols-[1.25fr_.75fr] gap-14 items-end">
+        <div className="relative mx-auto grid max-w-[1100px] items-end gap-14 md:grid-cols-[1.18fr_.82fr]">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#FF5722]/20 bg-[#FF5722]/5 text-[11px] font-bold tracking-[0.12em] mb-7" style={{ color: ORANGE }}>
-              QUANTITATIVE RESEARCH · 2026
+            <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-[#E95B35]/20 bg-[#E95B35]/5 px-3 py-1.5 text-[11px] font-bold tracking-[0.12em]" style={{ color: ORANGE }}>
+              BUSINESS MODEL · RETENTION · 2026
             </div>
-            <h1 className="text-[46px] md:text-[72px] leading-[1.02] font-black tracking-[-0.06em]" style={{ color: INK }}>
-              计算营不是
+            <h1 className="text-[44px] font-black leading-[1.04] tracking-[-0.06em] md:text-[68px]">
+              不是连续买计算，
               <br />
-              更多的题。
+              而是持续解决
+              <br />
+              <span style={{ color: ORANGE }}>数学专项问题。</span>
             </h1>
-            <p className="text-[18px] md:text-[22px] leading-9 font-semibold mt-7 max-w-2xl" style={{ color: '#4D4741' }}>
-              它应该是一项让孩子持续进步、让家长真正省心的
-              <span style={{ color: ORANGE }}>计算专项陪练服务</span>。
+            <p className="mt-7 max-w-2xl text-[17px] font-semibold leading-9 text-[#4D4741] md:text-[21px]">
+              计算营应被重新定义为
+              <span style={{ color: ORANGE }}>小学数学专题服务订阅体系的入口模块</span>。
             </p>
-            <p className="text-[14px] leading-7 mt-5 max-w-xl" style={{ color: MUTED }}>
-              本专题基于 396 份有效问卷、已购用户满意度开放题与业务侧反馈，沿着“发生了什么、意味着什么、先做什么”的顺序呈现研究结论。
+            <p className="mt-5 max-w-xl text-[13px] leading-7" style={{ color: MUTED }}>
+              本页综合问卷数据、业务数据与业务反馈形成阶段性商业判断。页面中的方向性建议并非实验结果，仍需通过产品灰度和长期行为数据验证。
             </p>
           </div>
 
-          <div className="rounded-[28px] border border-white/80 bg-white/65 backdrop-blur-xl p-7 shadow-[0_24px_70px_rgba(70,54,40,.10)]">
-            <p className="text-[11px] font-bold tracking-[0.14em] mb-6" style={{ color: MUTED }}>
-              一条核心因果链
+          <div className="rounded-[28px] border border-white/80 bg-white/70 p-7 shadow-[0_24px_70px_rgba(70,54,40,.10)] backdrop-blur-xl">
+            <p className="mb-6 text-[11px] font-bold tracking-[0.14em]" style={{ color: MUTED }}>
+              经营逻辑的变化
             </p>
             {[
-              ['市场有真实需求', '73.5% 对现有方案不满意'],
-              ['价值没有被理解', '33.6% 仍将其视作教辅升级版'],
-              ['效果没有被看见', '52.2% 流失指向价值感不足'],
-              ['续报成为增长瓶颈', '当前业务续报率约 30%'],
-            ].map(([title, note], index) => (
-              <React.Fragment key={title}>
+              ['过去', '关注单期计算营是否续报'],
+              ['现在', '关注用户是否留在数学专题学习路径'],
+              ['结果', '计算 → 应用题 → 后续专题模块'],
+            ].map(([label, text], index) => (
+              <React.Fragment key={label}>
                 <div className="flex gap-4">
                   <span
-                    className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-[11px] font-black text-white"
-                    style={{ background: index === 3 ? ORANGE : '#2F2B27' }}
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[11px] font-black text-white"
+                    style={{ background: index === 2 ? ORANGE : '#302B26' }}
                   >
                     {index + 1}
                   </span>
                   <div>
-                    <p className="text-[14px] font-bold">{title}</p>
-                    <p className="text-[12px] mt-1" style={{ color: MUTED }}>{note}</p>
+                    <p className="text-[11px] font-bold" style={{ color: MUTED }}>{label}</p>
+                    <p className="mt-1 text-[14px] font-bold leading-6">{text}</p>
                   </div>
                 </div>
-                {index < 3 && <ArrowDown size={15} className="ml-1.5 my-3 text-[#B8B0A7]" />}
+                {index < 2 && <ArrowDown size={15} className="my-3 ml-2 text-[#B8B0A7]" />}
               </React.Fragment>
             ))}
           </div>
         </div>
       </header>
 
-      <Section id="overview">
+      <Section id="verdict">
         <SectionTitle
-          eyebrow="01 · 核心发现"
-          title="问题不在需求上限，而在价值认知。"
-          description="四个数字勾勒出计算营当前最关键的经营矛盾：市场有需求，但用户仍在用教辅的心理账户评估一项服务。"
+          eyebrow="01 · 核心判断"
+          title="计算营不是无限订阅，也不只是低价引流。"
+          description="计算内容有明确终点，学习需求具有阶段性，家长也会按学期和假期安排投入。因此，更准确的商业定位是“分阶段服务订阅”。"
         />
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {findings.map((item) => (
-            <article key={item.label} className="rounded-2xl border border-[#E8E1D7] bg-white p-6 min-h-[190px] flex flex-col">
-              <div className="text-[34px] font-black tracking-[-0.05em]" style={{ color: item.color }}>
-                {item.value}
-              </div>
-              <h3 className="text-[14px] font-bold mt-4">{item.label}</h3>
-              <p className="text-[12px] leading-6 mt-3" style={{ color: MUTED }}>{item.note}</p>
-              <span className="w-8 h-1 rounded-full mt-auto pt-5" style={{ borderBottom: `3px solid ${item.color}` }} />
+        <div className="grid gap-5 md:grid-cols-3">
+          {[
+            ['不是纯订阅', '计算内容有限、进步容易衡量，达成目标后会自然结束。', '纯订阅假设不成立'],
+            ['不是单纯引流', '部分家长愿意为阶段性改善、陪练和反馈持续付费。', '服务价值真实存在'],
+            ['是阶段订阅', '围绕孩子阶段性短板，在若干学期持续购买不同专题服务。', '推荐商业定位'],
+          ].map(([title, description, tag], index) => (
+            <article
+              key={title}
+              className="rounded-[24px] border p-7"
+              style={{
+                background: index === 2 ? '#2D2925' : '#FFFFFF',
+                borderColor: index === 2 ? '#2D2925' : '#E5DED5',
+                color: index === 2 ? '#FFFFFF' : INK,
+              }}
+            >
+              <span className="text-[11px] font-bold tracking-[0.12em]" style={{ color: index === 2 ? '#FF9D7D' : MUTED }}>
+                {tag}
+              </span>
+              <h3 className="mt-5 text-[23px] font-black">{title}</h3>
+              <p className={`mt-4 text-[13px] leading-7 ${index === 2 ? 'text-[#D8D2CB]' : 'text-[#746E67]'}`}>
+                {description}
+              </p>
             </article>
           ))}
         </div>
-
-        <div className="mt-8 rounded-[24px] bg-[#29241F] text-white p-7 md:p-9 grid md:grid-cols-[.8fr_1.2fr] gap-8 items-center">
+        <div className="mt-7 flex gap-3 rounded-2xl border border-[#CDBCE8] bg-[#F7F2FD] p-5">
+          <BadgeCheck size={20} className="mt-0.5 shrink-0 text-[#7048A8]" />
           <div>
-            <div className="flex items-center gap-2 text-[#FF8A65] text-[11px] font-bold tracking-[0.14em]">
-              <Target size={15} />
-              RESEARCH VERDICT
-            </div>
-            <p className="text-[24px] md:text-[30px] leading-snug font-black mt-4">
-              让进步可见，
-              <br />
-              是当前最高优先级。
+            <EvidenceBadge type="研究判断" />
+            <p className="mt-3 text-[14px] font-bold leading-7 text-[#4B356B]">
+              真正需要经营的不是“计算营订阅”，而是“小学数学专项能力提升服务”。
             </p>
-          </div>
-          <p className="text-[14px] leading-8 text-[#D8D1CA]">
-            在现有证据下，不应首先把问题理解为“399 元太贵”，而应先解决用户不知道贵在哪里、也无法判断孩子是否变好的问题。价值外化是边际成本更低、覆盖用户更广的改进方向。
-          </p>
-        </div>
-      </Section>
-
-      <Section id="users" tinted>
-        <SectionTitle
-          eyebrow="02 · 用户结构"
-          title="不是一种计算需求，而是四条不同的成长路径。"
-          description="这里不设置全局筛选。四类人群只作为一张局部阅读地图，帮助理解谁适合优先承接，以及不同人群为什么会购买。"
-        />
-
-        <div className="grid md:grid-cols-[.78fr_1.22fr] gap-6">
-          <div className="space-y-3">
-            {personas.map((persona) => {
-              const active = activePersona.id === persona.id;
-              return (
-                <button
-                  key={persona.id}
-                  type="button"
-                  onClick={() => setActivePersona(persona)}
-                  className="w-full text-left rounded-2xl p-5 transition-all border"
-                  style={{
-                    background: active ? '#FFFFFF' : 'rgba(255,255,255,.45)',
-                    borderColor: active ? persona.color : '#E2DBD1',
-                    boxShadow: active ? '0 14px 35px rgba(72,54,40,.08)' : 'none',
-                  }}
-                >
-                  <div className="flex items-center justify-between gap-4">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-[16px] font-black">{persona.title}</span>
-                        {persona.id === 'foundation' && (
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-black text-white" style={{ background: ORANGE }}>
-                            P0
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-[11px] mt-1" style={{ color: MUTED }}>{persona.priority}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-[22px] font-black" style={{ color: persona.color }}>{persona.share}</p>
-                      <p className="text-[10px]" style={{ color: MUTED }}>样本占比</p>
-                    </div>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-
-          <article className="rounded-[28px] border border-white bg-white p-7 md:p-9 shadow-[0_20px_60px_rgba(73,54,38,.09)]">
-            <div className="flex items-start justify-between gap-5">
-              <div>
-                <p className="text-[11px] font-bold tracking-[0.14em]" style={{ color: activePersona.color }}>
-                  {activePersona.priority}
-                </p>
-                <h3 className="text-[30px] font-black tracking-[-0.04em] mt-2">{activePersona.title}</h3>
-              </div>
-              <div className="rounded-2xl px-4 py-3 text-center" style={{ background: `${activePersona.color}12` }}>
-                <p className="text-[18px] font-black" style={{ color: activePersona.color }}>{activePersona.score}</p>
-                <p className="text-[10px] mt-1" style={{ color: MUTED }}>综合潜力分</p>
-              </div>
-            </div>
-            <p className="text-[15px] leading-8 mt-7" style={{ color: '#514B45' }}>{activePersona.summary}</p>
-            <div className="grid sm:grid-cols-3 gap-3 mt-8">
-              {[
-                ['购买触发', activePersona.trigger, Target],
-                ['核心价值', activePersona.value, Sparkles],
-                ['主要风险', activePersona.risk, Eye],
-              ].map(([label, text, Icon]) => (
-                <div key={String(label)} className="rounded-2xl bg-[#F8F5F0] p-4">
-                  <Icon size={17} style={{ color: activePersona.color }} />
-                  <p className="text-[11px] font-bold mt-3" style={{ color: MUTED }}>{String(label)}</p>
-                  <p className="text-[13px] leading-6 font-semibold mt-1">{String(text)}</p>
-                </div>
-              ))}
-            </div>
-            {activePersona.id === 'foundation' && (
-              <div className="mt-7 flex gap-3 rounded-2xl border border-[#FF5722]/15 bg-[#FF5722]/5 p-4">
-                <Check size={18} className="shrink-0 mt-0.5" style={{ color: ORANGE }} />
-                <p className="text-[13px] leading-6 text-[#694232]">
-                  推荐作为主力承接人群：用低门槛体验建立信任，再用可见的进步证据推动续报。
-                </p>
-              </div>
-            )}
-          </article>
-        </div>
-      </Section>
-
-      <Section id="decision">
-        <SectionTitle
-          eyebrow="03 · 购买决策"
-          title="家长买的不是内容，而是一套反馈闭环。"
-          description="内容是基础，但真正拉开计算营与教辅差异的，是及时纠错、识别薄弱点、针对性练习，以及减少家长介入。"
-        />
-
-        <div className="grid lg:grid-cols-[1.2fr_.8fr] gap-6">
-          <div className="rounded-[26px] border border-[#E8E1D7] bg-white p-6 md:p-8">
-            <div className="flex items-center justify-between gap-5 mb-8">
-              <div>
-                <p className="text-[14px] font-black">家长认为“必须有”的服务</p>
-                <p className="text-[11px] mt-1" style={{ color: MUTED }}>多选题，按选择率排序</p>
-              </div>
-              <BarChart3 size={22} style={{ color: ORANGE }} />
-            </div>
-            <div className="space-y-4">
-              {serviceNeeds.map(([label, value], index) => (
-                <div key={label}>
-                  <div className="flex items-center justify-between text-[12px] mb-1.5">
-                    <span className="font-semibold">{label}</span>
-                    <span className="font-black" style={{ color: index < 4 ? ORANGE : MUTED }}>{value}%</span>
-                  </div>
-                  <div className="h-2.5 rounded-full bg-[#F0ECE6] overflow-hidden">
-                    <div
-                      className="h-full rounded-full"
-                      style={{
-                        width: `${value}%`,
-                        background: index < 4 ? `linear-gradient(90deg, ${ORANGE}, #FF8A65)` : '#B9B1A7',
-                      }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <div className="rounded-[26px] bg-[#FFF1EB] border border-[#FFD7C8] p-7">
-              <CircleDollarSign size={22} style={{ color: ORANGE }} />
-              <p className="text-[24px] leading-snug font-black mt-5">300 元是表象，价格锚点才是问题。</p>
-              <p className="text-[13px] leading-7 mt-4 text-[#765446]">
-                33.6% 的家长把计算营理解为“练习册或题卡升级版”。当参照物只有几十元，399 元自然显得不值。
-              </p>
-            </div>
-            <div className="rounded-[26px] bg-[#29241F] text-white p-7">
-              <Users size={22} className="text-[#FF8A65]" />
-              <p className="text-[18px] font-black mt-5">更合适的定位锚点</p>
-              <p className="text-[14px] leading-7 mt-3 text-[#D9D2CB]">
-                从“教辅升级版”转向“高性价比的专项陪练服务”：不是多给题，而是持续告诉孩子错在哪里、该练什么、有没有变好。
-              </p>
-            </div>
-            <div className="rounded-[26px] border border-[#E8E1D7] bg-white p-6">
-              <p className="text-[11px] font-bold tracking-[0.12em]" style={{ color: MUTED }}>一句话产品介绍</p>
-              <p className="text-[16px] leading-7 font-black mt-3">
-                每天有人陪孩子练、及时纠错，并把进步清楚地反馈给家长。
-              </p>
-            </div>
           </div>
         </div>
       </Section>
 
       <Section id="model" tinted>
         <SectionTitle
-          eyebrow="04 · 商业判断"
-          title="从卖一门课，转向经营一段持续关系。"
-          description="当计算营被定义为服务订阅，定价锚点、产品优先级和衡量指标都会改变。续报不是销售动作，而是服务价值是否成立的结果。"
+          eyebrow="02 · 模式推演"
+          title="为什么流利说式的纯订阅难以直接复制？"
+          description="英语订阅依赖内容无限、高频使用和进步模糊；计算在这三个条件上恰好相反。差异决定了产品必须承认阶段终点，并主动设计下一阶段。"
         />
-
         <div className="overflow-hidden rounded-[26px] border border-[#DFD7CC] bg-white">
-          <div className="grid grid-cols-[.8fr_1fr_1fr] bg-[#2B2621] text-white text-[12px] font-bold">
-            <div className="p-4 md:p-5">比较维度</div>
-            <div className="p-4 md:p-5 border-l border-white/10">内容课逻辑</div>
-            <div className="p-4 md:p-5 border-l border-white/10 text-[#FF9A76]">服务订阅逻辑</div>
+          <div className="grid grid-cols-[.8fr_1fr_1fr] bg-[#2B2621] text-[12px] font-bold text-white">
+            <div className="p-4 md:p-5">成立条件</div>
+            <div className="border-l border-white/10 p-4 md:p-5">英语订阅</div>
+            <div className="border-l border-white/10 p-4 text-[#FF9A76] md:p-5">计算营现实</div>
           </div>
           {[
-            ['付费原因', '课程内容是否值得买', '孩子是否变好，家长是否省心'],
-            ['价格锚点', '课时数、教辅书价格', '专项诊断、督学与服务成本'],
-            ['留存关键', '有没有新内容', '效果能否持续被看见'],
-            ['核心指标', '首购转化与客单价', '续报率、LTV 与长期留存'],
-          ].map(([dimension, oldValue, newValue]) => (
-            <div key={dimension} className="grid grid-cols-[.8fr_1fr_1fr] text-[12px] md:text-[13px] border-t border-[#EEE8E0]">
-              <div className="p-4 md:p-5 font-black">{dimension}</div>
-              <div className="p-4 md:p-5 border-l border-[#EEE8E0] leading-6" style={{ color: MUTED }}>{oldValue}</div>
-              <div className="p-4 md:p-5 border-l border-[#EEE8E0] leading-6 font-semibold text-[#A23A19] bg-[#FFF8F4]">{newValue}</div>
+            ['内容边界', '长期无限，可持续学习', '小学计算有限，有明确完成点'],
+            ['使用频率', '语言可每天使用和练习', '需求常按学期、假期阶段出现'],
+            ['进步衡量', '流利度渐进且较模糊', '正确率、速度和成绩容易衡量'],
+            ['续费含义', '维持习惯与能力', '进入下一短板或下一专题'],
+          ].map(([dimension, english, calculation]) => (
+            <div key={dimension} className="grid grid-cols-[.8fr_1fr_1fr] border-t border-[#EEE8E0] text-[12px] md:text-[13px]">
+              <div className="p-4 font-black md:p-5">{dimension}</div>
+              <div className="border-l border-[#EEE8E0] p-4 leading-6 text-[#746E67] md:p-5">{english}</div>
+              <div className="border-l border-[#EEE8E0] bg-[#FFF8F4] p-4 font-semibold leading-6 text-[#A23A19] md:p-5">{calculation}</div>
             </div>
           ))}
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-4 mt-7">
-          {[
-            ['30%', '当前续报率', '626 元', '四期人均 LTV'],
-            ['45%', '中间情景', '800 元', '较当前增长 28%'],
-            ['60%', '目标情景', '1,047 元', '较当前增长 67%'],
-          ].map(([rate, label, ltv, note], index) => (
-            <div
-              key={rate}
-              className="rounded-2xl border p-6"
-              style={{
-                background: index === 2 ? '#FFF1EB' : '#FFFFFF',
-                borderColor: index === 2 ? '#FFB397' : '#E4DDD4',
-              }}
-            >
-              <div className="flex items-center justify-between">
-                <LineChart size={20} style={{ color: index === 2 ? ORANGE : '#8D857C' }} />
-                <span className="text-[11px]" style={{ color: MUTED }}>{label}</span>
-              </div>
-              <p className="text-[34px] font-black mt-5" style={{ color: index === 2 ? ORANGE : INK }}>{rate}</p>
-              <p className="text-[17px] font-black mt-3">{ltv}</p>
-              <p className="text-[11px] mt-1" style={{ color: MUTED }}>{note}</p>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-6 rounded-2xl border-l-4 border-[#7C3AED] bg-white p-6">
-          <p className="text-[14px] font-black text-[#5D2BA6]">为什么不优先全面降价？</p>
-          <p className="text-[13px] leading-7 mt-2" style={{ color: MUTED }}>
-            399 元降至 299 元意味着客单下降约 25%，续报率需提升至接近 55% 才能弥补 LTV 损失。相比之下，先让用户明确看见服务价值，更可能同时改善首购信任与后续续报。
-          </p>
         </div>
       </Section>
 
-      <Section id="retention">
+      <Section id="problems">
         <SectionTitle
-          eyebrow="05 · 续报增长"
-          title="续报问题，需要按四层杠杆逐步解决。"
-          description="优惠只是最后一环。用户首先要相信第一期有效，孩子愿意持续，产品节奏能承接，才会自然进入下一期或下一个模块。"
+          eyebrow="03 · 续费问题"
+          title="续费低不是一个问题，而是四种不同的离开理由。"
+          description="价值没有被看见、孩子难以坚持、计算阶段自然完成，以及产品节奏与家庭安排错位，需要分别处理，不能都归因于价格。"
         />
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {coreProblems.map((problem) => (
+            <article key={problem.title} className="flex min-h-[240px] flex-col rounded-2xl border border-[#E8E1D7] bg-white p-6">
+              <EvidenceBadge type={problem.source} />
+              <div className="mt-5 text-[29px] font-black tracking-[-0.04em]" style={{ color: problem.color }}>
+                {problem.value}
+              </div>
+              <h3 className="mt-3 text-[15px] font-black">{problem.title}</h3>
+              <p className="mt-3 text-[12px] leading-6" style={{ color: MUTED }}>{problem.description}</p>
+              <span className="mt-auto w-8 pt-5" style={{ borderBottom: `3px solid ${problem.color}` }} />
+            </article>
+          ))}
+        </div>
+        <div className="mt-8 rounded-[26px] bg-[#2D2925] p-7 text-white md:p-9">
+          <div className="grid items-center gap-7 md:grid-cols-[.75fr_1.25fr]">
+            <div>
+              <Target size={24} className="text-[#FF9A76]" />
+              <p className="mt-4 text-[24px] font-black leading-snug">价值外化仍是第一优先级。</p>
+            </div>
+            <p className="text-[14px] leading-8 text-[#D9D2CB]">
+              如果家长没有先相信第一期有效，续费优惠、跨期运营和后续模块承接都很难成立。先证明孩子哪里变好了，再讨论为什么继续。
+            </p>
+          </div>
+        </div>
+      </Section>
 
-        <div className="grid md:grid-cols-2 gap-5">
-          {retentionLevers.map((lever) => (
-            <article key={lever.level} className="rounded-[26px] border border-[#E7E0D7] bg-white p-7">
+      <Section id="mismatch" tinted>
+        <SectionTitle
+          eyebrow="04 · 结构性错配"
+          title="业务反馈揭示了三个比促销更底层的问题。"
+          description="这些判断中，节奏错位与权益差异已有业务信号；用户分层仍需要更充分的交叉数据和产品实验验证。"
+        />
+        <div className="grid gap-5 lg:grid-cols-3">
+          {mismatches.map(({ icon: Icon, title, current, reality, implication, source }) => (
+            <article key={title} className="rounded-[25px] border border-[#E1D9CF] bg-white p-7">
+              <div className="flex items-start justify-between gap-4">
+                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#FFF0EA] text-[#E95B35]">
+                  <Icon size={21} />
+                </span>
+                <EvidenceBadge type={source} />
+              </div>
+              <h3 className="mt-6 text-[22px] font-black">{title}</h3>
+              <div className="mt-5 space-y-3 text-[12px] leading-6">
+                <p><span className="font-bold text-[#9A948C]">当前：</span>{current}</p>
+                <p><span className="font-bold text-[#9A948C]">现实：</span>{reality}</p>
+              </div>
+              <div className="mt-5 rounded-2xl bg-[#F7F4EF] p-4 text-[12px] font-semibold leading-6 text-[#554D45]">
+                {implication}
+              </div>
+            </article>
+          ))}
+        </div>
+      </Section>
+
+      <Section id="growth">
+        <SectionTitle
+          eyebrow="05 · 增长路径"
+          title="从月度续费，转向完整学年中的三段经营。"
+          description="学期中维持关系，寒暑假集中转化，计算完成后流向下一个专题。三段共同决定用户生命周期价值。"
+        />
+        <div className="rounded-[28px] border border-[#E4DDD3] bg-white p-6 md:p-9">
+          <div className="grid gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr] md:items-stretch">
+            {[
+              {
+                label: '学期中',
+                title: '轻量维系',
+                description: '巩固、查漏补缺、短任务与持续反馈，不增加家庭负担。',
+                icon: RefreshCw,
+                color: '#3979A8',
+              },
+              {
+                label: '寒暑假',
+                title: '系统突破',
+                description: '承接集中提前学与高客单专题产品，完成关键窗口转化。',
+                icon: CalendarRange,
+                color: ORANGE,
+              },
+              {
+                label: '问题解决后',
+                title: '跨模块流转',
+                description: '从计算进入应用题、思维、几何等后续专项路径。',
+                icon: Route,
+                color: '#7048A8',
+              },
+            ].map(({ label, title, description, icon: Icon, color }, index) => (
+              <React.Fragment key={title}>
+                <div className="rounded-2xl p-5" style={{ background: `${color}0D` }}>
+                  <Icon size={21} style={{ color }} />
+                  <p className="mt-5 text-[11px] font-bold" style={{ color }}>{label}</p>
+                  <h3 className="mt-1 text-[20px] font-black">{title}</h3>
+                  <p className="mt-3 text-[12px] leading-6" style={{ color: MUTED }}>{description}</p>
+                </div>
+                {index < 2 && <ArrowRight className="hidden self-center text-[#B6AEA5] md:block" size={18} />}
+              </React.Fragment>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      <Section id="levers" tinted>
+        <SectionTitle
+          eyebrow="06 · 四层杠杆"
+          title="先证明有效，再让用户自然进入下一阶段。"
+          description="四层杠杆按用户决策顺序展开。优惠不是起点，第一期的效果感知和完成体验才是后续复购的前提。"
+        />
+        <div className="grid gap-5 md:grid-cols-2">
+          {levers.map((lever) => (
+            <article key={lever.level} className="rounded-[26px] border border-[#E2DBD2] bg-white p-7">
               <div className="flex items-center justify-between gap-4">
                 <span className="text-[12px] font-black tracking-[0.12em]" style={{ color: lever.color }}>
                   LEVEL {lever.level}
                 </span>
-                <span className="px-2.5 py-1 rounded-full text-[10px] font-bold" style={{ color: lever.color, background: `${lever.color}12` }}>
-                  {lever.tag}
+                <span className="rounded-full px-2.5 py-1 text-[10px] font-bold" style={{ color: lever.color, background: `${lever.color}12` }}>
+                  {lever.priority}
                 </span>
               </div>
-              <h3 className="text-[23px] font-black mt-4">{lever.title}</h3>
-              <p className="text-[13px] leading-7 mt-3" style={{ color: MUTED }}>{lever.description}</p>
+              <div className="mt-5 flex items-end justify-between gap-4">
+                <h3 className="text-[24px] font-black">{lever.title}</h3>
+                <span className="text-[12px] font-bold" style={{ color: MUTED }}>{lever.question}</span>
+              </div>
+              <p className="mt-3 text-[13px] leading-7" style={{ color: MUTED }}>{lever.description}</p>
               <div className="mt-6 space-y-2.5">
                 {lever.actions.map((action) => (
                   <div key={action} className="flex items-center gap-3 text-[12px] font-semibold">
-                    <span className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: `${lever.color}14`, color: lever.color }}>
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full" style={{ background: `${lever.color}14`, color: lever.color }}>
                       <ChevronRight size={13} />
                     </span>
                     {action}
@@ -557,72 +484,107 @@ export default function QuantitativePage() {
             </article>
           ))}
         </div>
+      </Section>
 
-        <div className="mt-8 rounded-[28px] bg-[#29241F] text-white p-7 md:p-10">
-          <div className="grid md:grid-cols-[.8fr_1.2fr] gap-8 items-center">
+      <Section id="foundation">
+        <SectionTitle
+          eyebrow="07 · 配套机制"
+          title="四层杠杆需要三项基础设施支撑。"
+          description="用户分层决定服务谁，节奏适配决定何时卖，老用户权益决定持续购买是否具有身份价值。"
+        />
+        <div className="grid gap-5 md:grid-cols-3">
+          {[
+            {
+              icon: Users,
+              title: '用户分层',
+              description: '用入营测评与任务难度区分基础夯实型和拔高型路径，避免两类用户都觉得不匹配。',
+              status: '方向已明确，差异规模待验证',
+              source: '待验证' as EvidenceType,
+            },
+            {
+              icon: Layers3,
+              title: '节奏适配',
+              description: '从单一月度营改为“学期中轻量 + 寒暑假系统突破”的双轨产品结构。',
+              status: '已有业务反馈支持',
+              source: '业务反馈' as EvidenceType,
+            },
+            {
+              icon: ShieldCheck,
+              title: '老用户权益',
+              description: '统一同模块续报、跨模块转化和假期预约权益，让持续学习获得明确奖励。',
+              status: '需结合价格实验验证',
+              source: '研究判断' as EvidenceType,
+            },
+          ].map(({ icon: Icon, title, description, status, source }) => (
+            <article key={title} className="rounded-[25px] border border-[#E5DED5] bg-white p-7">
+              <div className="flex items-center justify-between">
+                <Icon size={22} style={{ color: ORANGE }} />
+                <EvidenceBadge type={source} />
+              </div>
+              <h3 className="mt-6 text-[20px] font-black">{title}</h3>
+              <p className="mt-3 text-[13px] leading-7" style={{ color: MUTED }}>{description}</p>
+              <p className="mt-6 border-t border-[#EEE8E1] pt-4 text-[11px] font-bold text-[#9A938B]">{status}</p>
+            </article>
+          ))}
+        </div>
+      </Section>
+
+      <Section id="metrics" tinted>
+        <SectionTitle
+          eyebrow="08 · 指标升级"
+          title="单月续费率不再足以衡量这门生意。"
+          description="如果用户按学期与假期决策，且可以跨专题复购，就需要用更长周期和更完整的价值口径评价计算营。"
+        />
+        <div className="grid gap-4 md:grid-cols-3">
+          {([
+            ['学年周期续费率', '观察用户是否在完整学年内回流，而非要求每 21 天连续购买。', CalendarRange],
+            ['寒暑假窗口转化率', '验证集中提前学是否真的更适合家庭决策节奏。', LineChart],
+            ['跨模块 LTV', '衡量计算营是否成功带动应用题和后续专题复购。', Layers3],
+          ] as const).map(([title, description, Icon]) => (
+            <article key={String(title)} className="rounded-2xl border border-[#E2DAD0] bg-white p-6">
+              <Icon size={22} style={{ color: ORANGE }} />
+              <h3 className="mt-5 text-[16px] font-black">{String(title)}</h3>
+              <p className="mt-3 text-[12px] leading-7" style={{ color: MUTED }}>{String(description)}</p>
+            </article>
+          ))}
+        </div>
+
+        <div className="mt-9 rounded-[30px] bg-[#29241F] p-7 text-white md:p-10">
+          <div className="grid gap-8 md:grid-cols-[.72fr_1.28fr] md:items-center">
             <div>
-              <RefreshCw size={26} className="text-[#FF8A65]" />
-              <p className="text-[25px] font-black leading-snug mt-5">理想的续报链路</p>
+              <Sparkles size={25} className="text-[#FF9A76]" />
+              <p className="mt-5 text-[25px] font-black leading-snug">
+                最终经营路径
+              </p>
+              <p className="mt-3 text-[12px] leading-6 text-[#BEB7B0]">
+                计算营负责打开入口，后续专题负责延展用户生命周期价值。
+              </p>
             </div>
             <div className="flex flex-wrap items-center gap-2 text-[12px] font-bold">
-              {['低门槛体验', '看见具体进步', '形成学习节奏', '获得下期规划', '进入下一阶段'].map((item, index) => (
+              {['计算营', '应用题营', '思维 / 几何', '更多专项模块'].map((item, index) => (
                 <React.Fragment key={item}>
-                  <span className="rounded-xl bg-white/10 border border-white/10 px-4 py-3">{item}</span>
-                  {index < 4 && <ArrowRight size={14} className="text-[#918980]" />}
+                  <span className="rounded-xl border border-white/10 bg-white/10 px-4 py-3">{item}</span>
+                  {index < 3 && <ArrowRight size={14} className="text-[#918980]" />}
                 </React.Fragment>
               ))}
             </div>
           </div>
         </div>
-      </Section>
 
-      <Section id="method" tinted>
-        <SectionTitle
-          eyebrow="06 · 研究说明"
-          title="这是一项以定量证据为主的研究。"
-          description="页面不把有限的开放题与业务反馈包装成完整的定性研究。它们只用于解释数据现象、提出假设，并明确区分事实、推断和待验证方向。"
-        />
-
-        <div className="grid md:grid-cols-3 gap-4">
-          {[
-            {
-              icon: Database,
-              title: '主要证据',
-              content: '396 份有效定量问卷，覆盖需求结构、购买决策、服务偏好、价格敏感度与用户分层。',
-            },
-            {
-              icon: Clock3,
-              title: '补充信号',
-              content: '已购用户满意度开放题与业务侧反馈，用于辅助解释流失、节奏错位和服务体验。',
-            },
-            {
-              icon: Bot,
-              title: '判断边界',
-              content: '方向性建议基于数据推演，并非实验结果；具体产品方案仍需通过灰度测试和行为数据验证。',
-            },
-          ].map(({ icon: Icon, title, content }) => (
-            <article key={title} className="rounded-2xl border border-[#E2DAD0] bg-white/70 p-6">
-              <Icon size={21} style={{ color: ORANGE }} />
-              <h3 className="text-[15px] font-black mt-5">{title}</h3>
-              <p className="text-[12px] leading-7 mt-3" style={{ color: MUTED }}>{content}</p>
-            </article>
-          ))}
-        </div>
-
-        <div className="mt-9 flex flex-col md:flex-row md:items-center justify-between gap-5 pt-8 border-t border-[#DED6CC]">
+        <div className="mt-8 flex flex-col justify-between gap-5 border-t border-[#DED6CC] pt-8 md:flex-row md:items-center">
           <div>
-            <p className="text-[11px] font-bold tracking-[0.12em]" style={{ color: MUTED }}>最终判断</p>
-            <p className="text-[21px] md:text-[25px] font-black mt-2">
-              让孩子的进步可见且持续，尽可能省妈。
+            <p className="text-[11px] font-bold tracking-[0.12em]" style={{ color: MUTED }}>阶段性结论</p>
+            <p className="mt-2 text-[20px] font-black md:text-[25px]">
+              学期中维持关系，假期集中转化，跨专题提升 LTV。
             </p>
           </div>
           <button
             type="button"
-            onClick={() => scrollToSection('overview')}
+            onClick={() => scrollToSection('verdict')}
             className="inline-flex items-center gap-2 text-[12px] font-bold"
             style={{ color: ORANGE }}
           >
-            返回核心发现
+            返回核心判断
             <ArrowRight size={14} />
           </button>
         </div>

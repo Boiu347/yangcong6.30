@@ -10,6 +10,7 @@ import QualitativePage from './pages/Qualitative/QualitativePage';
 import CompetitivePage from './pages/Competitive/CompetitivePage';
 import QuantitativePage from './pages/Quantitative/QuantitativePage';
 import MarketingPage from './pages/Marketing/MarketingPage';
+import BackgroundPage from './pages/Background/BackgroundPage';
 import NotFound from './pages/NotFound/NotFound';
 
 const RoutesComponent = () => {
@@ -28,6 +29,7 @@ const RoutesComponent = () => {
       {/* All project detail pages share the top tab bar */}
       <Route path="/projects/:projectId" element={<TopNavLayout />}>
         <Route index element={<Navigate to="summary" replace />} />
+        <Route path="background" element={<BackgroundPage />} />
         <Route path="summary" element={<SummaryPage />} />
         <Route path="qualitative" element={<QualitativePage />} />
         <Route path="competitive" element={<CompetitivePage />} />
