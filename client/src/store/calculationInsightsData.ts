@@ -63,6 +63,23 @@ export interface SatisfactionRelation {
   }>;
 }
 
+export interface SatisfactionVocPath {
+  id: string;
+  title: string;
+  metric: string;
+  scope: string;
+  color: string;
+  source: string;
+  signal: string;
+  path: string[];
+  purchaseImpact: string;
+  implication: string;
+  voices: Array<{
+    text: string;
+    context: string;
+  }>;
+}
+
 export interface SatisfactionInsightTheme {
   layout: 'satisfaction-survey';
   id: 'satisfaction';
@@ -74,6 +91,7 @@ export interface SatisfactionInsightTheme {
   metrics: InsightMetric[];
   distributionBars: SatisfactionDistribution[];
   purchaseIntent: SatisfactionSegment[];
+  dissatisfactionPaths: SatisfactionVocPath[];
   driverRelations: SatisfactionRelation[];
   improvementSignals: Array<{
     title: string;
@@ -447,9 +465,9 @@ export const CALCULATION_INSIGHT_THEMES: CalculationInsightTheme[] = [
     id: 'satisfaction',
     tab: '满意度调研',
     eyebrow: '05 · 结营体验与后续意向',
-    title: '高满意不等于自然续费，效果可见才是转化关键。',
+    title: '满意是表层，续购被效果、节奏与匹配度共同卡住。',
     thesis:
-      '老师服务和任务安排获得高评价，但明确续购同类计算营的用户只有 41.3%。交叉结果显示，效果感知、任务节奏和及时反馈与继续付费意向存在明显关联，下一步应把满意体验转化为可见进步和清晰的后续学习路径。',
+      '老师服务和任务安排总体评价较高，但明确续购同类计算营的用户只有 41.3%。逐条回答显示，不满意并非单一问题，而是沿着“效果未显现、节奏不适配、难度不匹配、老师反馈不足、价格价值存疑”五条路径形成，并进一步影响续购判断。',
     sample: '3月期 · N=247 · 96.8%由家长填写 · 一至六年级',
     metrics: [
       {
@@ -530,6 +548,93 @@ export const CALCULATION_INSIGHT_THEMES: CalculationInsightTheme[] = [
       { label: '暂不确定', value: 30.0, count: 74, color: '#D9A34F' },
       { label: '不购买', value: 4.9, count: 12, color: '#E07A6E' },
     ],
+    dissatisfactionPaths: [
+      {
+        id: 'effect',
+        title: '效果未显现',
+        metric: '22.3%',
+        scope: '55/247 · 封闭题',
+        color: '#D45C54',
+        source: '能力锻炼题 + 续购题',
+        signal: '50 人暂未看到变化，5 人明确认为没有效果。',
+        path: ['进步没有被看见', '价值感下降', '续购转为犹豫或退出'],
+        purchaseImpact: '该人群同类计算营续购仅 5.5%（3/55）',
+        implication: '优先补齐前后测、错因变化和阶段报告，而不是只强调完成任务。',
+        voices: [
+          { text: '孩子的错题还是错题。', context: '犹豫续购' },
+          { text: '目前没看到比较有效果的提升。', context: '犹豫续购' },
+          { text: '没感觉到孩子计算提升。', context: '犹豫续购' },
+        ],
+      },
+      {
+        id: 'rhythm',
+        title: '时间与任务节奏',
+        metric: '34.0%',
+        scope: '84/247 · 封闭题',
+        color: '#D59A3A',
+        source: '任务量题 + 改进方向',
+        signal: '84 人未给任务量最高评价，其中 51 人希望每周留一天缓冲。',
+        path: ['任务过密或过少', '与校内及家庭安排冲突', '推迟到假期或放弃'],
+        purchaseImpact: '该人群同类计算营续购为 21.4%（18/84）',
+        implication: '提供轻量、标准、加练档位，并设置缓冲日和可回看内容。',
+        voices: [
+          { text: '每天都有，没有缓冲的时间，孩子还有其他作业要写。', context: '犹豫续购' },
+          { text: '学期内比较耽误时间，假期会考虑。', context: '犹豫续购' },
+          { text: '上课期间每天要看 2—3 集视频课，孩子时间压力太大。', context: '其他建议' },
+        ],
+      },
+      {
+        id: 'difficulty',
+        title: '内容难度与分层',
+        metric: '28.3%',
+        scope: '70/247 · 封闭题',
+        color: '#5B7BBF',
+        source: '学习难度题 + 开放题',
+        signal: '61 人认为偏简单，9 人认为偏困难，需求同时向两端分化。',
+        path: ['难度与孩子不匹配', '内容帮助感不足', '要求分层或转向其他专项'],
+        purchaseImpact: '该人群同类计算营续购为 30.0%（21/70）',
+        implication: '入营测评后至少提供基础巩固与拔高加练两条任务路径。',
+        voices: [
+          { text: '对于苏教版的小孩来说太简单了，题量也太少了。', context: '犹豫续购' },
+          { text: '孩子幼儿园大班，有些内容还是不太能理解。', context: '犹豫续购' },
+          { text: '计算营是否针对不同年级提供分层教学，比如补基础还是提前学？', context: '犹豫续购' },
+        ],
+      },
+      {
+        id: 'teacher',
+        title: '老师反馈与服务感',
+        metric: '3.2%',
+        scope: '8/247 · 封闭题',
+        color: '#4BA69E',
+        source: '老师服务题 + 开放题',
+        signal: '8 人评价一般、很少联系到辅导；人数少，但对续购影响极强。',
+        path: ['联系少或反馈弱', '服务价值无法感知', '续购意向直接归零'],
+        purchaseImpact: '8 人中 4 人不购买、4 人不确定，0 人明确续购',
+        implication: '把及时反馈、错因解释和针对性加练设为可检查的服务标准。',
+        voices: [
+          { text: '这老师信息都不看，不回。', context: '直播建议' },
+          { text: '辅导老师的用处并不多，只是反馈是否做题、是否看视频。', context: '犹豫续购' },
+          { text: '希望老师除了指出问题，还能提供针对问题的附加题。', context: '其他建议' },
+        ],
+      },
+      {
+        id: 'value',
+        title: '价格与价值感',
+        metric: '≥9条',
+        scope: '开放题信号 · 非发生率',
+        color: '#8B6BB8',
+        source: '犹豫原因 + 其他建议',
+        signal: '价格常与会员内容重复、老师投入有限和题库价值不足同时出现。',
+        path: ['感知交付与会员重叠', '300 元价值难解释', '性价比质疑'],
+        purchaseImpact: '开放题为主动提及，不能直接换算总体占比',
+        implication: '将收费理由从内容数量转为诊断、反馈、加练和进步证明。',
+        voices: [
+          { text: '价格偏高，有洋葱会员，每天还是自己看视频学习、自己批改。', context: '犹豫续购' },
+          { text: '本就是洋葱会员，题库的价值并不会值这个价格。', context: '犹豫续购' },
+          { text: '这本来就是洋葱里的内容，有群、有老师督促打卡，就收费 300 元。', context: '犹豫续购' },
+        ],
+      },
+    ],
     driverRelations: [
       {
         title: '效果感知',
@@ -594,6 +699,6 @@ export const CALCULATION_INSIGHT_THEMES: CalculationInsightTheme[] = [
       '对 23.9% 的跨专项需求承接应用题、思维和几何专题。',
     ],
     caveat:
-      '本页来自结营后主动填写问卷的人群，可能高估整体满意度；交叉结果仅表示变量相关，不证明因果，也不能替代真实业务续报率。',
+      '本页来自结营后主动填写问卷的人群，可能高估整体满意度；原因路径允许同一用户重复出现，开放题提及量也不等于总体发生率。交叉结果仅表示变量相关，不证明因果，也不能替代真实业务续报率。',
   },
 ];
