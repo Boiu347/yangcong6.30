@@ -425,7 +425,7 @@ export const JTB_INTERVIEWS: JtbInterview[] = [
     phone: '15007920119',
     status: '已购',
     purchaseType: '首购',
-    minutesUrl: `${MINUTES}/`,
+    minutesUrl: `${MINUTES}/obcn44jlc3nbhc462s2l53f5`,
     transcriptUrl: `${DOCX}/LoJ7dHrOLoFCZsxxCkucYhF0nZd`,
     insights: [
       {
@@ -477,7 +477,7 @@ export const JTB_INTERVIEWS: JtbInterview[] = [
     phone: '18758572530',
     status: '已购',
     purchaseType: '首购',
-    minutesUrl: `${MINUTES}/`,
+    minutesUrl: `${MINUTES}/obcn472ymh339893fqq42x44`,
     transcriptUrl: `${DOCX}/ZugIdEfyMopR60xNguucPsRMnTd`,
     insights: [
       {
@@ -528,7 +528,7 @@ export const JTB_INTERVIEWS: JtbInterview[] = [
     phone: '18682498381',
     status: '已购',
     purchaseType: '首购',
-    minutesUrl: `${MINUTES}/`,
+    minutesUrl: `${MINUTES}/obcn9bb5r8dvbkr3p1z5tta2`,
     transcriptUrl: `${DOCX}/GYCMdxWn0oHndjxLS0XcTrLgnIc`,
     insights: [
       {
@@ -578,7 +578,7 @@ export const JTB_INTERVIEWS: JtbInterview[] = [
     phone: '13149321499',
     status: '已购',
     purchaseType: '首购（4 娃全龄段）',
-    minutesUrl: `${MINUTES}/`,
+    minutesUrl: `${MINUTES}/obcn9rm6otsm9aqxj6mmb93y`,
     transcriptUrl: `${DOCX}/FOnbdg5fRouUkMxfWtkcvDohnQD`,
     insights: [
       {
@@ -648,7 +648,6 @@ export const JTB_INTERVIEWS: JtbInterview[] = [
     phone: '15273563443',
     status: '已购',
     purchaseType: '升单',
-    minutesUrl: `${MINUTES}/`,
     transcriptUrl: `${DOCX}/UFGtdfAwBokU3xxNWeBciA9dnng`,
     insights: [
       {
@@ -734,7 +733,7 @@ export const JTB_INTERVIEWS: JtbInterview[] = [
     status: '未购',
     purchaseType: '未购（最终购买小初品）',
     priority: 'P6',
-    minutesUrl: `${MINUTES}/`,
+    minutesUrl: `${MINUTES}/obcn5n7i9hr8gqw16643j21h`,
     transcriptUrl: `${DOCX}/HtLkdKGbuoI0dLx3SBicXFVDnvw`,
     insights: [
       {

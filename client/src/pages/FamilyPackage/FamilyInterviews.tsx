@@ -9,7 +9,11 @@ import {
   X,
   MapPin,
   ChevronRight,
+  Library,
+  Copy,
+  Headphones,
 } from 'lucide-react';
+import { toast } from 'sonner';
 import { JTB_INTERVIEWS, JtbInterview, JtbOnion } from '../../store/jiatingbaoData';
 import { cn } from '@/lib/utils';
 
@@ -33,13 +37,59 @@ const ONION_LABELS: { key: keyof JtbOnion; label: string; color: string }[] = [
   { key: 'feedback', label: '建议 / 反馈', color: '#5BBF96' },
 ];
 
-// ── helpers ───────────────────────────────────────────────────────────────
+// ── 学段映射（小低=1-3年级，小高=4-6年级） ─────────────────────────────
+
+const STAGE_RANK = ['学前', '小低', '小高', '初中', '高中', '已毕业'];
+const CN_NUM: Record<string, number> = { 一: 1, 二: 2, 三: 3, 四: 4, 五: 5, 六: 6 };
+
+function gradeToStage(token: string): string {
+  const t = token.trim();
+  if (/中班|幼儿园|小班|大班|学前/.test(t)) return '学前';
+  if (/已毕业|毕业/.test(t)) return '已毕业';
+  if (/高[一二三]|高中/.test(t)) return '高中';
+  if (/初[一二三]|初中|[七八九]年级/.test(t)) return '初中';
+  let n = 0;
+  const ar = t.match(/(\d+)\s*年级/);
+  if (ar) n = parseInt(ar[1], 10);
+  else {
+    const cn = t.match(/([一二三四五六])\s*年级/);
+    if (cn) n = CN_NUM[cn[1]] ?? 0;
+  }
+  if (n >= 1 && n <= 3) return '小低';
+  if (n >= 4 && n <= 6) return '小高';
+  return '其他';
+}
+
+/** 把孩子年级组合归一为学段组合标签，如「小低+小高」「学前+小低+小高+初中」 */
+function comboLabelOf(itv: JtbInterview): string {
+  const stages = itv.combo.split('&').map((s) => gradeToStage(s));
+  const uniq = Array.from(new Set(stages));
+  uniq.sort((a, b) => STAGE_RANK.indexOf(a) - STAGE_RANK.indexOf(b));
+  return uniq.join('+');
+}
+
+function groupByCombo(list: JtbInterview[]): { label: string; items: JtbInterview[] }[] {
+  const map = new Map<string, JtbInterview[]>();
+  for (const itv of list) {
+    const label = comboLabelOf(itv);
+    if (!map.has(label)) map.set(label, []);
+    map.get(label)!.push(itv);
+  }
+  const labels = Array.from(map.keys()).sort((a, b) => {
+    const sa = STAGE_RANK.indexOf(a.split('+')[0]);
+    const sb = STAGE_RANK.indexOf(b.split('+')[0]);
+    if (sa !== sb) return sa - sb;
+    return a.localeCompare(b, 'zh');
+  });
+  return labels.map((label) => ({ label, items: map.get(label)!.slice().sort((x, y) => x.seq - y.seq) }));
+}
+
+// ── 通用 helper ─────────────────────────────────────────────────────────
 
 function hasDetail(itv: JtbInterview): boolean {
   return itv.insights.length > 0 || ONION_LABELS.some(({ key }) => itv.onion[key]?.length) || itv.quotes.length > 0;
 }
 
-/** 一行 teaser：优先首条洞察标题，其次首句原声 */
 function teaserOf(itv: JtbInterview): string {
   if (!hasDetail(itv)) return '访谈纪要整理中';
   if (itv.insights[0]?.title) return itv.insights[0].title;
@@ -47,7 +97,11 @@ function teaserOf(itv: JtbInterview): string {
   return itv.study[0] ?? '';
 }
 
-/** 把杂乱的 purchaseType 归一成购买阶段 */
+function hasMinutes(itv: JtbInterview): boolean {
+  return !!itv.minutesUrl && !itv.minutesUrl.endsWith('/');
+}
+
+// 购买性质（用于概览分布）
 function stageOf(itv: JtbInterview): string {
   const t = itv.purchaseType ?? '';
   if (itv.status === '未购' || t.includes('未购')) return '未购';
@@ -57,8 +111,8 @@ function stageOf(itv: JtbInterview): string {
   return '已购';
 }
 
-const STAGE_ORDER = ['首购', '续购', '升单', '已购', '未购'];
-const STAGE_COLOR: Record<string, string> = {
+const PURCHASE_STAGE_ORDER = ['首购', '续购', '升单', '已购', '未购'];
+const PURCHASE_STAGE_COLOR: Record<string, string> = {
   首购: '#4BA69E',
   续购: '#5B7BBF',
   升单: '#BF9455',
@@ -98,7 +152,7 @@ function Cockpit() {
   const pending = JTB_INTERVIEWS.filter((i) => !hasDetail(i)).length;
   const regions = Array.from(new Set(JTB_INTERVIEWS.map((i) => i.region.slice(0, 2))));
 
-  const stageCounts = STAGE_ORDER.map((s) => ({
+  const stageCounts = PURCHASE_STAGE_ORDER.map((s) => ({
     stage: s,
     count: JTB_INTERVIEWS.filter((i) => stageOf(i) === s).length,
   })).filter((s) => s.count > 0);
@@ -112,7 +166,6 @@ function Cockpit() {
         <Metric label="最多孩家庭" value="4 娃" note="年龄跨度近 10 年（用户8）" />
       </div>
 
-      {/* 购买性质分布 */}
       <div className="rounded-xl border border-[#E8E2D9] bg-white p-4">
         <div className="mb-3 flex items-center gap-2">
           <Sparkles size={13} className="text-[#e65532]" />
@@ -122,7 +175,7 @@ function Cockpit() {
           {stageCounts.map((s) => (
             <div
               key={s.stage}
-              style={{ width: `${(s.count / total) * 100}%`, backgroundColor: STAGE_COLOR[s.stage] }}
+              style={{ width: `${(s.count / total) * 100}%`, backgroundColor: PURCHASE_STAGE_COLOR[s.stage] }}
               title={`${s.stage} ${s.count}`}
             />
           ))}
@@ -130,7 +183,7 @@ function Cockpit() {
         <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5">
           {stageCounts.map((s) => (
             <div key={s.stage} className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: STAGE_COLOR[s.stage] }} />
+              <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: PURCHASE_STAGE_COLOR[s.stage] }} />
               <span className="text-[12px] text-gray-600">{s.stage}</span>
               <span className="text-[12px] font-bold text-gray-800">{s.count}</span>
             </div>
@@ -141,7 +194,7 @@ function Cockpit() {
   );
 }
 
-// ── 家庭卡片（画廊） ─────────────────────────────────────────────────────
+// ── 家庭卡片 ─────────────────────────────────────────────────────────────
 
 function FamilyCard({ itv, onOpen }: { itv: JtbInterview; onOpen: (itv: JtbInterview) => void }) {
   const detail = hasDetail(itv);
@@ -152,7 +205,7 @@ function FamilyCard({ itv, onOpen }: { itv: JtbInterview; onOpen: (itv: JtbInter
       type="button"
       onClick={() => detail && onOpen(itv)}
       className={cn(
-        'group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[#E8E2D9] bg-white pl-4 pr-4 py-4 text-left transition-all',
+        'group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[#E8E2D9] bg-white py-4 pl-4 pr-4 text-left transition-all',
         detail ? 'cursor-pointer hover:-translate-y-0.5 hover:border-[#e65532]/40 hover:shadow-[2px_4px_0_rgba(0,0,0,0.06)]' : 'cursor-default opacity-60',
       )}
     >
@@ -195,12 +248,11 @@ function FamilyCard({ itv, onOpen }: { itv: JtbInterview; onOpen: (itv: JtbInter
   );
 }
 
-// ── 详情内容（抽屉里复用） ───────────────────────────────────────────────
+// ── 详情内容（抽屉里复用，不含链接） ─────────────────────────────────────
 
 function InterviewDetail({ itv }: { itv: JtbInterview }) {
   return (
     <div className="space-y-5">
-      {/* Insights */}
       {itv.insights.length > 0 && (
         <div className="space-y-3">
           {itv.insights.map((ins, i) => (
@@ -218,7 +270,6 @@ function InterviewDetail({ itv }: { itv: JtbInterview }) {
         </div>
       )}
 
-      {/* Study situation */}
       {itv.study.length > 0 && (
         <div>
           <div className="mb-2 flex items-center gap-1.5">
@@ -236,7 +287,6 @@ function InterviewDetail({ itv }: { itv: JtbInterview }) {
         </div>
       )}
 
-      {/* Onion content */}
       {ONION_LABELS.some(({ key }) => itv.onion[key]?.length) && (
         <div>
           <div className="mb-2 flex items-center gap-1.5">
@@ -266,7 +316,6 @@ function InterviewDetail({ itv }: { itv: JtbInterview }) {
         </div>
       )}
 
-      {/* Quotes */}
       {itv.quotes.length > 0 && (
         <div>
           <div className="mb-2 flex items-center gap-1.5">
@@ -278,22 +327,6 @@ function InterviewDetail({ itv }: { itv: JtbInterview }) {
               <div key={i} className="rounded-lg bg-gray-50 px-3 py-2 text-[12px] italic leading-6 text-gray-600">“{q}”</div>
             ))}
           </div>
-        </div>
-      )}
-
-      {/* Links */}
-      {(itv.transcriptUrl || (itv.minutesUrl && !itv.minutesUrl.endsWith('/'))) && (
-        <div className="flex flex-wrap items-center gap-3 border-t border-gray-100 pt-3">
-          {itv.minutesUrl && !itv.minutesUrl.endsWith('/') && (
-            <a href={itv.minutesUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1 text-[11.5px] font-medium text-[#5B7BBF] hover:underline">
-              <ExternalLink size={11} /> 查看访谈妙记
-            </a>
-          )}
-          {itv.transcriptUrl && (
-            <a href={itv.transcriptUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1 text-[11.5px] font-medium text-gray-500 hover:underline">
-              <FileText size={11} /> 查看文字记录
-            </a>
-          )}
         </div>
       )}
     </div>
@@ -316,9 +349,8 @@ function DetailDrawer({ itv, onClose }: { itv: JtbInterview | null; onClose: () 
 
   return (
     <div className="fixed inset-0 z-50">
-      <div className="absolute inset-0 bg-black/30 animate-in fade-in" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/30" onClick={onClose} />
       <div className="absolute right-0 top-0 flex h-full w-full max-w-[480px] flex-col bg-white shadow-2xl">
-        {/* header */}
         <div className="flex items-start gap-3 border-b border-[#E8E2D9] bg-[#FEFDF9] px-5 py-4">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#e65532]/10 text-[14px] font-extrabold text-[#e65532]">
             {itv.seq}
@@ -343,7 +375,6 @@ function DetailDrawer({ itv, onClose }: { itv: JtbInterview | null; onClose: () 
             <X size={18} />
           </button>
         </div>
-        {/* body */}
         <div className="flex-1 overflow-y-auto px-5 py-5">
           <InterviewDetail itv={itv} />
         </div>
@@ -352,13 +383,191 @@ function DetailDrawer({ itv, onClose }: { itv: JtbInterview | null; onClose: () 
   );
 }
 
+// ── 访谈资料库（链接库） ─────────────────────────────────────────────────
+
+function LibraryDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
+  React.useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  const list = JTB_INTERVIEWS.slice().sort((a, b) => a.seq - b.seq);
+
+  const openAll = () => {
+    let count = 0;
+    for (const itv of list) {
+      if (hasMinutes(itv)) {
+        window.open(itv.minutesUrl, '_blank');
+        count++;
+      }
+      if (itv.transcriptUrl) {
+        window.open(itv.transcriptUrl, '_blank');
+        count++;
+      }
+    }
+    if (count === 0) toast.error('暂无可打开的链接');
+    else toast.success(`已尝试打开 ${count} 个链接（浏览器可能拦截弹窗，请允许）`);
+  };
+
+  const copyAll = async () => {
+    const lines: string[] = [];
+    for (const itv of list) {
+      const parts: string[] = [];
+      if (hasMinutes(itv)) parts.push(`妙记 ${itv.minutesUrl}`);
+      if (itv.transcriptUrl) parts.push(`文字记录 ${itv.transcriptUrl}`);
+      if (parts.length) lines.push(`用户${itv.seq} ${itv.parent}（${itv.combo}）\n  ${parts.join('\n  ')}`);
+    }
+    const text = lines.join('\n\n');
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.success('已复制全部链接到剪贴板');
+    } catch {
+      toast.error('复制失败，请手动复制');
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50">
+      <div className="absolute inset-0 bg-black/30" onClick={onClose} />
+      <div className="absolute right-0 top-0 flex h-full w-full max-w-[520px] flex-col bg-white shadow-2xl">
+        <div className="flex items-center gap-3 border-b border-[#E8E2D9] bg-[#FEFDF9] px-5 py-4">
+          <Library size={16} className="text-[#e65532]" />
+          <div className="flex-1">
+            <div className="text-[15px] font-bold text-gray-900">访谈资料库</div>
+            <div className="text-[11px] text-gray-400">每户的妙记录音与文字记录，点击在飞书打开</div>
+          </div>
+          <button onClick={onClose} className="shrink-0 rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-600">
+            <X size={18} />
+          </button>
+        </div>
+
+        <div className="flex items-center gap-2 border-b border-[#F0EDE7] px-5 py-3">
+          <button
+            onClick={openAll}
+            className="flex items-center gap-1.5 rounded-lg bg-[#e65532] px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-[#d34427]"
+          >
+            <ExternalLink size={13} /> 全部打开
+          </button>
+          <button
+            onClick={copyAll}
+            className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-[12px] font-medium text-gray-600 hover:border-gray-300"
+          >
+            <Copy size={13} /> 复制全部链接
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto px-5 py-4">
+          <div className="space-y-2">
+            {list.map((itv) => {
+              const minutes = hasMinutes(itv);
+              const transcript = !!itv.transcriptUrl;
+              return (
+                <div key={itv.id} className="flex items-center gap-3 rounded-xl border border-[#E8E2D9] bg-white px-3.5 py-2.5">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#e65532]/10 text-[12px] font-extrabold text-[#e65532]">
+                    {itv.seq}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-1.5">
+                      <span className="truncate text-[13px] font-bold text-gray-800">{itv.parent}</span>
+                      <StatusBadge status={itv.status} />
+                    </div>
+                    <div className="truncate text-[11px] text-gray-400">{itv.combo} · {itv.region}</div>
+                  </div>
+                  <div className="flex shrink-0 items-center gap-1.5">
+                    {minutes ? (
+                      <a
+                        href={itv.minutesUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex items-center gap-1 rounded-md border border-[#5B7BBF]/30 px-2 py-1 text-[11px] font-medium text-[#5B7BBF] hover:bg-[#5B7BBF]/5"
+                      >
+                        <Headphones size={11} /> 妙记
+                      </a>
+                    ) : (
+                      <span className="rounded-md border border-gray-100 px-2 py-1 text-[11px] text-gray-300">无妙记</span>
+                    )}
+                    {transcript ? (
+                      <a
+                        href={itv.transcriptUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex items-center gap-1 rounded-md border border-gray-200 px-2 py-1 text-[11px] font-medium text-gray-600 hover:bg-gray-50"
+                      >
+                        <FileText size={11} /> 文字记录
+                      </a>
+                    ) : (
+                      <span className="rounded-md border border-gray-100 px-2 py-1 text-[11px] text-gray-300">无记录</span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── 分区 + 二级分组 ─────────────────────────────────────────────────────
+
+function SectionBlock({
+  title,
+  tone,
+  list,
+  onOpen,
+}: {
+  title: string;
+  tone: 'purchased' | 'unpurchased';
+  list: JtbInterview[];
+  onOpen: (itv: JtbInterview) => void;
+}) {
+  if (list.length === 0) return null;
+  const groups = groupByCombo(list);
+  const dot = tone === 'purchased' ? 'bg-emerald-500' : 'bg-rose-500';
+
+  return (
+    <section className="space-y-4">
+      <div className="flex items-center gap-2 border-b border-[#E8E2D9] pb-2">
+        <span className={cn('h-3 w-3 rounded-full', dot)} />
+        <h3 className="text-[16px] font-extrabold text-gray-900">{title}</h3>
+        <span className="text-[12px] text-gray-400">{list.length} 户 · {groups.length} 个年级组合</span>
+      </div>
+
+      <div className="space-y-5">
+        {groups.map((g) => (
+          <div key={g.label}>
+            <div className="mb-2.5 flex items-center gap-2">
+              <span className="rounded-md bg-[#e65532]/10 px-2 py-0.5 text-[12px] font-bold text-[#e65532]">{g.label}</span>
+              <span className="text-[11px] text-gray-400">{g.items.length} 户</span>
+              <span className="h-px flex-1 bg-[#F0EDE7]" />
+            </div>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+              {g.items.map((itv) => (
+                <FamilyCard key={itv.id} itv={itv} onOpen={onOpen} />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 // ── 主页面 ───────────────────────────────────────────────────────────────
 
 export default function FamilyInterviews() {
-  const [filter, setFilter] = React.useState<'全部' | '已购' | '未购'>('全部');
   const [selected, setSelected] = React.useState<JtbInterview | null>(null);
+  const [libraryOpen, setLibraryOpen] = React.useState(false);
 
-  const list = JTB_INTERVIEWS.filter((i) => filter === '全部' || i.status === filter).sort((a, b) => a.seq - b.seq);
+  const purchased = JTB_INTERVIEWS.filter((i) => i.status === '已购');
+  const unpurchased = JTB_INTERVIEWS.filter((i) => i.status === '未购');
 
   return (
     <div className="flex h-full flex-col">
@@ -371,39 +580,26 @@ export default function FamilyInterviews() {
             <span className="text-[11px] text-gray-400">{JTB_INTERVIEWS.length} 位受访家庭</span>
           </div>
           <div className="flex-1" />
-          <div className="flex items-center gap-1.5">
-            {(['全部', '已购', '未购'] as const).map((f) => (
-              <button
-                key={f}
-                onClick={() => setFilter(f)}
-                className={cn(
-                  'rounded-full border px-2.5 py-1 text-[11px] font-medium transition-all',
-                  filter === f
-                    ? 'border-transparent bg-[#e65532] text-white'
-                    : 'border-gray-200 bg-white text-gray-500 hover:border-gray-300',
-                )}
-              >
-                {f}
-              </button>
-            ))}
-          </div>
+          <button
+            onClick={() => setLibraryOpen(true)}
+            className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-[12px] font-semibold text-gray-600 hover:border-[#e65532]/40 hover:text-[#e65532]"
+          >
+            <Library size={14} /> 访谈资料库
+          </button>
         </div>
       </div>
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto px-6 py-5">
-        <div className="mx-auto max-w-[1180px] space-y-6">
-          {filter === '全部' && <Cockpit />}
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {list.map((itv) => (
-              <FamilyCard key={itv.id} itv={itv} onOpen={setSelected} />
-            ))}
-          </div>
+        <div className="mx-auto max-w-[1180px] space-y-8">
+          <Cockpit />
+          <SectionBlock title="已购用户" tone="purchased" list={purchased} onOpen={setSelected} />
+          <SectionBlock title="未购用户" tone="unpurchased" list={unpurchased} onOpen={setSelected} />
         </div>
       </div>
 
       <DetailDrawer itv={selected} onClose={() => setSelected(null)} />
+      <LibraryDrawer open={libraryOpen} onClose={() => setLibraryOpen(false)} />
     </div>
   );
 }
