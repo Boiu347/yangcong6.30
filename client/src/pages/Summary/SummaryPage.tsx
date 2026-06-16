@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import ReportExportToolbar from '../../components/report/ReportExportToolbar';
 import QuantitativePage from '../Quantitative/QuantitativePage';
+import FamilyOverview from '../FamilyPackage/FamilyOverview';
 import fromPrimaryBriefing from '../../content/from-primary-brief.md?raw';
 
 const FROM_PRIMARY_BRIEFING = {
@@ -22,6 +23,7 @@ export default function SummaryPage() {
       </div>
     );
   }
+  if (projectId === 'jiatingbao_project') return <FamilyOverview />;
   return (
     <div className="flex h-full min-h-0 flex-col">
       <ReportExportToolbar

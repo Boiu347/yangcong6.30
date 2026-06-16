@@ -21,6 +21,7 @@ import {
   JISUANYING_COMPETITIVE_DATA,
   JISUANYING_CROSS_BRAND_DATA,
 } from '../../store/jisuanyingData';
+import FamilyInsights from '../FamilyPackage/FamilyInsights';
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
@@ -770,6 +771,12 @@ function CompactInsightItem({
 // ── Main page ─────────────────────────────────────────────────────────────────
 
 export default function CompetitivePage() {
+  const { projectId } = useParams<{ projectId: string }>();
+  if (projectId === 'jiatingbao_project') return <FamilyInsights />;
+  return <StandardCompetitivePage />;
+}
+
+function StandardCompetitivePage() {
   const { projectId } = useParams<{ projectId: string }>();
   const isCalculation = projectId === 'jisuanying_project';
   const showSources = !isCalculation;

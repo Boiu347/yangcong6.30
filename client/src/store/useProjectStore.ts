@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Project, ProjectFile, BrandReport, SummaryData } from '../types/voc';
 import { buildDefaultProject, buildJisuanyingProject } from './defaultData';
+import { buildJiatingbaoProject } from './jiatingbaoData';
 import { useActiveFileIds } from './activeFilesStore';
 
 const STORAGE_KEY = 'voc_projects_v3';
@@ -61,13 +62,13 @@ let _projects: Project[] = (() => {
     if (!raw) {
       // First run: seed with default project containing real interview data
       const defaultProject = buildDefaultProject();
-      const initial = [defaultProject, buildJisuanyingProject()];
+      const initial = [defaultProject, buildJisuanyingProject(), buildJiatingbaoProject()];
       _persist(initial);
       return initial;
     }
     const parsed = JSON.parse(raw) as unknown[];
     if (!Array.isArray(parsed) || parsed.length === 0) {
-      const initial = [buildDefaultProject(), buildJisuanyingProject()];
+      const initial = [buildDefaultProject(), buildJisuanyingProject(), buildJiatingbaoProject()];
       _persist(initial);
       return initial;
     }
@@ -124,9 +125,20 @@ let _projects: Project[] = (() => {
       }
     }
 
+    // Inject 家庭包项目 if missing (always refresh from seed to pick up content updates)
+    const jiatingbaoIdx = migrated.findIndex((p) => p.id === 'jiatingbao_project');
+    const jiatingbaoSeed = buildJiatingbaoProject();
+    if (jiatingbaoIdx === -1) {
+      migrated.push(jiatingbaoSeed);
+      _persist(migrated);
+    } else {
+      migrated[jiatingbaoIdx] = { ...migrated[jiatingbaoIdx], ...jiatingbaoSeed, id: 'jiatingbao_project' };
+      _persist(migrated);
+    }
+
     return migrated;
   } catch {
-    const fallback = [buildDefaultProject(), buildJisuanyingProject()];
+    const fallback = [buildDefaultProject(), buildJisuanyingProject(), buildJiatingbaoProject()];
     _persist(fallback);
     return fallback;
   }

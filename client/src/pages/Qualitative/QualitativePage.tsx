@@ -16,6 +16,7 @@ import { useIsEditor } from '../../components/auth/PasswordGate';
 import QualitativeEditor from '../../components/edit/QualitativeEditor';
 import { cn } from '@/lib/utils';
 import CalculationInsightsPage from './CalculationInsightsPage';
+import FamilyInterviews from '../FamilyPackage/FamilyInterviews';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -806,6 +807,7 @@ function SubDimSection({
 export default function QualitativePage() {
   const { projectId } = useParams<{ projectId: string }>();
   if (projectId === 'jisuanying_project') return <CalculationInsightsPage />;
+  if (projectId === 'jiatingbao_project') return <FamilyInterviews />;
   return <LegacyQualitativePage projectId={projectId} />;
 }
 

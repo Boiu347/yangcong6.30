@@ -19,14 +19,21 @@ const computingItems = [
   { label: '竞品与市场', path: 'competitive' },
 ];
 
+const familyItems = [
+  { label: '项目总览', path: 'summary' },
+  { label: '用户访谈', path: 'qualitative' },
+  { label: '核心洞察', path: 'competitive' },
+];
+
 export default function TopNavLayout() {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
   const location = useLocation();
   const editor = useIsEditor();
   const active = location.pathname.split('/').pop() ?? 'summary';
-  const items = projectId === 'jisuanying_project' ? computingItems : standardItems;
-  const showFileBar = active === 'qualitative' || active === 'competitive';
+  const isFamily = projectId === 'jiatingbao_project';
+  const items = isFamily ? familyItems : projectId === 'jisuanying_project' ? computingItems : standardItems;
+  const showFileBar = !isFamily && (active === 'qualitative' || active === 'competitive');
 
   return (
     <div className="fixed inset-0 flex flex-col bg-[#f8f8f5]">
