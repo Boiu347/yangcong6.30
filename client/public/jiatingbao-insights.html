@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>洋葱家庭包用户调研 · 核心洞察</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --o:#e65532; --o2:#fff3ef;
+  --tx:#2a2a2a; --sub:#5a5650; --mu:#9a948b;
+  --bd:#e7e2d7; --bg:#faf8f3; --card:#fff;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;line-height:1.7;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(0,0,0,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.025) 1px,transparent 1px);
+  background-size:28px 28px}
+.band{position:relative;z-index:1}
+.wrap{max-width:880px;margin:0 auto;padding:0 28px}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+
+.hero{background:linear-gradient(180deg,#fff4ee 0%,var(--bg) 100%);padding:64px 0 44px;border-bottom:1px solid var(--bd)}
+.kick{display:inline-block;color:var(--o);font-size:12px;font-weight:800;letter-spacing:2px;background:var(--o2);border:1.5px dashed rgba(230,85,50,.4);padding:5px 14px;border-radius:100px;margin-bottom:18px}
+.hero h1{font-size:clamp(30px,5vw,46px);font-weight:900;letter-spacing:-1px;margin-bottom:14px}
+.hero p{font-size:16px;color:var(--sub);max-width:640px}
+
+.themes{padding:46px 0 20px}
+.theme{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:26px 28px;margin-bottom:20px;box-shadow:3px 4px 0 rgba(0,0,0,.04)}
+.theme-top{display:flex;gap:14px;align-items:flex-start;margin-bottom:6px}
+.theme-num{flex:none;width:34px;height:34px;border-radius:10px;background:var(--o);color:#fff;font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center}
+.theme h2{font-size:clamp(18px,2.6vw,22px);font-weight:900;letter-spacing:-.3px;line-height:1.4}
+.theme .sum{font-size:14.5px;color:var(--sub);line-height:1.85;margin:8px 0 18px;padding-left:48px}
+@media(max-width:560px){.theme .sum{padding-left:0}}
+
+.points{list-style:none;display:grid;gap:12px}
+.point{border:1px solid var(--bd);background:#fcfbf7;border-radius:12px;padding:14px 16px}
+.point .t{font-size:14px;color:var(--tx);line-height:1.7}
+.point .t strong{color:var(--o);font-weight:700}
+.point blockquote{margin:10px 0 0;border-left:3px solid var(--o);background:var(--o2);padding:8px 13px;border-radius:0 8px 8px 0;font-size:13px;color:#43332e;font-style:italic;line-height:1.7}
+.point .from{margin-top:8px;font-size:12px;color:var(--mu)}
+footer{padding:36px 0;text-align:center;color:var(--mu);font-size:12px}
+</style>
+</head>
+<body>
+
+<header class="band hero">
+  <div class="wrap">
+    <span class="kick">洋葱家庭包 · 定性调研</span>
+    <h1>核心洞察</h1>
+    <p>跨 11 位家庭归纳的 7 大主题：决策锚点、性价比感知、机会点、付费理由、人群机会、共性顾虑与最强痛点，并附支撑原声。</p>
+  </div>
+</header>
+
+<section class="band themes">
+  <div class="wrap">
+
+    <div class="theme rv">
+      <div class="theme-top"><div class="theme-num">1</div><h2>决策锚点：两孩需求有主次，家长更愿意「让好的更好」</h2></div>
+      <div class="sum">多孩家庭购买家庭包时，往往由一个「紧急+重要」的大孩升学需求促成交，另一个孩子的权益则把高客单价「合理化」，二者缺一不可。需求还会在升学节点发生转化（如姐姐上高中后精力转向小的）。</div>
+      <ul class="points">
+        <li class="point"><div class="t">大孩强需求（小升初 / 中考衔接）成交，小孩权益负责把高客单价合理化，二者缺一不可。</div><blockquote>主要考虑的是哥哥，妹妹无所谓，顺带使用；但如果没有妹妹的权益，可能就会买个短期课，不会买家庭包了。</blockquote><div class="from">— 用户1 · 广东广州</div></li>
+        <li class="point"><div class="t">对「小高+小低」家庭，应先抓住大孩「紧急+重要」的升学问题，二孩打基础需求作为锦上添花促成交。</div><div class="from">— 用户1 · 广东广州</div></li>
+        <li class="point"><div class="t">两个孩子有主次之分（初中 &gt; 小学 &gt; 高中），且会在特定节点发生需求转化。</div><blockquote>姐姐上高中没精力管他了，会把更多精力放在小的身上。</blockquote><div class="from">— 用户3 · 安徽合肥</div></li>
+      </ul>
+    </div>
+
+    <div class="theme rv">
+      <div class="theme-top"><div class="theme-num">2</div><h2>性价比感知：家长算的不是标价，而是综合成本与未来成本</h2></div>
+      <div class="sum">用户对家庭包的「划算」判断，建立在与「比洋葱更贵的解决方案」（私教、线下班）的综合成本对比，以及「现在不买、未来可能发生的成本」（涨价、还要补课）之上。6 年长周期 + 全科覆盖被视为性价比最优。</div>
+      <ul class="points">
+        <li class="point"><div class="t">当下价值：与私教 / 线下班对比时间、金钱、接送、孩子精力等综合成本。</div><blockquote>不需要接送，孩子也不用赶路，时间成本也没有，还比私教班便宜，私教班一门就一万多。</blockquote><div class="from">— 用户3 · 安徽合肥</div></li>
+        <li class="point"><div class="t">未来价值：担心现在不买、以后涨价或仍要补课，「吃过一次涨价的亏」促使尽早锁定。</div><blockquote>去年价格低很多，当时没买，后面发现真的涨价很多……就想着这次先买。</blockquote><div class="from">— 用户3 · 安徽合肥</div></li>
+        <li class="point"><div class="t">全科 + 长周期 = 性价比最优：买小初品担心浪费，6 年全龄段全科对多孩家庭最划算。</div><div class="from">— 用户5 · 浙江杭州 / 用户8 · 广东湛江</div></li>
+      </ul>
+    </div>
+
+    <div class="theme rv">
+      <div class="theme-top"><div class="theme-num">3</div><h2>家庭包机会点：学习规划感、经验复制与 6 年价值</h2></div>
+      <div class="sum">家庭包真正卖的是「把孩子未来几年的学习安排得更确定、更省心、更不浪费」的规划感——真人 1V1 做大方向规划、AI 定制班做日常排课。多孩家庭还能把大孩的成功 / 踩坑经验复制到小孩身上，「提前学」是机会切口。</div>
+      <ul class="points">
+        <li class="point"><div class="t">学习规划感：真人 1V1 老师做大方向规划 + AI 定制班做日常学习排课，是尚未被充分讲透的卖点。</div><blockquote>现在先学 5 年级内容复习，寒暑假预习 6 年级内容。</blockquote><div class="from">— 用户5 · 浙江杭州</div></li>
+        <li class="point"><div class="t">经验复制：小学+初中的二胎家庭，有了经验知道怎么学更好，可借鉴到二孩，「提前学」是切口。</div><blockquote>小升初的时候没有给报，现在想起来有点后悔。</blockquote><div class="from">— 用户3 · 安徽合肥</div></li>
+        <li class="point"><div class="t">6 年价值感：学习能力非一年可成，需长期培养；课程体系全面可实现学科启蒙衔接（从小学物理→初中物理）。</div><div class="from">— 用户3 · 安徽合肥</div></li>
+        <li class="point"><div class="t">体系化卖点：初高中都在洋葱学，能培养「点-线-面」的洋葱知识体系。</div><div class="from">— 用户2 · 江西景德镇</div></li>
+      </ul>
+    </div>
+
+    <div class="theme rv">
+      <div class="theme-top"><div class="theme-num">4</div><h2>付费理由：买的是「学习闭环」与专属感，免费资源反而是阻力</h2></div>
+      <div class="sum">家长早就拿到整套免费视频却「没感觉」、不看好；真正打动她的是认知到——免费视频只有输入没有输出，而正式课包是「动画讲解 + 针对性习题 + AI 错题本订正 + 一对一规划」的闭环。青春期孩子「跟机器比跟人更好交流」也是隐性刚需。</div>
+      <ul class="points">
+        <li class="point"><div class="t">免费资源是阻力、学习闭环才是付费理由：买的是闭环和专属感，不是视频本身。</div><blockquote>他丢个文件夹给你点开看，跟报了课看的感觉不一样……没有输出就是盲目接收。</blockquote><div class="from">— 用户8 · 广东湛江</div></li>
+        <li class="point"><div class="t">「孩子跟机器比跟人更好交流」是青春期家庭隐性刚需：内向、有难题不敢问老师，靠 AI / 动画自助提分。</div><div class="from">— 用户8 · 广东湛江</div></li>
+      </ul>
+    </div>
+
+    <div class="theme rv">
+      <div class="theme-top"><div class="theme-num">5</div><h2>人群机会：好学生 / 自律孩子转化潜力更大</h2></div>
+      <div class="sum">好学生的家长信任孩子、愿意支付高价，且有「提前学」的真实诉求；但这部分人规模可能有限。家长普遍把家庭包「只推荐给学习能力强、自主自律、愿意主动学的孩子」。</div>
+      <ul class="points">
+        <li class="point"><div class="t">能拉低信任成本：好学生家长信任孩子，愿意支付高昂价格。</div><div class="from">— 用户2 · 江西景德镇</div></li>
+        <li class="point"><div class="t">有提前学诉求：好学生在初中就要提前学高中内容，但规模可能有限。</div><blockquote>只推荐给学习能力强、自主自律的人 / 孩子愿意主动学。</blockquote><div class="from">— 用户2 · 江西景德镇</div></li>
+      </ul>
+    </div>
+
+    <div class="theme rv">
+      <div class="theme-top"><div class="theme-num">6</div><h2>共性顾虑：怕浪费、孩子不能坚持</h2></div>
+      <div class="sum">几乎所有家长的核心顾虑都是「花这么多钱，孩子坚持不下来就浪费了」。消解方式有三类：① 信任孩子（孩子是好学生 / 主动说喜欢）；② 信任权威（教育规划老师 / 博主）；③ 未消解但能承担后果（有钱）。未购用户的主因正是这一顾虑未被消解。</div>
+      <ul class="points">
+        <li class="point"><div class="t">信任孩子：哥哥自己说喜欢学，打消了「怕不坚持」的顾虑。</div><blockquote>担心买了浪费、孩子不能坚持；最终打消顾虑是因为「哥哥自己说喜欢学」。</blockquote><div class="from">— 用户1 · 广东广州</div></li>
+        <li class="point"><div class="t">信任权威：更相信博主 / 教育规划老师的客观推荐，而非销售「王婆卖瓜」。</div><blockquote>阿刘教育规划……只是单纯说这个好、提供链接，从客观公正的角度说，比起销售更相信他。</blockquote><div class="from">— 用户4 · 江西九江</div></li>
+        <li class="point"><div class="t">未消解但承担风险：自己该做的做到了，平台已经提供，实在不学也没办法。</div><blockquote>没有打消顾虑，自己该做的做到了……实在不学也没办法。</blockquote><div class="from">— 用户3 · 安徽合肥</div></li>
+        <li class="point"><div class="t">未购主因：不确定是否有效果 / 能提分，是多数未购家长折中（只买小初品）的根本原因。</div><div class="from">— 用户6 · 江苏镇江（未购）</div></li>
+      </ul>
+    </div>
+
+    <div class="theme rv">
+      <div class="theme-top"><div class="theme-num">7</div><h2>最强未消解痛点：多孩并发受限</h2></div>
+      <div class="sum">多孩家庭最强烈、且尚未被解决的痛点是「账号最多 2 台设备同时上课」，无法真正「同时学」只能错峰，影响周末 / 出行；学情报告也需要按孩子拆分，跨城 / 跨市账号还会被锁。</div>
+      <ul class="points">
+        <li class="point"><div class="t">多设备并发：账号只能 2 台设备同时上课，多孩无法同时学、只能错峰。</div><blockquote>几个孩子同时在房间学完，就能一起出发……我孩子多就会想到这些。</blockquote><div class="from">— 用户8 · 广东湛江</div></li>
+        <li class="point"><div class="t">学情报告按孩子拆分：升学后两个孩子的学情会混在一起，希望各自独立。</div><div class="from">— 用户8 · 广东湛江 / 用户7 · 广东深圳</div></li>
+        <li class="point"><div class="t">跨城市账号分开：大宝、小宝同省不同市，希望两个账号分开，目前跨市会锁账号。</div><div class="from">— 用户9 · 湖南长沙</div></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<footer class="band">洋葱家庭包用户调研 · InsightHub</footer>
+
+<script>
+const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.1});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

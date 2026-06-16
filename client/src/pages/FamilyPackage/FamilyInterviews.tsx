@@ -28,13 +28,13 @@ function renderHighlighted(text: string) {
   );
 }
 
-const ONION_LABELS: { key: keyof JtbOnion; label: string; color: string }[] = [
-  { key: 'cognition', label: '认知', color: '#5B7BBF' },
-  { key: 'understanding', label: '了解', color: '#4BA69E' },
-  { key: 'purchase', label: '购买', color: '#BF9455' },
-  { key: 'usage', label: '使用', color: '#7578C8' },
-  { key: 'expectation', label: '预期', color: '#E07A6E' },
-  { key: 'feedback', label: '建议 / 反馈', color: '#5BBF96' },
+const ONION_LABELS: { key: keyof JtbOnion; label: string }[] = [
+  { key: 'cognition', label: '认知' },
+  { key: 'understanding', label: '了解' },
+  { key: 'purchase', label: '购买' },
+  { key: 'usage', label: '使用' },
+  { key: 'expectation', label: '预期' },
+  { key: 'feedback', label: '建议 / 反馈' },
 ];
 
 // ── 学段映射（小低=1-3年级，小高=4-6年级） ─────────────────────────────
@@ -112,13 +112,6 @@ function stageOf(itv: JtbInterview): string {
 }
 
 const PURCHASE_STAGE_ORDER = ['首购', '续购', '升单', '已购', '未购'];
-const PURCHASE_STAGE_COLOR: Record<string, string> = {
-  首购: '#4BA69E',
-  续购: '#5B7BBF',
-  升单: '#BF9455',
-  已购: '#7578C8',
-  未购: '#E07A6E',
-};
 
 function StatusBadge({ status }: { status: '已购' | '未购' }) {
   return (
@@ -156,14 +149,14 @@ function Cockpit() {
     stage: s,
     count: JTB_INTERVIEWS.filter((i) => stageOf(i) === s).length,
   })).filter((s) => s.count > 0);
+  const maxCount = Math.max(...stageCounts.map((s) => s.count), 1);
 
   return (
     <section className="space-y-4">
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="grid grid-cols-3 gap-3">
         <Metric label="受访家庭" value={String(total)} note="多孩家庭为主" />
         <Metric label="已购 / 未购" value={`${purchased} / ${unpurchased}`} note={pending ? `其中 ${pending} 户纪要整理中` : '覆盖首购·续购·升单·未购'} />
         <Metric label="覆盖地区" value={String(regions.length)} note={regions.join(' · ')} />
-        <Metric label="最多孩家庭" value="4 娃" note="年龄跨度近 10 年（用户8）" />
       </div>
 
       <div className="rounded-xl border border-[#E8E2D9] bg-white p-4">
@@ -171,21 +164,14 @@ function Cockpit() {
           <Sparkles size={13} className="text-[#e65532]" />
           <span className="text-[12px] font-bold text-gray-700">购买性质分布</span>
         </div>
-        <div className="flex h-3 w-full overflow-hidden rounded-full bg-gray-100">
+        <div className="space-y-2">
           {stageCounts.map((s) => (
-            <div
-              key={s.stage}
-              style={{ width: `${(s.count / total) * 100}%`, backgroundColor: PURCHASE_STAGE_COLOR[s.stage] }}
-              title={`${s.stage} ${s.count}`}
-            />
-          ))}
-        </div>
-        <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5">
-          {stageCounts.map((s) => (
-            <div key={s.stage} className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: PURCHASE_STAGE_COLOR[s.stage] }} />
-              <span className="text-[12px] text-gray-600">{s.stage}</span>
-              <span className="text-[12px] font-bold text-gray-800">{s.count}</span>
+            <div key={s.stage} className="flex items-center gap-3">
+              <span className="w-10 shrink-0 text-[12px] text-gray-500">{s.stage}</span>
+              <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-gray-100">
+                <div className="h-full rounded-full bg-[#e65532]" style={{ width: `${(s.count / maxCount) * 100}%` }} />
+              </div>
+              <span className="w-5 shrink-0 text-right text-[12px] font-bold text-gray-800">{s.count}</span>
             </div>
           ))}
         </div>
@@ -198,19 +184,16 @@ function Cockpit() {
 
 function FamilyCard({ itv, onOpen }: { itv: JtbInterview; onOpen: (itv: JtbInterview) => void }) {
   const detail = hasDetail(itv);
-  const accent = itv.status === '已购' ? '#10b981' : '#f43f5e';
 
   return (
     <button
       type="button"
       onClick={() => detail && onOpen(itv)}
       className={cn(
-        'group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[#E8E2D9] bg-white py-4 pl-4 pr-4 text-left transition-all',
+        'group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[#E8E2D9] bg-white p-4 text-left transition-all',
         detail ? 'cursor-pointer hover:-translate-y-0.5 hover:border-[#e65532]/40 hover:shadow-[2px_4px_0_rgba(0,0,0,0.06)]' : 'cursor-default opacity-60',
       )}
     >
-      <span className="absolute inset-y-0 left-0 w-1" style={{ backgroundColor: accent }} />
-
       <div className="flex items-center gap-2.5">
         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#e65532]/10 text-[13px] font-extrabold text-[#e65532]">
           {itv.seq}
@@ -293,15 +276,12 @@ function InterviewDetail({ itv }: { itv: JtbInterview }) {
             <span className="text-[12px] font-bold text-gray-700">洋葱相关内容</span>
           </div>
           <div className="space-y-2.5">
-            {ONION_LABELS.map(({ key, label, color }) => {
+            {ONION_LABELS.map(({ key, label }) => {
               const items = itv.onion[key];
               if (!items?.length) return null;
               return (
                 <div key={key} className="flex gap-2.5">
-                  <span
-                    className="mt-0.5 h-fit shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-bold text-white"
-                    style={{ backgroundColor: color }}
-                  >
+                  <span className="mt-0.5 h-fit shrink-0 rounded-md bg-gray-100 px-1.5 py-0.5 text-[10px] font-bold text-gray-500">
                     {label}
                   </span>
                   <ul className="flex-1 space-y-1">

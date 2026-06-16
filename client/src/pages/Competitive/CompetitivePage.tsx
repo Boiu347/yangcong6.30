@@ -21,7 +21,7 @@ import {
   JISUANYING_COMPETITIVE_DATA,
   JISUANYING_CROSS_BRAND_DATA,
 } from '../../store/jisuanyingData';
-import FamilyInsights from '../FamilyPackage/FamilyInsights';
+import FamilyReport from '../FamilyPackage/FamilyReport';
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
@@ -772,7 +772,8 @@ function CompactInsightItem({
 
 export default function CompetitivePage() {
   const { projectId } = useParams<{ projectId: string }>();
-  if (projectId === 'jiatingbao_project') return <FamilyInsights />;
+  if (projectId === 'jiatingbao_project')
+    return <FamilyReport src="/jiatingbao-insights.html" fileName="洋葱家庭包用户调研·核心洞察" title="核心洞察" />;
   return <StandardCompetitivePage />;
 }
 
