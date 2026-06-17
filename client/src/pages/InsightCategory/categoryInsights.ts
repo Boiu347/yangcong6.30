@@ -2,6 +2,7 @@ import type { Project, Sentiment, VOCItem } from '../../types/voc';
 import { JTB_INTERVIEWS } from '../../store/jiatingbaoData';
 
 export type InsightCategorySlug = 'app-experience' | 'course-experience' | 'purchase-decision';
+export type UserRole = '家长' | '学生' | '其他';
 
 export interface InsightCategoryConfig {
   slug: InsightCategorySlug;
@@ -19,28 +20,27 @@ export interface InsightCategoryConfig {
 export interface CategoryQuote {
   id: string;
   text: string;
+  quoteSummary?: string;
   projectId: string;
   projectName: string;
   respondent?: string;
   sourceName: string;
+  sourceId: string;
   sentiment: Sentiment;
   dimension: string;
-  subDimension: string;
-}
-
-export interface ProjectInsightGroup {
-  project: Project;
-  quotes: CategoryQuote[];
-  issueCounts: Array<{ name: string; count: number }>;
-  sentimentCounts: Record<Sentiment, number>;
-  fileCount: number;
+  subCategory: string;
+  subSubCategory: string;
+  userRole: UserRole;
+  schoolLevel?: string;
+  grade?: string;
+  gender?: string;
 }
 
 export interface CategoryInsightData {
-  groups: ProjectInsightGroup[];
+  quotes: CategoryQuote[];
   totalQuotes: number;
   totalProjects: number;
-  totalFiles: number;
+  totalSources: number;
   sentimentCounts: Record<Sentiment, number>;
 }
 
@@ -89,13 +89,22 @@ function emptySentimentCounts(): Record<Sentiment, number> {
   return { positive: 0, neutral: 0, negative: 0 };
 }
 
-function normalizeText(value: string | undefined): string {
-  return (value ?? '').toLowerCase();
+function includesAny(value: string | undefined, keywords: string[]): boolean {
+  const text = (value ?? '').toLowerCase();
+  return keywords.some((keyword) => text.includes(keyword.toLowerCase()));
 }
 
-function includesAny(value: string | undefined, keywords: string[]): boolean {
-  const text = normalizeText(value);
-  return keywords.some((keyword) => text.includes(keyword.toLowerCase()));
+function inferUserRole(respondent?: string): UserRole {
+  if (!respondent) return '家长';
+  if (/学生|孩子|小朋友/.test(respondent)) return '学生';
+  if (/妈妈|爸爸|家长|父|母/.test(respondent)) return '家长';
+  return '家长';
+}
+
+function inferGrade(sourceName: string, respondent?: string): string | undefined {
+  const text = `${sourceName} ${respondent ?? ''}`;
+  const match = text.match(/(幼儿园|中班|大班|[一二三四五六七八九]年级|初一|初二|初三|高一|高二|高三|\d年级)/);
+  return match?.[0];
 }
 
 function isVocMatched(voc: VOCItem, config: InsightCategoryConfig, projectId: string): boolean {
@@ -116,42 +125,55 @@ function toCategoryQuote(voc: VOCItem, project: Project): CategoryQuote {
   return {
     id: voc.id,
     text: voc.text,
+    quoteSummary: voc.subDimension,
     projectId: project.id,
     projectName: project.name,
     respondent: voc.respondent,
     sourceName: voc.sourceFileName,
+    sourceId: voc.sourceFileId,
     sentiment: voc.sentiment,
     dimension: voc.dimension,
-    subDimension: voc.subDimension || voc.dimension || '未分类',
+    subCategory: project.name,
+    subSubCategory: voc.subDimension || voc.dimension || '未分类',
+    userRole: inferUserRole(voc.respondent),
+    grade: inferGrade(voc.sourceFileName, voc.respondent),
   };
 }
 
 function buildFamilyDecisionQuotes(project: Project): CategoryQuote[] {
   return JTB_INTERVIEWS.flatMap((interview) => {
+    const sourceName = `用户${interview.seq} · ${interview.parent} · ${interview.region} · ${interview.combo}`;
     const insightQuotes = interview.insights
       .filter((insight) => insight.quote)
       .map((insight, index) => ({
         id: `${interview.id}_insight_${index + 1}`,
         text: insight.quote as string,
-        subDimension: insight.title,
+        quoteSummary: insight.detail,
+        subSubCategory: insight.title,
       }));
 
     const originalQuotes = interview.quotes.map((quote, index) => ({
       id: `${interview.id}_quote_${index + 1}`,
       text: quote,
-      subDimension: interview.purchaseType || interview.status,
+      quoteSummary: interview.purchaseType || interview.status,
+      subSubCategory: interview.purchaseType || interview.status,
     }));
 
     return [...insightQuotes, ...originalQuotes].map((quote) => ({
       id: quote.id,
       text: quote.text,
+      quoteSummary: quote.quoteSummary,
       projectId: project.id,
       projectName: project.name,
-      respondent: `用户${interview.seq} · ${interview.parent} · ${interview.combo}`,
-      sourceName: `${interview.region} · ${interview.purchaseType || interview.status}`,
+      respondent: `${interview.parent}（${interview.combo}）`,
+      sourceName,
+      sourceId: interview.id,
       sentiment: interview.status === '未购' ? 'negative' : 'neutral',
       dimension: interview.status,
-      subDimension: quote.subDimension,
+      subCategory: project.name,
+      subSubCategory: quote.subSubCategory,
+      userRole: '家长',
+      grade: interview.combo,
     }));
   });
 }
@@ -164,18 +186,6 @@ function uniqueQuotes(quotes: CategoryQuote[]): CategoryQuote[] {
     seen.add(key);
     return true;
   });
-}
-
-function countIssues(quotes: CategoryQuote[]) {
-  const counts = new Map<string, number>();
-  quotes.forEach((quote) => {
-    const key = quote.subDimension || quote.dimension || '未分类';
-    counts.set(key, (counts.get(key) ?? 0) + 1);
-  });
-  return [...counts.entries()]
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh-Hans-CN'))
-    .slice(0, 8);
 }
 
 function countSentiment(quotes: CategoryQuote[]): Record<Sentiment, number> {
@@ -191,8 +201,8 @@ export function buildCategoryInsightData(
   slug: InsightCategorySlug,
 ): CategoryInsightData {
   const config = INSIGHT_CATEGORY_CONFIGS[slug];
-  const groups = projects
-    .map((project) => {
+  const quotes = uniqueQuotes(
+    projects.flatMap((project) => {
       const vocQuotes = project.files
         .filter((file) => file.status === 'ready')
         .flatMap((file) => file.vocList)
@@ -204,32 +214,28 @@ export function buildCategoryInsightData(
           ? buildFamilyDecisionQuotes(project)
           : [];
 
-      const quotes = uniqueQuotes([...vocQuotes, ...familyQuotes]);
-      const sourceIds = new Set(quotes.map((quote) => quote.sourceName));
-
-      return {
-        project,
-        quotes,
-        issueCounts: countIssues(quotes),
-        sentimentCounts: countSentiment(quotes),
-        fileCount: sourceIds.size,
-      };
-    })
-    .filter((group) => group.quotes.length > 0)
-    .sort((a, b) => b.quotes.length - a.quotes.length);
-
-  const sentimentCounts = emptySentimentCounts();
-  groups.forEach((group) => {
-    SENTIMENTS.forEach((sentiment) => {
-      sentimentCounts[sentiment] += group.sentimentCounts[sentiment];
-    });
-  });
+      return [...vocQuotes, ...familyQuotes];
+    }),
+  ).sort((a, b) => a.projectName.localeCompare(b.projectName, 'zh-Hans-CN') || a.subSubCategory.localeCompare(b.subSubCategory, 'zh-Hans-CN'));
 
   return {
-    groups,
-    totalQuotes: groups.reduce((sum, group) => sum + group.quotes.length, 0),
-    totalProjects: groups.length,
-    totalFiles: groups.reduce((sum, group) => sum + group.fileCount, 0),
-    sentimentCounts,
+    quotes,
+    totalQuotes: quotes.length,
+    totalProjects: new Set(quotes.map((quote) => quote.projectId)).size,
+    totalSources: new Set(quotes.map((quote) => quote.sourceId)).size,
+    sentimentCounts: countSentiment(quotes),
   };
 }
+
+export function countBy<T extends string>(items: CategoryQuote[], getKey: (item: CategoryQuote) => T): Array<{ name: T; count: number }> {
+  const counts = new Map<T, number>();
+  items.forEach((item) => {
+    const key = getKey(item);
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+  });
+  return [...counts.entries()]
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh-Hans-CN'));
+}
+
+export { SENTIMENTS };
