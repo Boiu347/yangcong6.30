@@ -4,6 +4,7 @@ import MainLayout from './components/layout/MainLayout';
 import TopNavLayout from './components/layout/TopNavLayout';
 import ProjectsPage from './pages/Projects/ProjectsPage';
 import ProfilePage from './pages/Profile/ProfilePage';
+import InsightCategoryPage from './pages/InsightCategory/InsightCategoryPage';
 import SummaryPage from './pages/Summary/SummaryPage';
 import QualitativePage from './pages/Qualitative/QualitativePage';
 import CompetitivePage from './pages/Competitive/CompetitivePage';
@@ -21,6 +22,9 @@ const RoutesComponent = () => {
       {/* Top-level pages share the main layout with 项目库 / 用户档案 tabs */}
       <Route element={<MainLayout />}>
         <Route path="/projects" element={<ProjectsPage />} />
+        <Route path="/app-experience" element={<InsightCategoryPage slug="app-experience" />} />
+        <Route path="/course-experience" element={<InsightCategoryPage slug="course-experience" />} />
+        <Route path="/purchase-decision" element={<InsightCategoryPage slug="purchase-decision" />} />
         <Route path="/profile" element={<ProfilePage />} />
       </Route>
 

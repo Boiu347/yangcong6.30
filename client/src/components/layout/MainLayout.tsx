@@ -1,8 +1,11 @@
-import { Library, UserRoundSearch } from 'lucide-react';
+import { BookOpen, Library, Monitor, ShoppingCart, UserRoundSearch } from 'lucide-react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 const items = [
   { path: '/projects', label: '项目库', icon: Library },
+  { path: '/app-experience', label: 'APP体验', icon: Monitor },
+  { path: '/course-experience', label: '课程体验', icon: BookOpen },
+  { path: '/purchase-decision', label: '购买决策', icon: ShoppingCart },
   { path: '/profile', label: '用户画像', icon: UserRoundSearch },
 ];
 
