@@ -1,6 +1,7 @@
 [build]
-builder = "NIXPACKS"
-buildCommand = "npm install && npm run build"
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+buildCommand = null
 
 [deploy]
 startCommand = "node dist/server/main.js"
