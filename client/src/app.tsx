@@ -4,7 +4,6 @@ import MainLayout from './components/layout/MainLayout';
 import TopNavLayout from './components/layout/TopNavLayout';
 import ProjectsPage from './pages/Projects/ProjectsPage';
 import ProfilePage from './pages/Profile/ProfilePage';
-import UsersPage from './pages/Users/UsersPage';
 import SummaryPage from './pages/Summary/SummaryPage';
 import QualitativePage from './pages/Qualitative/QualitativePage';
 import CompetitivePage from './pages/Competitive/CompetitivePage';
@@ -23,7 +22,6 @@ const RoutesComponent = () => {
       <Route element={<MainLayout />}>
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/users" element={<UsersPage />} />
       </Route>
 
       {/* All project detail pages share the top tab bar */}

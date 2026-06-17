@@ -1,10 +1,9 @@
-import { Library, UserRoundSearch, UsersRound } from 'lucide-react';
+import { Library, UserRoundSearch } from 'lucide-react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 const items = [
   { path: '/projects', label: '项目库', icon: Library },
   { path: '/profile', label: '用户画像', icon: UserRoundSearch },
-  { path: '/users', label: '用户库', icon: UsersRound },
 ];
 
 export default function MainLayout() {
