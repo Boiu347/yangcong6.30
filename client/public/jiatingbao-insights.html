@@ -8,37 +8,43 @@
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
   --o:#e65532; --o2:#fff3ef;
-  --tx:#2a2a2a; --sub:#5a5650; --mu:#9a948b;
-  --bd:#e7e2d7; --bg:#faf8f3; --card:#fff;
+  --blue:#5B7BBF; --teal:#4BA69E; --gold:#BF9455; --rose:#B8667A; --violet:#8B6BB8; --ink:#2D292A;
+  --tx:#242421; --sub:#5f5b55; --mu:#9a948b;
+  --bd:#e8e2d9; --bg:#f6f7f5; --paper:#fffdf9; --card:#fff;
 }
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--tx);font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;line-height:1.7;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:linear-gradient(rgba(0,0,0,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.025) 1px,transparent 1px);
-  background-size:28px 28px}
+  background:linear-gradient(180deg,rgba(255,253,249,.9),rgba(246,247,245,.96))}
 .band{position:relative;z-index:1}
-.wrap{max-width:880px;margin:0 auto;padding:0 28px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 28px}
 .rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
 .rv.in{opacity:1;transform:none}
 
-.hero{background:linear-gradient(180deg,#fff4ee 0%,var(--bg) 100%);padding:64px 0 44px;border-bottom:1px solid var(--bd)}
-.kick{display:inline-block;color:var(--o);font-size:12px;font-weight:800;letter-spacing:2px;background:var(--o2);border:1.5px dashed rgba(230,85,50,.4);padding:5px 14px;border-radius:100px;margin-bottom:18px}
-.hero h1{font-size:clamp(30px,5vw,46px);font-weight:900;letter-spacing:-1px;margin-bottom:14px}
-.hero p{font-size:16px;color:var(--sub);max-width:640px}
+.hero{background:var(--paper);padding:58px 0 44px;border-bottom:1px solid var(--bd)}
+.kick{display:inline-block;color:var(--o);font-size:12px;font-weight:800;letter-spacing:2px;background:var(--o2);border:1px solid rgba(230,85,50,.24);padding:5px 14px;border-radius:100px;margin-bottom:18px}
+.hero h1{font-size:clamp(30px,5vw,46px);font-weight:900;letter-spacing:0;margin-bottom:14px}
+.hero p{font-size:16px;color:var(--sub);max-width:720px}
 
 .themes{padding:46px 0 20px}
-.theme{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:26px 28px;margin-bottom:20px;box-shadow:3px 4px 0 rgba(0,0,0,.04)}
+.theme{--c:var(--o);--soft:rgba(230,85,50,.1);background:var(--card);border:1px solid var(--bd);border-top:4px solid var(--c);border-radius:8px;padding:26px 28px;margin-bottom:20px;box-shadow:0 12px 30px rgba(30,35,40,.06)}
+.theme:nth-child(2){--c:var(--blue);--soft:rgba(91,123,191,.1)}
+.theme:nth-child(3){--c:var(--teal);--soft:rgba(75,166,158,.11)}
+.theme:nth-child(4){--c:var(--gold);--soft:rgba(191,148,85,.12)}
+.theme:nth-child(5){--c:var(--violet);--soft:rgba(139,107,184,.1)}
+.theme:nth-child(6){--c:var(--rose);--soft:rgba(184,102,122,.1)}
+.theme:nth-child(7){--c:var(--ink);--soft:rgba(45,41,42,.08)}
 .theme-top{display:flex;gap:14px;align-items:flex-start;margin-bottom:6px}
-.theme-num{flex:none;width:34px;height:34px;border-radius:10px;background:var(--o);color:#fff;font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center}
-.theme h2{font-size:clamp(18px,2.6vw,22px);font-weight:900;letter-spacing:-.3px;line-height:1.4}
+.theme-num{flex:none;width:34px;height:34px;border-radius:10px;background:var(--soft);color:var(--c);font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center}
+.theme h2{font-size:clamp(18px,2.6vw,22px);font-weight:900;letter-spacing:0;line-height:1.4}
 .theme .sum{font-size:14.5px;color:var(--sub);line-height:1.85;margin:8px 0 18px;padding-left:48px}
 @media(max-width:560px){.theme .sum{padding-left:0}}
 
 .points{list-style:none;display:grid;gap:12px}
-.point{border:1px solid var(--bd);background:#fcfbf7;border-radius:12px;padding:14px 16px}
+.point{border:1px solid var(--bd);background:#fcfbf7;border-radius:8px;padding:14px 16px}
 .point .t{font-size:14px;color:var(--tx);line-height:1.7}
-.point .t strong{color:var(--o);font-weight:700}
-.point blockquote{margin:10px 0 0;border-left:3px solid var(--o);background:var(--o2);padding:8px 13px;border-radius:0 8px 8px 0;font-size:13px;color:#43332e;font-style:italic;line-height:1.7}
+.point .t strong{color:var(--c);font-weight:700}
+.point blockquote{margin:10px 0 0;border-left:3px solid var(--c);background:var(--soft);padding:8px 13px;border-radius:0 8px 8px 0;font-size:13px;color:#43332e;font-style:italic;line-height:1.7}
 .point .from{margin-top:8px;font-size:12px;color:var(--mu)}
 footer{padding:36px 0;text-align:center;color:var(--mu);font-size:12px}
 </style>

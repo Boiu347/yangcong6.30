@@ -118,16 +118,24 @@ function stageOf(itv: JtbInterview): string {
 const PURCHASE_STAGE_ORDER = ['首购', '续购', '升单', '已购', '未购'];
 const ACCENT = '#e65532';
 const PURCHASE_STAGE_STYLE: Record<string, { color: string; bg: string }> = {
-  首购: { color: ACCENT, bg: 'rgba(230,85,50,0.92)' },
-  续购: { color: ACCENT, bg: 'rgba(230,85,50,0.70)' },
-  升单: { color: ACCENT, bg: 'rgba(230,85,50,0.48)' },
-  已购: { color: '#6b7280', bg: '#d8d6cf' },
-  未购: { color: '#6b7280', bg: '#aaa69d' },
+  首购: { color: '#e65532', bg: '#e65532' },
+  续购: { color: '#5B7BBF', bg: '#5B7BBF' },
+  升单: { color: '#BF9455', bg: '#BF9455' },
+  已购: { color: '#4BA69E', bg: '#4BA69E' },
+  未购: { color: '#B8667A', bg: '#B8667A' },
 };
 
 function StatusBadge({ status }: { status: '已购' | '未购' }) {
+  const positive = status === '已购';
   return (
-    <span className="shrink-0 text-[11px] font-semibold text-gray-400">
+    <span
+      className={cn(
+        'shrink-0 rounded-full border px-2 py-0.5 text-[11px] font-semibold',
+        positive
+          ? 'border-[#4BA69E]/25 bg-[#4BA69E]/10 text-[#2D817A]'
+          : 'border-[#B8667A]/25 bg-[#B8667A]/10 text-[#A24E63]',
+      )}
+    >
       {status}
     </span>
   );
@@ -241,8 +249,6 @@ function CompactMeta({ itv }: { itv: JtbInterview }) {
       <div className="flex items-center gap-1.5 text-[11px] text-gray-400">
         <MapPin size={10} className="shrink-0" />
         <span>{itv.region}</span>
-        <span className="text-gray-300">/</span>
-        <StatusBadge status={itv.status} />
       </div>
       <div className="flex flex-wrap gap-1.5">
         <span className="rounded-md bg-gray-100 px-1.5 py-0.5 text-[10.5px] font-medium text-gray-600">{itv.combo}</span>
@@ -274,6 +280,7 @@ function FamilyCard({ itv, onOpen }: { itv: JtbInterview; onOpen: (itv: JtbInter
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-1.5 pr-10">
             <span className="truncate text-[14px] font-bold text-gray-900">{itv.parent}</span>
+            <StatusBadge status={itv.status} />
           </div>
           <p className="mt-1 line-clamp-1 text-[12px] font-medium text-gray-500">{teaserOf(itv)}</p>
         </div>
