@@ -97,6 +97,10 @@ function teaserOf(itv: JtbInterview): string {
   return itv.study[0] ?? '';
 }
 
+function representativeVoiceOf(itv: JtbInterview): string {
+  return itv.insights.find((ins) => ins.quote)?.quote ?? itv.quotes[0] ?? '';
+}
+
 function hasMinutes(itv: JtbInterview): boolean {
   return !!itv.minutesUrl && !itv.minutesUrl.endsWith('/');
 }
@@ -112,17 +116,37 @@ function stageOf(itv: JtbInterview): string {
 }
 
 const PURCHASE_STAGE_ORDER = ['首购', '续购', '升单', '已购', '未购'];
+const ACCENT = '#e65532';
+const PURCHASE_STAGE_STYLE: Record<string, { color: string; bg: string }> = {
+  首购: { color: ACCENT, bg: 'rgba(230,85,50,0.92)' },
+  续购: { color: ACCENT, bg: 'rgba(230,85,50,0.70)' },
+  升单: { color: ACCENT, bg: 'rgba(230,85,50,0.48)' },
+  已购: { color: '#6b7280', bg: '#d8d6cf' },
+  未购: { color: '#6b7280', bg: '#aaa69d' },
+};
 
 function StatusBadge({ status }: { status: '已购' | '未购' }) {
   return (
-    <span
-      className={cn(
-        'shrink-0 rounded-full px-2 py-0.5 text-[11px] font-semibold',
-        status === '已购' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-500',
-      )}
-    >
+    <span className="shrink-0 text-[11px] font-semibold text-gray-400">
       {status}
     </span>
+  );
+}
+
+function VoiceQuote({ text, compact = false }: { text: string; compact?: boolean }) {
+  return (
+    <blockquote
+      className={cn(
+        'relative rounded-xl border border-[#f0ded8] bg-[#fff8f5] text-gray-700',
+        compact ? 'px-3 py-2.5 text-[12px] leading-5' : 'px-4 py-3 text-[12.5px] leading-6',
+      )}
+    >
+      <Quote
+        size={compact ? 12 : 14}
+        className="absolute left-3 top-2.5 text-[#e65532]/50"
+      />
+      <p className="pl-5">{renderHighlighted(text)}</p>
+    </blockquote>
   );
 }
 
@@ -130,10 +154,62 @@ function StatusBadge({ status }: { status: '已购' | '未购' }) {
 
 function Metric({ label, value, note }: { label: string; value: string; note?: string }) {
   return (
-    <div className="rounded-xl border border-[#E8E2D9] bg-white px-4 py-3">
-      <div className="text-[11px] font-bold text-[#999]">{label}</div>
+    <div className="rounded-xl border border-[#E8E2D9] bg-white px-4 py-3 shadow-sm">
+      <div className="text-[11px] font-bold text-gray-400">{label}</div>
       <div className="mt-1.5 text-[22px] font-extrabold leading-none text-[#252525]">{value}</div>
-      {note && <div className="mt-1 text-[11px] text-[#aaa]">{note}</div>}
+      {note && <div className="mt-1 line-clamp-1 text-[11px] text-gray-400">{note}</div>}
+    </div>
+  );
+}
+
+function PurchaseDistribution({ interviews }: { interviews: JtbInterview[] }) {
+  const total = Math.max(interviews.length, 1);
+  const stageCounts = PURCHASE_STAGE_ORDER.map((stage) => {
+    const count = interviews.filter((i) => stageOf(i) === stage).length;
+    return {
+      stage,
+      count,
+      percent: Math.round((count / total) * 100),
+      style: PURCHASE_STAGE_STYLE[stage],
+    };
+  }).filter((item) => item.count > 0);
+
+  return (
+    <div className="rounded-xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <Sparkles size={13} className="text-[#e65532]" />
+          <span className="text-[12px] font-bold text-gray-800">购买性质分布</span>
+        </div>
+        <span className="text-[11px] text-gray-400">按 {interviews.length} 户受访家庭计算</span>
+      </div>
+
+      <div className="mt-4 flex h-4 overflow-hidden rounded-full bg-gray-100">
+        {stageCounts.map((item) => (
+          <div
+            key={item.stage}
+            title={`${item.stage} ${item.count}户，占${item.percent}%`}
+            className="h-full border-r border-white last:border-r-0"
+            style={{ width: `${(item.count / total) * 100}%`, backgroundColor: item.style.bg }}
+          />
+        ))}
+      </div>
+
+      <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
+        {stageCounts.map((item) => (
+          <div key={item.stage} className="rounded-lg border border-gray-100 bg-[#FAFAF8] px-3 py-2.5">
+            <div className="flex items-center gap-2">
+              <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: item.style.bg }} />
+              <span className="text-[11px] font-semibold text-gray-600">{item.stage}</span>
+            </div>
+            <div className="mt-1.5 flex items-baseline gap-1.5">
+              <strong className="text-[18px] font-extrabold text-gray-900">{item.count}</strong>
+              <span className="text-[11px] text-gray-400">户</span>
+              <span className="ml-auto text-[11px] font-semibold" style={{ color: item.style.color }}>{item.percent}%</span>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -145,12 +221,6 @@ function Cockpit() {
   const pending = JTB_INTERVIEWS.filter((i) => !hasDetail(i)).length;
   const regions = Array.from(new Set(JTB_INTERVIEWS.map((i) => i.region.slice(0, 2))));
 
-  const stageCounts = PURCHASE_STAGE_ORDER.map((s) => ({
-    stage: s,
-    count: JTB_INTERVIEWS.filter((i) => stageOf(i) === s).length,
-  })).filter((s) => s.count > 0);
-  const maxCount = Math.max(...stageCounts.map((s) => s.count), 1);
-
   return (
     <section className="space-y-4">
       <div className="grid grid-cols-3 gap-3">
@@ -158,32 +228,35 @@ function Cockpit() {
         <Metric label="已购 / 未购" value={`${purchased} / ${unpurchased}`} note={pending ? `其中 ${pending} 户纪要整理中` : '覆盖首购·续购·升单·未购'} />
         <Metric label="覆盖地区" value={String(regions.length)} note={regions.join(' · ')} />
       </div>
-
-      <div className="rounded-xl border border-[#E8E2D9] bg-white p-4">
-        <div className="mb-3 flex items-center gap-2">
-          <Sparkles size={13} className="text-[#e65532]" />
-          <span className="text-[12px] font-bold text-gray-700">购买性质分布</span>
-        </div>
-        <div className="space-y-2">
-          {stageCounts.map((s) => (
-            <div key={s.stage} className="flex items-center gap-3">
-              <span className="w-10 shrink-0 text-[12px] text-gray-500">{s.stage}</span>
-              <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-gray-100">
-                <div className="h-full rounded-full bg-[#e65532]" style={{ width: `${(s.count / maxCount) * 100}%` }} />
-              </div>
-              <span className="w-5 shrink-0 text-right text-[12px] font-bold text-gray-800">{s.count}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+      <PurchaseDistribution interviews={JTB_INTERVIEWS} />
     </section>
   );
 }
 
 // ── 家庭卡片 ─────────────────────────────────────────────────────────────
 
+function CompactMeta({ itv }: { itv: JtbInterview }) {
+  return (
+    <div className="mt-3 space-y-2">
+      <div className="flex items-center gap-1.5 text-[11px] text-gray-400">
+        <MapPin size={10} className="shrink-0" />
+        <span>{itv.region}</span>
+        <span className="text-gray-300">/</span>
+        <StatusBadge status={itv.status} />
+      </div>
+      <div className="flex flex-wrap gap-1.5">
+        <span className="rounded-md bg-gray-100 px-1.5 py-0.5 text-[10.5px] font-medium text-gray-600">{itv.combo}</span>
+        {itv.purchaseType && (
+          <span className="rounded-md border border-gray-100 bg-white px-1.5 py-0.5 text-[10.5px] text-gray-500">{itv.purchaseType}</span>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function FamilyCard({ itv, onOpen }: { itv: JtbInterview; onOpen: (itv: JtbInterview) => void }) {
   const detail = hasDetail(itv);
+  const voice = representativeVoiceOf(itv);
 
   return (
     <button
@@ -195,35 +268,36 @@ function FamilyCard({ itv, onOpen }: { itv: JtbInterview; onOpen: (itv: JtbInter
       )}
     >
       <div className="flex items-center gap-2.5">
-        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#e65532]/10 text-[13px] font-extrabold text-[#e65532]">
+        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[#e65532]/15 bg-white text-[13px] font-extrabold text-[#e65532]">
           {itv.seq}
         </span>
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5 pr-10">
             <span className="truncate text-[14px] font-bold text-gray-900">{itv.parent}</span>
-            <StatusBadge status={itv.status} />
-            {itv.priority && (
-              <span className="rounded-full bg-[#e65532]/10 px-1.5 py-0.5 text-[10px] font-bold text-[#e65532]">{itv.priority}</span>
-            )}
           </div>
-          <div className="mt-0.5 flex items-center gap-1 text-[11px] text-gray-400">
-            <MapPin size={10} className="shrink-0" />
-            {itv.region}
-          </div>
+          <p className="mt-1 line-clamp-1 text-[12px] font-medium text-gray-500">{teaserOf(itv)}</p>
         </div>
-      </div>
-
-      <div className="mt-2.5 flex flex-wrap gap-1.5">
-        <span className="rounded-md bg-gray-100 px-1.5 py-0.5 text-[10.5px] font-medium text-gray-600">{itv.combo}</span>
-        {itv.purchaseType && (
-          <span className="rounded-md bg-gray-50 px-1.5 py-0.5 text-[10.5px] text-gray-500">{itv.purchaseType}</span>
+        {itv.priority && (
+          <span className="absolute right-3 top-3 rounded-full border border-[#e65532]/25 bg-white px-2 py-0.5 text-[10px] font-bold text-[#e65532]">{itv.priority}</span>
         )}
       </div>
 
-      <p className="mt-2.5 line-clamp-2 flex-1 text-[12.5px] leading-6 text-gray-600">{teaserOf(itv)}</p>
+      <CompactMeta itv={itv} />
+
+      {voice ? (
+        <div className="mt-3 flex-1 border-t border-gray-100 pt-3">
+          <div className="mb-1.5 flex items-center gap-1 text-[10px] font-bold text-gray-400">
+            <Quote size={11} className="text-[#e65532]/55" />
+            代表原声
+          </div>
+          <p className="line-clamp-2 text-[12px] leading-5 text-gray-600">“{renderHighlighted(voice)}”</p>
+        </div>
+      ) : (
+        <p className="mt-3 flex-1 border-t border-gray-100 pt-3 text-[12px] leading-5 text-gray-400">访谈纪要整理中</p>
+      )}
 
       {detail && (
-        <div className="mt-2.5 flex items-center gap-1 text-[11px] font-medium text-[#e65532] opacity-0 transition-opacity group-hover:opacity-100">
+        <div className="mt-3 flex items-center gap-1 text-[11px] font-medium text-[#e65532] opacity-0 transition-opacity group-hover:opacity-100">
           查看完整访谈 <ChevronRight size={12} />
         </div>
       )}
@@ -234,6 +308,8 @@ function FamilyCard({ itv, onOpen }: { itv: JtbInterview; onOpen: (itv: JtbInter
 // ── 详情内容（抽屉里复用，不含链接） ─────────────────────────────────────
 
 function InterviewDetail({ itv }: { itv: JtbInterview }) {
+  const voices = Array.from(new Set(itv.quotes));
+
   return (
     <div className="space-y-5">
       {itv.insights.length > 0 && (
@@ -246,17 +322,34 @@ function InterviewDetail({ itv }: { itv: JtbInterview }) {
               </div>
               <p className="mt-1.5 text-[12.5px] leading-6 text-gray-600">{renderHighlighted(ins.detail)}</p>
               {ins.quote && (
-                <p className="mt-2 border-l-2 border-gray-200 pl-2.5 text-[12px] italic leading-5 text-gray-500">“{ins.quote}”</p>
+                <div className="mt-3">
+                  <VoiceQuote text={ins.quote} compact />
+                </div>
               )}
             </div>
           ))}
         </div>
       )}
 
+      {voices.length > 0 && (
+        <div>
+          <div className="mb-2 flex items-center gap-1.5">
+            <Quote size={13} className="text-[#e65532]" />
+            <span className="text-[12px] font-bold text-gray-700">原声证据</span>
+            <span className="text-[11px] text-gray-400">{voices.length} 条</span>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {voices.map((q, i) => (
+              <VoiceQuote key={`${q}-${i}`} text={q} compact />
+            ))}
+          </div>
+        </div>
+      )}
+
       {itv.study.length > 0 && (
         <div>
           <div className="mb-2 flex items-center gap-1.5">
-            <GraduationCap size={13} className="text-[#5B7BBF]" />
+            <GraduationCap size={13} className="text-gray-400" />
             <span className="text-[12px] font-bold text-gray-700">基本学情</span>
           </div>
           <ul className="space-y-1.5">
@@ -295,20 +388,6 @@ function InterviewDetail({ itv }: { itv: JtbInterview }) {
           </div>
         </div>
       )}
-
-      {itv.quotes.length > 0 && (
-        <div>
-          <div className="mb-2 flex items-center gap-1.5">
-            <Quote size={13} className="text-[#e65532]" />
-            <span className="text-[12px] font-bold text-gray-700">关键原声</span>
-          </div>
-          <div className="space-y-2">
-            {itv.quotes.map((q, i) => (
-              <div key={i} className="rounded-lg bg-gray-50 px-3 py-2 text-[12px] italic leading-6 text-gray-600">“{q}”</div>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 }
@@ -340,10 +419,10 @@ function DetailDrawer({ itv, onClose }: { itv: JtbInterview | null; onClose: () 
               <span className="text-[15px] font-bold text-gray-900">{itv.parent}</span>
               <StatusBadge status={itv.status} />
               {itv.purchaseType && (
-                <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-500">{itv.purchaseType}</span>
+                <span className="rounded-full border border-gray-100 bg-white px-2 py-0.5 text-[10px] font-medium text-gray-500">{itv.purchaseType}</span>
               )}
               {itv.priority && (
-                <span className="rounded-full bg-[#e65532]/10 px-2 py-0.5 text-[10px] font-bold text-[#e65532]">{itv.priority}</span>
+                <span className="rounded-full border border-[#e65532]/25 bg-white px-2 py-0.5 text-[10px] font-bold text-[#e65532]">{itv.priority}</span>
               )}
             </div>
             <div className="mt-1 text-[12px] text-gray-500">
@@ -510,13 +589,13 @@ function SectionBlock({
 }) {
   if (list.length === 0) return null;
   const groups = groupByCombo(list);
-  const dot = tone === 'purchased' ? 'bg-emerald-500' : 'bg-rose-500';
+  const label = tone === 'purchased' ? '已购样本' : '未购样本';
 
   return (
     <section className="space-y-4">
       <div className="flex items-center gap-2 border-b border-[#E8E2D9] pb-2">
-        <span className={cn('h-3 w-3 rounded-full', dot)} />
         <h3 className="text-[16px] font-extrabold text-gray-900">{title}</h3>
+        <span className="rounded-full border border-gray-200 bg-white px-2 py-0.5 text-[10px] font-semibold text-gray-400">{label}</span>
         <span className="text-[12px] text-gray-400">{list.length} 户 · {groups.length} 个年级组合</span>
       </div>
 
