@@ -1,29 +1,29 @@
 import {
   BookOpen,
-  Check,
   ChevronDown,
   ChevronRight,
   FileText,
-  Layers,
+  Lightbulb,
   MessageSquareQuote,
   Monitor,
+  ShieldAlert,
   ShoppingCart,
   Sparkles,
-  UserRound,
+  Target,
   Users,
-  X,
 } from 'lucide-react';
-import { useMemo, useState, type ReactNode } from 'react';
+import { useMemo, useState } from 'react';
 import { useProjects } from '../../store/useProjectStore';
 import type { Sentiment } from '../../types/voc';
 import {
   buildCategoryInsightData,
-  countBy,
+  CATEGORY_EXECUTIVE_SUMMARIES,
+  DIRECTION_DEFINITIONS,
   INSIGHT_CATEGORY_CONFIGS,
-  SENTIMENTS,
+  type BusinessDirection,
   type CategoryQuote,
+  type DirectionDefinition,
   type InsightCategorySlug,
-  type UserRole,
 } from './categoryInsights';
 
 const iconMap = {
@@ -31,12 +31,6 @@ const iconMap = {
   'course-experience': BookOpen,
   'purchase-decision': ShoppingCart,
 } satisfies Record<InsightCategorySlug, typeof Monitor>;
-
-const roleColors: Record<UserRole, string> = {
-  家长: '#f97316',
-  学生: '#3b82f6',
-  其他: '#6b7280',
-};
 
 const sentimentMeta: Record<Sentiment, { label: string; color: string; bg: string }> = {
   positive: { label: '正向', color: '#168a55', bg: '#eaf8f0' },
@@ -48,70 +42,18 @@ interface InsightCategoryPageProps {
   slug: InsightCategorySlug;
 }
 
-type QuoteTree = Record<string, Record<string, CategoryQuote[]>>;
-
 export default function InsightCategoryPage({ slug }: InsightCategoryPageProps) {
   const projects = useProjects();
   const config = INSIGHT_CATEGORY_CONFIGS[slug];
+  const summary = CATEGORY_EXECUTIVE_SUMMARIES[slug];
   const Icon = iconMap[slug];
   const data = useMemo(() => buildCategoryInsightData(projects, slug), [projects, slug]);
-
-  const [projectFilters, setProjectFilters] = useState<string[]>([]);
-  const [sourceFilters, setSourceFilters] = useState<string[]>([]);
-  const [issueFilters, setIssueFilters] = useState<string[]>([]);
-  const [sentimentFilters, setSentimentFilters] = useState<Sentiment[]>([]);
-
-  const filterOptions = useMemo(() => {
-    const projectMap = new Map<string, string>();
-    const sourceMap = new Map<string, string>();
-    const issueMap = new Map<string, string>();
-
-    data.quotes.forEach((quote) => {
-      projectMap.set(quote.projectId, quote.projectName);
-      sourceMap.set(quote.sourceId, quote.sourceName);
-      issueMap.set(quote.subSubCategory, quote.subSubCategory);
-    });
-
-    return {
-      projects: [...projectMap.entries()].map(([value, label]) => ({ value, label })),
-      sources: [...sourceMap.entries()].map(([value, label]) => ({ value, label })),
-      issues: [...issueMap.entries()].map(([value, label]) => ({ value, label })),
-    };
-  }, [data.quotes]);
-
-  const filteredQuotes = useMemo(
-    () =>
-      data.quotes.filter((quote) => {
-        if (projectFilters.length > 0 && !projectFilters.includes(quote.projectId)) return false;
-        if (sourceFilters.length > 0 && !sourceFilters.includes(quote.sourceId)) return false;
-        if (issueFilters.length > 0 && !issueFilters.includes(quote.subSubCategory)) return false;
-        if (sentimentFilters.length > 0 && !sentimentFilters.includes(quote.sentiment)) return false;
-        return true;
-      }),
-    [data.quotes, issueFilters, projectFilters, sentimentFilters, sourceFilters],
-  );
-
-  const filteredSentiments = useMemo(() => countSentiment(filteredQuotes), [filteredQuotes]);
-  const projectCount = new Set(filteredQuotes.map((quote) => quote.projectId)).size;
-  const sourceCount = new Set(filteredQuotes.map((quote) => quote.sourceId)).size;
-  const topIssues = countBy(filteredQuotes, (quote) => quote.subSubCategory).slice(0, 6);
-  const hasFilters =
-    projectFilters.length > 0 ||
-    sourceFilters.length > 0 ||
-    issueFilters.length > 0 ||
-    sentimentFilters.length > 0;
-
-  function clearFilters() {
-    setProjectFilters([]);
-    setSourceFilters([]);
-    setIssueFilters([]);
-    setSentimentFilters([]);
-  }
+  const directions = useMemo(() => buildBusinessDirections(slug, data.quotes), [data.quotes, slug]);
 
   return (
-    <main className="min-h-[calc(100vh-52px)] bg-neutral-50">
-      <section className="border-b border-neutral-200 bg-white">
-        <div className="mx-auto max-w-[1400px] px-4 py-7 sm:px-6">
+    <main className="min-h-[calc(100vh-52px)] bg-[#f4f5f2]">
+      <section className="border-b border-[#e2dfd7] bg-white">
+        <div className="mx-auto max-w-6xl px-4 py-7 sm:px-6">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="mb-3 flex items-center gap-2">
@@ -121,121 +63,117 @@ export default function InsightCategoryPage({ slug }: InsightCategoryPageProps) 
                 >
                   <Icon size={19} />
                 </span>
-                <span className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-400">
+                <span className="text-xs font-semibold uppercase tracking-[0.18em] text-[#928b80]">
                   {config.eyebrow}
                 </span>
               </div>
-              <h1 className="text-[28px] font-extrabold leading-tight text-neutral-900 sm:text-[34px]">
+              <h1 className="text-[28px] font-extrabold leading-tight text-[#25231f] sm:text-[34px]">
                 {config.title}
               </h1>
-              <p className="mt-3 max-w-2xl text-sm leading-6 text-neutral-500">
-                {config.description}
+              <p className="mt-3 max-w-3xl text-[15px] leading-7 text-[#5f5a52]">
+                {summary.verdict}
               </p>
+            </div>
+            <div className="grid grid-cols-3 gap-2 lg:w-[320px]">
+              <TopMetric label="原声" value={data.totalQuotes} color={config.color} />
+              <TopMetric label="项目" value={data.totalProjects} color={config.color} />
+              <TopMetric label="材料" value={data.totalSources} color={config.color} />
             </div>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1400px] px-4 py-6 sm:px-6">
-        <SummaryCard
-          color={config.color}
-          description={buildSummaryText(config.title, filteredQuotes, topIssues)}
-        />
-
-        <div className="mb-6 flex flex-wrap items-center gap-3">
-          <FilterPopover
-            icon={<Layers size={14} />}
-            placeholder="项目筛选"
-            options={filterOptions.projects}
-            selected={projectFilters}
-            onChange={setProjectFilters}
+      <section className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
+        <div className="mb-6 grid gap-3 lg:grid-cols-3">
+          <ExecutiveCard
+            icon={<Lightbulb size={16} />}
+            label="机会点"
+            text={summary.opportunity}
+            color={config.color}
           />
-          <FilterPopover
-            icon={<FileText size={14} />}
-            placeholder="来源材料"
-            options={filterOptions.sources}
-            selected={sourceFilters}
-            onChange={setSourceFilters}
+          <ExecutiveCard
+            icon={<ShieldAlert size={16} />}
+            label="风险点"
+            text={summary.risk}
+            color={config.color}
           />
-          <FilterPopover
-            icon={<ChevronRight size={14} />}
-            placeholder="子议题"
-            options={filterOptions.issues}
-            selected={issueFilters}
-            onChange={setIssueFilters}
+          <ExecutiveCard
+            icon={<Target size={16} />}
+            label="建议动作"
+            text={summary.action}
+            color={config.color}
           />
-          <FilterPopover
-            icon={<MessageSquareQuote size={14} />}
-            placeholder="情绪筛选"
-            options={SENTIMENTS.map((sentiment) => ({
-              value: sentiment,
-              label: sentimentMeta[sentiment].label,
-            }))}
-            selected={sentimentFilters}
-            onChange={(value) => setSentimentFilters(value as Sentiment[])}
-          />
-          {hasFilters && (
-            <button
-              type="button"
-              onClick={clearFilters}
-              className="inline-flex h-9 items-center gap-1.5 rounded-md px-3 text-sm font-medium text-neutral-500 transition hover:bg-white hover:text-neutral-800"
-            >
-              <X size={14} />
-              清除筛选
-            </button>
-          )}
         </div>
 
-        <div className="mb-6 grid grid-cols-2 gap-4 md:grid-cols-4">
-          <StatCard icon={<MessageSquareQuote size={16} />} label="引言总数" value={filteredQuotes.length} color={config.color} />
-          <StatCard icon={<Users size={16} />} label="覆盖项目" value={projectCount} color={config.color} />
-          <DistributionCard label="身份分布" quotes={filteredQuotes} getKey={(quote) => quote.userRole} color={config.color} />
-          <DistributionCard label="情绪分布" quotes={filteredQuotes} getKey={(quote) => sentimentMeta[quote.sentiment].label} color={config.color} />
-        </div>
-
-        {filteredQuotes.length === 0 ? (
-          <div className="rounded-lg border border-dashed border-neutral-200 bg-white px-6 py-14 text-center text-neutral-400">
-            <MessageSquareQuote className="mx-auto mb-3 opacity-50" size={36} />
-            <p className="text-sm">{config.emptyHint}</p>
+        <div className="mb-4 flex items-center justify-between gap-3">
+          <div>
+            <h2 className="text-lg font-extrabold text-[#25231f]">业务方向判断</h2>
+            <p className="mt-1 text-sm text-[#7a746b]">
+              默认只展示最需要业务方理解的判断，原声作为证据展开查看。
+            </p>
           </div>
-        ) : (
-          <>
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-              <RoleColumn
-                role="家长"
-                quotes={filteredQuotes.filter((quote) => quote.userRole === '家长')}
-                color={config.color}
-              />
-              <RoleColumn
-                role="学生"
-                quotes={filteredQuotes.filter((quote) => quote.userRole === '学生')}
-                color={config.color}
-              />
-            </div>
-            {filteredQuotes.some((quote) => quote.userRole === '其他') && (
-              <div className="mt-6">
-                <RoleColumn
-                  role="其他"
-                  quotes={filteredQuotes.filter((quote) => quote.userRole === '其他')}
-                  color={config.color}
-                />
-              </div>
-            )}
-          </>
-        )}
+        </div>
+
+        <div className="grid gap-4">
+          {directions.map((direction, index) => (
+            <DirectionCard
+              key={direction.id}
+              direction={direction}
+              index={index + 1}
+              color={config.color}
+              tint={config.tint}
+            />
+          ))}
+        </div>
       </section>
     </main>
   );
 }
 
-function buildSummaryText(title: string, quotes: CategoryQuote[], topIssues: Array<{ name: string; count: number }>) {
-  if (quotes.length === 0) return `当前筛选条件下暂无${title}相关原声。`;
-  const issueText = topIssues.length > 0 ? topIssues.map((issue) => issue.name).join('、') : '暂无明显集中议题';
-  const projects = new Set(quotes.map((quote) => quote.projectName)).size;
-  return `当前共聚合 ${quotes.length} 条${title}原声，覆盖 ${projects} 个项目。高频议题集中在 ${issueText}，可用于快速定位用户在该分类下的主要判断依据。`;
+function buildBusinessDirections(slug: InsightCategorySlug, quotes: CategoryQuote[]): BusinessDirection[] {
+  return DIRECTION_DEFINITIONS[slug].map((definition) => {
+    const matched = pickDirectionQuotes(definition, quotes);
+    const usableQuotes = matched.length > 0 ? matched : quotes.slice(0, 6);
+    const sentimentCounts = countSentiments(usableQuotes);
+    return {
+      id: definition.id,
+      title: definition.title,
+      businessImpact: definition.businessImpact,
+      findings: definition.findings,
+      action: definition.action,
+      quotes: usableQuotes,
+      representativeQuotes: pickRepresentativeQuotes(usableQuotes),
+      projectNames: [...new Set(usableQuotes.map((quote) => quote.projectName))],
+      sourceCount: new Set(usableQuotes.map((quote) => quote.sourceId)).size,
+      sentimentCounts,
+    };
+  });
 }
 
-function countSentiment(quotes: CategoryQuote[]): Record<Sentiment, number> {
+function pickDirectionQuotes(definition: DirectionDefinition, quotes: CategoryQuote[]): CategoryQuote[] {
+  const keywords = definition.keywords.map((keyword) => keyword.toLowerCase());
+  return quotes.filter((quote) => {
+    const haystack = `${quote.text} ${quote.subSubCategory} ${quote.dimension} ${quote.quoteSummary ?? ''}`.toLowerCase();
+    return keywords.some((keyword) => haystack.includes(keyword));
+  });
+}
+
+function pickRepresentativeQuotes(quotes: CategoryQuote[]): CategoryQuote[] {
+  return [...quotes]
+    .sort((a, b) => scoreQuote(b) - scoreQuote(a))
+    .slice(0, 2);
+}
+
+function scoreQuote(quote: CategoryQuote) {
+  let score = 0;
+  if (quote.respondent) score += 2;
+  if (quote.sourceName) score += 1;
+  if (quote.text.length > 24 && quote.text.length < 120) score += 2;
+  if (quote.sentiment === 'negative') score += 1;
+  return score;
+}
+
+function countSentiments(quotes: CategoryQuote[]): Record<Sentiment, number> {
   return {
     positive: quotes.filter((quote) => quote.sentiment === 'positive').length,
     neutral: quotes.filter((quote) => quote.sentiment === 'neutral').length,
@@ -243,295 +181,230 @@ function countSentiment(quotes: CategoryQuote[]): Record<Sentiment, number> {
   };
 }
 
-function SummaryCard({ color, description }: { color: string; description: string }) {
+function TopMetric({ label, value, color }: { label: string; value: number; color: string }) {
   return (
-    <div className="mb-6 overflow-hidden rounded-lg border border-neutral-200 bg-white">
-      <div className="h-1" style={{ backgroundColor: color }} />
-      <div className="p-5">
-        <div className="mb-3 flex items-center gap-2">
-          <Sparkles size={16} style={{ color }} />
-          <span className="text-sm font-bold text-neutral-700">综合概要</span>
-        </div>
-        <p className="text-sm leading-6 text-neutral-600">{description}</p>
+    <div className="rounded-lg border border-[#ebe7de] bg-[#fbfaf7] px-3 py-3">
+      <div className="text-xs font-medium text-[#8a857d]">{label}</div>
+      <div className="mt-1 text-2xl font-extrabold" style={{ color }}>
+        {value}
       </div>
     </div>
   );
 }
 
-function FilterPopover({
-  icon,
-  placeholder,
-  options,
-  selected,
-  onChange,
-}: {
-  icon: ReactNode;
-  placeholder: string;
-  options: Array<{ value: string; label: string }>;
-  selected: string[];
-  onChange: (value: string[]) => void;
-}) {
-  const [open, setOpen] = useState(false);
-  const selectedLabel = selected.length === 0 ? placeholder : `已选 ${selected.length} 项`;
-
-  function toggle(value: string) {
-    onChange(selected.includes(value) ? selected.filter((item) => item !== value) : [...selected, value]);
-  }
-
-  return (
-    <div className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen((value) => !value)}
-        className="inline-flex h-9 items-center gap-1.5 rounded-md border border-neutral-200 bg-white px-3 text-sm text-neutral-700 transition hover:bg-neutral-50"
-      >
-        <span className="text-neutral-400">{icon}</span>
-        <span className="max-w-[140px] truncate">{selectedLabel}</span>
-        <ChevronDown size={14} className="text-neutral-400" />
-      </button>
-
-      {open && (
-        <div className="absolute left-0 top-11 z-30 w-72 rounded-lg border border-neutral-200 bg-white p-2 shadow-lg">
-          <div className="max-h-72 overflow-y-auto">
-            {options.length === 0 ? (
-              <div className="px-2 py-2 text-sm text-neutral-400">暂无选项</div>
-            ) : (
-              options.map((option) => {
-                const checked = selected.includes(option.value);
-                return (
-                  <button
-                    key={option.value}
-                    type="button"
-                    onClick={() => toggle(option.value)}
-                    className="flex w-full items-center gap-2 rounded-md px-2 py-2 text-left text-sm text-neutral-700 transition hover:bg-neutral-50"
-                  >
-                    <span
-                      className={`flex h-4 w-4 shrink-0 items-center justify-center rounded border ${
-                        checked ? 'border-blue-500 bg-blue-500 text-white' : 'border-neutral-300'
-                      }`}
-                    >
-                      {checked && <Check size={12} />}
-                    </span>
-                    <span className="truncate">{option.label}</span>
-                  </button>
-                );
-              })
-            )}
-          </div>
-          {selected.length > 0 && (
-            <button
-              type="button"
-              onClick={() => onChange([])}
-              className="mt-1 w-full border-t border-neutral-100 py-2 text-xs text-neutral-400 transition hover:text-neutral-700"
-            >
-              清除{placeholder}
-            </button>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function StatCard({
+function ExecutiveCard({
   icon,
   label,
-  value,
+  text,
   color,
 }: {
-  icon: ReactNode;
+  icon: React.ReactNode;
   label: string;
-  value: number;
+  text: string;
   color: string;
 }) {
   return (
-    <div className="rounded-lg border border-neutral-200 bg-white p-4">
-      <div className="mb-1 flex items-center gap-2">
+    <div className="rounded-lg border border-[#e5e1d8] bg-white p-4">
+      <div className="mb-2 flex items-center gap-2 text-sm font-bold text-[#2b2925]">
         <span style={{ color }}>{icon}</span>
-        <span className="text-xs text-neutral-500">{label}</span>
+        {label}
       </div>
-      <span className="text-2xl font-bold text-neutral-900">{value}</span>
+      <p className="text-sm leading-6 text-[#5f5a52]">{text}</p>
     </div>
   );
 }
 
-function DistributionCard<T extends string>({
-  label,
-  quotes,
-  getKey,
+function DirectionCard({
+  direction,
+  index,
   color,
+  tint,
 }: {
-  label: string;
-  quotes: CategoryQuote[];
-  getKey: (quote: CategoryQuote) => T;
+  direction: BusinessDirection;
+  index: number;
   color: string;
+  tint: string;
 }) {
-  const entries = countBy(quotes, getKey).slice(0, 4);
-  const total = quotes.length;
-  return (
-    <div className="rounded-lg border border-neutral-200 bg-white p-4">
-      <span className="mb-2 block text-xs text-neutral-500">{label}</span>
-      {entries.length === 0 ? (
-        <span className="text-xs text-neutral-400">暂无数据</span>
-      ) : (
-        <div className="space-y-1.5">
-          {entries.map((entry) => (
-            <div key={entry.name} className="flex items-center gap-2">
-              <span className="w-12 truncate text-xs text-neutral-700">{entry.name}</span>
-              <div className="h-2 flex-1 overflow-hidden rounded-full bg-neutral-100">
-                <div
-                  className="h-full rounded-full"
-                  style={{ width: `${total ? (entry.count / total) * 100 : 0}%`, backgroundColor: color, opacity: 0.7 }}
-                />
-              </div>
-              <span className="w-10 text-right text-xs text-neutral-500">{entry.count}</span>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function RoleColumn({ role, quotes, color }: { role: UserRole; quotes: CategoryQuote[]; color: string }) {
-  const tree = useMemo(() => buildQuoteTree(quotes), [quotes]);
-  const projects = Object.keys(tree);
+  const [expanded, setExpanded] = useState(false);
+  const evidenceGroups = groupEvidence(direction.quotes);
 
   return (
-    <section>
-      <div className="mb-4 flex items-center gap-2 border-b-2 pb-2" style={{ borderColor: roleColors[role] }}>
-        <div className="h-3 w-3 rounded-full" style={{ backgroundColor: roleColors[role] }} />
-        <h2 className="font-semibold text-neutral-800">{role}</h2>
-        <span className="text-sm text-neutral-400">({quotes.length} 条引言)</span>
-      </div>
-
-      {quotes.length === 0 ? (
-        <div className="rounded-lg border border-dashed border-neutral-200 bg-white px-4 py-8 text-sm text-neutral-400">
-          暂无{role}引言
-        </div>
-      ) : (
-        <div className="space-y-5">
-          {projects.map((projectName) => (
-            <ProjectSection
-              key={projectName}
-              projectName={projectName}
-              groups={tree[projectName]}
-              color={color}
-            />
-          ))}
-        </div>
-      )}
-    </section>
-  );
-}
-
-function buildQuoteTree(quotes: CategoryQuote[]): QuoteTree {
-  const tree: QuoteTree = {};
-  quotes.forEach((quote) => {
-    const project = quote.subCategory || quote.projectName;
-    const issue = quote.subSubCategory || '未分类';
-    if (!tree[project]) tree[project] = {};
-    if (!tree[project][issue]) tree[project][issue] = [];
-    tree[project][issue].push(quote);
-  });
-  return tree;
-}
-
-function ProjectSection({
-  projectName,
-  groups,
-  color,
-}: {
-  projectName: string;
-  groups: Record<string, CategoryQuote[]>;
-  color: string;
-}) {
-  const issues = Object.keys(groups).sort((a, b) => groups[b].length - groups[a].length);
-  const total = issues.reduce((sum, issue) => sum + groups[issue].length, 0);
-
-  return (
-    <div>
-      <div className="mb-2 flex items-center gap-2">
-        <ChevronRight size={16} style={{ color }} />
-        <h3 className="text-sm font-semibold text-neutral-700">{projectName}</h3>
-        <span className="text-xs text-neutral-400">{total}</span>
-      </div>
-      <div className="space-y-3 border-l-2 border-neutral-100 pl-4">
-        {issues.map((issue) => (
-          <div key={issue}>
-            <div className="mb-1.5 flex items-center gap-1.5">
-              <div className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: color, opacity: 0.5 }} />
-              <span className="text-xs font-medium text-neutral-500">{issue}</span>
-              <span className="text-xs text-neutral-300">{groups[issue].length}</span>
-            </div>
-            <div className="space-y-2">
-              {groups[issue].map((quote) => (
-                <QuoteCard key={quote.id} quote={quote} color={color} />
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function QuoteCard({ quote, color }: { quote: CategoryQuote; color: string }) {
-  return (
-    <article className="overflow-hidden rounded-lg border border-neutral-200 bg-white">
-      <div className="p-3">
-        <div className="flex items-start gap-2.5">
-          <div className="w-1 self-stretch rounded-full" style={{ backgroundColor: color, opacity: 0.35 }} />
-          <div className="min-w-0 flex-1">
-            <div className="mb-1.5 flex flex-wrap items-center gap-1.5">
-              <span className="text-sm font-medium text-neutral-800">
-                {quote.respondent || quote.userRole}
+    <article className="overflow-hidden rounded-lg border border-[#e3dfd6] bg-white shadow-sm">
+      <div className="grid gap-0 lg:grid-cols-[1.15fr_0.85fr]">
+        <div className="p-5">
+          <div className="mb-3 flex flex-wrap items-center gap-2">
+            <span
+              className="inline-flex h-7 min-w-7 items-center justify-center rounded-md px-2 text-xs font-extrabold"
+              style={{ backgroundColor: tint, color }}
+            >
+              {String(index).padStart(2, '0')}
+            </span>
+            {direction.projectNames.slice(0, 3).map((name) => (
+              <span key={name} className="rounded-full bg-[#f4f2ec] px-2.5 py-1 text-xs font-medium text-[#6f6a63]">
+                {name}
               </span>
-              {quote.grade && <Badge>{quote.grade}</Badge>}
-              {quote.schoolLevel && <Badge>{quote.schoolLevel}</Badge>}
-              {quote.gender && <Badge>{quote.gender}</Badge>}
-              <span
-                className="rounded-full px-2 py-0.5 text-[10px] font-bold"
-                style={{
-                  backgroundColor: sentimentMeta[quote.sentiment].bg,
-                  color: sentimentMeta[quote.sentiment].color,
-                }}
-              >
-                {sentimentMeta[quote.sentiment].label}
-              </span>
-            </div>
-
-            <p className="whitespace-pre-wrap text-sm leading-6 text-neutral-700">{quote.text}</p>
-
-            {quote.quoteSummary && (
-              <div className="mt-2">
-                <span className="inline-block rounded bg-neutral-50 px-2 py-1 text-xs text-neutral-400">
-                  摘要：{quote.quoteSummary}
-                </span>
-              </div>
+            ))}
+            {direction.projectNames.length > 3 && (
+              <span className="text-xs text-[#9a948b]">+{direction.projectNames.length - 3}</span>
             )}
+          </div>
 
-            <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-neutral-400">
-              <span className="inline-flex items-center gap-1">
-                <UserRound size={12} />
-                {quote.projectName}
-              </span>
-              <span className="inline-flex items-center gap-1">
-                <FileText size={12} />
-                {quote.sourceName}
-              </span>
+          <h3 className="text-xl font-extrabold leading-snug text-[#25231f]">{direction.title}</h3>
+          <p className="mt-3 text-sm leading-6 text-[#5f5a52]">{direction.businessImpact}</p>
+
+          <div className="mt-4 grid gap-2 sm:grid-cols-3">
+            <MiniMetric icon={<MessageSquareQuote size={14} />} label="证据原声" value={direction.quotes.length} />
+            <MiniMetric icon={<FileText size={14} />} label="来源材料" value={direction.sourceCount} />
+            <MiniMetric icon={<Users size={14} />} label="涉及项目" value={direction.projectNames.length} />
+          </div>
+
+          <div className="mt-4">
+            <div className="mb-2 text-xs font-bold text-[#8a857d]">关键发现</div>
+            <ul className="space-y-1.5">
+              {direction.findings.map((finding) => (
+                <li key={finding} className="flex gap-2 text-sm leading-6 text-[#46413a]">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full" style={{ backgroundColor: color }} />
+                  <span>{finding}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="mt-4 rounded-lg border border-[#ebe7de] bg-[#fbfaf7] p-3">
+            <div className="mb-1 flex items-center gap-2 text-xs font-bold text-[#6f6a63]">
+              <Target size={13} style={{ color }} />
+              建议动作
             </div>
+            <p className="text-sm leading-6 text-[#46413a]">{direction.action}</p>
           </div>
         </div>
+
+        <div className="border-t border-[#eee9df] bg-[#fbfaf7] p-5 lg:border-l lg:border-t-0">
+          <div className="mb-3 flex items-center justify-between">
+            <div className="text-sm font-bold text-[#2b2925]">代表原声</div>
+            <SentimentPills counts={direction.sentimentCounts} />
+          </div>
+
+          <div className="space-y-3">
+            {direction.representativeQuotes.map((quote) => (
+              <QuotePreview key={quote.id} quote={quote} color={color} />
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setExpanded((value) => !value)}
+            className="mt-4 inline-flex h-9 items-center gap-1.5 rounded-md border border-[#ded8cd] bg-white px-3 text-sm font-bold text-[#5f5a52] transition hover:bg-[#f7f4ee]"
+          >
+            {expanded ? '收起证据' : '查看全部证据'}
+            <ChevronDown size={14} className={expanded ? 'rotate-180 transition' : 'transition'} />
+          </button>
+        </div>
       </div>
+
+      {expanded && (
+        <div className="border-t border-[#eee9df] bg-white p-5">
+          <div className="mb-4 flex items-center gap-2 text-sm font-bold text-[#2b2925]">
+            <Sparkles size={15} style={{ color }} />
+            证据明细
+          </div>
+          <div className="grid gap-4 lg:grid-cols-2">
+            {Object.entries(evidenceGroups).map(([projectName, quotes]) => (
+              <EvidenceGroup key={projectName} projectName={projectName} quotes={quotes} color={color} />
+            ))}
+          </div>
+        </div>
+      )}
     </article>
   );
 }
 
-function Badge({ children }: { children: ReactNode }) {
+function MiniMetric({ icon, label, value }: { icon: React.ReactNode; label: string; value: number }) {
   return (
-    <span className="rounded bg-neutral-100 px-1.5 py-0.5 text-[10px] font-medium text-neutral-500">
-      {children}
-    </span>
+    <div className="flex items-center gap-2 rounded-lg bg-[#f7f5ef] px-3 py-2">
+      <span className="text-[#9a948b]">{icon}</span>
+      <div>
+        <div className="text-[11px] text-[#8a857d]">{label}</div>
+        <div className="text-sm font-extrabold text-[#2b2925]">{value}</div>
+      </div>
+    </div>
+  );
+}
+
+function SentimentPills({ counts }: { counts: Record<Sentiment, number> }) {
+  return (
+    <div className="flex items-center gap-1">
+      {(['positive', 'neutral', 'negative'] as Sentiment[]).map((sentiment) => (
+        <span
+          key={sentiment}
+          className="rounded-full px-2 py-0.5 text-[10px] font-bold"
+          style={{ backgroundColor: sentimentMeta[sentiment].bg, color: sentimentMeta[sentiment].color }}
+        >
+          {sentimentMeta[sentiment].label} {counts[sentiment]}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function QuotePreview({ quote, color }: { quote: CategoryQuote; color: string }) {
+  return (
+    <blockquote className="rounded-lg border border-[#e8e3da] bg-white p-3">
+      <div className="mb-2 flex items-center gap-2">
+        <span className="h-2 w-2 rounded-full" style={{ backgroundColor: color }} />
+        <span className="truncate text-xs font-bold text-[#6f6a63]">{quote.respondent || quote.sourceName}</span>
+      </div>
+      <p className="line-clamp-4 text-sm leading-6 text-[#34312c]">{quote.text}</p>
+      <div className="mt-2 text-xs text-[#9a948b]">{quote.projectName}</div>
+    </blockquote>
+  );
+}
+
+function groupEvidence(quotes: CategoryQuote[]) {
+  return quotes.reduce<Record<string, CategoryQuote[]>>((acc, quote) => {
+    if (!acc[quote.projectName]) acc[quote.projectName] = [];
+    acc[quote.projectName].push(quote);
+    return acc;
+  }, {});
+}
+
+function EvidenceGroup({
+  projectName,
+  quotes,
+  color,
+}: {
+  projectName: string;
+  quotes: CategoryQuote[];
+  color: string;
+}) {
+  const visibleQuotes = quotes.slice(0, 8);
+  return (
+    <section className="rounded-lg border border-[#e8e3da] bg-[#fbfaf7] p-4">
+      <div className="mb-3 flex items-center gap-2">
+        <ChevronRight size={15} style={{ color }} />
+        <h4 className="text-sm font-bold text-[#34312c]">{projectName}</h4>
+        <span className="text-xs text-[#9a948b]">{quotes.length}</span>
+      </div>
+      <div className="space-y-2">
+        {visibleQuotes.map((quote) => (
+          <div key={quote.id} className="rounded-md bg-white p-3">
+            <div className="mb-1 flex flex-wrap items-center gap-2">
+              <span className="text-xs font-bold text-[#6f6a63]">{quote.subSubCategory}</span>
+              <span
+                className="rounded-full px-2 py-0.5 text-[10px] font-bold"
+                style={{ backgroundColor: sentimentMeta[quote.sentiment].bg, color: sentimentMeta[quote.sentiment].color }}
+              >
+                {sentimentMeta[quote.sentiment].label}
+              </span>
+            </div>
+            <p className="text-sm leading-6 text-[#46413a]">{quote.text}</p>
+            <div className="mt-2 text-xs text-[#9a948b]">{quote.sourceName}</div>
+          </div>
+        ))}
+      </div>
+      {quotes.length > visibleQuotes.length && (
+        <div className="mt-2 text-xs text-[#9a948b]">已显示前 {visibleQuotes.length} 条，其余证据可按来源材料继续追溯。</div>
+      )}
+    </section>
   );
 }

@@ -44,6 +44,35 @@ export interface CategoryInsightData {
   sentimentCounts: Record<Sentiment, number>;
 }
 
+export interface CategoryExecutiveSummary {
+  verdict: string;
+  opportunity: string;
+  risk: string;
+  action: string;
+}
+
+export interface DirectionDefinition {
+  id: string;
+  title: string;
+  businessImpact: string;
+  findings: string[];
+  action: string;
+  keywords: string[];
+}
+
+export interface BusinessDirection {
+  id: string;
+  title: string;
+  businessImpact: string;
+  findings: string[];
+  action: string;
+  quotes: CategoryQuote[];
+  representativeQuotes: CategoryQuote[];
+  projectNames: string[];
+  sourceCount: number;
+  sentimentCounts: Record<Sentiment, number>;
+}
+
 export const INSIGHT_CATEGORY_CONFIGS: Record<InsightCategorySlug, InsightCategoryConfig> = {
   'app-experience': {
     slug: 'app-experience',
@@ -81,6 +110,132 @@ export const INSIGHT_CATEGORY_CONFIGS: Record<InsightCategorySlug, InsightCatego
     subKeywords: ['购买', '续费', '升单', '首购', '价格', '价值', '信任', '顾虑', '转化', '套餐', '付费', '效果', '推荐', '决策'],
     keywords: ['购买', '续费', '升单', '首购', '价格', '价值', '信任', '顾虑', '转化', '套餐', '付费', '效果', '推荐', '下单', '买', '未购'],
   },
+};
+
+export const CATEGORY_EXECUTIVE_SUMMARIES: Record<InsightCategorySlug, CategoryExecutiveSummary> = {
+  'app-experience': {
+    verdict: 'APP体验的核心不是“功能够不够”，而是用户能不能快速找到、持续用起来，并看到学习闭环的价值。',
+    opportunity: '把 AI 定制、错题、学情报告和入口可见性讲清楚，可以直接提升使用率和续费信心。',
+    risk: '入口难找、权益不透明、账号设备限制会让用户把问题归因为产品不好用，而不是自己没用起来。',
+    action: '优先梳理关键路径入口、学情反馈和多孩账号体验，把高频功能包装成可感知的闭环。',
+  },
+  'course-experience': {
+    verdict: '课程体验的关键在于“是否承接真实学习场景”：同步、难度、覆盖和理解方式比单纯内容量更重要。',
+    opportunity: '动画、实验、即时互动能放大理解价值，适合做成课程差异化卖点。',
+    risk: '如果知识覆盖和校内同步感不足，用户会认为课程有趣但不够刚需，使用频次会被压低。',
+    action: '围绕校内同步、难度分层和知识覆盖补齐表达，让课程从“可看”变成“该用”。',
+  },
+  'purchase-decision': {
+    verdict: '购买决策不是单点价格问题，而是价值锚点、效果信心和家庭场景是否被说透。',
+    opportunity: '多孩家庭、长期学习规划和学习闭环是高客单转化的核心机会。',
+    risk: '效果不可见、怕浪费、重复收费感会拖慢成交，也会影响续费和升单。',
+    action: '销售和产品要共同输出“为什么值、怎么用、怎么验证效果”的成交证据链。',
+  },
+};
+
+export const DIRECTION_DEFINITIONS: Record<InsightCategorySlug, DirectionDefinition[]> = {
+  'app-experience': [
+    {
+      id: 'entry-visibility',
+      title: '入口和路径要足够直观，否则用户会把“找不到”理解成“产品不好用”',
+      businessImpact: '影响激活、使用频次和新功能渗透。',
+      findings: ['用户对入口可见性非常敏感。', '功能藏得深会削弱购买后的价值感。', '关键学习路径需要像数学同步课一样明确。'],
+      action: '把核心课程、AI 定制、错题和学情报告做成稳定入口，并在销售交付时同步说明。',
+      keywords: ['入口', '导航', '找', '板块', '首页', '明显', '可见', '点不开'],
+    },
+    {
+      id: 'interaction-feedback',
+      title: '互动反馈是用户愿意持续使用的主要抓手',
+      businessImpact: '影响孩子注意力、家长感知效果和课程复用率。',
+      findings: ['即时对错反馈能提升专注度。', '题库、错题和针对性练习让视频不只是“看完”。', '互动比纯讲解更容易形成学习闭环。'],
+      action: '把“讲解-练习-反馈-复习”的闭环作为体验亮点前置展示。',
+      keywords: ['互动', '反馈', '错题', '题库', '练习', '对错', '针对', '复习', '点', '选'],
+    },
+    {
+      id: 'ai-service-loop',
+      title: 'AI 和学情报告必须承担“省心感”，不能只停留在功能名',
+      businessImpact: '影响家长是否相信产品能替代人工监督。',
+      findings: ['家长需要看到薄弱点和下一步安排。', 'AI 定制班、学情报告和错题订正能形成省心理由。', '服务价值如果不可见，会被认为只是视频加题。'],
+      action: '强化周度报告、薄弱点诊断和下一步学习建议，让服务价值可见。',
+      keywords: ['AI', '学情', '报告', '诊断', '薄弱', '错题本', '定制', '省心', '老师', '服务'],
+    },
+    {
+      id: 'account-device',
+      title: '多孩家庭的账号和设备限制会直接影响家庭包价值感',
+      businessImpact: '影响家庭包成交、升单和售后满意度。',
+      findings: ['多孩同时学习是家庭包高频场景。', '学情分账和设备并发影响家长对“家庭权益”的理解。', '账号限制容易成为未消解痛点。'],
+      action: '把多孩并发、家庭组和学情分账作为家庭包体验优先级。',
+      keywords: ['设备', '账号', '同时', '家庭组', '分开', '学情报告', '锁账号', '多孩', '冲突'],
+    },
+  ],
+  'course-experience': [
+    {
+      id: 'school-sync',
+      title: '校内同步感决定课程是不是刚需',
+      businessImpact: '影响使用频次、家长推荐理由和课程续用。',
+      findings: ['用户会按课内单元和知识点去找内容。', '不同步会降低使用率。', '数学同步课常被用作参照物。'],
+      action: '课程目录和销售话术都要明确“对应哪个年级、哪个单元、哪个学习场景”。',
+      keywords: ['同步', '校内', '课本', '单元', '数学', '知识点', '对标', '课堂'],
+    },
+    {
+      id: 'difficulty-layering',
+      title: '难度分层要清楚，否则提前学和补基础用户都会犹豫',
+      businessImpact: '影响人群匹配、退费风险和课程满意度。',
+      findings: ['有用户觉得太简单，也有用户需要打基础。', '基础、进阶、挑战的定位需要更直观。', '不同成绩段不能用同一套表达。'],
+      action: '在课程页和交付中明确基础/进阶/挑战的适配人群与学习目标。',
+      keywords: ['简单', '难度', '基础', '进阶', '挑战', '拔高', '补差', '提前学', '分层'],
+    },
+    {
+      id: 'animation-understanding',
+      title: '动画和实验的价值在于帮助理解，而不是制造热闹',
+      businessImpact: '影响课程差异化、孩子兴趣和家长付费理由。',
+      findings: ['动画能把抽象知识具体化。', '实验和直观呈现能降低理解门槛。', '用户认可“理解替代死记硬背”。'],
+      action: '把动画/实验包装成“理解效率”和“科学思维”的证据，不只说形式有趣。',
+      keywords: ['动画', '实验', '直观', '理解', '抽象', '具体', '兴趣', '现象', '思维'],
+    },
+    {
+      id: 'content-coverage',
+      title: '知识覆盖和内容丰富度决定课程能不能长期用',
+      businessImpact: '影响课程复购、长期会员价值和口碑。',
+      findings: ['用户会关注知识点是否完整。', '内容少会导致预期落差。', '长期有效和持续更新是购买理由的一部分。'],
+      action: '补齐知识覆盖表达，并对更新节奏给出明确承诺。',
+      keywords: ['覆盖', '丰富', '内容', '更新', '知识点', '长期', '永久', '完整', '不够'],
+    },
+  ],
+  'purchase-decision': [
+    {
+      id: 'value-price',
+      title: '用户不是单纯嫌贵，而是在找“值不值”的参照物',
+      businessImpact: '影响定价接受度、套餐设计和销售解释成本。',
+      findings: ['用户会拿私教、线下班、教辅和已有会员做比较。', '重复收费感会削弱价值判断。', '长期套餐需要讲清未来成本。'],
+      action: '销售话术先建立价值参照，再谈价格和优惠。',
+      keywords: ['价格', '贵', '便宜', '值', '划算', '套餐', '会员', '重复', '成本', '私教', '线下'],
+    },
+    {
+      id: 'effect-risk',
+      title: '效果不可见和怕浪费，是阻断成交的最大顾虑',
+      businessImpact: '影响成交周期、未购转化和续费升单。',
+      findings: ['家长担心孩子坚持不下来。', '是否提分、是否有效是未购关键阻力。', '需要可验证的短期反馈。'],
+      action: '建立试用期、阶段报告和效果验证节点，降低一次性决策压力。',
+      keywords: ['效果', '提分', '浪费', '坚持', '不学', '顾虑', '验证', '退', '担心'],
+    },
+    {
+      id: 'trust-trigger',
+      title: '信任来源决定用户是否愿意跨过高客单门槛',
+      businessImpact: '影响获客渠道、转化素材和顾问角色设计。',
+      findings: ['熟人、博主和教育规划老师能降低信任成本。', '孩子体验后的正反馈会推动成交。', '客观推荐比硬推销更有效。'],
+      action: '沉淀可信推荐、试用反馈和客观对比材料，减少销售单点说服。',
+      keywords: ['信任', '推荐', '介绍', '博主', '老师', '规划', '体验', '销售', '客观', '朋友'],
+    },
+    {
+      id: 'family-decision',
+      title: '多孩家庭买的不是多个账号，而是未来几年学习安排的确定性',
+      businessImpact: '影响家庭包主卖点、升单策略和权益设计。',
+      findings: ['大孩需求常是成交锚点，小孩权益合理化高客单。', '长期规划感和全科覆盖会放大家庭包价值。', '多孩并发限制会反向伤害价值感。'],
+      action: '家庭包销售要围绕主次孩子、长期规划和多孩权益设计，而不是简单强调人数更多。',
+      keywords: ['多孩', '两个孩子', '大宝', '小宝', '家庭包', '升单', '首购', '续购', '规划', '全科', '长期', '6年'],
+    },
+  ],
 };
 
 const SENTIMENTS: Sentiment[] = ['positive', 'neutral', 'negative'];
