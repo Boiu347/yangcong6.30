@@ -9,7 +9,7 @@ import {
   Target,
   Users,
 } from 'lucide-react';
-import type React from 'react';
+import React from 'react';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useProjects } from '../../store/useProjectStore';
