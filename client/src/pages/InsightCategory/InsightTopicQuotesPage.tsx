@@ -46,6 +46,7 @@ export default function InsightTopicQuotesPage() {
   const slug = params.dimension;
   const topic = params.topic;
   const [query, setQuery] = useState('');
+  const [projectFilter, setProjectFilter] = useState<string>('all');
   const [page, setPage] = useState(1);
   const validSlug = isInsightCategorySlug(slug);
   const safeSlug: InsightCategorySlug = validSlug ? slug : 'app-experience';
@@ -58,10 +59,25 @@ export default function InsightTopicQuotesPage() {
     [data.quotes, definition],
   );
 
+  const projectOptions = useMemo(() => {
+    const order: string[] = [];
+    const names = new Map<string, string>();
+    const counts = new Map<string, number>();
+    topicQuotes.forEach((quote) => {
+      if (!names.has(quote.projectId)) {
+        names.set(quote.projectId, quote.projectName);
+        order.push(quote.projectId);
+      }
+      counts.set(quote.projectId, (counts.get(quote.projectId) ?? 0) + 1);
+    });
+    return order.map((id) => ({ id, name: names.get(id) ?? id, count: counts.get(id) ?? 0 }));
+  }, [topicQuotes]);
+
   const filteredQuotes = useMemo(() => {
     const normalized = query.trim().toLowerCase();
-    if (!normalized) return topicQuotes;
     return topicQuotes.filter((quote) => {
+      if (projectFilter !== 'all' && quote.projectId !== projectFilter) return false;
+      if (!normalized) return true;
       const haystack = [
         quote.text,
         quote.respondent,
@@ -75,11 +91,15 @@ export default function InsightTopicQuotesPage() {
         .toLowerCase();
       return haystack.includes(normalized);
     });
-  }, [query, topicQuotes]);
+  }, [query, projectFilter, topicQuotes]);
 
   useEffect(() => {
     setPage(1);
-  }, [query, safeSlug, topic]);
+  }, [query, projectFilter, safeSlug, topic]);
+
+  useEffect(() => {
+    setProjectFilter('all');
+  }, [safeSlug, topic]);
 
   const totalPages = Math.max(1, Math.ceil(filteredQuotes.length / PAGE_SIZE));
   const safePage = Math.min(page, totalPages);
@@ -165,6 +185,36 @@ export default function InsightTopicQuotesPage() {
               />
             </div>
           </div>
+          {projectOptions.length > 1 && (
+            <div className="mt-3 flex flex-wrap items-center gap-1.5">
+              <span className="mr-1 text-xs font-bold text-[#8a857d]">项目</span>
+              <button
+                type="button"
+                onClick={() => setProjectFilter('all')}
+                className={`rounded-full border px-2.5 py-1 text-xs font-bold transition ${
+                  projectFilter === 'all'
+                    ? 'border-[#e65532] bg-[#fff1ed] text-[#e65532]'
+                    : 'border-[#ded8cd] bg-white text-[#6f6a63] hover:bg-[#f7f4ee]'
+                }`}
+              >
+                全部 ({topicQuotes.length})
+              </button>
+              {projectOptions.map((opt) => (
+                <button
+                  key={opt.id}
+                  type="button"
+                  onClick={() => setProjectFilter(opt.id)}
+                  className={`rounded-full border px-2.5 py-1 text-xs font-bold transition ${
+                    projectFilter === opt.id
+                      ? 'border-[#e65532] bg-[#fff1ed] text-[#e65532]'
+                      : 'border-[#ded8cd] bg-white text-[#6f6a63] hover:bg-[#f7f4ee]'
+                  }`}
+                >
+                  {opt.name} ({opt.count})
+                </button>
+              ))}
+            </div>
+          )}
           <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-[#8a857d]">
             <span className="rounded-full bg-[#f4f2ec] px-2.5 py-1">
               当前结果 {filteredQuotes.length} / 本维度 {topicQuotes.length}
