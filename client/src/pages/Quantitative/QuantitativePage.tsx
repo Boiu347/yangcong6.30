@@ -172,7 +172,7 @@ function Section({
   return (
     <section
       id={id}
-      className="scroll-mt-20 px-5 py-20 md:px-10 md:py-28"
+      className="qp-rv scroll-mt-20 px-5 py-20 md:px-10 md:py-28"
       style={{ background: tinted ? '#F4F0E9' : '#FBFAF7' }}
     >
       <div className="mx-auto max-w-[1100px]">{children}</div>
@@ -185,6 +185,16 @@ export default function QuantitativePage() {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     window.history.replaceState(null, '', `#${id}`);
   };
+
+  React.useEffect(() => {
+    const els = document.querySelectorAll('.qp-rv');
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add('in')),
+      { threshold: 0.12 },
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
 
   const navItems = [
     ['verdict', '核心判断'],
@@ -199,6 +209,12 @@ export default function QuantitativePage() {
 
   return (
     <div className="min-h-full" style={{ background: '#FBFAF7', color: INK }}>
+      <style>{`
+        .qp-rv{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+        .qp-rv.in{opacity:1;transform:none}
+        @media (prefers-reduced-motion:reduce){.qp-rv{opacity:1;transform:none;transition:none}}
+        @media print{.qp-rv{opacity:1!important;transform:none!important}}
+      `}</style>
       <div className="sticky top-0 z-30 border-b border-[#E7E0D6]/90 bg-[#FBFAF7]/90 backdrop-blur-xl">
         <div className="mx-auto flex h-12 max-w-[1100px] items-center gap-5 overflow-x-auto px-5 md:px-10">
           <span className="whitespace-nowrap text-[12px] font-black" style={{ color: ORANGE }}>
@@ -291,16 +307,16 @@ export default function QuantitativePage() {
               key={title}
               className="rounded-[24px] border p-7"
               style={{
-                background: index === 2 ? '#2D2925' : '#FFFFFF',
-                borderColor: index === 2 ? '#2D2925' : '#E5DED5',
-                color: index === 2 ? '#FFFFFF' : INK,
+                background: index === 2 ? '#FFF4EE' : '#FFFFFF',
+                borderColor: index === 2 ? '#F1C3B1' : '#E5DED5',
+                color: INK,
               }}
             >
-              <span className="text-[11px] font-bold tracking-[0.12em]" style={{ color: index === 2 ? '#FF9D7D' : MUTED }}>
+              <span className="text-[11px] font-bold tracking-[0.12em]" style={{ color: index === 2 ? '#C2502E' : MUTED }}>
                 {tag}
               </span>
               <h3 className="mt-5 text-[23px] font-black">{title}</h3>
-              <p className={`mt-4 text-[13px] leading-7 ${index === 2 ? 'text-[#D8D2CB]' : 'text-[#746E67]'}`}>
+              <p className="mt-4 text-[13px] leading-7 text-[#746E67]">
                 {description}
               </p>
             </article>
@@ -324,10 +340,10 @@ export default function QuantitativePage() {
           description="英语订阅依赖内容无限、高频使用和进步模糊；计算在这三个条件上恰好相反。差异决定了产品必须承认阶段终点，并主动设计下一阶段。"
         />
         <div className="overflow-hidden rounded-[26px] border border-[#DFD7CC] bg-white">
-          <div className="grid grid-cols-[.8fr_1fr_1fr] bg-[#2B2621] text-[12px] font-bold text-white">
+          <div className="grid grid-cols-[.8fr_1fr_1fr] bg-[#F4ECE2] text-[12px] font-bold" style={{ color: INK }}>
             <div className="p-4 md:p-5">成立条件</div>
-            <div className="border-l border-white/10 p-4 md:p-5">英语订阅</div>
-            <div className="border-l border-white/10 p-4 text-[#FF9A76] md:p-5">计算营现实</div>
+            <div className="border-l border-[#E5DCD0] p-4 md:p-5">英语订阅</div>
+            <div className="border-l border-[#E5DCD0] p-4 md:p-5" style={{ color: '#C2502E' }}>计算营现实</div>
           </div>
           {[
             ['内容边界', '长期无限，可持续学习', '小学计算有限，有明确完成点'],
@@ -363,13 +379,13 @@ export default function QuantitativePage() {
             </article>
           ))}
         </div>
-        <div className="mt-8 rounded-[26px] bg-[#2D2925] p-7 text-white md:p-9">
+        <div className="mt-8 rounded-[26px] border border-[#F0C7B6] p-7 md:p-9" style={{ background: 'linear-gradient(135deg,#fff,#FFF4EE)' }}>
           <div className="grid items-center gap-7 md:grid-cols-[.75fr_1.25fr]">
             <div>
-              <Target size={24} className="text-[#FF9A76]" />
+              <Target size={24} style={{ color: ORANGE }} />
               <p className="mt-4 text-[24px] font-black leading-snug">价值外化仍是第一优先级。</p>
             </div>
-            <p className="text-[14px] leading-8 text-[#D9D2CB]">
+            <p className="text-[14px] leading-8 text-[#6b635b]">
               如果家长没有先相信第一期有效，续费优惠、跨期运营和后续模块承接都很难成立。先证明孩子哪里变好了，再讨论为什么继续。
             </p>
           </div>
@@ -549,22 +565,22 @@ export default function QuantitativePage() {
           ))}
         </div>
 
-        <div className="mt-9 rounded-[30px] bg-[#29241F] p-7 text-white md:p-10">
+        <div className="mt-9 rounded-[30px] border border-[#F0C7B6] p-7 md:p-10" style={{ background: 'linear-gradient(135deg,#fff,#FFF4EE)' }}>
           <div className="grid gap-8 md:grid-cols-[.72fr_1.28fr] md:items-center">
             <div>
-              <Sparkles size={25} className="text-[#FF9A76]" />
+              <Sparkles size={25} style={{ color: ORANGE }} />
               <p className="mt-5 text-[25px] font-black leading-snug">
                 最终经营路径
               </p>
-              <p className="mt-3 text-[12px] leading-6 text-[#BEB7B0]">
+              <p className="mt-3 text-[12px] leading-6" style={{ color: MUTED }}>
                 计算营负责打开入口，后续专题负责延展用户生命周期价值。
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2 text-[12px] font-bold">
               {['计算营', '应用题营', '思维 / 几何', '更多专项模块'].map((item, index) => (
                 <React.Fragment key={item}>
-                  <span className="rounded-xl border border-white/10 bg-white/10 px-4 py-3">{item}</span>
-                  {index < 3 && <ArrowRight size={14} className="text-[#918980]" />}
+                  <span className="rounded-xl border border-[#EBD9CD] bg-white px-4 py-3">{item}</span>
+                  {index < 3 && <ArrowRight size={14} className="text-[#B6AEA5]" />}
                 </React.Fragment>
               ))}
             </div>
