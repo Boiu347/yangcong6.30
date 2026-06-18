@@ -4,6 +4,12 @@ import { JTB_INTERVIEWS } from '../../store/jiatingbaoData';
 export type InsightCategorySlug = 'app-experience' | 'course-experience' | 'purchase-decision';
 export type UserRole = '家长' | '学生' | '其他';
 
+export const QUALITATIVE_RESEARCH_SLUGS: InsightCategorySlug[] = [
+  'app-experience',
+  'course-experience',
+  'purchase-decision',
+];
+
 export interface InsightCategoryConfig {
   slug: InsightCategorySlug;
   title: string;
@@ -351,13 +357,18 @@ function countSentiment(quotes: CategoryQuote[]): Record<Sentiment, number> {
   return counts;
 }
 
+export function isQualitativeResearchProject(project: Project): boolean {
+  return project.methods?.includes('定性调研') ?? false;
+}
+
 export function buildCategoryInsightData(
   projects: Project[],
   slug: InsightCategorySlug,
 ): CategoryInsightData {
   const config = INSIGHT_CATEGORY_CONFIGS[slug];
+  const qualitativeProjects = projects.filter(isQualitativeResearchProject);
   const quotes = uniqueQuotes(
-    projects.flatMap((project) => {
+    qualitativeProjects.flatMap((project) => {
       const vocQuotes = project.files
         .filter((file) => file.status === 'ready')
         .flatMap((file) => file.vocList)

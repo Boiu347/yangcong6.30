@@ -5,6 +5,7 @@ import TopNavLayout from './components/layout/TopNavLayout';
 import ProjectsPage from './pages/Projects/ProjectsPage';
 import ProfilePage from './pages/Profile/ProfilePage';
 import InsightCategoryPage from './pages/InsightCategory/InsightCategoryPage';
+import QualitativeResearchPage from './pages/QualitativeResearch/QualitativeResearchPage';
 import SummaryPage from './pages/Summary/SummaryPage';
 import QualitativePage from './pages/Qualitative/QualitativePage';
 import CompetitivePage from './pages/Competitive/CompetitivePage';
@@ -22,9 +23,13 @@ const RoutesComponent = () => {
       {/* Top-level pages share the main layout with 项目库 / 用户档案 tabs */}
       <Route element={<MainLayout />}>
         <Route path="/projects" element={<ProjectsPage />} />
-        <Route path="/app-experience" element={<InsightCategoryPage slug="app-experience" />} />
-        <Route path="/course-experience" element={<InsightCategoryPage slug="course-experience" />} />
-        <Route path="/purchase-decision" element={<InsightCategoryPage slug="purchase-decision" />} />
+        <Route path="/qualitative-research" element={<QualitativeResearchPage />} />
+        <Route path="/qualitative-research/app-experience" element={<InsightCategoryPage slug="app-experience" />} />
+        <Route path="/qualitative-research/course-experience" element={<InsightCategoryPage slug="course-experience" />} />
+        <Route path="/qualitative-research/purchase-decision" element={<InsightCategoryPage slug="purchase-decision" />} />
+        <Route path="/app-experience" element={<Navigate to="/qualitative-research/app-experience" replace />} />
+        <Route path="/course-experience" element={<Navigate to="/qualitative-research/course-experience" replace />} />
+        <Route path="/purchase-decision" element={<Navigate to="/qualitative-research/purchase-decision" replace />} />
         <Route path="/profile" element={<ProfilePage />} />
       </Route>
 
