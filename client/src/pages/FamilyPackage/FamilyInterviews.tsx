@@ -15,7 +15,15 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { JTB_INTERVIEWS, JtbInterview, JtbOnion } from '../../store/jiatingbaoData';
+import { JIATINGBAO_CLIP_MAP } from '../../utils/jiatingbaoClipLookup';
+import EvidenceAudioClips from '../../components/EvidenceAudioClips';
 import { cn } from '@/lib/utils';
+
+/** 取某条原声对应的录音切片（来自 FunASR 切片映射） */
+function clipsFor(text: string) {
+  const c = JIATINGBAO_CLIP_MAP[text] ?? JIATINGBAO_CLIP_MAP[text.replace(/\*\*/g, '')];
+  return c ? [c] : [];
+}
 
 function renderHighlighted(text: string) {
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
@@ -142,6 +150,7 @@ function StatusBadge({ status }: { status: '已购' | '未购' }) {
 }
 
 function VoiceQuote({ text, compact = false }: { text: string; compact?: boolean }) {
+  const clips = clipsFor(text);
   return (
     <blockquote
       className={cn(
@@ -154,6 +163,11 @@ function VoiceQuote({ text, compact = false }: { text: string; compact?: boolean
         className="absolute left-3 top-2.5 text-[#e65532]/50"
       />
       <p className="pl-5">{renderHighlighted(text)}</p>
+      {clips.length > 0 && (
+        <div className="mt-2 pl-5">
+          <EvidenceAudioClips clips={clips} />
+        </div>
+      )}
     </blockquote>
   );
 }
