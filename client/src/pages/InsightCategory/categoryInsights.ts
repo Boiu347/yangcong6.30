@@ -393,6 +393,51 @@ export function buildCategoryInsightData(
   };
 }
 
+export function pickDirectionQuotes(definition: DirectionDefinition, quotes: CategoryQuote[]): CategoryQuote[] {
+  const keywords = definition.keywords.map((keyword) => keyword.toLowerCase());
+  return quotes.filter((quote) => {
+    const haystack = `${quote.text} ${quote.subSubCategory} ${quote.dimension} ${quote.quoteSummary ?? ''}`.toLowerCase();
+    return keywords.some((keyword) => haystack.includes(keyword));
+  });
+}
+
+export function buildBusinessDirections(slug: InsightCategorySlug, quotes: CategoryQuote[]): BusinessDirection[] {
+  return DIRECTION_DEFINITIONS[slug].map((definition) => {
+    const matchedQuotes = pickDirectionQuotes(definition, quotes);
+    return {
+      id: definition.id,
+      title: definition.title,
+      businessImpact: definition.businessImpact,
+      findings: definition.findings,
+      action: definition.action,
+      quotes: matchedQuotes,
+      representativeQuotes: pickRepresentativeQuotes(matchedQuotes),
+      projectNames: [...new Set(matchedQuotes.map((quote) => quote.projectName))],
+      sourceCount: new Set(matchedQuotes.map((quote) => quote.sourceId)).size,
+      sentimentCounts: countSentiment(matchedQuotes),
+    };
+  });
+}
+
+export function findDirectionDefinition(slug: InsightCategorySlug, topic: string): DirectionDefinition | undefined {
+  return DIRECTION_DEFINITIONS[slug].find((definition) => definition.id === topic);
+}
+
+function pickRepresentativeQuotes(quotes: CategoryQuote[]): CategoryQuote[] {
+  return [...quotes]
+    .sort((a, b) => scoreQuote(b) - scoreQuote(a))
+    .slice(0, 2);
+}
+
+function scoreQuote(quote: CategoryQuote): number {
+  let score = 0;
+  if (quote.respondent) score += 2;
+  if (quote.sourceName) score += 1;
+  if (quote.text.length > 24 && quote.text.length < 140) score += 2;
+  if (quote.sentiment === 'negative') score += 1;
+  return score;
+}
+
 export function countBy<T extends string>(items: CategoryQuote[], getKey: (item: CategoryQuote) => T): Array<{ name: T; count: number }> {
   const counts = new Map<T, number>();
   items.forEach((item) => {

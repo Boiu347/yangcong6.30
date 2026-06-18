@@ -5,6 +5,7 @@ import TopNavLayout from './components/layout/TopNavLayout';
 import ProjectsPage from './pages/Projects/ProjectsPage';
 import ProfilePage from './pages/Profile/ProfilePage';
 import InsightCategoryPage from './pages/InsightCategory/InsightCategoryPage';
+import InsightTopicQuotesPage from './pages/InsightCategory/InsightTopicQuotesPage';
 import QualitativeResearchPage from './pages/QualitativeResearch/QualitativeResearchPage';
 import SummaryPage from './pages/Summary/SummaryPage';
 import QualitativePage from './pages/Qualitative/QualitativePage';
@@ -27,6 +28,7 @@ const RoutesComponent = () => {
         <Route path="/qualitative-research/app-experience" element={<InsightCategoryPage slug="app-experience" />} />
         <Route path="/qualitative-research/course-experience" element={<InsightCategoryPage slug="course-experience" />} />
         <Route path="/qualitative-research/purchase-decision" element={<InsightCategoryPage slug="purchase-decision" />} />
+        <Route path="/qualitative-research/:dimension/:topic" element={<InsightTopicQuotesPage />} />
         <Route path="/app-experience" element={<Navigate to="/qualitative-research/app-experience" replace />} />
         <Route path="/course-experience" element={<Navigate to="/qualitative-research/course-experience" replace />} />
         <Route path="/purchase-decision" element={<Navigate to="/qualitative-research/purchase-decision" replace />} />
