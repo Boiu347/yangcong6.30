@@ -7,140 +7,284 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --ink:#202124; --muted:#6f7177; --line:#ebe3d7; --orange:#e87461; --paper:#fffdf8;
+  --ink:#201d19; --muted:#6f7177; --line:#ece4d8; --orange:#e87461; --paper:#fffdf8;
   --blue:#5B7BBF; --teal:#4BA69E; --gold:#BF9455; --rose:#B8667A; --violet:#8B6BB8;
+  --soft:#fff5f1;
 }
 html{scroll-behavior:smooth}
 body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;color:var(--ink);background:var(--paper);line-height:1.65;overflow-x:hidden}
-.wrap{max-width:1180px;margin:0 auto;padding:42px 40px 64px}
-.rv{opacity:1;transform:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px}
+
+/* 阅读进度条 */
+.progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--orange),var(--gold));z-index:60;transition:width .1s linear}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
 .rv.in{opacity:1;transform:none}
-.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:end;padding-bottom:32px;border-bottom:1px solid var(--line)}
-.kick{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:6px 11px;color:#706960;background:white;font-size:12px;margin-bottom:18px}
-.hero h1{margin:0;font-size:42px;line-height:1.15;letter-spacing:0}
-.hero p{color:var(--muted);font-size:16px;margin:18px 0 0;max-width:720px}
-.hero-card,.point{background:white;border:1px solid var(--line);border-radius:8px;box-shadow:3px 4px 0 rgba(0,0,0,.05)}
-.hero-card{padding:20px}
-.hero-card strong{display:block;font-size:28px;color:var(--orange);line-height:1.1;margin-bottom:6px}
-.hero-card span{color:var(--muted);font-size:14px}
-.themes{padding:0 0 20px}
-.themes .wrap{padding-top:6px}
-.theme{--c:var(--orange);padding-top:20px;margin-top:28px;border-top:1px solid var(--line)}
-.theme:first-child{margin-top:16px}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+@media print{.rv{opacity:1!important;transform:none!important}}
+
+/* hero */
+.hero{padding:60px 0 30px;background:radial-gradient(120% 140% at 85% -10%,rgba(232,116,97,.10),transparent 55%)}
+.kick{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;padding:6px 13px;color:#8a7f73;background:#fff;font-size:12px;letter-spacing:.3px;margin-bottom:20px}
+.kick::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--orange)}
+.hero-grid{display:grid;grid-template-columns:1.25fr .85fr;gap:40px;align-items:end}
+.hero h1{font-size:54px;line-height:1.08;letter-spacing:-1px;font-weight:800}
+.hero h1 em{font-style:normal;color:var(--orange)}
+.hero .lead{color:var(--muted);font-size:16px;margin:20px 0 0;max-width:560px}
+.hero-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 18px 40px -28px rgba(60,40,20,.5)}
+.hero-card strong{display:block;font-size:13px;color:var(--orange);letter-spacing:.5px;margin-bottom:10px;text-transform:uppercase}
+.hero-card span{color:#4a4640;font-size:15px;line-height:1.7}
+.stats{display:flex;gap:26px;margin-top:28px;flex-wrap:wrap}
+.stat b{display:block;font-size:30px;font-weight:800;line-height:1;letter-spacing:-.5px}
+.stat span{color:var(--muted);font-size:12.5px}
+.stats .stat:nth-child(1) b{color:var(--orange)}
+.stats .stat:nth-child(2) b{color:var(--teal)}
+.stats .stat:nth-child(3) b{color:var(--blue)}
+
+/* sticky 目录 */
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,253,248,.82);backdrop-filter:saturate(160%) blur(10px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:36px}
+.nav-inner{max-width:1080px;margin:0 auto;padding:11px 40px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav a{flex:0 0 auto;display:flex;align-items:center;gap:7px;font-size:13px;color:#6b6259;text-decoration:none;padding:7px 13px;border-radius:999px;border:1px solid transparent;transition:.2s;white-space:nowrap}
+.nav a i{font-style:normal;width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:#efe7da;color:#8a7f73}
+.nav a:hover{background:#fff;border-color:var(--line)}
+.nav a.active{background:var(--ink);color:#fff}
+.nav a.active i{background:var(--orange);color:#fff}
+
+/* themes */
+.themes{padding:30px 0 30px}
+.theme{position:relative;padding:54px 0;border-top:1px solid var(--line)}
+.theme:first-child{border-top:none}
+.theme:nth-child(1){--c:var(--orange)}
 .theme:nth-child(2){--c:var(--blue)}
 .theme:nth-child(3){--c:var(--teal)}
 .theme:nth-child(4){--c:var(--gold)}
 .theme:nth-child(5){--c:var(--violet)}
 .theme:nth-child(6){--c:var(--rose)}
 .theme:nth-child(7){--c:var(--ink)}
-.theme-top{display:block;margin-bottom:8px}
-.theme-num{display:inline-block;font-size:11px;color:white;background:var(--c);border-radius:999px;padding:3px 8px;margin-bottom:10px;font-weight:700}
-.theme h2{margin:0;font-size:20px;line-height:1.4;letter-spacing:0}
-.theme .sum{color:var(--muted);font-size:14px;line-height:1.8;margin:8px 0 16px}
-.points{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.point{padding:14px;box-shadow:none;background:#fffefa}
-.point .t{font-size:14px;color:var(--ink);line-height:1.7}
+.bignum{position:absolute;top:24px;right:0;font-size:160px;font-weight:800;line-height:1;color:var(--c);opacity:.06;letter-spacing:-6px;pointer-events:none;user-select:none}
+.theme-kicker{display:inline-flex;align-items:center;gap:9px;margin-bottom:14px}
+.theme-kicker .dot{width:30px;height:30px;border-radius:9px;background:var(--c);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:14px}
+.theme-kicker .label{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--c);font-weight:700}
+.theme h2{font-size:27px;line-height:1.32;letter-spacing:-.3px;font-weight:800;max-width:760px}
+.sum{position:relative;margin:18px 0 26px;padding:16px 20px;background:linear-gradient(180deg,#fff, #fffdf8);border:1px solid var(--line);border-left:4px solid var(--c);border-radius:10px;font-size:16.5px;line-height:1.85;color:#3a3631;max-width:840px;box-shadow:0 14px 30px -26px rgba(60,40,20,.6)}
+.sum mark{background:color-mix(in srgb,var(--c) 18%,transparent);color:#241f1a;padding:1px 5px;border-radius:5px;font-weight:600;font-style:normal}
+
+.points{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.point{position:relative;padding:18px 18px 16px;background:#fff;border:1px solid var(--line);border-radius:12px;transition:transform .25s ease,box-shadow .25s ease,border-color .25s}
+.point::before{content:"";position:absolute;left:0;top:16px;bottom:16px;width:3px;border-radius:3px;background:var(--c);opacity:0;transition:opacity .25s}
+.point:hover{transform:translateY(-3px);box-shadow:0 22px 40px -30px rgba(50,35,18,.8);border-color:color-mix(in srgb,var(--c) 40%,var(--line))}
+.point:hover::before{opacity:1}
+.point .t{font-size:14.5px;color:#332f2a;line-height:1.72}
 .point .t strong{color:var(--c);font-weight:700}
-.point blockquote{margin:10px 0 0;color:#555;border-left:3px solid var(--c);padding-left:12px;font-size:13px;font-style:normal;line-height:1.7;background:transparent}
-.point .from{margin-top:8px;font-size:12px;color:var(--muted)}
-footer{padding:0 40px 36px;text-align:center;color:var(--muted);font-size:12px}
-@media(max-width:900px){.wrap{padding:28px 18px 48px}.hero .wrap,.points{grid-template-columns:1fr}.hero h1{font-size:32px}footer{padding:0 18px 28px}}
+.point blockquote{margin:13px 0 0;position:relative;padding:10px 12px 10px 30px;background:color-mix(in srgb,var(--c) 6%,#fff);border-radius:9px;color:#4f4a44;font-size:13px;line-height:1.7;font-style:normal}
+.point blockquote::before{content:"\201C";position:absolute;left:8px;top:0px;font-size:30px;line-height:1;color:var(--c);opacity:.4;font-family:Georgia,serif}
+.point .from{margin-top:10px;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.point .from::before{content:"";width:12px;height:1px;background:var(--muted);opacity:.5}
+
+/* 收尾 */
+.closing{margin:8px 0 0;padding:34px 0 10px;border-top:1px solid var(--line)}
+.closing .box{position:relative;background:linear-gradient(135deg,#fff 0%,var(--soft) 100%);border:1px solid var(--line);border-left:4px solid var(--orange);border-radius:16px;padding:30px 34px;box-shadow:0 22px 46px -32px rgba(60,40,20,.7)}
+.closing .box strong{display:block;color:var(--orange);font-size:13px;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.closing .box p{font-size:18px;line-height:1.8;color:#332f2a}
+.closing .box mark{background:color-mix(in srgb,var(--orange) 18%,transparent);color:#241f1a;padding:1px 6px;border-radius:5px;font-weight:600}
+
+footer{padding:34px 40px 44px;text-align:center;color:var(--muted);font-size:12px}
+
+/* 回到顶部 */
+.totop{position:fixed;right:26px;bottom:26px;width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s,transform .2s;z-index:55;box-shadow:0 12px 26px -12px rgba(0,0,0,.5)}
+.totop.show{opacity:1;pointer-events:auto}
+.totop:hover{transform:translateY(-3px)}
+
+@media(max-width:900px){
+  .wrap{padding:0 18px}
+  .hero{padding:40px 0 20px}
+  .hero-grid{grid-template-columns:1fr;gap:26px}
+  .hero h1{font-size:38px}
+  .nav-inner{padding:10px 18px}
+  .points{grid-template-columns:1fr}
+  .theme{padding:40px 0}
+  .bignum{font-size:104px;top:8px}
+  .theme h2{font-size:22px}
+  .sum{font-size:15.5px}
+}
+@media print{
+  .progress,.nav,.totop{display:none!important}
+  .point:hover{transform:none;box-shadow:none}
+  .theme{break-inside:avoid}
+}
 </style>
 </head>
 <body>
 
-<header class="band hero">
+<div class="progress" id="progress"></div>
+
+<header class="hero">
   <div class="wrap">
-    <div>
-      <span class="kick">洋葱家庭包 · 定性调研</span>
-      <h1>核心洞察</h1>
-      <p>跨 11 位家庭归纳的 7 大主题：决策锚点、性价比感知、机会点、付费理由、人群机会、共性顾虑与最强痛点，并附支撑原声。</p>
+    <span class="kick">洋葱家庭包 · 定性调研</span>
+    <div class="hero-grid">
+      <div>
+        <h1>核心<em>洞察</em></h1>
+        <p class="lead">跨 11 位家庭归纳的 7 大主题：决策锚点、性价比感知、机会点、付费理由、人群机会、共性顾虑与最强痛点，每条结论都绑定访谈原声作为证据。</p>
+        <div class="stats">
+          <div class="stat"><b>7</b><span>核心主题</span></div>
+          <div class="stat"><b>11</b><span>受访家庭</span></div>
+          <div class="stat"><b>8</b><span>覆盖省市</span></div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <strong>洞察主线</strong>
+        <span>从“为什么买”回到“买后如何证明值”——先抓决策锚点与性价比账，再用学习闭环和体验补洞，消解“怕浪费”的共性顾虑。</span>
+      </div>
     </div>
-    <div class="hero-card"><strong>洞察主线</strong><span>从“为什么买”回到“买后如何证明值”，每条结论都绑定访谈原声作为证据。</span></div>
   </div>
 </header>
 
-<section class="band themes">
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#t1"><i>1</i>决策锚点</a>
+    <a href="#t2"><i>2</i>性价比感知</a>
+    <a href="#t3"><i>3</i>机会点</a>
+    <a href="#t4"><i>4</i>付费理由</a>
+    <a href="#t5"><i>5</i>人群机会</a>
+    <a href="#t6"><i>6</i>共性顾虑</a>
+    <a href="#t7"><i>7</i>最强痛点</a>
+  </div>
+</nav>
+
+<section class="themes">
   <div class="wrap">
 
-    <div class="theme rv">
-      <div class="theme-top"><div class="theme-num">1</div><h2>决策锚点：两孩需求有主次，家长更愿意「让好的更好」</h2></div>
-      <div class="sum">多孩家庭购买家庭包时，往往由一个「紧急+重要」的大孩升学需求促成交，另一个孩子的权益则把高客单价「合理化」，二者缺一不可。需求还会在升学节点发生转化（如姐姐上高中后精力转向小的）。</div>
+    <div class="theme rv" id="t1">
+      <div class="bignum">01</div>
+      <div class="theme-kicker"><span class="dot">1</span><span class="label">决策锚点</span></div>
+      <h2>两孩需求有主次，家长更愿意「让好的更好」</h2>
+      <div class="sum">多孩家庭购买家庭包时，往往由一个「紧急+重要」的<mark>大孩升学需求</mark>促成交，另一个孩子的权益则把<mark>高客单价「合理化」</mark>，二者缺一不可。需求还会在升学节点发生转化（如姐姐上高中后精力转向小的）。</div>
       <ul class="points">
-        <li class="point"><div class="t">大孩强需求（小升初 / 中考衔接）成交，小孩权益负责把高客单价合理化，二者缺一不可。</div><blockquote>主要考虑的是哥哥，妹妹无所谓，顺带使用；但如果没有妹妹的权益，可能就会买个短期课，不会买家庭包了。</blockquote><div class="from">— 用户1 · 广东广州</div></li>
-        <li class="point"><div class="t">对「小高+小低」家庭，应先抓住大孩「紧急+重要」的升学问题，二孩打基础需求作为锦上添花促成交。</div><div class="from">— 用户1 · 广东广州</div></li>
-        <li class="point"><div class="t">两个孩子有主次之分（初中 &gt; 小学 &gt; 高中），且会在特定节点发生需求转化。</div><blockquote>姐姐上高中没精力管他了，会把更多精力放在小的身上。</blockquote><div class="from">— 用户3 · 安徽合肥</div></li>
+        <li class="point"><div class="t">大孩强需求（小升初 / 中考衔接）成交，小孩权益负责把高客单价合理化，二者缺一不可。</div><blockquote>主要考虑的是哥哥，妹妹无所谓，顺带使用；但如果没有妹妹的权益，可能就会买个短期课，不会买家庭包了。</blockquote><div class="from">用户1 · 广东广州</div></li>
+        <li class="point"><div class="t">对「小高+小低」家庭，应先抓住大孩「紧急+重要」的升学问题，二孩打基础需求作为锦上添花促成交。</div><div class="from">用户1 · 广东广州</div></li>
+        <li class="point"><div class="t">两个孩子有主次之分（初中 &gt; 小学 &gt; 高中），且会在特定节点发生需求转化。</div><blockquote>姐姐上高中没精力管他了，会把更多精力放在小的身上。</blockquote><div class="from">用户3 · 安徽合肥</div></li>
       </ul>
     </div>
 
-    <div class="theme rv">
-      <div class="theme-top"><div class="theme-num">2</div><h2>性价比感知：家长算的不是标价，而是综合成本与未来成本</h2></div>
-      <div class="sum">用户对家庭包的「划算」判断，建立在与「比洋葱更贵的解决方案」（私教、线下班）的综合成本对比，以及「现在不买、未来可能发生的成本」（涨价、还要补课）之上。6 年长周期 + 全科覆盖被视为性价比最优。</div>
+    <div class="theme rv" id="t2">
+      <div class="bignum">02</div>
+      <div class="theme-kicker"><span class="dot">2</span><span class="label">性价比感知</span></div>
+      <h2>家长算的不是标价，而是综合成本与未来成本</h2>
+      <div class="sum">用户对家庭包的「划算」判断，建立在与「比洋葱更贵的解决方案」（私教、线下班）的<mark>综合成本对比</mark>，以及「现在不买、未来可能发生的成本」（涨价、还要补课）之上。<mark>6 年长周期 + 全科覆盖</mark>被视为性价比最优。</div>
       <ul class="points">
-        <li class="point"><div class="t">当下价值：与私教 / 线下班对比时间、金钱、接送、孩子精力等综合成本。</div><blockquote>不需要接送，孩子也不用赶路，时间成本也没有，还比私教班便宜，私教班一门就一万多。</blockquote><div class="from">— 用户3 · 安徽合肥</div></li>
-        <li class="point"><div class="t">未来价值：担心现在不买、以后涨价或仍要补课，「吃过一次涨价的亏」促使尽早锁定。</div><blockquote>去年价格低很多，当时没买，后面发现真的涨价很多……就想着这次先买。</blockquote><div class="from">— 用户3 · 安徽合肥</div></li>
-        <li class="point"><div class="t">全科 + 长周期 = 性价比最优：买小初品担心浪费，6 年全龄段全科对多孩家庭最划算。</div><div class="from">— 用户5 · 浙江杭州 / 用户8 · 广东湛江</div></li>
+        <li class="point"><div class="t"><strong>当下价值</strong>：与私教 / 线下班对比时间、金钱、接送、孩子精力等综合成本。</div><blockquote>不需要接送，孩子也不用赶路，时间成本也没有，还比私教班便宜，私教班一门就一万多。</blockquote><div class="from">用户3 · 安徽合肥</div></li>
+        <li class="point"><div class="t"><strong>未来价值</strong>：担心现在不买、以后涨价或仍要补课，「吃过一次涨价的亏」促使尽早锁定。</div><blockquote>去年价格低很多，当时没买，后面发现真的涨价很多……就想着这次先买。</blockquote><div class="from">用户3 · 安徽合肥</div></li>
+        <li class="point"><div class="t"><strong>全科 + 长周期 = 性价比最优</strong>：买小初品担心浪费，6 年全龄段全科对多孩家庭最划算。</div><div class="from">用户5 · 浙江杭州 / 用户8 · 广东湛江</div></li>
       </ul>
     </div>
 
-    <div class="theme rv">
-      <div class="theme-top"><div class="theme-num">3</div><h2>家庭包机会点：学习规划感、经验复制与 6 年价值</h2></div>
-      <div class="sum">家庭包真正卖的是「把孩子未来几年的学习安排得更确定、更省心、更不浪费」的规划感——真人 1V1 做大方向规划、AI 定制班做日常排课。多孩家庭还能把大孩的成功 / 踩坑经验复制到小孩身上，「提前学」是机会切口。</div>
+    <div class="theme rv" id="t3">
+      <div class="bignum">03</div>
+      <div class="theme-kicker"><span class="dot">3</span><span class="label">家庭包机会点</span></div>
+      <h2>学习规划感、经验复制与 6 年价值</h2>
+      <div class="sum">家庭包真正卖的是「把孩子未来几年的学习安排得更确定、更省心、更不浪费」的<mark>规划感</mark>——真人 1V1 做大方向规划、AI 定制班做日常排课。多孩家庭还能把大孩的成功 / 踩坑经验复制到小孩身上，「<mark>提前学</mark>」是机会切口。</div>
       <ul class="points">
-        <li class="point"><div class="t">学习规划感：真人 1V1 老师做大方向规划 + AI 定制班做日常学习排课，是尚未被充分讲透的卖点。</div><blockquote>现在先学 5 年级内容复习，寒暑假预习 6 年级内容。</blockquote><div class="from">— 用户5 · 浙江杭州</div></li>
-        <li class="point"><div class="t">经验复制：小学+初中的二胎家庭，有了经验知道怎么学更好，可借鉴到二孩，「提前学」是切口。</div><blockquote>小升初的时候没有给报，现在想起来有点后悔。</blockquote><div class="from">— 用户3 · 安徽合肥</div></li>
-        <li class="point"><div class="t">6 年价值感：学习能力非一年可成，需长期培养；课程体系全面可实现学科启蒙衔接（从小学物理→初中物理）。</div><div class="from">— 用户3 · 安徽合肥</div></li>
-        <li class="point"><div class="t">体系化卖点：初高中都在洋葱学，能培养「点-线-面」的洋葱知识体系。</div><div class="from">— 用户2 · 江西景德镇</div></li>
+        <li class="point"><div class="t"><strong>学习规划感</strong>：真人 1V1 老师做大方向规划 + AI 定制班做日常学习排课，是尚未被充分讲透的卖点。</div><blockquote>现在先学 5 年级内容复习，寒暑假预习 6 年级内容。</blockquote><div class="from">用户5 · 浙江杭州</div></li>
+        <li class="point"><div class="t"><strong>经验复制</strong>：小学+初中的二胎家庭，有了经验知道怎么学更好，可借鉴到二孩，「提前学」是切口。</div><blockquote>小升初的时候没有给报，现在想起来有点后悔。</blockquote><div class="from">用户3 · 安徽合肥</div></li>
+        <li class="point"><div class="t"><strong>6 年价值感</strong>：学习能力非一年可成，需长期培养；课程体系全面可实现学科启蒙衔接（从小学物理→初中物理）。</div><div class="from">用户3 · 安徽合肥</div></li>
+        <li class="point"><div class="t"><strong>体系化卖点</strong>：初高中都在洋葱学，能培养「点-线-面」的洋葱知识体系。</div><div class="from">用户2 · 江西景德镇</div></li>
       </ul>
     </div>
 
-    <div class="theme rv">
-      <div class="theme-top"><div class="theme-num">4</div><h2>付费理由：买的是「学习闭环」与专属感，免费资源反而是阻力</h2></div>
-      <div class="sum">家长早就拿到整套免费视频却「没感觉」、不看好；真正打动她的是认知到——免费视频只有输入没有输出，而正式课包是「动画讲解 + 针对性习题 + AI 错题本订正 + 一对一规划」的闭环。青春期孩子「跟机器比跟人更好交流」也是隐性刚需。</div>
+    <div class="theme rv" id="t4">
+      <div class="bignum">04</div>
+      <div class="theme-kicker"><span class="dot">4</span><span class="label">付费理由</span></div>
+      <h2>买的是「学习闭环」与专属感，免费资源反而是阻力</h2>
+      <div class="sum">家长早就拿到整套免费视频却「没感觉」、不看好；真正打动她的是认知到——<mark>免费视频只有输入没有输出</mark>，而正式课包是「动画讲解 + 针对性习题 + AI 错题本订正 + 一对一规划」的<mark>闭环</mark>。青春期孩子「跟机器比跟人更好交流」也是隐性刚需。</div>
       <ul class="points">
-        <li class="point"><div class="t">免费资源是阻力、学习闭环才是付费理由：买的是闭环和专属感，不是视频本身。</div><blockquote>他丢个文件夹给你点开看，跟报了课看的感觉不一样……没有输出就是盲目接收。</blockquote><div class="from">— 用户8 · 广东湛江</div></li>
-        <li class="point"><div class="t">「孩子跟机器比跟人更好交流」是青春期家庭隐性刚需：内向、有难题不敢问老师，靠 AI / 动画自助提分。</div><div class="from">— 用户8 · 广东湛江</div></li>
+        <li class="point"><div class="t"><strong>免费资源是阻力、学习闭环才是付费理由</strong>：买的是闭环和专属感，不是视频本身。</div><blockquote>他丢个文件夹给你点开看，跟报了课看的感觉不一样……没有输出就是盲目接收。</blockquote><div class="from">用户8 · 广东湛江</div></li>
+        <li class="point"><div class="t"><strong>「孩子跟机器比跟人更好交流」是青春期家庭隐性刚需</strong>：内向、有难题不敢问老师，靠 AI / 动画自助提分。</div><div class="from">用户8 · 广东湛江</div></li>
       </ul>
     </div>
 
-    <div class="theme rv">
-      <div class="theme-top"><div class="theme-num">5</div><h2>人群机会：好学生 / 自律孩子转化潜力更大</h2></div>
-      <div class="sum">好学生的家长信任孩子、愿意支付高价，且有「提前学」的真实诉求；但这部分人规模可能有限。家长普遍把家庭包「只推荐给学习能力强、自主自律、愿意主动学的孩子」。</div>
+    <div class="theme rv" id="t5">
+      <div class="bignum">05</div>
+      <div class="theme-kicker"><span class="dot">5</span><span class="label">人群机会</span></div>
+      <h2>好学生 / 自律孩子转化潜力更大</h2>
+      <div class="sum"><mark>好学生</mark>的家长信任孩子、愿意支付高价，且有「<mark>提前学</mark>」的真实诉求；但这部分人<mark>规模可能有限</mark>。家长普遍把家庭包「只推荐给学习能力强、自主自律、愿意主动学的孩子」。</div>
       <ul class="points">
-        <li class="point"><div class="t">能拉低信任成本：好学生家长信任孩子，愿意支付高昂价格。</div><div class="from">— 用户2 · 江西景德镇</div></li>
-        <li class="point"><div class="t">有提前学诉求：好学生在初中就要提前学高中内容，但规模可能有限。</div><blockquote>只推荐给学习能力强、自主自律的人 / 孩子愿意主动学。</blockquote><div class="from">— 用户2 · 江西景德镇</div></li>
+        <li class="point"><div class="t"><strong>能拉低信任成本</strong>：好学生家长信任孩子，愿意支付高昂价格。</div><div class="from">用户2 · 江西景德镇</div></li>
+        <li class="point"><div class="t"><strong>有提前学诉求</strong>：好学生在初中就要提前学高中内容，但规模可能有限。</div><blockquote>只推荐给学习能力强、自主自律的人 / 孩子愿意主动学。</blockquote><div class="from">用户2 · 江西景德镇</div></li>
       </ul>
     </div>
 
-    <div class="theme rv">
-      <div class="theme-top"><div class="theme-num">6</div><h2>共性顾虑：怕浪费、孩子不能坚持</h2></div>
-      <div class="sum">几乎所有家长的核心顾虑都是「花这么多钱，孩子坚持不下来就浪费了」。消解方式有三类：① 信任孩子（孩子是好学生 / 主动说喜欢）；② 信任权威（教育规划老师 / 博主）；③ 未消解但能承担后果（有钱）。未购用户的主因正是这一顾虑未被消解。</div>
+    <div class="theme rv" id="t6">
+      <div class="bignum">06</div>
+      <div class="theme-kicker"><span class="dot">6</span><span class="label">共性顾虑</span></div>
+      <h2>怕浪费、孩子不能坚持</h2>
+      <div class="sum">几乎所有家长的核心顾虑都是「<mark>花这么多钱，孩子坚持不下来就浪费了</mark>」。消解方式有三类：① 信任孩子（孩子是好学生 / 主动说喜欢）；② 信任权威（教育规划老师 / 博主）；③ 未消解但能承担后果（有钱）。<mark>未购用户的主因</mark>正是这一顾虑未被消解。</div>
       <ul class="points">
-        <li class="point"><div class="t">信任孩子：哥哥自己说喜欢学，打消了「怕不坚持」的顾虑。</div><blockquote>担心买了浪费、孩子不能坚持；最终打消顾虑是因为「哥哥自己说喜欢学」。</blockquote><div class="from">— 用户1 · 广东广州</div></li>
-        <li class="point"><div class="t">信任权威：更相信博主 / 教育规划老师的客观推荐，而非销售「王婆卖瓜」。</div><blockquote>阿刘教育规划……只是单纯说这个好、提供链接，从客观公正的角度说，比起销售更相信他。</blockquote><div class="from">— 用户4 · 江西九江</div></li>
-        <li class="point"><div class="t">未消解但承担风险：自己该做的做到了，平台已经提供，实在不学也没办法。</div><blockquote>没有打消顾虑，自己该做的做到了……实在不学也没办法。</blockquote><div class="from">— 用户3 · 安徽合肥</div></li>
-        <li class="point"><div class="t">未购主因：不确定是否有效果 / 能提分，是多数未购家长折中（只买小初品）的根本原因。</div><div class="from">— 用户6 · 江苏镇江（未购）</div></li>
+        <li class="point"><div class="t"><strong>信任孩子</strong>：哥哥自己说喜欢学，打消了「怕不坚持」的顾虑。</div><blockquote>担心买了浪费、孩子不能坚持；最终打消顾虑是因为「哥哥自己说喜欢学」。</blockquote><div class="from">用户1 · 广东广州</div></li>
+        <li class="point"><div class="t"><strong>信任权威</strong>：更相信博主 / 教育规划老师的客观推荐，而非销售「王婆卖瓜」。</div><blockquote>阿刘教育规划……只是单纯说这个好、提供链接，从客观公正的角度说，比起销售更相信他。</blockquote><div class="from">用户4 · 江西九江</div></li>
+        <li class="point"><div class="t"><strong>未消解但承担风险</strong>：自己该做的做到了，平台已经提供，实在不学也没办法。</div><blockquote>没有打消顾虑，自己该做的做到了……实在不学也没办法。</blockquote><div class="from">用户3 · 安徽合肥</div></li>
+        <li class="point"><div class="t"><strong>未购主因</strong>：不确定是否有效果 / 能提分，是多数未购家长折中（只买小初品）的根本原因。</div><div class="from">用户6 · 江苏镇江（未购）</div></li>
       </ul>
     </div>
 
-    <div class="theme rv">
-      <div class="theme-top"><div class="theme-num">7</div><h2>最强未消解痛点：多孩并发受限</h2></div>
-      <div class="sum">多孩家庭最强烈、且尚未被解决的痛点是「账号最多 2 台设备同时上课」，无法真正「同时学」只能错峰，影响周末 / 出行；学情报告也需要按孩子拆分，跨城 / 跨市账号还会被锁。</div>
+    <div class="theme rv" id="t7">
+      <div class="bignum">07</div>
+      <div class="theme-kicker"><span class="dot">7</span><span class="label">最强未消解痛点</span></div>
+      <h2>多孩并发受限</h2>
+      <div class="sum">多孩家庭最强烈、且尚未被解决的痛点是「<mark>账号最多 2 台设备同时上课</mark>」，无法真正「同时学」只能错峰，影响周末 / 出行；学情报告也需要按孩子拆分，跨城 / 跨市账号还会被锁。</div>
       <ul class="points">
-        <li class="point"><div class="t">多设备并发：账号只能 2 台设备同时上课，多孩无法同时学、只能错峰。</div><blockquote>几个孩子同时在房间学完，就能一起出发……我孩子多就会想到这些。</blockquote><div class="from">— 用户8 · 广东湛江</div></li>
-        <li class="point"><div class="t">学情报告按孩子拆分：升学后两个孩子的学情会混在一起，希望各自独立。</div><div class="from">— 用户8 · 广东湛江 / 用户7 · 广东深圳</div></li>
-        <li class="point"><div class="t">跨城市账号分开：大宝、小宝同省不同市，希望两个账号分开，目前跨市会锁账号。</div><div class="from">— 用户9 · 湖南长沙</div></li>
+        <li class="point"><div class="t"><strong>多设备并发</strong>：账号只能 2 台设备同时上课，多孩无法同时学、只能错峰。</div><blockquote>几个孩子同时在房间学完，就能一起出发……我孩子多就会想到这些。</blockquote><div class="from">用户8 · 广东湛江</div></li>
+        <li class="point"><div class="t"><strong>学情报告按孩子拆分</strong>：升学后两个孩子的学情会混在一起，希望各自独立。</div><div class="from">用户8 · 广东湛江 / 用户7 · 广东深圳</div></li>
+        <li class="point"><div class="t"><strong>跨城市账号分开</strong>：大宝、小宝同省不同市，希望两个账号分开，目前跨市会锁账号。</div><div class="from">用户9 · 湖南长沙</div></li>
       </ul>
+    </div>
+
+    <div class="closing rv">
+      <div class="box">
+        <strong>一句话结论</strong>
+        <p>家庭包要用<mark>大孩升学</mark>促成交、二孩权益与 <mark>6 年价值</mark>把高客单价合理化，再用<mark>学习规划感与闭环</mark>打消“怕浪费、不坚持”的共性顾虑，同时尽快补上<mark>多孩并发</mark>的体验短板。</p>
+      </div>
     </div>
 
   </div>
 </section>
 
-<footer class="band">洋葱家庭包用户调研 · InsightHub</footer>
+<footer>洋葱家庭包用户调研 · InsightHub</footer>
+
+<button class="totop" id="totop" aria-label="回到顶部">↑</button>
 
 <script>
-const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.1});
+// 滚动揭示
+const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.12});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+// 阅读进度条
+const bar=document.getElementById('progress');
+const totop=document.getElementById('totop');
+function onScroll(){
+  const h=document.documentElement;
+  const max=h.scrollHeight-h.clientHeight;
+  const p=max>0?(h.scrollTop/max)*100:0;
+  bar.style.width=p+'%';
+  totop.classList.toggle('show',h.scrollTop>500);
+}
+document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+totop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+// 目录高亮（scrollspy）
+const links=[...document.querySelectorAll('.nav a')];
+const map=new Map(links.map(a=>[a.getAttribute('href').slice(1),a]));
+const spy=new IntersectionObserver((es)=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      links.forEach(l=>l.classList.remove('active'));
+      const a=map.get(e.target.id);
+      if(a){a.classList.add('active');a.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});}
+    }
+  });
+},{rootMargin:'-45% 0px -50% 0px'});
+document.querySelectorAll('.theme').forEach(t=>spy.observe(t));
 </script>
 </body>
 </html>
