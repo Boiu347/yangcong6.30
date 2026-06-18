@@ -1,6 +1,7 @@
 import { EVIDENCE_SOURCE_MAP } from './evidenceLookup';
 import { EVIDENCE_CLIP_MAP, EvidenceClip } from './evidenceClipLookup';
 import { JIATINGBAO_CLIP_MAP } from './jiatingbaoClipLookup';
+import { DEFAULT_VOC_CLIP_MAP } from './defaultVocClipLookup';
 import { JISUANYING_EVIDENCE_SOURCE_MAP } from '../store/jisuanyingData';
 
 /**
@@ -25,7 +26,9 @@ export function lookupClips(evidence: string): EvidenceClip[] {
     JIATINGBAO_CLIP_MAP[plain] ??
     JIATINGBAO_CLIP_MAP[evidence] ??
     EVIDENCE_CLIP_MAP[plain] ??
-    EVIDENCE_CLIP_MAP[evidence];
+    EVIDENCE_CLIP_MAP[evidence] ??
+    DEFAULT_VOC_CLIP_MAP[plain] ??
+    DEFAULT_VOC_CLIP_MAP[evidence];
   if (!raw) return [];
   if (Array.isArray(raw)) return raw;
   return [raw as EvidenceClip];
