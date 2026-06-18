@@ -1,5 +1,6 @@
 import { EVIDENCE_SOURCE_MAP } from './evidenceLookup';
 import { EVIDENCE_CLIP_MAP, EvidenceClip } from './evidenceClipLookup';
+import { JIATINGBAO_CLIP_MAP } from './jiatingbaoClipLookup';
 import { JISUANYING_EVIDENCE_SOURCE_MAP } from '../store/jisuanyingData';
 
 /**
@@ -20,7 +21,11 @@ export function lookupSource(evidence: string, _brand?: string): string | null {
  */
 export function lookupClips(evidence: string): EvidenceClip[] {
   const plain = evidence.replace(/\*\*/g, '');
-  const raw = EVIDENCE_CLIP_MAP[plain] ?? EVIDENCE_CLIP_MAP[evidence];
+  const raw =
+    JIATINGBAO_CLIP_MAP[plain] ??
+    JIATINGBAO_CLIP_MAP[evidence] ??
+    EVIDENCE_CLIP_MAP[plain] ??
+    EVIDENCE_CLIP_MAP[evidence];
   if (!raw) return [];
   if (Array.isArray(raw)) return raw;
   return [raw as EvidenceClip];

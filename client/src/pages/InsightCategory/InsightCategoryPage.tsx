@@ -13,6 +13,8 @@ import type React from 'react';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useProjects } from '../../store/useProjectStore';
+import EvidenceAudioClips from '../../components/EvidenceAudioClips';
+import { lookupClips } from '../../utils/sourceUtils';
 import type { Sentiment } from '../../types/voc';
 import {
   buildBusinessDirections,
@@ -260,6 +262,11 @@ function QuotePreview({ quote, color }: { quote: CategoryQuote; color: string })
         <span className="truncate text-xs font-bold text-[#6f6a63]">{quote.respondent || quote.sourceName}</span>
       </div>
       <p className="line-clamp-4 text-sm leading-6 text-[#34312c]">{quote.text}</p>
+      {lookupClips(quote.text).length > 0 && (
+        <div className="mt-2">
+          <EvidenceAudioClips clips={lookupClips(quote.text)} />
+        </div>
+      )}
       <div className="mt-2 text-xs text-[#9a948b]">{quote.projectName}</div>
     </blockquote>
   );

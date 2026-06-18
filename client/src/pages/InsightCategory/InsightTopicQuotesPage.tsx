@@ -12,6 +12,8 @@ import {
 } from 'lucide-react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useProjects } from '../../store/useProjectStore';
+import EvidenceAudioClips from '../../components/EvidenceAudioClips';
+import { lookupClips } from '../../utils/sourceUtils';
 import type { Sentiment } from '../../types/voc';
 import {
   buildCategoryInsightData,
@@ -233,6 +235,12 @@ function QuoteCard({ quote, query, color }: { quote: CategoryQuote; query: strin
           <HighlightedText text={quote.text} query={query} />
         </p>
       </blockquote>
+
+      {lookupClips(quote.text).length > 0 && (
+        <div className="mt-3">
+          <EvidenceAudioClips clips={lookupClips(quote.text)} />
+        </div>
+      )}
 
       <div className="mt-4 grid gap-2 text-xs text-[#7a746b] sm:grid-cols-2">
         <MetaItem icon={<FileText size={13} />} label="来源">

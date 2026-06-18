@@ -279,9 +279,16 @@ function FamilyCard({ itv, onOpen }: { itv: JtbInterview; onOpen: (itv: JtbInter
   const voice = representativeVoiceOf(itv);
 
   return (
-    <button
-      type="button"
+    <div
+      role="button"
+      tabIndex={detail ? 0 : -1}
       onClick={() => detail && onOpen(itv)}
+      onKeyDown={(e) => {
+        if (detail && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          onOpen(itv);
+        }
+      }}
       className={cn(
         'group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[#E8E2D9] bg-white p-4 text-left transition-all',
         detail ? 'cursor-pointer hover:-translate-y-0.5 hover:border-[#e65532]/40 hover:shadow-[2px_4px_0_rgba(0,0,0,0.06)]' : 'cursor-default opacity-60',
@@ -312,6 +319,11 @@ function FamilyCard({ itv, onOpen }: { itv: JtbInterview; onOpen: (itv: JtbInter
             代表原声
           </div>
           <p className="line-clamp-2 text-[12px] leading-5 text-gray-600">“{renderHighlighted(voice)}”</p>
+          {clipsFor(voice).length > 0 && (
+            <div className="mt-2" onClick={(e) => e.stopPropagation()}>
+              <EvidenceAudioClips clips={clipsFor(voice)} />
+            </div>
+          )}
         </div>
       ) : (
         <p className="mt-3 flex-1 border-t border-gray-100 pt-3 text-[12px] leading-5 text-gray-400">访谈纪要整理中</p>
@@ -322,7 +334,7 @@ function FamilyCard({ itv, onOpen }: { itv: JtbInterview; onOpen: (itv: JtbInter
           查看完整访谈 <ChevronRight size={12} />
         </div>
       )}
-    </button>
+    </div>
   );
 }
 
