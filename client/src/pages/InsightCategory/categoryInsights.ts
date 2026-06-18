@@ -72,6 +72,7 @@ export interface BusinessDirection {
   businessImpact: string;
   findings: string[];
   action: string;
+  keywords: string[];
   quotes: CategoryQuote[];
   representativeQuotes: CategoryQuote[];
   projectNames: string[];
@@ -410,6 +411,7 @@ export function buildBusinessDirections(slug: InsightCategorySlug, quotes: Categ
       businessImpact: definition.businessImpact,
       findings: definition.findings,
       action: definition.action,
+      keywords: definition.keywords,
       quotes: matchedQuotes,
       representativeQuotes: pickRepresentativeQuotes(matchedQuotes),
       projectNames: [...new Set(matchedQuotes.map((quote) => quote.projectName))],

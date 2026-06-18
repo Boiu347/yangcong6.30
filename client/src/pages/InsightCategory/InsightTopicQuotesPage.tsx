@@ -86,6 +86,7 @@ export default function InsightTopicQuotesPage() {
   const pageQuotes = filteredQuotes.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
   const projectCount = new Set(topicQuotes.map((quote) => quote.projectId)).size;
   const sourceCount = new Set(topicQuotes.map((quote) => quote.sourceId)).size;
+  const visibleKeywords = definition ? getVisibleKeywords(definition.keywords) : [];
 
   if (!validSlug || !topic) {
     return <Navigate to="/qualitative-research" replace />;
@@ -127,6 +128,14 @@ export default function InsightTopicQuotesPage() {
               <p className="mt-3 max-w-3xl text-[15px] leading-7 text-[#5f5a52]">
                 {definition.businessImpact}
               </p>
+              <div className="mt-4 flex flex-wrap items-center gap-2">
+                <span className="text-xs font-extrabold tracking-[0.12em] text-[#8a857d]">本维度重点词</span>
+                {visibleKeywords.map((keyword) => (
+                  <span key={keyword} className="rounded-full px-2.5 py-1 text-xs font-bold" style={{ backgroundColor: config.tint, color: config.color }}>
+                    {keyword}
+                  </span>
+                ))}
+              </div>
             </div>
             <div className="grid grid-cols-3 gap-2 lg:w-[320px]">
               <TopMetric label="原声" value={topicQuotes.length} color={config.color} />
@@ -178,7 +187,7 @@ export default function InsightTopicQuotesPage() {
         {pageQuotes.length > 0 ? (
           <div className="grid gap-4 lg:grid-cols-2">
             {pageQuotes.map((quote) => (
-              <QuoteCard key={quote.id} quote={quote} query={query} color={config.color} />
+              <QuoteCard key={quote.id} quote={quote} query={query} keywords={visibleKeywords} color={config.color} />
             ))}
           </div>
         ) : (
@@ -212,7 +221,17 @@ function TopMetric({ label, value, color }: { label: string; value: number; colo
   );
 }
 
-function QuoteCard({ quote, query, color }: { quote: CategoryQuote; query: string; color: string }) {
+function QuoteCard({
+  quote,
+  query,
+  keywords,
+  color,
+}: {
+  quote: CategoryQuote;
+  query: string;
+  keywords: string[];
+  color: string;
+}) {
   return (
     <article className="rounded-lg border border-[#e3dfd6] bg-white p-4 shadow-sm">
       <div className="mb-3 flex flex-wrap items-center gap-2">
@@ -232,7 +251,7 @@ function QuoteCard({ quote, query, color }: { quote: CategoryQuote; query: strin
 
       <blockquote className="border-l-4 pl-4" style={{ borderColor: color }}>
         <p className="text-[15px] leading-7 text-[#2f2b26]">
-          <HighlightedText text={quote.text} query={query} />
+          <HighlightedText text={quote.text} query={query} keywords={keywords} />
         </p>
       </blockquote>
 
@@ -244,15 +263,15 @@ function QuoteCard({ quote, query, color }: { quote: CategoryQuote; query: strin
 
       <div className="mt-4 grid gap-2 text-xs text-[#7a746b] sm:grid-cols-2">
         <MetaItem icon={<FileText size={13} />} label="来源">
-          <HighlightedText text={quote.sourceName} query={query} />
+          <HighlightedText text={quote.sourceName} query={query} keywords={keywords} />
         </MetaItem>
         <MetaItem icon={<MessageSquareQuote size={13} />} label="子议题">
-          <HighlightedText text={quote.subSubCategory} query={query} />
+          <HighlightedText text={quote.subSubCategory} query={query} keywords={keywords} />
         </MetaItem>
       </div>
       {quote.respondent && (
         <div className="mt-2 text-xs text-[#9a948b]">
-          用户：<HighlightedText text={quote.respondent} query={query} />
+          用户：<HighlightedText text={quote.respondent} query={query} keywords={keywords} />
         </div>
       )}
     </article>
@@ -338,19 +357,19 @@ function getVisiblePages(page: number, totalPages: number): Array<number | 'elli
   });
 }
 
-function HighlightedText({ text, query }: { text?: string; query: string }) {
+function HighlightedText({ text, query, keywords = [] }: { text?: string; query: string; keywords?: string[] }) {
   const value = text ?? '';
   const keyword = query.trim();
-  if (!keyword) return <>{value}</>;
+  const activeKeywords = keyword ? [keyword] : keywords.filter((item) => item.trim());
+  if (activeKeywords.length === 0) return <>{value}</>;
 
-  const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const regex = new RegExp(`(${escaped})`, 'gi');
+  const regex = new RegExp(`(${activeKeywords.map(escapeRegExp).join('|')})`, 'gi');
   const parts = value.split(regex);
   return (
     <>
       {parts.map((part, index) =>
-        part.toLowerCase() === keyword.toLowerCase() ? (
-          <mark key={`${part}-${index}`} className="rounded bg-[#fff0a8] px-0.5 text-[#6f4a00]">
+        activeKeywords.some((item) => item.toLowerCase() === part.toLowerCase()) ? (
+          <mark key={`${part}-${index}`} className="rounded bg-[#fff0a8] px-0.5 font-extrabold text-[#6f4a00]">
             {part}
           </mark>
         ) : (
@@ -359,4 +378,14 @@ function HighlightedText({ text, query }: { text?: string; query: string }) {
       )}
     </>
   );
+}
+
+function getVisibleKeywords(keywords: string[]): string[] {
+  return [...new Set(keywords)]
+    .filter((keyword) => keyword.trim().length > 0 && keyword.trim().length <= 6)
+    .slice(0, 8);
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }

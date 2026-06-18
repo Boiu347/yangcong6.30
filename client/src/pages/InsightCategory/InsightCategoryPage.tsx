@@ -38,6 +38,8 @@ const sentimentMeta: Record<Sentiment, { label: string; color: string; bg: strin
   negative: { label: '负向', color: '#bf3b2b', bg: '#fff0ec' },
 };
 
+const ACTION_KEYWORDS = ['建立', '强化', '补齐', '沉淀', '明确', '降低', '包装', '前置', '同步'];
+
 interface InsightCategoryPageProps {
   slug: InsightCategorySlug;
 }
@@ -133,6 +135,7 @@ function DirectionCard({
 }) {
   const disabled = direction.quotes.length === 0;
   const representativeQuote = direction.representativeQuotes[0];
+  const visibleKeywords = getVisibleKeywords(direction.keywords);
 
   return (
     <article
@@ -159,8 +162,16 @@ function DirectionCard({
         )}
       </div>
 
-      <h3 className="text-xl font-extrabold leading-snug text-[#25231f]">{direction.title}</h3>
-      <p className="mt-3 text-sm leading-6 text-[#5f5a52]">{direction.businessImpact}</p>
+      <h3 className="text-xl font-extrabold leading-snug text-[#25231f]">
+        <EmphasizedText text={direction.title} keywords={visibleKeywords} variant="title" />
+      </h3>
+
+      <div className="mt-3 rounded-lg border border-[#ebe7de] bg-[#fbfaf7] p-3" style={{ borderLeftColor: color, borderLeftWidth: 4 }}>
+        <div className="mb-1 text-[11px] font-extrabold tracking-[0.12em] text-[#8a857d]">影响对象</div>
+        <p className="text-sm font-semibold leading-6 text-[#3d3933]">
+          <EmphasizedText text={direction.businessImpact} keywords={visibleKeywords} />
+        </p>
+      </div>
 
       <div className="mt-4 grid gap-2 sm:grid-cols-3">
         <MiniMetric icon={<MessageSquareQuote size={14} />} label="原声" value={direction.quotes.length} />
@@ -169,12 +180,21 @@ function DirectionCard({
       </div>
 
       <div className="mt-4">
-        <div className="mb-2 text-xs font-bold text-[#8a857d]">关键发现</div>
-        <ul className="space-y-1.5">
+        <div className="mb-2 flex flex-wrap items-center gap-2">
+          <div className="text-xs font-bold text-[#8a857d]">关键发现</div>
+          {visibleKeywords.slice(0, 5).map((keyword) => (
+            <span key={keyword} className="rounded-full px-2 py-0.5 text-[11px] font-bold" style={{ backgroundColor: tint, color }}>
+              {keyword}
+            </span>
+          ))}
+        </div>
+        <ul className="grid gap-2">
           {direction.findings.map((finding) => (
-            <li key={finding} className="flex gap-2 text-sm leading-6 text-[#46413a]">
-              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full" style={{ backgroundColor: color }} />
-              <span>{finding}</span>
+            <li key={finding} className="rounded-lg border border-[#eee9df] bg-white px-3 py-2 text-sm font-medium leading-6 text-[#46413a]">
+              <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full text-[11px] font-extrabold" style={{ backgroundColor: tint, color }}>
+                !
+              </span>
+              <EmphasizedText text={finding} keywords={visibleKeywords} />
             </li>
           ))}
         </ul>
@@ -185,7 +205,9 @@ function DirectionCard({
           <Target size={13} style={{ color }} />
           建议动作
         </div>
-        <p className="text-sm leading-6 text-[#46413a]">{direction.action}</p>
+        <p className="text-sm font-medium leading-6 text-[#46413a]">
+          <EmphasizedText text={direction.action} keywords={[...visibleKeywords, ...ACTION_KEYWORDS]} />
+        </p>
       </div>
 
       <div className="mt-4">
@@ -194,7 +216,7 @@ function DirectionCard({
           <SentimentPills counts={direction.sentimentCounts} />
         </div>
         {representativeQuote ? (
-          <QuotePreview quote={representativeQuote} color={color} />
+          <QuotePreview quote={representativeQuote} color={color} keywords={visibleKeywords} />
         ) : (
           <div className="rounded-lg border border-dashed border-[#d8d1c5] bg-[#fbfaf7] p-4 text-sm text-[#8a857d]">
             暂无匹配原声，后续补充访谈材料后自动进入该维度。
@@ -254,14 +276,16 @@ function SentimentPills({ counts }: { counts: Record<Sentiment, number> }) {
   );
 }
 
-function QuotePreview({ quote, color }: { quote: CategoryQuote; color: string }) {
+function QuotePreview({ quote, color, keywords }: { quote: CategoryQuote; color: string; keywords: string[] }) {
   return (
     <blockquote className="rounded-lg border border-[#e8e3da] bg-white p-3">
       <div className="mb-2 flex items-center gap-2">
         <span className="h-2 w-2 rounded-full" style={{ backgroundColor: color }} />
         <span className="truncate text-xs font-bold text-[#6f6a63]">{quote.respondent || quote.sourceName}</span>
       </div>
-      <p className="line-clamp-4 text-sm leading-6 text-[#34312c]">{quote.text}</p>
+      <p className="line-clamp-4 text-sm leading-6 text-[#34312c]">
+        <EmphasizedText text={quote.text} keywords={keywords} />
+      </p>
       {lookupClips(quote.text).length > 0 && (
         <div className="mt-2">
           <EvidenceAudioClips clips={lookupClips(quote.text)} />
@@ -270,4 +294,50 @@ function QuotePreview({ quote, color }: { quote: CategoryQuote; color: string })
       <div className="mt-2 text-xs text-[#9a948b]">{quote.projectName}</div>
     </blockquote>
   );
+}
+
+function getVisibleKeywords(keywords: string[]): string[] {
+  return [...new Set(keywords)]
+    .filter((keyword) => keyword.trim().length > 0 && keyword.trim().length <= 6)
+    .slice(0, 8);
+}
+
+function EmphasizedText({
+  text,
+  keywords,
+  variant = 'body',
+}: {
+  text: string;
+  keywords: string[];
+  variant?: 'body' | 'title';
+}) {
+  const visibleKeywords = keywords.filter((keyword) => keyword.trim());
+  if (visibleKeywords.length === 0) return <>{text}</>;
+
+  const regex = new RegExp(`(${visibleKeywords.map(escapeRegExp).join('|')})`, 'gi');
+  const parts = text.split(regex);
+  return (
+    <>
+      {parts.map((part, index) =>
+        visibleKeywords.some((keyword) => keyword.toLowerCase() === part.toLowerCase()) ? (
+          <mark
+            key={`${part}-${index}`}
+            className={
+              variant === 'title'
+                ? 'rounded bg-[#fff0a8] px-1 font-extrabold text-[#3d2b00]'
+                : 'rounded bg-[#fff4bf] px-0.5 font-extrabold text-[#4a3600]'
+            }
+          >
+            {part}
+          </mark>
+        ) : (
+          <React.Fragment key={`${part}-${index}`}>{part}</React.Fragment>
+        ),
+      )}
+    </>
+  );
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
