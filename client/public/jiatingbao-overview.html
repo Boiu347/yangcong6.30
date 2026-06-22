@@ -46,8 +46,17 @@
     .priority:first-child { border-top:none; }
     .level { font-weight:800; color:var(--orange); }
     .note { margin-top:12px; color:var(--muted); font-size:13px; }
+    .formula { display:grid; grid-template-columns:1.2fr .8fr; gap:16px; align-items:stretch; }
+    .formula-main { padding:20px; border-left:4px solid var(--orange); }
+    .formula-main b { color:var(--orange); }
+    .formula-list { display:grid; gap:10px; }
+    .mini { padding:14px; background:#fffefa; border:1px solid var(--line); border-radius:8px; }
+    .mini b { color:#2d5fb8; }
+    .persona { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+    .persona .card { box-shadow:none; background:#fffefa; }
+    .persona h3 { color:#2d5fb8; }
     .closing { border-left:3px solid var(--orange); padding-left:14px; color:#514b45; }
-    @media (max-width:900px) { .wrap{padding:28px 18px 48px;} .hero,.cards,.grid,.flow{grid-template-columns:1fr;} h1{font-size:32px;} .priority{grid-template-columns:1fr;} }
+    @media (max-width:900px) { .wrap{padding:28px 18px 48px;} .hero,.cards,.grid,.flow,.formula,.persona{grid-template-columns:1fr;} h1{font-size:32px;} .priority{grid-template-columns:1fr;} }
   </style>
 </head>
 <body>
@@ -55,12 +64,12 @@
     <div class="hero">
       <div>
         <h1>洋葱家庭包用户调研</h1>
-        <p class="lead">围绕「6 年多孩家庭包」的购买动机、决策路径与使用预期，访谈 11 位家庭，形成面向产品、销售与运营的项目底稿。</p>
+        <p class="lead">围绕「6 年多孩家庭包」的购买动机、决策路径、长期顾虑与推课策略，访谈 11 位家庭，形成面向产品、销售与运营的项目底稿。</p>
         <div class="meta">
           <span class="pill">定性访谈</span><span class="pill">多孩家庭</span><span class="pill">购买决策</span><span class="pill">学习闭环</span><span class="pill">长期价值</span>
         </div>
       </div>
-      <div class="hero-card"><strong>核心判断</strong>家庭包卖的不是“更多课程”，而是一套被规划好、被看见、能闭环的多孩长期学习方案。</div>
+      <div class="hero-card"><strong>核心判断</strong>家庭包不是被单个卖点打动的，而是被“风险消解机制”撬动：家长要先相信 6 年不会浪费，才会接受高客单价。</div>
     </div>
 
     <div class="grid">
@@ -73,27 +82,61 @@
     <section>
       <h2>研究背景</h2>
       <div class="card">
-        <p>基于飞书《家庭包用户调研》11 位家庭的智能纪要与文字记录，按已购 / 未购、年级组合与购买性质分层提炼洞察。家庭包是洋葱面向多孩家庭的 6 年长周期、全科课程方案，因此研究重点放在“为什么愿意一次性买长期权益”以及“什么顾虑还没有被解决”。</p>
+        <p>基于飞书《家庭包用户调研》11 位家庭的智能纪要与文字记录，按已购 / 未购、年级组合与购买性质分层提炼洞察。家庭包是洋葱面向多孩家庭的 6 年长周期、全科课程方案，因此研究重点放在“为什么愿意一次性买长期权益”“哪些家庭值得重点推”以及“什么顾虑还没有被解决”。</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>家庭包成立公式</h2>
+      <div class="formula">
+        <div class="card formula-main">
+          <p><b>当前孩子马上能用</b> + <b>另一个孩子未来能接上</b> + <b>分开买 / 未来补课更贵更麻烦</b> = 家庭包值得买。</p>
+          <p class="note">其中，“当前孩子马上能用”是第一价值锚点；“另一个孩子未来能接上”负责价格合理化；“未来补课更贵更麻烦”是促成购买的风险账。</p>
+        </div>
+        <div class="formula-list">
+          <div class="mini"><b>转化价值</b><br />识别细分用户类型，给销售提供更精准的话术。</div>
+          <div class="mini"><b>顾虑消解</b><br />解决 6 年高价格、高周期、高不确定性带来的心理门槛。</div>
+        </div>
       </div>
     </section>
 
     <section>
       <h2>关键洞察</h2>
       <div class="cards">
-        <div class="card"><span class="tag">成交锚点</span><h3>大孩升学需求促成交</h3><p>多孩家庭通常由一个更紧急、更重要的大孩需求触发购买，小孩权益把高客单价合理化。</p><p class="quote">“如果没有妹妹的权益，可能就会买个短期课。”</p></div>
-        <div class="card"><span class="tag">价值感知</span><h3>家长算的是综合成本</h3><p>家庭包的“划算”来自与私教、线下班、未来涨价和补课成本的综合比较，而不是单看标价。</p><p class="quote">“还比私教班便宜，私教班一门就一万多。”</p></div>
-        <div class="card"><span class="tag">机会点</span><h3>学习规划感比资源更多更重要</h3><p>真正打动家长的是真人规划、AI 排课、错题订正和阶段反馈带来的学习闭环。</p><p class="quote">“没有输出就是盲目接收。”</p></div>
-        <div class="card"><span class="tag">未消解痛点</span><h3>怕浪费与多孩并发仍是阻力</h3><p>共性顾虑是孩子坚持不下来；多孩家庭还强烈需要同时学习、独立学情和账号分开。</p><p class="quote">“几个孩子同时在房间学完，就能一起出发。”</p></div>
+        <div class="card"><span class="tag">成交锚点</span><h3>主孩需求决定成交</h3><p>家庭包并非以“家庭”进入心智，而是先从某个孩子的具体学习问题切入；这个问题越紧急，越容易付费。</p><p class="quote">“主要考虑的是哥哥，妹妹顺带着用。”</p></div>
+        <div class="card"><span class="tag">价格合理化</span><h3>次孩权益让高客单成立</h3><p>另一个孩子现在 / 未来也能用，家庭包就从高价支出变成“值得”的长期课程。</p><p class="quote">“如果没有妹妹的权益，可能就会买个短期课。”</p></div>
+        <div class="card"><span class="tag">关键顾虑</span><h3>最大阻力是长期不确定性</h3><p>家长最常见的决策方式，是先买当下够用的课包，再观察是否值得升级。</p><p class="quote">“花这么多钱不一定见到效果吧，有效果再买吧。”</p></div>
+        <div class="card"><span class="tag">价值放大</span><h3>看见长期如何发生</h3><p>家庭包要证明 6 年不是囤课，而是学习规划、AI 定制班、过程反馈和家庭组学情共同构成的长期方案。</p><p class="quote">“AI 定制班给我们排好课，定好了就听。”</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>推课逻辑</h2>
+      <div class="cards">
+        <div class="card"><span class="tag">小低 + 其他</span><h3>主需求集中在大孩，小低承担未来确定性</h3><p>小低更多是“摊钱份子”，但 3 年后提前学的确定性较强；当大孩已出现升学问题时，家庭包更容易成立。</p></div>
+        <div class="card"><span class="tag">小高 + 其他</span><h3>不浪费、能学到高中，但仍需消解效果顾虑</h3><p>家庭包是覆盖小初高的完整方案，但“不浪费”和“内容全面”还不足以解决提分效果的不确定性。</p></div>
+        <div class="card"><span class="tag">强推组合</span><h3>单孩小高 / 双小高 / 三孩</h3><p>单孩小高不存在其他学段浪费感；双小高和三孩家庭可将权益倍增解释成更强的长期价值。</p></div>
+        <div class="card"><span class="tag">特征判断</span><h3>按底层动机识别潜力用户</h3><p>小升初窗口、拔尖自驱、大孩经验迁移、资源预置囤课，是当前最清晰的四类转化机制。</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>四类典型画像</h2>
+      <div class="persona">
+        <div class="card"><h3>小升初窗口驱动型</h3><p>5/6/7 年级附近，有同步复习、暑假预习、分班考试等明确场景。</p></div>
+        <div class="card"><h3>拔尖自驱超前学型</h3><p>孩子成绩优秀、自律主动，家长不是补差，而是在支持孩子继续往前学。</p></div>
+        <div class="card"><h3>大孩经验迁移型</h3><p>老大经历过升学压力、辅导班低效和补课疲惫，家长希望小孩少走弯路。</p></div>
+        <div class="card"><h3>资源预置囤课型</h3><p>把家庭包理解成“储备资源”，关注能学到高中、多孩共用和不浪费。</p></div>
       </div>
     </section>
 
     <section>
       <h2>行动框架</h2>
       <div class="flow">
-        <div class="step"><em>1</em><h3>分层话术</h3><p>先抓大孩紧急升学，二孩权益作为促单的一脚，把“顺带用”转化为长期价值。</p></div>
-        <div class="step"><em>2</em><h3>价值前置</h3><p>把 AI 定制班 + 1V1 规划的学习规划感放到销售主线，而不是放在权益解释里。</p></div>
-        <div class="step"><em>3</em><h3>闭环证明</h3><p>用讲解、练习、错题本、规划与报告解释为什么正式课包不同于免费视频。</p></div>
-        <div class="step"><em>4</em><h3>体验补洞</h3><p>优先解决多孩并发、学情拆分与跨城账号问题，承接续费和升单。</p></div>
+        <div class="step"><em>1</em><h3>先问主孩问题</h3><p>先识别谁的需求最紧急：升学、补弱、复习、提前学，主孩场景决定成交入口。</p></div>
+        <div class="step"><em>2</em><h3>再讲次孩价值</h3><p>把另一个孩子现在或未来能用讲清楚，让高客单从“贵”变成“值得”。</p></div>
+        <div class="step"><em>3</em><h3>消解 6 年风险</h3><p>用孩子愿意学的数据、AI 定制班、1V1 规划和线下课对比降低“不学/无效/浪费”的风险。</p></div>
+        <div class="step"><em>4</em><h3>持续证明效果</h3><p>强化学情报告、家庭组和阶段反馈，让长期价值不是只在购买时宣传。</p></div>
       </div>
     </section>
 
@@ -111,7 +154,7 @@
     <section>
       <h2>一句话结论</h2>
       <div class="card">
-        <p class="closing">家庭包需要用大孩升学促成交，用二孩权益与 6 年价值把高客单价合理化，再用学习规划感和学习闭环打消“怕浪费、不坚持”的共性顾虑。</p>
+        <p class="closing">家庭包需要从单个孩子的真实学习问题切入，用另一个孩子的未来权益合理化高客单，再用风险消解机制证明 6 年不会浪费；销售不能只讲卖点，而要帮助家长算清“现在不准备，未来会更贵、更麻烦、更被动”的风险账。</p>
       </div>
     </section>
   </main>
