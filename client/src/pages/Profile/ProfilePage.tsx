@@ -379,7 +379,7 @@ function ProfileOverview({
             </div>
             <span className="rounded bg-[#fff3ef] px-2.5 py-1 text-xs font-bold text-[#e65532]">{rows.length} 类画像</span>
           </div>
-          <div className="grid gap-px bg-[#e5e4de] md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-4 bg-[#fafaf7] p-4 md:grid-cols-2 xl:grid-cols-3">
             {rows.map((row) => <PersonaPreviewCard key={row.persona.id} row={row} />)}
           </div>
         </div>
@@ -485,7 +485,7 @@ function BusinessExplanation({ title, text }: { title: string; text: string }) {
 
 function PersonaPreviewCard({ row }: { row: PersonaSummary }) {
   return (
-    <article className="flex min-h-[280px] flex-col bg-white p-4">
+    <article className="flex min-h-[280px] flex-col border border-[#e5e4de] bg-white p-4">
       <div className="mb-2 flex flex-wrap gap-1.5">
         <span className="rounded bg-[#fff3ef] px-2 py-0.5 text-[10px] font-bold text-[#e65532]">{row.stage}</span>
         <span className="rounded bg-[#f3f3ef] px-2 py-0.5 text-[10px] font-bold text-[#777]">{row.role}</span>
