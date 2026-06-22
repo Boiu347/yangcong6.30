@@ -20,6 +20,7 @@ const computingItems = [
 ];
 
 const familyItems = [
+  { label: '调研背景', path: 'background' },
   { label: '项目总览', path: 'summary' },
   { label: '用户访谈', path: 'qualitative' },
   { label: '核心洞察', path: 'competitive' },
