@@ -15,6 +15,7 @@ import {
   Target,
   Users,
 } from 'lucide-react';
+import { useParams } from 'react-router-dom';
 
 const ORANGE = '#E95B35';
 const INK = '#28241F';
@@ -180,7 +181,7 @@ function Section({
   );
 }
 
-export default function QuantitativePage() {
+function CalculationQuantitativePage() {
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     window.history.replaceState(null, '', `#${id}`);
@@ -607,4 +608,20 @@ export default function QuantitativePage() {
       </Section>
     </div>
   );
+}
+
+function DefaultQuantitativeReport() {
+  return (
+    <iframe
+      src="/research-report.html"
+      title="用户调研报告 · 从小学系列"
+      className="block h-full min-h-full w-full border-none bg-white"
+    />
+  );
+}
+
+export default function QuantitativePage() {
+  const { projectId } = useParams<{ projectId: string }>();
+  if (projectId === 'jisuanying_project') return <CalculationQuantitativePage />;
+  return <DefaultQuantitativeReport />;
 }

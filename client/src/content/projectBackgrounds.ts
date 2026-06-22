@@ -33,7 +33,14 @@ export const PROJECT_BACKGROUNDS: Record<string, ProjectBackgroundConfig> = {
     eyebrow: 'PROJECT CONTEXT',
     summary: '从增长目标、研究问题与目标人群出发，说明本次研究为何启动、需要回答什么，以及研究覆盖的边界。',
     markdown: fromPrimaryBriefing,
-    resources: pendingResources,
+    resources: [
+      {
+        label: '小学物理调研背景',
+        description: '从小学物理项目的研究背景、业务问题与研究边界',
+        url: 'https://guanghe.feishu.cn/wiki/S7NrwiHD8iQhkFkzR50cs54bnMf',
+      },
+      ...pendingResources,
+    ],
   },
   jisuanying_project: {
     title: '计算营产品定位与增长调研',
@@ -51,6 +58,7 @@ export const PROJECT_BACKGROUNDS: Record<string, ProjectBackgroundConfig> = {
       {
         label: '研究方案',
         description: '家庭包用户调研的业务问题、人群优先级、研究假设与访谈提纲',
+        url: 'https://guanghe.feishu.cn/wiki/SW7FwtXejisq42kR241cdjuPnAd',
       },
       ...pendingResources,
     ],
