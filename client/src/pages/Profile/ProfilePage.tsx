@@ -1,9 +1,7 @@
 import React from 'react';
-import { useSearchParams } from 'react-router-dom';
 import {
   BarChart3,
   BookOpenCheck,
-  GitCompareArrows,
   Home,
   Layers,
   Pencil,
@@ -13,12 +11,26 @@ import {
   Target,
   Users,
 } from 'lucide-react';
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
 import { toast } from 'sonner';
 import { useIsEditor } from '../../components/auth/PasswordGate';
-import { useProjects } from '../../store/useProjectStore';
 import { DEFAULT_PORTRAITS, PORTRAIT_FRAMEWORK } from '../../store/portraitDefaults';
 import { fetchPortrait, savePortrait } from '../../api/research';
 import type { PortraitData, PortraitPersona, PortraitSnapshot } from '../../types/research';
+
+const PROFILE_PROJECT_ID = 'default_project';
+const CHART_COLORS = ['#e65532', '#2f6f9f', '#56a383', '#b58a43', '#8b6bb8', '#b8667a'];
 
 const dimensionFields: Array<{ key: keyof PortraitPersona; label: string }> = [
   { key: 'educationPhilosophy', label: '教育理念' },
@@ -26,26 +38,26 @@ const dimensionFields: Array<{ key: keyof PortraitPersona; label: string }> = [
   { key: 'decisionStyle', label: '决策方式' },
 ];
 
-type ProfileMode = 'overview' | 'portrait' | 'compare';
+type ProfileMode = 'overview' | 'portrait';
 type PersonaRole = '家长' | '学生' | '家庭决策';
-type PersonaStage = '小学' | '初中' | '高中' | '跨学段';
+type PersonaStage = '小学' | '初中' | '高中';
+type DemandType = '兴趣习惯' | '错题提效' | '补弱巩固' | '备考提分' | '规划解惑' | '情绪支持';
 
 interface PersonaSummary {
-  projectId: string;
-  projectName: string;
   persona: PortraitPersona;
   role: PersonaRole;
   stage: PersonaStage;
-  businessType: '转化决策' | '课程使用' | '家庭包决策' | '学习规划';
+  demandType: DemandType;
+  tags: string[];
 }
 
-function fallbackSnapshot(projectId: string): PortraitSnapshot {
+function fallbackSnapshot(): PortraitSnapshot {
   return {
-    projectId,
-    data: DEFAULT_PORTRAITS[projectId] ?? {
+    projectId: PROFILE_PROJECT_ID,
+    data: DEFAULT_PORTRAITS[PROFILE_PROJECT_ID] ?? {
       framework: PORTRAIT_FRAMEWORK,
       personas: [],
-      source: '尚未录入可验证的研究资料',
+      source: '小学用户画像调研报告、初中用户画像调研报告、高中用户画像调研报告',
       updatedBy: '编辑者',
     },
     version: 0,
@@ -54,13 +66,9 @@ function fallbackSnapshot(projectId: string): PortraitSnapshot {
 }
 
 export default function ProfilePage() {
-  const projects = useProjects();
   const editor = useIsEditor();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const initialProject = searchParams.get('projectId') ?? projects[0]?.id ?? 'default_project';
-  const [projectId, setProjectId] = React.useState(initialProject);
   const [mode, setMode] = React.useState<ProfileMode>('overview');
-  const [snapshots, setSnapshots] = React.useState<Record<string, PortraitSnapshot>>({});
+  const [snapshot, setSnapshot] = React.useState<PortraitSnapshot>(() => fallbackSnapshot());
   const [activePersonaId, setActivePersonaId] = React.useState('');
   const [draft, setDraft] = React.useState<PortraitData | null>(null);
   const [editing, setEditing] = React.useState(false);
@@ -68,38 +76,26 @@ export default function ProfilePage() {
 
   React.useEffect(() => {
     let cancelled = false;
-    Promise.all(projects.map(async (project) => {
-      const snapshot = await fetchPortrait(project.id).catch(() => null);
-      return snapshot ?? fallbackSnapshot(project.id);
-    })).then((rows) => {
-      if (cancelled) return;
-      setSnapshots(Object.fromEntries(rows.map((row) => [row.projectId, row])));
-    });
+    fetchPortrait(PROFILE_PROJECT_ID)
+      .then((remote) => {
+        if (!cancelled) setSnapshot(remote);
+      })
+      .catch(() => {
+        if (!cancelled) setSnapshot(fallbackSnapshot());
+      });
     return () => { cancelled = true; };
-  }, [projects]);
+  }, []);
 
-  const snapshot = snapshots[projectId] ?? fallbackSnapshot(projectId);
   const data = draft ?? snapshot.data;
   const activePersona = data.personas.find((persona) => persona.id === activePersonaId) ?? data.personas[0];
-  const personaSummaries = React.useMemo(
-    () => buildPersonaSummaries(projects, snapshots),
-    [projects, snapshots],
-  );
-  const dashboard = React.useMemo(
-    () => buildProfileDashboard(personaSummaries, projects.length),
-    [personaSummaries, projects.length],
-  );
+  const personaSummaries = React.useMemo(() => buildPersonaSummaries(data.personas), [data.personas]);
+  const dashboard = React.useMemo(() => buildProfileDashboard(personaSummaries), [personaSummaries]);
 
   React.useEffect(() => {
     setActivePersonaId(snapshot.data.personas[0]?.id ?? '');
     setDraft(null);
     setEditing(false);
-  }, [projectId, snapshot.projectId]);
-
-  const selectProject = (next: string) => {
-    setProjectId(next);
-    setSearchParams({ projectId: next });
-  };
+  }, [snapshot.projectId, snapshot.updatedAt, snapshot.version]);
 
   const updatePersona = (patch: Partial<PortraitPersona>) => {
     if (!activePersona) return;
@@ -114,11 +110,11 @@ export default function ProfilePage() {
     if (!draft) return;
     setSaving(true);
     try {
-      const saved = await savePortrait(projectId, draft, snapshot.version);
-      setSnapshots((current) => ({ ...current, [projectId]: saved }));
+      const saved = await savePortrait(PROFILE_PROJECT_ID, draft, snapshot.version);
+      setSnapshot(saved);
       setDraft(null);
       setEditing(false);
-      toast.success('项目画像已保存');
+      toast.success('画像报告已保存');
     } catch (error) {
       toast.error(error instanceof Error ? error.message : '保存失败');
     } finally {
@@ -133,19 +129,12 @@ export default function ProfilePage() {
           <div>
             <div className="flex items-center gap-2 text-[#e65532]">
               <Users size={18} />
-              <span className="text-xs font-bold">INSIGHTHUB GLOBAL</span>
+              <span className="text-xs font-bold">INSIGHTHUB PROFILE</span>
             </div>
             <h1 className="mt-1 text-2xl font-bold text-[#252525]">用户画像</h1>
-            <p className="mt-1 text-sm text-[#6f6f68]">统一画像框架，按研究项目独立维护版本。</p>
+            <p className="mt-1 text-sm text-[#6f6f68]">基于小学、初中、高中三份画像报告，呈现画像类型结构与业务重点。</p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <select
-              value={projectId}
-              onChange={(event) => selectProject(event.target.value)}
-              className="h-9 min-w-52 rounded-md border border-[#d8d7d0] bg-white px-3 text-sm"
-            >
-              {projects.map((project) => <option key={project.id} value={project.id}>{project.name}</option>)}
-            </select>
             <div className="flex h-9 rounded-md border border-[#d8d7d0] bg-white p-1">
               <button
                 onClick={() => setMode('overview')}
@@ -158,12 +147,6 @@ export default function ProfilePage() {
                 className={`flex items-center gap-1.5 rounded px-3 text-xs font-semibold ${mode === 'portrait' ? 'bg-[#252525] text-white' : 'text-[#666]'}`}
               >
                 <BookOpenCheck size={13} />画像详情
-              </button>
-              <button
-                onClick={() => setMode('compare')}
-                className={`flex items-center gap-1.5 rounded px-3 text-xs font-semibold ${mode === 'compare' ? 'bg-[#252525] text-white' : 'text-[#666]'}`}
-              >
-                <GitCompareArrows size={13} />项目对比
               </button>
             </div>
             {mode === 'portrait' && editor && !editing && (
@@ -192,9 +175,9 @@ export default function ProfilePage() {
         </section>
 
         {mode === 'overview' ? (
-          <ProfileOverview dashboard={dashboard} summaries={personaSummaries} />
-        ) : mode === 'portrait' ? (
-          <section className="mt-5 grid min-h-[560px] gap-4 lg:grid-cols-[260px_minmax(0,1fr)]">
+          <ProfileOverview dashboard={dashboard} summaries={personaSummaries} source={data.source} />
+        ) : (
+          <section className="mt-5 grid min-h-[560px] gap-4 lg:grid-cols-[280px_minmax(0,1fr)]">
             <aside className="border border-[#dddcd5] bg-white">
               <div className="border-b border-[#e5e4de] px-4 py-3 text-xs font-bold text-[#777]">画像类型</div>
               {data.personas.length ? data.personas.map((persona) => (
@@ -203,14 +186,14 @@ export default function ProfilePage() {
                   onClick={() => setActivePersonaId(persona.id)}
                   className={`block w-full border-b border-[#efeee9] px-4 py-3 text-left ${activePersona?.id === persona.id ? 'bg-[#fff3ef]' : 'hover:bg-[#fafaf7]'}`}
                 >
-                  <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-start justify-between gap-2">
                     <span className="text-sm font-bold text-[#30302d]">{persona.name}</span>
-                    <span className="text-[10px] text-[#a05a46]">{persona.distribution}</span>
+                    <span className="shrink-0 text-[10px] text-[#a05a46]">{inferPersonaStage(persona)}</span>
                   </div>
                   <p className="mt-1 line-clamp-2 text-xs leading-5 text-[#777]">{persona.definition}</p>
                 </button>
               )) : (
-                <div className="px-4 py-10 text-center text-sm text-[#999]">该项目尚未建立画像</div>
+                <div className="px-4 py-10 text-center text-sm text-[#999]">三份画像报告尚未建立画像</div>
               )}
             </aside>
 
@@ -233,7 +216,7 @@ export default function ProfilePage() {
                   <div className="flex items-center gap-2 rounded-md bg-[#f3f3ef] px-3 py-2">
                     <BarChart3 size={14} className="text-[#e65532]" />
                     {editing ? (
-                      <input value={activePersona.distribution} onChange={(e) => updatePersona({ distribution: e.target.value })} className="w-28 bg-transparent text-xs font-bold outline-none" />
+                      <input value={activePersona.distribution} onChange={(e) => updatePersona({ distribution: e.target.value })} className="w-32 bg-transparent text-xs font-bold outline-none" />
                     ) : <span className="text-xs font-bold">{activePersona.distribution}</span>}
                   </div>
                 </header>
@@ -250,18 +233,8 @@ export default function ProfilePage() {
                 </div>
 
                 <div className="grid gap-6 p-5 md:grid-cols-2">
-                  <ListEditor
-                    title="核心需求"
-                    values={activePersona.coreNeeds}
-                    editing={editing}
-                    onChange={(coreNeeds) => updatePersona({ coreNeeds })}
-                  />
-                  <ListEditor
-                    title="典型行为"
-                    values={activePersona.typicalBehaviors}
-                    editing={editing}
-                    onChange={(typicalBehaviors) => updatePersona({ typicalBehaviors })}
-                  />
+                  <ListEditor title="核心需求" values={activePersona.coreNeeds} editing={editing} onChange={(coreNeeds) => updatePersona({ coreNeeds })} />
+                  <ListEditor title="典型行为" values={activePersona.typicalBehaviors} editing={editing} onChange={(typicalBehaviors) => updatePersona({ typicalBehaviors })} />
                 </div>
                 <div className="border-t border-[#e5e4de] p-5">
                   <div className="mb-3 flex items-center gap-2 text-xs font-bold text-[#777]"><Quote size={14} />代表原声</div>
@@ -275,54 +248,60 @@ export default function ProfilePage() {
               </article>
             )}
           </section>
-        ) : (
-          <ComparisonView projects={projects} snapshots={snapshots} />
         )}
       </div>
     </main>
   );
 }
 
-function inferPersonaRole(persona: PortraitPersona, projectName: string): PersonaRole {
-  const text = `${persona.id} ${persona.name} ${persona.definition} ${persona.coreNeeds.join(' ')} ${projectName}`;
-  if (/家庭包|家庭|多孩|二胎|多胎|家长|妈妈|爸爸/.test(text)) return '家庭决策';
-  if (/学生|小学|初中|高中|中考|高三|住宿|备考|学霸/.test(text)) return '学生';
-  return '家长';
-}
-
 function inferPersonaStage(persona: PortraitPersona): PersonaStage {
   const text = `${persona.id} ${persona.name} ${persona.definition}`;
-  if (/跨学段|家庭包|多孩|二胎|多胎/.test(text)) return '跨学段';
   if (/高中|高一|高二|高三/.test(text)) return '高中';
   if (/初中|初一|初二|初三|中考/.test(text)) return '初中';
-  if (/小学|小低|小高|一年级|二年级|三年级|四年级|五年级|六年级/.test(text)) return '小学';
-  return '跨学段';
+  return '小学';
 }
 
-function inferBusinessType(summary: Pick<PersonaSummary, 'role' | 'stage'>, persona: PortraitPersona): PersonaSummary['businessType'] {
-  const text = `${persona.name} ${persona.definition} ${persona.coreNeeds.join(' ')} ${persona.decisionStyle}`;
-  if (summary.role === '家庭决策' || /家庭包|多孩|升单|续购|价格|付费|购买/.test(text)) return '家庭包决策';
-  if (/付费|价格|转化|购买|续费|价值/.test(text)) return '转化决策';
-  if (/课程|错题|练习|使用|预习|复习|动画|题型/.test(text)) return '课程使用';
-  return '学习规划';
+function inferPersonaRole(persona: PortraitPersona): PersonaRole {
+  const text = `${persona.id} ${persona.name} ${persona.definition} ${persona.decisionStyle}`;
+  if (/价值未被看见|价格|付费|购买|决策|续费/.test(text)) return '家庭决策';
+  if (/家长|妈妈|爸爸/.test(text)) return '家长';
+  return '学生';
 }
 
-function buildPersonaSummaries(projects: ReturnType<typeof useProjects>, snapshots: Record<string, PortraitSnapshot>): PersonaSummary[] {
-  return projects.flatMap((project) => {
-    const snapshot = snapshots[project.id] ?? fallbackSnapshot(project.id);
-    return snapshot.data.personas.map((persona) => {
-      const role = inferPersonaRole(persona, project.name);
-      const stage = inferPersonaStage(persona);
-      return {
-        projectId: project.id,
-        projectName: project.name,
-        persona,
-        role,
-        stage,
-        businessType: inferBusinessType({ role, stage }, persona),
-      };
-    });
-  });
+function inferDemandType(persona: PortraitPersona): DemandType {
+  const text = `${persona.name} ${persona.definition} ${persona.coreNeeds.join(' ')} ${persona.typicalBehaviors.join(' ')}`;
+  if (/兴趣|习惯|陪伴|PK|游戏/.test(text)) return '兴趣习惯';
+  if (/错题|题型|解析|刷题|解惑/.test(text)) return '错题提效';
+  if (/基础|补弱|断层|巩固|查漏/.test(text)) return '补弱巩固';
+  if (/中考|高考|备考|提分|考试|答题技巧/.test(text)) return '备考提分';
+  if (/规划|时间|方向|计划|路径/.test(text)) return '规划解惑';
+  return '情绪支持';
+}
+
+function getPersonaTags(persona: PortraitPersona): string[] {
+  const text = `${persona.name} ${persona.definition} ${persona.coreNeeds.join(' ')} ${persona.typicalBehaviors.join(' ')}`;
+  const rules: Array<[string, RegExp]> = [
+    ['兴趣驱动', /兴趣|好玩|PK|游戏|陪伴/],
+    ['习惯培养', /习惯|预习|复习|持续/],
+    ['错题提效', /错题|题型|解析|刷题/],
+    ['补弱巩固', /补弱|断层|跟不上|巩固/],
+    ['自主备考', /中考|备考|试卷|考试/],
+    ['住宿高压', /住宿|高压|时间|盲目/],
+    ['提分方法', /提分|答题技巧|归纳|专题/],
+    ['情绪支持', /情绪|烦躁|回血|动力/],
+    ['价格敏感', /价格|付费|贵|价值/],
+  ];
+  return rules.filter(([, pattern]) => pattern.test(text)).map(([label]) => label).slice(0, 3);
+}
+
+function buildPersonaSummaries(personas: PortraitPersona[]): PersonaSummary[] {
+  return personas.map((persona) => ({
+    persona,
+    role: inferPersonaRole(persona),
+    stage: inferPersonaStage(persona),
+    demandType: inferDemandType(persona),
+    tags: getPersonaTags(persona),
+  }));
 }
 
 function countSummaries<T extends string>(rows: PersonaSummary[], getKey: (row: PersonaSummary) => T) {
@@ -331,92 +310,80 @@ function countSummaries<T extends string>(rows: PersonaSummary[], getKey: (row: 
   return [...counts.entries()].map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count);
 }
 
-function buildProfileDashboard(rows: PersonaSummary[], projectCount: number) {
+function buildProfileDashboard(rows: PersonaSummary[]) {
   return {
     personaCount: rows.length,
-    projectCount,
+    stageCount: new Set(rows.map((row) => row.stage)).size,
     parentCount: rows.filter((row) => row.role === '家长' || row.role === '家庭决策').length,
     studentCount: rows.filter((row) => row.role === '学生').length,
     stages: countSummaries(rows, (row) => row.stage),
     roles: countSummaries(rows, (row) => row.role),
-    businessTypes: countSummaries(rows, (row) => row.businessType),
+    demandTypes: countSummaries(rows, (row) => row.demandType),
   };
 }
 
 function ProfileOverview({
   dashboard,
   summaries,
+  source,
 }: {
   dashboard: ReturnType<typeof buildProfileDashboard>;
   summaries: PersonaSummary[];
+  source: string;
 }) {
-  const priorityPersonas = summaries.slice(0, 8);
+  const groupedByStage = (['小学', '初中', '高中'] as PersonaStage[]).map((stage) => ({
+    stage,
+    rows: summaries.filter((row) => row.stage === stage),
+  }));
+
   return (
     <section className="mt-5 space-y-5">
       <div className="grid gap-4 md:grid-cols-4">
-        <OverviewMetric icon={<Users size={17} />} label="画像类型" value={dashboard.personaCount} note="覆盖现有研究人群" />
-        <OverviewMetric icon={<BookOpenCheck size={17} />} label="覆盖项目" value={dashboard.projectCount} note="项目画像持续补充" />
-        <OverviewMetric icon={<Home size={17} />} label="家长/家庭" value={dashboard.parentCount} note="影响购买和续费" />
+        <OverviewMetric icon={<Users size={17} />} label="画像类型" value={dashboard.personaCount} note="三份画像报告整理口径" />
+        <OverviewMetric icon={<BookOpenCheck size={17} />} label="覆盖学段" value={dashboard.stageCount} note="小学 / 初中 / 高中" />
+        <OverviewMetric icon={<Home size={17} />} label="家长/决策" value={dashboard.parentCount} note="影响购买与付费判断" />
         <OverviewMetric icon={<School size={17} />} label="学生画像" value={dashboard.studentCount} note="影响使用和课程体验" />
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="border border-[#dddcd5] bg-white p-5">
-          <div className="mb-4 flex items-center gap-2">
-            <BarChart3 size={17} className="text-[#e65532]" />
-            <h2 className="text-lg font-bold text-[#252525]">用户结构分布</h2>
-          </div>
-          <div className="grid gap-5 md:grid-cols-2">
-            <DistributionBlock title="按学段看" rows={dashboard.stages} helper="用于判断课程体验、转化率和使用场景是否按小初高分化。" />
-            <DistributionBlock title="按角色看" rows={dashboard.roles} helper="家长决定购买，学生决定使用，家庭决策决定高客单价值。" />
-          </div>
-        </div>
-
-        <div className="border border-[#dddcd5] bg-white p-5">
-          <div className="mb-4 flex items-center gap-2">
-            <Target size={17} className="text-[#e65532]" />
-            <h2 className="text-lg font-bold text-[#252525]">业务判断入口</h2>
-          </div>
-          <div className="space-y-3">
-            {dashboard.businessTypes.map((item) => (
-              <div key={item.name} className="rounded-md bg-[#fafaf7] px-4 py-3">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-sm font-bold text-[#333]">{item.name}</span>
-                  <span className="text-sm font-extrabold text-[#e65532]">{item.count}</span>
-                </div>
-                <p className="mt-1 text-xs leading-5 text-[#777]">{businessTypeExplanation(item.name)}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+      <div className="grid gap-5 xl:grid-cols-[0.9fr_1.05fr_1.05fr]">
+        <ChartPanel icon={<BarChart3 size={17} />} title="学段占比">
+          <DonutChart rows={dashboard.stages} />
+          <p className="mt-3 text-xs leading-5 text-[#777]">按画像类型计数，不代表真实用户人数占比。</p>
+        </ChartPanel>
+        <ChartPanel icon={<School size={17} />} title="小初高画像数量">
+          <VerticalBarChart rows={dashboard.stages} />
+          <p className="mt-3 text-xs leading-5 text-[#777]">用于快速比较哪个学段画像拆得更细、需求更分化。</p>
+        </ChartPanel>
+        <ChartPanel icon={<Target size={17} />} title="需求类型分布">
+          <HorizontalBarChart rows={dashboard.demandTypes} />
+          <p className="mt-3 text-xs leading-5 text-[#777]">把画像转成业务可读的需求入口。</p>
+        </ChartPanel>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-3">
-        <BusinessExplanation
-          title="为什么看家长"
-          text="家长画像决定价格接受、信任来源和续费判断。购买决策页面里的顾虑，最终都要回到家长的确定性需求。"
-        />
-        <BusinessExplanation
-          title="为什么看学生"
-          text="学生画像决定产品是否真的被用起来。课程难度、动画理解、错题反馈和学习规划，都要按学生阶段拆开看。"
-        />
-        <BusinessExplanation
-          title="为什么看结构变化"
-          text="飞书讨论里提到的住宿/走读、多孩、学段占比，本质是解释业务波动的长期监测指标。当前先用现有画像做静态看板。"
-        />
+        <BusinessExplanation title="为什么看家长" text="小学阶段的付费与坚持高度依赖家长理解价值，所以图表里单独保留家长/决策画像。" />
+        <BusinessExplanation title="为什么看学生" text="初高中画像更多指向学生自己的使用效率、备考压力、题目解惑和情绪状态。" />
+        <BusinessExplanation title="为什么不用项目库" text="本页先只呈现三份画像文件的结构，避免和小学物理、计算营、家庭包项目用户混在一起。" />
       </div>
 
-      <div className="border border-[#dddcd5] bg-white">
-        <div className="border-b border-[#e5e4de] px-5 py-4">
-          <h2 className="text-lg font-bold text-[#252525]">重点人群速览</h2>
-          <p className="mt-1 text-sm text-[#777]">先看人群是什么，再进入画像详情追核心需求和原声。</p>
-        </div>
-        <div className="grid gap-px bg-[#e5e4de] md:grid-cols-2 xl:grid-cols-4">
-          {priorityPersonas.map((row) => (
-            <PersonaPreviewCard key={`${row.projectId}-${row.persona.id}`} row={row} />
-          ))}
-        </div>
+      <div className="border border-[#dddcd5] bg-white px-5 py-3 text-xs leading-5 text-[#777]">
+        数据来源：{source}
       </div>
+
+      {groupedByStage.map(({ stage, rows }) => (
+        <div key={stage} className="border border-[#dddcd5] bg-white">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#e5e4de] px-5 py-4">
+            <div>
+              <h2 className="text-lg font-bold text-[#252525]">{stage}画像</h2>
+              <p className="mt-1 text-sm text-[#777]">{stageSummary(stage)}</p>
+            </div>
+            <span className="rounded bg-[#fff3ef] px-2.5 py-1 text-xs font-bold text-[#e65532]">{rows.length} 类画像</span>
+          </div>
+          <div className="grid gap-px bg-[#e5e4de] md:grid-cols-2 xl:grid-cols-3">
+            {rows.map((row) => <PersonaPreviewCard key={row.persona.id} row={row} />)}
+          </div>
+        </div>
+      ))}
     </section>
   );
 }
@@ -431,34 +398,80 @@ function OverviewMetric({ icon, label, value, note }: { icon: React.ReactNode; l
   );
 }
 
-function DistributionBlock({ title, rows, helper }: { title: string; rows: Array<{ name: string; count: number }>; helper: string }) {
-  const total = rows.reduce((sum, row) => sum + row.count, 0);
+function ChartPanel({ icon, title, children }: { icon: React.ReactNode; title: string; children: React.ReactNode }) {
   return (
-    <section>
-      <div className="mb-2 text-xs font-bold text-[#777]">{title}</div>
-      <div className="space-y-2">
-        {rows.map((row) => (
-          <div key={row.name}>
-            <div className="mb-1 flex items-center justify-between text-xs">
-              <span className="font-bold text-[#333]">{row.name}</span>
-              <span className="text-[#777]">{row.count}</span>
-            </div>
-            <div className="h-2 overflow-hidden rounded-full bg-[#efeee9]">
-              <div className="h-full rounded-full bg-[#e65532]" style={{ width: `${total ? (row.count / total) * 100 : 0}%` }} />
-            </div>
-          </div>
-        ))}
+    <div className="min-w-0 border border-[#dddcd5] bg-white p-5">
+      <div className="mb-4 flex items-center gap-2 text-[#e65532]">
+        {icon}
+        <h2 className="text-lg font-bold text-[#252525]">{title}</h2>
       </div>
-      <p className="mt-3 text-xs leading-5 text-[#777]">{helper}</p>
-    </section>
+      {children}
+    </div>
   );
 }
 
-function businessTypeExplanation(type: string) {
-  if (type === '家庭包决策') return '关注多孩、长期规划、价格价值和购买确定性。';
-  if (type === '转化决策') return '关注价格、效果验证、信任来源和付费门槛。';
-  if (type === '课程使用') return '关注课程是否被真正使用、是否听懂、是否能持续。';
-  return '关注学生如何安排学习、如何找到下一步提升路径。';
+function DonutChart({ rows }: { rows: Array<{ name: string; count: number }> }) {
+  const total = rows.reduce((sum, row) => sum + row.count, 0);
+  return (
+    <div className="h-[260px] min-w-0">
+      <ResponsiveContainer width="100%" height="100%">
+        <PieChart>
+          <Pie data={rows} dataKey="count" nameKey="name" innerRadius={58} outerRadius={88} paddingAngle={3}>
+            {rows.map((row, index) => <Cell key={row.name} fill={CHART_COLORS[index % CHART_COLORS.length]} />)}
+          </Pie>
+          <Tooltip formatter={(value: unknown, name: unknown) => [`${value} 类 / ${total ? Math.round((Number(value) / total) * 100) : 0}%`, String(name)]} />
+        </PieChart>
+      </ResponsiveContainer>
+      <div className="-mt-7 flex flex-wrap justify-center gap-3">
+        {rows.map((row, index) => (
+          <span key={row.name} className="inline-flex items-center gap-1.5 text-xs text-[#666]">
+            <i className="h-2.5 w-2.5 rounded-full" style={{ background: CHART_COLORS[index % CHART_COLORS.length] }} />
+            {row.name} {row.count}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function VerticalBarChart({ rows }: { rows: Array<{ name: string; count: number }> }) {
+  return (
+    <div className="h-[260px] min-w-0">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={rows} margin={{ top: 16, right: 12, left: -18, bottom: 4 }}>
+          <CartesianGrid stroke="#eee9df" vertical={false} />
+          <XAxis dataKey="name" tickLine={false} axisLine={false} />
+          <YAxis allowDecimals={false} tickLine={false} axisLine={false} />
+          <Tooltip formatter={(value: unknown) => [`${value} 类画像`, '数量']} />
+          <Bar dataKey="count" radius={[6, 6, 0, 0]}>
+            {rows.map((row, index) => <Cell key={row.name} fill={CHART_COLORS[index % CHART_COLORS.length]} />)}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
+function HorizontalBarChart({ rows }: { rows: Array<{ name: string; count: number }> }) {
+  return (
+    <div className="h-[260px] min-w-0">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={rows} layout="vertical" margin={{ top: 6, right: 22, left: 24, bottom: 4 }}>
+          <CartesianGrid stroke="#eee9df" horizontal={false} />
+          <XAxis type="number" allowDecimals={false} tickLine={false} axisLine={false} />
+          <YAxis type="category" dataKey="name" width={62} tickLine={false} axisLine={false} />
+          <Tooltip formatter={(value: unknown) => [`${value} 类画像`, '数量']} />
+          <Bar dataKey="count" radius={[0, 6, 6, 0]} fill="#e65532" />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
+function stageSummary(stage: PersonaStage) {
+  if (stage === '小学') return '重点看兴趣、习惯、家长价值理解和付费不确定感。';
+  if (stage === '初中') return '重点看错题解析、补弱巩固、中考复习和自律学习。';
+  return '重点看住宿高压、习题解惑、提分方法和情绪支持。';
 }
 
 function BusinessExplanation({ title, text }: { title: string; text: string }) {
@@ -472,14 +485,24 @@ function BusinessExplanation({ title, text }: { title: string; text: string }) {
 
 function PersonaPreviewCard({ row }: { row: PersonaSummary }) {
   return (
-    <article className="bg-white p-4">
+    <article className="flex min-h-[280px] flex-col bg-white p-4">
       <div className="mb-2 flex flex-wrap gap-1.5">
         <span className="rounded bg-[#fff3ef] px-2 py-0.5 text-[10px] font-bold text-[#e65532]">{row.stage}</span>
         <span className="rounded bg-[#f3f3ef] px-2 py-0.5 text-[10px] font-bold text-[#777]">{row.role}</span>
+        <span className="rounded bg-[#eef5f2] px-2 py-0.5 text-[10px] font-bold text-[#4d8977]">{row.demandType}</span>
       </div>
       <h3 className="text-sm font-bold text-[#252525]">{row.persona.name}</h3>
       <p className="mt-2 line-clamp-3 text-xs leading-5 text-[#666]">{row.persona.definition}</p>
-      <div className="mt-3 text-[11px] text-[#999]">{row.projectName}</div>
+      <div className="mt-3 flex flex-wrap gap-1.5">
+        {row.tags.map((tag) => <span key={tag} className="rounded border border-[#e5e1d8] px-2 py-0.5 text-[10px] font-semibold text-[#776f65]">{tag}</span>)}
+      </div>
+      <div className="mt-3 grid gap-3 text-xs leading-5 text-[#555]">
+        <div><b className="text-[#333]">核心需求：</b>{row.persona.coreNeeds.slice(0, 2).join('、')}</div>
+        <div><b className="text-[#333]">典型行为：</b>{row.persona.typicalBehaviors.slice(0, 2).join('、')}</div>
+      </div>
+      {row.persona.quotes[0] && (
+        <blockquote className="mt-auto border-l-2 border-[#e65532] bg-[#fafaf7] px-3 py-2 text-xs leading-5 text-[#555]">“{row.persona.quotes[0]}”</blockquote>
+      )}
     </article>
   );
 }
@@ -499,60 +522,6 @@ function ListEditor({ title, values, editing, onChange }: { title: string; value
           {values.map((value) => <li key={value} className="border-l-2 border-[#d5d4cd] pl-3 text-sm leading-6 text-[#444]">{value}</li>)}
         </ul>
       )}
-    </section>
-  );
-}
-
-function ComparisonView({ projects, snapshots }: { projects: ReturnType<typeof useProjects>; snapshots: Record<string, PortraitSnapshot> }) {
-  return (
-    <section className="mt-5 grid gap-4 lg:grid-cols-2">
-      {projects.map((project) => {
-        const data = (snapshots[project.id] ?? fallbackSnapshot(project.id)).data;
-        const rows = data.personas.map((persona) => {
-          const role = inferPersonaRole(persona, project.name);
-          const stage = inferPersonaStage(persona);
-          return { persona, role, stage };
-        });
-        return (
-          <article key={project.id} className="border border-[#dddcd5] bg-white">
-            <header className="border-b border-[#e5e4de] px-5 py-4">
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div>
-                  <h2 className="text-base font-bold text-[#252525]">{project.name}</h2>
-                  <p className="mt-1 text-xs leading-5 text-[#777]">{data.source}</p>
-                </div>
-                <span className="rounded bg-[#fff3ef] px-2 py-1 text-xs font-bold text-[#e65532]">{rows.length} 类画像</span>
-              </div>
-            </header>
-            {rows.length ? (
-              <div className="divide-y divide-[#efeee9]">
-                {rows.map(({ persona, role, stage }) => (
-                  <div key={persona.id} className="px-5 py-4">
-                    <div className="mb-2 flex flex-wrap items-center gap-2">
-                      <span className="text-sm font-bold text-[#30302d]">{persona.name}</span>
-                      <span className="rounded bg-[#f3f3ef] px-2 py-0.5 text-[10px] font-bold text-[#777]">{stage}</span>
-                      <span className="rounded bg-[#f3f3ef] px-2 py-0.5 text-[10px] font-bold text-[#777]">{role}</span>
-                    </div>
-                    <p className="text-xs leading-5 text-[#666]">{persona.definition}</p>
-                    <div className="mt-3 grid gap-3 md:grid-cols-2">
-                      <div>
-                        <div className="mb-1 text-[10px] font-bold text-[#999]">核心需求</div>
-                        <p className="text-xs leading-5 text-[#555]">{persona.coreNeeds.join('、') || '待补充'}</p>
-                      </div>
-                      <div>
-                        <div className="mb-1 text-[10px] font-bold text-[#999]">典型行为</div>
-                        <p className="text-xs leading-5 text-[#555]">{persona.typicalBehaviors.join('、') || '待补充'}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="px-5 py-10 text-center text-sm text-[#999]">尚未建立项目画像</div>
-            )}
-          </article>
-        );
-      })}
     </section>
   );
 }
