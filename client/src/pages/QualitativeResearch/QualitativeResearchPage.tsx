@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useProjects } from '../../store/useProjectStore';
 import {
+  buildBusinessDirections,
   buildCategoryInsightData,
   CATEGORY_EXECUTIVE_SUMMARIES,
   INSIGHT_CATEGORY_CONFIGS,
@@ -24,12 +25,16 @@ export default function QualitativeResearchPage() {
     () =>
       QUALITATIVE_RESEARCH_SLUGS.map((slug) => {
         const data = buildCategoryInsightData(projects, slug);
-        const projectNames = [...new Set(data.quotes.map((quote) => quote.projectName))];
+        const directions = buildBusinessDirections(slug, data.quotes);
+        const directionQuotes = directions.flatMap((direction) => direction.quotes);
+        const projectNames = [...new Set(directionQuotes.map((quote) => quote.projectName))];
         return {
           slug,
           data,
+          quoteCount: directionQuotes.length,
+          sourceCount: new Set(directionQuotes.map((quote) => quote.sourceId)).size,
           projectNames,
-          representativeQuote: pickRepresentativeQuote(data.quotes),
+          representativeQuote: pickRepresentativeQuote(directionQuotes),
         };
       }),
     [projects],
@@ -56,7 +61,7 @@ export default function QualitativeResearchPage() {
 
       <section className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
         <div className="grid gap-4 lg:grid-cols-3">
-          {cards.map(({ slug, data, projectNames, representativeQuote }) => {
+          {cards.map(({ slug, data, quoteCount, sourceCount, projectNames, representativeQuote }) => {
             const config = INSIGHT_CATEGORY_CONFIGS[slug];
             const summary = CATEGORY_EXECUTIVE_SUMMARIES[slug];
             const Icon = iconMap[slug];
@@ -85,9 +90,9 @@ export default function QualitativeResearchPage() {
                 <p className="mt-2 line-clamp-3 text-sm leading-6 text-[#5f5a52]">{summary.verdict}</p>
 
                 <div className="mt-4 grid grid-cols-3 gap-2">
-                  <CardMetric label="原声" value={data.totalQuotes} color={config.color} />
+                  <CardMetric label="原声" value={quoteCount} color={config.color} />
                   <CardMetric label="项目" value={data.totalProjects} color={config.color} />
-                  <CardMetric label="材料" value={data.totalSources} color={config.color} />
+                  <CardMetric label="材料" value={sourceCount} color={config.color} />
                 </div>
 
                 <div className="mt-4 flex flex-wrap gap-2">
