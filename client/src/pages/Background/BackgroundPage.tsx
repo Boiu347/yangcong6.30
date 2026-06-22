@@ -1,4 +1,4 @@
-import { ArrowUpRight, FileText, Link2, Sparkles } from 'lucide-react';
+import { ArrowUpRight, ExternalLink, FileText, Link2, Sparkles } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useParams } from 'react-router-dom';
@@ -54,7 +54,10 @@ export default function BackgroundPage() {
                       <Icon size={19} />
                     </span>
                     {resource.url ? (
-                      <ArrowUpRight size={17} className="text-[#E65532]" />
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-[#F0B39F] bg-[#FFF4EF] px-2.5 py-1 text-[10px] font-black text-[#D84E2C]">
+                        点击打开
+                        <ArrowUpRight size={12} />
+                      </span>
                     ) : (
                       <span className="rounded-full bg-[#F1EFEA] px-2.5 py-1 text-[10px] font-bold text-[#9A948B]">
                         链接待补充
@@ -63,6 +66,15 @@ export default function BackgroundPage() {
                   </div>
                   <h2 className="mt-5 text-[15px] font-black">{resource.label}</h2>
                   <p className="mt-2 text-[12px] leading-6 text-[#77716A]">{resource.description}</p>
+                  {resource.url && (
+                    <div className="mt-4 flex items-center justify-between rounded-2xl border border-[#F0E0D8] bg-[#FFF9F6] px-3.5 py-3 text-[11px] font-bold text-[#C74E2F]">
+                      <span className="inline-flex items-center gap-2">
+                        <ExternalLink size={13} />
+                        外部链接
+                      </span>
+                      <span className="text-[#E65532]">查看资料</span>
+                    </div>
+                  )}
                 </>
               );
 
@@ -72,7 +84,7 @@ export default function BackgroundPage() {
                   href={resource.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="block rounded-[22px] border border-[#E4DED5] bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-[#E9A58E] hover:shadow-lg"
+                  className="group block rounded-[22px] border border-[#E4DED5] bg-white p-5 shadow-[0_10px_30px_rgba(61,49,37,.04)] ring-1 ring-transparent transition-all hover:-translate-y-0.5 hover:border-[#E65532] hover:shadow-[0_18px_45px_rgba(230,85,50,.14)] hover:ring-[#F5B8A5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E65532]"
                 >
                   {content}
                 </a>
