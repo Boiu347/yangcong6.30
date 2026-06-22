@@ -5,53 +5,23 @@ export const JIATINGBAO_CLIP_MAP: Record<string, EvidenceClip> =
 {
   "妹妹：暑假前三年级、升四年级；数学一直没进入状态，有 B/C；比较皮、只有英语打卡能坚持。": {
     "clipUrl": "/clips/jiatingbao/user1/0001.mp3",
-    "startTime": 946.7,
-    "duration": 5.4
-  },
-  "家长最担心妹妹：怕数学基础没打好，五六年级更难搞。": {
-    "clipUrl": "/clips/jiatingbao/user1/0002.mp3",
-    "startTime": 994.0,
-    "duration": 1.9
+    "startTime": 898.9,
+    "duration": 3.2
   },
   "怕数学基础没打好，五六年级会更难搞。": {
-    "clipUrl": "/clips/jiatingbao/user1/0003.mp3",
-    "startTime": 1336.5,
-    "duration": 2.4
+    "clipUrl": "/clips/jiatingbao/user1/0002.mp3",
+    "startTime": 988.9,
+    "duration": 5.3
   },
-  "成交原因：2 个孩子都能顾及、有 90 天 1对1 服务、能衔接到高中、哥哥试用后三科都喜欢（尤其语文）。": {
-    "clipUrl": "/clips/jiatingbao/user1/0004.mp3",
-    "startTime": 1654.6,
-    "duration": 2.0
+  "微信视频号直播看到洋葱；身边有朋友的高中生孩子在用。": {
+    "clipUrl": "/clips/jiatingbao/user1/0003.mp3",
+    "startTime": 1100.5,
+    "duration": 3.1
   },
   "担忧买了浪费、孩子不能坚持；最终打消是因为哥哥自己说喜欢学。": {
-    "clipUrl": "/clips/jiatingbao/user1/0005.mp3",
+    "clipUrl": "/clips/jiatingbao/user1/0004.mp3",
     "startTime": 2031.0,
     "duration": 12.4
-  },
-  "主要考虑的是哥哥，妹妹无所谓，顺带使用；但如果没有妹妹的权益，可能就会买个短期课，不会买家庭包了。": {
-    "clipUrl": "/clips/jiatingbao/user1/0006.mp3",
-    "startTime": 2177.9,
-    "duration": 1.9
-  },
-  "一定用到高中毕业：预习（数学）；其他学科、AI 定制班买了也不亏；尽量让孩子用上思维课。": {
-    "clipUrl": "/clips/jiatingbao/user1/0007.mp3",
-    "startTime": 2206.8,
-    "duration": 2.2
-  },
-  "不买这个包也会买其他机构课；高途每天 2 小时太久，初中没时间。": {
-    "clipUrl": "/clips/jiatingbao/user1/0008.mp3",
-    "startTime": 2377.3,
-    "duration": 3.9
-  },
-  "哥哥每天自主学初一课程（数学 AI 定制班、同步预习），不用盯；妹妹也上数学 AI 定制班，需要陪。": {
-    "clipUrl": "/clips/jiatingbao/user1/0009.mp3",
-    "startTime": 2459.6,
-    "duration": 3.8
-  },
-  "推荐点：初中预习、暑假预习、思维拓展，2 个孩子一起用 6 年、价格实惠。": {
-    "clipUrl": "/clips/jiatingbao/user1/0010.mp3",
-    "startTime": 2568.6,
-    "duration": 4.0
   },
   "数学已预习到 9 年级；英语在自学高中内容；准备暑假用洋葱提前学物理化学。": {
     "clipUrl": "/clips/jiatingbao/user2/0001.mp3",
@@ -63,33 +33,38 @@ export const JIATINGBAO_CLIP_MAP: Record<string, EvidenceClip> =
     "startTime": 583.7,
     "duration": 1.4
   },
-  "检验：遇到真实问题看孩子怎么解决、成绩有没有提升。算账「不考虑钱」，比 1对几培训班便宜。": {
+  "小学语文拔尖，初中优势没发挥出来；生物地理较好，喜欢课外知识。": {
     "clipUrl": "/clips/jiatingbao/user2/0003.mp3",
-    "startTime": 1874.1,
-    "duration": 1.8
+    "startTime": 631.3,
+    "duration": 8.5
+  },
+  "不只是套公式，而是提高思维分析能力、培养自主思考与举一反三的能力。": {
+    "clipUrl": "/clips/jiatingbao/user2/0004.mp3",
+    "startTime": 1790.4,
+    "duration": 10.9
   },
   "不只是教孩子套什么公式、教你怎么解题，而是要提高孩子的思维分析能力。": {
-    "clipUrl": "/clips/jiatingbao/user2/0004.mp3",
+    "clipUrl": "/clips/jiatingbao/user2/0005.mp3",
     "startTime": 1964.0,
     "duration": 4.2
   },
   "家庭包只推荐给学习能力强、自主自律、愿意主动学的孩子。": {
-    "clipUrl": "/clips/jiatingbao/user2/0005.mp3",
-    "startTime": 1979.2,
-    "duration": 2.0
+    "clipUrl": "/clips/jiatingbao/user2/0006.mp3",
+    "startTime": 1972.1,
+    "duration": 9.0
   },
   "孩子要主动自学，需要有同步 + 提高/培优，由简入深、循序渐进。": {
-    "clipUrl": "/clips/jiatingbao/user2/0006.mp3",
+    "clipUrl": "/clips/jiatingbao/user2/0007.mp3",
     "startTime": 2139.5,
     "duration": 2.1
   },
-  "不只是套公式，而是提高思维分析能力、培养自主思考与举一反三的能力。": {
-    "clipUrl": "/clips/jiatingbao/user2/0007.mp3",
-    "startTime": 2360.6,
-    "duration": 4.0
+  "检验：遇到真实问题看孩子怎么解决、成绩有没有提升。算账「不考虑钱」，比 1对几培训班便宜。": {
+    "clipUrl": "/clips/jiatingbao/user2/0008.mp3",
+    "startTime": 2684.6,
+    "duration": 1.6
   },
   "既然要提前学就一起买，初中的时候就要往高中的时候学，不能等到了高中再学。": {
-    "clipUrl": "/clips/jiatingbao/user2/0008.mp3",
+    "clipUrl": "/clips/jiatingbao/user2/0009.mp3",
     "startTime": 2852.7,
     "duration": 2.2
   },
@@ -110,8 +85,8 @@ export const JIATINGBAO_CLIP_MAP: Record<string, EvidenceClip> =
   },
   "小升初的时候没有给报，现在想起来有点后悔。": {
     "clipUrl": "/clips/jiatingbao/user3/0004.mp3",
-    "startTime": 1494.5,
-    "duration": 11.5
+    "startTime": 1500.6,
+    "duration": 5.4
   },
   "之前买 4 年包（4000-5000 元），主要为姐姐中考，实际妹妹用得多。": {
     "clipUrl": "/clips/jiatingbao/user3/0005.mp3",
@@ -121,7 +96,7 @@ export const JIATINGBAO_CLIP_MAP: Record<string, EvidenceClip> =
   "家庭包首购触发：对接老师有活动时发消息，4 年只能保证姐姐高中毕业、妹妹达不到，刚好补到妹妹学到高中毕业。": {
     "clipUrl": "/clips/jiatingbao/user3/0006.mp3",
     "startTime": 1969.1,
-    "duration": 4.8
+    "duration": 10.4
   },
   "尽量不让妹妹补太多课，希望初中不补课，借助工具（洋葱、小红书）把学科学好、提前学。": {
     "clipUrl": "/clips/jiatingbao/user3/0007.mp3",
@@ -135,13 +110,13 @@ export const JIATINGBAO_CLIP_MAP: Record<string, EvidenceClip> =
   },
   "顾虑姐姐没看、妹妹会不会也这样；未打消但「该提供的提供到，实在不学也没办法」。续费最关注能否保证小宝高中毕业。": {
     "clipUrl": "/clips/jiatingbao/user3/0009.mp3",
-    "startTime": 2274.1,
-    "duration": 4.3
+    "startTime": 2340.0,
+    "duration": 3.3
   },
   "给妹妹明确规划，AI 定制班规定每天干啥；寒暑假预习下学期、学期中主要复习。": {
     "clipUrl": "/clips/jiatingbao/user3/0010.mp3",
-    "startTime": 2596.5,
-    "duration": 6.2
+    "startTime": 2682.8,
+    "duration": 2.2
   },
   "姐姐上高中没精力管他了，会把更多精力放在小的身上。": {
     "clipUrl": "/clips/jiatingbao/user3/0011.mp3",
@@ -188,30 +163,30 @@ export const JIATINGBAO_CLIP_MAP: Record<string, EvidenceClip> =
     "startTime": 1870.1,
     "duration": 14.2
   },
-  "没有具体学习问题，只因博主介绍、想提前准备；7000 多元、知道是 6 年。": {
+  "具体关注：2 个小孩能不能一起用；顾虑用不好能否退。": {
     "clipUrl": "/clips/jiatingbao/user4/0005.mp3",
+    "startTime": 2038.2,
+    "duration": 6.0
+  },
+  "没有具体学习问题，只因博主介绍、想提前准备；7000 多元、知道是 6 年。": {
+    "clipUrl": "/clips/jiatingbao/user4/0006.mp3",
     "startTime": 2114.2,
     "duration": 2.9
   },
+  "如果 2 个不能同时用，就不考虑了。": {
+    "clipUrl": "/clips/jiatingbao/user4/0007.mp3",
+    "startTime": 2135.7,
+    "duration": 10.9
+  },
   "希望 2 个孩子一起用，账号不会相互冲突，希望能发挥到最大的功效。": {
-    "clipUrl": "/clips/jiatingbao/user4/0006.mp3",
+    "clipUrl": "/clips/jiatingbao/user4/0008.mp3",
     "startTime": 2228.1,
     "duration": 7.8
   },
-  "如果 2 个不能同时用，就不考虑了。": {
-    "clipUrl": "/clips/jiatingbao/user4/0007.mp3",
-    "startTime": 2608.1,
-    "duration": 5.4
-  },
   "阿刘教育规划训练营……只是单纯说这个好、提供链接，从客观公正的角度说，比起销售更相信他。": {
-    "clipUrl": "/clips/jiatingbao/user4/0008.mp3",
+    "clipUrl": "/clips/jiatingbao/user4/0009.mp3",
     "startTime": 2802.9,
     "duration": 6.3
-  },
-  "具体关注：2 个小孩能不能一起用；顾虑用不好能否退。": {
-    "clipUrl": "/clips/jiatingbao/user4/0009.mp3",
-    "startTime": 2986.6,
-    "duration": 4.5
   },
   "打算调整学习时间，先准备好内容；小的用得多、大的也在用；希望 2 个孩子一起用、发挥最大功效。": {
     "clipUrl": "/clips/jiatingbao/user4/0010.mp3",
@@ -223,45 +198,30 @@ export const JIATINGBAO_CLIP_MAP: Record<string, EvidenceClip> =
     "startTime": 3620.9,
     "duration": 5.3
   },
-  "同学妈妈介绍，没经过孩子；同学家长买小学说数学就用洋葱。": {
+  "所有学科都能学上；验证要等考试才看得出进步。": {
     "clipUrl": "/clips/jiatingbao/user5/0001.mp3",
-    "startTime": 1045.9,
-    "duration": 5.1
+    "startTime": 1051.6,
+    "duration": 4.2
   },
-  "买小学+初中的会有浪费，反而还有 1 年不够用。": {
+  "让孩子体验过、孩子喜欢才买；销售说什么课都有、时间长。": {
     "clipUrl": "/clips/jiatingbao/user5/0002.mp3",
-    "startTime": 1231.9,
+    "startTime": 1102.3,
     "duration": 2.2
   },
-  "所有学科都能学上；验证要等考试才看得出进步。": {
+  "吸引点：性价比（买小初有浪费、还差 1 年），大宝高考报志愿也用得上，小宝想提高 3 科又不想报班；不买家庭包以后分开买更贵。": {
     "clipUrl": "/clips/jiatingbao/user5/0003.mp3",
-    "startTime": 1319.7,
-    "duration": 1.9
-  },
-  "顾虑：线下有无门店、会不会倒闭、课程更新是否及时、孩子会不会看一会就不看。": {
-    "clipUrl": "/clips/jiatingbao/user5/0004.mp3",
-    "startTime": 1548.1,
-    "duration": 5.4
-  },
-  "现在先学 5 年级内容复习，寒暑假预习 6 年级内容。": {
-    "clipUrl": "/clips/jiatingbao/user5/0005.mp3",
-    "startTime": 1882.2,
-    "duration": 6.0
-  },
-  "以后会价格更贵，因为套餐分开买更贵。": {
-    "clipUrl": "/clips/jiatingbao/user5/0006.mp3",
-    "startTime": 2117.9,
-    "duration": 2.6
+    "startTime": 1227.7,
+    "duration": 3.0
   },
   "推荐给 2 个不同年级孩子，1 个孩子不划算；可提前学、自己安排课、上课灵活。": {
-    "clipUrl": "/clips/jiatingbao/user5/0007.mp3",
-    "startTime": 2254.6,
-    "duration": 1.5
+    "clipUrl": "/clips/jiatingbao/user5/0004.mp3",
+    "startTime": 2249.7,
+    "duration": 2.5
   },
-  "《从小学物理》：课程顾问没介绍，但家长希望有科学（小升初要考、杭州都这样）。": {
-    "clipUrl": "/clips/jiatingbao/user5/0008.mp3",
-    "startTime": 2376.0,
-    "duration": 1.9
+  "顾虑：线下有无门店、会不会倒闭、课程更新是否及时、孩子会不会看一会就不看。": {
+    "clipUrl": "/clips/jiatingbao/user5/0005.mp3",
+    "startTime": 2315.0,
+    "duration": 6.3
   },
   "高一孩子：成绩不大好，班里排名见底；普通班一年级 400 多人，去年期末 300 多名。": {
     "clipUrl": "/clips/jiatingbao/user7/0001.mp3",
@@ -283,25 +243,25 @@ export const JIATINGBAO_CLIP_MAP: Record<string, EvidenceClip> =
     "startTime": 1118.5,
     "duration": 13.0
   },
-  "购买前主动问老师体验，给了 3 天体验权益；先介绍 4k 多课程，主动问一大一小有没有便宜的，推荐了 7k 套餐。": {
-    "clipUrl": "/clips/jiatingbao/user7/0005.mp3",
-    "startTime": 1352.1,
-    "duration": 2.1
-  },
   "体验洋葱同步课 + 培优，重点关注动画；风格好、不粗糙、孩子感兴趣、能把抽象知识点讲出来。": {
-    "clipUrl": "/clips/jiatingbao/user7/0006.mp3",
+    "clipUrl": "/clips/jiatingbao/user7/0005.mp3",
     "startTime": 1699.8,
     "duration": 1.6
   },
   "课程可学 6 年（本来高中只能学两年）。": {
-    "clipUrl": "/clips/jiatingbao/user7/0007.mp3",
+    "clipUrl": "/clips/jiatingbao/user7/0006.mp3",
     "startTime": 1756.1,
     "duration": 6.4
   },
   "看着看着没兴趣——这个更重要，买了不看再好也没用。": {
-    "clipUrl": "/clips/jiatingbao/user7/0008.mp3",
+    "clipUrl": "/clips/jiatingbao/user7/0007.mp3",
     "startTime": 1884.4,
     "duration": 8.4
+  },
+  "购买前主动问老师体验，给了 3 天体验权益；先介绍 4k 多课程，主动问一大一小有没有便宜的，推荐了 7k 套餐。": {
+    "clipUrl": "/clips/jiatingbao/user7/0008.mp3",
+    "startTime": 1913.0,
+    "duration": 2.2
   },
   "担心没效果——看摸底成绩反馈；效果体现在学习方法改变、学懂底层知识点、信心出来。": {
     "clipUrl": "/clips/jiatingbao/user7/0009.mp3",
@@ -315,123 +275,123 @@ export const JIATINGBAO_CLIP_MAP: Record<string, EvidenceClip> =
   },
   "做错的题和拍照的题可以放一起；讲逻辑和做 AI 的可以多一点，把知识点更形象展现。": {
     "clipUrl": "/clips/jiatingbao/user7/0011.mp3",
-    "startTime": 2502.9,
-    "duration": 8.4
+    "startTime": 2510.9,
+    "duration": 13.2
   },
   "老二（六年级升七）：各科较均衡 90 多分，阅读量不够；右脑发育不如左脑，担心升初一像老大。": {
     "clipUrl": "/clips/jiatingbao/user8/0001.mp3",
     "startTime": 325.4,
     "duration": 7.6
   },
-  "关键转化点：老大试听学而思数学不满意（像老师讲课、一节 1.5 小时），改试听洋葱，被 PK 等做题玩法吸引。": {
+  "老四（幼儿园中班）：需系统识字、英语伴读，洋葱暂时帮不上，主要用伴鱼。": {
     "clipUrl": "/clips/jiatingbao/user8/0002.mp3",
+    "startTime": 694.2,
+    "duration": 12.9
+  },
+  "关键转化点：老大试听学而思数学不满意（像老师讲课、一节 1.5 小时），改试听洋葱，被 PK 等做题玩法吸引。": {
+    "clipUrl": "/clips/jiatingbao/user8/0003.mp3",
     "startTime": 1017.8,
     "duration": 4.2
   },
   "老大（七年级，最担心）：语文英语好、数学最大短板；偏科严重（数学/历史/生物/地理 60 多分）；内向被动、有难题不敢问老师。": {
-    "clipUrl": "/clips/jiatingbao/user8/0003.mp3",
+    "clipUrl": "/clips/jiatingbao/user8/0004.mp3",
     "startTime": 1468.9,
     "duration": 3.9
   },
   "第一次听说来自女儿同学的家长「数学不用报班，丢个洋葱在家看就行」，把整套视频发给她。": {
-    "clipUrl": "/clips/jiatingbao/user8/0004.mp3",
+    "clipUrl": "/clips/jiatingbao/user8/0005.mp3",
     "startTime": 1636.7,
     "duration": 14.9
   },
   "自己和孩子看完都没感觉、不看好；后来刷到阿刘规划，评论多次提到洋葱，加群咨询。": {
-    "clipUrl": "/clips/jiatingbao/user8/0005.mp3",
+    "clipUrl": "/clips/jiatingbao/user8/0006.mp3",
     "startTime": 1677.3,
     "duration": 2.1
   },
   "他丢个文件夹给你点开看，跟报了课看的感觉不一样……没有输出就是盲目接收。": {
-    "clipUrl": "/clips/jiatingbao/user8/0006.mp3",
+    "clipUrl": "/clips/jiatingbao/user8/0007.mp3",
     "startTime": 1736.1,
     "duration": 10.3
   },
   "直接买最长 6 年（到高中）：6 年里大宝二宝用完、三宝用到中考、老四用到五年级；没问孩子能否坚持，果断决定。": {
-    "clipUrl": "/clips/jiatingbao/user8/0007.mp3",
+    "clipUrl": "/clips/jiatingbao/user8/0008.mp3",
     "startTime": 2195.7,
     "duration": 3.1
   },
   "主要使用者老大、老二（跟 1对1 老师定的 AI 定制班学习）；老三顺带、老四未来。": {
-    "clipUrl": "/clips/jiatingbao/user8/0008.mp3",
+    "clipUrl": "/clips/jiatingbao/user8/0009.mp3",
     "startTime": 2304.5,
     "duration": 2.9
   },
+  "已绑定家庭组（爸爸管初中、妈妈管小学），实现学情报告分开看。": {
+    "clipUrl": "/clips/jiatingbao/user8/0010.mp3",
+    "startTime": 2625.4,
+    "duration": 14.4
+  },
   "暂以期末考试结果作为短期验证。": {
-    "clipUrl": "/clips/jiatingbao/user8/0009.mp3",
+    "clipUrl": "/clips/jiatingbao/user8/0011.mp3",
     "startTime": 2737.6,
     "duration": 7.1
   },
   "如果有效果，我会排除万难让他们学下去。": {
-    "clipUrl": "/clips/jiatingbao/user8/0010.mp3",
+    "clipUrl": "/clips/jiatingbao/user8/0012.mp3",
     "startTime": 2772.4,
     "duration": 4.7
   },
   "老大数学学到 108 分以上就值了；认同考试是跨学科、非题海，希望文科有更多拓展。": {
-    "clipUrl": "/clips/jiatingbao/user8/0011.mp3",
+    "clipUrl": "/clips/jiatingbao/user8/0013.mp3",
     "startTime": 3043.8,
     "duration": 4.6
   },
   "老三（三年级，最操心）：成绩 90 多但习惯不如姐姐、做事拖拉、不爱阅读，经常没时间上洋葱。": {
-    "clipUrl": "/clips/jiatingbao/user8/0012.mp3",
+    "clipUrl": "/clips/jiatingbao/user8/0014.mp3",
     "startTime": 3460.1,
     "duration": 8.0
   },
   "几个孩子同时在房间学完，就能一起出发……我孩子多就会想到这些。": {
-    "clipUrl": "/clips/jiatingbao/user8/0013.mp3",
+    "clipUrl": "/clips/jiatingbao/user8/0015.mp3",
     "startTime": 3497.6,
     "duration": 5.3
   },
-  "大宝主要用 + 小宝顺带用。": {
+  "有效果才会推荐；2 个孩子都在用、总时长汇总在一起，希望能单独区分。": {
     "clipUrl": "/clips/jiatingbao/user6/0001.mp3",
-    "startTime": 414.2,
-    "duration": 1.4
+    "startTime": 334.1,
+    "duration": 5.8
   },
-  "5000 多元，送的学习机折现便宜了 1700 元；最主要目的是提前学。": {
+  "大宝主要用 + 小宝顺带用。": {
     "clipUrl": "/clips/jiatingbao/user6/0002.mp3",
-    "startTime": 677.3,
-    "duration": 2.4
+    "startTime": 412.3,
+    "duration": 2.0
   },
   "花这么多钱不一定能见到提分效果。": {
     "clipUrl": "/clips/jiatingbao/user6/0003.mp3",
-    "startTime": 785.7,
-    "duration": 2.1
-  },
-  "顾虑：花这么多钱不一定能见到提分效果（未化解，带着疑虑买了小初品，没买到高中）。": {
-    "clipUrl": "/clips/jiatingbao/user6/0004.mp3",
-    "startTime": 828.3,
-    "duration": 2.7
+    "startTime": 781.7,
+    "duration": 2.0
   },
   "没买高中的，想等有效果（数学至少 90 分以上）再买；套餐比单课划算。": {
+    "clipUrl": "/clips/jiatingbao/user6/0004.mp3",
+    "startTime": 897.8,
+    "duration": 3.8
+  },
+  "认为学而思也是看视频、和洋葱没大区别，还是看主观能动性（打 3 分）。": {
     "clipUrl": "/clips/jiatingbao/user6/0005.mp3",
-    "startTime": 901.7,
-    "duration": 3.3
+    "startTime": 1374.5,
+    "duration": 1.5
   },
   "学而思形式也看视频，和洋葱没有太大区别，都是看视频，还是看主观能动性。": {
     "clipUrl": "/clips/jiatingbao/user6/0006.mp3",
-    "startTime": 1423.9,
-    "duration": 3.4
+    "startTime": 1402.9,
+    "duration": 7.2
   },
   "刷抖音刷到，说数学比较好；也了解到名师单独授课，没对比过竞品。": {
     "clipUrl": "/clips/jiatingbao/user6/0007.mp3",
-    "startTime": 1581.3,
-    "duration": 2.6
-  },
-  "销售联系介绍活动，3 天体验课孩子反馈还行；姐姐没表现出更喜欢、不反感就行。": {
-    "clipUrl": "/clips/jiatingbao/user6/0008.mp3",
-    "startTime": 1682.5,
-    "duration": 7.7
+    "startTime": 1575.6,
+    "duration": 6.1
   },
   "想等有效果才买（高中的），数学要至少到 90 分以上。": {
-    "clipUrl": "/clips/jiatingbao/user6/0009.mp3",
-    "startTime": 1717.5,
-    "duration": 2.1
-  },
-  "有效果才会推荐；2 个孩子都在用、总时长汇总在一起，希望能单独区分。": {
-    "clipUrl": "/clips/jiatingbao/user6/0010.mp3",
-    "startTime": 1966.9,
-    "duration": 1.7
+    "clipUrl": "/clips/jiatingbao/user6/0008.mp3",
+    "startTime": 1715.0,
+    "duration": 2.7
   }
 }
 ;
