@@ -12,127 +12,352 @@ export interface JtbVoiceClip {
 export const JTB_VOICE_CLIPS: JtbVoiceClip[] = [
   {
     "seq": 1,
+    "dimension": "基本学情",
+    "caption": "妹妹：暑假前三年级、升四年级；数学一直没进入状态，有 B/C；比较皮、只有英语打卡能坚持。",
+    "text": "但他其实能坚持下来的，只有英语打卡滚。",
+    "clipUrl": "/clips/jiatingbao/user1/0001.mp3",
+    "startTime": 946.7,
+    "duration": 5.4
+  },
+  {
+    "seq": 1,
+    "dimension": "基本学情",
+    "caption": "家长最担心妹妹：怕数学基础没打好，五六年级更难搞。",
+    "text": "我五年级更难搞哦，",
+    "clipUrl": "/clips/jiatingbao/user1/0002.mp3",
+    "startTime": 994.0,
+    "duration": 1.9
+  },
+  {
+    "seq": 1,
     "dimension": "关键原声",
     "caption": "怕数学基础没打好，五六年级会更难搞。",
-    "text": "是怕基础没打好。到了到了五六年级就更难搞哦，",
-    "clipUrl": "/clips/jiatingbao/user1/0001.mp3",
-    "startTime": 988.9,
-    "duration": 5.3
+    "text": "数学成绩不是很好，基础没有打好，",
+    "clipUrl": "/clips/jiatingbao/user1/0003.mp3",
+    "startTime": 1336.5,
+    "duration": 2.4
+  },
+  {
+    "seq": 1,
+    "dimension": "购买",
+    "caption": "成交原因：2 个孩子都能顾及、有 90 天 1对1 服务、能衔接到高中、哥哥试用后三科都喜欢（尤其语文）。",
+    "text": "整个都能顾及到，",
+    "clipUrl": "/clips/jiatingbao/user1/0004.mp3",
+    "startTime": 1654.6,
+    "duration": 2.0
   },
   {
     "seq": 1,
     "dimension": "购买",
     "caption": "担忧买了浪费、孩子不能坚持；最终打消是因为哥哥自己说喜欢学。",
     "text": "他买了浪费，就是怕孩子不能坚持。对，想因为我呃哥哥一直都是上直播课，他嗯比较喜欢跟老师互动的哦，",
-    "clipUrl": "/clips/jiatingbao/user1/0002.mp3",
+    "clipUrl": "/clips/jiatingbao/user1/0005.mp3",
     "startTime": 2031.0,
     "duration": 12.4
   },
   {
+    "seq": 1,
+    "dimension": "关键原声",
+    "caption": "主要考虑的是哥哥，妹妹无所谓，顺带使用；但如果没有妹妹的权益，可能就会买个短期课，不会买家庭包了。",
+    "text": "可能就会买个短期品哦。",
+    "clipUrl": "/clips/jiatingbao/user1/0006.mp3",
+    "startTime": 2177.9,
+    "duration": 1.9
+  },
+  {
+    "seq": 1,
+    "dimension": "预期",
+    "caption": "一定用到高中毕业：预习（数学）；其他学科、AI 定制班买了也不亏；尽量让孩子用上思维课。",
+    "text": "就一定能用到高中毕业哈，",
+    "clipUrl": "/clips/jiatingbao/user1/0007.mp3",
+    "startTime": 2206.8,
+    "duration": 2.2
+  },
+  {
+    "seq": 1,
+    "dimension": "建议/反馈",
+    "caption": "不买这个包也会买其他机构课；高途每天 2 小时太久，初中没时间。",
+    "text": "每天两个小时哦，两个小时就太久。",
+    "clipUrl": "/clips/jiatingbao/user1/0008.mp3",
+    "startTime": 2377.3,
+    "duration": 3.9
+  },
+  {
+    "seq": 1,
+    "dimension": "使用",
+    "caption": "哥哥每天自主学初一课程（数学 AI 定制班、同步预习），不用盯；妹妹也上数学 AI 定制班，需要陪。",
+    "text": "所以哥哥每天在跟着 AI 定制班，在走在看数学的课。",
+    "clipUrl": "/clips/jiatingbao/user1/0009.mp3",
+    "startTime": 2459.6,
+    "duration": 3.8
+  },
+  {
+    "seq": 1,
+    "dimension": "建议/反馈",
+    "caption": "推荐点：初中预习、暑假预习、思维拓展，2 个孩子一起用 6 年、价格实惠。",
+    "text": "哦养孩子一起用，然后六年啊比较实惠。",
+    "clipUrl": "/clips/jiatingbao/user1/0010.mp3",
+    "startTime": 2568.6,
+    "duration": 4.0
+  },
+  {
     "seq": 2,
     "dimension": "基本学情",
-    "caption": "小学语文拔尖，初中优势没发挥出来；生物地理较好，喜欢课外知识。",
-    "text": "七年级的时候他小学的语文还是蛮拔尖的。嗯，但是到了初中，我感觉好像语文的优势没有发挥出来。",
+    "caption": "数学已预习到 9 年级；英语在自学高中内容；准备暑假用洋葱提前学物理化学。",
+    "text": "了解应该是数学已经学到九年级了啊，那语文大概预习的啊。对，预习到九年级了，",
     "clipUrl": "/clips/jiatingbao/user2/0001.mp3",
-    "startTime": 631.3,
-    "duration": 8.5
+    "startTime": 344.5,
+    "duration": 6.8
   },
   {
     "seq": 2,
-    "dimension": "了解",
-    "caption": "爸爸看了几天、在洋葱里比较是否适合；认为洋葱最强是数学（前身洋葱数学）。",
-    "text": "他爸爸呃看了一下，考虑了几天比较了一下，是跟哪几个品牌比较了下，还是说在洋葱里边不同的产品里边比较了一下是哪一种？应该是说主要就是看杨崇学，",
+    "dimension": "基本学情",
+    "caption": "老二七年级（年级前几名，近 2000 学生），主要靠超前学；自己安排好、基本不用管。",
+    "text": "年级前几名啊，",
     "clipUrl": "/clips/jiatingbao/user2/0002.mp3",
-    "startTime": 801.9,
-    "duration": 13.7
-  },
-  {
-    "seq": 2,
-    "dimension": "了解",
-    "caption": "诉求：要超前学一些拔高、难一点的内容，不能只和学校同步。",
-    "text": "嗯可能在课堂里面他拔高超前的可能就比较少一点了。嗯，像我们学生成绩比较，我们还成绩比较好的，那我们肯定不能跟学校同步的哦，",
-    "clipUrl": "/clips/jiatingbao/user2/0003.mp3",
-    "startTime": 923.8,
-    "duration": 9.5
+    "startTime": 583.7,
+    "duration": 1.4
   },
   {
     "seq": 2,
     "dimension": "预期",
-    "caption": "超前学能消化吸收，培养的知识能成体系（自己总结主线、串联知识）。",
-    "text": "我希望他的他的意思就是说他能够呃能够超前学的东西，能够自己消化技术的话，那再能够他能够达到那个他呃培知识成体系嘛，",
-    "clipUrl": "/clips/jiatingbao/user2/0004.mp3",
-    "startTime": 1620.2,
-    "duration": 12.7
+    "caption": "检验：遇到真实问题看孩子怎么解决、成绩有没有提升。算账「不考虑钱」，比 1对几培训班便宜。",
+    "text": "成绩有没有提升嗯，",
+    "clipUrl": "/clips/jiatingbao/user2/0003.mp3",
+    "startTime": 1874.1,
+    "duration": 1.8
   },
   {
     "seq": 2,
     "dimension": "关键原声",
     "caption": "不只是教孩子套什么公式、教你怎么解题，而是要提高孩子的思维分析能力。",
-    "text": "套什么公式嗯，这样去做。嗯，希望的是更多的能够呃提高孩子那种思维分析能力，嗯，学会如何去解决问题，",
+    "text": "ok 重点是提高孩子的学习学习能力。",
+    "clipUrl": "/clips/jiatingbao/user2/0004.mp3",
+    "startTime": 1964.0,
+    "duration": 4.2
+  },
+  {
+    "seq": 2,
+    "dimension": "建议/反馈",
+    "caption": "家庭包只推荐给学习能力强、自主自律、愿意主动学的孩子。",
+    "text": "然后愿意主动的学习了。",
     "clipUrl": "/clips/jiatingbao/user2/0005.mp3",
-    "startTime": 1756.4,
-    "duration": 10.5
+    "startTime": 1979.2,
+    "duration": 2.0
+  },
+  {
+    "seq": 2,
+    "dimension": "购买",
+    "caption": "孩子要主动自学，需要有同步 + 提高/培优，由简入深、循序渐进。",
+    "text": "觉得数学孩子自主学习能力，",
+    "clipUrl": "/clips/jiatingbao/user2/0006.mp3",
+    "startTime": 2139.5,
+    "duration": 2.1
   },
   {
     "seq": 2,
     "dimension": "预期",
     "caption": "不只是套公式，而是提高思维分析能力、培养自主思考与举一反三的能力。",
-    "text": "他就不知道怎么做了。哦，换一种就是最好是就是要培养孩子你套自主学习呃，去思考这个问题能力，提高他的思维能力。我觉得这这个是更好的嗯思维能力，",
-    "clipUrl": "/clips/jiatingbao/user2/0006.mp3",
-    "startTime": 1780.5,
-    "duration": 14.0
+    "text": "就是你希望洋葱培养孩子的，比如说举一反三能力。",
+    "clipUrl": "/clips/jiatingbao/user2/0007.mp3",
+    "startTime": 2360.6,
+    "duration": 4.0
   },
   {
     "seq": 2,
     "dimension": "关键原声",
     "caption": "既然要提前学就一起买，初中的时候就要往高中的时候学，不能等到了高中再学。",
-    "text": "初中就要我们高中的学量，那肯定的啊。哦哦，那肯定不能等到了高中再学啊。",
-    "clipUrl": "/clips/jiatingbao/user2/0007.mp3",
-    "startTime": 2848.6,
-    "duration": 6.3
+    "text": "那肯定不能等到了高中再学啊。",
+    "clipUrl": "/clips/jiatingbao/user2/0008.mp3",
+    "startTime": 2852.7,
+    "duration": 2.2
+  },
+  {
+    "seq": 3,
+    "dimension": "基本学情",
+    "caption": "姐姐初三临近中考，七科都有，写作业磨蹭到 12 点；重点学校中等生，数学 120-130、理科偏弱（物理 58-61）。",
+    "text": "姐姐肯定是比较忙的，因为临近中考了嘛，",
+    "clipUrl": "/clips/jiatingbao/user3/0001.mp3",
+    "startTime": 122.4,
+    "duration": 3.4
+  },
+  {
+    "seq": 3,
+    "dimension": "基本学情",
+    "caption": "妹妹四年级，三科作业一小时写完，练琴、读英语、洋葱复习；数学 98 左右、英语接近满分、语文弱。",
+    "text": "要不然的话基本上三科的作业一个小时差不多哦，",
+    "clipUrl": "/clips/jiatingbao/user3/0002.mp3",
+    "startTime": 162.1,
+    "duration": 4.3
+  },
+  {
+    "seq": 3,
+    "dimension": "基本学情",
+    "caption": "最担心姐姐主动性不够；去年买的洋葱冲刺包姐姐不看，妹妹用得多。",
+    "text": "姐姐。其实我我比较担心，就是因为她他一直主动性都不太够，",
+    "clipUrl": "/clips/jiatingbao/user3/0003.mp3",
+    "startTime": 820.2,
+    "duration": 5.2
   },
   {
     "seq": 3,
     "dimension": "关键原声",
     "caption": "小升初的时候没有给报，现在想起来有点后悔。",
     "text": "那我那我因为他小小学升初中的时候，我我就我就怎么说呢？顶部的压力我没有给他保，嗯，但是可能现在觉得会有点后悔吧。",
-    "clipUrl": "/clips/jiatingbao/user3/0001.mp3",
+    "clipUrl": "/clips/jiatingbao/user3/0004.mp3",
     "startTime": 1494.5,
     "duration": 11.5
+  },
+  {
+    "seq": 3,
+    "dimension": "了解",
+    "caption": "之前买 4 年包（4000-5000 元），主要为姐姐中考，实际妹妹用得多。",
+    "text": "实际使用情况应该是妹妹以往的多。",
+    "clipUrl": "/clips/jiatingbao/user3/0005.mp3",
+    "startTime": 1772.6,
+    "duration": 2.6
+  },
+  {
+    "seq": 3,
+    "dimension": "购买",
+    "caption": "家庭包首购触发：对接老师有活动时发消息，4 年只能保证姐姐高中毕业、妹妹达不到，刚好补到妹妹学到高中毕业。",
+    "text": "然后有对接老师，就每次你们有什么活动的时候，他们他就会会给我发消息嘛。",
+    "clipUrl": "/clips/jiatingbao/user3/0006.mp3",
+    "startTime": 1969.1,
+    "duration": 4.8
+  },
+  {
+    "seq": 3,
+    "dimension": "预期",
+    "caption": "尽量不让妹妹补太多课，希望初中不补课，借助工具（洋葱、小红书）把学科学好、提前学。",
+    "text": "就是尽尽可能的不让妹妹补太多的课。",
+    "clipUrl": "/clips/jiatingbao/user3/0007.mp3",
+    "startTime": 2015.2,
+    "duration": 4.0
   },
   {
     "seq": 3,
     "dimension": "购买",
     "caption": "价格焦虑：去年价格低没买，后来涨价很多，吃过一次亏，这次先买。",
     "text": "就去年前一段时间应该是价格低很多的情况下，嗯，然后嗯当时没有买，然后后来就发现他忽然间真呃他真的涨价涨了很多。",
-    "clipUrl": "/clips/jiatingbao/user3/0002.mp3",
+    "clipUrl": "/clips/jiatingbao/user3/0008.mp3",
     "startTime": 2127.4,
     "duration": 11.9
+  },
+  {
+    "seq": 3,
+    "dimension": "购买",
+    "caption": "顾虑姐姐没看、妹妹会不会也这样；未打消但「该提供的提供到，实在不学也没办法」。续费最关注能否保证小宝高中毕业。",
+    "text": "我就在想那那妹妹会不会也出现这种问题呢？反正再观察四年嘛。",
+    "clipUrl": "/clips/jiatingbao/user3/0009.mp3",
+    "startTime": 2274.1,
+    "duration": 4.3
+  },
+  {
+    "seq": 3,
+    "dimension": "使用",
+    "caption": "给妹妹明确规划，AI 定制班规定每天干啥；寒暑假预习下学期、学期中主要复习。",
+    "text": "啊然后既然就是说你这边已经 AI 定制班帮他规定好，每一天他需要要干些什么？嗯，",
+    "clipUrl": "/clips/jiatingbao/user3/0010.mp3",
+    "startTime": 2596.5,
+    "duration": 6.2
   },
   {
     "seq": 3,
     "dimension": "关键原声",
     "caption": "姐姐上高中没精力管他了，会把更多精力放在小的身上。",
     "text": "啊马上姐姐呃，就是读高中了以后，应该我我们就管不了他了。嗯，呃也不知道他会住校还是干嘛，但是大部分精力应该就会放小身上，",
-    "clipUrl": "/clips/jiatingbao/user3/0003.mp3",
+    "clipUrl": "/clips/jiatingbao/user3/0011.mp3",
     "startTime": 2725.5,
     "duration": 8.9
+  },
+  {
+    "seq": 3,
+    "dimension": "建议/反馈",
+    "caption": "《从小学物理》课包自带，妹妹很喜欢看；偏好「学科启蒙」，最终检测是中高考。",
+    "text": "因为他们毕竟最终的最终检测还是中考高考，",
+    "clipUrl": "/clips/jiatingbao/user3/0012.mp3",
+    "startTime": 3091.5,
+    "duration": 4.6
+  },
+  {
+    "seq": 3,
+    "dimension": "建议/反馈",
+    "caption": "6 年级要把初中三年单词背完（更偏应试，PET 合肥不多，北上广更多）。",
+    "text": "英语这块要把初中三年的单词全部背完。哦，六年级嗯，",
+    "clipUrl": "/clips/jiatingbao/user3/0013.mp3",
+    "startTime": 3199.5,
+    "duration": 5.8
+  },
+  {
+    "seq": 3,
+    "dimension": "了解",
+    "caption": "课程核心优势：同时有小初高内容（像图书馆），可按能力进入下一轮，还安排怎么学（AI 定制班）。",
+    "text": "然后他就可以进入下一轮了嘛，",
+    "clipUrl": "/clips/jiatingbao/user3/0014.mp3",
+    "startTime": 3328.7,
+    "duration": 2.8
   },
   {
     "seq": 3,
     "dimension": "关键原声",
     "caption": "不需要接送，孩子也不用赶路，时间成本也没有，还比私教班便宜，私教班一门就一万多。",
     "text": "肯定比那个补课要便宜多了呀。我还不需要接送，时间成本也没有哦，就路费也没有，",
-    "clipUrl": "/clips/jiatingbao/user3/0004.mp3",
+    "clipUrl": "/clips/jiatingbao/user3/0015.mp3",
     "startTime": 4115.2,
     "duration": 6.9
+  },
+  {
+    "seq": 4,
+    "dimension": "基本学情",
+    "caption": "姐姐 6 年级，学游泳每周 6 次占用大量时间，暑假想提前学初中；各科 95 分以上，但非冒尖型，家长希望培养内驱力。",
+    "text": "呃基本上也是各科都是在九十五分以上吧。",
+    "clipUrl": "/clips/jiatingbao/user4/0001.mp3",
+    "startTime": 1048.4,
+    "duration": 5.4
+  },
+  {
+    "seq": 4,
+    "dimension": "基本学情",
+    "caption": "弟弟 1 年级，数学语文课内预复习、计算练习；课内成绩跟得上，对数字较强。",
+    "text": "然后就就数学语文的课内的嗯复习预习嗯，",
+    "clipUrl": "/clips/jiatingbao/user4/0002.mp3",
+    "startTime": 1172.7,
+    "duration": 7.3
+  },
+  {
+    "seq": 4,
+    "dimension": "基本学情",
+    "caption": "更担心姐姐（马上上初中）；担心孩子看答案、不会自主思考，但家长也不知道怎么办。",
+    "text": "但是总的来讲我们也不知道怎么去评判一个东西，",
+    "clipUrl": "/clips/jiatingbao/user4/0003.mp3",
+    "startTime": 1818.9,
+    "duration": 5.8
+  },
+  {
+    "seq": 4,
+    "dimension": "了解",
+    "caption": "同类里博主不会推荐太多（语文推豆神、理科推洋葱）；主要想让孩子学理科。",
+    "text": "在同样的里头，他不会推荐很多哦。嗯，就比如说语出外了，呃，语文呢他又是其他的，比如说都神啊之类的哦，",
+    "clipUrl": "/clips/jiatingbao/user4/0004.mp3",
+    "startTime": 1870.1,
+    "duration": 14.2
+  },
+  {
+    "seq": 4,
+    "dimension": "购买",
+    "caption": "没有具体学习问题，只因博主介绍、想提前准备；7000 多元、知道是 6 年。",
+    "text": "没有嗯没有具体的学习问题，",
+    "clipUrl": "/clips/jiatingbao/user4/0005.mp3",
+    "startTime": 2114.2,
+    "duration": 2.9
   },
   {
     "seq": 4,
     "dimension": "关键原声",
     "caption": "希望 2 个孩子一起用，账号不会相互冲突，希望能发挥到最大的功效。",
     "text": "那个可以一起的那可以两个一起用，然后分了两个账号也不会相互冲突，",
-    "clipUrl": "/clips/jiatingbao/user4/0001.mp3",
+    "clipUrl": "/clips/jiatingbao/user4/0006.mp3",
     "startTime": 2228.1,
     "duration": 7.8
   },
@@ -141,34 +366,88 @@ export const JTB_VOICE_CLIPS: JtbVoiceClip[] = [
     "dimension": "关键原声",
     "caption": "如果 2 个不能同时用，就不考虑了。",
     "text": "但是我有个大的，我可能不能用，那我我可能就会考虑哦，",
-    "clipUrl": "/clips/jiatingbao/user4/0002.mp3",
+    "clipUrl": "/clips/jiatingbao/user4/0007.mp3",
     "startTime": 2608.1,
     "duration": 5.4
+  },
+  {
+    "seq": 4,
+    "dimension": "关键原声",
+    "caption": "阿刘教育规划训练营……只是单纯说这个好、提供链接，从客观公正的角度说，比起销售更相信他。",
+    "text": "最起码他我就觉得他可能是从这一个客观公正的角度去说这个事情。",
+    "clipUrl": "/clips/jiatingbao/user4/0008.mp3",
+    "startTime": 2802.9,
+    "duration": 6.3
+  },
+  {
+    "seq": 4,
+    "dimension": "购买",
+    "caption": "具体关注：2 个小孩能不能一起用；顾虑用不好能否退。",
+    "text": "就是两个小孩能不能一起用嘛？嗯，",
+    "clipUrl": "/clips/jiatingbao/user4/0009.mp3",
+    "startTime": 2986.6,
+    "duration": 4.5
+  },
+  {
+    "seq": 4,
+    "dimension": "使用",
+    "caption": "打算调整学习时间，先准备好内容；小的用得多、大的也在用；希望 2 个孩子一起用、发挥最大功效。",
+    "text": "正好也你也打算这个时间也要进行调整哦，",
+    "clipUrl": "/clips/jiatingbao/user4/0010.mp3",
+    "startTime": 3302.7,
+    "duration": 4.9
+  },
+  {
+    "seq": 4,
+    "dimension": "预期",
+    "caption": "最终目的希望学好理科；如果都能看所有课程更好，只把理科做好也算值。",
+    "text": "哪怕只是理科做的好，那我觉得也是嗯也会值。",
+    "clipUrl": "/clips/jiatingbao/user4/0011.mp3",
+    "startTime": 3620.9,
+    "duration": 5.3
+  },
+  {
+    "seq": 5,
+    "dimension": "认知",
+    "caption": "同学妈妈介绍，没经过孩子；同学家长买小学说数学就用洋葱。",
+    "text": "所以刚就是这个同学的语数英都用的洋葱，还是说只有数学用的洋葱，",
+    "clipUrl": "/clips/jiatingbao/user5/0001.mp3",
+    "startTime": 1045.9,
+    "duration": 5.1
   },
   {
     "seq": 5,
     "dimension": "关键原声",
     "caption": "买小学+初中的会有浪费，反而还有 1 年不够用。",
-    "text": "我买小学的话用不了多久？嗯，我买小学到初中的话，感觉还会有浪费。",
-    "clipUrl": "/clips/jiatingbao/user5/0001.mp3",
-    "startTime": 1225.7,
-    "duration": 5.1
+    "text": "小学到初中了会浪费哦，",
+    "clipUrl": "/clips/jiatingbao/user5/0002.mp3",
+    "startTime": 1231.9,
+    "duration": 2.2
   },
   {
     "seq": 5,
-    "dimension": "了解",
-    "caption": "让孩子体验过、孩子喜欢才买；销售说什么课都有、时间长。",
-    "text": "有让他看过一下，他说喜欢的呀嗯就孩子体验过，体验完之后孩子觉得喜欢你才买的。",
-    "clipUrl": "/clips/jiatingbao/user5/0002.mp3",
-    "startTime": 1382.4,
-    "duration": 7.5
+    "dimension": "预期",
+    "caption": "所有学科都能学上；验证要等考试才看得出进步。",
+    "text": "所有的学科都这样哦，",
+    "clipUrl": "/clips/jiatingbao/user5/0003.mp3",
+    "startTime": 1319.7,
+    "duration": 1.9
+  },
+  {
+    "seq": 5,
+    "dimension": "购买",
+    "caption": "顾虑：线下有无门店、会不会倒闭、课程更新是否及时、孩子会不会看一会就不看。",
+    "text": "比如说孩子时间长，会不会不能坚持看呀？或如说他可看，",
+    "clipUrl": "/clips/jiatingbao/user5/0004.mp3",
+    "startTime": 1548.1,
+    "duration": 5.4
   },
   {
     "seq": 5,
     "dimension": "关键原声",
     "caption": "现在先学 5 年级内容复习，寒暑假预习 6 年级内容。",
     "text": "ok 每个学科都是上他现在目前学的是已经在学六年级内容了，还是在复习五年级内容。",
-    "clipUrl": "/clips/jiatingbao/user5/0003.mp3",
+    "clipUrl": "/clips/jiatingbao/user5/0005.mp3",
     "startTime": 1882.2,
     "duration": 6.0
   },
@@ -177,25 +456,88 @@ export const JTB_VOICE_CLIPS: JtbVoiceClip[] = [
     "dimension": "关键原声",
     "caption": "以后会价格更贵，因为套餐分开买更贵。",
     "text": "那个套餐分开买更贵哦，",
-    "clipUrl": "/clips/jiatingbao/user5/0004.mp3",
+    "clipUrl": "/clips/jiatingbao/user5/0006.mp3",
     "startTime": 2117.9,
     "duration": 2.6
+  },
+  {
+    "seq": 5,
+    "dimension": "建议/反馈",
+    "caption": "推荐给 2 个不同年级孩子，1 个孩子不划算；可提前学、自己安排课、上课灵活。",
+    "text": "一个孩子不是很划算。",
+    "clipUrl": "/clips/jiatingbao/user5/0007.mp3",
+    "startTime": 2254.6,
+    "duration": 1.5
+  },
+  {
+    "seq": 5,
+    "dimension": "建议/反馈",
+    "caption": "《从小学物理》：课程顾问没介绍，但家长希望有科学（小升初要考、杭州都这样）。",
+    "text": "我们有从小学物理，",
+    "clipUrl": "/clips/jiatingbao/user5/0008.mp3",
+    "startTime": 2376.0,
+    "duration": 1.9
+  },
+  {
+    "seq": 7,
+    "dimension": "基本学情",
+    "caption": "高一孩子：成绩不大好，班里排名见底；普通班一年级 400 多人，去年期末 300 多名。",
+    "text": "去年去年期末是三百多年哦，",
+    "clipUrl": "/clips/jiatingbao/user7/0001.mp3",
+    "startTime": 211.3,
+    "duration": 3.1
+  },
+  {
+    "seq": 7,
+    "dimension": "基本学情",
+    "caption": "自家还有个四年级孩子，不爱看洋葱（觉得基础，雪球都看过了）。",
+    "text": "因为我这里有个小的小孩子四年级才班，",
+    "clipUrl": "/clips/jiatingbao/user7/0002.mp3",
+    "startTime": 377.7,
+    "duration": 3.1
   },
   {
     "seq": 7,
     "dimension": "关键原声",
     "caption": "将一个抽象的东西具体化，对孩子理解好。",
     "text": "因为你你把那个一个抽象的东西具体具体化，就对小孩的理解类似有帮助的哦，",
-    "clipUrl": "/clips/jiatingbao/user7/0001.mp3",
+    "clipUrl": "/clips/jiatingbao/user7/0003.mp3",
     "startTime": 758.8,
     "duration": 6.4
+  },
+  {
+    "seq": 7,
+    "dimension": "关键原声",
+    "caption": "风格好，不粗糙，孩子感兴趣，抽象的知识点能讲解出来。",
+    "text": "看不要那么粗糙嘛，嗯嗯就是漂亮一点，好看一点，让别人对小孩更有兴趣吧。嗯嗯，然后另外一个就是那个就是复杂的一些知识点，能够用动画形象的给它描述出来，",
+    "clipUrl": "/clips/jiatingbao/user7/0004.mp3",
+    "startTime": 1118.5,
+    "duration": 13.0
+  },
+  {
+    "seq": 7,
+    "dimension": "购买",
+    "caption": "购买前主动问老师体验，给了 3 天体验权益；先介绍 4k 多课程，主动问一大一小有没有便宜的，推荐了 7k 套餐。",
+    "text": "我说一大小的有没有更便宜一点，",
+    "clipUrl": "/clips/jiatingbao/user7/0005.mp3",
+    "startTime": 1352.1,
+    "duration": 2.1
+  },
+  {
+    "seq": 7,
+    "dimension": "了解",
+    "caption": "体验洋葱同步课 + 培优，重点关注动画；风格好、不粗糙、孩子感兴趣、能把抽象知识点讲出来。",
+    "text": "有同步课啊、培优课啊，",
+    "clipUrl": "/clips/jiatingbao/user7/0006.mp3",
+    "startTime": 1699.8,
+    "duration": 1.6
   },
   {
     "seq": 7,
     "dimension": "购买",
     "caption": "课程可学 6 年（本来高中只能学两年）。",
     "text": "是六年的，本来高中的时候是两年的。嗯，后来说就就多了几千块钱，可以学六年还多一个小孩嘛，",
-    "clipUrl": "/clips/jiatingbao/user7/0002.mp3",
+    "clipUrl": "/clips/jiatingbao/user7/0007.mp3",
     "startTime": 1756.1,
     "duration": 6.4
   },
@@ -204,25 +546,115 @@ export const JTB_VOICE_CLIPS: JtbVoiceClip[] = [
     "dimension": "关键原声",
     "caption": "看着看着没兴趣——这个更重要，买了不看再好也没用。",
     "text": "效果都有点这个更更重要嘛。嗯嗯嗯嗯，或者没兴趣学了。对，这边就买了东西，他不看你再好东西也没用嘛，",
-    "clipUrl": "/clips/jiatingbao/user7/0003.mp3",
+    "clipUrl": "/clips/jiatingbao/user7/0008.mp3",
     "startTime": 1884.4,
     "duration": 8.4
+  },
+  {
+    "seq": 7,
+    "dimension": "预期",
+    "caption": "担心没效果——看摸底成绩反馈；效果体现在学习方法改变、学懂底层知识点、信心出来。",
+    "text": "你的底层动画点的比较清楚一点，嗯，知识点比较明白了，",
+    "clipUrl": "/clips/jiatingbao/user7/0009.mp3",
+    "startTime": 2053.9,
+    "duration": 4.3
+  },
+  {
+    "seq": 7,
+    "dimension": "使用",
+    "caption": "孩子周末自己挑着学；暑假打算全面补充、主要复习，也提前学一点高二，针对理科。",
+    "text": "复习复复习先复习前在发话的时候提前学一点吧。",
+    "clipUrl": "/clips/jiatingbao/user7/0010.mp3",
+    "startTime": 2301.2,
+    "duration": 4.1
+  },
+  {
+    "seq": 7,
+    "dimension": "建议/反馈",
+    "caption": "做错的题和拍照的题可以放一起；讲逻辑和做 AI 的可以多一点，把知识点更形象展现。",
+    "text": "就是就是这些简逻辑的那种 AI 的 b 就是包括这些方面可以再做多做的多一点。",
+    "clipUrl": "/clips/jiatingbao/user7/0011.mp3",
+    "startTime": 2502.9,
+    "duration": 8.4
+  },
+  {
+    "seq": 8,
+    "dimension": "基本学情",
+    "caption": "老二（六年级升七）：各科较均衡 90 多分，阅读量不够；右脑发育不如左脑，担心升初一像老大。",
+    "text": "嗯然后他的右脑发育也是没有左脑好的，我怕他到时候空间这方面也是不行，",
+    "clipUrl": "/clips/jiatingbao/user8/0001.mp3",
+    "startTime": 325.4,
+    "duration": 7.6
+  },
+  {
+    "seq": 8,
+    "dimension": "了解",
+    "caption": "关键转化点：老大试听学而思数学不满意（像老师讲课、一节 1.5 小时），改试听洋葱，被 PK 等做题玩法吸引。",
+    "text": "因为他我老大在课呃，数学课上他是听不懂老师讲的，",
+    "clipUrl": "/clips/jiatingbao/user8/0002.mp3",
+    "startTime": 1017.8,
+    "duration": 4.2
+  },
+  {
+    "seq": 8,
+    "dimension": "基本学情",
+    "caption": "老大（七年级，最担心）：语文英语好、数学最大短板；偏科严重（数学/历史/生物/地理 60 多分）；内向被动、有难题不敢问老师。",
+    "text": "他就是有难题，有不懂的，他不敢问老师啊，",
+    "clipUrl": "/clips/jiatingbao/user8/0003.mp3",
+    "startTime": 1468.9,
+    "duration": 3.9
+  },
+  {
+    "seq": 8,
+    "dimension": "认知",
+    "caption": "第一次听说来自女儿同学的家长「数学不用报班，丢个洋葱在家看就行」，把整套视频发给她。",
+    "text": "他他女儿的数学呢就是九十分左右嘛，嗯然后我女儿那个时候呢就比较差，那个时候刚初一是七十多分。嗯，然后他他我他就说哎呀，这些不用报班的，丢个洋葱给他在家看就行了。",
+    "clipUrl": "/clips/jiatingbao/user8/0004.mp3",
+    "startTime": 1636.7,
+    "duration": 14.9
+  },
+  {
+    "seq": 8,
+    "dimension": "认知",
+    "caption": "自己和孩子看完都没感觉、不看好；后来刷到阿刘规划，评论多次提到洋葱，加群咨询。",
+    "text": "到下面评论，又有提到洋葱。",
+    "clipUrl": "/clips/jiatingbao/user8/0005.mp3",
+    "startTime": 1677.3,
+    "duration": 2.1
   },
   {
     "seq": 8,
     "dimension": "关键原声",
     "caption": "他丢个文件夹给你点开看，跟报了课看的感觉不一样……没有输出就是盲目接收。",
     "text": "然后那一种他丢了一个包，一个文件夹过来给你，你可以点开看呢，你有感觉就跟我报了课之后，看的感觉也不一样。",
-    "clipUrl": "/clips/jiatingbao/user8/0001.mp3",
+    "clipUrl": "/clips/jiatingbao/user8/0006.mp3",
     "startTime": 1736.1,
     "duration": 10.3
+  },
+  {
+    "seq": 8,
+    "dimension": "购买",
+    "caption": "直接买最长 6 年（到高中）：6 年里大宝二宝用完、三宝用到中考、老四用到五年级；没问孩子能否坚持，果断决定。",
+    "text": "然后嗯老师呢可以用到五年级，",
+    "clipUrl": "/clips/jiatingbao/user8/0007.mp3",
+    "startTime": 2195.7,
+    "duration": 3.1
+  },
+  {
+    "seq": 8,
+    "dimension": "使用",
+    "caption": "主要使用者老大、老二（跟 1对1 老师定的 AI 定制班学习）；老三顺带、老四未来。",
+    "text": "主要是啊老二也是主要使用。",
+    "clipUrl": "/clips/jiatingbao/user8/0008.mp3",
+    "startTime": 2304.5,
+    "duration": 2.9
   },
   {
     "seq": 8,
     "dimension": "预期",
     "caption": "暂以期末考试结果作为短期验证。",
     "text": "暂时我想等到期末考试看看嗯，结果，嗯，ok 就是短暂的结果吧。",
-    "clipUrl": "/clips/jiatingbao/user8/0002.mp3",
+    "clipUrl": "/clips/jiatingbao/user8/0009.mp3",
     "startTime": 2737.6,
     "duration": 7.1
   },
@@ -231,16 +663,34 @@ export const JTB_VOICE_CLIPS: JtbVoiceClip[] = [
     "dimension": "关键原声",
     "caption": "如果有效果，我会排除万难让他们学下去。",
     "text": "我觉得如果有效果，我会排除万难，让他们学下去。",
-    "clipUrl": "/clips/jiatingbao/user8/0003.mp3",
+    "clipUrl": "/clips/jiatingbao/user8/0010.mp3",
     "startTime": 2772.4,
     "duration": 4.7
+  },
+  {
+    "seq": 8,
+    "dimension": "预期",
+    "caption": "老大数学学到 108 分以上就值了；认同考试是跨学科、非题海，希望文科有更多拓展。",
+    "text": "我觉得能把他数学学到一百零八分以上也值了哦，",
+    "clipUrl": "/clips/jiatingbao/user8/0011.mp3",
+    "startTime": 3043.8,
+    "duration": 4.6
+  },
+  {
+    "seq": 8,
+    "dimension": "基本学情",
+    "caption": "老三（三年级，最操心）：成绩 90 多但习惯不如姐姐、做事拖拉、不爱阅读，经常没时间上洋葱。",
+    "text": "因为现在姐姐妹妹等姐姐用完洋葱这个 ipad，他已经他都没有时间了哦。",
+    "clipUrl": "/clips/jiatingbao/user8/0012.mp3",
+    "startTime": 3460.1,
+    "duration": 8.0
   },
   {
     "seq": 8,
     "dimension": "关键原声",
     "caption": "几个孩子同时在房间学完，就能一起出发……我孩子多就会想到这些。",
     "text": "你你三个孩子同时在自己的房间学完了，我们就可以一起出发。如果说你内蒙没学到，",
-    "clipUrl": "/clips/jiatingbao/user8/0004.mp3",
+    "clipUrl": "/clips/jiatingbao/user8/0013.mp3",
     "startTime": 3497.6,
     "duration": 5.3
   },
@@ -255,11 +705,83 @@ export const JTB_VOICE_CLIPS: JtbVoiceClip[] = [
   },
   {
     "seq": 6,
+    "dimension": "购买",
+    "caption": "5000 多元，送的学习机折现便宜了 1700 元；最主要目的是提前学。",
+    "text": "提前一学学，这个是最主要的目的。",
+    "clipUrl": "/clips/jiatingbao/user6/0002.mp3",
+    "startTime": 677.3,
+    "duration": 2.4
+  },
+  {
+    "seq": 6,
     "dimension": "关键原声",
     "caption": "花这么多钱不一定能见到提分效果。",
     "text": "不一定能见到效果。",
-    "clipUrl": "/clips/jiatingbao/user6/0002.mp3",
+    "clipUrl": "/clips/jiatingbao/user6/0003.mp3",
     "startTime": 785.7,
     "duration": 2.1
+  },
+  {
+    "seq": 6,
+    "dimension": "购买",
+    "caption": "顾虑：花这么多钱不一定能见到提分效果（未化解，带着疑虑买了小初品，没买到高中）。",
+    "text": "就是还是带着疑虑买了想试一试。",
+    "clipUrl": "/clips/jiatingbao/user6/0004.mp3",
+    "startTime": 828.3,
+    "duration": 2.7
+  },
+  {
+    "seq": 6,
+    "dimension": "预期",
+    "caption": "没买高中的，想等有效果（数学至少 90 分以上）再买；套餐比单课划算。",
+    "text": "套餐相对比单科比要要划算啊。",
+    "clipUrl": "/clips/jiatingbao/user6/0005.mp3",
+    "startTime": 901.7,
+    "duration": 3.3
+  },
+  {
+    "seq": 6,
+    "dimension": "关键原声",
+    "caption": "学而思形式也看视频，和洋葱没有太大区别，都是看视频，还是看主观能动性。",
+    "text": "最后还是看学生的主观主观能动性哦。",
+    "clipUrl": "/clips/jiatingbao/user6/0006.mp3",
+    "startTime": 1423.9,
+    "duration": 3.4
+  },
+  {
+    "seq": 6,
+    "dimension": "认知",
+    "caption": "刷抖音刷到，说数学比较好；也了解到名师单独授课，没对比过竞品。",
+    "text": "嗯名师单独授课是一学期对，",
+    "clipUrl": "/clips/jiatingbao/user6/0007.mp3",
+    "startTime": 1581.3,
+    "duration": 2.6
+  },
+  {
+    "seq": 6,
+    "dimension": "了解",
+    "caption": "销售联系介绍活动，3 天体验课孩子反馈还行；姐姐没表现出更喜欢、不反感就行。",
+    "text": "ok 所以他没有表现出来明显的，比如说更更喜欢和跟之前尼伯客比哦，",
+    "clipUrl": "/clips/jiatingbao/user6/0008.mp3",
+    "startTime": 1682.5,
+    "duration": 7.7
+  },
+  {
+    "seq": 6,
+    "dimension": "关键原声",
+    "caption": "想等有效果才买（高中的），数学要至少到 90 分以上。",
+    "text": "数学能到九十分以上哦，",
+    "clipUrl": "/clips/jiatingbao/user6/0009.mp3",
+    "startTime": 1717.5,
+    "duration": 2.1
+  },
+  {
+    "seq": 6,
+    "dimension": "建议/反馈",
+    "caption": "有效果才会推荐；2 个孩子都在用、总时长汇总在一起，希望能单独区分。",
+    "text": "有效果的话会怎么说，",
+    "clipUrl": "/clips/jiatingbao/user6/0010.mp3",
+    "startTime": 1966.9,
+    "duration": 1.7
   }
 ];
