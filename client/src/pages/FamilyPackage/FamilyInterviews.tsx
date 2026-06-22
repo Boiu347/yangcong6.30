@@ -47,6 +47,7 @@ const ONION_LABELS: { key: keyof JtbOnion; label: string }[] = [
 // ── 学段映射（小低=1-3年级，小高=4-6年级） ─────────────────────────────
 
 const STAGE_RANK = ['学前', '小低', '小高', '初中', '高中', '已毕业'];
+const ROW_RANK = ['学前', '小初', '小高', '初中', '高中', '其他'];
 const CN_NUM: Record<string, number> = { 一: 1, 二: 2, 三: 3, 四: 4, 五: 5, 六: 6 };
 
 function gradeToStage(token: string): string {
@@ -75,6 +76,16 @@ function comboLabelOf(itv: JtbInterview): string {
   return uniq.join('+');
 }
 
+function rowLabelOf(comboLabel: string): string {
+  const stages = comboLabel.split('+');
+  if (stages.includes('学前')) return '学前';
+  if (stages.includes('小低')) return '小初';
+  if (stages.includes('小高')) return '小高';
+  if (stages.includes('初中')) return '初中';
+  if (stages.includes('高中')) return '高中';
+  return '其他';
+}
+
 function groupByCombo(list: JtbInterview[]): { label: string; items: JtbInterview[] }[] {
   const map = new Map<string, JtbInterview[]>();
   for (const itv of list) {
@@ -89,6 +100,28 @@ function groupByCombo(list: JtbInterview[]): { label: string; items: JtbIntervie
     return a.localeCompare(b, 'zh');
   });
   return labels.map((label) => ({ label, items: map.get(label)!.slice().sort((x, y) => x.seq - y.seq) }));
+}
+
+function groupRowsByStage(list: JtbInterview[]): { label: string; groups: { label: string; items: JtbInterview[] }[]; count: number }[] {
+  const rows = new Map<string, { label: string; items: JtbInterview[] }[]>();
+  for (const group of groupByCombo(list)) {
+    const rowLabel = rowLabelOf(group.label);
+    if (!rows.has(rowLabel)) rows.set(rowLabel, []);
+    rows.get(rowLabel)!.push(group);
+  }
+  const labels = Array.from(rows.keys()).sort((a, b) => {
+    const ra = ROW_RANK.indexOf(a);
+    const rb = ROW_RANK.indexOf(b);
+    return (ra === -1 ? ROW_RANK.length : ra) - (rb === -1 ? ROW_RANK.length : rb);
+  });
+  return labels.map((label) => {
+    const groups = rows.get(label)!;
+    return {
+      label,
+      groups,
+      count: groups.reduce((sum, group) => sum + group.items.length, 0),
+    };
+  });
 }
 
 // ── 通用 helper ─────────────────────────────────────────────────────────
@@ -636,6 +669,7 @@ function SectionBlock({
 }) {
   if (list.length === 0) return null;
   const groups = groupByCombo(list);
+  const rows = groupRowsByStage(list);
   const label = tone === 'purchased' ? '已购样本' : '未购样本';
   const laneWidth = tone === 'purchased' ? 'min-w-[390px] max-w-[390px]' : 'min-w-[430px] max-w-[430px]';
 
@@ -647,37 +681,50 @@ function SectionBlock({
         <span className="text-[12px] text-gray-400">{list.length} 户 · {groups.length} 个年级组合</span>
       </div>
 
-      <div className="overflow-x-auto pb-3">
-        <div className="flex min-w-max gap-4">
-          {groups.map((g) => {
-            const tint = comboTint(g.label);
-            return (
-              <div
-                key={g.label}
-                className={cn('rounded-2xl border bg-[#FEFDF9] p-3', laneWidth)}
-                style={{ borderColor: `${tint}55` }}
-              >
-                <div className="mb-3 flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <span
-                      className="rounded-md px-2 py-0.5 text-[12px] font-bold"
-                      style={{ backgroundColor: `${tint}16`, color: tint }}
+      <div className="space-y-5">
+        {rows.map((row) => (
+          <div key={row.label} className="rounded-2xl border border-[#E9E3DA] bg-white/55 p-3">
+            <div className="mb-3 flex items-center gap-2">
+              <span className="rounded-md bg-[#e65532]/10 px-2 py-0.5 text-[12px] font-extrabold text-[#e65532]">
+                {row.label}
+              </span>
+              <span className="text-[11px] text-gray-400">{row.count} 户 · {row.groups.length} 个组合</span>
+              <span className="h-px flex-1 bg-[#EFEAE2]" />
+            </div>
+            <div className="overflow-x-auto pb-1">
+              <div className="flex min-w-max gap-4">
+                {row.groups.map((g) => {
+                  const tint = comboTint(g.label);
+                  return (
+                    <div
+                      key={g.label}
+                      className={cn('rounded-2xl border bg-[#FEFDF9] p-3', laneWidth)}
+                      style={{ borderColor: `${tint}55` }}
                     >
-                      {g.label}
-                    </span>
-                    <span className="text-[11px] text-gray-400">{g.items.length} 户</span>
-                  </div>
-                  <span className="h-2 w-2 rounded-full" style={{ backgroundColor: tint }} />
-                </div>
-                <div className="space-y-3">
-                  {g.items.map((itv) => (
-                    <FamilyCard key={itv.id} itv={itv} onOpen={onOpen} />
-                  ))}
-                </div>
+                      <div className="mb-3 flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          <span
+                            className="rounded-md px-2 py-0.5 text-[12px] font-bold"
+                            style={{ backgroundColor: `${tint}16`, color: tint }}
+                          >
+                            {g.label}
+                          </span>
+                          <span className="text-[11px] text-gray-400">{g.items.length} 户</span>
+                        </div>
+                        <span className="h-2 w-2 rounded-full" style={{ backgroundColor: tint }} />
+                      </div>
+                      <div className="space-y-3">
+                        {g.items.map((itv) => (
+                          <FamilyCard key={itv.id} itv={itv} onOpen={onOpen} />
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-            );
-          })}
-        </div>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );
