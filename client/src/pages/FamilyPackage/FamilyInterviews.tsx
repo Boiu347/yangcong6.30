@@ -132,6 +132,14 @@ const PURCHASE_STAGE_STYLE: Record<string, { color: string; bg: string }> = {
   未购: { color: '#B8667A', bg: '#B8667A' },
 };
 
+const COMBO_TINTS = ['#e65532', '#5B7BBF', '#4BA69E', '#BF9455', '#8B6BB8', '#B8667A'];
+
+function comboTint(label: string) {
+  let hash = 0;
+  for (const char of label) hash += char.charCodeAt(0);
+  return COMBO_TINTS[hash % COMBO_TINTS.length];
+}
+
 function StatusBadge({ status }: { status: '已购' | '未购' }) {
   const positive = status === '已购';
   return (
@@ -255,21 +263,20 @@ function PurchaseDistribution({ interviews }: { interviews: JtbInterview[] }) {
   );
 }
 
-function Cockpit() {
-  const total = JTB_INTERVIEWS.length;
-  const purchased = JTB_INTERVIEWS.filter((i) => i.status === '已购').length;
-  const unpurchased = JTB_INTERVIEWS.filter((i) => i.status === '未购').length;
-  const pending = JTB_INTERVIEWS.filter((i) => !hasDetail(i)).length;
-  const regions = Array.from(new Set(JTB_INTERVIEWS.map((i) => i.region.slice(0, 2))));
+function Cockpit({ interviews }: { interviews: JtbInterview[] }) {
+  const total = interviews.length;
+  const purchased = interviews.filter((i) => i.status === '已购').length;
+  const unpurchased = interviews.filter((i) => i.status === '未购').length;
+  const regions = Array.from(new Set(interviews.map((i) => i.region.slice(0, 2))));
 
   return (
     <section className="space-y-4">
       <div className="grid grid-cols-3 gap-3">
-        <Metric label="受访家庭" value={String(total)} note="多孩家庭为主" />
-        <Metric label="已购 / 未购" value={`${purchased} / ${unpurchased}`} note={pending ? `其中 ${pending} 户纪要整理中` : '覆盖首购·续购·升单·未购'} />
+        <Metric label="已整理访谈" value={String(total)} note="隐藏未整理空卡片" />
+        <Metric label="已购 / 未购" value={`${purchased} / ${unpurchased}`} note="覆盖首购·续购·升单·未购" />
         <Metric label="覆盖地区" value={String(regions.length)} note={regions.join(' · ')} />
       </div>
-      <PurchaseDistribution interviews={JTB_INTERVIEWS} />
+      <PurchaseDistribution interviews={interviews} />
     </section>
   );
 }
@@ -630,30 +637,47 @@ function SectionBlock({
   if (list.length === 0) return null;
   const groups = groupByCombo(list);
   const label = tone === 'purchased' ? '已购样本' : '未购样本';
+  const laneWidth = tone === 'purchased' ? 'min-w-[390px] max-w-[390px]' : 'min-w-[430px] max-w-[430px]';
 
   return (
-    <section className="space-y-4">
+    <section className="space-y-3">
       <div className="flex items-center gap-2 border-b border-[#E8E2D9] pb-2">
         <h3 className="text-[16px] font-extrabold text-gray-900">{title}</h3>
         <span className="rounded-full border border-gray-200 bg-white px-2 py-0.5 text-[10px] font-semibold text-gray-400">{label}</span>
         <span className="text-[12px] text-gray-400">{list.length} 户 · {groups.length} 个年级组合</span>
       </div>
 
-      <div className="space-y-5">
-        {groups.map((g) => (
-          <div key={g.label}>
-            <div className="mb-2.5 flex items-center gap-2">
-              <span className="rounded-md bg-[#e65532]/10 px-2 py-0.5 text-[12px] font-bold text-[#e65532]">{g.label}</span>
-              <span className="text-[11px] text-gray-400">{g.items.length} 户</span>
-              <span className="h-px flex-1 bg-[#F0EDE7]" />
-            </div>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-              {g.items.map((itv) => (
-                <FamilyCard key={itv.id} itv={itv} onOpen={onOpen} />
-              ))}
-            </div>
-          </div>
-        ))}
+      <div className="overflow-x-auto pb-3">
+        <div className="flex min-w-max gap-4">
+          {groups.map((g) => {
+            const tint = comboTint(g.label);
+            return (
+              <div
+                key={g.label}
+                className={cn('rounded-2xl border bg-[#FEFDF9] p-3', laneWidth)}
+                style={{ borderColor: `${tint}55` }}
+              >
+                <div className="mb-3 flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="rounded-md px-2 py-0.5 text-[12px] font-bold"
+                      style={{ backgroundColor: `${tint}16`, color: tint }}
+                    >
+                      {g.label}
+                    </span>
+                    <span className="text-[11px] text-gray-400">{g.items.length} 户</span>
+                  </div>
+                  <span className="h-2 w-2 rounded-full" style={{ backgroundColor: tint }} />
+                </div>
+                <div className="space-y-3">
+                  {g.items.map((itv) => (
+                    <FamilyCard key={itv.id} itv={itv} onOpen={onOpen} />
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
@@ -665,8 +689,9 @@ export default function FamilyInterviews() {
   const [selected, setSelected] = React.useState<JtbInterview | null>(null);
   const [libraryOpen, setLibraryOpen] = React.useState(false);
 
-  const purchased = JTB_INTERVIEWS.filter((i) => i.status === '已购');
-  const unpurchased = JTB_INTERVIEWS.filter((i) => i.status === '未购');
+  const visibleInterviews = JTB_INTERVIEWS.filter(hasDetail);
+  const purchased = visibleInterviews.filter((i) => i.status === '已购');
+  const unpurchased = visibleInterviews.filter((i) => i.status === '未购');
 
   return (
     <div className="flex h-full flex-col">
@@ -676,7 +701,7 @@ export default function FamilyInterviews() {
           <div className="flex items-center gap-2">
             <Users2 size={15} className="text-[#e65532]" />
             <h2 className="text-[15px] font-bold text-gray-900">用户访谈</h2>
-            <span className="text-[11px] text-gray-400">{JTB_INTERVIEWS.length} 位受访家庭</span>
+            <span className="text-[11px] text-gray-400">{visibleInterviews.length} 位已整理访谈家庭</span>
           </div>
           <div className="flex-1" />
           <button
@@ -691,7 +716,7 @@ export default function FamilyInterviews() {
       {/* Content */}
       <div className="flex-1 overflow-y-auto px-6 py-5">
         <div className="mx-auto max-w-[1180px] space-y-8">
-          <Cockpit />
+          <Cockpit interviews={visibleInterviews} />
           <SectionBlock title="已购用户" tone="purchased" list={purchased} onOpen={setSelected} />
           <SectionBlock title="未购用户" tone="unpurchased" list={unpurchased} onOpen={setSelected} />
         </div>
