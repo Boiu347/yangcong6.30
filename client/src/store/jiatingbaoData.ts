@@ -248,6 +248,7 @@ export const JTB_THEMES: JtbTheme[] = [
 // ── 11 位受访家庭明细 ──────────────────────────────────────────────────
 const MINUTES = 'https://guanghe.feishu.cn/minutes';
 const DOCX = 'https://guanghe.feishu.cn/docx';
+const FAMILY_PACKAGE_WIKI = 'https://guanghe.feishu.cn/wiki/U7MvwNaI9iLmABkJdiLclBOinGc';
 
 export const JTB_INTERVIEWS: JtbInterview[] = [
   {
@@ -648,6 +649,7 @@ export const JTB_INTERVIEWS: JtbInterview[] = [
     phone: '15273563443',
     status: '已购',
     purchaseType: '升单',
+    minutesUrl: `${FAMILY_PACKAGE_WIKI}#HW2UdjgFZoFtVuxYUdfcNTFFn8e`,
     transcriptUrl: `${DOCX}/UFGtdfAwBokU3xxNWeBciA9dnng`,
     insights: [
       {
@@ -698,12 +700,13 @@ export const JTB_INTERVIEWS: JtbInterview[] = [
   {
     id: 'jtb_u10',
     seq: 10,
-    parent: 'X妈妈',
-    combo: '二年级 & 初一',
-    region: '贵州黔东南',
-    phone: '13310756328',
+    parent: 'X妈妈（审计）',
+    combo: '四年级 & 初一',
+    region: '山东济南',
+    phone: '13255686573',
     status: '已购',
     purchaseType: '已购家庭包',
+    transcriptUrl: `${FAMILY_PACKAGE_WIKI}#X7LPdZaHboJjaax7S4WcVpIUnAg`,
     insights: [],
     study: ['访谈纪要整理中——主文档仅提供基础信息与数据表。'],
     onion: {},

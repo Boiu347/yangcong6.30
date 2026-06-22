@@ -503,15 +503,6 @@ function DetailDrawer({ itv, onClose }: { itv: JtbInterview | null; onClose: () 
 
 // ── 访谈资料库（链接库） ─────────────────────────────────────────────────
 
-function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
-
 function LibraryDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
   React.useEffect(() => {
     if (!open) return;
@@ -524,51 +515,10 @@ function LibraryDrawer({ open, onClose }: { open: boolean; onClose: () => void }
 
   if (!open) return null;
 
-  const list = JTB_INTERVIEWS.slice().sort((a, b) => a.seq - b.seq);
-
-  const openAll = () => {
-    const links = list.flatMap((itv) => [
-      ...(hasMinutes(itv) ? [{ label: `用户${itv.seq} ${itv.parent} · 妙记`, url: itv.minutesUrl }] : []),
-      ...(itv.transcriptUrl ? [{ label: `用户${itv.seq} ${itv.parent} · 文字记录`, url: itv.transcriptUrl }] : []),
-    ]);
-    const count = links.length;
-    if (count === 0) toast.error('暂无可打开的链接');
-    const page = window.open('', '_blank', 'noopener,noreferrer');
-    if (!page) {
-      toast.error('浏览器拦截了新窗口，请允许弹窗或使用“复制全部链接”');
-      return;
-    }
-    page.document.write(`<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>家庭包访谈资料链接</title>
-  <style>
-    body{margin:0;background:#fafaf7;color:#24211d;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif}
-    main{max-width:960px;margin:0 auto;padding:32px 20px}
-    h1{font-size:24px;margin:0 0 8px}
-    p{margin:0 0 20px;color:#777;font-size:14px}
-    .grid{display:grid;gap:10px}
-    a{display:flex;align-items:center;justify-content:space-between;gap:18px;border:1px solid #e8e2d9;background:white;border-radius:10px;padding:14px 16px;color:#24211d;text-decoration:none}
-    a:hover{border-color:#e65532;background:#fff7f4}
-    span{font-weight:700;font-size:14px}
-    em{font-style:normal;color:#e65532;font-size:12px;font-weight:700}
-  </style>
-</head>
-<body>
-  <main>
-    <h1>家庭包访谈资料链接</h1>
-    <p>浏览器会拦截一次性打开多个窗口，所以这里集中展示 ${count} 个链接。按住 Ctrl / Cmd 点击可连续打开。</p>
-    <div class="grid">
-      ${links.map((link) => `<a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer"><span>${escapeHtml(link.label)}</span><em>打开</em></a>`).join('')}
-    </div>
-  </main>
-</body>
-</html>`);
-    page.document.close();
-    toast.success(`已打开 ${count} 个访谈资料链接清单`);
-  };
+  const list = JTB_INTERVIEWS
+    .filter((itv) => hasMinutes(itv) || !!itv.transcriptUrl)
+    .slice()
+    .sort((a, b) => a.seq - b.seq);
 
   const copyAll = async () => {
     const lines: string[] = [];
@@ -604,14 +554,8 @@ function LibraryDrawer({ open, onClose }: { open: boolean; onClose: () => void }
 
         <div className="flex items-center gap-2 border-b border-[#F0EDE7] px-5 py-3">
           <button
-            onClick={openAll}
-            className="flex items-center gap-1.5 rounded-lg bg-[#e65532] px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-[#d34427]"
-          >
-            <ExternalLink size={13} /> 全部打开
-          </button>
-          <button
             onClick={copyAll}
-            className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-[12px] font-medium text-gray-600 hover:border-gray-300"
+            className="flex items-center gap-1.5 rounded-lg bg-[#e65532] px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-[#d34427]"
           >
             <Copy size={13} /> 复制全部链接
           </button>
