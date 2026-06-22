@@ -1,5 +1,6 @@
 import fromPrimaryBriefing from './from-primary-brief.md?raw';
 import jisuanyingBriefing from './jisuanying-brief.md?raw';
+import jiatingbaoBriefing from './jiatingbao-brief.md?raw';
 
 export interface ProjectBackgroundResource {
   label: string;
@@ -40,6 +41,19 @@ export const PROJECT_BACKGROUNDS: Record<string, ProjectBackgroundConfig> = {
     summary: '从真实家长的需求与认知出发，理解计算营在购买决策中的位置，并验证产品定位、服务价值与增长模型。',
     markdown: jisuanyingBriefing,
     resources: pendingResources,
+  },
+  jiatingbao_project: {
+    title: '家庭包用户调研背景',
+    eyebrow: 'PROJECT CONTEXT',
+    summary: '从家庭包上线后的真实转化差异出发，解释不同年级组合为什么买、为什么不买，以及哪些人群和话术值得在暑促中放大。',
+    markdown: jiatingbaoBriefing,
+    resources: [
+      {
+        label: '研究方案',
+        description: '家庭包用户调研的业务问题、人群优先级、研究假设与访谈提纲',
+      },
+      ...pendingResources,
+    ],
   },
 };
 
