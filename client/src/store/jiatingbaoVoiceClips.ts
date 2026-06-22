@@ -11,6 +11,87 @@ export interface JtbVoiceClip {
 
 export const JTB_VOICE_CLIPS: JtbVoiceClip[] = [
   {
+    "seq": 1,
+    "dimension": "关键原声",
+    "caption": "怕数学基础没打好，五六年级会更难搞。",
+    "text": "是怕基础没打好。到了到了五六年级就更难搞哦，",
+    "clipUrl": "/clips/jiatingbao/user1/0001.mp3",
+    "startTime": 988.9,
+    "duration": 5.3
+  },
+  {
+    "seq": 1,
+    "dimension": "购买",
+    "caption": "担忧买了浪费、孩子不能坚持；最终打消是因为哥哥自己说喜欢学。",
+    "text": "他买了浪费，就是怕孩子不能坚持。对，想因为我呃哥哥一直都是上直播课，他嗯比较喜欢跟老师互动的哦，",
+    "clipUrl": "/clips/jiatingbao/user1/0002.mp3",
+    "startTime": 2031.0,
+    "duration": 12.4
+  },
+  {
+    "seq": 2,
+    "dimension": "基本学情",
+    "caption": "小学语文拔尖，初中优势没发挥出来；生物地理较好，喜欢课外知识。",
+    "text": "七年级的时候他小学的语文还是蛮拔尖的。嗯，但是到了初中，我感觉好像语文的优势没有发挥出来。",
+    "clipUrl": "/clips/jiatingbao/user2/0001.mp3",
+    "startTime": 631.3,
+    "duration": 8.5
+  },
+  {
+    "seq": 2,
+    "dimension": "了解",
+    "caption": "爸爸看了几天、在洋葱里比较是否适合；认为洋葱最强是数学（前身洋葱数学）。",
+    "text": "他爸爸呃看了一下，考虑了几天比较了一下，是跟哪几个品牌比较了下，还是说在洋葱里边不同的产品里边比较了一下是哪一种？应该是说主要就是看杨崇学，",
+    "clipUrl": "/clips/jiatingbao/user2/0002.mp3",
+    "startTime": 801.9,
+    "duration": 13.7
+  },
+  {
+    "seq": 2,
+    "dimension": "了解",
+    "caption": "诉求：要超前学一些拔高、难一点的内容，不能只和学校同步。",
+    "text": "嗯可能在课堂里面他拔高超前的可能就比较少一点了。嗯，像我们学生成绩比较，我们还成绩比较好的，那我们肯定不能跟学校同步的哦，",
+    "clipUrl": "/clips/jiatingbao/user2/0003.mp3",
+    "startTime": 923.8,
+    "duration": 9.5
+  },
+  {
+    "seq": 2,
+    "dimension": "预期",
+    "caption": "超前学能消化吸收，培养的知识能成体系（自己总结主线、串联知识）。",
+    "text": "我希望他的他的意思就是说他能够呃能够超前学的东西，能够自己消化技术的话，那再能够他能够达到那个他呃培知识成体系嘛，",
+    "clipUrl": "/clips/jiatingbao/user2/0004.mp3",
+    "startTime": 1620.2,
+    "duration": 12.7
+  },
+  {
+    "seq": 2,
+    "dimension": "关键原声",
+    "caption": "不只是教孩子套什么公式、教你怎么解题，而是要提高孩子的思维分析能力。",
+    "text": "套什么公式嗯，这样去做。嗯，希望的是更多的能够呃提高孩子那种思维分析能力，嗯，学会如何去解决问题，",
+    "clipUrl": "/clips/jiatingbao/user2/0005.mp3",
+    "startTime": 1756.4,
+    "duration": 10.5
+  },
+  {
+    "seq": 2,
+    "dimension": "预期",
+    "caption": "不只是套公式，而是提高思维分析能力、培养自主思考与举一反三的能力。",
+    "text": "他就不知道怎么做了。哦，换一种就是最好是就是要培养孩子你套自主学习呃，去思考这个问题能力，提高他的思维能力。我觉得这这个是更好的嗯思维能力，",
+    "clipUrl": "/clips/jiatingbao/user2/0006.mp3",
+    "startTime": 1780.5,
+    "duration": 14.0
+  },
+  {
+    "seq": 2,
+    "dimension": "关键原声",
+    "caption": "既然要提前学就一起买，初中的时候就要往高中的时候学，不能等到了高中再学。",
+    "text": "初中就要我们高中的学量，那肯定的啊。哦哦，那肯定不能等到了高中再学啊。",
+    "clipUrl": "/clips/jiatingbao/user2/0007.mp3",
+    "startTime": 2848.6,
+    "duration": 6.3
+  },
+  {
     "seq": 3,
     "dimension": "关键原声",
     "caption": "小升初的时候没有给报，现在想起来有点后悔。",

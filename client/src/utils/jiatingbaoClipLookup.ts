@@ -3,6 +3,51 @@ import type { EvidenceClip } from './evidenceClipLookup';
 
 export const JIATINGBAO_CLIP_MAP: Record<string, EvidenceClip> =
 {
+  "怕数学基础没打好，五六年级会更难搞。": {
+    "clipUrl": "/clips/jiatingbao/user1/0001.mp3",
+    "startTime": 988.9,
+    "duration": 5.3
+  },
+  "担忧买了浪费、孩子不能坚持；最终打消是因为哥哥自己说喜欢学。": {
+    "clipUrl": "/clips/jiatingbao/user1/0002.mp3",
+    "startTime": 2031.0,
+    "duration": 12.4
+  },
+  "小学语文拔尖，初中优势没发挥出来；生物地理较好，喜欢课外知识。": {
+    "clipUrl": "/clips/jiatingbao/user2/0001.mp3",
+    "startTime": 631.3,
+    "duration": 8.5
+  },
+  "爸爸看了几天、在洋葱里比较是否适合；认为洋葱最强是数学（前身洋葱数学）。": {
+    "clipUrl": "/clips/jiatingbao/user2/0002.mp3",
+    "startTime": 801.9,
+    "duration": 13.7
+  },
+  "诉求：要超前学一些拔高、难一点的内容，不能只和学校同步。": {
+    "clipUrl": "/clips/jiatingbao/user2/0003.mp3",
+    "startTime": 923.8,
+    "duration": 9.5
+  },
+  "超前学能消化吸收，培养的知识能成体系（自己总结主线、串联知识）。": {
+    "clipUrl": "/clips/jiatingbao/user2/0004.mp3",
+    "startTime": 1620.2,
+    "duration": 12.7
+  },
+  "不只是教孩子套什么公式、教你怎么解题，而是要提高孩子的思维分析能力。": {
+    "clipUrl": "/clips/jiatingbao/user2/0005.mp3",
+    "startTime": 1756.4,
+    "duration": 10.5
+  },
+  "不只是套公式，而是提高思维分析能力、培养自主思考与举一反三的能力。": {
+    "clipUrl": "/clips/jiatingbao/user2/0006.mp3",
+    "startTime": 1780.5,
+    "duration": 14.0
+  },
+  "既然要提前学就一起买，初中的时候就要往高中的时候学，不能等到了高中再学。": {
+    "clipUrl": "/clips/jiatingbao/user2/0007.mp3",
+    "startTime": 2848.6,
+    "duration": 6.3
+  },
   "小升初的时候没有给报，现在想起来有点后悔。": {
     "clipUrl": "/clips/jiatingbao/user3/0001.mp3",
     "startTime": 1494.5,
