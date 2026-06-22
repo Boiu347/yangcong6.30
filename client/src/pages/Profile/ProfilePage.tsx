@@ -78,7 +78,7 @@ export default function ProfilePage() {
     let cancelled = false;
     fetchPortrait(PROFILE_PROJECT_ID)
       .then((remote) => {
-        if (!cancelled) setSnapshot(remote);
+        if (!cancelled) setSnapshot(remote ?? fallbackSnapshot());
       })
       .catch(() => {
         if (!cancelled) setSnapshot(fallbackSnapshot());
