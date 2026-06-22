@@ -52,6 +52,10 @@ export default function InsightCategoryPage({ slug }: InsightCategoryPageProps) 
   const Icon = iconMap[slug];
   const data = useMemo(() => buildCategoryInsightData(projects, slug), [projects, slug]);
   const directions = useMemo(() => buildBusinessDirections(slug, data.quotes), [data.quotes, slug]);
+  const directionQuoteTotal = useMemo(
+    () => directions.reduce((sum, direction) => sum + direction.quotes.length, 0),
+    [directions],
+  );
 
   return (
     <main className="min-h-[calc(100vh-52px)] bg-[#f4f5f2]">
@@ -88,7 +92,7 @@ export default function InsightCategoryPage({ slug }: InsightCategoryPageProps) 
             </div>
             <div className="grid grid-cols-3 gap-2 lg:w-[320px]">
               <TopMetric label="维度" value={directions.length} color={config.color} />
-              <TopMetric label="原声" value={data.totalQuotes} color={config.color} />
+              <TopMetric label="原声" value={directionQuoteTotal} color={config.color} />
               <TopMetric label="项目" value={data.totalProjects} color={config.color} />
             </div>
           </div>
