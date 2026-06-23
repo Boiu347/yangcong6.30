@@ -53,6 +53,17 @@ export interface PortraitPersona {
   coreNeeds: string[];
   typicalBehaviors: string[];
   quotes: string[];
+  stage?: '小学' | '初中' | '高中';
+  sourceReport?: string;
+  representativeUser?: string;
+  coreJudgment?: string;
+  goals?: string[];
+  painPoints?: string[];
+  usageScenarios?: string[];
+  valuePerception?: string[];
+  paymentOrChurn?: string[];
+  evidenceQuotes?: string[];
+  painScores?: Record<string, number>;
 }
 
 export interface PortraitData {
