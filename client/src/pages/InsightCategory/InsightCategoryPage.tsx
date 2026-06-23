@@ -14,6 +14,7 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useProjects } from '../../store/useProjectStore';
 import EvidenceAudioClips from '../../components/EvidenceAudioClips';
+import SegmentLabelChips from '../../components/SegmentLabelChips';
 import { lookupClips } from '../../utils/sourceUtils';
 import type { Sentiment } from '../../types/voc';
 import {
@@ -290,6 +291,7 @@ function QuotePreview({ quote, color, keywords }: { quote: CategoryQuote; color:
       <p className="line-clamp-4 text-sm leading-6 text-[#34312c]">
         <EmphasizedText text={quote.text} keywords={keywords} />
       </p>
+      <SegmentLabelChips text={quote.text} className="mt-2" />
       {lookupClips(quote.text).length > 0 && (
         <div className="mt-2">
           <EvidenceAudioClips clips={lookupClips(quote.text)} />

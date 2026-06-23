@@ -13,6 +13,7 @@ import {
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useProjects } from '../../store/useProjectStore';
 import EvidenceAudioClips from '../../components/EvidenceAudioClips';
+import SegmentLabelChips from '../../components/SegmentLabelChips';
 import { lookupClips } from '../../utils/sourceUtils';
 import type { Sentiment } from '../../types/voc';
 import {
@@ -304,6 +305,8 @@ function QuoteCard({
           <HighlightedText text={quote.text} query={query} keywords={keywords} />
         </p>
       </blockquote>
+
+      <SegmentLabelChips text={quote.text} className="mt-3" />
 
       {lookupClips(quote.text).length > 0 && (
         <div className="mt-3">
