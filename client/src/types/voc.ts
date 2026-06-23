@@ -61,6 +61,8 @@ export interface Project {
   methods?: string[];
   /** 项目状态 */
   status?: '进行中' | '已完成' | '部分完成';
+  /** 调研周期，如「2026Q2」 */
+  quarter?: string;
 }
 
 /** Strip file extension from filename */

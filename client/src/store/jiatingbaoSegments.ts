@@ -7,7 +7,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-2",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -23,7 +23,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-6",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "course",
     "primaryLabel": "course_match",
@@ -39,7 +39,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-7",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -56,7 +56,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-8",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -70,7 +70,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-9",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -86,7 +86,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-10",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -100,7 +100,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-12",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "course",
     "primaryLabel": "course_difficulty",
@@ -114,7 +114,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-13",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -131,7 +131,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-14",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -147,7 +147,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-15",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -161,7 +161,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-16",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -175,7 +175,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-17",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -189,7 +189,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-20",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_info_source",
@@ -205,7 +205,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-21",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "app",
     "primaryLabel": "app_first_contact",
@@ -219,7 +219,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-22",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -233,7 +233,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-23",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -247,7 +247,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-24",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -263,7 +263,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-27",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -279,7 +279,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-28",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -293,7 +293,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-29",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -309,7 +309,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-31",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -325,7 +325,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-32",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "app",
     "primaryLabel": "app_first_contact",
@@ -339,7 +339,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-34",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -353,7 +353,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-37",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -367,7 +367,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-39",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -384,7 +384,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-40",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -401,7 +401,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-41",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_conversion",
@@ -415,7 +415,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-42",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "app",
     "primaryLabel": "app_parent_supervision",
@@ -429,7 +429,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-43",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -445,7 +445,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-44",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -459,7 +459,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-45",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -473,7 +473,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-46",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -489,7 +489,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-49",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -503,7 +503,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-50",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -517,7 +517,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u1-52",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户1 · 广东广州 · 黄妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -531,7 +531,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-1",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -545,7 +545,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-2",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -559,7 +559,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-4",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_difficulty",
@@ -573,7 +573,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-6",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_match",
@@ -587,7 +587,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-8",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -601,7 +601,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-9",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -618,7 +618,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-11",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -632,7 +632,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-12",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_teaching",
@@ -646,7 +646,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-14",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -662,7 +662,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-16",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_teaching",
@@ -679,7 +679,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-18",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_info_source",
@@ -693,7 +693,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-19",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -709,7 +709,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-20",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -723,7 +723,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-22",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -737,7 +737,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-27",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -753,7 +753,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-30",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_info_source",
@@ -769,7 +769,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-31",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_teaching",
@@ -783,7 +783,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-32",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -799,7 +799,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-33",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_info_source",
@@ -815,7 +815,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-34",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_teaching",
@@ -829,7 +829,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-35",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_teaching",
@@ -843,7 +843,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-36",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -860,7 +860,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-38",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_teaching",
@@ -874,7 +874,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-42",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_info_source",
@@ -888,7 +888,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-43",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_match",
@@ -902,7 +902,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-44",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_match",
@@ -916,7 +916,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-52",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "app",
     "primaryLabel": "app_problem",
@@ -930,7 +930,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-53",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_decision_role",
@@ -944,7 +944,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-54",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -958,7 +958,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-56",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -974,7 +974,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-57",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -988,7 +988,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-58",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_decision_role",
@@ -1002,7 +1002,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-61",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -1019,7 +1019,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-62",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -1033,7 +1033,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-64",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -1050,7 +1050,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-66",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -1066,7 +1066,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-67",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -1082,7 +1082,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-68",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -1096,7 +1096,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-70",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -1110,7 +1110,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-71",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -1126,7 +1126,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-72",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -1143,7 +1143,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-74",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -1157,7 +1157,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-75",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -1171,7 +1171,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-80",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -1185,7 +1185,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-82",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_decision_role",
@@ -1199,7 +1199,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-89",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -1215,7 +1215,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-90",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -1229,7 +1229,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-93",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -1245,7 +1245,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-96",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -1261,7 +1261,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-97",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -1277,7 +1277,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-100",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_decision_role",
@@ -1291,7 +1291,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-101",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -1305,7 +1305,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-103",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_teaching",
@@ -1319,7 +1319,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-104",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -1333,7 +1333,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-105",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -1347,7 +1347,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-106",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -1361,7 +1361,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-109",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -1375,7 +1375,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-110",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -1391,7 +1391,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-111",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -1408,7 +1408,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-112",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -1422,7 +1422,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-117",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -1436,7 +1436,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-118",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -1450,7 +1450,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-119",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -1464,7 +1464,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-122",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -1478,7 +1478,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u2-123",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户2 · 江西景德镇 · 王妈妈",
     "dimension": "course",
     "primaryLabel": "course_match",
@@ -1494,7 +1494,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-2",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -1508,7 +1508,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-8",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -1522,7 +1522,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-12",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -1538,7 +1538,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-17",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -1552,7 +1552,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-19",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -1569,7 +1569,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-23",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -1583,7 +1583,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-30",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -1597,7 +1597,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-31",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -1611,7 +1611,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-32",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_conversion",
@@ -1625,7 +1625,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-36",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_conversion",
@@ -1642,7 +1642,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-37",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_conversion",
@@ -1656,7 +1656,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-38",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "app",
     "primaryLabel": "app_problem",
@@ -1670,7 +1670,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-40",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -1684,7 +1684,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-41",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -1701,7 +1701,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-42",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -1715,7 +1715,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-43",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -1732,7 +1732,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-44",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -1748,7 +1748,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-48",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -1765,7 +1765,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-49",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -1781,7 +1781,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-53",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -1795,7 +1795,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-66",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -1811,7 +1811,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-74",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -1828,7 +1828,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-79",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_conversion",
@@ -1844,7 +1844,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-80",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_info_source",
@@ -1858,7 +1858,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-84",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -1875,7 +1875,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-85",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -1891,7 +1891,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-86",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -1907,7 +1907,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-87",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -1923,7 +1923,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-90",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -1940,7 +1940,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-92",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -1957,7 +1957,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-94",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "app",
     "primaryLabel": "app_problem",
@@ -1971,7 +1971,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-96",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_renewal",
@@ -1985,7 +1985,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-97",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -1999,7 +1999,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-98",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -2013,7 +2013,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-99",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_info_source",
@@ -2029,7 +2029,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-101",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -2046,7 +2046,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-102",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -2060,7 +2060,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-104",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -2074,7 +2074,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-105",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_renewal",
@@ -2090,7 +2090,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-107",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_info_source",
@@ -2106,7 +2106,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-109",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_conversion",
@@ -2122,7 +2122,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-111",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -2136,7 +2136,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-115",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -2150,7 +2150,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-118",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_decision_role",
@@ -2164,7 +2164,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-123",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -2181,7 +2181,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-124",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -2197,7 +2197,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-128",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -2214,7 +2214,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-129",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_teaching",
@@ -2228,7 +2228,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-132",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -2244,7 +2244,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-140",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "app",
     "primaryLabel": "app_operation",
@@ -2258,7 +2258,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-142",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -2274,7 +2274,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-144",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -2291,7 +2291,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-147",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -2308,7 +2308,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-153",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -2324,7 +2324,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-154",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_match",
@@ -2338,7 +2338,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-158",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -2355,7 +2355,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-162",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -2369,7 +2369,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-164",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -2383,7 +2383,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-165",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -2399,7 +2399,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-168",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -2413,7 +2413,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-169",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -2429,7 +2429,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-172",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -2443,7 +2443,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-173",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -2460,7 +2460,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-175",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_difficulty",
@@ -2474,7 +2474,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-179",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -2490,7 +2490,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-181",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -2507,7 +2507,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-187",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_teaching",
@@ -2521,7 +2521,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-188",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_renewal",
@@ -2535,7 +2535,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-190",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -2549,7 +2549,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-193",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -2565,7 +2565,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-194",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -2579,7 +2579,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-195",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -2593,7 +2593,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-197",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -2607,7 +2607,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-199",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -2623,7 +2623,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-205",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -2640,7 +2640,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-209",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -2654,7 +2654,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-210",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -2670,7 +2670,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-212",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -2686,7 +2686,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-215",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -2702,7 +2702,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-216",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "app",
     "primaryLabel": "app_parent_supervision",
@@ -2718,7 +2718,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-218",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -2734,7 +2734,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-220",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -2751,7 +2751,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-222",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -2767,7 +2767,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-223",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -2783,7 +2783,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-225",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -2799,7 +2799,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-227",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "app",
     "primaryLabel": "app_operation",
@@ -2813,7 +2813,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-230",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -2829,7 +2829,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-232",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -2846,7 +2846,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u3-233",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户3 · 安徽合肥 · 张妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_conversion",
@@ -2862,7 +2862,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-1",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "app",
     "primaryLabel": "app_problem",
@@ -2876,7 +2876,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-2",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -2893,7 +2893,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-3",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -2907,7 +2907,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-4",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -2921,7 +2921,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-5",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -2935,7 +2935,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-6",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -2949,7 +2949,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-7",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "app",
     "primaryLabel": "app_usage_habit",
@@ -2963,7 +2963,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-8",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -2980,7 +2980,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-9",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -2994,7 +2994,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-10",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -3008,7 +3008,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-12",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -3022,7 +3022,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-13",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_decision_role",
@@ -3038,7 +3038,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-14",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -3054,7 +3054,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-15",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_renewal",
@@ -3068,7 +3068,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-16",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_conversion",
@@ -3084,7 +3084,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-17",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -3098,7 +3098,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-20",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -3112,7 +3112,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-21",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "app",
     "primaryLabel": "app_usage_habit",
@@ -3126,7 +3126,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-22",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -3140,7 +3140,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-23",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -3154,7 +3154,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-24",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -3170,7 +3170,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-25",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "course",
     "primaryLabel": "course_match",
@@ -3184,7 +3184,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-26",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -3200,7 +3200,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-28",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -3216,7 +3216,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-31",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -3233,7 +3233,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-34",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -3250,7 +3250,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-35",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -3267,7 +3267,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-36",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -3284,7 +3284,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-37",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -3300,7 +3300,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-38",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -3314,7 +3314,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-41",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "course",
     "primaryLabel": "course_difficulty",
@@ -3328,7 +3328,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-43",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "course",
     "primaryLabel": "course_teaching",
@@ -3342,7 +3342,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-45",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_renewal",
@@ -3358,7 +3358,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-47",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "course",
     "primaryLabel": "course_teaching",
@@ -3374,7 +3374,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-48",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -3391,7 +3391,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-49",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -3407,7 +3407,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-50",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -3423,7 +3423,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-51",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -3440,7 +3440,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-52",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -3456,7 +3456,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-53",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_conversion",
@@ -3472,7 +3472,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-54",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -3486,7 +3486,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-55",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -3502,7 +3502,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-56",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -3516,7 +3516,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-58",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_conversion",
@@ -3530,7 +3530,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-59",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -3546,7 +3546,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-60",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_trust",
@@ -3560,7 +3560,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-61",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_info_source",
@@ -3574,7 +3574,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-62",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -3588,7 +3588,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-64",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -3602,7 +3602,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-65",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -3616,7 +3616,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-70",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -3630,7 +3630,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-72",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -3646,7 +3646,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-73",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_info_source",
@@ -3660,7 +3660,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-74",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_renewal",
@@ -3674,7 +3674,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-75",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -3688,7 +3688,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-76",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -3704,7 +3704,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-78",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -3718,7 +3718,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-79",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -3734,7 +3734,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-84",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "app",
     "primaryLabel": "app_first_contact",
@@ -3748,7 +3748,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-85",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -3762,7 +3762,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-86",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -3776,7 +3776,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-87",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -3790,7 +3790,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-90",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "course",
     "primaryLabel": "course_match",
@@ -3804,7 +3804,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-91",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -3818,7 +3818,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-92",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "course",
     "primaryLabel": "course_difficulty",
@@ -3832,7 +3832,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-93",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -3848,7 +3848,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u4-94",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户4 · 江西九江 · 刘爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -3862,7 +3862,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-1",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -3876,7 +3876,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-2",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -3893,7 +3893,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-3",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -3909,7 +3909,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-4",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -3923,7 +3923,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-5",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -3939,7 +3939,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-6",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -3953,7 +3953,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-7",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -3969,7 +3969,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-8",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -3986,7 +3986,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-9",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -4000,7 +4000,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-10",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -4014,7 +4014,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-11",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -4028,7 +4028,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-12",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -4042,7 +4042,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-13",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "app",
     "primaryLabel": "app_usage_habit",
@@ -4056,7 +4056,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-14",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -4070,7 +4070,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-15",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_info_source",
@@ -4087,7 +4087,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-16",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -4101,7 +4101,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-17",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -4115,7 +4115,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-18",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "course",
     "primaryLabel": "course_teaching",
@@ -4131,7 +4131,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-19",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -4148,7 +4148,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-20",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -4162,7 +4162,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-21",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -4179,7 +4179,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-22",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -4193,7 +4193,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-23",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -4207,7 +4207,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-24",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -4221,7 +4221,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-26",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -4235,7 +4235,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-27",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -4249,7 +4249,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-28",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -4263,7 +4263,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-30",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -4277,7 +4277,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-31",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -4291,7 +4291,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-32",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -4305,7 +4305,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-33",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -4319,7 +4319,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u5-34",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户5 · 浙江杭州 · 叶妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -4333,7 +4333,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-1",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "app",
     "primaryLabel": "app_usage_habit",
@@ -4347,7 +4347,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-2",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -4361,7 +4361,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-4",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -4375,7 +4375,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-5",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -4389,7 +4389,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-7",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -4405,7 +4405,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-8",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -4419,7 +4419,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-9",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -4433,7 +4433,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-10",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "course",
     "primaryLabel": "course_teaching",
@@ -4447,7 +4447,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-11",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -4463,7 +4463,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-12",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -4477,7 +4477,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-13",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_info_source",
@@ -4491,7 +4491,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-15",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_decision_role",
@@ -4505,7 +4505,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-16",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -4519,7 +4519,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-17",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -4533,7 +4533,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-18",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -4547,7 +4547,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-19",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -4563,7 +4563,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-20",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -4580,7 +4580,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-23",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -4594,7 +4594,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-24",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -4608,7 +4608,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-25",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -4622,7 +4622,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-26",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -4636,7 +4636,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-27",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -4650,7 +4650,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-28",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "course",
     "primaryLabel": "course_difficulty",
@@ -4664,7 +4664,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-29",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -4678,7 +4678,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-31",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -4692,7 +4692,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-32",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -4706,7 +4706,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-34",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -4720,7 +4720,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-35",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_conversion",
@@ -4734,7 +4734,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-36",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -4748,7 +4748,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-37",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_decision_role",
@@ -4762,7 +4762,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-38",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_info_source",
@@ -4776,7 +4776,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-39",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_info_source",
@@ -4790,7 +4790,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-40",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -4806,7 +4806,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-42",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -4820,7 +4820,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-43",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -4834,7 +4834,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-44",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_info_source",
@@ -4850,7 +4850,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-46",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_info_source",
@@ -4864,7 +4864,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-47",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "app",
     "primaryLabel": "app_operation",
@@ -4878,7 +4878,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-48",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -4892,7 +4892,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u6-49",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户6 · 江苏镇江 · 施爸爸",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -4906,7 +4906,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-1",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -4922,7 +4922,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-4",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -4936,7 +4936,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-6",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -4953,7 +4953,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-9",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "app",
     "primaryLabel": "app_usage_habit",
@@ -4967,7 +4967,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-10",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -4984,7 +4984,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-11",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -5000,7 +5000,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-12",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -5014,7 +5014,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-13",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -5030,7 +5030,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-15",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -5047,7 +5047,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-17",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -5063,7 +5063,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-18",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -5077,7 +5077,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-19",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -5093,7 +5093,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-20",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -5110,7 +5110,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-23",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -5126,7 +5126,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-24",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -5140,7 +5140,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-25",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -5157,7 +5157,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-26",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "app",
     "primaryLabel": "app_operation",
@@ -5171,7 +5171,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-28",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -5188,7 +5188,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-33",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "course",
     "primaryLabel": "course_difficulty",
@@ -5204,7 +5204,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-34",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "course",
     "primaryLabel": "course_teaching",
@@ -5221,7 +5221,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-37",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -5238,7 +5238,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-38",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -5252,7 +5252,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-40",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -5269,7 +5269,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-42",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_info_source",
@@ -5285,7 +5285,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-43",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -5302,7 +5302,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-44",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -5319,7 +5319,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-45",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -5336,7 +5336,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-46",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -5350,7 +5350,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-47",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -5367,7 +5367,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-49",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -5384,7 +5384,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-50",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -5398,7 +5398,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-51",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -5412,7 +5412,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-52",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -5428,7 +5428,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-54",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -5445,7 +5445,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-56",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -5459,7 +5459,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-57",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -5475,7 +5475,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-58",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -5492,7 +5492,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-60",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -5508,7 +5508,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-61",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -5522,7 +5522,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-62",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -5538,7 +5538,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-64",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -5552,7 +5552,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-66",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -5568,7 +5568,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-67",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -5582,7 +5582,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-68",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -5596,7 +5596,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-70",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -5610,7 +5610,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-71",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -5624,7 +5624,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-72",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -5638,7 +5638,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-73",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -5655,7 +5655,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-75",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_info_source",
@@ -5669,7 +5669,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-76",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_trust",
@@ -5685,7 +5685,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-80",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -5702,7 +5702,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-81",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -5719,7 +5719,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-84",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -5735,7 +5735,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-85",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -5749,7 +5749,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-86",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "course",
     "primaryLabel": "course_difficulty",
@@ -5763,7 +5763,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-87",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -5780,7 +5780,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-89",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_conversion",
@@ -5794,7 +5794,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-92",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "course",
     "primaryLabel": "course_match",
@@ -5810,7 +5810,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-93",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "course",
     "primaryLabel": "course_teaching",
@@ -5826,7 +5826,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-94",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -5840,7 +5840,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-95",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "app",
     "primaryLabel": "app_usage_habit",
@@ -5854,7 +5854,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-97",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -5868,7 +5868,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-101",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -5885,7 +5885,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-103",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -5902,7 +5902,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-105",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -5919,7 +5919,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-107",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -5935,7 +5935,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-109",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -5949,7 +5949,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-110",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "course",
     "primaryLabel": "course_teaching",
@@ -5966,7 +5966,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u7-113",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户7 · 广东深圳 · 林爸爸",
     "dimension": "app",
     "primaryLabel": "app_operation",
@@ -5980,7 +5980,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-2",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -5997,7 +5997,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-5",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -6013,7 +6013,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-6",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -6027,7 +6027,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-9",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -6044,7 +6044,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-14",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -6060,7 +6060,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-15",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -6077,7 +6077,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-16",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -6094,7 +6094,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-18",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -6111,7 +6111,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-20",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -6127,7 +6127,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-21",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -6141,7 +6141,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-22",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -6157,7 +6157,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-23",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -6173,7 +6173,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-24",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -6187,7 +6187,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-25",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -6201,7 +6201,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-26",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -6218,7 +6218,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-27",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "course",
     "primaryLabel": "course_teaching",
@@ -6234,7 +6234,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-28",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -6251,7 +6251,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-29",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -6265,7 +6265,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-30",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -6282,7 +6282,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-31",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -6299,7 +6299,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-32",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -6313,7 +6313,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-33",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -6329,7 +6329,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-34",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -6343,7 +6343,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-35",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -6360,7 +6360,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-36",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -6374,7 +6374,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-39",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -6391,7 +6391,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-40",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -6408,7 +6408,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-42",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_info_source",
@@ -6422,7 +6422,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-43",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -6436,7 +6436,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-44",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -6450,7 +6450,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-45",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "app",
     "primaryLabel": "app_usage_habit",
@@ -6464,7 +6464,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-48",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -6478,7 +6478,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-49",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -6492,7 +6492,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-51",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -6509,7 +6509,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-53",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -6523,7 +6523,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-54",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_info_source",
@@ -6537,7 +6537,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-55",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -6554,7 +6554,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-56",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "course",
     "primaryLabel": "course_teaching",
@@ -6570,7 +6570,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-58",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -6587,7 +6587,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-60",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -6604,7 +6604,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-61",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_trust",
@@ -6620,7 +6620,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-62",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -6637,7 +6637,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-63",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -6654,7 +6654,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-64",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "course",
     "primaryLabel": "course_teaching",
@@ -6670,7 +6670,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-66",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -6687,7 +6687,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-67",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -6701,7 +6701,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-69",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_info_source",
@@ -6717,7 +6717,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-70",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -6734,7 +6734,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-73",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -6751,7 +6751,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-79",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -6765,7 +6765,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-81",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "app",
     "primaryLabel": "app_parent_supervision",
@@ -6781,7 +6781,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-82",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -6795,7 +6795,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-83",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -6809,7 +6809,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-84",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_decision_role",
@@ -6823,7 +6823,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-85",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -6839,7 +6839,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-86",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_info_source",
@@ -6853,7 +6853,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-87",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "app",
     "primaryLabel": "app_usage_habit",
@@ -6867,7 +6867,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-89",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -6881,7 +6881,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-90",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -6895,7 +6895,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-91",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -6912,7 +6912,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-94",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -6928,7 +6928,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-96",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -6944,7 +6944,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-97",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "course",
     "primaryLabel": "course_difficulty",
@@ -6958,7 +6958,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-100",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -6974,7 +6974,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-102",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "course",
     "primaryLabel": "course_match",
@@ -6988,7 +6988,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-104",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -7005,7 +7005,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-105",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -7022,7 +7022,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-106",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -7036,7 +7036,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-107",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_renewal",
@@ -7050,7 +7050,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-108",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -7064,7 +7064,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-109",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_renewal",
@@ -7078,7 +7078,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-113",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -7094,7 +7094,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u8-117",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户8 · 广东湛江 · X妈妈",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -7108,7 +7108,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-1",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "app",
     "primaryLabel": "app_first_contact",
@@ -7122,7 +7122,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-4",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -7139,7 +7139,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-5",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -7153,7 +7153,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-7",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -7167,7 +7167,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-10",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "app",
     "primaryLabel": "app_usage_habit",
@@ -7181,7 +7181,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-15",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -7198,7 +7198,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-18",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -7215,7 +7215,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-22",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -7232,7 +7232,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-24",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -7246,7 +7246,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-26",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_conversion",
@@ -7262,7 +7262,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-29",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -7276,7 +7276,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-31",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -7290,7 +7290,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-32",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -7307,7 +7307,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-33",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -7323,7 +7323,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-34",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -7340,7 +7340,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-35",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -7354,7 +7354,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-36",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -7368,7 +7368,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-38",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -7385,7 +7385,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-44",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -7402,7 +7402,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-50",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -7419,7 +7419,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-53",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -7435,7 +7435,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-54",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_difficulty",
@@ -7452,7 +7452,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-55",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -7468,7 +7468,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-59",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -7484,7 +7484,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-61",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -7498,7 +7498,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-65",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -7512,7 +7512,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-67",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -7529,7 +7529,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-68",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -7543,7 +7543,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-75",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -7560,7 +7560,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-78",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -7577,7 +7577,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-79",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -7594,7 +7594,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-81",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_trust",
@@ -7610,7 +7610,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-82",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -7627,7 +7627,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-83",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -7644,7 +7644,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-84",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_trust",
@@ -7661,7 +7661,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-88",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -7678,7 +7678,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-91",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -7694,7 +7694,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-95",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_conversion",
@@ -7708,7 +7708,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-97",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -7725,7 +7725,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-98",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -7739,7 +7739,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-100",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -7756,7 +7756,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-101",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -7772,7 +7772,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-102",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -7789,7 +7789,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-105",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -7806,7 +7806,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-111",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -7820,7 +7820,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-113",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -7834,7 +7834,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-114",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_match",
@@ -7848,7 +7848,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-115",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_match",
@@ -7862,7 +7862,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-116",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_effect",
@@ -7878,7 +7878,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-120",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -7895,7 +7895,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-121",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -7909,7 +7909,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-131",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -7925,7 +7925,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-133",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_concern",
@@ -7942,7 +7942,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-135",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_renewal",
@@ -7959,7 +7959,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-139",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -7976,7 +7976,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-140",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -7990,7 +7990,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-141",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_trust",
@@ -8006,7 +8006,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-142",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_trust",
@@ -8020,7 +8020,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-143",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_difficulty",
@@ -8036,7 +8036,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-147",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_family_package",
@@ -8050,7 +8050,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-151",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -8067,7 +8067,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-152",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -8084,7 +8084,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-153",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_trust",
@@ -8100,7 +8100,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-155",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "app",
     "primaryLabel": "app_usage_habit",
@@ -8114,7 +8114,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-156",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -8128,7 +8128,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-158",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -8142,7 +8142,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-161",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_persistence",
@@ -8156,7 +8156,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-162",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -8172,7 +8172,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-164",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -8186,7 +8186,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-165",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_teaching",
@@ -8200,7 +8200,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-166",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_content_type",
@@ -8214,7 +8214,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-175",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_difficulty",
@@ -8230,7 +8230,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-177",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -8247,7 +8247,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-178",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_need_trigger",
@@ -8264,7 +8264,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-181",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -8278,7 +8278,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-183",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_competitor",
@@ -8294,7 +8294,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-186",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -8308,7 +8308,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-189",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_child_reaction",
@@ -8324,7 +8324,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-192",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -8338,7 +8338,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-194",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -8352,7 +8352,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-195",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_match",
@@ -8368,7 +8368,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-196",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "course",
     "primaryLabel": "course_match",
@@ -8384,7 +8384,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-198",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -8398,7 +8398,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-199",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -8412,7 +8412,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-200",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -8426,7 +8426,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-201",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "app",
     "primaryLabel": "app_feature_use",
@@ -8440,7 +8440,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-202",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_price",
@@ -8454,7 +8454,7 @@ export const JIATINGBAO_SEGMENTS: LabeledSegment[] = [
   {
     "id": "jtb-u10-203",
     "project": "jiatingbao",
-    "projectName": "洋葱家庭包用户调研",
+    "projectName": "家庭包购买决策调研",
     "respondent": "用户10 · 山东济南 · X妈妈（审计）",
     "dimension": "buy",
     "primaryLabel": "buy_trust",

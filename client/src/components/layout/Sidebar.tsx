@@ -30,7 +30,7 @@ export default function Sidebar() {
       {/* Logo */}
       <div className="px-5 pt-6 pb-4 flex items-center gap-2.5">
         <img src="/insighthub-icon.png?v=2" alt="" className="h-8 w-8 shrink-0 rounded-lg object-cover" />
-        <span className="font-bold text-[15px] text-gray-900 tracking-tight">InsightHub｜洞见中枢</span>
+        <span className="font-bold text-[15px] text-gray-900 tracking-tight">InsightHub（内测版）｜洞见中枢</span>
       </div>
 
       {/* Project switcher */}

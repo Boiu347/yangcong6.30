@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 import { useProjects, projectActions } from '../../store/useProjectStore';
 import { cn } from '@/lib/utils';
 
-const CATEGORIES = ['新课定位', '用户画像', '产品功能', '用户体验'];
+const CATEGORIES = ['新课定位', '购买决策调研', '用户画像', '产品功能', '用户体验'];
 const METHODS    = ['桌面研究', '定量调研', '定性调研'];
 const STATUSES   = ['进行中', '已完成', '部分完成'];
 
@@ -16,6 +16,7 @@ const METHOD_COLOR: Record<string, string> = {
 };
 const CATEGORY_COLOR: Record<string, string> = {
   '新课定位': 'bg-orange-50 text-orange-500',
+  '购买决策调研': 'bg-rose-50 text-rose-600',
   '用户画像': 'bg-teal-50 text-teal-600',
   '产品功能': 'bg-blue-50 text-blue-600',
   '用户体验': 'bg-amber-50 text-amber-600',
@@ -190,6 +191,12 @@ export default function ProjectsPage() {
 
                   {/* meta */}
                   <div className="text-[11px] text-gray-400 flex items-center gap-1 mb-3">
+                    {p.quarter && (
+                      <>
+                        <span className="font-bold text-gray-500">{p.quarter}</span>
+                        <span className="text-gray-200">·</span>
+                      </>
+                    )}
                     {readyFiles > 0
                       ? (
                         <>

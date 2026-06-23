@@ -485,6 +485,7 @@ export function buildJisuanyingProject(): Project {
     id: 'jisuanying_project',
     name: '洋葱计算营用户与商业增长研究',
     createdAt: 1780905600000,
+    quarter: '2026Q2',
     files,
     category: '新课定位',
     team: ['策略'],

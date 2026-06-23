@@ -794,10 +794,11 @@ export function buildJiatingbaoProject(): Project {
 
   return {
     id: 'jiatingbao_project',
-    name: '洋葱家庭包用户调研',
+    name: '家庭包购买决策调研',
     createdAt: 1781308800000,
+    quarter: '2026Q2',
     files,
-    category: '用户画像',
+    category: '购买决策调研',
     team: ['策略', '增长', '课程'],
     methods: ['定性调研'],
     status: '进行中',

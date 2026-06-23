@@ -1990,6 +1990,7 @@ export function buildDefaultProject(): Project {
     id: 'default_project',
     name: '小学物理新课定位调研',
     createdAt: 1747526400000,
+    quarter: '2026Q2',
     files,
     category: '新课定位',
     team: ['策略'],

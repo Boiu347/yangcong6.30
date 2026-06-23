@@ -84,7 +84,7 @@ let _projects: Project[] = (() => {
     const defaultProj = migrated[defaultIdx];
     const restored = buildDefaultProject();
     const hasDefaultFiles = defaultProj.files.some((f) => f.id === 'default_file_1');
-    const needsMeta = !defaultProj.category || !defaultProj.methods || !defaultProj.status;
+    const needsMeta = !defaultProj.category || !defaultProj.methods || !defaultProj.status || !defaultProj.quarter;
     if (!hasDefaultFiles || needsMeta) {
       migrated[defaultIdx] = {
         ...defaultProj,
@@ -93,6 +93,7 @@ let _projects: Project[] = (() => {
         team: defaultProj.team ?? restored.team,
         methods: defaultProj.methods ?? restored.methods,
         status: defaultProj.status ?? restored.status,
+        quarter: defaultProj.quarter ?? restored.quarter,
       };
       _persist(migrated);
     }
@@ -111,7 +112,8 @@ let _projects: Project[] = (() => {
         current.category !== seeded.category
         || JSON.stringify(current.team ?? []) !== JSON.stringify(seeded.team ?? [])
         || JSON.stringify(current.methods ?? []) !== JSON.stringify(seeded.methods ?? [])
-        || current.status !== seeded.status;
+        || current.status !== seeded.status
+        || current.quarter !== seeded.quarter;
       if (missingSeededFiles.length > 0 || metadataChanged) {
         migrated[jisuanyingIdx] = {
           ...current,
@@ -120,6 +122,7 @@ let _projects: Project[] = (() => {
           team: seeded.team,
           methods: seeded.methods,
           status: seeded.status,
+          quarter: seeded.quarter,
         };
         _persist(migrated);
       }
