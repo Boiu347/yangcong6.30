@@ -4,6 +4,7 @@ import MainLayout from './components/layout/MainLayout';
 import TopNavLayout from './components/layout/TopNavLayout';
 import ProjectsPage from './pages/Projects/ProjectsPage';
 import ProfilePage from './pages/Profile/ProfilePage';
+import LearningAnalysisPage from './pages/LearningAnalysis/LearningAnalysisPage';
 import InsightCategoryPage from './pages/InsightCategory/InsightCategoryPage';
 import InsightTopicQuotesPage from './pages/InsightCategory/InsightTopicQuotesPage';
 import QualitativeResearchPage from './pages/QualitativeResearch/QualitativeResearchPage';
@@ -33,6 +34,7 @@ const RoutesComponent = () => {
         <Route path="/course-experience" element={<Navigate to="/qualitative-research/course-experience" replace />} />
         <Route path="/purchase-decision" element={<Navigate to="/qualitative-research/purchase-decision" replace />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/learning-analysis" element={<LearningAnalysisPage />} />
       </Route>
 
       {/* All project detail pages share the top tab bar */}
