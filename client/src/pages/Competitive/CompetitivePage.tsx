@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { BarChart2, ChevronDown, ChevronRight, MapPin, X, Layers, Pencil, Save, Loader2 } from 'lucide-react';
 import { useProjectVOCs } from '../../store/useProjectStore';
 import {
@@ -21,7 +21,6 @@ import {
   JISUANYING_COMPETITIVE_DATA,
   JISUANYING_CROSS_BRAND_DATA,
 } from '../../store/jisuanyingData';
-import FamilyReport from '../FamilyPackage/FamilyReport';
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
@@ -773,7 +772,7 @@ function CompactInsightItem({
 export default function CompetitivePage() {
   const { projectId } = useParams<{ projectId: string }>();
   if (projectId === 'jiatingbao_project')
-    return <FamilyReport src="/jiatingbao-insights.html" fileName="洋葱家庭包用户调研·核心洞察" title="核心洞察" />;
+    return <Navigate to="../summary" replace />;
   return <StandardCompetitivePage />;
 }
 

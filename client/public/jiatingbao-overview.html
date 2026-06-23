@@ -3,299 +3,292 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>洋葱家庭包用户调研 · 项目总结</title>
+<title>洋葱家庭包用户调研 · 项目总览</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+*{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --ink:#201d19; --muted:#6f7177; --line:#ece4d8; --orange:#e87461; --paper:#fffdf8;
-  --blue:#5B7BBF; --teal:#4BA69E; --gold:#BF9455; --rose:#B8667A; --violet:#8B6BB8;
-  --soft:#fff5f1;
+  --paper:#fbfaf6;--panel:#fff;--ink:#211f1b;--muted:#6c675f;--faint:#9a938a;
+  --line:#e7dfd3;--soft:#f5efe7;--orange:#e65532;--blue:#4f74b8;
+  --teal:#3f9b8f;--gold:#ae7c2d;--rose:#b65f73;--violet:#7359a4;
 }
 html{scroll-behavior:smooth}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;color:var(--ink);background:var(--paper);line-height:1.65;overflow-x:hidden}
-.wrap{max-width:1080px;margin:0 auto;padding:0 40px}
-
-.progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--orange),var(--gold));z-index:60;transition:width .1s linear}
-
-.rv{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
-.rv.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
-@media print{.rv{opacity:1!important;transform:none!important}}
-
-/* hero */
-.hero{padding:58px 0 30px;background:radial-gradient(120% 140% at 85% -10%,rgba(232,116,97,.10),transparent 55%)}
-.kick{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;padding:6px 13px;color:#8a7f73;background:#fff;font-size:12px;letter-spacing:.3px;margin-bottom:20px}
-.kick::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--orange)}
-.hero-grid{display:grid;grid-template-columns:1.2fr .9fr;gap:40px;align-items:end}
-.hero h1{font-size:50px;line-height:1.1;letter-spacing:-1px;font-weight:800}
-.hero h1 em{font-style:normal;color:var(--orange)}
-.hero .lead{color:var(--muted);font-size:16px;margin:20px 0 0;max-width:560px;line-height:1.8}
-.meta{display:flex;gap:9px;flex-wrap:wrap;margin-top:22px}
-.pill{border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:#7a716a;background:#fff;font-size:12px}
-.hero-card{background:linear-gradient(135deg,#fff,var(--soft));border:1px solid var(--line);border-left:4px solid var(--orange);border-radius:14px;padding:24px;box-shadow:0 18px 40px -28px rgba(60,40,20,.5)}
-.hero-card strong{display:block;font-size:12px;color:var(--orange);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
-.hero-card p{font-size:18px;line-height:1.7;color:#332f2a;font-weight:600}
-.hero-card mark{background:color-mix(in srgb,var(--orange) 18%,transparent);color:#241f1a;padding:1px 5px;border-radius:5px;font-weight:700}
-.stats{display:flex;gap:30px;margin-top:30px;flex-wrap:wrap}
-.stat b{display:block;font-size:32px;font-weight:800;line-height:1;letter-spacing:-.5px}
-.stat span{color:var(--muted);font-size:12.5px}
-.stats .stat:nth-child(1) b{color:var(--orange)}
-.stats .stat:nth-child(2) b{color:var(--teal)}
-.stats .stat:nth-child(3) b{color:var(--rose)}
-.stats .stat:nth-child(4) b{color:var(--blue)}
-
-/* sticky 目录 */
-.nav{position:sticky;top:0;z-index:50;background:rgba(255,253,248,.82);backdrop-filter:saturate(160%) blur(10px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:34px}
-.nav-inner{max-width:1080px;margin:0 auto;padding:11px 40px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;background:var(--paper);color:var(--ink);line-height:1.72;overflow-x:hidden}
+.wrap{max-width:1160px;margin:0 auto;padding:0 36px}
+.progress{position:fixed;left:0;top:0;height:3px;width:0;background:var(--orange);z-index:100}
+.hero{border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fff 0%,#fbfaf6 100%);padding:62px 0 42px}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 13px;color:#7a7168;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.eyebrow i{display:block;width:7px;height:7px;border-radius:50%;background:var(--orange)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.08fr) 430px;gap:48px;align-items:end;margin-top:26px}
+h1{font-size:56px;line-height:1.05;letter-spacing:-1.8px;font-weight:900}
+h1 em{font-style:normal;color:var(--orange)}
+.lead{margin-top:22px;max-width:650px;color:#4c4944;font-size:17px;line-height:1.9}
+.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:24px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;font-size:12px;color:#6f685f}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:32px;max-width:620px}
+.stat{border:1px solid var(--line);background:#fff;border-radius:14px;padding:15px 16px}
+.stat b{display:block;font-size:29px;line-height:1;font-weight:900;color:var(--orange)}
+.stat span{display:block;margin-top:7px;color:var(--faint);font-size:12px}
+.judgement{position:relative;border:1px solid #efc9ba;border-left:5px solid var(--orange);background:linear-gradient(135deg,#fff,#fff4ef);border-radius:18px;padding:28px 30px;box-shadow:0 24px 54px -40px rgba(80,44,25,.55)}
+.judgement .label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;color:var(--orange)}
+.judgement p{margin-top:15px;font-size:21px;line-height:1.72;font-weight:850;letter-spacing:-.3px}
+mark{background:rgba(230,85,50,.14);color:inherit;border-radius:5px;padding:1px 5px;font-weight:850}
+.nav{position:sticky;top:0;z-index:60;border-bottom:1px solid var(--line);background:rgba(251,250,246,.9);backdrop-filter:blur(12px) saturate(160%)}
+.nav-inner{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:12px 36px;max-width:1160px;margin:0 auto}
 .nav-inner::-webkit-scrollbar{display:none}
-.nav a{flex:0 0 auto;font-size:13px;color:#6b6259;text-decoration:none;padding:7px 14px;border-radius:999px;border:1px solid transparent;transition:.2s;white-space:nowrap}
-.nav a:hover{background:#fff;border-color:var(--line)}
-.nav a.active{background:var(--ink);color:#fff}
-
-/* sections */
-.sec{padding:48px 0;border-top:1px solid var(--line);scroll-margin-top:74px}
-.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:22px}
-.sec-head .ey{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--orange);font-weight:700}
-.sec-head h2{font-size:26px;font-weight:800;letter-spacing:-.3px}
-
-.bg-card{background:#fff;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:12px;padding:20px 22px;font-size:15.5px;line-height:1.9;color:#3a3631;max-width:880px}
-.bg-card mark{background:color-mix(in srgb,var(--gold) 22%,transparent);color:#241f1a;padding:1px 5px;border-radius:5px;font-weight:600}
-
-/* 关键洞察 */
-.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.card{position:relative;background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;transition:transform .25s ease,box-shadow .25s ease,border-color .25s}
-.card::before{content:"";position:absolute;left:0;top:20px;bottom:20px;width:3px;border-radius:3px;background:var(--c,var(--orange));opacity:0;transition:opacity .25s}
-.card:hover{transform:translateY(-3px);box-shadow:0 24px 44px -30px rgba(50,35,18,.8);border-color:color-mix(in srgb,var(--c,var(--orange)) 40%,var(--line))}
-.card:hover::before{opacity:1}
-.cards .card:nth-child(1){--c:var(--orange)}
-.cards .card:nth-child(2){--c:var(--blue)}
-.cards .card:nth-child(3){--c:var(--teal)}
-.cards .card:nth-child(4){--c:var(--rose)}
-.tag{display:inline-block;font-size:11px;color:#fff;background:var(--c,var(--orange));border-radius:999px;padding:4px 10px;margin-bottom:12px;font-weight:600}
-.card h3{font-size:17px;margin-bottom:9px;line-height:1.4}
-.card p{font-size:14px;color:#4a4640;line-height:1.7}
-.quote{position:relative;margin-top:14px;padding:10px 12px 10px 30px;background:color-mix(in srgb,var(--c,var(--orange)) 7%,#fff);border-radius:9px;color:#4f4a44;font-size:13px;line-height:1.7}
-.quote::before{content:"\201C";position:absolute;left:8px;top:0;font-size:30px;line-height:1;color:var(--c,var(--orange));opacity:.45;font-family:Georgia,serif}
-.formula{display:grid;grid-template-columns:1.2fr .8fr;gap:16px;align-items:stretch}
-.formula-main{background:#fff;border:1px solid var(--line);border-left:4px solid var(--orange);border-radius:14px;padding:22px;box-shadow:0 18px 40px -30px rgba(60,40,20,.45)}
-.formula-main p{font-size:16px;line-height:1.9;color:#332f2a}
-.formula-main b{color:var(--orange)}
-.formula-list{display:grid;gap:12px}
-.mini{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;color:#4a4640;font-size:13.5px;line-height:1.75}
-.mini b{display:block;color:#2d5fb8;margin-bottom:4px}
+.nav a{text-decoration:none;color:#655e56;font-size:13px;font-weight:700;white-space:nowrap;border:1px solid transparent;border-radius:999px;padding:7px 13px}
+.nav a:hover,.nav a.active{background:#fff;border-color:var(--line);color:var(--orange)}
+.section{padding:62px 0;border-bottom:1px solid var(--line);scroll-margin-top:66px}
+.section-head{display:grid;grid-template-columns:170px minmax(0,1fr);gap:28px;align-items:start;margin-bottom:26px}
+.kicker{color:var(--orange);font-size:12px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;padding-top:8px}
+h2{font-size:34px;line-height:1.22;letter-spacing:-.8px;font-weight:900}
+.sub{margin-top:10px;color:var(--muted);font-size:15px;max-width:730px}
+.formula{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:18px}
+.formula-main{border:1px solid var(--line);border-left:5px solid var(--orange);background:#fff;border-radius:18px;padding:28px}
+.formula-main p{font-size:22px;line-height:1.8;font-weight:850;letter-spacing:-.2px}
+.formula-main .note{margin-top:16px;color:var(--muted);font-size:14px;font-weight:500}
+.side-stack{display:grid;gap:12px}
+.side{border:1px solid var(--line);background:#fff;border-radius:16px;padding:18px}
+.side strong{display:block;color:var(--orange);font-size:13px;margin-bottom:6px}
+.side p{font-size:13px;color:#504b44}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{position:relative;border:1px solid var(--line);background:#fff;border-radius:18px;padding:22px;min-height:100%;transition:.22s ease}
+.card:hover{transform:translateY(-3px);box-shadow:0 22px 48px -36px rgba(50,36,20,.65);border-color:color-mix(in srgb,var(--c,var(--orange)) 38%,var(--line))}
+.tag{display:inline-flex;align-items:center;background:color-mix(in srgb,var(--c,var(--orange)) 12%,#fff);color:var(--c,var(--orange));border-radius:999px;padding:5px 10px;font-size:11px;font-weight:900;margin-bottom:13px}
+.card h3{font-size:19px;line-height:1.35;font-weight:900;letter-spacing:-.2px}
+.card p{margin-top:10px;color:#4c4740;font-size:14px;line-height:1.78}
+.quote{margin-top:14px;border-left:3px solid var(--c,var(--orange));background:color-mix(in srgb,var(--c,var(--orange)) 7%,#fff);border-radius:10px;padding:11px 13px;color:#575047;font-size:13px}
+.orange{--c:var(--orange)}.blue{--c:var(--blue)}.teal{--c:var(--teal)}.gold{--c:var(--gold)}.rose{--c:var(--rose)}.violet{--c:var(--violet)}
+.lane{border:1px solid var(--line);background:#fff;border-radius:20px;overflow:hidden}
+.lane-row{display:grid;grid-template-columns:170px 1fr;border-top:1px solid var(--line)}
+.lane-row:first-child{border-top:none}
+.lane-label{padding:20px;border-right:1px solid var(--line);background:#fbf7f1;font-weight:900;color:#3c3730}
+.lane-body{padding:18px 20px}
+.lane-body b{color:var(--orange)}
+.lane-body ul{margin-left:18px;color:#4c4740;font-size:14px}
 .persona{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.persona .card{padding:18px;box-shadow:none;background:#fffefa}
-.persona .card h3{color:#2d5fb8}
-
-/* 行动框架 */
-.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.step{position:relative;background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;overflow:hidden}
-.step .n{font-size:13px;font-weight:800;color:#fff;background:var(--orange);width:28px;height:28px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px}
-.flow .step:nth-child(2) .n{background:var(--blue)}
-.flow .step:nth-child(3) .n{background:var(--teal)}
-.flow .step:nth-child(4) .n{background:var(--gold)}
-.step h3{font-size:15.5px;margin-bottom:8px}
-.step p{font-size:13px;color:#4a4640;line-height:1.7}
-
-/* 人群优先级 */
-.prio{background:#fff;border:1px solid var(--line);border-radius:14px;padding:6px 22px}
-.row{display:grid;grid-template-columns:74px 1fr;gap:18px;align-items:start;padding:16px 0;border-top:1px solid var(--line)}
-.row:first-child{border-top:none}
-.lvl{font-weight:800;font-size:13px;color:#fff;border-radius:8px;padding:5px 0;text-align:center}
-.row:nth-child(1) .lvl{background:var(--orange)}
-.row:nth-child(2) .lvl{background:var(--teal)}
-.row:nth-child(3) .lvl{background:var(--gold)}
-.row:nth-child(4) .lvl{background:var(--rose)}
-.row .grp{font-weight:700;font-size:14.5px;margin-bottom:3px}
-.row .desc{color:var(--muted);font-size:13.5px;line-height:1.7}
-.note{margin:14px 2px 0;color:var(--muted);font-size:12.5px}
-
-/* 结论 */
-.closing .box{background:linear-gradient(135deg,#fff 0%,var(--soft) 100%);border:1px solid var(--line);border-left:4px solid var(--orange);border-radius:16px;padding:30px 34px;box-shadow:0 22px 46px -32px rgba(60,40,20,.7)}
-.closing .box strong{display:block;color:var(--orange);font-size:13px;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
-.closing .box p{font-size:18px;line-height:1.85;color:#332f2a}
-.closing .box mark{background:color-mix(in srgb,var(--orange) 18%,transparent);color:#241f1a;padding:1px 6px;border-radius:5px;font-weight:600}
-
-footer{padding:34px 40px 44px;text-align:center;color:var(--muted);font-size:12px;border-top:1px solid var(--line);margin-top:8px}
-.totop{position:fixed;right:26px;bottom:26px;width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s,transform .2s;z-index:55;box-shadow:0 12px 26px -12px rgba(0,0,0,.5)}
-.totop.show{opacity:1;pointer-events:auto}
-.totop:hover{transform:translateY(-3px)}
-
-@media(max-width:900px){
-  .wrap{padding:0 18px}
-  .hero{padding:38px 0 18px}
-  .hero-grid{grid-template-columns:1fr;gap:24px}
-  .hero h1{font-size:36px}
-  .nav-inner{padding:10px 18px}
-  .cards,.flow,.formula,.persona{grid-template-columns:1fr}
-  .row{grid-template-columns:60px 1fr}
-  .sec{padding:36px 0}
+.persona .card{padding:19px}
+.persona .card h3{font-size:17px}
+.risk{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.callout{border:1px solid #efc9ba;background:#fff7f3;border-radius:18px;padding:24px}
+.callout h3{font-size:22px;font-weight:900}
+.callout p{margin-top:10px;color:#514a43}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.step{border:1px solid var(--line);background:#fff;border-radius:18px;padding:20px}
+.n{display:inline-flex;width:30px;height:30px;align-items:center;justify-content:center;border-radius:10px;background:var(--orange);color:#fff;font-weight:900;margin-bottom:13px}
+.step:nth-child(2) .n{background:var(--blue)}.step:nth-child(3) .n{background:var(--teal)}
+.step h3{font-size:17px;font-weight:900}
+.step p{margin-top:8px;color:#4f4941;font-size:13px}
+.closing{padding:64px 0 76px}
+.closing-box{border:1px solid #efc9ba;border-left:5px solid var(--orange);background:linear-gradient(135deg,#fff,#fff3ee);border-radius:22px;padding:34px 38px}
+.closing-box .label{color:var(--orange);font-size:12px;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
+.closing-box p{margin-top:12px;font-size:24px;line-height:1.75;font-weight:900;letter-spacing:-.3px}
+footer{border-top:1px solid var(--line);padding:28px 0;color:var(--faint);font-size:12px;text-align:center}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1)}
+.rv.in{opacity:1;transform:none}
+@media(max-width:980px){
+  .wrap{padding:0 20px}.hero-grid,.formula,.grid-2,.grid-3,.risk,.steps{grid-template-columns:1fr}.persona{grid-template-columns:repeat(2,1fr)}
+  h1{font-size:40px}.section-head{grid-template-columns:1fr;gap:8px}.stats{grid-template-columns:repeat(2,1fr)}
+  .lane-row{grid-template-columns:1fr}.lane-label{border-right:none;border-bottom:1px solid var(--line)}
+  .nav-inner{padding:10px 20px}
 }
-@media print{.progress,.nav,.totop{display:none!important}.card:hover{transform:none;box-shadow:none}.sec{break-inside:avoid}}
+@media(max-width:620px){.persona{grid-template-columns:1fr}.hero{padding-top:36px}h2{font-size:28px}.judgement p,.formula-main p,.closing-box p{font-size:19px}}
+@media print{.nav,.progress{display:none}.rv{opacity:1;transform:none}.section{break-inside:avoid}.card:hover{transform:none;box-shadow:none}}
 </style>
 </head>
 <body>
-
 <div class="progress" id="progress"></div>
 
 <header class="hero">
   <div class="wrap">
-    <span class="kick">洋葱家庭包 · 定性调研</span>
+    <span class="eyebrow"><i></i> Yangcong Family Package Research</span>
     <div class="hero-grid">
       <div>
-        <h1>家庭包<em>项目总结</em></h1>
-        <p class="lead">围绕「6 年多孩家庭包」的购买动机、决策路径、长期顾虑与推课策略，访谈 10 位家庭，形成面向产品、销售与运营的项目底稿。</p>
-        <div class="meta">
-          <span class="pill">定性访谈</span><span class="pill">多孩家庭</span><span class="pill">购买决策</span><span class="pill">学习闭环</span><span class="pill">长期价值</span>
+        <h1>家庭包<em>项目总览</em></h1>
+        <p class="lead">基于家庭包深度访谈与购买决策复盘，重新解释「6 年小初高全科包」为什么成立、为什么未购，以及哪些用户和话术值得在暑促中放大。</p>
+        <div class="chips">
+          <span class="chip">购买决策</span><span class="chip">多孩家庭</span><span class="chip">SKU 差异</span><span class="chip">销售话术</span><span class="chip">长期价值</span>
         </div>
         <div class="stats">
-          <div class="stat"><b>10</b><span>受访家庭</span></div>
-          <div class="stat"><b>9</b><span>已购样本</span></div>
-          <div class="stat"><b>1</b><span>未购样本</span></div>
-          <div class="stat"><b>7</b><span>覆盖省市</span></div>
+          <div class="stat"><b>11</b><span>深访家庭</span></div>
+          <div class="stat"><b>4</b><span>典型购买机制</span></div>
+          <div class="stat"><b>3</b><span>优先推课组合</span></div>
+          <div class="stat"><b>1</b><span>核心成交公式</span></div>
         </div>
       </div>
-      <div class="hero-card">
-        <strong>核心判断</strong>
-        <p>家庭包不是被单个卖点打动，而是被<mark>风险消解机制</mark>撬动：家长要先相信 6 年不会浪费，才会接受高客单价。</p>
-      </div>
+      <aside class="judgement">
+        <div class="label">Core Verdict</div>
+        <p>家庭包不是被单个卖点打动，而是被<mark>风险消解机制</mark>撬动：家长先相信「6 年不会浪费」，才会接受高客单价。</p>
+      </aside>
     </div>
   </div>
 </header>
 
-<nav class="nav" id="nav">
+<nav class="nav">
   <div class="nav-inner">
-    <a href="#bg">研究背景</a>
-    <a href="#formula">成立公式</a>
-    <a href="#insight">关键洞察</a>
+    <a href="#formula">成交公式</a>
+    <a href="#value">业务价值</a>
     <a href="#push">推课逻辑</a>
     <a href="#persona">典型画像</a>
-    <a href="#action">行动框架</a>
-    <a href="#prio">人群优先级</a>
-    <a href="#closing">一句话结论</a>
+    <a href="#risk">顾虑消解</a>
+    <a href="#longterm">长期价值</a>
+    <a href="#closing">结论</a>
   </div>
 </nav>
 
 <main>
-  <div class="wrap">
-
-    <section class="sec rv" id="bg">
-      <div class="sec-head"><span class="ey">背景</span><h2>研究背景</h2></div>
-      <div class="bg-card">基于飞书《家庭包用户调研》10 位家庭的智能纪要与文字记录，按<mark>已购 / 未购、年级组合与购买性质</mark>分层提炼洞察。家庭包是洋葱面向多孩家庭的 <mark>6 年长周期、全科课程方案</mark>，因此研究重点放在“为什么愿意一次性买长期权益”以及“什么顾虑还没有被解决”。</div>
-    </section>
-
-    <section class="sec rv" id="formula">
-      <div class="sec-head"><span class="ey">公式</span><h2>家庭包成立公式</h2></div>
+  <section class="section rv" id="formula">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">01 Formula</div>
+        <div><h2>家庭包成立，不是因为“覆盖多”，而是因为风险账算得过来。</h2><p class="sub">家长真正购买的是一套能解释长期投入的确定性：当下能用、未来能接、以后更贵更麻烦。</p></div>
+      </div>
       <div class="formula">
         <div class="formula-main">
-          <p><b>当前孩子马上能用</b> + <b>另一个孩子未来能接上</b> + <b>分开买 / 未来补课更贵更麻烦</b> = 家庭包值得买。</p>
-          <p class="note">“当前孩子马上能用”是第一价值锚点；“另一个孩子未来能接上”负责价格合理化；“未来补课更贵更麻烦”是促成购买的风险账。</p>
+          <p><mark>当前孩子马上能用</mark> + <mark>另一个孩子未来能接上</mark> + <mark>分开买 / 未来补课更贵更麻烦</mark> = 家庭包值得买。</p>
+          <p class="note">当前孩子马上能用是第一价值锚点；另一个孩子未来能接上负责价格合理化；未来补课更贵更麻烦是促成购买的风险账。</p>
         </div>
-        <div class="formula-list">
-          <div class="mini"><b>转化价值</b>识别细分用户类型，给销售提供更精准的话术。</div>
-          <div class="mini"><b>顾虑消解</b>解决 6 年高价格、高周期、高不确定性带来的心理门槛。</div>
+        <div class="side-stack">
+          <div class="side"><strong>转化抓手</strong><p>找到细分用户类型，销售不再统一讲“小初高 6 年全覆盖”，而是按家庭结构讲具体收益。</p></div>
+          <div class="side"><strong>顾虑抓手</strong><p>围绕“孩子不学、没有效果、价格高”三个风险，提供看得见的验证路径。</p></div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="sec rv" id="insight">
-      <div class="sec-head"><span class="ey">洞察</span><h2>关键洞察</h2></div>
-      <div class="cards">
-        <div class="card"><span class="tag">成交锚点</span><h3>主孩需求决定成交</h3><p>家庭包并非以“家庭”进入心智，而是先从某个孩子的具体学习问题切入；这个问题越紧急，越容易付费。</p><p class="quote">本来暑假这种情况就是会有补课的，洋葱只是因为有推荐说使用效果蛮好的，我就说尝试一下。</p></div>
-        <div class="card"><span class="tag">价格合理化</span><h3>次孩权益让高客单成立</h3><p>另一个孩子现在或未来也能用，家庭包就从高价支出变成“值得”的长期课程。</p><p class="quote">主要考虑的是哥哥，妹妹顺带着用；但如果没有妹妹的权益，可能就会买个短期课。</p></div>
-        <div class="card"><span class="tag">关键顾虑</span><h3>最大阻力是长期不确定性</h3><p>家长最常见的决策方式，是先买当下够用的课包，再观察是否值得升级。</p><p class="quote">花这么多钱不一定见到效果吧，有效果再买吧。</p></div>
-        <div class="card"><span class="tag">价值放大</span><h3>看见长期如何发生</h3><p>家庭包要证明 6 年不是囤课，而是学习规划、AI 定制班、过程反馈和家庭组学情共同构成的长期方案。</p><p class="quote">现在用得最多的是 AI 定制班，给我们排好课，定好了就听。</p></div>
+  <section class="section rv" id="value">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">02 Business Value</div>
+        <div><h2>这次调研对业务的价值，是把“为什么买”翻译成“怎么卖”。</h2><p class="sub">报告将用户证言收束为两类业务动作：提高转化率，以及消除 6 年长周期带来的高风险顾虑。</p></div>
       </div>
-    </section>
-
-    <section class="sec rv" id="push">
-      <div class="sec-head"><span class="ey">推课</span><h2>推课逻辑</h2></div>
-      <div class="cards">
-        <div class="card"><span class="tag">小低 + 其他</span><h3>主需求集中在大孩，小低承担未来确定性</h3><p>小低更多是“摊钱份子”，但 3 年后提前学的确定性较强；当大孩已出现升学问题时，家庭包更容易成立。</p></div>
-        <div class="card"><span class="tag">小高 + 其他</span><h3>不浪费、能学到高中，但仍需消解效果顾虑</h3><p>家庭包是覆盖小初高的完整方案，但“不浪费”和“内容全面”还不足以解决提分效果的不确定性。</p></div>
-        <div class="card"><span class="tag">强推组合</span><h3>单孩小高 / 双小高 / 三孩</h3><p>单孩小高不存在其他学段浪费感；双小高和三孩家庭可将权益倍增解释成更强的长期价值。</p></div>
-        <div class="card"><span class="tag">特征判断</span><h3>按底层动机识别潜力用户</h3><p>小升初窗口、拔尖自驱、大孩经验迁移、资源预置囤课，是当前最清晰的四类转化机制。</p></div>
+      <div class="grid-2">
+        <article class="card orange"><span class="tag">提高转化率</span><h3>从年级组合，切到动机识别</h3><p>同样是多孩家庭，购买机制并不一样。销售需要先识别小升初窗口、拔尖自学、大孩经验迁移、资源预置等底层动机，再匹配话术。</p></article>
+        <article class="card teal"><span class="tag">消除购买顾虑</span><h3>把 6 年确定性讲清楚</h3><p>最大顾虑不是单纯贵，而是孩子是否坚持、是否有效、未来是否浪费。销售和产品都需要给出持续使用、学习规划和效果验证证据。</p></article>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="sec rv" id="persona">
-      <div class="sec-head"><span class="ey">画像</span><h2>四类典型画像</h2></div>
+  <section class="section rv" id="push">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">03 Push Logic</div>
+        <div><h2>要不要推，先看年级；怎么推，再看底层动机。</h2><p class="sub">主孩需求决定成交，次孩权益让高客单价合理化。不同组合需要讲不同的“当下价值”和“未来确定性”。</p></div>
+      </div>
+      <div class="lane">
+        <div class="lane-row">
+          <div class="lane-label">小低 + 其他</div>
+          <div class="lane-body">
+            <ul>
+              <li><b>小低+初中：</b>最直观价值是小低学满 6 年，初中学到高考；初中孩子学习问题形成主需求，小低承担未来提前学权益。</li>
+              <li><b>小低+高中：</b>高中更多是资源工具，小低强化 6 年课包确定性；如果两个孩子都要覆盖小初高，家庭包稀缺性最强。</li>
+              <li><b>小低+小高：</b>选择空间较大，需判断小高是否存在提前学和学到高中的诉求。</li>
+            </ul>
+          </div>
+        </div>
+        <div class="lane-row">
+          <div class="lane-label">小高 + 其他</div>
+          <div class="lane-body">
+            <ul>
+              <li><b>优势：</b>不浪费、6 年内容覆盖小初高，适合五六年级同步复习、暑假预习、小初衔接。</li>
+              <li><b>风险：</b>“不浪费”和“内容全面”还不足以消解提分不确定性，必须配合效果验证和学习规划。</li>
+            </ul>
+          </div>
+        </div>
+        <div class="lane-row">
+          <div class="lane-label">强推组合</div>
+          <div class="lane-body">
+            <ul>
+              <li><b>单孩小高：</b>不存在其他学段孩子用不了的浪费感，能直接讲“学到高中、系统全面”。</li>
+              <li><b>双小高 / 三孩：</b>权益倍增，适合讲多孩共用、长期省心和未来重复购买成本。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section rv" id="persona">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">04 Personas</div>
+        <div><h2>四类典型画像，是销售挖需时最该识别的信号。</h2><p class="sub">画像不是按家庭成员数硬分，而是按家长做决策的底层动机分。</p></div>
+      </div>
       <div class="persona">
-        <div class="card"><h3>小升初窗口驱动型</h3><p>5/6/7 年级附近，有同步复习、暑假预习、分班考试等明确场景。</p></div>
-        <div class="card"><h3>拔尖自驱超前学型</h3><p>孩子成绩优秀、自律主动，家长不是补差，而是在支持孩子继续往前学。</p></div>
-        <div class="card"><h3>大孩经验迁移型</h3><p>老大经历过升学压力、辅导班低效和补课疲惫，家长希望小孩少走弯路。</p></div>
-        <div class="card"><h3>资源预置囤课型</h3><p>把家庭包理解成“储备资源”，关注能学到高中、多孩共用和不浪费。</p></div>
+        <article class="card orange"><span class="tag">小升初窗口驱动型</span><h3>5/6/7 年级附近</h3><p>同步复习、暑假预习、分班考试或初一适应压力，让家长感到不能再等。</p><p class="quote">“暑假预习初中，还有一个思维拓展。”</p></article>
+        <article class="card blue"><span class="tag">拔尖自驱超前学型</span><h3>孩子优秀且主动</h3><p>家长不是补差，而是支持孩子继续往前学。孩子愿意学，是最强信任支点。</p><p class="quote">“既然要提前学，就把高中也买了。”</p></article>
+        <article class="card teal"><span class="tag">大孩经验迁移型</span><h3>老大踩坑，老二提前准备</h3><p>见过升学压力、辅导班低效和补课疲惫，希望小孩少走弯路。</p><p class="quote">“现在想起来有点后悔。”</p></article>
+        <article class="card gold"><span class="tag">资源预置囤课型</span><h3>把家庭包当资源库</h3><p>可以买贵的，但要用到极致；关注能学到高中、多个孩子共用、分开买更麻烦。</p><p class="quote">“再便宜的东西放在那里用不上，也是浪费钱。”</p></article>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="sec rv" id="action">
-      <div class="sec-head"><span class="ey">行动</span><h2>行动框架</h2></div>
-      <div class="flow">
-        <div class="step"><span class="n">1</span><h3>先问主孩问题</h3><p>先识别谁的需求最紧急：升学、补弱、复习、提前学，主孩场景决定成交入口。</p></div>
-        <div class="step"><span class="n">2</span><h3>再讲次孩价值</h3><p>把另一个孩子现在或未来能用讲清楚，让高客单价从“贵”变成“值得”。</p></div>
-        <div class="step"><span class="n">3</span><h3>消解 6 年风险</h3><p>用孩子愿意学的数据、AI 定制班、1V1 规划和线下课对比降低“不学 / 无效 / 浪费”的风险。</p></div>
-        <div class="step"><span class="n">4</span><h3>持续证明效果</h3><p>强化学情报告、家庭组和阶段反馈，让长期价值不是只在购买时宣传。</p></div>
+  <section class="section rv" id="risk">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">05 Risk</div>
+        <div><h2>未购不是没价值，而是未来价值还没有被验证。</h2><p class="sub">家长最常见的策略，是先买当下够用的短期课包，再观察是否值得升级。家庭包要赢，必须把长期不确定性前置消解。</p></div>
       </div>
-    </section>
-
-    <section class="sec rv" id="prio">
-      <div class="sec-head"><span class="ey">人群</span><h2>人群优先级</h2></div>
-      <div class="prio">
-        <div class="row"><div class="lvl">P0</div><div><div class="grp">小低 + 初中</div><div class="desc">大盘规模大且转化率高，是家庭包最自然的成交组合。</div></div></div>
-        <div class="row"><div class="lvl">P1</div><div><div class="grp">小低 + 高中 / 小高 + 高中 / 小高 + 小高</div><div class="desc">规模小但转化率高，适合用升学节点和提前学诉求单独承接。</div></div></div>
-        <div class="row"><div class="lvl">P2</div><div><div class="grp">小高 + 初中 / 初中 + 高中 / 小低 + 小高</div><div class="desc">规模较大但转化率偏低，需要更强的价值证明和顾虑消解。</div></div></div>
-        <div class="row"><div class="lvl">未购</div><div><div class="grp">小高 + 初中 / 初中 + 高中</div><div class="desc">核心阻力是不确定效果与怕浪费，需要明确试用、阶段反馈和提分证据。</div></div></div>
+      <div class="risk">
+        <div class="callout">
+          <h3>最大顾虑：孩子能不能坚持、学了有没有效果。</h3>
+          <p>这两个顾虑本质都是 6 年高价格、高周期、高不确定性的风险。未购用户常用“先买短期可验证方案”来对抗风险。</p>
+        </div>
+        <div class="callout">
+          <h3>成交关键：找到一个可以相信的理由。</h3>
+          <p>信任可能来自孩子主动学、教育达人推荐、对辅导班的不满、未来涨价焦虑，或者家长自己做过功课后的谨慎判断。</p>
+        </div>
       </div>
-      <p class="note">小低 = 1-3 年级；小高 = 4-6 年级。</p>
-    </section>
-
-    <section class="sec closing rv" id="closing">
-      <div class="sec-head"><span class="ey">结论</span><h2>一句话结论</h2></div>
-      <div class="box">
-        <strong>一句话结论</strong>
-        <p>家庭包需要从单个孩子的真实学习问题切入，用另一个孩子的未来权益合理化高客单，再用<mark>风险消解机制</mark>证明 6 年不会浪费；销售不能只讲卖点，而要帮助家长算清“现在不准备，未来会更贵、更麻烦、更被动”的风险账。</p>
+      <div class="steps" style="margin-top:16px">
+        <div class="step"><span class="n">1</span><h3>用数据证明愿意学</h3><p>展示试听、AI 定制班、学习时长、完成情况，让“孩子不学”不再只是口头承诺。</p></div>
+        <div class="step"><span class="n">2</span><h3>用规划解释 6 年怎么用</h3><p>按多胎家庭做 6 年学习路径，消解“买了不知道怎么用”的风险。</p></div>
+        <div class="step"><span class="n">3</span><h3>用线下课对比价格</h3><p>将家庭包放在线下 1V1、长网课、未来重复购买和补救成本里重新估值。</p></div>
       </div>
-    </section>
+    </div>
+  </section>
 
-  </div>
+  <section class="section rv" id="longterm">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">06 Long-term Value</div>
+        <div><h2>家庭包要从“课包”升级成“长期学习规划方案”。</h2><p class="sub">家长期待的不只是课程内容，而是孩子未来遇到升学、预习、补弱、自主学习问题时，家里已经有一套可启动的资源和规划工具。</p></div>
+      </div>
+      <div class="grid-3">
+        <article class="card violet"><span class="tag">学生侧</span><h3>培养自主学习和知识体系</h3><p>家庭包要证明它不只是讲题，而是帮助孩子形成思维能力、总结能力和跨学段学习能力。</p></article>
+        <article class="card blue"><span class="tag">规划侧</span><h3>AI 定制班和老师服务前置</h3><p>AI 定制班、90 天服务、学习路线和日常答疑，应该成为买前能感知的“怎么用”证据。</p></article>
+        <article class="card teal"><span class="tag">家长侧</span><h3>学情报告要持续证明过程</h3><p>长期价值不能只在购买时宣传，需要持续告诉家长孩子每天学了什么、完成多少、下一步怎么走。</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing rv" id="closing">
+    <div class="wrap">
+      <div class="closing-box">
+        <div class="label">Final Takeaway</div>
+        <p>家庭包的销售重点，不是反复强调“小初高全覆盖”，而是让家长相信：<mark>现在买，当前能用；未来接得上；比等问题发生后再补救更省钱、省心、少风险。</mark></p>
+      </div>
+    </div>
+  </section>
 </main>
 
-<footer>洋葱家庭包用户调研 · InsightHub</footer>
-
-<button class="totop" id="totop" aria-label="回到顶部">↑</button>
+<footer>
+  内容依据：飞书《家庭包用户购买决策洞察》与《访谈纪要》整理。页面为项目总览，不再单独保留家庭包核心洞察页。
+</footer>
 
 <script>
-const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.12});
-document.querySelectorAll('.rv').forEach(el=>io.observe(el));
-
-const bar=document.getElementById('progress');
-const totop=document.getElementById('totop');
-function onScroll(){
+const p=document.getElementById('progress');
+const nav=[...document.querySelectorAll('.nav a')];
+const sections=nav.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const onScroll=()=>{
   const h=document.documentElement;
-  const max=h.scrollHeight-h.clientHeight;
-  bar.style.width=(max>0?(h.scrollTop/max)*100:0)+'%';
-  totop.classList.toggle('show',h.scrollTop>500);
-}
+  p.style.width=((h.scrollTop)/(h.scrollHeight-h.clientHeight)*100)+'%';
+  let cur='';
+  for(const s of sections){if(s.getBoundingClientRect().top<110)cur='#'+s.id}
+  nav.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===cur));
+};
 document.addEventListener('scroll',onScroll,{passive:true});onScroll();
-totop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-
-const links=[...document.querySelectorAll('.nav a')];
-const map=new Map(links.map(a=>[a.getAttribute('href').slice(1),a]));
-const spy=new IntersectionObserver((es)=>{
-  es.forEach(e=>{
-    if(e.isIntersecting){
-      links.forEach(l=>l.classList.remove('active'));
-      const a=map.get(e.target.id);
-      if(a){
-        a.classList.add('active');
-        const nv=a.parentElement;
-        const off=a.getBoundingClientRect().left-nv.getBoundingClientRect().left+nv.scrollLeft;
-        nv.scrollTo({left:off-(nv.clientWidth-a.clientWidth)/2,behavior:'smooth'});
-      }
-    }
-  });
-},{rootMargin:'-45% 0px -50% 0px'});
-document.querySelectorAll('.sec').forEach(s=>spy.observe(s));
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 </script>
 </body>
 </html>
