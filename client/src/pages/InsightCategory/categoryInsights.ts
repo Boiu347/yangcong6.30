@@ -1,5 +1,19 @@
 import type { Project, Sentiment, VOCItem } from '../../types/voc';
 import { JTB_INTERVIEWS } from '../../store/jiatingbaoData';
+import { JIATINGBAO_SEGMENTS } from '../../store/jiatingbaoSegments';
+import {
+  DIMENSION_BY_ID,
+  labelFullName,
+  type DimensionId,
+  type LabeledSegment,
+} from '../../store/segmentTaxonomy';
+import type { EvidenceClip } from '../../utils/evidenceClipLookup';
+
+const SLUG_DIMENSION: Record<InsightCategorySlug, DimensionId> = {
+  'app-experience': 'app',
+  'course-experience': 'course',
+  'purchase-decision': 'buy',
+};
 
 export type InsightCategorySlug = 'app-experience' | 'course-experience' | 'purchase-decision';
 export type UserRole = '家长' | '学生' | '其他';
@@ -40,6 +54,8 @@ export interface CategoryQuote {
   schoolLevel?: string;
   grade?: string;
   gender?: string;
+  clips?: EvidenceClip[];
+  segmentLabelId?: string;
 }
 
 export interface CategoryInsightData {
@@ -64,6 +80,7 @@ export interface DirectionDefinition {
   findings: string[];
   action: string;
   keywords: string[];
+  matchSegmentLabel?: string;
 }
 
 export interface BusinessDirection {
@@ -362,12 +379,72 @@ export function isQualitativeResearchProject(project: Project): boolean {
   return project.methods?.includes('定性调研') ?? false;
 }
 
+function segmentToQuote(seg: LabeledSegment): CategoryQuote {
+  const labelName = labelFullName(seg.primaryLabel);
+  return {
+    id: `seg_${seg.id}`,
+    text: seg.quote,
+    quoteSummary: labelName,
+    projectId: 'jiatingbao_project',
+    projectName: seg.projectName,
+    respondent: seg.respondent,
+    sourceName: seg.respondent,
+    sourceId: seg.respondent,
+    sentiment: 'neutral',
+    dimension: DIMENSION_BY_ID[seg.dimension].name,
+    subCategory: seg.projectName,
+    subSubCategory: labelName,
+    userRole: '家长',
+    segmentLabelId: seg.primaryLabel,
+    clips: seg.clipUrl
+      ? [{ clipUrl: seg.clipUrl, startTime: seg.startTime ?? 0, duration: seg.duration }]
+      : undefined,
+  };
+}
+
+// 家庭包：按当前维度取出已标注片段（作为下钻页原声）
+function jiatingbaoSegmentQuotes(slug: InsightCategorySlug): CategoryQuote[] {
+  const dim = SLUG_DIMENSION[slug];
+  return JIATINGBAO_SEGMENTS.filter((s) => s.dimension === dim).map(segmentToQuote);
+}
+
+// 家庭包：按「主标签」动态生成业务方向卡（挂到现有维度卡列表后面）
+function jiatingbaoDirections(slug: InsightCategorySlug): DirectionDefinition[] {
+  const dim = SLUG_DIMENSION[slug];
+  const segs = JIATINGBAO_SEGMENTS.filter((s) => s.dimension === dim);
+  const byLabel = new Map<string, LabeledSegment[]>();
+  segs.forEach((s) => {
+    const list = byLabel.get(s.primaryLabel) ?? [];
+    list.push(s);
+    byLabel.set(s.primaryLabel, list);
+  });
+  return [...byLabel.entries()]
+    .sort((a, b) => b[1].length - a[1].length)
+    .map(([labelId, list]) => {
+      const high = list.filter((s) => s.researchValue === 'high').length;
+      return {
+        id: `jtb-${labelId}`,
+        title: `家庭包 · ${labelFullName(labelId)}`,
+        businessImpact: `家庭包用户在「${labelFullName(labelId)}」上的真实原声，共 ${list.length} 条${high ? `（含 ${high} 条高价值）` : ''}。`,
+        findings: [list[0]?.quote ?? ''].filter(Boolean),
+        action: '点击查看该标签下家庭包用户的全部原声与录音切片。',
+        keywords: [],
+        matchSegmentLabel: labelId,
+      } satisfies DirectionDefinition;
+    });
+}
+
+export function getDirectionDefinitions(slug: InsightCategorySlug): DirectionDefinition[] {
+  return [...DIRECTION_DEFINITIONS[slug], ...jiatingbaoDirections(slug)];
+}
+
 export function buildCategoryInsightData(
   projects: Project[],
   slug: InsightCategorySlug,
 ): CategoryInsightData {
   const config = INSIGHT_CATEGORY_CONFIGS[slug];
   const qualitativeProjects = projects.filter(isQualitativeResearchProject);
+  const hasJiatingbao = qualitativeProjects.some((project) => project.id === 'jiatingbao_project');
   const quotes = uniqueQuotes(
     qualitativeProjects.flatMap((project) => {
       const vocQuotes = project.files
@@ -382,7 +459,7 @@ export function buildCategoryInsightData(
           : [];
 
       return [...vocQuotes, ...familyQuotes];
-    }),
+    }).concat(hasJiatingbao ? jiatingbaoSegmentQuotes(slug) : []),
   ).sort((a, b) => a.projectName.localeCompare(b.projectName, 'zh-Hans-CN') || a.subSubCategory.localeCompare(b.subSubCategory, 'zh-Hans-CN'));
 
   return {
@@ -395,15 +472,19 @@ export function buildCategoryInsightData(
 }
 
 export function pickDirectionQuotes(definition: DirectionDefinition, quotes: CategoryQuote[]): CategoryQuote[] {
+  if (definition.matchSegmentLabel) {
+    return quotes.filter((quote) => quote.segmentLabelId === definition.matchSegmentLabel);
+  }
   const keywords = definition.keywords.map((keyword) => keyword.toLowerCase());
   return quotes.filter((quote) => {
+    if (quote.segmentLabelId) return false; // 家庭包片段只进它自己的标签方向，避免重复刷屏
     const haystack = `${quote.text} ${quote.subSubCategory} ${quote.dimension} ${quote.quoteSummary ?? ''}`.toLowerCase();
     return keywords.some((keyword) => haystack.includes(keyword));
   });
 }
 
 export function buildBusinessDirections(slug: InsightCategorySlug, quotes: CategoryQuote[]): BusinessDirection[] {
-  return DIRECTION_DEFINITIONS[slug].map((definition) => {
+  return getDirectionDefinitions(slug).map((definition) => {
     const matchedQuotes = pickDirectionQuotes(definition, quotes);
     return {
       id: definition.id,
@@ -422,7 +503,7 @@ export function buildBusinessDirections(slug: InsightCategorySlug, quotes: Categ
 }
 
 export function findDirectionDefinition(slug: InsightCategorySlug, topic: string): DirectionDefinition | undefined {
-  return DIRECTION_DEFINITIONS[slug].find((definition) => definition.id === topic);
+  return getDirectionDefinitions(slug).find((definition) => definition.id === topic);
 }
 
 function pickRepresentativeQuotes(quotes: CategoryQuote[]): CategoryQuote[] {

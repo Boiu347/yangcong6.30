@@ -308,11 +308,14 @@ function QuoteCard({
 
       <SegmentLabelChips text={quote.text} className="mt-3" />
 
-      {lookupClips(quote.text).length > 0 && (
-        <div className="mt-3">
-          <EvidenceAudioClips clips={lookupClips(quote.text)} />
-        </div>
-      )}
+      {(() => {
+        const clips = quote.clips ?? lookupClips(quote.text);
+        return clips.length > 0 ? (
+          <div className="mt-3">
+            <EvidenceAudioClips clips={clips} />
+          </div>
+        ) : null;
+      })()}
 
       <div className="mt-4 grid gap-2 text-xs text-[#7a746b] sm:grid-cols-2">
         <MetaItem icon={<FileText size={13} />} label="来源">

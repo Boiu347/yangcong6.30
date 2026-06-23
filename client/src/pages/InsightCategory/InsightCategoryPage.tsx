@@ -292,11 +292,14 @@ function QuotePreview({ quote, color, keywords }: { quote: CategoryQuote; color:
         <EmphasizedText text={quote.text} keywords={keywords} />
       </p>
       <SegmentLabelChips text={quote.text} className="mt-2" />
-      {lookupClips(quote.text).length > 0 && (
-        <div className="mt-2">
-          <EvidenceAudioClips clips={lookupClips(quote.text)} />
-        </div>
-      )}
+      {(() => {
+        const clips = quote.clips ?? lookupClips(quote.text);
+        return clips.length > 0 ? (
+          <div className="mt-2">
+            <EvidenceAudioClips clips={clips} />
+          </div>
+        ) : null;
+      })()}
       <div className="mt-2 text-xs text-[#9a948b]">{quote.projectName}</div>
     </blockquote>
   );
