@@ -80,7 +80,6 @@ export interface DirectionDefinition {
   findings: string[];
   action: string;
   keywords: string[];
-  matchSegmentLabel?: string;
 }
 
 export interface BusinessDirection {
@@ -408,34 +407,8 @@ function jiatingbaoSegmentQuotes(slug: InsightCategorySlug): CategoryQuote[] {
   return JIATINGBAO_SEGMENTS.filter((s) => s.dimension === dim).map(segmentToQuote);
 }
 
-// 家庭包：按「主标签」动态生成业务方向卡（挂到现有维度卡列表后面）
-function jiatingbaoDirections(slug: InsightCategorySlug): DirectionDefinition[] {
-  const dim = SLUG_DIMENSION[slug];
-  const segs = JIATINGBAO_SEGMENTS.filter((s) => s.dimension === dim);
-  const byLabel = new Map<string, LabeledSegment[]>();
-  segs.forEach((s) => {
-    const list = byLabel.get(s.primaryLabel) ?? [];
-    list.push(s);
-    byLabel.set(s.primaryLabel, list);
-  });
-  return [...byLabel.entries()]
-    .sort((a, b) => b[1].length - a[1].length)
-    .map(([labelId, list]) => {
-      const high = list.filter((s) => s.researchValue === 'high').length;
-      return {
-        id: `jtb-${labelId}`,
-        title: `家庭包 · ${labelFullName(labelId)}`,
-        businessImpact: `家庭包用户在「${labelFullName(labelId)}」上的真实原声，共 ${list.length} 条${high ? `（含 ${high} 条高价值）` : ''}。`,
-        findings: [list[0]?.quote ?? ''].filter(Boolean),
-        action: '点击查看该标签下家庭包用户的全部原声与录音切片。',
-        keywords: [],
-        matchSegmentLabel: labelId,
-      } satisfies DirectionDefinition;
-    });
-}
-
 export function getDirectionDefinitions(slug: InsightCategorySlug): DirectionDefinition[] {
-  return [...DIRECTION_DEFINITIONS[slug], ...jiatingbaoDirections(slug)];
+  return DIRECTION_DEFINITIONS[slug];
 }
 
 export function buildCategoryInsightData(
@@ -472,12 +445,8 @@ export function buildCategoryInsightData(
 }
 
 export function pickDirectionQuotes(definition: DirectionDefinition, quotes: CategoryQuote[]): CategoryQuote[] {
-  if (definition.matchSegmentLabel) {
-    return quotes.filter((quote) => quote.segmentLabelId === definition.matchSegmentLabel);
-  }
   const keywords = definition.keywords.map((keyword) => keyword.toLowerCase());
   return quotes.filter((quote) => {
-    if (quote.segmentLabelId) return false; // 家庭包片段只进它自己的标签方向，避免重复刷屏
     const haystack = `${quote.text} ${quote.subSubCategory} ${quote.dimension} ${quote.quoteSummary ?? ''}`.toLowerCase();
     return keywords.some((keyword) => haystack.includes(keyword));
   });
