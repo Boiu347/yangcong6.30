@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>洋葱学园 · 逐年级学习痛点洞察（学前→初三）</title>
+<style>
+:root{
+  --pri:#0FA68E; --pri-d:#0B7B69; --pri-l:#74D6C4;
+  --grn:#11B07F; --grn-d:#0C8A62;
+  --pain:#EF6450; --pain-d:#D8442F; --warn:#DC9A34;
+  --ink:#15212a; --ink-2:#475463; --ink-3:#7a8696;
+  --bg:#f2f5f6; --card:#ffffff; --line:#e5ebed;
+  --shadow:0 10px 30px -14px rgba(12,60,55,.20);
+  --shadow-lg:0 24px 60px -24px rgba(12,60,55,.34);
+  --radius:20px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"PingFang SC","Microsoft YaHei","HarmonyOS Sans SC",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  line-height:1.7; -webkit-font-smoothing:antialiased;
+}
+.ic{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* reading progress */
+#progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:60;
+  background:linear-gradient(90deg,var(--pri),#3FD6B4);box-shadow:0 0 12px rgba(15,166,142,.55)}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;overflow:hidden;color:#fff;padding:84px 20px 120px;
+  background:radial-gradient(1200px 600px at 15% -10%,#1aa890 0%,transparent 55%),
+             radial-gradient(900px 500px at 110% 10%,#7fe6cf 0%,transparent 50%),
+             linear-gradient(135deg,#063e38 0%,#0b7565 46%,#13a18b 100%)}
+.hero .blob{position:absolute;border-radius:50%;filter:blur(8px);opacity:.5;mix-blend-mode:screen;animation:float 11s ease-in-out infinite}
+.hero .b1{width:240px;height:240px;background:#46d8bc;top:-40px;right:18%;animation-delay:0s}
+.hero .b2{width:180px;height:180px;background:#9af0db;bottom:6%;left:8%;animation-delay:2.4s}
+.hero .b3{width:140px;height:140px;background:#ffd98a;top:30%;right:6%;animation-delay:1.2s}
+@keyframes float{0%,100%{transform:translateY(0) translateX(0)}50%{transform:translateY(-26px) translateX(14px)}}
+.hero-inner{position:relative;max-width:1080px;margin:0 auto;z-index:2}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:13px;letter-spacing:.18em;
+  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);
+  padding:7px 16px;border-radius:999px;backdrop-filter:blur(6px)}
+.hero h1{font-size:clamp(30px,5vw,52px);line-height:1.18;margin:22px 0 14px;font-weight:800;letter-spacing:-.5px}
+.hero h1 .hl{background:linear-gradient(90deg,#fff,#c9f8e3);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.sub{font-size:clamp(15px,2.2vw,19px);max-width:760px;color:rgba(255,255,255,.92);margin:0 0 12px}
+.hero .path{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;font-size:13px}
+.hero .path span{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);padding:5px 12px;border-radius:999px}
+.hero .path span.arrow{background:none;border:none;opacity:.7;padding:5px 2px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:1080px;margin:42px auto 0;position:relative;z-index:2}
+.stat{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:16px;padding:18px 16px;backdrop-filter:blur(8px)}
+.stat .n{font-size:34px;font-weight:800;line-height:1;display:flex;align-items:baseline;gap:4px}
+.stat .n small{font-size:15px;font-weight:600;opacity:.85}
+.stat .l{font-size:13px;color:rgba(255,255,255,.85);margin-top:8px}
+.scroll-cue{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:2;color:rgba(255,255,255,.8);font-size:12px;text-align:center}
+.scroll-cue .ic{width:22px;height:22px;display:block;margin:6px auto 0;animation:bob 1.8s infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+
+/* ---------- NAV ---------- */
+nav{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.85);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);box-shadow:0 4px 20px -16px rgba(12,60,55,.45)}
+.nav-inner{max-width:1080px;margin:0 auto;display:flex;gap:8px;align-items:center;padding:10px 16px;overflow-x:auto;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-inner .brand{font-weight:800;color:var(--pri-d);font-size:15px;white-space:nowrap;margin-right:6px;display:flex;align-items:center;gap:6px}
+.nav-inner .brand .ic{width:18px;height:18px}
+.pill{white-space:nowrap;font-size:13.5px;color:var(--ink-2);padding:7px 13px;border-radius:999px;cursor:pointer;
+  border:1px solid transparent;transition:.2s;text-decoration:none}
+.pill:hover{background:#e6f5f1;color:var(--pri-d)}
+.pill.active{background:linear-gradient(135deg,var(--pri),var(--pri-d));color:#fff;box-shadow:0 6px 16px -6px rgba(15,166,142,.65)}
+
+/* ---------- LAYOUT ---------- */
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+section.block{padding:54px 0 8px}
+.sec-head{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+.sec-eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--pri)}
+.sec-title{font-size:clamp(22px,3.4vw,30px);font-weight:800;margin:0}
+.sec-desc{color:var(--ink-2);max-width:760px;margin:2px 0 0}
+
+/* ---------- GRADE CARD ---------- */
+.grade{--hue:265;position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:26px 26px 30px;margin:22px 0;box-shadow:var(--shadow);scroll-margin-top:76px;
+  opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.grade.in{opacity:1;transform:none}
+.grade::before{content:"";position:absolute;inset:0 auto 0 0;width:6px;border-radius:var(--radius) 0 0 var(--radius);
+  background:linear-gradient(180deg,hsl(var(--hue) 52% 56%),hsl(var(--hue) 46% 44%))}
+.g-top{display:flex;align-items:flex-start;gap:18px;flex-wrap:wrap}
+.g-badge{width:62px;height:62px;border-radius:18px;flex:none;display:grid;place-items:center;color:#fff;font-weight:800;
+  background:linear-gradient(135deg,hsl(var(--hue) 50% 54%),hsl(var(--hue) 45% 41%));
+  box-shadow:0 12px 24px -12px hsl(var(--hue) 42% 46% / .55);position:relative}
+.g-badge .ic{width:30px;height:30px}
+.g-badge .seq{position:absolute;top:-8px;right:-8px;background:#fff;color:hsl(var(--hue) 40% 38%);font-size:11px;
+  font-weight:800;border-radius:999px;padding:2px 7px;box-shadow:var(--shadow)}
+.g-meta{flex:1;min-width:240px}
+.g-meta h3{margin:0;font-size:23px;font-weight:800}
+.g-meta .feat{color:var(--ink-2);margin:4px 0 0;font-size:14.5px}
+.g-srcs{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.src-tag{font-size:12px;color:hsl(var(--hue) 36% 34%);background:hsl(var(--hue) 38% 95%);
+  border:1px solid hsl(var(--hue) 32% 85%);padding:3px 10px;border-radius:999px}
+
+/* pain unit */
+.pains{margin-top:22px;display:flex;flex-direction:column;gap:18px}
+.pain{border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;background:linear-gradient(180deg,#fff,#fbfdfc);
+  transition:.25s;position:relative;overflow:hidden}
+.pain:hover{border-color:hsl(var(--hue) 40% 78%);box-shadow:var(--shadow);transform:translateY(-2px)}
+.pain-h{display:flex;align-items:center;gap:12px}
+.pain-ico{width:42px;height:42px;border-radius:12px;flex:none;display:grid;place-items:center;color:var(--pain-d);
+  background:linear-gradient(135deg,#fff0f0,#ffe2e2);border:1px solid #ffd5d5}
+.pain-ico .ic{width:22px;height:22px;stroke-width:2}
+.pain-h .t{font-weight:800;font-size:16.5px;color:var(--ink)}
+.pain-h .tag{margin-left:auto;font-size:11px;font-weight:700;color:var(--pain-d);background:#ffeaea;
+  border:1px solid #ffd2d2;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.pain .desc{color:var(--ink-2);font-size:14px;margin:9px 0 0}
+
+/* quotes */
+.quotes{margin:13px 0 0;display:flex;flex-direction:column;gap:9px}
+.quote{position:relative;background:#f5f8f8;border-left:3px solid hsl(var(--hue) 46% 56%);border-radius:0 12px 12px 0;
+  padding:11px 14px 11px 36px;font-size:14px;color:var(--ink)}
+.quote .qm{position:absolute;left:9px;top:6px;font-size:26px;line-height:1;color:hsl(var(--hue) 40% 64%);font-family:Georgia,serif}
+.quote .who{display:block;margin-top:6px;font-size:12px;color:var(--ink-3)}
+.quote .who b{color:hsl(var(--hue) 38% 38%);font-weight:700}
+
+/* onion solution */
+.onion{margin-top:13px;display:flex;gap:12px;align-items:flex-start;background:linear-gradient(135deg,#ecfbf4,#e4f7f3);
+  border:1px solid #c4ecdd;border-radius:14px;padding:13px 15px}
+.onion .o-ico{width:34px;height:34px;border-radius:10px;flex:none;display:grid;place-items:center;color:#fff;
+  background:linear-gradient(135deg,var(--grn),var(--grn-d));box-shadow:0 8px 16px -8px rgba(12,138,98,.55)}
+.onion .o-ico .ic{width:19px;height:19px;stroke-width:2}
+.onion .o-body{font-size:14px;color:#0c6b54}
+.onion .o-body b{color:#0b7c69}
+.onion .o-label{font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--grn-d);display:block;margin-bottom:2px}
+.onion .o-quotes{margin-top:9px;display:flex;flex-direction:column;gap:7px}
+.onion .o-quotes .quote{background:#f0fbf5;border-left:3px solid var(--grn);border-radius:0 10px 10px 0;color:#0f3d2c}
+.onion .o-quotes .quote .qm{color:var(--grn)}
+.onion .o-quotes .quote .who b{color:var(--grn-d)}
+
+/* bridge card (初二) */
+.bridge{border-style:dashed;background:repeating-linear-gradient(135deg,#fbfdfc,#fbfdfc 12px,#eef6f4 12px,#eef6f4 24px)}
+.bridge .note{display:flex;gap:12px;align-items:flex-start;margin-top:18px;color:var(--ink-2);font-size:14.5px}
+.bridge .note .ic{width:22px;height:22px;color:var(--warn);flex:none;margin-top:3px}
+.missing{display:inline-block;font-size:12px;font-weight:700;color:var(--warn);background:#fff7e6;border:1px solid #ffe2ab;padding:3px 10px;border-radius:999px;margin-top:8px}
+
+/* ---------- CROSS-CUTTING ---------- */
+.themes{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:18px}
+.theme{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow);
+  position:relative;overflow:hidden;opacity:0;transform:translateY(22px);transition:.7s}
+.theme.in{opacity:1;transform:none}
+.theme .th-ic{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;color:#fff;margin-bottom:12px;
+  background:linear-gradient(135deg,var(--pri),var(--pri-d))}
+.theme .th-ic .ic{width:24px;height:24px}
+.theme h4{margin:0 0 6px;font-size:17.5px;font-weight:800}
+.theme p.s{margin:0 0 12px;color:var(--ink-2);font-size:14px}
+.theme .q{font-size:13.5px;color:var(--ink);background:#eff8f6;border-left:3px solid var(--pri-l);
+  border-radius:0 10px 10px 0;padding:9px 12px;margin:8px 0 0}
+.theme .q .who{display:block;font-size:12px;color:var(--ink-3);margin-top:5px}
+
+/* ---------- APPENDIX ---------- */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+.rc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow);
+  transition:.22s;opacity:0;transform:translateY(18px)}
+.rc.in{opacity:1;transform:none}
+.rc:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--pri-l)}
+.rc .rc-top{display:flex;align-items:center;gap:8px;justify-content:space-between}
+.rc .grp{font-size:11px;font-weight:800;padding:3px 8px;border-radius:6px}
+.rc .grp.jtb{color:#0B7B69;background:#e2f4f0}
+.rc .grp.q998{color:#B0741A;background:#fbf0d9}
+.rc .st{font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px}
+.st.buy{color:#0B8A5E;background:#e2f4ec}
+.st.no{color:var(--pain-d);background:#fdede8}
+.rc h5{margin:10px 0 2px;font-size:15.5px;font-weight:800}
+.rc .reg{font-size:12.5px;color:var(--ink-3)}
+.rc .combo{margin-top:9px;display:flex;flex-wrap:wrap;gap:5px}
+.rc .combo span{font-size:11.5px;background:#eef3f2;color:var(--ink-2);border:1px solid var(--line);padding:2px 8px;border-radius:999px}
+
+/* ---------- FOOTER ---------- */
+footer{margin-top:46px;background:#0e2522;color:#c2d6d0;padding:34px 20px 40px}
+footer .fin{max-width:1080px;margin:0 auto;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center}
+footer b{color:#fff}
+footer .muted{font-size:13px;color:#7f978f;max-width:620px}
+
+@media(max-width:860px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .themes{grid-template-columns:1fr}
+  .cards{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:560px){
+  .cards{grid-template-columns:1fr}
+  .hero{padding:64px 18px 90px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .grade,.theme,.rc{opacity:1;transform:none}
+}
+
+/* ---------- EXPORT MENU (右上角飞书式下拉) ---------- */
+.export-bar{position:fixed;top:14px;right:18px;z-index:71}
+.eb-trigger{display:inline-flex;align-items:center;gap:7px;cursor:pointer;font-size:13.5px;font-weight:800;
+  color:#fff;border:1px solid transparent;border-radius:999px;padding:9px 15px;
+  background:linear-gradient(135deg,var(--pri),var(--pri-d));box-shadow:0 8px 20px -8px rgba(15,166,142,.7);transition:.18s}
+.eb-trigger:hover{filter:brightness(1.06);transform:translateY(-1px)}
+.eb-trigger .ic{width:16px;height:16px;stroke-width:2}
+.eb-trigger .chev{transition:transform .22s}
+.export-bar.open .eb-trigger .chev{transform:rotate(180deg)}
+.export-bar.open .eb-trigger{box-shadow:0 10px 26px -8px rgba(15,166,142,.8)}
+.eb-menu{position:absolute;top:calc(100% + 10px);right:0;width:248px;background:#fff;border:1px solid var(--line);
+  border-radius:16px;box-shadow:var(--shadow-lg);padding:8px;
+  opacity:0;transform:translateY(-8px) scale(.97);transform-origin:top right;pointer-events:none;transition:.2s cubic-bezier(.2,.7,.2,1)}
+.export-bar.open .eb-menu{opacity:1;transform:none;pointer-events:auto}
+.eb-menu-head{font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--ink-3);padding:6px 10px 8px}
+.eb-item{display:flex;align-items:center;gap:11px;width:100%;text-align:left;cursor:pointer;
+  border:1px solid transparent;background:none;border-radius:11px;padding:9px 10px;transition:.15s;color:var(--ink)}
+.eb-item:hover{background:#eef7f5}
+.eb-item .eb-ico{width:32px;height:32px;flex:none;border-radius:9px;display:grid;place-items:center;
+  background:#f0f4f3;color:var(--pri-d)}
+.eb-item .eb-ico .ic{width:17px;height:17px;stroke-width:2}
+.eb-item.primary .eb-ico{background:linear-gradient(135deg,var(--pri),var(--pri-d));color:#fff}
+.eb-item .eb-tx{display:flex;flex-direction:column;line-height:1.25}
+.eb-item .eb-tx b{font-size:13.5px;font-weight:800}
+.eb-item .eb-tx span{font-size:11.5px;color:var(--ink-3)}
+.eb-item.ok{background:#e7f8ef}
+.eb-item.ok .eb-ico{background:var(--grn);color:#fff}
+.eb-sep{height:1px;background:var(--line);margin:6px 8px}
+@media(max-width:560px){ .eb-trigger span.t{display:none} .eb-menu{width:228px} }
+
+/* ---------- PRINT (导出 PDF) ---------- */
+@media print{
+  #progress,nav,.scroll-cue,.export-bar{display:none!important}
+  .hero .blob{display:none!important}
+  html,body{background:#fff!important}
+  .hero{padding:24px 22px 26px!important;background:#fff!important;border-bottom:2px solid var(--pri)}
+  .hero h1,.hero h1 .hl{color:var(--pri-d)!important;-webkit-text-fill-color:initial!important;background:none!important}
+  .hero .kicker,.hero p.sub,.hero .path span{color:#334155!important;background:#eef3f2!important;border-color:#dfe6e4!important}
+  .stats{color:#1f2937!important}
+  .stat{border:1px solid var(--line)!important;background:#f6f8f8!important}
+  .stat .n,.stat .l{color:var(--ink)!important}
+  .grade,.theme,.rc{opacity:1!important;transform:none!important;box-shadow:none!important;border:1px solid #e3e8ea!important}
+  .pain,.quote,.onion,.theme,.rc{break-inside:avoid;page-break-inside:avoid}
+  .grade{break-inside:auto;page-break-inside:auto}
+  section.block{padding:14px 0 0!important}
+  .wrap{max-width:none!important}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<div class="export-bar" id="exportBar">
+  <button class="eb-trigger" id="ebTrigger" type="button" aria-haspopup="true" aria-expanded="false" title="导出本报告，便于导入飞书">
+    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg>
+    <span class="t">导出</span>
+    <svg class="ic chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+  </button>
+  <div class="eb-menu" id="ebMenu" role="menu" aria-label="导出格式">
+    <div class="eb-menu-head">导出 / 给飞书</div>
+    <button class="eb-item primary" id="ebCopy" type="button" role="menuitem">
+      <span class="eb-ico"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></span>
+      <span class="eb-tx"><b>复制 Markdown</b><span>推荐 · 直接粘贴进飞书文档</span></span>
+    </button>
+    <div class="eb-sep"></div>
+    <button class="eb-item" id="ebMd" type="button" role="menuitem">
+      <span class="eb-ico"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg></span>
+      <span class="eb-tx"><b>Markdown 文件</b><span>下载 .md</span></span>
+    </button>
+    <button class="eb-item" id="ebWord" type="button" role="menuitem">
+      <span class="eb-ico"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg></span>
+      <span class="eb-tx"><b>Word 文件</b><span>下载 .doc</span></span>
+    </button>
+    <button class="eb-item" id="ebPdf" type="button" role="menuitem">
+      <span class="eb-ico"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6M6 18H4V11h16v7h-2M8 14h8v7H8z"/></svg></span>
+      <span class="eb-tx"><b>PDF</b><span>打印 / 另存为 PDF</span></span>
+    </button>
+  </div>
+</div>
+
+<header class="hero">
+  <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
+  <div class="hero-inner">
+    <span class="kicker"><svg class="ic"><use href="#i-spark"/></svg>洋葱学园 · 用户研究</span>
+    <h1>逐年级学习痛点洞察<br><span class="hl">从学前到初三，每个节点的痛点与洋葱解法</span></h1>
+    <p class="sub">基于《998 小学 + 初中首购 / 升单调研》与《家庭包调研》共 26 户家庭的访谈逐字稿，按孩子的<b style="color:#fff">具体年级</b>逐一拆解：每个学习节点会冒出什么痛点、家长怎么说（原声）、以及为什么洋葱能接住这些需求。</p>
+    <div class="path">
+      <span>学前</span><span class="arrow">→</span><span>一年级</span><span class="arrow">→</span><span>二年级</span><span class="arrow">→</span><span>三年级</span><span class="arrow">→</span><span>四年级</span><span class="arrow">→</span><span>五年级</span><span class="arrow">→</span><span>六年级</span><span class="arrow">→</span><span>初一</span><span class="arrow">→</span><span>初二</span><span class="arrow">→</span><span>初三</span>
+    </div>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="n" data-count="26">0</div><div class="l">受访家庭</div></div>
+    <div class="stat"><div class="n" data-count="10">0</div><div class="l">覆盖年级节点（学前→初三）</div></div>
+    <div class="stat"><div class="n" data-count="12">0<small>省市</small></div><div class="l">跨地区样本</div></div>
+    <div class="stat"><div class="n" data-count="2">0<small>套</small></div><div class="l">调研项目（998+家庭包）</div></div>
+  </div>
+  <div class="scroll-cue">向下滚动浏览<svg class="ic"><use href="#i-down"/></svg></div>
+</header>
+
+<nav>
+  <div class="nav-inner" id="nav"></div>
+</nav>
+
+<main class="wrap">
+  <section class="block">
+    <div class="sec-head">
+      <span class="sec-eyebrow">主线 · 一个年级一个年级看</span>
+      <h2 class="sec-title">各年级典型痛点 × 用户原声 × 洋葱解法</h2>
+      <p class="sec-desc">多孩家庭按每个孩子的年级分别归位，同一户会出现在不同年级节点下。每条痛点结论后附家长原声，并标注「年级 · 用户 · 地区」。</p>
+    </div>
+    <div id="grades"></div>
+  </section>
+
+  <section class="block" id="cross">
+    <div class="sec-head">
+      <span class="sec-eyebrow">贯穿全学段 · 决策与顾虑</span>
+      <h2 class="sec-title">跨年级的共性洞察</h2>
+      <p class="sec-desc">这些规律不分年级、贯穿家庭包决策全程——尤其是多孩家庭如何权衡、如何打消顾虑。</p>
+    </div>
+    <div class="themes" id="themes"></div>
+  </section>
+
+  <section class="block" id="appendix">
+    <div class="sec-head">
+      <span class="sec-eyebrow">数据来源 · 26 户受访家庭</span>
+      <h2 class="sec-title">受访者一览</h2>
+      <p class="sec-desc">家庭包 10 户 + 998 首购 16 户（小学 7 + 初中 9）；多孩家庭标注各孩子年级（高中/已毕业孩子不计入年级主线）。</p>
+    </div>
+    <div class="cards" id="resp"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="fin">
+    <div><b>洋葱学园 · 逐年级学习痛点洞察</b><div class="muted">数据来源：飞书《访谈速记·小学998首购调研》《访谈速记·998初中首购&升单调研》《家庭包用户调研》及 26 户家庭智能纪要 / 文字记录。原声为访谈逐字稿节选，仅用于用户研究。</div></div>
+    <div class="muted">市场策略 · 用户研究组</div>
+  </div>
+</footer>
+
+<!-- ICON SPRITE -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></symbol>
+  <symbol id="i-sprout" viewBox="0 0 24 24"><path d="M12 20v-8M12 12C9 12 7 10 7 7c3 0 5 2 5 5ZM12 12c0-3 2-5 5-5 0 3-2 5-5 5Z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-brain" viewBox="0 0 24 24"><path d="M9 4a3 3 0 0 0-3 3 3 3 0 0 0-1 5.8A3 3 0 0 0 9 18V4ZM15 4a3 3 0 0 1 3 3 3 3 0 0 1 1 5.8A3 3 0 0 1 15 18V4Z"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="2.6"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/></symbol>
+  <symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5 8.5A2 2 0 0 0 6.8 21h10.4a2 2 0 0 0 1.8-3.5L14 9V3M7.5 15h9"/></symbol>
+  <symbol id="i-lang" viewBox="0 0 24 24"><path d="M4 6h9M8 4v2c0 4-2 7-5 9M6 10c0 3 3 5 6 6M13 20l4-9 4 9M14.5 17h5"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14-4M4 5v3h3M4 13a8 8 0 0 0 14 4M20 19v-3h-3"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V6M6 12l6-6 6 6"/></symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24"><path d="M5 15c-1.5 1.5-2 5-2 5s3.5-.5 5-2M9 17l-2-2c1-5 5-9 11-9 0 6-4 10-9 11ZM15 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"/></symbol>
+  <symbol id="i-cube" viewBox="0 0 24 24"><path d="M12 3 4 7v10l8 4 8-4V7ZM4 7l8 4 8-4M12 11v10"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5ZM3 13l9 5 9-5"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-8 8H6l-3 2 1-4A8 8 0 1 1 21 12Z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></symbol>
+  <symbol id="i-question" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M9.5 9.5a2.5 2.5 0 0 1 4.5 1.5c0 1.5-2 1.8-2 3M12 16.5h.01"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0M16 6a3 3 0 0 1 0 6M17 14c2 .5 3.5 2 3.5 4.5"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 4v16h16M8 16v-4M12 16V9M16 16v-7"/></symbol>
+  <symbol id="i-bridge" viewBox="0 0 24 24"><path d="M3 9c3 0 4-3 9-3s6 3 9 3M3 9v9M21 9v9M9 18v-6M15 18v-6M3 14h18"/></symbol>
+  <symbol id="i-coins" viewBox="0 0 24 24"><ellipse cx="9" cy="7" rx="6" ry="3"/><path d="M3 7v5c0 1.7 2.7 3 6 3M15 11.5c3.3 0 6 1.3 6 3v0c0 1.7-2.7 3-6 3s-6-1.3-6-3M21 14.5V17"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 5 6v6c0 4 3 6.5 7 9 4-2.5 7-5 7-9V6Z"/><path d="m9.5 12 1.8 1.8L15 10"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 3 5 13h6l-1 8 8-10h-6Z"/></symbol>
+  <symbol id="i-anchor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.5"/><path d="M12 7.5V21M5 13a7 7 0 0 0 14 0M5 13H3M19 13h2"/></symbol>
+  <symbol id="i-puzzle" viewBox="0 0 24 24"><path d="M10 4a2 2 0 1 1 4 0v2h3v3a2 2 0 1 1 0 4v3h-3a2 2 0 1 0-4 0H7v-3a2 2 0 1 0 0-4V6h3Z"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2ZM19 19a2 2 0 0 0-2-2H4"/></symbol>
+</svg>
+
+<script>
+/* ====== DATA & RENDER ====== */
+"use strict";
+var ICON = function(id){return '<svg class="ic"><use href="#'+id+'"/></svg>';};
+var GRADES = [];
+GRADES.push({id:"xueqian",label:"学前 · 幼儿园中班",seq:"学前",icon:"i-sprout",hue:170,
+feat:"孩子愿不愿意、能不能看懂是关键；启蒙资源几乎全靠家长自己筛选。",
+srcs:["用户8 · 广东湛江","用户9 · 湖南长沙","998 · 上海奉贤","998 · 北京大兴"],
+pains:[
+{icon:"i-question",tag:"资源筛选",title:"启蒙资源全靠家长筛，平台暂时接不住",desc:"中班阶段系统识字、英语伴读等需求强，但孩子太小、成体系的产品少，家长只能自己东拼西凑。",
+quotes:[{q:"老四中班，需要系统识字、英语伴读，这些洋葱做不到，所以我另外帮老四在做，主要用伴鱼。",who:"中班 · 用户8 · 广东湛江"},{q:"老四比较小，我会看得多一点，晚上放学回来安排得满一点；大姐有空就陪他读英语，没空就我去带。",who:"中班 · 用户8 · 广东湛江"}],
+onion:"数学思维启蒙动画已能接住低龄兴趣；识字 / 伴读是后续补位方向。"},
+{icon:"i-eye",tag:"看不懂 / 读题",title:"孩子“喜欢但看不懂”，不认字需要读题",desc:"低龄孩子对动画有兴趣，但识字量不足，遇到文字题就卡住，家长一犹豫就停用了。",
+quotes:[{q:"洋葱一年级课程，孩子看过一点点很喜欢看，但我感觉他看不懂，就没让他继续看。",who:"中班 · 998 · 上海奉贤"},{q:"他才四岁多，很多字都不认识；一上课马上有练习，他不会读题，读题还要家长守着他读。",who:"中班 · 用户9 · 湖南长沙"}],
+onion:"数学启蒙动画趣味性强、孩子“很喜欢”；补上 <b>读题 / 语音</b> 即可打通低龄自主学。",onionQuotes:[{q:"好像有个功能，自己点题目它就会读出来，我不知道这样好不好。",who:"中班 · 用户9 · 湖南长沙"}]},
+{icon:"i-sprout",tag:"保护兴趣",title:"怕过早鸡娃、伤了学习兴趣",desc:"家长更在意先点燃兴趣、保护好奇心，反对一上来就刷题拔高。",
+quotes:[{q:"一年级没必要拔苗助长这么快，你要让他感兴趣，先把兴趣提上来。",who:"启蒙观 · 998 · 北京大兴"},{q:"我觉得就像跑马拉松，你没必要一开始就让他跑那么快；以后难度增加，他自然而然会去学。",who:"启蒙观 · 998 · 北京大兴"}],
+onion:"洋葱“先点燃兴趣、再谈难度”的动画启蒙，与这类家长的理念天然一致。"}
+]});
+GRADES.push({id:"g1",label:"一年级",seq:"一",icon:"i-book",hue:190,
+feat:"进不进得了状态、家长盯不盯得住，是低年级的头号问题。",
+srcs:["用户4 · 江西九江","998 · 山东青岛","998 · 北京大兴"],
+pains:[
+{icon:"i-clock",tag:"进入状态难",title:"推三阻四、进不了状态，家长监督成本高",desc:"孩子坐不住、磨蹭，家长没那么多时间一对一盯着，单次能接受的学习时长很短。",
+quotes:[{q:"孩子推三阻四，我没那么多时间领着他学；每天十分钟看个数学视频还行，多了他就不愿意了。",who:"1年级 · 998 · 山东青岛"},{q:"目的是让他预习，主要学课内的，我先把课内学好了，再去拔高。",who:"1年级 · 998 · 山东青岛"}],
+onion:"洋葱单节短（<10 分钟）、动画激趣，先用一个视频帮孩子“进入状态”再写作业。"},
+{icon:"i-eye",tag:"护视力",title:"识字少看不懂解析、家长怕伤视力",desc:"一年级识字量有限，纯文字解析看不懂；家长普遍担心长时间盯屏影响视力，更偏纸质。",
+quotes:[{q:"看着平板或手机时间长，怕对孩子视力不好，对视力来说我更希望在家看看书。",who:"护视力 · 998 · 辽宁沈阳"},{q:"我练习册都给他买纸质的，终归最后还是要回归到纸上写，要养成好的纸质习惯。",who:"护视力 · 998 · 辽宁沈阳"}],
+onion:"短时动画 + 控制时长 + 纸质练习配合，兼顾兴趣与护眼。"},
+{icon:"i-sprout",tag:"启蒙习惯",title:"核心诉求是启蒙与习惯养成",desc:"比起提分，家长更看重古诗词、自然拼读、计算等启蒙，且希望孩子能自己操作、省家长。",
+quotes:[{q:"弟弟一年级，主要是课内复习预习、练计算，给他出一些计算练习册，没搞太多。",who:"1年级 · 用户4 · 江西九江"}],
+onion:"古诗词韵律、自然拼读、大百科——低龄全科启蒙的趣味切口，且“省妈”。",onionQuotes:[{q:"自然拼读操作方便、简单基础，孩子能自己操作，我规定看多少他自己看，就省妈妈。",who:"1年级 · 998 · 北京大兴"},{q:"洋葱古诗词比幼儿园做得更好，他看完确实能理解意境，也能记下来。",who:"1年级 · 998 · 北京大兴"}]}
+]});
+GRADES.push({id:"g2",label:"二年级",seq:"二",icon:"i-clock",hue:208,
+feat:"作业拖到三小时、孩子坐不住；家长最在意“学完到底会不会做题”。",
+srcs:["998 · 浙江杭州（效果型）"],
+pains:[
+{icon:"i-clock",tag:"作业 3h",title:"边玩边写，作业拖到三小时",desc:"二年级专注力弱，写作业全靠家长盯，中途还要休息看动画，效率极低、挤压一切课外时间。",
+quotes:[{q:"每天写完作业就到十点了，中途还要看小猪佩奇休息，要三个小时。",who:"2年级 · 998 · 浙江杭州"}],
+onion:"把放学后重构为“先看洋葱进入状态 → 高效写作业 → 再预习”，帮孩子早睡一小时。",onionQuotes:[{q:"对题目的理解——孩子做作业遇到比较绕的题觉得不会做，希望通过你们的动画加深理解，把绕的题弄清楚。",who:"2年级 · 998 · 浙江杭州"}]},
+{icon:"i-target",tag:"效果验证",title:"学完不会做题，效果验证难",desc:"效果型家长要的是“学完能做对题”；孩子看懂了动画却做不出后面的题，家长就否定了产品。",
+quotes:[{q:"他说懂了，但后面的题还是不懂，这个时候我就没办法让他再用你们这个方式弄懂。",who:"2年级 · 998 · 浙江杭州"},{q:"孩子只喜欢看第一遍的新鲜感，后面习题不会做时，就不爱再看第二遍。",who:"2年级 · 998 · 浙江杭州"}],
+onion:"把“攻克错题”做成收集 / 挑战的游戏进程，吸引孩子主动把题做对、看到效果。"},
+{icon:"i-eye",tag:"低龄适配",title:"识字少看不懂解析、回看没新鲜感、字太小",desc:"文字版解析对低龄不友好：第一遍看动画愿意听，做错题退回去就没耐心；做题字号也偏小。",
+quotes:[{q:"识字量少，解析看不懂，我讲给他也进不去脑子；动画第一遍愿意听，退回去看就没耐心了。",who:"2年级 · 998 · 浙江杭州"},{q:"做题目的时候那字应该再加大一点，出于对孩子健康的考虑。",who:"字号 · 998 · 浙江杭州"}],
+onion:"错题解析增加 <b>动画视频版</b> 适配不认字的孩子；做题支持字号调整。"}
+]});
+GRADES.push({id:"g3",label:"三年级",seq:"三",icon:"i-brain",hue:226,
+feat:"“三年级现象”：专注力、文科开放题、以及“我到底该怎么用洋葱”集中爆发。",
+srcs:["用户1 · 广东广州","用户8 · 广东湛江","998 · 辽宁沈阳","998 · 北京东城"],
+pains:[
+{icon:"i-brain",tag:"专注力",title:"作业启动慢、爱溜号、拖拉",desc:"前期迟迟进不了状态，全靠家长在旁提醒；习惯不好的孩子经常挤不出时间学。",
+quotes:[{q:"他好动好说话坐不住，前期总溜号，你不陪着提醒，作业就要写好久好久。",who:"3年级 · 998 · 辽宁沈阳"},{q:"其实这些练习都不如写作业时我不跟他说话、不理他，在他愣神时提醒他，他一点点就好了。",who:"3年级 · 998 · 辽宁沈阳"},{q:"二年级我发现一直提醒会打断他专注力，现在努力控制，不管咋样我就不吱声，写完了再说。",who:"3年级 · 998 · 辽宁沈阳"},{q:"老三习惯不如姐姐、做事拖拉、不爱阅读，经常没时间上洋葱。",who:"3年级 · 用户8 · 广东湛江"},{q:"他看字多一点，数学后面的大题全对，错的都是前面；语文阅读、应用题字一多，他就说不会。",who:"3年级 · 用户8 · 广东湛江"}],
+onion:"“先看一个洋葱视频再写作业”，用趣味内容帮孩子快速进入学习状态。"},
+{icon:"i-lang",tag:"文科没方法",title:"语文英语缺科学方法、开放题抵触",desc:"数学有抓手，语文英语却“方向模糊”；孩子对造句、阅读等开放题抵触，家长不知如何提分。",
+quotes:[{q:"语文英语没有重点的方向，担心浪费时间没什么帮助，规划一直比较模糊。",who:"3年级 · 998 · 辽宁沈阳"},{q:"如果是推荐一本书、像伴读那样，我自己有纸质书、老师提问引导我思考，这样可以；但全程盯着屏幕，我不会选。",who:"3年级 · 998 · 辽宁沈阳"},{q:"妹妹数学一直没赶上，好像进不太去、没有进入状态。",who:"3年级 · 用户1 · 广东广州"},{q:"我是怕基础没打好，到了五六年级就更难搞。",who:"3年级 · 用户1 · 广东广州"}],
+onion:"数学超前学 + 错题本补基础；语文精读伴学、英语同步，补上“文科方法”短板。"},
+{icon:"i-question",tag:"不会用",title:"不知道洋葱好在哪、也不知道怎么用",desc:"家长愿意为“一个打动我的点”买单，却感知不到洋葱的独特价值；复制粘贴的话术更帮倒忙。",
+quotes:[{q:"只要有一个特别的点吸引我我就会买，但洋葱我没发现特别突出的点；能说出来的就是古诗的韵律。",who:"3年级 · 998 · 北京东城"},{q:"班主任介绍大多是复制粘贴的文字，看不懂；能不能抓住点说你到底优势在哪。",who:"3年级 · 998 · 北京东城"},{q:"不要像淘宝卖家的机器人，一个劲给你发，我根本没看，也看不懂。",who:"3年级 · 998 · 北京东城"},{q:"大部分产品都在等着我们自己去研究，没有指导，我们就没时间打开洋葱去研究它。",who:"3年级 · 998 · 北京东城"},{q:"就比如400的客服，说您现在有时间吗？我带您走一遍——这样就好了。",who:"3年级 · 998 · 北京东城"}],
+onion:"价值与用法要“<b>专人带练</b>”透传（如客服电话带着走一遍）+ 贴合小低调性的图文物料。"}
+]});
+GRADES.push({id:"g4",label:"四年级",seq:"四",icon:"i-flask",hue:246,
+feat:"从“会做题”转向“真懂概念 + 有方法”；好学生开始觉得同步课太基础。",
+srcs:["用户3 · 安徽合肥","用户6 · 江苏镇江","用户10 · 山东济南","998 · 河北唐山"],
+pains:[
+{icon:"i-flask",tag:"概念不深",title:"概念理解不深，丢分在细节",desc:"题会做但概念没吃透，期末往往丢分在概念细节；家长开始重视“先把概念弄懂”。",
+quotes:[{q:"基础首先是概念，先把概念弄懂，其他题都是从概念往外延伸的。",who:"4年级 · 998 · 河北唐山"},{q:"概念性的问题还不太会、见题少，期末主要丢分在概念细节上。",who:"4年级 · 998 · 河北唐山"}],
+onion:"洋葱动画把抽象概念具象化，潜移默化掌握课本知识点。"},
+{icon:"i-refresh",tag:"错题反复",title:"错题反复，需要举一反三",desc:"靠家长找同类题、打印机推题效率低；家长希望平台能按错题智能推同类题与拔高题。",
+quotes:[{q:"同一类型题可以做三道，刷够基础再推举一反三，有的练习册这个板块做得挺好，可以借鉴。",who:"4年级 · 998 · 河北唐山"},{q:"错题修改用小熊打印机，做完可以筛选同类的题，也会用 deepseek 搜相关题目。",who:"4年级 · 998 · 河北唐山"}],
+onion:"错题本 + 全网题库，按错题自动推同类题与更高阶的迁移题。"},
+{icon:"i-up",tag:"太基础 / 超前学",title:"好学生嫌“太基础”，要超前学 + 方法",desc:"同步课满足预习，但好学生觉得不够；家长更想要超前学、学习规划与元认知方法（如打草稿）。",
+quotes:[{q:"看洋葱侧重基础，对课本预习还行；提分我们就做练习册。",who:"4年级 · 998 · 河北唐山"},{q:"人家草稿纸都是要标号的，要给孩子讲一下，养成习惯后面就好了。",who:"4年级 · 998 · 河北唐山"},{q:"妹妹会看洋葱里的东西，但不看学科的，对你们的物理、地理那些小知识比较感兴趣。",who:"4年级 · 用户3 · 安徽合肥"}],
+onion:"超前学体系 + AI 定制规划 + 学习方法课，承接“好学生”的拔高诉求。",onionQuotes:[{q:"先在洋葱预习，再上线下课，觉得比直接上线下课效果更好。",who:"4年级 · 用户10 · 山东济南"}]}
+]});
+GRADES.push({id:"g5",label:"五年级",seq:"五",icon:"i-chart",hue:266,
+feat:"成绩开始分化、小升初焦虑上头；家长要“规划感”和“查漏补缺”。",
+srcs:["用户5 · 浙江杭州","998 · 上海奉贤"],
+pains:[
+{icon:"i-chart",tag:"成绩下滑 / 分班",title:"五下成绩下滑、小升初分班焦虑",desc:"五年级下学期难度上台阶，成绩波动；又要面对小升初分班考，家长需要明确的学习节奏。",
+quotes:[{q:"上五年级之后感觉越来越难了，五下的成绩感觉有下滑。",who:"5年级 · 用户5 · 浙江杭州"}],
+onion:"AI 定制班自动排课——“先复习、再预习”的规划感，正是这个阶段最稀缺的。",onionQuotes:[{q:"现在先学五年级内容复习，寒暑假预习六年级内容。",who:"5年级 · 用户5 · 浙江杭州"},{q:"买小学到初中的会有浪费，买到高中不浪费，反而还少一年——一年不够用。",who:"5年级 · 用户5 · 浙江杭州"}]},
+{icon:"i-target",tag:"查漏补缺",title:"应试要细、需要查漏补缺",desc:"高年级更看重校内重难点、易错点和本地教材版本；家长希望清楚知道孩子薄弱点在哪。",
+quotes:[{q:"小时候更注重兴趣，但到了四五年级、高年级，也要提前学一学，因为最终是要升学的。",who:"5年级 · 998 · 上海奉贤"}],
+onion:"AI 精准学查漏补缺 + 校内重难点 / 地方版本贴合应试。",onionQuotes:[{q:"洋葱对校内做得挺细，重难点、易错点比天天练更细，还有沪教版。",who:"5年级 · 998 · 上海奉贤"},{q:"喜欢 AI 精准学，能知道孩子第一遍学时薄弱点在哪。",who:"5年级 · 998 · 上海奉贤"},{q:"孩子喜欢洋葱的人物设定，后面的习题很多都不用算，只考察思路。",who:"5年级 · 998 · 上海奉贤"}]}
+]});
+GRADES.push({id:"g6",label:"六年级",seq:"六",icon:"i-bridge",hue:288,
+feat:"小升初衔接是主旋律：要省时间、要内驱、要把抽象知识讲透。",
+srcs:["用户1 · 广东广州","用户4 · 江西九江","用户7 · 广东深圳","用户8 · 广东湛江"],
+pains:[
+{icon:"i-bridge",tag:"小升初衔接",title:"小升初衔接，直播课太占时间",desc:"六年级要为初中预习铺路，但两小时的直播课太占时间，家长想要更高效的同步预习。",
+quotes:[{q:"高途上课时间太久，每天两个小时一科；初中没有这么多时间去看。",who:"6年级 · 用户1 · 广东广州"},{q:"小升初密考结束了，现在主要准备预习初中，预习我觉得就不需要去拓展。",who:"6年级 · 用户1 · 广东广州"},{q:"暑假先衔接、先预习，到了初中周末也是预习。",who:"6年级 · 用户1 · 广东广州"}],
+onion:"短视频同步预习省时，轻松完成小升初衔接。",onionQuotes:[{q:"大宝小升初衔接，洋葱用短视频完成同步预习，不像直播课一节两小时占时间。",who:"6年级 · 用户1 · 广东广州"}]},
+{icon:"i-rocket",tag:"内驱 / 提前学",title:"内驱力不足、想提前学初中",desc:"成绩不错但不冒尖，家长想培养内驱力；暑假希望提前学初中内容、卡位衔接。",
+quotes:[{q:"各科九十五分以上但不是冒尖型，希望培养内驱力；暑假想提前学初中。",who:"6年级 · 用户4 · 江西九江"},{q:"马上初中了，想在暑假利用这些学习资源让他提前学一下。",who:"6年级 · 用户4 · 江西九江"},{q:"希望把学习习惯各方面带起来，自己能有那种内驱力。",who:"6年级 · 用户4 · 江西九江"},{q:"老二阅读量也不够，到了初中你就没有时间去补了。",who:"6年级 · 用户8 · 广东湛江"}],
+onion:"孩子可自主学、不用盯 + 初中预习提前卡位。"},
+{icon:"i-cube",tag:"抽象具象化",title:"抽象知识难理解，刷题不如讲透",desc:"高年级知识抽象度上升，家长选洋葱的核心就是“AI 动画把抽象的东西讲具体”。",
+quotes:[{q:"我担心他一知半解、半懂不懂，老师讲的就不是很懂。",who:"6年级 · 用户7 · 广东深圳"}],
+onion:"AI 动画把抽象知识具象化，是家长选择洋葱的主因。",onionQuotes:[{q:"风格好不粗糙，孩子感兴趣，能把抽象的知识点讲解出来、把抽象的东西具体化。",who:"6年级 · 用户7 · 广东深圳"},{q:"把一个抽象的东西具体化，对小孩的理解很有帮助。",who:"6年级 · 用户7 · 广东深圳"},{q:"复杂的知识点能用动画形象地描述出来，对小孩理解有帮助，这是最关键的一点。",who:"6年级 · 用户7 · 广东深圳"},{q:"洋葱底层动画讲得清楚，知识点明白了，做起题来就知道怎么回事。",who:"6年级 · 用户7 · 广东深圳"}]}
+]});
+GRADES.push({id:"j1",label:"初一",seq:"初一",icon:"i-layers",hue:308,
+feat:"科目骤增、难度跳升、青春期叠加——初中是 998 与家庭包需求最旺的节点。",
+srcs:["用户2 · 江西景德镇","用户6 · 江苏镇江","用户8 · 广东湛江","用户9 · 湖南长沙","用户10 · 山东济南","998 · 安徽合肥","998 · 山东泰安","998 · 北京海淀"],
+pains:[
+{icon:"i-layers",tag:"科目骤增 / 偏科",title:"科目骤增、难度跳升，偏科暴露",desc:"小学的优势进了初中没发挥出来，理科 / 多科同时偏科，教材改版后整体下滑，家长焦虑总分。",
+quotes:[{q:"老大数学最大短板，偏科严重，数学、历史、生物、地理才六十多分，其他都90以上。",who:"初一 · 用户8 · 广东湛江"},{q:"他小学数学每天都补课，才90分左右；到初中一下子就掉到不及格了。",who:"初一 · 用户8 · 广东湛江"},{q:"数学偏科，一百分的卷子考七八十、不稳定。",who:"初一 · 用户6 · 江苏镇江"},{q:"数学是他现在目前最大的问题、最担忧的。",who:"初一 · 用户9 · 湖南长沙"},{q:"初中教材改版、课变难、讲得快，孩子跟不上、听不懂，所有学科成绩下滑得厉害。",who:"初一 · 998 · 山东泰安"},{q:"数学初一第一次考试七十多分，期中六十多，期末五十多——每次都在下滑。",who:"初一 · 998 · 北京海淀"}],
+onion:"数理化“天花板” + AI 定制班，针对薄弱学科系统补。"},
+{icon:"i-target",tag:"压轴题",title:"数学压轴题攻不下，又请不起一对一",desc:"压轴题（24、25 题）是最大痛点，但不可能每道难题都请一对一陪练。",
+quotes:[{q:"数学压轴题二十四、二十五题问题大；不可能一道题不懂就请一对一老师陪练。",who:"初一 · 用户9 · 湖南长沙"},{q:"压轴题问题比较大，包括思路的引导、每一个步骤的解析这些方面。",who:"初一 · 用户9 · 湖南长沙"},{q:"希望针对每个省会的题型，一搜索就弹出这一类题，有针对性、有的放矢地做薄弱点。",who:"初一 · 用户9 · 湖南长沙"}],
+onion:"动画讲透难点 + 按题型即搜即练（“专项练颗粒度”是家长明确诉求）。"},
+{icon:"i-chat",tag:"青春期",title:"青春期不敢问老师，线下课没起色",desc:"内向孩子有难题不敢问老师，家长又不愿为学习破坏亲子关系；线下班上了也没明显起色。",
+quotes:[{q:"老大内向、慢热，有难题、有不懂的不敢问老师，他很被动、不主动。",who:"初一 · 用户8 · 广东湛江"},{q:"他可能跟机器比跟人更好交流；我也不愿意为了学习破坏我们两个人的关系。",who:"初一 · 用户8 · 广东湛江"},{q:"线下数学班一对五、两小时，上了一学期，数学目前没有任何起色，准备给他停掉。",who:"初一 · 用户10 · 山东济南"}],
+onion:"AI / 动画自助提分，不必为学习破坏亲子关系——青春期家庭的隐性刚需。"},
+{icon:"i-up",tag:"超前学",title:"要超前学高中，且不只是同步",desc:"好学生在初中就要往高中学、要拔高难度，并强调培养思维而非套公式。",
+quotes:[{q:"既然要提前学就一起买，初中时就要往高中学，不能等到高中再学。",who:"初一 · 用户2 · 江西景德镇"},{q:"不是单纯教你套公式、套模型，而是要提高孩子的思维分析能力、学会解决问题。",who:"初一 · 用户2 · 江西景德镇"},{q:"他成绩比较好，基本是超前学的；初中的、高中的我都买了，就是让他超前学。",who:"初一 · 用户2 · 江西景德镇"},{q:"我们这个班大家都是提前学的，他们班很多初中的都已经学完了。",who:"初一 · 用户9 · 湖南长沙"}],
+onion:"小初高同平台，超前学 + “点-线-面”的思维体系。"},
+{icon:"i-clock",tag:"作业多 / 没时间",title:"作业写到半夜，把洋葱当“有空才用的预习”",desc:"普娃家庭最大阻力是作业写不完、没时间；家长把洋葱定位成“预习”，有空才用，全科反而用不起来——这也是 998 未成交的现实阻力。",
+quotes:[{q:"现在时间很少，天天写不完的作业实在太多，他没时间去看，作业写到晚上十一二点钟。",who:"初一 · 998 · 安徽合肥（未成交）"},{q:"全科作业负担太重、没时间用这么多学科；查漏补缺我交给了更有针对性的一对一。",who:"初一 · 998 · 安徽合肥（未成交）"}],
+onion:"初中 998 要从“帮孩子搞定校内、题型解析”切入，比“预习”更刚需、更省时。"},
+{icon:"i-coins",tag:"辅导不动 / 要解放家长",title:"家长辅导不动、线下贵，要能听懂 + 解放家长",desc:"家长辅导不了、线下班贵又没效果；要的是孩子能听懂、能替家长辅导，顺带缓和亲子关系。",
+quotes:[{q:"以后学的东西越来越多越难，有些东西我也不会，我也实在教不了。",who:"初一 · 998 · 山东泰安"},{q:"我感觉只看基础的不够，因为学校出的题挺难的。",who:"初一 · 998 · 北京海淀"}],
+onion:"同步补基础 + 培优覆盖难题 + 各地区期中期末试卷 + 助教学习规划；还顺带“解放家长”。",onionQuotes:[{q:"孩子能听懂课，可以代替我辅导。",who:"初一 · 998 · 山东泰安"},{q:"以前不会的题我得赶紧给他讲，现在有洋葱他先自己查，查不懂我再教，也把我解放出来了。",who:"初一 · 998 · 山东泰安"}]}
+]});
+GRADES.push({id:"j2",label:"初二",seq:"初二",icon:"i-bolt",hue:330,
+feat:"承上启下的关键一年：6 户初二样本集中暴露——偏科加深、好学生嫌“粗浅”、住校没时间、想刷题拔高。",
+srcs:["998 · 辽宁抚顺","998 · 安徽合肥","998 · 山东聊城","998 · 重庆涪陵","998 · 江苏南京","998 · 江西南昌"],
+pains:[
+{icon:"i-layers",tag:"基础下滑 / 偏科",title:"上初中断崖下滑、偏科加深",desc:"教材变难、节奏变快，基础不扎实的孩子整体下滑；偏科（尤其数学、理科）进一步固化。",
+quotes:[{q:"孩子弱科是英语和数学，英语60到100分、数学70到100分，大题还是不行。",who:"初二 · 998 · 江苏南京"},{q:"孩子偏科严重，数学不及格（满分140），物理上凡是涉及数学的都不行。",who:"初二 · 998 · 江西南昌"},{q:"基础知识不扎实，得先把最基础的补好，根本达不到分。",who:"初二 · 998 · 安徽合肥"}],
+onion:"数理化“天花板” + 教材同步动画补基础，先把概念与基础题吃透。"},
+{icon:"i-up",tag:"好学生嫌粗浅",title:"好学生嫌“课件粗浅”，难题还是不会做",desc:"好学生看完同步课，做练习册、试卷里的难题依然不会，觉得“浮于表面”，学习兴致走低。",
+quotes:[{q:"好多课件太粗浅了，都是表面功夫，难题还是无法解决。",who:"初二 · 998 · 辽宁抚顺"},{q:"试卷里的题目都没涉及到，看完洋葱课、做练习册还是不会。",who:"初二 · 998 · 辽宁抚顺"},{q:"仅凭兴趣不行，难题很难去研究；只买一个洋葱学不懂，只能起辅助作用。",who:"初二 · 998 · 辽宁抚顺"}],
+onion:"针对好学生直接推“培优课 / 题型解析”，从“听懂课”走到“弄懂题”。"},
+{icon:"i-clock",tag:"住校 / 没时间",title:"住校 + 作业多，一个月只看一两次",desc:"住校生两周才回家、作业占满，洋葱常常用不起来；时间是初中段最大的硬约束。",
+quotes:[{q:"住校两周回家一次，休息也就三四天，写作业占三天，很少看洋葱，除非周测考不好。",who:"初二 · 998 · 山东聊城"},{q:"一个月只看一次，写作业和休息占据了多数时间。",who:"初二 · 998 · 山东聊城"},{q:"遇到不会的题，不知道在哪找到相关的解题视频，搜索里也不能搜题。",who:"初二 · 998 · 山东聊城"}],
+onion:"突出“省时高效 + 拍照搜题直达解题视频”；寒 1 + 暑 2 个月集中用也够本。"},
+{icon:"i-target",tag:"刷题拔高 / 要督促",title:"想刷题拔高，但不自律、需要人盯",desc:"好学生想靠刷题 + 视频解析拔高，但自制力不稳，需要助教及时督促才能坚持。",
+quotes:[{q:"我有时候不太自律、可能玩傻了，需要有人提醒督促才会去学。",who:"初二 · 998 · 重庆涪陵"},{q:"光写题不预习，我怕跟不上。",who:"初二 · 998 · 重庆涪陵"}],
+onion:"刷题 + 视频解析 + 助教督促形成闭环，让“拔高”看得见提分。",onionQuotes:[{q:"期末前几天用洋葱做题拔高，期末考试排名第二，有明显进步。",who:"初二 · 998 · 重庆涪陵"},{q:"数学刷题解析很清楚，难度等级很好，相比以前拔高了不少。",who:"初二 · 998 · 重庆涪陵"},{q:"助教提醒我，我都会回复他，他督促完之后就真的能起到作用，我就去学习了。",who:"初二 · 998 · 重庆涪陵"}]},
+{icon:"i-coins",tag:"线下贵 / 要性价比",title:"线下贵又没效果，要性价比与“能替家长辅导”",desc:"用过多个线下/线上班，贵又没效果、孩子不爱去；洋葱全科一年、孩子愿意听、能替家长辅导成了首购理由。",
+quotes:[{q:"线下一节课几十块，三门要一万多，时长还长，孩子也不一定坚持。",who:"初二 · 998 · 江苏南京"},{q:"数学初一暑假报过线下辅导班，但没啥效果，开学后大题还是不行。",who:"初二 · 998 · 江苏南京"}],
+onion:"全科一年 + 教材同步 + 两孩同用的性价比；孩子能听懂、能替家长辅导。",onionQuotes:[{q:"课外辅导班不想去，洋葱孩子还挺喜欢，同步课本知识点都有讲。",who:"初二 · 998 · 江苏南京"},{q:"每学一节就做平板练习，再做纸质练习册检验，习题册上的错题率明显减少了。",who:"初二 · 998 · 安徽合肥"}]},
+{icon:"i-chat",tag:"销售 / 要针对性",title:"讨厌套话长文，要“针对我孩子”的反馈",desc:"家长忙、反感复制粘贴的长段话术；更想要言简意赅、针对自己孩子的学情反馈，甚至愿为此加价。",
+quotes:[{q:"太长的套话型话术我都不太看，除非针对孩子最近情况、言简意赅、关键点提炼清楚。",who:"初二 · 998 · 江西南昌"},{q:"希望有针对性地反馈孩子学习情况、下一步怎么做，固定时间发给我，价格提高也没事。",who:"初二 · 998 · 江西南昌"},{q:"周边家长都趋向永久看课的，一年时长这个价钱可能就刷掉了一部分家长。",who:"初二 · 998 · 辽宁抚顺"}],
+onion:"销售话术轻量化 + 针对性学情反馈服务；并提供《洋葱使用手册》降低上手成本。"}
+]});
+GRADES.push({id:"j3",label:"初三",seq:"初三",icon:"i-target",hue:352,
+feat:"中考冲刺、时间紧、理科偏弱；家长精力也开始向更小的孩子转移。",
+srcs:["用户3 · 安徽合肥"],
+pains:[
+{icon:"i-clock",tag:"中考冲刺",title:"七科压顶、写作业磨蹭到十二点",desc:"临近中考七科并进，时间极度紧张，孩子写作业磨蹭，效率是最大瓶颈。",
+quotes:[{q:"姐姐临近中考，七科都有，写作业一般都到十二点。",who:"初三 · 用户3 · 安徽合肥"},{q:"主要是姐姐做事比较磨蹭、写东西比较肉，所以时间会比较长。",who:"初三 · 用户3 · 安徽合肥"},{q:"语数外、物理、化学，七科都有。",who:"初三 · 用户3 · 安徽合肥"}],
+onion:"中考 X 轮复习按节奏推进，帮孩子把有限时间用在刀刃上。"},
+{icon:"i-flask",tag:"理科偏弱",title:"理科偏弱，物理是短板",desc:"重点校中等生，数学尚可但理科偏弱，物理常年五六十分，是中考提分关键。",
+quotes:[{q:"她弱科其实就是偏理，数学、物理、化学相对她的文科都算弱的。",who:"初三 · 用户3 · 安徽合肥"},{q:"物理我们这边70分满分，他一般都在58左右。",who:"初三 · 用户3 · 安徽合肥"},{q:"中考要想考个比较好的学校，物理60不算稳。",who:"初三 · 用户3 · 安徽合肥"}],
+onion:"数理化“天花板” + 按能力分层进阶（像图书馆一样自选难度）。"},
+{icon:"i-users",tag:"主动性 / 家长精力",title:"孩子主动性不足，家长精力被分走",desc:"大孩主动性不够、买的冲刺包不看；家长还要兼顾更小的孩子，精力被稀释。",
+quotes:[{q:"我当时买，意思是你可以跟着看一看，结果他不看。",who:"初三 · 用户3 · 安徽合肥"},{q:"去年买的（中考几轮复习）冲刺包姐姐不看，妹妹反而用得多。",who:"初三 · 用户3 · 安徽合肥"},{q:"姐姐一直主动性都不太够，做事比较磨蹭，就在那慢慢耗。",who:"初三 · 用户3 · 安徽合肥"},{q:"马上姐姐读高中以后我们就管不了他了，大部分精力应该会放到小的身上。",who:"初三 · 用户3 · 安徽合肥"}],
+onion:"用工具替代部分补课 + AI 定制规划，降低对家长盯学的依赖。"}
+]});
+var THEMES = [
+{icon:"i-anchor",title:"决策锚点：多孩有主次，先抓“让好的更好”",
+summary:"多孩家庭往往由一个“紧急+重要”的大孩升学需求促成交，另一个孩子的权益把高客单价“合理化”，二者缺一不可，且会在升学节点发生需求转化。",
+quotes:[{q:"主要考虑的是哥哥，妹妹无所谓、顺带使用；但如果没有妹妹的权益，可能就买个短期课，不会买家庭包了。",who:"用户1 · 广东广州"},{q:"我主要是考虑哥哥愿不愿意，哥哥说愿意，那就买了。",who:"用户1 · 广东广州"},{q:"如果只考虑老大，我就买初和高就行——会买家庭包是因为我有四个孩子。",who:"用户8 · 广东湛江"},{q:"姐姐上高中没精力管他了，会把更多精力放在小的身上。",who:"用户3 · 安徽合肥"}]},
+{icon:"i-coins",title:"性价比：算的是综合成本 + 未来成本",
+summary:"家长判断“划算”，不是看标价，而是与更贵的私教 / 线下班对比时间金钱接送等综合成本，以及“现在不买、以后涨价或仍要补课”的未来成本。",
+quotes:[{q:"不需要接送，孩子也不用赶路，时间成本也没有，还比私教班便宜，私教一门就一万多。",who:"用户3 · 安徽合肥"},{q:"去年价格低很多没买，后面发现涨价了不少，吃过一次亏，这次先买。",who:"用户3 · 安徽合肥"},{q:"六年七千多的课程不贵，而且你们更新也不用再付费。",who:"用户8 · 广东湛江"},{q:"他（博主）说闭眼入、提前囤课，搞不好回头还涨价，东西比较好嘛。",who:"用户4 · 江西九江"},{q:"买到高中不浪费，反而还少一年——一年不够用。",who:"用户5 · 浙江杭州"}]},
+{icon:"i-shield",title:"共性顾虑：怕浪费 / 怕孩子不能坚持",
+summary:"几乎所有家长的核心顾虑都是“花这么多钱，孩子坚持不下来就浪费了”。消解靠三条：信任孩子、信任权威（博主/规划师）、或未消解但能承担风险。未购家长多卡在这一关。",
+quotes:[{q:"最终打消顾虑，是因为哥哥自己说喜欢学。",who:"用户1 · 广东广州"},{q:"博主只是单纯说这个好、提供链接，从客观公正的角度说，比起销售我更相信他。",who:"用户4 · 江西九江"},{q:"看着看着没兴趣——这个更重要，买了不看再好也没用。",who:"用户7 · 广东深圳"},{q:"他比较自律、说到做到，自己认定的事一般都能坚持，所以我就相信他。",who:"用户2 · 江西景德镇"},{q:"如果有效果，我会排除万难让他们学下去。",who:"用户8 · 广东湛江"},{q:"花这么多钱不一定能见到提分效果；有效果再买吧。",who:"用户6 · 江苏镇江（未购）"}]},
+{icon:"i-users",title:"最强未消解痛点：多孩并发受限",
+summary:"多孩家庭最强烈且尚未解决的痛点是“账号最多 2 台设备同时上课”，无法真正同时学、只能错峰；学情报告需按孩子拆分，跨城账号还会被锁。",
+quotes:[{q:"几个孩子同时在房间学完，就能一起出发……我孩子多就会想到这些。",who:"用户8 · 广东湛江"},{q:"即使爸爸妈妈分两个账号，都只能两个设备上课；老三五六年级要用就用不了了。",who:"用户8 · 广东湛江"},{q:"二姐九月也上初一，学情报告又和大姐混在一起；最好三个孩子都有自己的学情报告。",who:"用户8 · 广东湛江"},{q:"大宝小宝同省不同市，希望两个账号分开，跨市会锁账号。",who:"用户9 · 湖南长沙"}]}
+];
+var RESP = [
+{grp:"jtb",name:"用户1 · 黄妈妈",reg:"广东广州",stText:"已购家庭包",stClass:"buy",combo:["3年级","6年级"]},
+{grp:"jtb",name:"用户2 · 王妈妈",reg:"江西景德镇",stText:"已购家庭包",stClass:"buy",combo:["初一","已毕业"]},
+{grp:"jtb",name:"用户3 · 张妈妈",reg:"安徽合肥",stText:"续购",stClass:"buy",combo:["4年级","初三"]},
+{grp:"jtb",name:"用户4 · 刘爸爸",reg:"江西九江",stText:"首购",stClass:"buy",combo:["1年级","6年级"]},
+{grp:"jtb",name:"用户5 · 叶妈妈",reg:"浙江杭州",stText:"首购",stClass:"buy",combo:["5年级","高三"]},
+{grp:"jtb",name:"用户6 · 施爸爸",reg:"江苏镇江",stText:"未购（小初品）",stClass:"no",combo:["4年级","初一"]},
+{grp:"jtb",name:"用户7 · 林爸爸",reg:"广东深圳",stText:"首购",stClass:"buy",combo:["6年级","高一"]},
+{grp:"jtb",name:"用户8 · X妈妈",reg:"广东湛江",stText:"首购 · 4 娃",stClass:"buy",combo:["中班","三年级","六年级","七年级"]},
+{grp:"jtb",name:"用户9 · 黄妈妈",reg:"湖南长沙",stText:"升单",stClass:"buy",combo:["中班","七年级"]},
+{grp:"jtb",name:"用户10 · X妈妈",reg:"山东济南",stText:"首购",stClass:"buy",combo:["四年级","初一"]},
+{grp:"998",name:"998-01 · 全职妈妈",reg:"辽宁沈阳",stText:"数学198 · 未成交",stClass:"no",combo:["3年级"]},
+{grp:"998",name:"998-02 · 高效家长",reg:"北京东城",stText:"语文198 · 未成交",stClass:"no",combo:["3年级"]},
+{grp:"998",name:"998-03 · 习惯养成系",reg:"河北唐山",stText:"数学198 · 未成交",stClass:"no",combo:["4年级"]},
+{grp:"998",name:"998-04 · 效果型",reg:"浙江杭州",stText:"未付费",stClass:"no",combo:["2年级"]},
+{grp:"998",name:"998-05 · 佛系妈妈",reg:"山东青岛",stText:"数学488 · 成交",stClass:"buy",combo:["1年级"]},
+{grp:"998",name:"998-06 · 深度参与型",reg:"北京大兴",stText:"998 · 成交",stClass:"buy",combo:["1年级"]},
+{grp:"998",name:"998-07 · 二胎家庭",reg:"上海奉贤",stText:"大会员 · 成交",stClass:"buy",combo:["中班","5年级"]},
+{grp:"998",name:"998-08 · 积极陪伴型",reg:"安徽合肥",stText:"数学单科 · 998未成交",stClass:"no",combo:["初一"]},
+{grp:"998",name:"998-09 · 好学主导型",reg:"辽宁抚顺",stText:"998 · 不升单",stClass:"buy",combo:["初二"]},
+{grp:"998",name:"998-10 · 小镇陪伴型",reg:"安徽合肥",stText:"998 · 首购",stClass:"buy",combo:["初二"]},
+{grp:"998",name:"998-11 · 小镇陪伴型",reg:"山东泰安",stText:"998 · 成交",stClass:"buy",combo:["初一"]},
+{grp:"998",name:"998-12 · 好学主导型",reg:"山东聊城",stText:"998 · 不升单（住校）",stClass:"buy",combo:["初二"]},
+{grp:"998",name:"998-13 · 好学主导型",reg:"重庆涪陵",stText:"998 · 升单意愿高",stClass:"buy",combo:["初二"]},
+{grp:"998",name:"998-14 · 普娃陪伴型",reg:"江苏南京",stText:"998 · 首购",stClass:"buy",combo:["初二"]},
+{grp:"998",name:"998-15 · 中等生主导",reg:"江西南昌",stText:"998 · 首购",stClass:"buy",combo:["初二"]},
+{grp:"998",name:"998-17 · 积极陪伴型",reg:"北京海淀",stText:"大会员 · 首购升单",stClass:"buy",combo:["初一"]}
+];
+/* ---------- render helpers ---------- */
+function whoHTML(w){var p=String(w).split(" · ");var head=p.shift();return '<span class="who"><b>'+head+'</b>'+(p.length?" · "+p.join(" · "):"")+'</span>';}
+function quoteHTML(x){return '<div class="quote"><span class="qm">“</span>'+x.q+'”'+whoHTML(x.who)+'</div>';}
+function painHTML(p){
+  var qs=(p.quotes||[]).map(quoteHTML).join("");
+  var oq=(p.onionQuotes||[]).map(quoteHTML).join("");
+  return '<div class="pain"><div class="pain-h"><div class="pain-ico">'+ICON(p.icon)+'</div><div class="t">'+p.title+'</div><div class="tag">'+p.tag+'</div></div>'+
+    '<p class="desc">'+p.desc+'</p><div class="quotes">'+qs+'</div>'+
+    '<div class="onion"><div class="o-ico">'+ICON("i-spark")+'</div><div class="o-body"><span class="o-label">洋葱解法</span>'+p.onion+(oq?'<div class="o-quotes">'+oq+'</div>':"")+'</div></div></div>';
+}
+function gradeHTML(g){
+  var src=(g.srcs||[]).map(function(s){return '<span class="src-tag">'+s+'</span>';}).join("");
+  var body;
+  if(g.bridge){
+    body='<span class="missing">本轮访谈未直接覆盖</span><div class="note">'+ICON("i-bolt")+'<div>'+g.bridgeNote+'</div></div>'+
+      '<div class="onion" style="margin-top:14px"><div class="o-ico">'+ICON("i-spark")+'</div><div class="o-body"><span class="o-label">洋葱解法</span>'+g.onion+'</div></div>';
+  }else{
+    body='<div class="pains">'+(g.pains||[]).map(painHTML).join("")+'</div>';
+  }
+  return '<article class="grade'+(g.bridge?" bridge":"")+'" id="'+g.id+'" style="--hue:'+g.hue+'">'+
+    '<div class="g-top"><div class="g-badge">'+ICON(g.icon)+'<span class="seq">'+g.seq+'</span></div>'+
+    '<div class="g-meta"><h3>'+g.label+'</h3><p class="feat">'+g.feat+'</p>'+
+    (src?'<div class="g-srcs">'+src+'</div>':"")+'</div></div>'+body+'</article>';
+}
+function themeHTML(t){
+  var qs=(t.quotes||[]).map(function(x){return '<div class="q">“'+x.q+'”'+whoHTML(x.who)+'</div>';}).join("");
+  return '<div class="theme"><div class="th-ic">'+ICON(t.icon)+'</div><h4>'+t.title+'</h4><p class="s">'+t.summary+'</p>'+qs+'</div>';
+}
+function respHTML(r){
+  var tags=(r.combo||[]).map(function(c){return '<span>'+c+'</span>';}).join("");
+  var grpLabel=r.grp==="998"?"998 首购":"家庭包";
+  return '<div class="rc"><div class="rc-top"><span class="grp '+(r.grp==="998"?"q998":"jtb")+'">'+grpLabel+'</span><span class="st '+r.stClass+'">'+r.stText+'</span></div>'+
+    '<h5>'+r.name+'</h5><div class="reg">'+r.reg+'</div><div class="combo">'+tags+'</div></div>';
+}
+function navHTML(){
+  var h='<span class="brand">'+ICON("i-spark")+'洋葱 · 年级痛点</span>';
+  GRADES.forEach(function(g){h+='<a class="pill" data-target="'+g.id+'" href="#'+g.id+'">'+g.label.replace(/ ·.*$/,"")+'</a>';});
+  h+='<a class="pill" data-target="cross" href="#cross">贯穿洞察</a>';
+  h+='<a class="pill" data-target="appendix" href="#appendix">受访者</a>';
+  return h;
+}
+
+/* ---------- mount ---------- */
+document.getElementById("grades").innerHTML=GRADES.map(gradeHTML).join("");
+document.getElementById("themes").innerHTML=THEMES.map(themeHTML).join("");
+document.getElementById("resp").innerHTML=RESP.map(respHTML).join("");
+document.getElementById("nav").innerHTML=navHTML();
+
+/* ---------- reveal on scroll ---------- */
+var revObs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");revObs.unobserve(e.target);}});},{threshold:.12});
+document.querySelectorAll(".grade,.theme,.rc").forEach(function(el){revObs.observe(el);});
+
+/* ---------- scroll-spy + progress ---------- */
+var pills=Array.prototype.slice.call(document.querySelectorAll(".pill"));
+var targets=pills.map(function(p){return document.getElementById(p.getAttribute("data-target"));});
+var de=document.documentElement;
+function onScroll(){
+  var st=de.scrollTop||document.body.scrollTop;
+  var h=de.scrollHeight-de.clientHeight;
+  document.getElementById("progress").style.width=(h>0?(st/h*100):0)+"%";
+  var idx=0, mark=st+120;
+  for(var i=0;i<targets.length;i++){ if(targets[i] && targets[i].offsetTop<=mark) idx=i; }
+  pills.forEach(function(p,i){p.classList.toggle("active",i===idx);});
+}
+window.addEventListener("scroll",onScroll,{passive:true});
+window.addEventListener("resize",onScroll);onScroll();
+
+/* ---------- count-up ---------- */
+function countUp(el){
+  var target=parseInt(el.getAttribute("data-count"),10)||0,t0=null,dur=1200;
+  var suffix=el.querySelector("small");var sfx=suffix?suffix.outerHTML:"";
+  function step(ts){if(!t0)t0=ts;var k=Math.min(1,(ts-t0)/dur);var v=Math.round(target*(1-Math.pow(1-k,3)));el.innerHTML=v+sfx;if(k<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+}
+document.querySelectorAll(".stat .n").forEach(function(el){setTimeout(function(){countUp(el);},220);});
+
+/* ====== EXPORT: Markdown / Word / PDF ====== */
+function _toMd(s){return String(s).replace(/<b>/g,"**").replace(/<\/b>/g,"**").replace(/<[^>]+>/g,"");}
+function _esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+var EXPORT_TITLE="洋葱学园 · 逐年级学习痛点洞察（学前 → 初三）";
+var EXPORT_INTRO="基于《998 小学 + 初中首购 / 升单调研》与《家庭包调研》共 26 户家庭访谈逐字稿。按孩子的具体年级逐一拆解：每个节点的痛点 → 用户原声（VOC）→ 洋葱解法。";
+var EXPORT_SRC="数据来源：飞书《访谈速记·小学998首购调研》《访谈速记·998初中首购&升单调研》《家庭包用户调研》。原声为访谈逐字稿节选，仅用于用户研究。";
+function buildMarkdown(){
+  var L=[];
+  L.push("# "+EXPORT_TITLE);L.push("");L.push("> "+EXPORT_INTRO);L.push("");
+  GRADES.forEach(function(g){
+    L.push("## "+g.label);
+    if(g.feat) L.push("- 节点特征："+_toMd(g.feat));
+    if(g.srcs&&g.srcs.length) L.push("- 来源："+g.srcs.join("；"));
+    L.push("");
+    if(g.bridge){
+      if(g.bridgeNote) L.push("> （本轮访谈未直接覆盖）"+_toMd(g.bridgeNote));
+      L.push("");
+      if(g.onion){L.push("**洋葱解法：** "+_toMd(g.onion));L.push("");}
+      return;
+    }
+    (g.pains||[]).forEach(function(p,i){
+      L.push("### 痛点"+(i+1)+"："+_toMd(p.title));
+      if(p.desc) L.push(_toMd(p.desc));
+      L.push("");L.push("**用户原声：**");
+      (p.quotes||[]).forEach(function(x){ L.push("> “"+x.q+"” —— "+x.who); });
+      L.push("");
+      if(p.onion){ L.push("**洋葱解法：** "+_toMd(p.onion)); (p.onionQuotes||[]).forEach(function(x){ L.push("> “"+x.q+"” —— "+x.who); }); L.push(""); }
+    });
+  });
+  L.push("## 贯穿全学段 · 跨年级共性洞察");L.push("");
+  THEMES.forEach(function(t){
+    L.push("### "+_toMd(t.title));
+    if(t.summary) L.push(_toMd(t.summary));
+    L.push("");
+    (t.quotes||[]).forEach(function(x){ L.push("> “"+x.q+"” —— "+x.who); });
+    L.push("");
+  });
+  L.push("## 受访者一览（"+RESP.length+" 户）");L.push("");
+  RESP.forEach(function(r){ L.push("- ["+(r.grp==="998"?"998":"家庭包")+"] "+r.name+" · "+r.reg+" · "+r.stText+" · "+((r.combo||[]).join("/"))); });
+  L.push("");L.push("---");L.push(EXPORT_SRC);
+  return L.join("\n");
+}
+function buildWordHtml(){
+  var qb='style="margin:6px 0;padding:6px 12px;border-left:3px solid #0FA68E;background:#f5f8f8"';
+  var ob='style="background:#eafaf3;border-left:4px solid #11B07F;padding:8px 12px;margin:6px 0"';
+  function q(x){return '<blockquote '+qb+'>“'+_esc(x.q)+'”<br><span style="color:#888;font-size:12px">—— '+_esc(x.who)+'</span></blockquote>';}
+  var H=[];
+  H.push('<h1 style="color:#0B7B69">'+_esc(EXPORT_TITLE)+'</h1>');
+  H.push('<p style="color:#555">'+_esc(EXPORT_INTRO)+'</p>');
+  GRADES.forEach(function(g){
+    H.push('<h2 style="color:#0B7B69;border-bottom:2px solid #0FA68E;padding-bottom:4px">'+_esc(g.label)+'</h2>');
+    if(g.feat) H.push('<p style="color:#666"><i>节点特征：'+g.feat+'</i></p>');
+    if(g.srcs&&g.srcs.length) H.push('<p style="color:#999;font-size:12px">来源：'+_esc(g.srcs.join("；"))+'</p>');
+    if(g.bridge){ if(g.bridgeNote)H.push('<p>'+g.bridgeNote+'</p>'); if(g.onion)H.push('<p '+ob+'><b>洋葱解法：</b>'+g.onion+'</p>'); return; }
+    (g.pains||[]).forEach(function(p,i){
+      H.push('<h3 style="color:#D8442F">痛点'+(i+1)+'：'+p.title+'</h3>');
+      if(p.desc) H.push('<p>'+p.desc+'</p>');
+      (p.quotes||[]).forEach(function(x){ H.push(q(x)); });
+      if(p.onion){ H.push('<p '+ob+'><b>洋葱解法：</b>'+p.onion+'</p>'); (p.onionQuotes||[]).forEach(function(x){ H.push(q(x)); }); }
+    });
+  });
+  H.push('<h2 style="color:#0B7B69">贯穿全学段 · 跨年级共性洞察</h2>');
+  THEMES.forEach(function(t){ H.push('<h3>'+t.title+'</h3>'); if(t.summary)H.push('<p>'+t.summary+'</p>'); (t.quotes||[]).forEach(function(x){H.push(q(x));}); });
+  H.push('<h2 style="color:#0B7B69">受访者一览（'+RESP.length+' 户）</h2><ul>');
+  RESP.forEach(function(r){ H.push('<li>['+(r.grp==="998"?"998":"家庭包")+'] '+_esc(r.name+" · "+r.reg+" · "+r.stText+" · "+((r.combo||[]).join("/")))+'</li>'); });
+  H.push('</ul><hr><p style="color:#999;font-size:12px">'+_esc(EXPORT_SRC)+'</p>');
+  return H.join("");
+}
+function downloadBlob(name,blob){var u=URL.createObjectURL(blob);var a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(u);},900);}
+function exportMd(){ downloadBlob("洋葱-逐年级学习痛点洞察.md", new Blob(["\ufeff"+buildMarkdown()],{type:"text/markdown;charset=utf-8"})); }
+function exportWord(){
+  var head='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>'+_esc(EXPORT_TITLE)+'</title></head><body style="font-family:微软雅黑,DengXian,sans-serif;line-height:1.6;font-size:14px">';
+  downloadBlob("洋葱-逐年级学习痛点洞察.doc", new Blob(["\ufeff"+head+buildWordHtml()+"</body></html>"],{type:"application/msword"}));
+}
+function exportPdf(){ window.print(); }
+function fallbackCopy(t,cb){var ta=document.createElement("textarea");ta.value=t;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);if(cb)cb();}
+function copyMd(){
+  var md=buildMarkdown();var btn=document.getElementById("ebCopy");var old=btn.innerHTML;
+  function done(){btn.classList.add("ok");btn.innerHTML='<span class="eb-ico"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></span><span class="eb-tx"><b>已复制到剪贴板</b><span>去飞书文档粘贴即可</span></span>';setTimeout(function(){btn.classList.remove("ok");btn.innerHTML=old;},1700);}
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(md).then(done,function(){fallbackCopy(md,done);}); }
+  else { fallbackCopy(md,done); }
+}
+/* 下拉开关 */
+var _ebBar=document.getElementById("exportBar"),_ebTrigger=document.getElementById("ebTrigger");
+function ebOpen(){_ebBar.classList.add("open");_ebTrigger.setAttribute("aria-expanded","true");}
+function ebClose(){_ebBar.classList.remove("open");_ebTrigger.setAttribute("aria-expanded","false");}
+function ebToggle(e){e.stopPropagation();if(_ebBar.classList.contains("open"))ebClose();else ebOpen();}
+_ebTrigger.addEventListener("click",ebToggle);
+document.addEventListener("click",function(e){ if(_ebBar.classList.contains("open") && !_ebBar.contains(e.target)) ebClose(); });
+document.addEventListener("keydown",function(e){ if(e.key==="Escape") ebClose(); });
+function bindItem(id,fn,keepOpen){ document.getElementById(id).addEventListener("click",function(){ fn(); if(!keepOpen) setTimeout(ebClose,80); }); }
+bindItem("ebCopy",copyMd,true);   /* 复制后短暂保留菜单显示“已复制”反馈 */
+bindItem("ebMd",exportMd);
+bindItem("ebWord",exportWord);
+bindItem("ebPdf",exportPdf);
+document.getElementById("ebCopy").addEventListener("click",function(){ setTimeout(ebClose,1500); });
+
+</script>
+</body>
+</html>
