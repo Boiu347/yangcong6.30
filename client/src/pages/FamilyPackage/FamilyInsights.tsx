@@ -7,6 +7,7 @@ import {
   FamilyEvidence,
   FamilySubDimension,
 } from '../../store/familyInsightsData';
+import { citeMatches, useCiteKey } from '../../components/siteAssistant/evidenceHighlight';
 import { clipsForQuote } from '../../utils/sourceUtils';
 import EvidenceAudioClips from '../../components/EvidenceAudioClips';
 import FamilyInterviewRecordings from './FamilyInterviewRecordings';
@@ -79,10 +80,26 @@ function QuoteItem({ ev, color }: { ev: FamilyEvidence; color: string }) {
 }
 
 // ── 子维度 section（单产品，去掉物理页的多品牌对比层） ────────────────────────
-function SubDimSection({ sub, color }: { sub: FamilySubDimension; color: string }) {
+function SubDimSection({
+  sub,
+  color,
+  citeKey,
+}: {
+  sub: FamilySubDimension;
+  color: string;
+  citeKey?: string;
+}) {
   const [collapsed, setCollapsed] = React.useState(false);
   const [expanded, setExpanded] = React.useState(false);
   const sectionRef = React.useRef<HTMLDivElement>(null);
+
+  // 被引用的原话若落在本子维度，自动展开（含「展开全部」），确保高亮能定位到
+  React.useEffect(() => {
+    if (citeKey && sub.evidence.some((ev) => citeMatches(ev.text, citeKey))) {
+      setCollapsed(false);
+      setExpanded(true);
+    }
+  }, [citeKey, sub.evidence]);
 
   if (sub.evidence.length === 0) return null;
 
@@ -214,6 +231,16 @@ function SubDimSection({ sub, color }: { sub: FamilySubDimension; color: string 
 export default function FamilyInsights() {
   const { projectId } = useParams<{ projectId: string }>();
   const [activeKey, setActiveKey] = React.useState(FAMILY_INSIGHT_DIMENSIONS[0].key);
+  const citeKey = useCiteKey();
+
+  // 有引用跳转时，切到包含被引用原话的维度 Tab（否则原话在非当前 Tab，根本没渲染）
+  React.useEffect(() => {
+    if (!citeKey) return;
+    const target = FAMILY_INSIGHT_DIMENSIONS.find((dim) =>
+      dim.subDimensions.some((sub) => sub.evidence.some((ev) => citeMatches(ev.text, citeKey))),
+    );
+    if (target) setActiveKey(target.key);
+  }, [citeKey]);
 
   // 仅家庭包项目可用，其余项目重定向到总览
   if (projectId !== 'jiatingbao_project') {
@@ -285,7 +312,7 @@ export default function FamilyInsights() {
           </div>
 
           {active.subDimensions.map((sub) => (
-            <SubDimSection key={sub.name} sub={sub} color={active.color} />
+            <SubDimSection key={sub.name} sub={sub} color={active.color} citeKey={citeKey} />
           ))}
         </div>
       )}

@@ -25,6 +25,26 @@ export function buildCiteParam(text: string): string {
   return encodeURIComponent(key.slice(0, 48));
 }
 
+// 判断某段文本是否对应当前的 cite（用于页面侧自动展开折叠区/切换 Tab/翻到对应分页）
+export function citeMatches(text: string, citeKey: string): boolean {
+  if (!citeKey || citeKey.length < 6) return false;
+  const normalized = normalizeForMatch(text);
+  if (normalized.length < 6) return false;
+  const probes = [citeKey, citeKey.slice(0, 20), citeKey.slice(0, 12)].filter(
+    (probe, index, all) => probe.length >= 8 && all.indexOf(probe) === index,
+  );
+  return probes.some((probe) => normalized.includes(probe));
+}
+
+// 读取当前 URL 上的 cite（已归一化）。页面用它来决定是否需要展开/定位被引用内容。
+export function useCiteKey(): string {
+  const location = useLocation();
+  return React.useMemo(() => {
+    const cite = new URLSearchParams(location.search).get('cite');
+    return cite ? decodeURIComponent(cite) : '';
+  }, [location.search]);
+}
+
 const CANDIDATE_SELECTOR = 'p, li, blockquote, td, dd, h2, h3, h4, summary, span';
 const SPOTLIGHT_STYLE_ID = 'evidence-spotlight-style';
 const SPOTLIGHT_CLASS = 'evidence-spotlight';

@@ -11,6 +11,7 @@ import {
   ShoppingCart,
 } from 'lucide-react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { citeMatches, useCiteKey } from '../../components/siteAssistant/evidenceHighlight';
 import { useProjects } from '../../store/useProjectStore';
 import EvidenceAudioClips from '../../components/EvidenceAudioClips';
 import SegmentLabelChips from '../../components/SegmentLabelChips';
@@ -101,6 +102,20 @@ export default function InsightTopicQuotesPage() {
   useEffect(() => {
     setProjectFilter('all');
   }, [safeSlug, topic]);
+
+  // 有引用跳转时：清掉搜索/项目过滤，并翻到包含被引用原话的那一页，确保全局高亮能定位
+  const citeKey = useCiteKey();
+  useEffect(() => {
+    if (!citeKey) return;
+    const index = topicQuotes.findIndex((quote) => citeMatches(quote.text, citeKey));
+    if (index < 0) return;
+    setQuery('');
+    setProjectFilter('all');
+    const targetPage = Math.floor(index / PAGE_SIZE) + 1;
+    // 延后一个 tick，避免被上面「过滤变化重置到第 1 页」的副作用覆盖
+    const timer = setTimeout(() => setPage(targetPage), 0);
+    return () => clearTimeout(timer);
+  }, [citeKey, topicQuotes]);
 
   const totalPages = Math.max(1, Math.ceil(filteredQuotes.length / PAGE_SIZE));
   const safePage = Math.min(page, totalPages);
