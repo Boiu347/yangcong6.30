@@ -9,6 +9,10 @@ import {
 } from '../../store/familyInsightsData';
 import { clipsForQuote } from '../../utils/sourceUtils';
 import EvidenceAudioClips from '../../components/EvidenceAudioClips';
+import FamilyInterviewRecordings from './FamilyInterviewRecordings';
+
+const RECORDINGS_KEY = 'recordings';
+const RECORDINGS_COLOR = '#FF5722';
 
 // ── 高亮 **关键词** ─────────────────────────────────────────────────────────
 function renderHighlightedText(text: string) {
@@ -177,6 +181,7 @@ export default function FamilyInsights() {
     return <Navigate to={`/projects/${projectId}/summary`} replace />;
   }
 
+  const isRecordings = activeKey === RECORDINGS_KEY;
   const active =
     FAMILY_INSIGHT_DIMENSIONS.find((d) => d.key === activeKey) ?? FAMILY_INSIGHT_DIMENSIONS[0];
 
@@ -208,29 +213,43 @@ export default function FamilyInsights() {
               </button>
             );
           })}
+          <button
+            onClick={() => setActiveKey(RECORDINGS_KEY)}
+            className={cn(
+              'px-5 py-2.5 text-[13px] font-medium border-b-2 transition-all',
+              isRecordings ? '' : 'border-transparent text-gray-500 hover:text-gray-700',
+            )}
+            style={isRecordings ? { borderColor: RECORDINGS_COLOR, color: RECORDINGS_COLOR } : {}}
+          >
+            访谈录音
+          </button>
         </div>
       </div>
 
       {/* 内容 */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-8">
-        {/* 维度结论 */}
-        <div
-          className="rounded-xl px-4 py-3 border-l-[3px]"
-          style={{ borderColor: active.color, backgroundColor: `${active.color}08` }}
-        >
-          <p className="text-sm text-gray-700 leading-relaxed">
-            <Sparkles size={14} className="inline mr-1 -mt-0.5" style={{ color: active.color }} />
-            <span className="font-bold mr-1.5" style={{ color: active.color }}>
-              维度结论
-            </span>
-            {active.verdict}
-          </p>
-        </div>
+      {isRecordings ? (
+        <FamilyInterviewRecordings />
+      ) : (
+        <div className="flex-1 overflow-y-auto p-6 space-y-8">
+          {/* 维度结论 */}
+          <div
+            className="rounded-xl px-4 py-3 border-l-[3px]"
+            style={{ borderColor: active.color, backgroundColor: `${active.color}08` }}
+          >
+            <p className="text-sm text-gray-700 leading-relaxed">
+              <Sparkles size={14} className="inline mr-1 -mt-0.5" style={{ color: active.color }} />
+              <span className="font-bold mr-1.5" style={{ color: active.color }}>
+                维度结论
+              </span>
+              {active.verdict}
+            </p>
+          </div>
 
-        {active.subDimensions.map((sub) => (
-          <SubDimSection key={sub.name} sub={sub} color={active.color} />
-        ))}
-      </div>
+          {active.subDimensions.map((sub) => (
+            <SubDimSection key={sub.name} sub={sub} color={active.color} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
