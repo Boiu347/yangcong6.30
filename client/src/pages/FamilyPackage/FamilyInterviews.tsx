@@ -44,9 +44,9 @@ const ONION_LABELS: { key: keyof JtbOnion; label: string }[] = [
   { key: 'feedback', label: '建议 / 反馈' },
 ];
 
-// ── 学段映射（小低=1-3年级，小高=4-6年级） ─────────────────────────────
+// ── 学段映射（小初=1-3年级，小高=4-6年级） ─────────────────────────────
 
-const STAGE_RANK = ['学前', '小低', '小高', '初中', '高中', '已毕业'];
+const STAGE_RANK = ['学前', '小初', '小高', '初中', '高中', '已毕业'];
 const ROW_RANK = ['学前', '小初', '小高', '初中', '高中', '其他'];
 const CN_NUM: Record<string, number> = { 一: 1, 二: 2, 三: 3, 四: 4, 五: 5, 六: 6 };
 
@@ -63,12 +63,12 @@ function gradeToStage(token: string): string {
     const cn = t.match(/([一二三四五六])\s*年级/);
     if (cn) n = CN_NUM[cn[1]] ?? 0;
   }
-  if (n >= 1 && n <= 3) return '小低';
+  if (n >= 1 && n <= 3) return '小初';
   if (n >= 4 && n <= 6) return '小高';
   return '其他';
 }
 
-/** 把孩子年级组合归一为学段组合标签，如「小低+小高」「学前+小低+小高+初中」 */
+/** 把孩子年级组合归一为学段组合标签，如「小初+小高」「学前+小初+小高+初中」 */
 function comboLabelOf(itv: JtbInterview): string {
   const stages = itv.combo.split('&').map((s) => gradeToStage(s));
   const uniq = Array.from(new Set(stages));
@@ -79,7 +79,7 @@ function comboLabelOf(itv: JtbInterview): string {
 function rowLabelOf(comboLabel: string): string {
   const stages = comboLabel.split('+');
   if (stages.includes('学前')) return '学前';
-  if (stages.includes('小低')) return '小初';
+  if (stages.includes('小初')) return '小初';
   if (stages.includes('小高')) return '小高';
   if (stages.includes('初中')) return '初中';
   if (stages.includes('高中')) return '高中';
@@ -526,7 +526,6 @@ function DetailDrawer({ itv, onClose }: { itv: JtbInterview | null; onClose: () 
             </div>
             <div className="mt-1 text-[12px] text-gray-500">
               {itv.combo} · {itv.region}
-              {itv.phone ? ` · ${itv.phone}` : ''}
             </div>
           </div>
           <button onClick={onClose} className="shrink-0 rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-600">
