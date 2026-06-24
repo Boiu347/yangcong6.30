@@ -14,6 +14,26 @@ import FamilyInterviewRecordings from './FamilyInterviewRecordings';
 const RECORDINGS_KEY = 'recordings';
 const RECORDINGS_COLOR = '#FF5722';
 
+// ── 口语原声清洗（仅用于展示，不改动 ev.text，音频仍按原文匹配）────────────────
+// 去掉语气词/填充词与口吃重复，让浏览网站的人更易读。
+// 可安全去重的「虚词/代词」双字（无正常叠词含义）；不含 看/想/说 等有叠词义的字。
+const STUTTER_CHARS = '他她它我你您这那就是在有会要可对先再都也还把被和跟的了不没很';
+const STUTTER_RE = new RegExp(`([${STUTTER_CHARS}])\\1`, 'g');
+
+function cleanSpokenText(text: string): string {
+  return text
+    .replace(/[嗯呃唉噢哦诶欸唔呐]/g, '') // 纯填充语气词
+    .replace(/[啊呀哇啦嘞咯]/g, '') // 句中/句末语气助词噪声
+    .replace(/(.)\1{2,}/g, '$1') // 连续 3+ 单字口吃：他他他 → 他
+    .replace(/(.{2,4})\1+/g, '$1') // 紧邻重复短语：就是就是 → 就是
+    .replace(STUTTER_RE, '$1') // 虚词/代词双字口吃：先先 → 先
+    .replace(/\s+/g, '')
+    .replace(/([，。！？、])[，。、！？]+/g, '$1') // 折叠因删词产生的连续标点
+    .replace(/^[，。、！？]+/, '') // 去前导标点
+    .replace(/[，、]+$/g, '')
+    .trim();
+}
+
 // ── 高亮 **关键词** ─────────────────────────────────────────────────────────
 function renderHighlightedText(text: string) {
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
@@ -40,7 +60,7 @@ function QuoteItem({ ev, color }: { ev: FamilyEvidence; color: string }) {
       <div className="min-w-0 flex-1">
         <div className="flex items-start gap-2 flex-wrap">
           <p className="text-[13px] text-gray-700 leading-relaxed flex-1">
-            {renderHighlightedText(ev.text)}
+            {renderHighlightedText(cleanSpokenText(ev.text))}
           </p>
           {ev.tag && (
             <span
@@ -62,6 +82,7 @@ function QuoteItem({ ev, color }: { ev: FamilyEvidence; color: string }) {
 function SubDimSection({ sub, color }: { sub: FamilySubDimension; color: string }) {
   const [collapsed, setCollapsed] = React.useState(false);
   const [expanded, setExpanded] = React.useState(false);
+  const sectionRef = React.useRef<HTMLDivElement>(null);
 
   if (sub.evidence.length === 0) return null;
 
@@ -69,8 +90,20 @@ function SubDimSection({ sub, color }: { sub: FamilySubDimension; color: string 
   const shown = expanded ? sub.evidence : sub.evidence.slice(0, PREVIEW);
   const hasMore = sub.evidence.length > PREVIEW;
 
+  const toggleExpanded = () => {
+    setExpanded((v) => {
+      // 收起时回滚到该维度顶部，避免停留在很靠下、看不到上下文的位置
+      if (v) {
+        requestAnimationFrame(() =>
+          sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
+        );
+      }
+      return !v;
+    });
+  };
+
   return (
-    <div>
+    <div ref={sectionRef} className="scroll-mt-4">
       {/* 子维度标题（左侧色条） */}
       <div
         className="mb-4 pl-3 border-l-[3px] flex items-center gap-3 flex-wrap"
@@ -138,8 +171,14 @@ function SubDimSection({ sub, color }: { sub: FamilySubDimension; color: string 
                 </div>
               )}
 
-              {/* 代表原声 */}
-              <div className="space-y-0">
+              {/* 代表原声：展开后限高内部滚动，避免撑长整页、收起按钮够不到 */}
+              <div
+                className={cn(
+                  'space-y-0',
+                  expanded &&
+                    'max-h-[58vh] overflow-y-auto pr-2 -mr-2 overscroll-contain rounded-lg',
+                )}
+              >
                 {shown.map((ev, i) => (
                   <QuoteItem key={i} ev={ev} color={color} />
                 ))}
@@ -147,7 +186,7 @@ function SubDimSection({ sub, color }: { sub: FamilySubDimension; color: string 
 
               {hasMore && (
                 <button
-                  onClick={() => setExpanded((v) => !v)}
+                  onClick={toggleExpanded}
                   className="mt-3 flex items-center gap-1 text-[11px] text-gray-400 hover:text-gray-600 transition-colors"
                 >
                   {expanded ? (
