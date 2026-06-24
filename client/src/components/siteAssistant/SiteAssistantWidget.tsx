@@ -5,6 +5,7 @@ import { apiAskSiteAssistant } from '../../api/siteAssistant';
 import { useProjects } from '../../store/useProjectStore';
 import { buildSiteKnowledge } from './siteKnowledge';
 import { hasEnoughEvidence, searchKnowledge } from './search';
+import { buildCiteParam, normalizeForMatch } from './evidenceHighlight';
 import type { EvidenceLink, SiteAssistantResponse } from './types';
 
 interface ChatMessage {
@@ -24,6 +25,26 @@ const QUICK_QUESTIONS = [
 
 const OUT_OF_SCOPE =
   '这个问题超出了当前网站资料范围。我只能回答 InsightHub 中已有项目、画像、定性原声和报告内容。';
+
+// 展示去重：标题越长（具体洞察句）越严格（最多 1 条），通用短标题（如「家庭包用户原声」）放宽到 3 条；
+// 完全相同的原话只保留 1 条。避免引用区出现「标题一样」的重复卡片。
+function dedupeLinksForDisplay(links: EvidenceLink[] = []): EvidenceLink[] {
+  const titleCount = new Map<string, number>();
+  const seenExcerpt = new Set<string>();
+  const out: EvidenceLink[] = [];
+  for (const link of links) {
+    const excerptKey = normalizeForMatch(link.excerpt || '');
+    if (excerptKey && seenExcerpt.has(excerptKey)) continue;
+    const base = (link.title || '').split(/\s*·\s*/)[0].trim();
+    const cap = base.length >= 10 ? 1 : 3;
+    const count = titleCount.get(base) ?? 0;
+    if (base && count >= cap) continue;
+    if (excerptKey) seenExcerpt.add(excerptKey);
+    if (base) titleCount.set(base, count + 1);
+    out.push(link);
+  }
+  return out;
+}
 
 function fallbackAnswer(question: string, links: EvidenceLink[]): SiteAssistantResponse {
   return {
@@ -127,13 +148,15 @@ export default function SiteAssistantWidget() {
     void ask(input);
   };
 
-  const openLink = (route: string) => {
-    navigate(route);
+  const openLink = (link: EvidenceLink) => {
+    const cite = buildCiteParam(link.excerpt || link.title);
+    const separator = link.route.includes('?') ? '&' : '?';
+    navigate(cite ? `${link.route}${separator}cite=${cite}` : link.route);
     setOpen(false);
   };
 
   return (
-    <div className="fixed bottom-5 right-5 z-50">
+    <div data-site-assistant className="fixed bottom-5 right-5 z-50">
       {open && (
         <section className="mb-3 flex h-[min(680px,calc(100vh-96px))] w-[min(420px,calc(100vw-32px))] flex-col overflow-hidden rounded-2xl border border-[#ddd8cf] bg-white shadow-2xl">
           <header className="flex items-center justify-between border-b border-[#eee8df] bg-[#fffaf7] px-4 py-3">
@@ -190,11 +213,11 @@ export default function SiteAssistantWidget() {
                 <div className="whitespace-pre-wrap">{message.text}</div>
                 {message.links?.length ? (
                   <div className="mt-3 space-y-2">
-                    {message.links.slice(0, 5).map((link, index) => (
+                    {dedupeLinksForDisplay(message.links).slice(0, 5).map((link, index) => (
                       <button
                         key={`${link.route}_${index}`}
                         type="button"
-                        onClick={() => openLink(link.route)}
+                        onClick={() => openLink(link)}
                         className="block w-full rounded-xl border border-[#eee4d9] bg-[#fffdfb] p-3 text-left hover:border-[#e65532]"
                       >
                         <div className="flex items-center justify-between gap-2">
