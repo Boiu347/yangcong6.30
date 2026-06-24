@@ -36,6 +36,10 @@ export function queryTerms(query: string): string[] {
 export function searchKnowledge(query: string, chunks: KnowledgeChunk[], limit = 10): SearchResult[] {
   const terms = queryTerms(query);
   if (!terms.length) return [];
+  const queryText = normalize(query);
+  const asksPrimary = /小学|小学生|低年级|高年级|一二三年级|四五六年级|学前/.test(queryText);
+  const asksJunior = /初中|初一|初二|初三|中考/.test(queryText);
+  const asksSenior = /高中|高一|高二|高三|高考/.test(queryText);
 
   return chunks
     .map((chunk) => {
@@ -53,7 +57,12 @@ export function searchKnowledge(query: string, chunks: KnowledgeChunk[], limit =
       });
 
       if (query.includes('家庭包') && (title.includes('家庭包') || text.includes('家庭包'))) score += 8;
-      if (query.includes('初中') && /初中|初一|初二|初三|中考/.test(`${title} ${text}`)) score += 5;
+      if (asksPrimary && /小学|小学生|学前|一年级|二年级|三年级|四年级|五年级|六年级|小低|小高/.test(`${title} ${text}`)) score += 8;
+      if (asksJunior && /初中|初一|初二|初三|中考/.test(`${title} ${text}`)) score += 8;
+      if (asksSenior && /高中|高一|高二|高三|高考/.test(`${title} ${text}`)) score += 8;
+      if (asksPrimary && /初中|初一|初二|初三|中考|高中|高一|高二|高三|高考/.test(`${title} ${text}`)) score -= 4;
+      if (asksJunior && /小学|小学生|学前|一年级|二年级|三年级|四年级|五年级|六年级|高中|高一|高二|高三|高考/.test(`${title} ${text}`)) score -= 4;
+      if (asksSenior && /小学|小学生|学前|一年级|二年级|三年级|四年级|五年级|六年级|初中|初一|初二|初三|中考/.test(`${title} ${text}`)) score -= 4;
       if (/买|购买|付费|续费|升单|价格|成交/.test(query) && /购买|付费|续费|升单|价格|成交|家庭包|未购|已购/.test(`${title} ${text}`)) score += 6;
 
       return { chunk, score };

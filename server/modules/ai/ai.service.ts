@@ -49,6 +49,7 @@ export interface SiteAssistantAnswer {
   confidence: 'high' | 'medium' | 'low';
   refused?: boolean;
   unavailable?: boolean;
+  answerMode?: 'ai' | 'evidence' | 'unavailable';
 }
 
 const VOC_EXTRACTION_PROMPT = `你是一位专业的VOC（用户之声）数据分析专家。你的任务是从用户研究文档中【尽可能多地】提取所有VOC相关的数据。
@@ -651,6 +652,7 @@ ${textContent}`;
         relatedLinks,
         confidence: 'low',
         unavailable: true,
+        answerMode: 'unavailable',
       };
     }
 
@@ -699,6 +701,7 @@ JSON 格式：
               role: 'user',
               content: JSON.stringify({
                 question,
+                questionFocus: this.describeSiteQuestionFocus(question),
                 evidence: compactEvidence,
               }, null, 2),
             },
@@ -719,9 +722,10 @@ JSON 格式：
       const parsed = this.parseJsonObjectFromResponse(raw);
       const plainAnswer = this.plainTextFromAiResponse(raw);
       const evidenceAnswer = this.buildSiteEvidenceAnswer(question, evidence);
-      const answer = typeof parsed.answer === 'string' && parsed.answer.trim()
+      const aiAnswer = typeof parsed.answer === 'string' && parsed.answer.trim()
         ? parsed.answer.trim()
-        : plainAnswer || evidenceAnswer;
+        : plainAnswer;
+      const answer = aiAnswer || evidenceAnswer;
       const confidence = parsed.confidence === 'high' || parsed.confidence === 'medium' || parsed.confidence === 'low'
         ? parsed.confidence
         : plainAnswer || evidenceAnswer ? 'medium' : 'low';
@@ -731,6 +735,7 @@ JSON 格式：
         relatedLinks,
         confidence,
         refused: parsed.refused === true,
+        answerMode: aiAnswer ? 'ai' : 'evidence',
       };
     } catch (err) {
       this.logger.warn(`Site assistant AI request failed: ${err}`);
@@ -739,6 +744,7 @@ JSON 格式：
         relatedLinks,
         confidence: 'low',
         unavailable: true,
+        answerMode: 'unavailable',
       };
     }
   }
@@ -820,6 +826,7 @@ JSON 格式：
     const sourceText = evidence
       .map((item) => [item.title, item.excerpt, item.text, item.source, item.projectName].filter(Boolean).join(' '))
       .join(' ');
+    const focus = this.describeSiteQuestionFocus(question);
 
     if (!sourceText.trim()) {
       return '我找到了相关站内证据，但当前资料不足以形成可靠总结。你可以先查看下方证据链接。';
@@ -846,6 +853,9 @@ JSON 格式：
     if (hasAny(['初中', '中考', '科目', '压力', '预习', '复习', '解惑'])) {
       reasonParts.push('初中阶段科目和压力上升，家庭更需要省心的系统方案');
     }
+    if (hasAny(['小学', '小学生', '低年级', '高年级', '兴趣', '习惯', '陪伴', '启蒙'])) {
+      reasonParts.push('小学家庭更看重兴趣维持、学习习惯和家长陪伴成本');
+    }
 
     const uniqueReasons = Array.from(new Set(reasonParts)).slice(0, 3);
     if (!uniqueReasons.length) {
@@ -856,9 +866,9 @@ JSON 格式：
       ].join('\n');
     }
 
-    const isFamilyBuyQuestion = /为什么|为何|原因|买|购买|付费|升单|续费/.test(question) && /家庭包|初中|家长|家庭/.test(question + sourceText);
+    const isFamilyBuyQuestion = /为什么|为何|原因|买|购买|付费|升单|续费/.test(question) && /家庭包|初中|小学|高中|家长|家庭/.test(question + sourceText);
     const conclusion = isFamilyBuyQuestion
-      ? '结论：这类家庭买家庭包，核心不是单纯因为便宜，而是觉得它能同时解决长期规划、复用价值和效果确定性。'
+      ? this.familyPackageConclusionByFocus(focus)
       : '结论：根据站内证据，这个问题可以归纳为几个稳定的业务判断。';
 
     return [
@@ -866,6 +876,37 @@ JSON 格式：
       '原因：' + uniqueReasons.join('；') + '。',
       '证据：下方链接可查看对应原声和页面。',
     ].join('\n');
+  }
+
+  private describeSiteQuestionFocus(question: string): string {
+    const stages: string[] = [];
+    if (/小学|小学生|低年级|高年级|一二三年级|四五六年级|学前/.test(question)) stages.push('小学家庭');
+    if (/初中|初一|初二|初三|中考/.test(question)) stages.push('初中家庭');
+    if (/高中|高一|高二|高三|高考/.test(question)) stages.push('高中家庭');
+
+    const intents: string[] = [];
+    if (/买|购买|付费|续费|升单|价格|贵|便宜|值/.test(question)) intents.push('购买决策');
+    if (/为什么|为何|原因/.test(question)) intents.push('原因解释');
+    if (/顾虑|担心|阻碍|未购/.test(question)) intents.push('顾虑分析');
+
+    return [
+      stages.length ? `学段：${stages.join('、')}` : '学段：未明确',
+      intents.length ? `意图：${intents.join('、')}` : '意图：站内问答',
+      '要求：回答必须贴合问题中的学段和意图，不要泛化成所有家庭。',
+    ].join('；');
+  }
+
+  private familyPackageConclusionByFocus(focus: string): string {
+    if (focus.includes('小学家庭')) {
+      return '结论：小学家庭买家庭包，核心更偏向“长期打底”和“降低陪伴成本”，不是马上冲刺提分。';
+    }
+    if (focus.includes('初中家庭')) {
+      return '结论：初中家庭买家庭包，核心更偏向“科目压力上升后的系统兜底”，不是单纯买便宜课。';
+    }
+    if (focus.includes('高中家庭')) {
+      return '结论：高中家庭考虑家庭包，核心会更看重提分效率、规划确定性和是否能缓解备考压力。';
+    }
+    return '结论：这类家庭买家庭包，核心不是单纯因为便宜，而是觉得它能同时解决长期规划、复用价值和效果确定性。';
   }
 
   private plainTextFromAiResponse(raw: string): string {

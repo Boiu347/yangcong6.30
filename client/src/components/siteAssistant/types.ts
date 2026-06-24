@@ -26,4 +26,5 @@ export interface SiteAssistantResponse {
   confidence: 'high' | 'medium' | 'low';
   refused?: boolean;
   unavailable?: boolean;
+  answerMode?: 'ai' | 'evidence' | 'unavailable';
 }

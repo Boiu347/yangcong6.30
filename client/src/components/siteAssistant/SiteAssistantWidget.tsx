@@ -13,6 +13,7 @@ interface ChatMessage {
   text: string;
   links?: EvidenceLink[];
   unavailable?: boolean;
+  answerMode?: SiteAssistantResponse['answerMode'];
 }
 
 const QUICK_QUESTIONS = [
@@ -34,6 +35,7 @@ function fallbackAnswer(question: string, links: EvidenceLink[]): SiteAssistantR
     relatedLinks: links,
     confidence: 'low',
     unavailable: true,
+    answerMode: 'unavailable',
   };
 }
 
@@ -100,6 +102,7 @@ export default function SiteAssistantWidget() {
           text: response.answer,
           links: response.relatedLinks?.length ? response.relatedLinks : links,
           unavailable: response.unavailable,
+          answerMode: response.answerMode,
         },
       ]);
     } catch {
@@ -112,6 +115,7 @@ export default function SiteAssistantWidget() {
           text: response.answer,
           links: response.relatedLinks,
           unavailable: true,
+          answerMode: response.answerMode,
         },
       ]);
     } finally {
@@ -179,7 +183,9 @@ export default function SiteAssistantWidget() {
                 {message.role === 'assistant' && (
                   <div className="mb-1 flex items-center gap-1.5 text-[11px] font-bold text-[#e65532]">
                     <Sparkles size={13} /> InsightHub
-                    {message.unavailable && <span className="text-[#9b8d82]"> · AI 暂不可用</span>}
+                    {message.answerMode === 'ai' && <span className="text-[#9b8d82]"> · AI总结</span>}
+                    {message.answerMode === 'evidence' && <span className="text-[#9b8d82]"> · 证据归纳</span>}
+                    {message.unavailable && <span className="text-[#9b8d82]"> · AI暂不可用</span>}
                   </div>
                 )}
                 <div className="whitespace-pre-wrap">{message.text}</div>
