@@ -7,6 +7,7 @@ import { createPortal } from 'react-dom';
 
 import RoutesComponent from './app.tsx';
 import PasswordGate from './components/auth/PasswordGate';
+import SiteAssistantWidget from './components/siteAssistant/SiteAssistantWidget';
 import './index.css';
 
 function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
@@ -35,6 +36,7 @@ const MainApp = () => {
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <PasswordGate>
           <RoutesComponent />
+          <SiteAssistantWidget />
         </PasswordGate>
         {createPortal(<Toaster />, document.body)}
       </ErrorBoundary>

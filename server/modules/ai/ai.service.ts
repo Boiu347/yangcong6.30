@@ -26,6 +26,31 @@ export interface VOCItem {
   sourceFileId?: string;
 }
 
+export interface SiteEvidence {
+  id?: string;
+  title: string;
+  text: string;
+  excerpt?: string;
+  route: string;
+  source: string;
+  projectName?: string;
+  keywords?: string[];
+}
+
+export interface SiteAssistantAnswer {
+  answer: string;
+  relatedLinks: Array<{
+    title: string;
+    excerpt: string;
+    route: string;
+    source: string;
+    projectName?: string;
+  }>;
+  confidence: 'high' | 'medium' | 'low';
+  refused?: boolean;
+  unavailable?: boolean;
+}
+
 const VOC_EXTRACTION_PROMPT = `你是一位专业的VOC（用户之声）数据分析专家。你的任务是从用户研究文档中【尽可能多地】提取所有VOC相关的数据。
 
 ## 文档结构说明
@@ -606,6 +631,106 @@ ${textContent}`;
       actionItems: toStringArray(parsed.actionItems),
       methodology: typeof parsed.methodology === 'string' ? parsed.methodology : '深度访谈 + 问卷调研',
     };
+  }
+
+  async answerSiteQuestion(
+    question: string,
+    evidence: SiteEvidence[],
+  ): Promise<SiteAssistantAnswer> {
+    const relatedLinks = evidence.slice(0, 6).map((item) => ({
+      title: item.title,
+      excerpt: item.excerpt ?? item.text.slice(0, 180),
+      route: item.route,
+      source: item.source,
+      projectName: item.projectName,
+    }));
+
+    if (!this.apiKey) {
+      return {
+        answer: 'AI 总结服务暂不可用，但我已根据站内资料找到相关证据。你可以先点击下面的链接查看原始页面。',
+        relatedLinks,
+        confidence: 'low',
+        unavailable: true,
+      };
+    }
+
+    const compactEvidence = evidence.slice(0, 12).map((item, index) => ({
+      index: index + 1,
+      title: item.title,
+      source: item.source,
+      projectName: item.projectName,
+      route: item.route,
+      excerpt: item.excerpt,
+      text: item.text.slice(0, 900),
+    }));
+
+    const systemPrompt = `你是 InsightHub 网站的站内问答助手，只能基于用户提供的 evidence 回答。
+
+硬性规则：
+1. 不允许使用 evidence 以外的外部知识。
+2. 如果 evidence 不足以回答，必须拒答，refused=true。
+3. 回答要简洁，优先给 2-4 条业务判断。
+4. 不要编造数字、用户、项目或链接。
+5. 输出 JSON，不要 Markdown 代码块。
+
+JSON 格式：
+{
+  "answer": "中文回答",
+  "confidence": "high|medium|low",
+  "refused": false
+}`;
+
+    try {
+      const response = await axios.post(
+        `${this.baseUrl}/chat/completions`,
+        {
+          model: this.aiModel,
+          messages: [
+            { role: 'system', content: systemPrompt },
+            {
+              role: 'user',
+              content: JSON.stringify({
+                question,
+                evidence: compactEvidence,
+              }, null, 2),
+            },
+          ],
+          max_tokens: 1600,
+          temperature: 0.2,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${this.apiKey}`,
+            'Content-Type': 'application/json',
+          },
+          timeout: 60_000,
+        },
+      );
+
+      const raw = response.data?.choices?.[0]?.message?.content?.trim() ?? '{}';
+      const parsed = this.parseJsonObjectFromResponse(raw);
+      const answer = typeof parsed.answer === 'string' && parsed.answer.trim()
+        ? parsed.answer.trim()
+        : '我找到了相关站内证据，但 AI 没有生成有效总结。你可以先查看下方证据链接。';
+      const confidence = parsed.confidence === 'high' || parsed.confidence === 'medium' || parsed.confidence === 'low'
+        ? parsed.confidence
+        : 'medium';
+
+      return {
+        answer,
+        relatedLinks,
+        confidence,
+        refused: parsed.refused === true,
+      };
+    } catch (err) {
+      this.logger.warn(`Site assistant AI request failed: ${err}`);
+      return {
+        answer: 'AI 总结服务暂不可用，但我已根据站内资料找到相关证据。你可以先点击下面的链接查看原始页面。',
+        relatedLinks,
+        confidence: 'low',
+        unavailable: true,
+      };
+    }
   }
 
   async parseDocument(textContent: string): Promise<string> {

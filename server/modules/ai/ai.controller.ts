@@ -13,7 +13,7 @@ import { memoryStorage } from 'multer';
 import * as mammoth from 'mammoth';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const pdfParse = require('pdf-parse');
-import { AiService, VOCItem } from './ai.service';
+import { AiService, SiteEvidence, VOCItem } from './ai.service';
 
 /**
  * Convert mammoth HTML output to structured plain text that preserves
@@ -269,5 +269,20 @@ export class AiController {
 
     this.logger.log(`Generate summary request: ${body.vocItems.length} VOC items for "${body.projectName}"`);
     return this.aiService.generateProjectSummary(body.vocItems, body.projectName || '未命名项目');
+  }
+
+  @Post('ask-site')
+  async askSite(
+    @Body() body: { question: string; evidence: SiteEvidence[]; currentPath?: string },
+  ) {
+    if (!body.question || typeof body.question !== 'string') {
+      throw new BadRequestException('Request body must contain a "question" string');
+    }
+    if (!Array.isArray(body.evidence)) {
+      throw new BadRequestException('Request body must contain an "evidence" array');
+    }
+
+    this.logger.log(`Site assistant request: ${body.question} (${body.evidence.length} evidence chunks)`);
+    return this.aiService.answerSiteQuestion(body.question, body.evidence);
   }
 }
