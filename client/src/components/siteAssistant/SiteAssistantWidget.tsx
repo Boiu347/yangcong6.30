@@ -28,9 +28,8 @@ const OUT_OF_SCOPE =
 function fallbackAnswer(question: string, links: EvidenceLink[]): SiteAssistantResponse {
   return {
     answer: [
-      '我在站内资料里找到了相关证据，但当前 AI 总结服务不可用。',
-      '你可以先打开下方证据页面查看原始访谈、画像或报告内容。',
-      links.length ? `当前最相关的是：${links.slice(0, 3).map((link) => link.title).join('、')}。` : '',
+      'AI 没有生成有效总结；我只能先展示检索到的站内证据。',
+      '这不是 AI 实时总结，请点击下方链接查看原始页面。',
     ].filter(Boolean).join('\n'),
     relatedLinks: links,
     confidence: 'low',
@@ -183,9 +182,9 @@ export default function SiteAssistantWidget() {
                 {message.role === 'assistant' && (
                   <div className="mb-1 flex items-center gap-1.5 text-[11px] font-bold text-[#e65532]">
                     <Sparkles size={13} /> InsightHub
-                    {message.answerMode === 'ai' && <span className="text-[#9b8d82]"> · AI总结</span>}
-                    {message.answerMode === 'evidence' && <span className="text-[#9b8d82]"> · 证据归纳</span>}
-                    {message.unavailable && <span className="text-[#9b8d82]"> · AI暂不可用</span>}
+                    {message.answerMode === 'ai' && <span className="text-[#9b8d82]"> · AI实时总结</span>}
+                    {message.answerMode === 'evidence' && <span className="text-[#9b8d82]"> · 仅证据检索</span>}
+                    {message.unavailable && <span className="text-[#9b8d82]"> · AI不可用</span>}
                   </div>
                 )}
                 <div className="whitespace-pre-wrap">{message.text}</div>

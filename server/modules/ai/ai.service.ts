@@ -637,6 +637,7 @@ ${textContent}`;
   async answerSiteQuestion(
     question: string,
     evidence: SiteEvidence[],
+    currentPath?: string,
   ): Promise<SiteAssistantAnswer> {
     const relatedLinks = evidence.slice(0, 6).map((item) => ({
       title: item.title,
@@ -648,7 +649,7 @@ ${textContent}`;
 
     if (!this.apiKey) {
       return {
-        answer: 'AI 总结服务暂不可用，但我已根据站内资料找到相关证据。你可以先点击下面的链接查看原始页面。',
+        answer: this.siteEvidenceOnlyMessage('AI 服务暂不可用，我只能先展示检索到的站内证据。'),
         relatedLinks,
         confidence: 'low',
         unavailable: true,
@@ -666,29 +667,19 @@ ${textContent}`;
       text: item.text.slice(0, 900),
     }));
 
-    const systemPrompt = `你是 InsightHub 的站内问答助手。你的任务不是复述检索结果，而是把 evidence 归纳成老板和业务方能快速看懂的结论。
+    const systemPrompt = `你是 InsightHub 的站内问答助手。你必须基于“本次用户问题 + 本次 evidence”实时生成答案，不能套用固定话术。
 
 硬性规则：
 1. 只能基于 evidence 回答，不允许使用外部知识。
-2. 如果 evidence 与问题无关或不足以回答，必须拒答，refused=true。
-3. 必须合并同类项，禁止逐条罗列每条 evidence，禁止输出“初中｜xx型：……”这种流水账。
-4. 回答控制在 120-220 个中文字符，最多 4 行。
-5. 优先输出业务判断：先讲“为什么/是什么”，再讲 2-3 个关键原因。
-6. 只引用必要关键词，不要大段摘抄原声，不要编造数字、用户、项目或链接。
-7. 语气要像研究负责人给业务方解释，不要像搜索结果摘要。
-8. 输出 JSON，不要 Markdown 代码块。
-
-推荐 answer 结构：
-结论：一句话回答问题。
-原因：用 2-3 个短句合并说明关键机制。
-证据：提示可查看下方证据链接。
-
-JSON 格式：
-{
-  "answer": "中文回答",
-  "confidence": "high|medium|low",
-  "refused": false
-}`;
+2. 先判断用户真正问的是：原因、对象、顾虑、价格、效果、使用场景、画像、学情、项目总结，还是其他站内问题。
+3. 答案必须贴合该意图；例如“为什么买”回答动机，“谁在买”回答用户类型，“贵在哪里”回答价格感知。
+4. 即使命中的 evidence 相似，也要根据本次 question 重新组织，不要输出通用模板或上一轮相似答案。
+5. 不要逐条复述 evidence，不要输出“初中｜xx型：……”这种流水账。
+6. 如果 evidence 与问题无关或不足以回答，必须拒答，refused=true。
+7. 回答控制在 80-220 个中文字符，语言自然，像研究负责人在即时回答业务问题。
+8. 不要编造数字、用户、项目或链接。
+9. 直接输出中文答案，不要 JSON，不要 Markdown 代码块。
+10. 如果 evidence 不足以回答，只输出一句：“站内证据不足以回答这个问题。”`;
 
     try {
       const response = await axios.post(
@@ -701,6 +692,7 @@ JSON 格式：
               role: 'user',
               content: JSON.stringify({
                 question,
+                currentPath: currentPath ?? '',
                 questionFocus: this.describeSiteQuestionFocus(question),
                 evidence: compactEvidence,
               }, null, 2),
@@ -719,32 +711,40 @@ JSON 格式：
       );
 
       const raw = response.data?.choices?.[0]?.message?.content?.trim() ?? '{}';
-      const parsed = this.parseJsonObjectFromResponse(raw);
       const plainAnswer = this.plainTextFromAiResponse(raw);
-      const evidenceAnswer = this.buildSiteEvidenceAnswer(question, evidence);
+      const parsed = plainAnswer ? {} : this.parseJsonObjectFromResponse(raw);
       const aiAnswer = typeof parsed.answer === 'string' && parsed.answer.trim()
         ? parsed.answer.trim()
         : plainAnswer;
-      const answer = aiAnswer || evidenceAnswer;
       const confidence = parsed.confidence === 'high' || parsed.confidence === 'medium' || parsed.confidence === 'low'
         ? parsed.confidence
-        : plainAnswer || evidenceAnswer ? 'medium' : 'low';
+        : aiAnswer ? 'medium' : 'low';
+
+      if (!aiAnswer) {
+        this.logger.warn(`Site assistant AI returned no usable answer. Raw: ${raw.slice(0, 300)}`);
+        return {
+          answer: this.siteEvidenceOnlyMessage('AI 没有生成有效总结，我只能先展示检索到的站内证据。'),
+          relatedLinks,
+          confidence: 'low',
+          refused: parsed.refused === true,
+          answerMode: 'evidence',
+        };
+      }
 
       return {
-        answer,
+        answer: aiAnswer,
         relatedLinks,
         confidence,
-        refused: parsed.refused === true,
-        answerMode: aiAnswer ? 'ai' : 'evidence',
+        refused: parsed.refused === true || aiAnswer.includes('站内证据不足'),
+        answerMode: 'ai',
       };
     } catch (err) {
       this.logger.warn(`Site assistant AI request failed: ${err}`);
       return {
-        answer: 'AI 总结服务暂不可用，但我已根据站内资料找到相关证据。你可以先点击下面的链接查看原始页面。',
+        answer: this.siteEvidenceOnlyMessage('AI 请求失败，我只能先展示检索到的站内证据。'),
         relatedLinks,
         confidence: 'low',
-        unavailable: true,
-        answerMode: 'unavailable',
+        answerMode: 'evidence',
       };
     }
   }
@@ -822,59 +822,10 @@ JSON 格式：
     }
   }
 
-  private buildSiteEvidenceAnswer(question: string, evidence: SiteEvidence[]): string {
-    const sourceText = evidence
-      .map((item) => [item.title, item.excerpt, item.text, item.source, item.projectName].filter(Boolean).join(' '))
-      .join(' ');
-    const focus = this.describeSiteQuestionFocus(question);
-
-    if (!sourceText.trim()) {
-      return '我找到了相关站内证据，但当前资料不足以形成可靠总结。你可以先查看下方证据链接。';
-    }
-
-    const hasAny = (words: string[]) => words.some((word) => sourceText.includes(word) || question.includes(word));
-    const reasonParts: string[] = [];
-
-    if (hasAny(['长期', '六年', '全科', '规划', '周期', '学习安排'])) {
-      reasonParts.push('家长把它看成长期学习安排，而不是一次性短课');
-    }
-    if (hasAny(['多孩', '两个孩子', '二胎', '复用', '姐姐', '妹妹', '哥哥', '弟弟'])) {
-      reasonParts.push('多孩家庭能复用权益，客单价更容易被合理化');
-    }
-    if (hasAny(['效果', '验证', '提分', '进步', '坚持', '看见', '反馈'])) {
-      reasonParts.push('是否能看到效果反馈，会直接影响成交和续费信心');
-    }
-    if (hasAny(['价格', '贵', '便宜', '值', '优惠', '会员', '浪费', '性价比'])) {
-      reasonParts.push('价格判断本质是在比较“值不值”，不是只看绝对金额');
-    }
-    if (hasAny(['信任', '老师', '推荐', '规划师', '服务', '背书', '客服'])) {
-      reasonParts.push('信任来自服务解释、规划建议和过往使用体验');
-    }
-    if (hasAny(['初中', '中考', '科目', '压力', '预习', '复习', '解惑'])) {
-      reasonParts.push('初中阶段科目和压力上升，家庭更需要省心的系统方案');
-    }
-    if (hasAny(['小学', '小学生', '低年级', '高年级', '兴趣', '习惯', '陪伴', '启蒙'])) {
-      reasonParts.push('小学家庭更看重兴趣维持、学习习惯和家长陪伴成本');
-    }
-
-    const uniqueReasons = Array.from(new Set(reasonParts)).slice(0, 3);
-    if (!uniqueReasons.length) {
-      return [
-        '结论：根据站内证据，这个问题更适合从“用户需求、使用场景和价值感知”三个层面理解。',
-        '原因：相关材料指向的不是单一因素，而是多个证据共同支撑的业务判断。',
-        '证据：可以继续查看下方证据链接。',
-      ].join('\n');
-    }
-
-    const isFamilyBuyQuestion = /为什么|为何|原因|买|购买|付费|升单|续费/.test(question) && /家庭包|初中|小学|高中|家长|家庭/.test(question + sourceText);
-    const conclusion = isFamilyBuyQuestion
-      ? this.familyPackageConclusionByFocus(focus)
-      : '结论：根据站内证据，这个问题可以归纳为几个稳定的业务判断。';
-
+  private siteEvidenceOnlyMessage(reason: string): string {
     return [
-      conclusion,
-      '原因：' + uniqueReasons.join('；') + '。',
-      '证据：下方链接可查看对应原声和页面。',
+      reason,
+      '这不是 AI 实时总结；请点击下方证据链接查看原始页面。',
     ].join('\n');
   }
 
@@ -894,19 +845,6 @@ JSON 格式：
       intents.length ? `意图：${intents.join('、')}` : '意图：站内问答',
       '要求：回答必须贴合问题中的学段和意图，不要泛化成所有家庭。',
     ].join('；');
-  }
-
-  private familyPackageConclusionByFocus(focus: string): string {
-    if (focus.includes('小学家庭')) {
-      return '结论：小学家庭买家庭包，核心更偏向“长期打底”和“降低陪伴成本”，不是马上冲刺提分。';
-    }
-    if (focus.includes('初中家庭')) {
-      return '结论：初中家庭买家庭包，核心更偏向“科目压力上升后的系统兜底”，不是单纯买便宜课。';
-    }
-    if (focus.includes('高中家庭')) {
-      return '结论：高中家庭考虑家庭包，核心会更看重提分效率、规划确定性和是否能缓解备考压力。';
-    }
-    return '结论：这类家庭买家庭包，核心不是单纯因为便宜，而是觉得它能同时解决长期规划、复用价值和效果确定性。';
   }
 
   private plainTextFromAiResponse(raw: string): string {

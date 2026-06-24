@@ -27,10 +27,11 @@ export async function apiAskSiteAssistant(
 
   if (!res.ok) {
     return {
-      answer: 'AI 总结服务暂不可用，但我已根据站内资料找到相关证据。你可以先点击下面的链接查看原始页面。',
+      answer: 'AI 没有生成有效总结；我只能先展示检索到的站内证据。请点击下方链接查看原始页面。',
       relatedLinks,
       confidence: 'low',
       unavailable: true,
+      answerMode: 'unavailable',
     };
   }
 

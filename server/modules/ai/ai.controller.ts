@@ -283,6 +283,6 @@ export class AiController {
     }
 
     this.logger.log(`Site assistant request: ${body.question} (${body.evidence.length} evidence chunks)`);
-    return this.aiService.answerSiteQuestion(body.question, body.evidence);
+    return this.aiService.answerSiteQuestion(body.question, body.evidence, body.currentPath);
   }
 }
