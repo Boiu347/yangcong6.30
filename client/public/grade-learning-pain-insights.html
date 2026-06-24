@@ -60,7 +60,12 @@ body{
 /* ---------- NAV ---------- */
 nav{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.85);backdrop-filter:blur(14px);
   border-bottom:1px solid var(--line);box-shadow:0 4px 20px -16px rgba(12,60,55,.45)}
-.nav-inner{max-width:1080px;margin:0 auto;display:flex;gap:8px;align-items:center;padding:10px 16px;overflow-x:auto;scrollbar-width:none}
+nav::before,nav::after{content:"";position:absolute;top:0;bottom:1px;width:40px;pointer-events:none;z-index:2;opacity:0;transition:opacity .2s}
+nav::before{left:0;background:linear-gradient(90deg,rgba(255,255,255,.96),rgba(255,255,255,0))}
+nav::after{right:0;background:linear-gradient(270deg,rgba(255,255,255,.96),rgba(255,255,255,0))}
+nav.more-left::before{opacity:1}
+nav.more-right::after{opacity:1}
+.nav-inner{max-width:1080px;margin:0 auto;display:flex;gap:8px;align-items:center;padding:10px 16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .nav-inner::-webkit-scrollbar{display:none}
 .nav-inner .brand{font-weight:800;color:var(--pri-d);font-size:15px;white-space:nowrap;margin-right:6px;display:flex;align-items:center;gap:6px}
 .nav-inner .brand .ic{width:18px;height:18px}
@@ -639,6 +644,24 @@ document.querySelectorAll(".grade,.theme,.rc").forEach(function(el){revObs.obser
 var pills=Array.prototype.slice.call(document.querySelectorAll(".pill"));
 var targets=pills.map(function(p){return document.getElementById(p.getAttribute("data-target"));});
 var de=document.documentElement;
+var navInner=document.getElementById("nav");
+var navBar=navInner.parentNode;
+function updateNavFade(){
+  var max=navInner.scrollWidth-navInner.clientWidth;
+  navBar.classList.toggle("more-left",navInner.scrollLeft>2);
+  navBar.classList.toggle("more-right",navInner.scrollLeft<max-2);
+}
+navInner.addEventListener("wheel",function(e){
+  if(navInner.scrollWidth<=navInner.clientWidth) return;
+  if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){ navInner.scrollLeft+=e.deltaY; e.preventDefault(); }
+},{passive:false});
+navInner.addEventListener("scroll",updateNavFade,{passive:true});
+function ensurePillVisible(p){
+  if(!p) return;
+  var l=p.offsetLeft,r=l+p.offsetWidth;
+  if(l<navInner.scrollLeft) navInner.scrollLeft=l-14;
+  else if(r>navInner.scrollLeft+navInner.clientWidth) navInner.scrollLeft=r-navInner.clientWidth+14;
+}
 function onScroll(){
   var st=de.scrollTop||document.body.scrollTop;
   var h=de.scrollHeight-de.clientHeight;
@@ -646,9 +669,11 @@ function onScroll(){
   var idx=0, mark=st+120;
   for(var i=0;i<targets.length;i++){ if(targets[i] && targets[i].offsetTop<=mark) idx=i; }
   pills.forEach(function(p,i){p.classList.toggle("active",i===idx);});
+  ensurePillVisible(pills[idx]);
 }
 window.addEventListener("scroll",onScroll,{passive:true});
-window.addEventListener("resize",onScroll);onScroll();
+window.addEventListener("resize",function(){onScroll();updateNavFade();});
+onScroll();updateNavFade();
 
 /* ---------- count-up ---------- */
 function countUp(el){
