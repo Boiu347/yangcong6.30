@@ -23,6 +23,7 @@ const familyItems = [
   { label: '调研背景', path: 'background' },
   { label: '项目总览', path: 'summary' },
   { label: '用户访谈', path: 'qualitative' },
+  { label: '定性洞察', path: 'family-insights' },
 ];
 
 export default function TopNavLayout() {

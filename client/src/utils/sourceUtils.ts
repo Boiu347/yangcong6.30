@@ -3,6 +3,7 @@ import { EVIDENCE_CLIP_MAP, EvidenceClip } from './evidenceClipLookup';
 import { JIATINGBAO_CLIP_MAP } from './jiatingbaoClipLookup';
 import { DEFAULT_VOC_CLIP_MAP } from './defaultVocClipLookup';
 import { JISUANYING_EVIDENCE_SOURCE_MAP } from '../store/jisuanyingData';
+import { JIATINGBAO_SEGMENTS } from '../store/jiatingbaoSegments';
 
 /**
  * Look up the source interview file for an evidence quote.
@@ -38,6 +39,33 @@ export function lookupClips(evidence: string): EvidenceClip[] {
 export function lookupClip(evidence: string): EvidenceClip | null {
   const clips = lookupClips(evidence);
   return clips[0] ?? null;
+}
+
+/**
+ * 家庭包逐字原声 → 切片映射（由 JIATINGBAO_SEGMENTS 构建）。
+ * 同一条原话可能出现多次，保留首个带音频的片段即可。
+ */
+const JIATINGBAO_SEGMENT_CLIP_MAP: Record<string, EvidenceClip> = (() => {
+  const map: Record<string, EvidenceClip> = {};
+  for (const seg of JIATINGBAO_SEGMENTS) {
+    if (!seg.clipUrl) continue;
+    const key = seg.quote.replace(/\*\*/g, '').trim();
+    if (key && !map[key]) {
+      map[key] = { clipUrl: seg.clipUrl, startTime: seg.startTime ?? 0, duration: seg.duration };
+    }
+  }
+  return map;
+})();
+
+/**
+ * 为一条「代表原声」查找录音切片：优先命中家庭包逐句拆解片段，
+ * 再回退到既有 lookupClips（纪要 caption / study·onion bullet 等）。
+ */
+export function clipsForQuote(quote: string): EvidenceClip[] {
+  const plain = quote.replace(/\*\*/g, '').trim();
+  const seg = JIATINGBAO_SEGMENT_CLIP_MAP[plain];
+  if (seg) return [seg];
+  return lookupClips(quote);
 }
 
 /**

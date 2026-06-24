@@ -10,6 +10,7 @@ import InsightTopicQuotesPage from './pages/InsightCategory/InsightTopicQuotesPa
 import QualitativeResearchPage from './pages/QualitativeResearch/QualitativeResearchPage';
 import SummaryPage from './pages/Summary/SummaryPage';
 import QualitativePage from './pages/Qualitative/QualitativePage';
+import FamilyInsights from './pages/FamilyPackage/FamilyInsights';
 import CompetitivePage from './pages/Competitive/CompetitivePage';
 import QuantitativePage from './pages/Quantitative/QuantitativePage';
 import MarketingPage from './pages/Marketing/MarketingPage';
@@ -43,6 +44,7 @@ const RoutesComponent = () => {
         <Route path="background" element={<BackgroundPage />} />
         <Route path="summary" element={<SummaryPage />} />
         <Route path="qualitative" element={<QualitativePage />} />
+        <Route path="family-insights" element={<FamilyInsights />} />
         <Route path="competitive" element={<CompetitivePage />} />
         <Route path="quantitative" element={<QuantitativePage />} />
         <Route path="marketing" element={<MarketingPage />} />
