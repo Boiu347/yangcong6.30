@@ -7,12 +7,29 @@ export interface SearchResult {
 
 const STOPWORDS = new Set(['为什么', '什么', '怎么', '如何', '一下', '这个', '那个', '是否', '可以', '能够']);
 
+// 阿拉伯数字年级 → 中文，使「5年级」与数据里的「五年级」可互相命中
+const CN_DIGITS: Record<string, string> = {
+  '1': '一', '2': '二', '3': '三', '4': '四', '5': '五',
+  '6': '六', '7': '七', '8': '八', '9': '九',
+};
+function normalizeGrades(text: string) {
+  return text.replace(/([1-9])\s*年级/g, (_, d: string) => `${CN_DIGITS[d]}年级`);
+}
+
 function normalize(text: string) {
-  return text.toLowerCase().replace(/\s+/g, ' ').trim();
+  return normalizeGrades(text.toLowerCase().replace(/\s+/g, ' ').trim());
 }
 
 function unique<T>(items: T[]) {
   return [...new Set(items)];
+}
+
+// 标题主干（去掉「· 受访者」等后缀），用于引用区按主题分散、避免重复
+function titleBase(title: string) {
+  return title.split(/\s*·\s*/)[0].trim();
+}
+function excerptKey(chunk: KnowledgeChunk) {
+  return normalize(chunk.excerpt || chunk.text).replace(/[\s，。、！？,.!?"“”]/g, '');
 }
 
 export function queryTerms(query: string): string[] {
@@ -37,11 +54,11 @@ export function searchKnowledge(query: string, chunks: KnowledgeChunk[], limit =
   const terms = queryTerms(query);
   if (!terms.length) return [];
   const queryText = normalize(query);
-  const asksPrimary = /小学|小学生|低年级|高年级|一二三年级|四五六年级|学前/.test(queryText);
+  const asksPrimary = /小学|小学生|低年级|高年级|一二三年级|四五六年级|学前|[一二三四五六]年级/.test(queryText);
   const asksJunior = /初中|初一|初二|初三|中考/.test(queryText);
   const asksSenior = /高中|高一|高二|高三|高考/.test(queryText);
 
-  return chunks
+  const scored = chunks
     .map((chunk) => {
       const title = normalize(chunk.title);
       const source = normalize(`${chunk.source} ${chunk.projectName ?? ''}`);
@@ -68,10 +85,30 @@ export function searchKnowledge(query: string, chunks: KnowledgeChunk[], limit =
       return { chunk, score };
     })
     .filter((item) => item.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, limit);
+    .sort((a, b) => b.score - a.score);
+
+  // 去重 + 按主题分散：相同原话只留一条，同一主题最多 2 条，避免引用区大量重复
+  const seenExcerpt = new Set<string>();
+  const perTitle = new Map<string, number>();
+  const diversified: SearchResult[] = [];
+  for (const result of scored) {
+    const key = excerptKey(result.chunk);
+    if (key && seenExcerpt.has(key)) continue;
+    const base = titleBase(result.chunk.title);
+    const count = perTitle.get(base) ?? 0;
+    if (count >= 2) continue;
+    if (key) seenExcerpt.add(key);
+    perTitle.set(base, count + 1);
+    diversified.push(result);
+    if (diversified.length >= limit) break;
+  }
+  return diversified;
 }
 
 export function hasEnoughEvidence(results: SearchResult[]) {
-  return results.length >= 2 && results[0].score >= 8;
+  // 放宽门槛：有 1 条较相关（score≥5）即可作答；或多条弱相关累积也放行，
+  // 避免「5年级学习痛点」这类正常问题被误判为证据不足。
+  if (!results.length) return false;
+  const top = results[0].score;
+  return top >= 5 || (results.length >= 3 && top >= 4);
 }

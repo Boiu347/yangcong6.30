@@ -648,7 +648,7 @@ ${textContent}`;
     evidence: SiteEvidence[],
     currentPath?: string,
   ): Promise<SiteAssistantAnswer> {
-    const relatedLinks = evidence.slice(0, 6).map((item) => ({
+    const relatedLinks = this.dedupeSiteEvidence(evidence).slice(0, 6).map((item) => ({
       title: item.title,
       excerpt: item.excerpt ?? item.text.slice(0, 180),
       route: item.route,
@@ -684,11 +684,12 @@ ${textContent}`;
 3. 答案必须贴合该意图；例如“为什么买”回答动机，“谁在买”回答用户类型，“贵在哪里”回答价格感知。
 4. 即使命中的 evidence 相似，也要根据本次 question 重新组织，不要输出通用模板或上一轮相似答案。
 5. 不要逐条复述 evidence，不要输出“初中｜xx型：……”这种流水账。
-6. 如果 evidence 与问题无关或不足以回答，必须拒答，refused=true。
-7. 回答控制在 80-220 个中文字符，语言自然，像研究负责人在即时回答业务问题。
-8. 不要编造数字、用户、项目或链接。
-9. 直接输出中文答案，不要 JSON，不要 Markdown 代码块。
-10. 如果 evidence 不足以回答，只输出一句：“站内证据不足以回答这个问题。”`;
+6. 数字与中文数字、阿拉伯数字年级视为等同（如“5年级”=“五年级”；“高年级”一般指 4-6 年级，“低年级”指 1-3 年级）；学段/年级名称相近即视为相关。
+7. 只要 evidence 中有「部分相关」的内容，就要尽力归纳作答，可做合理的概括与推断，不要因为没有逐字命中就拒答；可在结尾用一句话说明依据有限。只有当 evidence 与问题「完全无关」时才拒答（refused=true）。
+8. 回答控制在 80-220 个中文字符，语言自然，像研究负责人在即时回答业务问题。
+9. 不要编造数字、用户、项目或链接。
+10. 直接输出中文答案，不要 JSON，不要 Markdown 代码块。
+11. 仅当 evidence 与问题完全无关时，才只输出一句：“站内证据不足以回答这个问题。”`;
 
     try {
       const response = await axios.post(
@@ -836,6 +837,26 @@ ${textContent}`;
       reason,
       '这不是 AI 实时总结；请点击下方证据链接查看原始页面。',
     ].join('\n');
+  }
+
+  // 引用证据去重 + 按主题分散：相同原话只留一条，同一主题最多 2 条，避免引用区大量重复
+  private dedupeSiteEvidence(evidence: SiteEvidence[]): SiteEvidence[] {
+    const seenExcerpt = new Set<string>();
+    const perTitle = new Map<string, number>();
+    const out: SiteEvidence[] = [];
+    for (const item of evidence) {
+      const key = (item.excerpt ?? item.text ?? '')
+        .toLowerCase()
+        .replace(/[\s，。、！？,.!?"“”]/g, '');
+      if (key && seenExcerpt.has(key)) continue;
+      const base = (item.title ?? '').split(/\s*·\s*/)[0].trim();
+      const count = perTitle.get(base) ?? 0;
+      if (base && count >= 2) continue;
+      if (key) seenExcerpt.add(key);
+      if (base) perTitle.set(base, count + 1);
+      out.push(item);
+    }
+    return out;
   }
 
   private extractAiText(data: any): string {
