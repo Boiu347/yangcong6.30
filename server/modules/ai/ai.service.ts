@@ -710,7 +710,7 @@ ${textContent}`;
         },
       );
 
-      const raw = response.data?.choices?.[0]?.message?.content?.trim() ?? '{}';
+      const raw = this.extractAiText(response.data);
       const plainAnswer = this.plainTextFromAiResponse(raw);
       const parsed = plainAnswer ? {} : this.parseJsonObjectFromResponse(raw);
       const aiAnswer = typeof parsed.answer === 'string' && parsed.answer.trim()
@@ -827,6 +827,46 @@ ${textContent}`;
       reason,
       '这不是 AI 实时总结；请点击下方证据链接查看原始页面。',
     ].join('\n');
+  }
+
+  private extractAiText(data: any): string {
+    const stringifyContent = (value: any): string => {
+      if (!value) return '';
+      if (typeof value === 'string') return value.trim();
+      if (Array.isArray(value)) {
+        return value
+          .map((item) => stringifyContent(item?.text ?? item?.content ?? item?.output_text ?? item))
+          .filter(Boolean)
+          .join('\n')
+          .trim();
+      }
+      if (typeof value === 'object') {
+        return stringifyContent(value.text ?? value.content ?? value.output_text ?? value.value);
+      }
+      return String(value).trim();
+    };
+
+    const choice = data?.choices?.[0];
+    const candidates = [
+      choice?.message?.content,
+      choice?.message?.reasoning_content,
+      choice?.text,
+      data?.output_text,
+      data?.message?.content,
+      data?.content,
+      data?.response,
+      data?.answer,
+      data?.result,
+      data?.output,
+    ];
+
+    for (const candidate of candidates) {
+      const text = stringifyContent(candidate);
+      if (text) return text;
+    }
+
+    this.logger.warn(`Site assistant AI response had no text field. Shape: ${Object.keys(data ?? {}).join(', ')}`);
+    return '{}';
   }
 
   private describeSiteQuestionFocus(question: string): string {
