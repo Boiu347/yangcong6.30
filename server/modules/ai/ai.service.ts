@@ -709,12 +709,13 @@ JSON 格式：
 
       const raw = response.data?.choices?.[0]?.message?.content?.trim() ?? '{}';
       const parsed = this.parseJsonObjectFromResponse(raw);
+      const plainAnswer = this.plainTextFromAiResponse(raw);
       const answer = typeof parsed.answer === 'string' && parsed.answer.trim()
         ? parsed.answer.trim()
-        : '我找到了相关站内证据，但 AI 没有生成有效总结。你可以先查看下方证据链接。';
+        : plainAnswer || '我找到了相关站内证据，但 AI 没有生成有效总结。你可以先查看下方证据链接。';
       const confidence = parsed.confidence === 'high' || parsed.confidence === 'medium' || parsed.confidence === 'low'
         ? parsed.confidence
-        : 'medium';
+        : plainAnswer ? 'medium' : 'low';
 
       return {
         answer,
@@ -804,6 +805,19 @@ JSON 格式：
       this.logger.debug(`Raw response: ${raw.slice(0, 500)}`);
       return {};
     }
+  }
+
+  private plainTextFromAiResponse(raw: string): string {
+    let text = raw.trim();
+    if (!text || text === '{}' || text === '[]') return '';
+
+    const fenceMatch = text.match(/```(?:json|text|markdown)?\s*\n?([\s\S]*?)\n?\s*```/);
+    if (fenceMatch) {
+      text = fenceMatch[1].trim();
+    }
+
+    if (text.startsWith('{') || text.startsWith('[')) return '';
+    return text.slice(0, 1800);
   }
 
   private normalizeSentiment(
