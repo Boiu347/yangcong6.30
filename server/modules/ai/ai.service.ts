@@ -143,10 +143,10 @@ export class AiService {
   private readonly transcriptionModel: string;
 
   constructor(private readonly configService: ConfigService) {
-    this.baseUrl = this.configService.get<string>(
+    this.baseUrl = this.normalizeAiGatewayUrl(this.configService.get<string>(
       'AI_GATEWAY_URL',
       'https://ops-ai-gateway.yc345.tv/v1',
-    );
+    ) ?? 'https://ops-ai-gateway.yc345.tv/v1');
     this.apiKey = this.configService.get<string>('AI_API_KEY', '');
     this.aiModel = this.configService.get<string>(
       'AI_MODEL',
@@ -156,6 +156,15 @@ export class AiService {
       'TRANSCRIPTION_MODEL',
       'gemini-2.5-flash',
     );
+  }
+
+  private normalizeAiGatewayUrl(url: string): string {
+    const trimmed = url.trim().replace(/\/+$/, '');
+    if (trimmed.endsWith('/chat/completions')) {
+      return trimmed.replace(/\/chat\/completions$/, '');
+    }
+    if (trimmed.endsWith('/v1')) return trimmed;
+    return `${trimmed}/v1`;
   }
 
   // ─── Audio helpers ────────────────────────────────────────────────────────
@@ -897,6 +906,7 @@ ${textContent}`;
   private plainTextFromAiResponse(raw: string): string {
     let text = raw.trim();
     if (!text || text === '{}' || text === '[]') return '';
+    if (/^<!doctype html/i.test(text) || /^<html[\s>]/i.test(text)) return '';
 
     const fenceMatch = text.match(/```(?:json|text|markdown)?\s*\n?([\s\S]*?)\n?\s*```/);
     if (fenceMatch) {
