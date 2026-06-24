@@ -664,14 +664,22 @@ ${textContent}`;
       text: item.text.slice(0, 900),
     }));
 
-    const systemPrompt = `你是 InsightHub 网站的站内问答助手，只能基于用户提供的 evidence 回答。
+    const systemPrompt = `你是 InsightHub 的站内问答助手。你的任务不是复述检索结果，而是把 evidence 归纳成老板和业务方能快速看懂的结论。
 
 硬性规则：
-1. 不允许使用 evidence 以外的外部知识。
-2. 如果 evidence 不足以回答，必须拒答，refused=true。
-3. 回答要简洁，优先给 2-4 条业务判断。
-4. 不要编造数字、用户、项目或链接。
-5. 输出 JSON，不要 Markdown 代码块。
+1. 只能基于 evidence 回答，不允许使用外部知识。
+2. 如果 evidence 与问题无关或不足以回答，必须拒答，refused=true。
+3. 必须合并同类项，禁止逐条罗列每条 evidence，禁止输出“初中｜xx型：……”这种流水账。
+4. 回答控制在 120-220 个中文字符，最多 4 行。
+5. 优先输出业务判断：先讲“为什么/是什么”，再讲 2-3 个关键原因。
+6. 只引用必要关键词，不要大段摘抄原声，不要编造数字、用户、项目或链接。
+7. 语气要像研究负责人给业务方解释，不要像搜索结果摘要。
+8. 输出 JSON，不要 Markdown 代码块。
+
+推荐 answer 结构：
+结论：一句话回答问题。
+原因：用 2-3 个短句合并说明关键机制。
+证据：提示可查看下方证据链接。
 
 JSON 格式：
 {
@@ -809,29 +817,54 @@ JSON 格式：
   }
 
   private buildSiteEvidenceAnswer(question: string, evidence: SiteEvidence[]): string {
-    const snippets = evidence
-      .map((item) => item.excerpt || item.text)
-      .map((text) => text.replace(/\s+/g, ' ').trim())
-      .filter(Boolean)
-      .slice(0, 4);
+    const sourceText = evidence
+      .map((item) => [item.title, item.excerpt, item.text, item.source, item.projectName].filter(Boolean).join(' '))
+      .join(' ');
 
-    if (!snippets.length) {
-      return '我找到了相关站内证据，但当前资料不足以形成完整总结。你可以先查看下方证据链接。';
+    if (!sourceText.trim()) {
+      return '我找到了相关站内证据，但当前资料不足以形成可靠总结。你可以先查看下方证据链接。';
     }
 
-    const isWhyBuyFamily = /为什么|为何|原因/.test(question) && /家庭包|买|购买|付费|升单|续费/.test(question);
-    if (isWhyBuyFamily) {
+    const hasAny = (words: string[]) => words.some((word) => sourceText.includes(word) || question.includes(word));
+    const reasonParts: string[] = [];
+
+    if (hasAny(['长期', '六年', '全科', '规划', '周期', '学习安排'])) {
+      reasonParts.push('家长把它看成长期学习安排，而不是一次性短课');
+    }
+    if (hasAny(['多孩', '两个孩子', '二胎', '复用', '姐姐', '妹妹', '哥哥', '弟弟'])) {
+      reasonParts.push('多孩家庭能复用权益，客单价更容易被合理化');
+    }
+    if (hasAny(['效果', '验证', '提分', '进步', '坚持', '看见', '反馈'])) {
+      reasonParts.push('是否能看到效果反馈，会直接影响成交和续费信心');
+    }
+    if (hasAny(['价格', '贵', '便宜', '值', '优惠', '会员', '浪费', '性价比'])) {
+      reasonParts.push('价格判断本质是在比较“值不值”，不是只看绝对金额');
+    }
+    if (hasAny(['信任', '老师', '推荐', '规划师', '服务', '背书', '客服'])) {
+      reasonParts.push('信任来自服务解释、规划建议和过往使用体验');
+    }
+    if (hasAny(['初中', '中考', '科目', '压力', '预习', '复习', '解惑'])) {
+      reasonParts.push('初中阶段科目和压力上升，家庭更需要省心的系统方案');
+    }
+
+    const uniqueReasons = Array.from(new Set(reasonParts)).slice(0, 3);
+    if (!uniqueReasons.length) {
       return [
-        '从站内证据看，这类家庭购买家庭包通常不是单纯因为“便宜”，而是因为它同时解决了长期学习规划、多个孩子复用和效果验证的问题。',
-        ...snippets.slice(0, 3).map((snippet) => `- ${snippet}`),
-        '建议点击下方证据页面，继续查看对应访谈原声和购买决策维度。',
+        '结论：根据站内证据，这个问题更适合从“用户需求、使用场景和价值感知”三个层面理解。',
+        '原因：相关材料指向的不是单一因素，而是多个证据共同支撑的业务判断。',
+        '证据：可以继续查看下方证据链接。',
       ].join('\n');
     }
 
+    const isFamilyBuyQuestion = /为什么|为何|原因|买|购买|付费|升单|续费/.test(question) && /家庭包|初中|家长|家庭/.test(question + sourceText);
+    const conclusion = isFamilyBuyQuestion
+      ? '结论：这类家庭买家庭包，核心不是单纯因为便宜，而是觉得它能同时解决长期规划、复用价值和效果确定性。'
+      : '结论：根据站内证据，这个问题可以归纳为几个稳定的业务判断。';
+
     return [
-      '根据站内已检索到的资料，可以先这样理解：',
-      ...snippets.slice(0, 4).map((snippet) => `- ${snippet}`),
-      '下方链接是本次回答对应的证据来源。',
+      conclusion,
+      '原因：' + uniqueReasons.join('；') + '。',
+      '证据：下方链接可查看对应原声和页面。',
     ].join('\n');
   }
 
