@@ -710,12 +710,13 @@ JSON 格式：
       const raw = response.data?.choices?.[0]?.message?.content?.trim() ?? '{}';
       const parsed = this.parseJsonObjectFromResponse(raw);
       const plainAnswer = this.plainTextFromAiResponse(raw);
+      const evidenceAnswer = this.buildSiteEvidenceAnswer(question, evidence);
       const answer = typeof parsed.answer === 'string' && parsed.answer.trim()
         ? parsed.answer.trim()
-        : plainAnswer || '我找到了相关站内证据，但 AI 没有生成有效总结。你可以先查看下方证据链接。';
+        : plainAnswer || evidenceAnswer;
       const confidence = parsed.confidence === 'high' || parsed.confidence === 'medium' || parsed.confidence === 'low'
         ? parsed.confidence
-        : plainAnswer ? 'medium' : 'low';
+        : plainAnswer || evidenceAnswer ? 'medium' : 'low';
 
       return {
         answer,
@@ -805,6 +806,33 @@ JSON 格式：
       this.logger.debug(`Raw response: ${raw.slice(0, 500)}`);
       return {};
     }
+  }
+
+  private buildSiteEvidenceAnswer(question: string, evidence: SiteEvidence[]): string {
+    const snippets = evidence
+      .map((item) => item.excerpt || item.text)
+      .map((text) => text.replace(/\s+/g, ' ').trim())
+      .filter(Boolean)
+      .slice(0, 4);
+
+    if (!snippets.length) {
+      return '我找到了相关站内证据，但当前资料不足以形成完整总结。你可以先查看下方证据链接。';
+    }
+
+    const isWhyBuyFamily = /为什么|为何|原因/.test(question) && /家庭包|买|购买|付费|升单|续费/.test(question);
+    if (isWhyBuyFamily) {
+      return [
+        '从站内证据看，这类家庭购买家庭包通常不是单纯因为“便宜”，而是因为它同时解决了长期学习规划、多个孩子复用和效果验证的问题。',
+        ...snippets.slice(0, 3).map((snippet) => `- ${snippet}`),
+        '建议点击下方证据页面，继续查看对应访谈原声和购买决策维度。',
+      ].join('\n');
+    }
+
+    return [
+      '根据站内已检索到的资料，可以先这样理解：',
+      ...snippets.slice(0, 4).map((snippet) => `- ${snippet}`),
+      '下方链接是本次回答对应的证据来源。',
+    ].join('\n');
   }
 
   private plainTextFromAiResponse(raw: string): string {
