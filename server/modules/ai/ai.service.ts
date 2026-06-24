@@ -830,6 +830,12 @@ ${textContent}`;
   }
 
   private extractAiText(data: any): string {
+    if (typeof data === 'string') return data.trim();
+    if (data?.data) {
+      const nested = this.extractAiText(data.data);
+      if (nested && nested !== '{}') return nested;
+    }
+
     const stringifyContent = (value: any): string => {
       if (!value) return '';
       if (typeof value === 'string') return value.trim();
@@ -857,6 +863,7 @@ ${textContent}`;
       data?.response,
       data?.answer,
       data?.result,
+      data?.text,
       data?.output,
     ];
 
