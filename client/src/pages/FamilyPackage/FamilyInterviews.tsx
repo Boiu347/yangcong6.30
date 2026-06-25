@@ -17,12 +17,34 @@ import { toast } from 'sonner';
 import { JTB_INTERVIEWS, JtbInterview, JtbOnion } from '../../store/jiatingbaoData';
 import { JTB_VOICE_CLIPS, JtbVoiceClip } from '../../store/jiatingbaoVoiceClips';
 import EvidenceAudioClips from '../../components/EvidenceAudioClips';
-import { citeMatches, useCiteKey } from '../../components/siteAssistant/evidenceHighlight';
+import { citeMatches, normalizeForMatch, useCiteKey } from '../../components/siteAssistant/evidenceHighlight';
 import { cn } from '@/lib/utils';
 
 /** 该用户从录音里精确切出的逐字原声（按维度） */
 function voiceClipsForSeq(seq: number): JtbVoiceClip[] {
   return JTB_VOICE_CLIPS.filter((c) => c.seq === seq);
+}
+
+/**
+ * 卡片预览用：挑选与「标题（首条洞察）」对应的那段录音。
+ * 卡片标题取自 insights[0].title，其代表原话是 insights[0].quote；
+ * 录音切片的 caption 往往就等于该洞察原话，故按 quote ↔ caption/text 互相包含来匹配。
+ * 匹配不到则返回 undefined（卡片不显示录音，避免标题与录音牛头不对马嘴）。
+ */
+function teaserClipOf(itv: JtbInterview): JtbVoiceClip | undefined {
+  const clips = voiceClipsForSeq(itv.seq);
+  if (!clips.length) return undefined;
+  const targetQuote = itv.insights[0]?.quote ?? representativeVoiceOf(itv);
+  const key = normalizeForMatch(targetQuote || '');
+  if (key.length < 6) return undefined;
+  return clips.find((c) => {
+    const cap = normalizeForMatch(c.caption || '');
+    const txt = normalizeForMatch(c.text || '');
+    return (
+      (cap.length >= 6 && (cap.includes(key) || key.includes(cap))) ||
+      (txt.length >= 6 && (txt.includes(key) || key.includes(txt)))
+    );
+  });
 }
 
 // 收集一位受访者可被引用的所有文本（洞察标题/详情/原声、独立原声、洋葱相关、学情、录音原声）
@@ -357,7 +379,7 @@ function CompactMeta({ itv }: { itv: JtbInterview }) {
 
 function FamilyCard({ itv, onOpen }: { itv: JtbInterview; onOpen: (itv: JtbInterview) => void }) {
   const detail = hasDetail(itv);
-  const firstClip = voiceClipsForSeq(itv.seq)[0];
+  const firstClip = teaserClipOf(itv);
   const voice = representativeVoiceOf(itv);
 
   return (
