@@ -552,7 +552,7 @@ function DetailDrawer({ itv, onClose }: { itv: JtbInterview | null; onClose: () 
   return (
     <div className="fixed inset-0 z-50">
       <div className="absolute inset-0 bg-black/30" onClick={onClose} />
-      <div className="absolute right-0 top-0 flex h-full w-full max-w-[480px] flex-col bg-white shadow-2xl">
+      <div className="absolute right-0 top-0 flex h-full w-full max-w-[720px] flex-col bg-white shadow-2xl">
         <div className="flex items-start gap-3 border-b border-[#E8E2D9] bg-[#FEFDF9] px-5 py-4">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#e65532]/10 text-[14px] font-extrabold text-[#e65532]">
             {itv.seq}
