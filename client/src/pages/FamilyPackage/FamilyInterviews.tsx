@@ -15,11 +15,17 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { JTB_INTERVIEWS, JtbInterview, JtbOnion } from '../../store/jiatingbaoData';
-import JtbTranscript from '../../components/JtbTranscript';
+import { JTB_VOICE_CLIPS, JtbVoiceClip } from '../../store/jiatingbaoVoiceClips';
+import EvidenceAudioClips from '../../components/EvidenceAudioClips';
 import { citeMatches, useCiteKey } from '../../components/siteAssistant/evidenceHighlight';
 import { cn } from '@/lib/utils';
 
-// 收集一位受访者可被引用的所有文本（洞察标题/详情/原声、独立原声、洋葱相关、学情）
+/** 该用户从录音里精确切出的逐字原声（按维度） */
+function voiceClipsForSeq(seq: number): JtbVoiceClip[] {
+  return JTB_VOICE_CLIPS.filter((c) => c.seq === seq);
+}
+
+// 收集一位受访者可被引用的所有文本（洞察标题/详情/原声、独立原声、洋葱相关、学情、录音原声）
 function interviewTexts(itv: JtbInterview): string[] {
   const texts: string[] = [];
   itv.insights?.forEach((ins) => {
@@ -32,6 +38,10 @@ function interviewTexts(itv: JtbInterview): string[] {
     ((arr as string[] | undefined) ?? []).forEach((it) => texts.push(it)),
   );
   itv.study?.forEach((s) => texts.push(s));
+  voiceClipsForSeq(itv.seq).forEach((c) => {
+    if (c.text) texts.push(c.text);
+    if (c.caption) texts.push(c.caption);
+  });
   return texts;
 }
 
@@ -218,6 +228,32 @@ function VoiceQuote({ text, compact = false }: { text: string; compact?: boolean
   );
 }
 
+const DIM_TINT: Record<string, string> = {
+  关键原声: '#e65532', 洞察: '#e65532', 认知: '#5B7BBF', 了解: '#4BA69E',
+  购买: '#BF9455', 使用: '#7578C8', 预期: '#E07A6E', '建议/反馈': '#5BBF96', 基本学情: '#8a857d',
+};
+
+/** 逐字原声卡：维度标签 + 逐字原话 + 播放器 + 纪要转述小字 */
+function VerbatimVoiceCard({ clip }: { clip: JtbVoiceClip }) {
+  const tint = DIM_TINT[clip.dimension] ?? '#e65532';
+  return (
+    <div data-evidence-card className="rounded-xl border border-[#E8E2D9] bg-white p-3">
+      <div className="mb-1.5 flex items-center gap-2">
+        <span className="rounded-md px-1.5 py-0.5 text-[10px] font-bold text-white" style={{ backgroundColor: tint }}>
+          {clip.dimension}
+        </span>
+        <EvidenceAudioClips clips={[clip]} />
+      </div>
+      <p className="text-[12.5px] leading-6 text-gray-700">{clip.text}</p>
+      {clip.caption && clip.caption !== clip.text && (
+        <p className="mt-1.5 border-l-2 border-gray-200 pl-2 text-[11px] leading-5 text-gray-400">
+          纪要：{clip.caption}
+        </p>
+      )}
+    </div>
+  );
+}
+
 // ── 概览驾驶舱 ───────────────────────────────────────────────────────────
 
 function Metric({ label, value, note }: { label: string; value: string; note?: string }) {
@@ -321,6 +357,7 @@ function CompactMeta({ itv }: { itv: JtbInterview }) {
 
 function FamilyCard({ itv, onOpen }: { itv: JtbInterview; onOpen: (itv: JtbInterview) => void }) {
   const detail = hasDetail(itv);
+  const firstClip = voiceClipsForSeq(itv.seq)[0];
   const voice = representativeVoiceOf(itv);
 
   return (
@@ -357,7 +394,18 @@ function FamilyCard({ itv, onOpen }: { itv: JtbInterview; onOpen: (itv: JtbInter
 
       <CompactMeta itv={itv} />
 
-      {voice ? (
+      {firstClip ? (
+        <div className="mt-3 flex-1 border-t border-gray-100 pt-3">
+          <div className="mb-1.5 flex items-center gap-1 text-[10px] font-bold text-gray-400">
+            <Headphones size={11} className="text-[#e65532]/70" />
+            录音原声
+          </div>
+          <p className="line-clamp-2 text-[12px] leading-5 text-gray-600">“{firstClip.text}”</p>
+          <div className="mt-2" onClick={(e) => e.stopPropagation()}>
+            <EvidenceAudioClips clips={[firstClip]} />
+          </div>
+        </div>
+      ) : voice ? (
         <div className="mt-3 flex-1 border-t border-gray-100 pt-3">
           <div className="mb-1.5 flex items-center gap-1 text-[10px] font-bold text-gray-400">
             <Quote size={11} className="text-[#e65532]/55" />
@@ -381,6 +429,8 @@ function FamilyCard({ itv, onOpen }: { itv: JtbInterview; onOpen: (itv: JtbInter
 // ── 详情内容（抽屉里复用，不含链接） ─────────────────────────────────────
 
 function InterviewDetail({ itv }: { itv: JtbInterview }) {
+  const voiceClips = voiceClipsForSeq(itv.seq);
+
   return (
     <div className="space-y-5">
       {itv.insights.length > 0 && (
@@ -402,7 +452,20 @@ function InterviewDetail({ itv }: { itv: JtbInterview }) {
         </div>
       )}
 
-      <JtbTranscript seq={itv.seq} />
+      {voiceClips.length > 0 && (
+        <div>
+          <div className="mb-2 flex items-center gap-1.5">
+            <Headphones size={13} className="text-[#e65532]" />
+            <span className="text-[12px] font-bold text-gray-700">录音原声</span>
+            <span className="text-[11px] text-gray-400">{voiceClips.length} 条 · 逐字稿与录音对齐</span>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {voiceClips.map((clip) => (
+              <VerbatimVoiceCard key={clip.clipUrl} clip={clip} />
+            ))}
+          </div>
+        </div>
+      )}
 
       {itv.study.length > 0 && (
         <div>
