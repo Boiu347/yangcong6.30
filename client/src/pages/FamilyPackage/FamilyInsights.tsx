@@ -334,14 +334,30 @@ export default function FamilyInsights() {
         <FamilyInterviewRecordings />
       ) : (
         <div className="flex-1 overflow-y-auto p-6 space-y-8">
-          {editor && (
-            <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-200 bg-amber-50/70 px-4 py-3">
+          <div
+            className={cn(
+              'flex flex-wrap items-center justify-between gap-3 rounded-2xl border px-4 py-3',
+              editor
+                ? 'border-amber-200 bg-amber-50/70'
+                : 'border-dashed border-gray-200 bg-white/70',
+            )}
+          >
+            {editor ? (
               <div>
                 <p className="text-[13px] font-bold text-amber-800">编辑模式已开启</p>
                 <p className="mt-0.5 text-[12px] text-amber-700">
                   当前可编辑：维度结论、子维度 AI 概况、卡片 AI 总结；原声和录音保持证据原文。
                 </p>
               </div>
+            ) : (
+              <div>
+                <p className="text-[13px] font-bold text-gray-700">当前维度可编辑</p>
+                <p className="mt-0.5 text-[12px] text-gray-500">
+                  先点右上角「进入编辑」，这里会出现编辑入口。
+                </p>
+              </div>
+            )}
+            {editor ? (
               <button
                 onClick={openEditDrawer}
                 className="inline-flex items-center gap-1.5 rounded-xl bg-[#e65532] px-3.5 py-2 text-[12px] font-semibold text-white shadow-sm transition hover:bg-[#d64b2a]"
@@ -349,8 +365,13 @@ export default function FamilyInsights() {
                 <Pencil size={13} />
                 编辑当前维度
               </button>
-            </div>
-          )}
+            ) : (
+              <span className="inline-flex items-center gap-1.5 rounded-xl border border-gray-200 bg-gray-50 px-3.5 py-2 text-[12px] font-semibold text-gray-400">
+                <Pencil size={13} />
+                进入编辑后可修改
+              </span>
+            )}
+          </div>
           {/* 维度结论 */}
           <div
             className="rounded-xl px-4 py-3 border-l-[3px]"

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Upload, FileAudio, FileText, Loader2, X, AlertCircle, ClipboardPaste, Check, Lock, LockOpen } from 'lucide-react';
+import { Upload, FileAudio, FileText, Loader2, X, AlertCircle, ClipboardPaste, Check } from 'lucide-react';
 import { toast } from 'sonner';
 import { projectActions, useProject } from '../../store/useProjectStore';
 import {
@@ -10,7 +10,7 @@ import {
   DEFAULT_FILE_LABELS,
 } from '../../store/activeFilesStore';
 import { apiTranscribeFile, apiParseDocument, detectFileCategory } from '../../api/ai';
-import { getStoredPassword, useIsEditor, unlockEditor, lockEditor } from '../auth/PasswordGate';
+import { getStoredPassword, useIsEditor } from '../auth/PasswordGate';
 import { ProjectFile, VOCItem, normalizeDimension, fileLabel } from '../../types/voc';
 import { cn } from '@/lib/utils';
 
@@ -108,69 +108,6 @@ function PasteModal({
   );
 }
 
-// ── EditorUnlockModal ──────────────────────────────────────────────────────
-
-function EditorUnlockModal({ onClose }: { onClose: () => void }) {
-  const [pw, setPw] = React.useState('');
-  const [loading, setLoading] = React.useState(false);
-  const inputRef = React.useRef<HTMLInputElement>(null);
-
-  React.useEffect(() => { inputRef.current?.focus(); }, []);
-
-  const handleUnlock = async () => {
-    if (!pw.trim()) return;
-    setLoading(true);
-    const ok = await unlockEditor(pw.trim());
-    setLoading(false);
-    if (ok) {
-      toast.success('编辑模式已解锁');
-      onClose();
-    } else {
-      toast.error('编辑密码错误');
-      setPw('');
-      inputRef.current?.focus();
-    }
-  };
-
-  return (
-    <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div
-        className="bg-white rounded-2xl shadow-xl w-full max-w-xs p-7 flex flex-col items-center gap-5"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="w-12 h-12 rounded-2xl bg-amber-50 flex items-center justify-center">
-          <Lock size={22} className="text-amber-500" />
-        </div>
-        <div className="text-center">
-          <h3 className="text-[15px] font-bold text-gray-900">解锁编辑权限</h3>
-          <p className="text-[12px] text-gray-400 mt-1">请输入编辑密码以启用上传和编辑功能</p>
-        </div>
-        <div className="w-full space-y-2.5">
-          <input
-            ref={inputRef}
-            type="password"
-            value={pw}
-            onChange={(e) => setPw(e.target.value)}
-            onKeyDown={(e) => { if (e.key === 'Enter') void handleUnlock(); if (e.key === 'Escape') onClose(); }}
-            placeholder="编辑密码"
-            className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-[13px] text-gray-900 placeholder:text-gray-300 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 transition-all"
-          />
-          <button
-            onClick={() => void handleUnlock()}
-            disabled={loading || !pw.trim()}
-            className="w-full py-2.5 bg-amber-500 text-white text-[13px] font-semibold rounded-xl hover:bg-amber-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
-          >
-            {loading ? <><Loader2 size={14} className="animate-spin" />验证中…</> : '解锁'}
-          </button>
-          <button onClick={onClose} className="w-full py-2 text-gray-400 text-[12px] hover:text-gray-600 transition-colors">
-            取消
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 // ── Main FileBar ───────────────────────────────────────────────────────────
 
 export default function FileBar() {
@@ -181,7 +118,6 @@ export default function FileBar() {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = React.useState(false);
   const [showPaste, setShowPaste] = React.useState(false);
-  const [showUnlock, setShowUnlock] = React.useState(false);
 
   // ── file processing helpers ───────────────────────────────────────────────
 
@@ -277,7 +213,6 @@ export default function FileBar() {
   return (
     <>
       {showPaste && <PasteModal onSubmit={handlePasteSubmit} onClose={() => setShowPaste(false)} />}
-      {showUnlock && <EditorUnlockModal onClose={() => setShowUnlock(false)} />}
 
       <div
         className={cn(
@@ -368,19 +303,9 @@ export default function FileBar() {
 
         <div className="flex-1" />
 
-        {/* ── 编辑权限锁 + 上传按钮组 ── */}
+        {/* ── 上传按钮组：编辑模式由顶部导航统一控制 ── */}
         {editor ? (
-          /* 已解锁：显示解锁状态 + 粘贴 + 上传 */
           <>
-            <button
-              onClick={() => lockEditor()}
-              title="点击退出编辑模式"
-              className="shrink-0 flex items-center gap-1 px-2 py-1.5 rounded-lg border border-amber-200 bg-amber-50 text-amber-600 text-[11px] font-medium hover:bg-amber-100 transition-colors"
-            >
-              <LockOpen size={12} />
-              退出编辑
-            </button>
-
             <button
               onClick={() => setShowPaste(true)}
               className="shrink-0 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-gray-200 text-gray-500 text-[11px] font-medium hover:border-[#4361EE] hover:text-[#4361EE] transition-colors"
@@ -408,15 +333,9 @@ export default function FileBar() {
             </button>
           </>
         ) : (
-          /* 未解锁：只显示锁图标，点击弹出密码框 */
-          <button
-            onClick={() => setShowUnlock(true)}
-            title="点击解锁编辑权限"
-            className="shrink-0 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-gray-200 text-gray-400 text-[11px] font-medium hover:border-amber-400 hover:text-amber-500 hover:bg-amber-50 transition-colors"
-          >
-            <Lock size={12} />
-            解锁编辑
-          </button>
+          <span className="shrink-0 rounded-lg border border-dashed border-gray-200 bg-white/70 px-2.5 py-1.5 text-[11px] font-medium text-gray-400">
+            顶栏进入编辑后可上传资料
+          </span>
         )}
       </div>
     </>

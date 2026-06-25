@@ -16,19 +16,19 @@ export default function EditorModeButton({ compact, className }: EditorModeButto
   if (editor) {
     return (
       <div className={cn('flex shrink-0 items-center gap-2', className)}>
-        <div className="hidden items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-[11px] font-semibold text-emerald-700 md:flex">
+        <div className="hidden items-center gap-1.5 rounded-lg border border-[#e65532]/25 bg-[#fff1ec] px-2.5 py-1.5 text-[11px] font-bold text-[#e65532] md:flex">
           <CheckCircle2 size={12} />
-          编辑模式已开启
+          编辑模式中
         </div>
         <button
           onClick={() => {
             lockEditor();
             toast.info('已退出编辑模式');
           }}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-[#dddcd5] bg-white px-3 py-1.5 text-xs font-semibold text-[#666] transition-colors hover:border-[#e65532] hover:text-[#e65532]"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-[#e65532] bg-[#e65532] px-3 py-1.5 text-xs font-bold text-white transition-colors hover:bg-[#d64b2a]"
         >
           <LockOpen size={13} />
-          {compact ? '退出' : '退出编辑'}
+          退出编辑
         </button>
       </div>
     );
@@ -39,12 +39,12 @@ export default function EditorModeButton({ compact, className }: EditorModeButto
       <button
         onClick={() => setOpen(true)}
         className={cn(
-          'inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-[#dddcd5] bg-white px-3 py-1.5 text-xs font-semibold text-[#666] transition-colors hover:border-[#e65532] hover:text-[#e65532]',
+          'inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-[#dddcd5] bg-white px-3 py-1.5 text-xs font-bold text-[#666] transition-colors hover:border-[#e65532] hover:bg-[#fff7f3] hover:text-[#e65532]',
           className,
         )}
       >
         <Lock size={13} />
-        {compact ? '编辑' : '解锁编辑'}
+        进入编辑
       </button>
       {open && <EditorUnlockModal onClose={() => setOpen(false)} />}
     </>
