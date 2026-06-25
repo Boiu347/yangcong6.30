@@ -60,9 +60,7 @@ export async function unlockEditor(pw: string): Promise<boolean> {
       body: JSON.stringify({ password: pw }),
     });
     if (!res.ok) return false;
-    _role = 'editor';
-    try { sessionStorage.setItem(ROLE_KEY, 'editor'); } catch { /* ignore */ }
-    _notify();
+    setAuthed(pw, 'editor');
     return true;
   } catch {
     return false;
