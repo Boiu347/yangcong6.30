@@ -1,6 +1,6 @@
-import { LayoutGrid, PenLine } from 'lucide-react';
+import { LayoutGrid } from 'lucide-react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useIsEditor } from '../auth/PasswordGate';
+import EditorModeButton from '../auth/EditorModeButton';
 import FileBar from './FileBar';
 
 const standardItems = [
@@ -30,7 +30,6 @@ export default function TopNavLayout() {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
   const location = useLocation();
-  const editor = useIsEditor();
   const active = location.pathname.split('/').pop() ?? 'summary';
   const isFamily = projectId === 'jiatingbao_project';
   const items = isFamily ? familyItems : projectId === 'jisuanying_project' ? computingItems : standardItems;
@@ -56,7 +55,7 @@ export default function TopNavLayout() {
             );
           })}
         </div>
-        {editor && <div className="ml-auto hidden shrink-0 items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[11px] font-medium text-amber-700 md:flex"><PenLine size={11} />编辑模式</div>}
+        <EditorModeButton compact className="ml-auto" />
       </nav>
       {showFileBar && <FileBar />}
       <div className="min-h-0 flex-1 overflow-y-auto"><Outlet /></div>

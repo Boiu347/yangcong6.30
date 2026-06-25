@@ -1,16 +1,20 @@
 import React from 'react';
 import { useParams, Navigate } from 'react-router-dom';
-import { MessageSquare, Sparkles, ChevronDown, ChevronRight } from 'lucide-react';
+import { MessageSquare, Sparkles, ChevronDown, ChevronRight, Pencil } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   FAMILY_INSIGHT_DIMENSIONS,
   FamilyEvidence,
+  FamilyInsightDimension,
   FamilySubDimension,
 } from '../../store/familyInsightsData';
 import { citeMatches, useCiteKey } from '../../components/siteAssistant/evidenceHighlight';
 import { clipsForQuote } from '../../utils/sourceUtils';
 import EvidenceAudioClips from '../../components/EvidenceAudioClips';
 import FamilyInterviewRecordings from './FamilyInterviewRecordings';
+import { useContentStore } from '../../hooks/useContentStore';
+import { useIsEditor } from '../../components/auth/PasswordGate';
+import { EditDrawer, SaveBar, TextField } from '../../components/edit/EditDrawer';
 
 const RECORDINGS_KEY = 'recordings';
 const RECORDINGS_COLOR = '#FF5722';
@@ -231,19 +235,38 @@ function SubDimSection({
 }
 
 // ── 主页面 ──────────────────────────────────────────────────────────────────
+function cloneDimension(dim: FamilyInsightDimension): FamilyInsightDimension {
+  if (typeof structuredClone === 'function') return structuredClone(dim);
+  return JSON.parse(JSON.stringify(dim)) as FamilyInsightDimension;
+}
+
 export default function FamilyInsights() {
   const { projectId } = useParams<{ projectId: string }>();
+  const editor = useIsEditor();
+  const { data: storedDimensions, saving, save } = useContentStore<FamilyInsightDimension[]>(
+    'family-insights',
+    FAMILY_INSIGHT_DIMENSIONS,
+  );
+  const dimensions = storedDimensions.length > 0 ? storedDimensions : FAMILY_INSIGHT_DIMENSIONS;
   const [activeKey, setActiveKey] = React.useState(FAMILY_INSIGHT_DIMENSIONS[0].key);
+  const [draft, setDraft] = React.useState<FamilyInsightDimension | null>(null);
   const citeKey = useCiteKey();
 
   // 有引用跳转时，切到包含被引用原话的维度 Tab（否则原话在非当前 Tab，根本没渲染）
   React.useEffect(() => {
     if (!citeKey) return;
-    const target = FAMILY_INSIGHT_DIMENSIONS.find((dim) =>
+    const target = dimensions.find((dim) =>
       dim.subDimensions.some((sub) => sub.evidence.some((ev) => citeMatches(ev.text, citeKey))),
     );
     if (target) setActiveKey(target.key);
-  }, [citeKey]);
+  }, [citeKey, dimensions]);
+
+  React.useEffect(() => {
+    if (activeKey === RECORDINGS_KEY) return;
+    if (!dimensions.some((dim) => dim.key === activeKey)) {
+      setActiveKey(dimensions[0]?.key ?? FAMILY_INSIGHT_DIMENSIONS[0].key);
+    }
+  }, [activeKey, dimensions]);
 
   // 仅家庭包项目可用，其余项目重定向到总览
   if (projectId !== 'jiatingbao_project') {
@@ -251,8 +274,19 @@ export default function FamilyInsights() {
   }
 
   const isRecordings = activeKey === RECORDINGS_KEY;
-  const active =
-    FAMILY_INSIGHT_DIMENSIONS.find((d) => d.key === activeKey) ?? FAMILY_INSIGHT_DIMENSIONS[0];
+  const active = dimensions.find((d) => d.key === activeKey) ?? dimensions[0] ?? FAMILY_INSIGHT_DIMENSIONS[0];
+
+  const openEditDrawer = () => {
+    if (isRecordings || !active) return;
+    setDraft(cloneDimension(active));
+  };
+
+  const saveDraft = async () => {
+    if (!draft) return;
+    const next = dimensions.map((dim) => (dim.key === draft.key ? draft : dim));
+    await save(next);
+    setDraft(null);
+  };
 
   return (
     <div className="flex flex-col h-full">
@@ -266,7 +300,7 @@ export default function FamilyInsights() {
 
         {/* 维度 Tab */}
         <div className="flex">
-          {FAMILY_INSIGHT_DIMENSIONS.map((dim) => {
+          {dimensions.map((dim) => {
             const isActive = activeKey === dim.key;
             return (
               <button
@@ -300,6 +334,23 @@ export default function FamilyInsights() {
         <FamilyInterviewRecordings />
       ) : (
         <div className="flex-1 overflow-y-auto p-6 space-y-8">
+          {editor && (
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-200 bg-amber-50/70 px-4 py-3">
+              <div>
+                <p className="text-[13px] font-bold text-amber-800">编辑模式已开启</p>
+                <p className="mt-0.5 text-[12px] text-amber-700">
+                  当前可编辑：维度结论、子维度 AI 概况、卡片 AI 总结；原声和录音保持证据原文。
+                </p>
+              </div>
+              <button
+                onClick={openEditDrawer}
+                className="inline-flex items-center gap-1.5 rounded-xl bg-[#e65532] px-3.5 py-2 text-[12px] font-semibold text-white shadow-sm transition hover:bg-[#d64b2a]"
+              >
+                <Pencil size={13} />
+                编辑当前维度
+              </button>
+            </div>
+          )}
           {/* 维度结论 */}
           <div
             className="rounded-xl px-4 py-3 border-l-[3px]"
@@ -319,6 +370,66 @@ export default function FamilyInsights() {
           ))}
         </div>
       )}
+      <EditDrawer
+        open={!!draft}
+        onClose={() => setDraft(null)}
+        title={draft ? `编辑「${draft.label}」` : '编辑家庭包洞察'}
+      >
+        {draft && (
+          <div className="space-y-5">
+            <TextField
+              label="维度名称"
+              value={draft.label}
+              onChange={(value) => setDraft({ ...draft, label: value })}
+            />
+            <TextField
+              label="维度结论"
+              value={draft.verdict}
+              multiline
+              onChange={(value) => setDraft({ ...draft, verdict: value })}
+            />
+            <div className="space-y-4">
+              {draft.subDimensions.map((sub, index) => (
+                <div key={`${sub.name}-${index}`} className="rounded-2xl border border-gray-200 bg-gray-50/50 p-4">
+                  <TextField
+                    label={`子维度 ${index + 1} 名称`}
+                    value={sub.name}
+                    onChange={(value) => {
+                      const next = cloneDimension(draft);
+                      next.subDimensions[index] = { ...next.subDimensions[index], name: value };
+                      setDraft(next);
+                    }}
+                  />
+                  <TextField
+                    label="AI 概况"
+                    value={sub.summary}
+                    multiline
+                    onChange={(value) => {
+                      const next = cloneDimension(draft);
+                      next.subDimensions[index] = { ...next.subDimensions[index], summary: value };
+                      setDraft(next);
+                    }}
+                  />
+                  <TextField
+                    label="卡片 AI 总结"
+                    value={sub.cardSummary}
+                    multiline
+                    onChange={(value) => {
+                      const next = cloneDimension(draft);
+                      next.subDimensions[index] = { ...next.subDimensions[index], cardSummary: value };
+                      setDraft(next);
+                    }}
+                  />
+                  <p className="text-[11px] text-gray-400">
+                    该子维度下 {sub.evidence.length} 条原声证据不在这里编辑，以免影响录音切片匹配。
+                  </p>
+                </div>
+              ))}
+            </div>
+            <SaveBar saving={saving} onSave={() => void saveDraft()} onCancel={() => setDraft(null)} />
+          </div>
+        )}
+      </EditDrawer>
     </div>
   );
 }
