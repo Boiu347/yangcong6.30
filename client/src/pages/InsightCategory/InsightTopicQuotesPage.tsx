@@ -299,7 +299,7 @@ function QuoteCard({
   color: string;
 }) {
   return (
-    <article className="rounded-lg border border-[#e3dfd6] bg-white p-4 shadow-sm">
+    <article data-evidence-card className="rounded-lg border border-[#e3dfd6] bg-white p-4 shadow-sm">
       <div className="mb-3 flex flex-wrap items-center gap-2">
         <span className="rounded-full bg-[#f4f2ec] px-2.5 py-1 text-xs font-bold text-[#5f5a52]">
           <HighlightedText text={quote.projectName} query={query} />

@@ -54,7 +54,10 @@ function renderHighlightedText(text: string) {
 function QuoteItem({ ev, color }: { ev: FamilyEvidence; color: string }) {
   const clips = clipsForQuote(ev.text);
   return (
-    <div className="flex gap-3 pt-3 border-t border-gray-100 first:border-0 first:pt-0">
+    <div
+      data-evidence-card
+      className="flex gap-3 pt-3 px-2 -mx-2 border-t border-gray-100 first:border-0 first:pt-0"
+    >
       <span className="text-[22px] leading-none font-serif shrink-0 mt-0.5 select-none text-gray-300">
         "
       </span>

@@ -55,13 +55,13 @@ function ensureStyle() {
   style.id = SPOTLIGHT_STYLE_ID;
   style.textContent = `
 @keyframes evidenceSpotlightPulse {
-  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(230,85,50,0); background-color: transparent; }
-  18% { transform: scale(1.05); box-shadow: 0 0 0 4px rgba(230,85,50,0.35); background-color: rgba(230,85,50,0.12); }
-  72% { transform: scale(1.05); box-shadow: 0 0 0 4px rgba(230,85,50,0.35); background-color: rgba(230,85,50,0.12); }
-  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(230,85,50,0); background-color: transparent; }
+  0% { transform: scale(1); background-color: transparent; box-shadow: inset 0 0 0 0 rgba(230,85,50,0), 0 0 0 0 rgba(230,85,50,0); }
+  15% { transform: scale(1.03); background-color: rgba(230,85,50,0.16); box-shadow: inset 0 0 0 2px rgba(230,85,50,0.85), 0 8px 22px rgba(230,85,50,0.30); }
+  70% { transform: scale(1.03); background-color: rgba(230,85,50,0.16); box-shadow: inset 0 0 0 2px rgba(230,85,50,0.85), 0 8px 22px rgba(230,85,50,0.30); }
+  100% { transform: scale(1); background-color: transparent; box-shadow: inset 0 0 0 0 rgba(230,85,50,0), 0 0 0 0 rgba(230,85,50,0); }
 }
 .${SPOTLIGHT_CLASS} {
-  animation: evidenceSpotlightPulse 1.9s ease-in-out both;
+  animation: evidenceSpotlightPulse 2.1s ease-in-out both;
   border-radius: 12px;
   position: relative;
   z-index: 5;
@@ -93,7 +93,10 @@ function findCitedElement(key: string): HTMLElement | null {
       }
     }
   }
-  return best;
+  if (!best) return null;
+  // 优先高亮整张「证据卡」（标记了 data-evidence-card），否则退回命中的文本元素本身
+  const card = best.closest<HTMLElement>('[data-evidence-card]');
+  return card ?? best;
 }
 
 function spotlight(el: HTMLElement) {
