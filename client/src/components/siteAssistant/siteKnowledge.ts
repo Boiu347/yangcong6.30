@@ -164,7 +164,8 @@ export function buildSiteKnowledge(projects: Project[]): KnowledgeChunk[] {
       excerpt: compact(segment.quote),
       source: segment.respondent,
       projectName: segment.projectName,
-      route: '/projects/jiatingbao_project/qualitative',
+      // 片段原声实际展示在「定性归纳」页（FamilyInsights），而非「用户访谈」页
+      route: '/projects/jiatingbao_project/family-insights',
       keywords: ['家庭包', labelFullName(segment.primaryLabel), segment.respondent],
     });
   });

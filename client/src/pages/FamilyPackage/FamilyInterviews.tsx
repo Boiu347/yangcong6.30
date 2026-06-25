@@ -15,13 +15,24 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { JTB_INTERVIEWS, JtbInterview, JtbOnion } from '../../store/jiatingbaoData';
-import { JTB_VOICE_CLIPS, JtbVoiceClip } from '../../store/jiatingbaoVoiceClips';
-import EvidenceAudioClips from '../../components/EvidenceAudioClips';
+import JtbTranscript from '../../components/JtbTranscript';
+import { citeMatches, useCiteKey } from '../../components/siteAssistant/evidenceHighlight';
 import { cn } from '@/lib/utils';
 
-/** 该用户从录音里精确切出的逐字原声（按维度） */
-function voiceClipsForSeq(seq: number): JtbVoiceClip[] {
-  return JTB_VOICE_CLIPS.filter((c) => c.seq === seq);
+// 收集一位受访者可被引用的所有文本（洞察标题/详情/原声、独立原声、洋葱相关、学情）
+function interviewTexts(itv: JtbInterview): string[] {
+  const texts: string[] = [];
+  itv.insights?.forEach((ins) => {
+    if (ins.title) texts.push(ins.title);
+    if (ins.detail) texts.push(ins.detail);
+    if (ins.quote) texts.push(ins.quote);
+  });
+  itv.quotes?.forEach((q) => texts.push(q));
+  Object.values(itv.onion ?? {}).forEach((arr) =>
+    ((arr as string[] | undefined) ?? []).forEach((it) => texts.push(it)),
+  );
+  itv.study?.forEach((s) => texts.push(s));
+  return texts;
 }
 
 function renderHighlighted(text: string) {
@@ -192,6 +203,7 @@ function StatusBadge({ status }: { status: '已购' | '未购' }) {
 function VoiceQuote({ text, compact = false }: { text: string; compact?: boolean }) {
   return (
     <blockquote
+      data-evidence-card
       className={cn(
         'relative rounded-xl border border-[#f0ded8] bg-[#fff8f5] text-gray-700',
         compact ? 'px-3 py-2.5 text-[12px] leading-5' : 'px-4 py-3 text-[12.5px] leading-6',
@@ -203,32 +215,6 @@ function VoiceQuote({ text, compact = false }: { text: string; compact?: boolean
       />
       <p className="pl-5">{renderHighlighted(text)}</p>
     </blockquote>
-  );
-}
-
-const DIM_TINT: Record<string, string> = {
-  关键原声: '#e65532', 洞察: '#e65532', 认知: '#5B7BBF', 了解: '#4BA69E',
-  购买: '#BF9455', 使用: '#7578C8', 预期: '#E07A6E', '建议/反馈': '#5BBF96', 基本学情: '#8a857d',
-};
-
-/** 逐字原声卡：维度标签 + 逐字原话 + 播放器 + 纪要转述小字 */
-function VerbatimVoiceCard({ clip }: { clip: JtbVoiceClip }) {
-  const tint = DIM_TINT[clip.dimension] ?? '#e65532';
-  return (
-    <div className="rounded-xl border border-[#E8E2D9] bg-white p-3">
-      <div className="mb-1.5 flex items-center gap-2">
-        <span className="rounded-md px-1.5 py-0.5 text-[10px] font-bold text-white" style={{ backgroundColor: tint }}>
-          {clip.dimension}
-        </span>
-        <EvidenceAudioClips clips={[clip]} />
-      </div>
-      <p className="text-[12.5px] leading-6 text-gray-700">{clip.text}</p>
-      {clip.caption && clip.caption !== clip.text && (
-        <p className="mt-1.5 border-l-2 border-gray-200 pl-2 text-[11px] leading-5 text-gray-400">
-          纪要：{clip.caption}
-        </p>
-      )}
-    </div>
   );
 }
 
@@ -335,7 +321,6 @@ function CompactMeta({ itv }: { itv: JtbInterview }) {
 
 function FamilyCard({ itv, onOpen }: { itv: JtbInterview; onOpen: (itv: JtbInterview) => void }) {
   const detail = hasDetail(itv);
-  const firstClip = voiceClipsForSeq(itv.seq)[0];
   const voice = representativeVoiceOf(itv);
 
   return (
@@ -372,18 +357,7 @@ function FamilyCard({ itv, onOpen }: { itv: JtbInterview; onOpen: (itv: JtbInter
 
       <CompactMeta itv={itv} />
 
-      {firstClip ? (
-        <div className="mt-3 flex-1 border-t border-gray-100 pt-3">
-          <div className="mb-1.5 flex items-center gap-1 text-[10px] font-bold text-gray-400">
-            <Headphones size={11} className="text-[#e65532]/70" />
-            录音原声
-          </div>
-          <p className="line-clamp-2 text-[12px] leading-5 text-gray-600">“{firstClip.text}”</p>
-          <div className="mt-2" onClick={(e) => e.stopPropagation()}>
-            <EvidenceAudioClips clips={[firstClip]} />
-          </div>
-        </div>
-      ) : voice ? (
+      {voice ? (
         <div className="mt-3 flex-1 border-t border-gray-100 pt-3">
           <div className="mb-1.5 flex items-center gap-1 text-[10px] font-bold text-gray-400">
             <Quote size={11} className="text-[#e65532]/55" />
@@ -407,14 +381,12 @@ function FamilyCard({ itv, onOpen }: { itv: JtbInterview; onOpen: (itv: JtbInter
 // ── 详情内容（抽屉里复用，不含链接） ─────────────────────────────────────
 
 function InterviewDetail({ itv }: { itv: JtbInterview }) {
-  const voiceClips = voiceClipsForSeq(itv.seq);
-
   return (
     <div className="space-y-5">
       {itv.insights.length > 0 && (
         <div className="space-y-3">
           {itv.insights.map((ins, i) => (
-            <div key={i} className="rounded-xl border-l-[3px] border-[#e65532] bg-[#e65532]/[0.04] p-3.5">
+            <div key={i} data-evidence-card className="rounded-xl border-l-[3px] border-[#e65532] bg-[#e65532]/[0.04] p-3.5">
               <div className="flex items-center gap-1.5">
                 <Sparkles size={12} className="text-[#e65532]" />
                 <span className="text-[12.5px] font-bold text-gray-800">{ins.title}</span>
@@ -430,20 +402,7 @@ function InterviewDetail({ itv }: { itv: JtbInterview }) {
         </div>
       )}
 
-      {voiceClips.length > 0 && (
-        <div>
-          <div className="mb-2 flex items-center gap-1.5">
-            <Headphones size={13} className="text-[#e65532]" />
-            <span className="text-[12px] font-bold text-gray-700">录音原声</span>
-            <span className="text-[11px] text-gray-400">{voiceClips.length} 条 · 逐字稿与录音对齐</span>
-          </div>
-          <div className="grid gap-2 sm:grid-cols-2">
-            {voiceClips.map((clip) => (
-              <VerbatimVoiceCard key={clip.clipUrl} clip={clip} />
-            ))}
-          </div>
-        </div>
-      )}
+      <JtbTranscript seq={itv.seq} />
 
       {itv.study.length > 0 && (
         <div>
@@ -478,7 +437,7 @@ function InterviewDetail({ itv }: { itv: JtbInterview }) {
                   </span>
                   <ul className="flex-1 space-y-1">
                     {items.map((it, i) => (
-                      <li key={i} className="text-[12.5px] leading-6 text-gray-600">{it}</li>
+                      <li key={i} data-evidence-card className="text-[12.5px] leading-6 text-gray-600">{it}</li>
                     ))}
                   </ul>
                 </div>
@@ -532,7 +491,7 @@ function DetailDrawer({ itv, onClose }: { itv: JtbInterview | null; onClose: () 
             <X size={18} />
           </button>
         </div>
-        <div className="flex-1 overflow-y-auto px-5 py-5">
+        <div data-evidence-scope className="flex-1 overflow-y-auto px-5 py-5">
           <InterviewDetail itv={itv} />
         </div>
       </div>
@@ -734,6 +693,16 @@ function SectionBlock({
 export default function FamilyInterviews() {
   const [selected, setSelected] = React.useState<JtbInterview | null>(null);
   const [libraryOpen, setLibraryOpen] = React.useState(false);
+  const citeKey = useCiteKey();
+
+  // 有引用跳转时：自动打开包含被引用原话的受访者抽屉，让全局高亮能定位到弹窗内的原话
+  React.useEffect(() => {
+    if (!citeKey) return;
+    const match = JTB_INTERVIEWS.find((itv) =>
+      interviewTexts(itv).some((t) => citeMatches(t, citeKey)),
+    );
+    if (match) setSelected(match);
+  }, [citeKey]);
 
   const visibleInterviews = JTB_INTERVIEWS.filter(hasDetail);
   const purchased = visibleInterviews.filter((i) => i.status === '已购');

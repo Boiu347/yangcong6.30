@@ -76,7 +76,10 @@ function findCitedElement(key: string): HTMLElement | null {
   );
   if (!probes.length) return null;
 
-  const nodes = Array.from(document.querySelectorAll<HTMLElement>(CANDIDATE_SELECTOR));
+  // 若有打开的弹窗/抽屉（标记 data-evidence-scope），仅在其内部查找，
+  // 避免命中被遮挡在弹窗后面的同款原话而高亮到看不见的地方。
+  const scope = document.querySelector<HTMLElement>('[data-evidence-scope]') ?? document;
+  const nodes = Array.from(scope.querySelectorAll<HTMLElement>(CANDIDATE_SELECTOR));
   let best: HTMLElement | null = null;
   let bestLen = Infinity;
   for (const el of nodes) {
