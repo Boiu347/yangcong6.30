@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Project, ProjectFile, BrandReport, SummaryData } from '../types/voc';
 import { buildDefaultProject, buildJisuanyingProject } from './defaultData';
 import { buildJiatingbaoProject } from './jiatingbaoData';
+import { buildPaisouProject } from './paisouData';
 import { useActiveFileIds } from './activeFilesStore';
 
 const STORAGE_KEY = 'voc_projects_v3';
@@ -62,13 +63,13 @@ let _projects: Project[] = (() => {
     if (!raw) {
       // First run: seed with default project containing real interview data
       const defaultProject = buildDefaultProject();
-      const initial = [defaultProject, buildJisuanyingProject(), buildJiatingbaoProject()];
+      const initial = [defaultProject, buildJisuanyingProject(), buildJiatingbaoProject(), buildPaisouProject()];
       _persist(initial);
       return initial;
     }
     const parsed = JSON.parse(raw) as unknown[];
     if (!Array.isArray(parsed) || parsed.length === 0) {
-      const initial = [buildDefaultProject(), buildJisuanyingProject(), buildJiatingbaoProject()];
+      const initial = [buildDefaultProject(), buildJisuanyingProject(), buildJiatingbaoProject(), buildPaisouProject()];
       _persist(initial);
       return initial;
     }
@@ -139,9 +140,20 @@ let _projects: Project[] = (() => {
       _persist(migrated);
     }
 
+    // Inject 拍搜项目 if missing (always refresh from seed to pick up report updates)
+    const paisouIdx = migrated.findIndex((p) => p.id === 'paisou_project');
+    const paisouSeed = buildPaisouProject();
+    if (paisouIdx === -1) {
+      migrated.push(paisouSeed);
+      _persist(migrated);
+    } else {
+      migrated[paisouIdx] = { ...migrated[paisouIdx], ...paisouSeed, id: 'paisou_project' };
+      _persist(migrated);
+    }
+
     return migrated;
   } catch {
-    const fallback = [buildDefaultProject(), buildJisuanyingProject(), buildJiatingbaoProject()];
+    const fallback = [buildDefaultProject(), buildJisuanyingProject(), buildJiatingbaoProject(), buildPaisouProject()];
     _persist(fallback);
     return fallback;
   }

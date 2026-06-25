@@ -16,6 +16,7 @@ import {
   Users,
 } from 'lucide-react';
 import { useParams } from 'react-router-dom';
+import PaisouReport from '../Paisou/PaisouReport';
 
 const ORANGE = '#E95B35';
 const INK = '#28241F';
@@ -623,5 +624,6 @@ function DefaultQuantitativeReport() {
 export default function QuantitativePage() {
   const { projectId } = useParams<{ projectId: string }>();
   if (projectId === 'jisuanying_project') return <CalculationQuantitativePage />;
+  if (projectId === 'paisou_project') return <PaisouReport page="quantitative" />;
   return <DefaultQuantitativeReport />;
 }

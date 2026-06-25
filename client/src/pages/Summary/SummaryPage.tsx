@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import ReportExportToolbar from '../../components/report/ReportExportToolbar';
 import QuantitativePage from '../Quantitative/QuantitativePage';
 import FamilyReport from '../FamilyPackage/FamilyReport';
+import PaisouReport from '../Paisou/PaisouReport';
 import fromPrimaryBriefing from '../../content/from-primary-brief.md?raw';
 
 const FROM_PRIMARY_BRIEFING = {
@@ -25,6 +26,8 @@ export default function SummaryPage() {
   }
   if (projectId === 'jiatingbao_project')
     return <FamilyReport src="/jiatingbao-overview.html" fileName="洋葱家庭包用户调研·项目总结" title="项目总结" />;
+  if (projectId === 'paisou_project')
+    return <PaisouReport page="summary" />;
   return (
     <div className="flex h-full min-h-0 flex-col">
       <ReportExportToolbar

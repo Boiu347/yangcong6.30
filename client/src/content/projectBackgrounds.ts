@@ -1,6 +1,7 @@
 import fromPrimaryBriefing from './from-primary-brief.md?raw';
 import jisuanyingBriefing from './jisuanying-brief.md?raw';
 import jiatingbaoBriefing from './jiatingbao-brief.md?raw';
+import paisouBriefing from './paisou-brief.md?raw';
 
 export interface ProjectBackgroundResource {
   label: string;
@@ -61,6 +62,39 @@ export const PROJECT_BACKGROUNDS: Record<string, ProjectBackgroundConfig> = {
         url: 'https://guanghe.feishu.cn/wiki/SW7FwtXejisq42kR241cdjuPnAd',
       },
       ...pendingResources,
+    ],
+  },
+  paisou_project: {
+    title: '拍搜产品全流程调研背景',
+    eyebrow: 'PROJECT CONTEXT',
+    summary: '围绕 AI 拍题 4.0 的产品迭代目标，从真实使用场景、竞品生态、定量验证和营销表达出发，判断洋葱拍搜如何从“给答案工具”走向“校内提分型学习入口”。',
+    markdown: paisouBriefing,
+    resources: [
+      {
+        label: '拍搜调研洞察简报',
+        description: '研究背景、议题拆解、阶段性洞察和产品优先级建议',
+        url: 'https://guanghe.feishu.cn/wiki/PWA5wZGawiTvS2kK6aGcrBP5nWc',
+      },
+      {
+        label: '拍搜 AI 竞品分析',
+        description: '洋葱与竞品在准、快、懂、透等维度的走查对比',
+        url: 'https://guanghe.feishu.cn/wiki/FTjywFGSKihXOMkRprEckkR9ncd',
+      },
+      {
+        label: '竞品与营销总结',
+        description: '产品生态位、功能优化方向和营销人设策略',
+        url: 'https://guanghe.feishu.cn/wiki/Hex5wwKLXiM6RHkSgn7clVyQneV',
+      },
+      {
+        label: '拍搜定量报告',
+        description: '学段、时间紧迫度、成绩差异和获得感的问卷验证',
+        url: 'https://guanghe.feishu.cn/docx/HXiQdmdf0ovWcdx9v0oc5f8tn0c',
+      },
+      {
+        label: '学生拍搜 JTBD 访谈',
+        description: '8 位学生用户在作业、复习、纠错和核对场景中的任务拆解',
+        url: 'https://guanghe.feishu.cn/wiki/LjhIwF4wHiIBZgk56h0cnyTRnXe',
+      },
     ],
   },
 };

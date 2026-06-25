@@ -16,6 +16,7 @@ import { useIsEditor } from '../../components/auth/PasswordGate';
 import CompetitiveEditor from '../../components/edit/CompetitiveEditor';
 import CrossBrandEditor, { type CrossBrandOverviewData } from '../../components/edit/CrossBrandEditor';
 import CompetitiveReportsView from '../CompetitiveReports/CompetitiveReportsView';
+import PaisouReport from '../Paisou/PaisouReport';
 import { cn } from '@/lib/utils';
 import {
   JISUANYING_COMPETITIVE_DATA,
@@ -773,6 +774,8 @@ export default function CompetitivePage() {
   const { projectId } = useParams<{ projectId: string }>();
   if (projectId === 'jiatingbao_project')
     return <Navigate to="../summary" replace />;
+  if (projectId === 'paisou_project')
+    return <PaisouReport page="competitive" />;
   return <StandardCompetitivePage />;
 }
 

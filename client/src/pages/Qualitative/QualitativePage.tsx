@@ -17,6 +17,7 @@ import QualitativeEditor from '../../components/edit/QualitativeEditor';
 import { cn } from '@/lib/utils';
 import CalculationInsightsPage from './CalculationInsightsPage';
 import FamilyInterviews from '../FamilyPackage/FamilyInterviews';
+import PaisouReport from '../Paisou/PaisouReport';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -808,6 +809,7 @@ export default function QualitativePage() {
   const { projectId } = useParams<{ projectId: string }>();
   if (projectId === 'jisuanying_project') return <CalculationInsightsPage />;
   if (projectId === 'jiatingbao_project') return <FamilyInterviews />;
+  if (projectId === 'paisou_project') return <PaisouReport page="qualitative" />;
   return <LegacyQualitativePage projectId={projectId} />;
 }
 
