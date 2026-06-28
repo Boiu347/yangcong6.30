@@ -94,26 +94,61 @@ function UserCard({ user }: { user: PaisouUserStory }) {
         <ArrowRight size={16} className="mt-1 text-gray-300 transition-colors group-hover:text-[#e65532]" />
       </div>
 
-      <div className="mt-4 rounded-xl border border-[#f0ded8] bg-[#fff8f5] p-3">
-        <p className="text-[10px] font-bold tracking-widest text-[#e65532]">用户状态</p>
-        <p className="mt-1.5 text-[13px] font-bold leading-5 text-gray-900">{user.typeLabel}</p>
-        <p className="mt-1 text-[11.5px] leading-5 text-gray-600">{user.oneLine}</p>
+      <div className="mt-4 rounded-xl border border-[#f0ded8] bg-[#fff8f5] p-3.5">
+        <div className="flex flex-wrap items-center gap-1.5">
+          <span className="rounded-full bg-[#e65532] px-2 py-0.5 text-[10px] font-black text-white">{user.typeLabel}</span>
+          <span className="rounded-full border border-[#f0ded8] bg-white px-2 py-0.5 text-[10px] font-bold text-[#a45138]">
+            {user.pressure.split('：')[0]}
+          </span>
+        </div>
+        <p className="mt-2.5 text-[13px] font-black leading-5 text-gray-900">{user.oneLine}</p>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-1.5">
-        <Pill>{user.pressure.split('：')[0]}</Pill>
-        <Pill>{user.answerVsLearn}</Pill>
-        <Pill>{user.primaryCompetitor}</Pill>
+      <div className="mt-3 grid gap-2">
+        <div className="rounded-xl border border-gray-100 bg-[#FAFAF8] p-3">
+          <p className="text-[10px] font-black tracking-widest text-gray-400">学习状态</p>
+          <p className="mt-1 text-[12px] leading-5 text-gray-700">{user.learningStatus}</p>
+        </div>
+        <div className="grid gap-2 sm:grid-cols-2">
+          <div className="rounded-xl border border-gray-100 bg-white p-3">
+            <p className="text-[10px] font-black tracking-widest text-gray-400">当前目标</p>
+            <p className="mt-1 text-[12px] font-bold leading-5 text-gray-800">{user.currentGoal}</p>
+          </div>
+          <div className="rounded-xl border border-gray-100 bg-white p-3">
+            <p className="text-[10px] font-black tracking-widest text-gray-400">需求倾向</p>
+            <p className="mt-1 text-[12px] font-bold leading-5 text-gray-800">{user.answerVsLearn}</p>
+          </div>
+        </div>
       </div>
 
-      <blockquote className="mt-4 flex-1 rounded-xl border border-gray-100 bg-gray-50 px-3 py-2.5 text-[12px] leading-5 text-gray-600">
+      <div className="mt-3 rounded-xl border border-gray-100 bg-white p-3">
+        <p className="text-[10px] font-black tracking-widest text-gray-400">工具切换</p>
+        <div className="mt-2 flex flex-wrap items-center gap-1.5 text-[11px] font-semibold text-gray-600">
+          {user.tools.map((tool, index) => (
+            <React.Fragment key={tool}>
+              {index > 0 && <span className="text-gray-300">/</span>}
+              <span className={cn(
+                'rounded-full border px-2 py-0.5',
+                tool.includes('洋葱') ? 'border-[#f0ded8] bg-[#fff8f5] text-[#d34b2a]' : 'border-gray-200 bg-gray-50 text-gray-500',
+              )}>
+                {tool}
+              </span>
+            </React.Fragment>
+          ))}
+        </div>
+        <p className="mt-2 text-[11px] leading-5 text-gray-500">
+          <strong className="text-gray-700">主要截流：</strong>{user.primaryCompetitor}
+        </p>
+      </div>
+
+      <blockquote className="mt-3 rounded-xl border border-gray-100 bg-gray-50 px-3 py-2.5 text-[12px] leading-5 text-gray-600">
         “{user.quote}”
       </blockquote>
 
-      <div className="mt-4 border-t border-gray-100 pt-3">
-        <p className="line-clamp-2 text-[11px] leading-5 text-gray-500">
-          <strong className="text-gray-700">工具组合：</strong>{user.tools.join(' / ')}
-        </p>
+      <div className="mt-3 flex-1 rounded-xl border border-[#E8E2D9] bg-[#fffdf9] p-3">
+        <p className="text-[10px] font-black tracking-widest text-[#b7793b]">业务启发</p>
+        <p className="mt-1 text-[12px] font-bold leading-5 text-gray-800">{user.marketing.hook}</p>
+        <p className="mt-1 text-[11px] leading-5 text-gray-500">{user.marketing.angle}</p>
       </div>
     </button>
   );
@@ -159,7 +194,7 @@ function OverviewPage() {
           />
         </section>
 
-        <section className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <section className="mt-6 grid gap-4 lg:grid-cols-2 2xl:grid-cols-3">
           {PAISOU_USERS.map((user) => <UserCard key={user.id} user={user} />)}
         </section>
 
