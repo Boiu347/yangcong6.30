@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import {
   ArrowLeft,
   ArrowRight,
+  BarChart3,
   BookOpenCheck,
   Brain,
   CheckCircle2,
@@ -18,7 +19,12 @@ import {
   Users2,
   XCircle,
 } from 'lucide-react';
-import { PAISOU_USERS, PaisouUserStory } from '../../store/paisouData';
+import {
+  PAISOU_INTERVIEW_EVIDENCE,
+  PAISOU_SURVEY_SIGNALS,
+  PAISOU_USERS,
+  PaisouUserStory,
+} from '../../store/paisouData';
 import { cn } from '@/lib/utils';
 
 const ACCENT = '#e65532';
@@ -71,6 +77,90 @@ function MetricCard({
       <p className="mt-3 text-[18px] font-black leading-snug text-gray-900">{value}</p>
       <p className="mt-2 text-[11px] leading-5 text-gray-500">{note}</p>
     </article>
+  );
+}
+
+function DataSignalsSection() {
+  return (
+    <section className="mt-6 rounded-[22px] border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <div className="flex items-center gap-2 text-[11px] font-black tracking-[0.16em] text-[#e65532]">
+            <BarChart3 size={15} />
+            问卷星 + AI访谈
+          </div>
+          <h2 className="mt-2 text-[20px] font-black text-gray-900">这 8 个用户背后的样本信号</h2>
+          <p className="mt-1 text-[12px] leading-6 text-gray-500">
+            问卷星提供大样本代表性，AI访谈提供真实原声；这里展示的是聚合信号和脱敏证据，不直接暴露原始数据。
+          </p>
+        </div>
+        <span className="rounded-full border border-[#f0ded8] bg-[#fff8f5] px-3 py-1 text-[11px] font-bold text-[#b84a2f]">
+          不是孤例，而是一组可被样本解释的用户故事
+        </span>
+      </div>
+
+      <div className="mt-5 grid gap-3 md:grid-cols-4">
+        {PAISOU_SURVEY_SIGNALS.sample.map((item) => (
+          <div key={item.label} className="rounded-2xl border border-gray-100 bg-[#FAFAF8] p-4">
+            <p className="text-[11px] font-bold text-gray-500">{item.label}</p>
+            <p className="mt-2 text-[24px] font-black text-gray-900">{item.value}</p>
+            <p className="mt-1 text-[11px] leading-5 text-gray-500">{item.note}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-4 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="rounded-2xl border border-gray-100 bg-white p-4">
+          <h3 className="text-[12px] font-black text-gray-900">最常用拍搜工具</h3>
+          <div className="mt-4 space-y-3">
+            {PAISOU_SURVEY_SIGNALS.toolShare.map((tool) => (
+              <div key={tool.name}>
+                <div className="flex items-center justify-between gap-3 text-[12px]">
+                  <span className="font-bold text-gray-800">{tool.name}</span>
+                  <span className="font-black text-gray-900">{tool.value}%</span>
+                </div>
+                <div className="mt-1 h-2 overflow-hidden rounded-full bg-gray-100">
+                  <div
+                    className="h-full rounded-full bg-[#e65532]"
+                    style={{ width: `${tool.value}%` }}
+                  />
+                </div>
+                <p className="mt-1 text-[11px] leading-5 text-gray-500">{tool.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-gray-100 bg-white p-4">
+          <h3 className="text-[12px] font-black text-gray-900">按学段看工具分流</h3>
+          <div className="mt-4 space-y-3">
+            {PAISOU_SURVEY_SIGNALS.stageShare.map((stage) => (
+              <div key={stage.stage} className="grid gap-2 rounded-xl bg-[#FAFAF8] p-3 sm:grid-cols-[52px_1fr]">
+                <p className="text-[12px] font-black text-gray-900">{stage.stage}</p>
+                <div className="grid gap-2 text-[11px] font-semibold text-gray-600 sm:grid-cols-3">
+                  <span>洋葱 {stage.onion}%</span>
+                  <span>作业帮 {stage.homework}%</span>
+                  <span>豆包 {stage.doubao}%</span>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="mt-3 text-[11px] leading-5 text-gray-500">
+            洋葱在小学和初中保持第一常用，但高中阶段作业帮、豆包分流更明显。
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-4 grid gap-3 lg:grid-cols-5">
+        {PAISOU_INTERVIEW_EVIDENCE.map((item) => (
+          <div key={item.theme} className="rounded-2xl border border-gray-100 bg-[#fffdf9] p-3">
+            <p className="text-[11px] font-black text-[#b84a2f]">{item.theme}</p>
+            <blockquote className="mt-2 text-[12px] font-bold leading-5 text-gray-900">“{item.quote}”</blockquote>
+            <p className="mt-2 text-[11px] leading-5 text-gray-500">{item.note}</p>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -146,9 +236,15 @@ function UserCard({ user }: { user: PaisouUserStory }) {
       </blockquote>
 
       <div className="mt-3 flex-1 rounded-xl border border-[#E8E2D9] bg-[#fffdf9] p-3">
-        <p className="text-[10px] font-black tracking-widest text-[#b7793b]">业务启发</p>
-        <p className="mt-1 text-[12px] font-bold leading-5 text-gray-800">{user.marketing.hook}</p>
-        <p className="mt-1 text-[11px] leading-5 text-gray-500">{user.marketing.angle}</p>
+        <p className="text-[10px] font-black tracking-widest text-[#b7793b]">使用判断</p>
+        <div className="mt-2 grid gap-2">
+          <p className="text-[12px] leading-5 text-gray-700">
+            <strong className="text-gray-900">用洋葱：</strong>{user.whyOnionWins[0]}
+          </p>
+          <p className="text-[12px] leading-5 text-gray-700">
+            <strong className="text-gray-900">会切走：</strong>{user.whySwitches[0]}
+          </p>
+        </div>
       </div>
     </button>
   );
@@ -193,6 +289,8 @@ function OverviewPage() {
             note="作业帮、快对、豆包和学习机会在速度、入口、追问和题库上分别截流不同学生。"
           />
         </section>
+
+        <DataSignalsSection />
 
         <section className="mt-6 grid gap-4 lg:grid-cols-2 2xl:grid-cols-3">
           {PAISOU_USERS.map((user) => <UserCard key={user.id} user={user} />)}

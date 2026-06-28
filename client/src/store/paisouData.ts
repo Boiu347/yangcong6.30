@@ -363,6 +363,53 @@ export interface PaisouUserStory {
   };
 }
 
+export const PAISOU_SURVEY_SIGNALS = {
+  sample: [
+    { label: '问卷样本量', value: '7,261', note: '问卷星原始数据' },
+    { label: '学生占比', value: '95.4%', note: '样本主体是学生本人' },
+    { label: '知道拍题精学', value: '86.1%', note: '已具备功能认知基础' },
+    { label: '近一个月使用更多', value: '56.5%', note: '明显更多 + 稍多一些' },
+  ],
+  toolShare: [
+    { name: '洋葱 AI 拍题精学', value: 39.9, description: '当前第一常用拍搜工具' },
+    { name: '作业帮', value: 15.3, description: '速度和题库形成分流' },
+    { name: '豆包/豆包爱学', value: 13.4, description: '追问和对话感形成分流' },
+  ],
+  stageShare: [
+    { stage: '小学', onion: 38.4, homework: 14.9, doubao: 14.7 },
+    { stage: '初中', onion: 42.2, homework: 15.0, doubao: 11.9 },
+    { stage: '高中', onion: 33.4, homework: 20.4, doubao: 16.8 },
+  ],
+};
+
+export const PAISOU_INTERVIEW_EVIDENCE = [
+  {
+    theme: '速度慢',
+    quote: '超过6秒就会烦躁。',
+    note: '高压作业场景里，等待感会直接触发切换工具。',
+  },
+  {
+    theme: '答案不准',
+    quote: '讲题过程还是对的，但是答案依旧是错的。',
+    note: '准确性是信任门槛，不能只靠讲解体验补偿。',
+  },
+  {
+    theme: '识别/年级匹配',
+    quote: '我拍的是初中题，它给我高中的回复。',
+    note: '方法适龄和学段匹配会影响学生是否继续看。',
+  },
+  {
+    theme: '竞品切换',
+    quote: '给了跟没给差不多，只能用其他 AI 软件。',
+    note: '当结果无法马上服务当前任务时，学生会快速转向竞品。',
+  },
+  {
+    theme: '洋葱讲得懂',
+    quote: '洋葱会用能理解的角度来讲、举例子。',
+    note: '洋葱的优势不是单纯快，而是把题讲到学生愿意继续听。',
+  },
+];
+
 export const PAISOU_USERS: PaisouUserStory[] = [
   {
     id: 'wu-yuyao',
