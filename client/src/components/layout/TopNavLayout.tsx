@@ -30,10 +30,12 @@ export default function TopNavLayout() {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
   const location = useLocation();
-  const active = location.pathname.split('/').pop() ?? 'summary';
+  const pathAfterProject = location.pathname.split(`/projects/${projectId}/`)[1] ?? 'summary';
+  const active = pathAfterProject.split('/')[0] || 'summary';
   const isFamily = projectId === 'jiatingbao_project';
+  const isPaisou = projectId === 'paisou_project';
   const items = isFamily ? familyItems : projectId === 'jisuanying_project' ? computingItems : standardItems;
-  const showFileBar = !isFamily && (active === 'qualitative' || active === 'competitive');
+  const showFileBar = !isFamily && !isPaisou && (active === 'qualitative' || active === 'competitive');
 
   return (
     <div className="fixed inset-0 flex flex-col bg-[#f8f8f5]">

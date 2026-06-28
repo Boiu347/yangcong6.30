@@ -17,7 +17,7 @@ import QualitativeEditor from '../../components/edit/QualitativeEditor';
 import { cn } from '@/lib/utils';
 import CalculationInsightsPage from './CalculationInsightsPage';
 import FamilyInterviews from '../FamilyPackage/FamilyInterviews';
-import PaisouReport from '../Paisou/PaisouReport';
+import PaisouUserStoriesPage from './PaisouUserStoriesPage';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -806,10 +806,10 @@ function SubDimSection({
 // ── Main page ─────────────────────────────────────────────────────────────────
 
 export default function QualitativePage() {
-  const { projectId } = useParams<{ projectId: string }>();
+  const { projectId, userId } = useParams<{ projectId: string; userId?: string }>();
   if (projectId === 'jisuanying_project') return <CalculationInsightsPage />;
   if (projectId === 'jiatingbao_project') return <FamilyInterviews />;
-  if (projectId === 'paisou_project') return <PaisouReport page="qualitative" />;
+  if (projectId === 'paisou_project') return <PaisouUserStoriesPage key={userId ?? 'overview'} />;
   return <LegacyQualitativePage projectId={projectId} />;
 }
 

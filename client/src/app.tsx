@@ -45,6 +45,7 @@ const RoutesComponent = () => {
         <Route path="summary" element={<SummaryPage />} />
         <Route path="qualitative" element={<QualitativePage />} />
         <Route path="family-insights" element={<FamilyInsights />} />
+        <Route path="qualitative/users/:userId" element={<QualitativePage />} />
         <Route path="competitive" element={<CompetitivePage />} />
         <Route path="quantitative" element={<QuantitativePage />} />
         <Route path="marketing" element={<MarketingPage />} />
