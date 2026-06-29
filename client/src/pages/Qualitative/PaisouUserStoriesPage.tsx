@@ -28,6 +28,7 @@ import {
 import { cn } from '@/lib/utils';
 
 const ACCENT = '#e65532';
+const OVERVIEW_SCROLL_TARGET_KEY = 'paisou-overview-scroll-target';
 
 const RELATION_STYLE: Record<PaisouUserStory['relation'], { bg: string; text: string; border: string }> = {
   忠实粉: { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-100' },
@@ -318,9 +319,16 @@ function UserCard({ user }: { user: PaisouUserStory }) {
       : '洋葱还要证明什么';
   const positiveLabel = user.onionStatus === '机会/边界样本' ? '可争取价值：' : '洋葱价值：';
   const riskLabel = user.onionStatus === '机会/边界样本' ? '现实阻力：' : '会被替代：';
+  const openUserDetail = () => {
+    window.sessionStorage.setItem(OVERVIEW_SCROLL_TARGET_KEY, user.id);
+    navigate(`/projects/paisou_project/qualitative/users/${user.id}`);
+  };
 
   return (
-    <article className="group flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-4 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#e65532]/60 hover:shadow-md">
+    <article
+      id={`paisou-user-card-${user.id}`}
+      className="group flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-4 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#e65532]/60 hover:shadow-md"
+    >
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="flex items-center gap-2">
@@ -333,7 +341,7 @@ function UserCard({ user }: { user: PaisouUserStory }) {
         </div>
         <button
           type="button"
-          onClick={() => navigate(`/projects/paisou_project/qualitative/users/${user.id}`)}
+          onClick={openUserDetail}
           className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-300 transition-colors hover:border-[#e65532]/40 hover:text-[#e65532]"
           aria-label={`查看${user.name}详情`}
         >
@@ -436,7 +444,7 @@ function UserCard({ user }: { user: PaisouUserStory }) {
       </div>
       <button
         type="button"
-        onClick={() => navigate(`/projects/paisou_project/qualitative/users/${user.id}`)}
+        onClick={openUserDetail}
         className="mt-3 inline-flex items-center justify-center gap-1.5 rounded-xl border border-gray-200 bg-white px-3 py-2 text-[12px] font-bold text-gray-600 transition-colors hover:border-[#e65532]/40 hover:text-[#e65532]"
       >
         查看完整故事
@@ -447,6 +455,18 @@ function UserCard({ user }: { user: PaisouUserStory }) {
 }
 
 function OverviewPage() {
+  React.useEffect(() => {
+    const targetUserId = window.sessionStorage.getItem(OVERVIEW_SCROLL_TARGET_KEY);
+    if (!targetUserId) return;
+
+    window.sessionStorage.removeItem(OVERVIEW_SCROLL_TARGET_KEY);
+    window.requestAnimationFrame(() => {
+      document
+        .getElementById(`paisou-user-card-${targetUserId}`)
+        ?.scrollIntoView({ block: 'center', behavior: 'auto' });
+    });
+  }, []);
+
   return (
     <div className="min-h-full bg-[#f8f8f5]">
       <main className="mx-auto max-w-7xl px-5 py-6 sm:px-8">
@@ -569,6 +589,10 @@ function UserDetailPage({ user }: { user: PaisouUserStory }) {
       ? '洋葱能赢下的条件'
       : '洋葱要先证明什么';
   const riskHeading = user.onionStatus === '机会/边界样本' ? '真实阻力' : '仍会被替代的场景';
+
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [user.id]);
 
   return (
     <div className="min-h-full bg-[#f8f8f5]">
