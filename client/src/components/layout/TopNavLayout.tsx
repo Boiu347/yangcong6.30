@@ -1,4 +1,5 @@
 import { LayoutGrid } from 'lucide-react';
+import { useLayoutEffect, useRef } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import EditorModeButton from '../auth/EditorModeButton';
 import FileBar from './FileBar';
@@ -30,12 +31,19 @@ export default function TopNavLayout() {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
   const location = useLocation();
+  const contentRef = useRef<HTMLDivElement>(null);
   const pathAfterProject = location.pathname.split(`/projects/${projectId}/`)[1] ?? 'summary';
   const active = pathAfterProject.split('/')[0] || 'summary';
   const isFamily = projectId === 'jiatingbao_project';
   const isPaisou = projectId === 'paisou_project';
   const items = isFamily ? familyItems : projectId === 'jisuanying_project' ? computingItems : standardItems;
   const showFileBar = !isFamily && !isPaisou && (active === 'qualitative' || active === 'competitive');
+
+  useLayoutEffect(() => {
+    if (projectId === 'paisou_project' && location.pathname.includes('/qualitative/users/')) {
+      contentRef.current?.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    }
+  }, [location.pathname, projectId]);
 
   return (
     <div className="fixed inset-0 flex flex-col bg-[#f8f8f5]">
@@ -60,7 +68,7 @@ export default function TopNavLayout() {
         <EditorModeButton compact className="ml-auto" />
       </nav>
       {showFileBar && <FileBar />}
-      <div className="min-h-0 flex-1 overflow-y-auto"><Outlet /></div>
+      <div ref={contentRef} className="min-h-0 flex-1 overflow-y-auto"><Outlet /></div>
     </div>
   );
 }

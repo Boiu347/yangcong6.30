@@ -146,6 +146,26 @@ function ChainRow({ label, children }: { label: string; children: React.ReactNod
   );
 }
 
+function findScrollParent(element: HTMLElement | null) {
+  let parent = element?.parentElement ?? null;
+
+  while (parent) {
+    const { overflowY } = window.getComputedStyle(parent);
+    if (/(auto|scroll|overlay)/.test(overflowY) && parent.scrollHeight > parent.clientHeight) {
+      return parent;
+    }
+    parent = parent.parentElement;
+  }
+
+  return null;
+}
+
+function scrollPageToTop(element: HTMLElement | null) {
+  const scrollParent = findScrollParent(element);
+  scrollParent?.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+}
+
 function storyRole(user: PaisouUserStory) {
   return `${user.region}${user.grade}学生，${user.learningStatus}`;
 }
@@ -574,6 +594,7 @@ function BulletList({ items, positive }: { items: string[]; positive: boolean })
 
 function UserDetailPage({ user }: { user: PaisouUserStory }) {
   const navigate = useNavigate();
+  const pageRef = React.useRef<HTMLDivElement>(null);
   const statusMeta = ONION_STATUS_META[user.onionStatus];
   const relationshipTitle = user.onionStatus === '机会/边界样本'
     ? '当前为什么没选洋葱 / 洋葱可争取什么'
@@ -590,12 +611,13 @@ function UserDetailPage({ user }: { user: PaisouUserStory }) {
       : '洋葱要先证明什么';
   const riskHeading = user.onionStatus === '机会/边界样本' ? '真实阻力' : '仍会被替代的场景';
 
-  React.useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  React.useLayoutEffect(() => {
+    scrollPageToTop(pageRef.current);
+    window.requestAnimationFrame(() => scrollPageToTop(pageRef.current));
   }, [user.id]);
 
   return (
-    <div className="min-h-full bg-[#f8f8f5]">
+    <div ref={pageRef} className="min-h-full bg-[#f8f8f5]">
       <main className="mx-auto max-w-6xl px-5 py-6 sm:px-8">
         <button
           onClick={() => navigate('/projects/paisou_project/qualitative')}
