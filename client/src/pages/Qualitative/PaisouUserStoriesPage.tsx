@@ -36,6 +36,15 @@ const RELATION_STYLE: Record<PaisouUserStory['relation'], { bg: string; text: st
   被竞品截流: { bg: 'bg-rose-50', text: 'text-rose-700', border: 'border-rose-100' },
 };
 
+const RELATION_ORDER: Record<PaisouUserStory['relation'], number> = {
+  忠实粉: 0,
+  摇摆用户: 1,
+  偶尔使用: 2,
+  被竞品截流: 3,
+};
+
+const SORTED_PAISOU_USERS = [...PAISOU_USERS].sort((a, b) => RELATION_ORDER[a.relation] - RELATION_ORDER[b.relation]);
+
 const COMPETITOR_ROWS = [
   { name: '洋葱AI拍搜', fit: '愿意用、能看懂、感觉能学透', scene: '难题复盘、找卡点、知识点补充', risk: '速度和准确性会影响高压场景' },
   { name: '作业帮', fit: '快、题库强、答案路径明确', scene: '赶作业、刷题、快速确认答案', risk: 'AI讲解和情绪价值不足' },
@@ -236,13 +245,16 @@ function UserCard({ user }: { user: PaisouUserStory }) {
       </blockquote>
 
       <div className="mt-3 flex-1 rounded-xl border border-[#E8E2D9] bg-[#fffdf9] p-3">
-        <p className="text-[10px] font-black tracking-widest text-[#b7793b]">使用判断</p>
-        <div className="mt-2 grid gap-2">
+        <p className="text-[10px] font-black tracking-widest text-[#b7793b]">忠实粉判断</p>
+        <div className="mt-2 grid gap-2.5">
           <p className="text-[12px] leading-5 text-gray-700">
-            <strong className="text-gray-900">用洋葱：</strong>{user.whyOnionWins[0]}
+            <strong className="text-emerald-700">会留下：</strong>{user.retention}
           </p>
           <p className="text-[12px] leading-5 text-gray-700">
-            <strong className="text-gray-900">会切走：</strong>{user.whySwitches[0]}
+            <strong className="text-rose-700">会流失：</strong>{user.risk}
+          </p>
+          <p className="rounded-lg bg-white px-2.5 py-2 text-[11px] leading-5 text-gray-500">
+            <strong className="text-gray-700">关键变量：</strong>{user.pressure}
           </p>
         </div>
       </div>
@@ -292,8 +304,14 @@ function OverviewPage() {
 
         <DataSignalsSection />
 
-        <section className="mt-6 grid gap-4 lg:grid-cols-2 2xl:grid-cols-3">
-          {PAISOU_USERS.map((user) => <UserCard key={user.id} user={user} />)}
+        <section className="mt-6">
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+            <h2 className="text-[18px] font-black text-gray-900">8 个真实学生用户故事</h2>
+            <p className="text-[11px] font-semibold text-gray-500">排序：忠实粉 → 摇摆用户 → 偶尔使用 → 被竞品截流</p>
+          </div>
+          <div className="grid gap-4 lg:grid-cols-2 2xl:grid-cols-3">
+            {SORTED_PAISOU_USERS.map((user) => <UserCard key={user.id} user={user} />)}
+          </div>
         </section>
 
         <section className="mt-6 rounded-[22px] border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
