@@ -43,7 +43,32 @@ const RELATION_ORDER: Record<PaisouUserStory['relation'], number> = {
   被竞品截流: 3,
 };
 
-const SORTED_PAISOU_USERS = [...PAISOU_USERS].sort((a, b) => RELATION_ORDER[a.relation] - RELATION_ORDER[b.relation]);
+const ONION_STATUS_META: Record<PaisouUserStory['onionStatus'], { title: string; description: string; tone: string }> = {
+  洋葱价值样本: {
+    title: '洋葱价值已经被验证',
+    description: '这些学生已经在用洋葱，重点看洋葱为什么能被留下。',
+    tone: 'border-emerald-100 bg-emerald-50 text-emerald-700',
+  },
+  场景型使用: {
+    title: '洋葱在特定场景会赢',
+    description: '这些学生会在竞品和洋葱之间切换，重点看洋葱赢下的是哪一类任务。',
+    tone: 'border-amber-100 bg-amber-50 text-amber-700',
+  },
+  '机会/边界样本': {
+    title: '洋葱还没打进去的边界',
+    description: '这些学生当前并不是洋葱拍搜用户，重点看洋葱要证明什么价值才可能进入。',
+    tone: 'border-rose-100 bg-rose-50 text-rose-700',
+  },
+};
+
+const ONION_STATUS_ORDER: PaisouUserStory['onionStatus'][] = ['洋葱价值样本', '场景型使用', '机会/边界样本'];
+
+const GROUPED_PAISOU_USERS = ONION_STATUS_ORDER.map((status) => ({
+  status,
+  users: PAISOU_USERS
+    .filter((user) => user.onionStatus === status)
+    .sort((a, b) => RELATION_ORDER[a.relation] - RELATION_ORDER[b.relation]),
+}));
 
 const COMPETITOR_ROWS = [
   { name: '洋葱AI拍搜', fit: '愿意用、能看懂、感觉能学透', scene: '难题复盘、找卡点、知识点补充', risk: '速度和准确性会影响高压场景' },
@@ -202,6 +227,15 @@ function ToolSwitchSection() {
 
 function UserCard({ user }: { user: PaisouUserStory }) {
   const navigate = useNavigate();
+  const statusMeta = ONION_STATUS_META[user.onionStatus];
+  const judgmentTitle = user.onionStatus === '洋葱价值样本'
+    ? '洋葱为什么被留下'
+    : user.onionStatus === '场景型使用'
+      ? '洋葱在哪些场景会赢'
+      : '洋葱还要证明什么';
+  const positiveLabel = user.onionStatus === '机会/边界样本' ? '可争取价值：' : '洋葱价值：';
+  const riskLabel = user.onionStatus === '机会/边界样本' ? '现实阻力：' : '会被替代：';
+
   return (
     <button
       onClick={() => navigate(`/projects/paisou_project/qualitative/users/${user.id}`)}
@@ -222,11 +256,15 @@ function UserCard({ user }: { user: PaisouUserStory }) {
 
       <div className="mt-4 rounded-xl border border-[#f0ded8] bg-[#fff8f5] p-3.5">
         <div className="flex flex-wrap items-center gap-1.5">
+          <span className={cn('rounded-full border px-2 py-0.5 text-[10px] font-black', statusMeta.tone)}>
+            {user.onionStatus}
+          </span>
           <span className="rounded-full border border-[#f0ded8] bg-white px-2 py-0.5 text-[10px] font-bold text-[#a45138]">
             {user.pressure.split('：')[0]}
           </span>
         </div>
         <p className="mt-2.5 text-[13px] font-black leading-5 text-gray-900">{user.oneLine}</p>
+        <p className="mt-2 text-[11px] leading-5 text-gray-500">{user.onionStatusNote}</p>
       </div>
 
       <div className="mt-3 grid gap-2">
@@ -271,13 +309,13 @@ function UserCard({ user }: { user: PaisouUserStory }) {
       </blockquote>
 
       <div className="mt-3 flex-1 rounded-xl border border-[#E8E2D9] bg-[#fffdf9] p-3">
-        <p className="text-[10px] font-black tracking-widest text-[#b7793b]">忠实粉判断</p>
+        <p className="text-[10px] font-black tracking-widest text-[#b7793b]">{judgmentTitle}</p>
         <div className="mt-2 grid gap-2.5">
           <p className="text-[12px] leading-5 text-gray-700">
-            <strong className="text-emerald-700">会留下：</strong>{user.retention}
+            <strong className="text-emerald-700">{positiveLabel}</strong>{user.retention}
           </p>
           <p className="text-[12px] leading-5 text-gray-700">
-            <strong className="text-rose-700">会流失：</strong>{user.risk}
+            <strong className="text-rose-700">{riskLabel}</strong>{user.risk}
           </p>
           <p className="rounded-lg bg-white px-2.5 py-2 text-[11px] leading-5 text-gray-500">
             <strong className="text-gray-700">关键变量：</strong>{user.pressure}
@@ -328,12 +366,32 @@ function OverviewPage() {
         <ToolSwitchSection />
 
         <section className="mt-6">
-          <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+          <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
             <h2 className="text-[18px] font-black text-gray-900">8 个真实学生用户故事</h2>
-            <p className="text-[11px] font-semibold text-gray-500">排序：忠实粉 → 摇摆用户 → 偶尔使用 → 被竞品截流</p>
+            <p className="max-w-2xl text-[11px] font-semibold leading-5 text-gray-500">
+              不是把 8 个人都写成洋葱用户，而是区分：谁已经验证了洋葱价值，谁只在特定场景选择洋葱，谁说明洋葱还没打进去。
+            </p>
           </div>
-          <div className="grid gap-4 lg:grid-cols-2 2xl:grid-cols-3">
-            {SORTED_PAISOU_USERS.map((user) => <UserCard key={user.id} user={user} />)}
+          <div className="space-y-5">
+            {GROUPED_PAISOU_USERS.map((group) => {
+              const meta = ONION_STATUS_META[group.status];
+              return (
+                <section key={group.status} className="rounded-[22px] border border-gray-200 bg-white/70 p-4">
+                  <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+                    <div>
+                      <h3 className="text-[15px] font-black text-gray-900">{meta.title}</h3>
+                      <p className="mt-1 text-[11px] leading-5 text-gray-500">{meta.description}</p>
+                    </div>
+                    <span className={cn('rounded-full border px-3 py-1 text-[11px] font-black', meta.tone)}>
+                      {group.users.length} 人
+                    </span>
+                  </div>
+                  <div className="grid gap-4 lg:grid-cols-2 2xl:grid-cols-3">
+                    {group.users.map((user) => <UserCard key={user.id} user={user} />)}
+                  </div>
+                </section>
+              );
+            })}
           </div>
         </section>
 
@@ -379,6 +437,22 @@ function BulletList({ items, positive }: { items: string[]; positive: boolean })
 
 function UserDetailPage({ user }: { user: PaisouUserStory }) {
   const navigate = useNavigate();
+  const statusMeta = ONION_STATUS_META[user.onionStatus];
+  const relationshipTitle = user.onionStatus === '机会/边界样本'
+    ? '当前为什么没选洋葱 / 洋葱可争取什么'
+    : user.onionStatus === '场景型使用'
+      ? '洋葱在哪些场景会赢 / 什么场景切走'
+      : '洋葱为什么被选择 / 什么场景会切走';
+  const positiveHeading = user.onionStatus === '机会/边界样本' ? '洋葱可争取的价值' : '洋葱赢的理由';
+  const negativeHeading = user.onionStatus === '机会/边界样本' ? '当前没有打进去的原因' : '切到竞品的理由';
+  const judgmentHeading = user.onionStatus === '机会/边界样本' ? '机会判断' : '与洋葱的真实关系';
+  const retentionHeading = user.onionStatus === '洋葱价值样本'
+    ? '为什么会继续用洋葱'
+    : user.onionStatus === '场景型使用'
+      ? '洋葱能赢下的条件'
+      : '洋葱要先证明什么';
+  const riskHeading = user.onionStatus === '机会/边界样本' ? '真实阻力' : '仍会被替代的场景';
+
   return (
     <div className="min-h-full bg-[#f8f8f5]">
       <main className="mx-auto max-w-6xl px-5 py-6 sm:px-8">
@@ -394,6 +468,9 @@ function UserDetailPage({ user }: { user: PaisouUserStory }) {
           <div className="grid gap-5 p-6 lg:grid-cols-[1.2fr_0.8fr] lg:p-8">
             <div>
               <div className="flex flex-wrap items-center gap-2">
+                <span className={cn('rounded-full border px-2.5 py-1 text-[11px] font-black', statusMeta.tone)}>
+                  {user.onionStatus}
+                </span>
                 <span className={relationClass(user.relation)}>{user.relation}</span>
                 <Pill>{user.pressure}</Pill>
               </div>
@@ -402,6 +479,9 @@ function UserDetailPage({ user }: { user: PaisouUserStory }) {
                 {user.region} · {user.grade} · {user.subjects.join('/')} · {user.learningStatus}
               </p>
               <p className="mt-5 max-w-3xl text-[20px] font-black leading-8 text-gray-900">{user.oneLine}</p>
+              <p className="mt-3 max-w-3xl rounded-2xl border border-gray-100 bg-[#FAFAF8] p-4 text-[13px] font-semibold leading-6 text-gray-600">
+                {user.onionStatusNote}
+              </p>
               <blockquote className="mt-5 rounded-2xl border border-[#f0ded8] bg-[#fff8f5] p-4 text-[14px] font-semibold leading-7 text-gray-700">
                 “{user.quote}”
               </blockquote>
@@ -428,14 +508,14 @@ function UserDetailPage({ user }: { user: PaisouUserStory }) {
               <p className="rounded-xl border border-gray-100 bg-[#FAFAF8] p-4 text-[14px] font-semibold leading-7 text-gray-800">{user.jtbd}</p>
             </DetailSection>
 
-            <DetailSection icon={<Route size={15} />} title="为什么选洋葱 / 什么时候切走">
+            <DetailSection icon={<Route size={15} />} title={relationshipTitle}>
               <div className="grid gap-5 md:grid-cols-2">
                 <div>
-                  <h3 className="mb-3 text-[12px] font-black text-emerald-700">洋葱赢的理由</h3>
+                  <h3 className="mb-3 text-[12px] font-black text-emerald-700">{positiveHeading}</h3>
                   <BulletList items={user.whyOnionWins} positive />
                 </div>
                 <div>
-                  <h3 className="mb-3 text-[12px] font-black text-rose-700">切到竞品的理由</h3>
+                  <h3 className="mb-3 text-[12px] font-black text-rose-700">{negativeHeading}</h3>
                   <BulletList items={user.whySwitches} positive={false} />
                 </div>
               </div>
@@ -443,14 +523,14 @@ function UserDetailPage({ user }: { user: PaisouUserStory }) {
           </div>
 
           <div className="space-y-5">
-            <DetailSection icon={<Brain size={15} />} title="留存判断">
+            <DetailSection icon={<Brain size={15} />} title={judgmentHeading}>
               <div className="space-y-3">
                 <div className="rounded-xl border border-emerald-100 bg-emerald-50 p-3">
-                  <p className="text-[11px] font-bold text-emerald-700">会成为忠实粉的条件</p>
+                  <p className="text-[11px] font-bold text-emerald-700">{retentionHeading}</p>
                   <p className="mt-1.5 text-[12px] leading-5 text-gray-700">{user.retention}</p>
                 </div>
                 <div className="rounded-xl border border-rose-100 bg-rose-50 p-3">
-                  <p className="text-[11px] font-bold text-rose-700">不会留下的风险</p>
+                  <p className="text-[11px] font-bold text-rose-700">{riskHeading}</p>
                   <p className="mt-1.5 text-[12px] leading-5 text-gray-700">{user.risk}</p>
                 </div>
               </div>
