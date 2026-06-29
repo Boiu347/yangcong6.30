@@ -195,7 +195,6 @@ function UserCard({ user }: { user: PaisouUserStory }) {
 
       <div className="mt-4 rounded-xl border border-[#f0ded8] bg-[#fff8f5] p-3.5">
         <div className="flex flex-wrap items-center gap-1.5">
-          <span className="rounded-full bg-[#e65532] px-2 py-0.5 text-[10px] font-black text-white">{user.typeLabel}</span>
           <span className="rounded-full border border-[#f0ded8] bg-white px-2 py-0.5 text-[10px] font-bold text-[#a45138]">
             {user.pressure.split('：')[0]}
           </span>
@@ -393,7 +392,6 @@ function UserDetailPage({ user }: { user: PaisouUserStory }) {
             <div>
               <div className="flex flex-wrap items-center gap-2">
                 <span className={relationClass(user.relation)}>{user.relation}</span>
-                <Pill>{user.typeLabel}</Pill>
                 <Pill>{user.pressure}</Pill>
               </div>
               <h1 className="mt-4 text-[32px] font-black text-gray-900 sm:text-[42px]">{user.name}</h1>
