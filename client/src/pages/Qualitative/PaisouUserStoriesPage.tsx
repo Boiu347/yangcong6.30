@@ -368,9 +368,6 @@ function OverviewPage() {
         <section className="mt-6">
           <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
             <h2 className="text-[18px] font-black text-gray-900">8 个真实学生用户故事</h2>
-            <p className="max-w-2xl text-[11px] font-semibold leading-5 text-gray-500">
-              不是把 8 个人都写成洋葱用户，而是区分：谁已经验证了洋葱价值，谁只在特定场景选择洋葱，谁说明洋葱还没打进去。
-            </p>
           </div>
           <div className="space-y-5">
             {GROUPED_PAISOU_USERS.map((group) => {
