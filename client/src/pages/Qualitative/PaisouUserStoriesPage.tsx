@@ -173,6 +173,33 @@ function DataSignalsSection() {
   );
 }
 
+function ToolSwitchSection() {
+  return (
+    <section className="mt-6 rounded-[22px] border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
+      <div className="flex items-center gap-2">
+        <Compass size={16} className="text-[#e65532]" />
+        <h2 className="text-[16px] font-black text-gray-900">学生为什么在不同工具间切换</h2>
+      </div>
+      <div className="mt-4 overflow-hidden rounded-2xl border border-gray-100">
+        <div className="grid grid-cols-[0.75fr_1.2fr_1.2fr_1fr] bg-[#FAFAF8] px-4 py-3 text-[11px] font-bold text-gray-500">
+          <span>工具</span>
+          <span>用户感知</span>
+          <span>赢的场景</span>
+          <span>风险</span>
+        </div>
+        {COMPETITOR_ROWS.map((row) => (
+          <div key={row.name} className="grid grid-cols-[0.75fr_1.2fr_1.2fr_1fr] border-t border-gray-100 px-4 py-3 text-[12px] leading-5">
+            <strong className="text-gray-900">{row.name}</strong>
+            <span className="text-gray-600">{row.fit}</span>
+            <span className="text-gray-600">{row.scene}</span>
+            <span className="text-gray-500">{row.risk}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function UserCard({ user }: { user: PaisouUserStory }) {
   const navigate = useNavigate();
   return (
@@ -274,9 +301,6 @@ function OverviewPage() {
             <h1 className="mt-3 text-[28px] font-black leading-tight text-[#242421] sm:text-[38px]">
               学生不是固定分成“想学懂”和“只对答案”两类，而是在时间紧/松之间切换状态。
             </h1>
-            <p className="mt-4 max-w-3xl text-[14px] leading-7 text-gray-600">
-              这页用 8 个真实学生作为入口，让业务方先看见具体的人，再理解他们为什么使用洋葱、什么时候切到竞品，以及这些差异能怎样转化为传播和投放启发。
-            </p>
           </div>
         </section>
 
@@ -301,7 +325,7 @@ function OverviewPage() {
           />
         </section>
 
-        <DataSignalsSection />
+        <ToolSwitchSection />
 
         <section className="mt-6">
           <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
@@ -313,28 +337,7 @@ function OverviewPage() {
           </div>
         </section>
 
-        <section className="mt-6 rounded-[22px] border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
-          <div className="flex items-center gap-2">
-            <Compass size={16} className="text-[#e65532]" />
-            <h2 className="text-[16px] font-black text-gray-900">学生为什么在不同工具间切换</h2>
-          </div>
-          <div className="mt-4 overflow-hidden rounded-2xl border border-gray-100">
-            <div className="grid grid-cols-[0.75fr_1.2fr_1.2fr_1fr] bg-[#FAFAF8] px-4 py-3 text-[11px] font-bold text-gray-500">
-              <span>工具</span>
-              <span>用户感知</span>
-              <span>赢的场景</span>
-              <span>风险</span>
-            </div>
-            {COMPETITOR_ROWS.map((row) => (
-              <div key={row.name} className="grid grid-cols-[0.75fr_1.2fr_1.2fr_1fr] border-t border-gray-100 px-4 py-3 text-[12px] leading-5">
-                <strong className="text-gray-900">{row.name}</strong>
-                <span className="text-gray-600">{row.fit}</span>
-                <span className="text-gray-600">{row.scene}</span>
-                <span className="text-gray-500">{row.risk}</span>
-              </div>
-            ))}
-          </div>
-        </section>
+        <DataSignalsSection />
       </main>
     </div>
   );
