@@ -83,22 +83,40 @@ const ONION_STRENGTH_ROWS = [
   {
     title: '把题讲成学生听得懂的话',
     description: '学生提到洋葱会用能理解的角度讲、会举例子；这不是单纯给答案，而是在翻译题目和步骤。',
-    proof: '“洋葱会用能理解的角度来讲、举例子。”',
+    quotes: [
+      { user: '徐同学', text: '洋葱会用能理解的角度来讲、举例子。' },
+      { user: '徐同学', text: '他会从通俗易懂的角度，通过举例子的方式讲。' },
+      { user: '诺诗', text: '洋葱更容易理解，更有兴趣一点。' },
+      { user: '小林', text: '它可以给我上课。' },
+    ],
   },
   {
     title: '难题里能提供确定感',
     description: '当题目完全不会、学校老师没讲清或文字解析不够时，洋葱的视频和步骤能让学生愿意继续听。',
-    proof: '“完完全全搞不懂的话，那可以用洋葱。”',
+    quotes: [
+      { user: '小林', text: '完完全全搞不懂的话，那可以用洋葱。' },
+      { user: '小林', text: '那肯定是洋葱啊。' },
+      { user: '丁同学', text: '脑子转不过来弯的时候，就会看视频讲解。' },
+      { user: '吕同学', text: '如果这里面知识点没记牢的话，就去洋葱看一眼这个知识点，然后再回来再推一遍。' },
+    ],
   },
   {
     title: '有人设温度，降低学习压力',
     description: '温柔、耐心、像朋友的表达让讲题不只是纠错，也是在陪学生把卡住的地方走过去。',
-    proof: '“比较温柔、委婉、有耐心。”“像朋友。”',
+    quotes: [
+      { user: '诺诗', text: '比较温柔、委婉、有耐心。' },
+      { user: '诺诗', text: '像朋友，因为他说话不像老师那么严肃。' },
+      { user: '诺诗', text: '作业帮他讲得太无聊了。' },
+    ],
   },
   {
     title: '从做会一道题走到举一反三',
     description: '用户认可解析完整、同类题和知识点补充；洋葱的价值更像把一道题变成一个可迁移的知识点。',
-    proof: '“解析完整……还会有举一反三的类似题给我。”',
+    quotes: [
+      { user: '小杰', text: '解析完整，拍出来的题都很准确，还会有举一反三的类似题给我。' },
+      { user: '小杰', text: '同类题会做了，才是完美体验。' },
+      { user: '徐同学', text: '洋葱的详细会更精准一点。' },
+    ],
   },
 ];
 
@@ -360,15 +378,15 @@ function OnionStrengthSection() {
           </div>
           <h2 className="mt-2 text-[20px] font-black text-gray-900">学生觉得洋葱拍搜好的地方</h2>
           <p className="mt-1 max-w-3xl text-[12px] leading-6 text-gray-500">
-            这些不是抽象卖点，而是用户在讲题体验里反复感知到的价值：听得懂、有人味、能补卡点，并且在时间允许时把一道题延展成一类题。
+            这些不是抽象卖点，而是用户在讲题体验里反复感知到的价值：听得懂、有人味、能补卡点，并且在时间允许时把一道题延展成一类题。下面把相关原声全部展开。
           </p>
         </div>
         <span className="rounded-full border border-[#f0ded8] bg-white px-3 py-1 text-[11px] font-bold text-[#b84a2f]">
-          适合转化为传播主张
+          {ONION_STRENGTH_ROWS.reduce((sum, item) => sum + item.quotes.length, 0)} 条原声证据
         </span>
       </div>
 
-      <div className="mt-5 grid gap-3 lg:grid-cols-4">
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
         {ONION_STRENGTH_ROWS.map((item, index) => (
           <article key={item.title} className="flex h-full flex-col rounded-2xl border border-[#f1ded6] bg-white p-4">
             <div className="flex items-center gap-2">
@@ -378,9 +396,14 @@ function OnionStrengthSection() {
               <h3 className="text-[13px] font-black leading-5 text-gray-900">{item.title}</h3>
             </div>
             <p className="mt-3 flex-1 text-[12px] leading-6 text-gray-600">{item.description}</p>
-            <blockquote className="mt-3 rounded-xl border border-gray-100 bg-[#FAFAF8] p-3 text-[11px] font-semibold leading-5 text-gray-600">
-              {item.proof}
-            </blockquote>
+            <div className="mt-3 space-y-2">
+              {item.quotes.map((quote) => (
+                <blockquote key={`${quote.user}-${quote.text}`} className="rounded-xl border border-gray-100 bg-[#FAFAF8] p-3">
+                  <p className="text-[11px] font-black text-[#b84a2f]">{quote.user}</p>
+                  <p className="mt-1 text-[12px] font-semibold leading-5 text-gray-700">“{quote.text}”</p>
+                </blockquote>
+              ))}
+            </div>
           </article>
         ))}
       </div>
