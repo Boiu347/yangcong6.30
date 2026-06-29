@@ -347,7 +347,6 @@ export interface PaisouUserStory {
   relation: PaisouOnionRelation;
   tools: string[];
   primaryCompetitor: string;
-  typeLabel: string;
   oneLine: string;
   scene: string;
   jtbd: string;
@@ -429,7 +428,6 @@ export const PAISOU_USERS: PaisouUserStory[] = [
     relation: '摇摆用户',
     tools: ['洋葱', '小猿学习机', 'DeepSeek'],
     primaryCompetitor: '小猿学习机 / DeepSeek',
-    typeLabel: '保姆级步骤需求者',
     oneLine: '她不是只要答案，而是怕解析跳步，必须有人把每一步为什么这样做讲清楚。',
     scene: '数学和物理综合题做不下去时，会先拍题看标准步骤；如果步骤仍然跳跃，会继续找学习机或通用 AI 追问。',
     jtbd: '当我卡在一道题中间步骤时，帮我把复杂推理拆成可以跟上的连续动作，让我知道不是只抄到了答案，而是真的能复现。',
@@ -462,7 +460,6 @@ export const PAISOU_USERS: PaisouUserStory[] = [
     relation: '摇摆用户',
     tools: ['洋葱', '豆包'],
     primaryCompetitor: '豆包',
-    typeLabel: '时间状态切换者',
     oneLine: '同一个人会在“答案机器”和“想真正学懂”之间切换，关键变量不是学段，而是时间。',
     scene: '晚间作业堆在一起时，会优先用豆包快速问；周末或复盘时，才愿意打开洋葱看详细讲解。',
     jtbd: '当我时间很紧时，先帮我快速确认方向；当我时间充裕时，再带我把题真正讲懂。',
@@ -495,7 +492,6 @@ export const PAISOU_USERS: PaisouUserStory[] = [
     relation: '偶尔使用',
     tools: ['科大讯飞学习机', '小猿', '洋葱'],
     primaryCompetitor: '学习机 / 小猿',
-    typeLabel: '压轴题验证者',
     oneLine: '他不满足于听懂一道题，要确认自己的分类讨论和变式能力是不是真的稳。',
     scene: '普通题很少依赖拍搜，主要在压轴题卡住、想验证多解法或找同类题时使用。',
     jtbd: '当我已经能看懂基础解析时，帮我找到更优解法和同类变式，让我确认这类题我真的掌握了。',
@@ -528,7 +524,6 @@ export const PAISOU_USERS: PaisouUserStory[] = [
     relation: '摇摆用户',
     tools: ['作业帮', '洋葱'],
     primaryCompetitor: '作业帮',
-    typeLabel: '多工具分流者',
     oneLine: '他不是不用洋葱，而是只在洋葱最有价值的“难题复盘”场景才打开。',
     scene: '赶作业和刷题时先用作业帮；遇到压轴题、新题型或看不懂标准解析时，才切到洋葱。',
     jtbd: '当题目只是需要完成时，帮我快；当题目影响我提分时，帮我真正找到突破口。',
@@ -561,7 +556,6 @@ export const PAISOU_USERS: PaisouUserStory[] = [
     relation: '偶尔使用',
     tools: ['作业帮', '洋葱'],
     primaryCompetitor: '作业帮',
-    typeLabel: '答案转译者',
     oneLine: '他真正需要的不是复制标准答案，而是把“别人写的解析”变成“自己能写出来的步骤”。',
     scene: '作业写不出来时先找答案，但如果标准解析太像模板，会再找更容易理解的讲解。',
     jtbd: '当我必须完成作业但又不想机械抄答案时，帮我理解关键步骤，并能用自己的话写出来。',
@@ -594,7 +588,6 @@ export const PAISOU_USERS: PaisouUserStory[] = [
     relation: '忠实粉',
     tools: ['洋葱', '作业帮'],
     primaryCompetitor: '作业帮',
-    typeLabel: '陪伴感忠实粉',
     oneLine: '她喜欢洋葱不是因为最快，而是因为讲得温柔、有趣，像有人陪她把题弄懂。',
     scene: '题目看不懂、被标准解析劝退时，会选择洋葱，因为洋葱的语气和动画让她愿意继续听。',
     jtbd: '当我因为不会题而沮丧时，给我一个不压迫的讲解，让我先听懂并恢复一点信心。',
@@ -627,7 +620,6 @@ export const PAISOU_USERS: PaisouUserStory[] = [
     relation: '被竞品截流',
     tools: ['学而思平板', '豆包', '小猿', '洋葱'],
     primaryCompetitor: '学习机 / 豆包',
-    typeLabel: '低龄适龄性需求者',
     oneLine: '她不是不想用洋葱，而是低龄用户需要更适龄、更少超纲、更能让家长放心的解释。',
     scene: '小升初前遇到不会的数学题，家长会参与选择工具；如果解释超纲或像大人话术，会被学习机或家长讲解替代。',
     jtbd: '当我还没进入初中体系时，用我能听懂的方式解释题目，并让家长确认这不是超纲乱讲。',
@@ -660,7 +652,6 @@ export const PAISOU_USERS: PaisouUserStory[] = [
     relation: '忠实粉',
     tools: ['洋葱', '豆包', '快对'],
     primaryCompetitor: '豆包 / 快对',
-    typeLabel: '自驱分层使用者',
     oneLine: '他最接近理想拍搜用户：知道什么时候要快，什么时候要找卡点，什么时候要学透。',
     scene: '自习和作业过程中按题目难度切换工具：快对用于简单核答案，豆包用于追问，洋葱用于难题和知识点复盘。',
     jtbd: '当我面对不同难度题目时，帮我选择合适深度：能快就快，需要懂就讲透。',
