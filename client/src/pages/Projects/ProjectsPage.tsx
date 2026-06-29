@@ -1,64 +1,69 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, FolderOpen, Trash2, ArrowRight } from 'lucide-react';
+import { ArrowRight, FolderOpen, Plus, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { useProjects, projectActions } from '../../store/useProjectStore';
+import { projectActions, useProjects } from '../../store/useProjectStore';
 import { cn } from '@/lib/utils';
-
-const CATEGORIES = ['新课定位', '购买决策调研', '用户画像', '产品功能', '用户体验'];
-const METHODS    = ['桌面研究', '定量调研', '定性调研'];
-const STATUSES   = ['进行中', '已完成', '部分完成'];
+import type { Project } from '../../types/voc';
 
 const METHOD_COLOR: Record<string, string> = {
-  '桌面研究': 'bg-slate-100 text-slate-500',
-  '定量调研': 'bg-blue-50 text-blue-600',
-  '定性调研': 'bg-teal-50 text-teal-600',
-};
-const CATEGORY_COLOR: Record<string, string> = {
-  '新课定位': 'bg-orange-50 text-orange-500',
-  '购买决策调研': 'bg-rose-50 text-rose-600',
-  '用户画像': 'bg-teal-50 text-teal-600',
-  '产品功能': 'bg-blue-50 text-blue-600',
-  '用户体验': 'bg-amber-50 text-amber-600',
-};
-const STATUS_CONFIG: Record<string, { bg: string; text: string; dot: string }> = {
-  '已完成':   { bg: 'bg-emerald-50', text: 'text-emerald-600', dot: 'bg-emerald-400' },
-  '进行中':   { bg: 'bg-blue-50',    text: 'text-blue-600',    dot: 'bg-blue-400'    },
-  '部分完成': { bg: 'bg-amber-50',   text: 'text-amber-600',   dot: 'bg-amber-400'   },
+  桌面研究: 'border-slate-200 bg-slate-50 text-slate-600',
+  定量调研: 'border-blue-200 bg-blue-50 text-blue-700',
+  定性调研: 'border-teal-200 bg-teal-50 text-teal-700',
 };
 
-function FilterSection({
-  title, options, selected, onToggle,
-}: {
-  title: string;
-  options: string[];
-  selected: Set<string>;
-  onToggle: (v: string) => void;
-}) {
+const CATEGORY_COLOR: Record<string, string> = {
+  新课定位: 'border-orange-200 bg-orange-50 text-orange-600',
+  购买决策调研: 'border-rose-200 bg-rose-50 text-rose-700',
+  用户画像: 'border-teal-200 bg-teal-50 text-teal-700',
+  产品功能: 'border-blue-200 bg-blue-50 text-blue-700',
+  用户体验: 'border-amber-200 bg-amber-50 text-amber-700',
+};
+
+const STATUS_CONFIG: Record<string, { className: string; dot: string }> = {
+  已完成: { className: 'border-emerald-200 bg-emerald-50 text-emerald-700', dot: 'bg-emerald-500' },
+  进行中: { className: 'border-blue-200 bg-blue-50 text-blue-700', dot: 'bg-blue-500' },
+  部分完成: { className: 'border-amber-200 bg-amber-50 text-amber-700', dot: 'bg-amber-500' },
+};
+
+const PROJECT_COPY: Record<string, { summary: string; takeaway: string; source: string }> = {
+  default_project: {
+    summary: '围绕“从小学物理”新课定位，判断低龄家庭到底买的是兴趣启蒙、学科启蒙，还是小初衔接。',
+    takeaway: '核心不是卖“提前学物理”，而是把“孩子喜欢看”和“未来有用”的学科启蒙路径讲清楚。',
+    source: '项目总结 / 定性访谈 / 定量报告',
+  },
+  jisuanying_project: {
+    summary: '从计算能力、付费意愿和续费判断出发，评估计算营的定位、商业模型和增长抓手。',
+    takeaway: '重点是识别谁真的需要计算训练，以及训练效果如何被家长感知并转化为续费理由。',
+    source: '定量问卷 / 行业研究 / 策略分析',
+  },
+  jiatingbao_project: {
+    summary: '围绕 6 年多孩家庭包，拆解已购、未购、续购、升单家庭的购买动机和顾虑。',
+    takeaway: '家庭包不是单个卖点打动，而是“长期价值、风险消解、家庭场景”共同促成决策。',
+    source: '项目总览 / 用户访谈 / 定性洞察',
+  },
+  paisou_project: {
+    summary: '围绕 AI 拍题 4.0，从真实使用场景、竞品生态、定量验证和营销表达判断产品机会。',
+    takeaway: '拍搜不只是给答案，差异化应落在“讲得懂、可迁移、能提分”的校内提分型入口。',
+    source: '桌面研究 / 定性调研 / 定量调研',
+  },
+};
+
+function projectCopy(project: Project) {
+  if (PROJECT_COPY[project.id]) return PROJECT_COPY[project.id];
+  const methods = project.methods?.join('、') || '研究资料';
+  return {
+    summary: `围绕「${project.name}」沉淀 ${methods} 资料，支持业务方快速判断项目价值和下一步动作。`,
+    takeaway: project.summaryData?.coreFindings?.[0] ?? '进入项目查看完整结论、用户原声和支撑材料。',
+    source: methods,
+  };
+}
+
+function Pill({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <div>
-      <p className="text-[10px] font-bold tracking-widest text-gray-400 uppercase mb-2">{title}</p>
-      <div className="flex flex-col gap-0.5">
-        {options.map((opt) => (
-          <button
-            key={opt}
-            onClick={() => onToggle(opt)}
-            className={cn(
-              'flex items-center gap-2 px-2 py-1.5 rounded-lg text-[12.5px] transition-all text-left',
-              selected.has(opt)
-                ? 'bg-orange-50 text-orange-500 font-semibold'
-                : 'text-gray-500 hover:bg-gray-50',
-            )}
-          >
-            <span className={cn(
-              'w-1.5 h-1.5 rounded-full shrink-0',
-              selected.has(opt) ? 'bg-orange-400' : 'bg-gray-300',
-            )} />
-            {opt}
-          </button>
-        ))}
-      </div>
-    </div>
+    <span className={cn('inline-flex items-center rounded-full border px-2.5 py-1 text-[12px] font-bold', className)}>
+      {children}
+    </span>
   );
 }
 
@@ -69,212 +74,184 @@ export default function ProjectsPage() {
   const [newName, setNewName] = React.useState('');
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  const [filterCat,    setFilterCat]    = React.useState<Set<string>>(new Set());
-  const [filterMethod, setFilterMethod] = React.useState<Set<string>>(new Set());
-  const [filterStatus, setFilterStatus] = React.useState<Set<string>>(new Set());
-
   React.useEffect(() => {
     if (creating) inputRef.current?.focus();
   }, [creating]);
 
-  function toggle(set: Set<string>, val: string, setter: (s: Set<string>) => void) {
-    const next = new Set(set);
-    next.has(val) ? next.delete(val) : next.add(val);
-    setter(next);
-  }
-
-  const filtered = projects.filter((p) => {
-    if (filterCat.size    && !filterCat.has(p.category ?? ''))              return false;
-    if (filterMethod.size && !p.methods?.some((m) => filterMethod.has(m)))  return false;
-    if (filterStatus.size && !filterStatus.has(p.status ?? ''))             return false;
-    return true;
-  });
-
   const handleCreate = () => {
     const name = newName.trim();
-    if (!name) { toast.error('请输入项目名称'); return; }
-    const p = projectActions.create(name);
+    if (!name) {
+      toast.error('请输入项目名称');
+      return;
+    }
+    const project = projectActions.create(name);
     setNewName('');
     setCreating(false);
-    navigate(`/projects/${p.id}/summary`);
+    navigate(`/projects/${project.id}/summary`);
   };
 
-  const handleDelete = (id: string, name: string, e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleDelete = (id: string, name: string, event: React.MouseEvent) => {
+    event.stopPropagation();
     if (!confirm(`确认删除「${name}」？该项目所有数据将被清除。`)) return;
     projectActions.delete(id);
     toast.success('项目已删除');
   };
 
-  const anyFilter = filterCat.size + filterMethod.size + filterStatus.size > 0;
-
   return (
-    <div className="flex flex-1 overflow-hidden bg-[#F4F5F7]">
-
-        {/* ── Sidebar ── */}
-        <aside className="w-[188px] shrink-0 border-r border-gray-200 bg-white px-3 py-5 flex flex-col gap-5 overflow-y-auto">
-          {anyFilter && (
+    <main className="min-h-0 flex-1 overflow-y-auto bg-[#f5f3ee]">
+      <div className="mx-auto w-full max-w-6xl px-5 py-7">
+        <section className="mb-6">
+          <div className="mb-2 text-[12px] font-black uppercase tracking-[0.18em] text-[#e65532]">
+            Research Library
+          </div>
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <h1 className="text-[34px] font-black leading-tight tracking-tight text-[#191816]">
+                项目库
+              </h1>
+              <p className="mt-2 max-w-2xl text-[14px] leading-relaxed text-[#6f6a61]">
+                先用业务判断理解项目，再进入项目查看完整报告、访谈原声和证据材料。
+              </p>
+            </div>
             <button
-              onClick={() => { setFilterCat(new Set()); setFilterMethod(new Set()); setFilterStatus(new Set()); }}
-              className="text-[11px] text-orange-500 font-medium hover:underline text-left"
+              onClick={() => setCreating(true)}
+              className="inline-flex items-center gap-2 rounded-xl bg-[#e65532] px-4 py-2.5 text-[13px] font-bold text-white shadow-sm transition hover:bg-[#d64b2a]"
             >
-              清除筛选
+              <Plus size={15} />
+              新建研究项目
             </button>
-          )}
-          <FilterSection
-            title="项目类别"
-            options={CATEGORIES}
-            selected={filterCat}
-            onToggle={(v) => toggle(filterCat, v, setFilterCat)}
-          />
-          <FilterSection
-            title="研究方法"
-            options={METHODS}
-            selected={filterMethod}
-            onToggle={(v) => toggle(filterMethod, v, setFilterMethod)}
-          />
-          <FilterSection
-            title="项目状态"
-            options={STATUSES}
-            selected={filterStatus}
-            onToggle={(v) => toggle(filterStatus, v, setFilterStatus)}
-          />
-        </aside>
+          </div>
+        </section>
 
-        {/* ── Content ── */}
-        <main className="flex-1 overflow-y-auto p-6">
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(272px,1fr))] gap-4">
+        <section className="space-y-4">
+          {projects.map((project) => {
+            const readyFiles = project.files.filter((file) => file.status === 'ready').length;
+            const vocCount = project.files
+              .filter((file) => file.status === 'ready')
+              .reduce((sum, file) => sum + file.vocList.length, 0);
+            const copy = projectCopy(project);
+            const status = project.status ? STATUS_CONFIG[project.status] : undefined;
 
-            {filtered.map((p) => {
-              const readyFiles = p.files.filter((f) => f.status === 'ready').length;
-              const vocCount   = p.files.filter((f) => f.status === 'ready').reduce((s, f) => s + f.vocList.length, 0);
-              return (
-                <button
-                  key={p.id}
-                  onClick={() => navigate(`/projects/${p.id}/summary`)}
-                  className="bg-white border border-gray-200 rounded-2xl p-[17px] text-left cursor-pointer hover:border-orange-400 hover:shadow-md transition-all group relative"
-                >
-                  {/* top row: tags + status */}
-                  <div className="flex items-start justify-between mb-2.5">
-                    <div className="flex flex-wrap gap-1">
-                      {p.category && (
-                        <span className={cn('text-[10px] font-bold px-1.5 py-0.5 rounded-full', CATEGORY_COLOR[p.category] ?? 'bg-gray-100 text-gray-500')}>
-                          {p.category}
+            return (
+              <button
+                key={project.id}
+                onClick={() => navigate(`/projects/${project.id}/summary`)}
+                className="group w-full rounded-2xl border border-[#e1dbd1] bg-white px-5 py-5 text-left shadow-[0_10px_26px_rgba(43,34,24,0.05)] transition hover:-translate-y-0.5 hover:border-[#e65532]/50 hover:shadow-[0_18px_44px_rgba(43,34,24,0.10)]"
+              >
+                <div className="flex gap-5">
+                  <div className="min-w-0 flex-1">
+                    <div className="mb-3 flex flex-wrap items-center gap-2">
+                      {project.category && (
+                        <Pill className={CATEGORY_COLOR[project.category] ?? 'border-gray-200 bg-gray-50 text-gray-600'}>
+                          {project.category}
+                        </Pill>
+                      )}
+                      {project.methods?.map((method) => (
+                        <Pill key={method} className={METHOD_COLOR[method] ?? 'border-gray-200 bg-gray-50 text-gray-600'}>
+                          {method}
+                        </Pill>
+                      ))}
+                      {status && (
+                        <Pill className={status.className}>
+                          <span className={cn('mr-1.5 h-1.5 w-1.5 rounded-full', status.dot)} />
+                          {project.status}
+                        </Pill>
+                      )}
+                    </div>
+
+                    <h2 className="text-[21px] font-black leading-snug tracking-tight text-[#191816]">
+                      {project.name}
+                    </h2>
+                    <p className="mt-2 max-w-4xl text-[14px] leading-relaxed text-[#66605a]">
+                      {copy.summary}
+                    </p>
+                    <p className="mt-3 max-w-4xl text-[14px] font-bold leading-relaxed text-[#2b2926]">
+                      {copy.takeaway}
+                    </p>
+
+                    <div className="mt-5 flex flex-wrap items-center gap-3">
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-[#eee4d8] bg-[#fbf8f2] px-3 py-1.5 text-[12px] font-semibold text-[#756d64]">
+                        <FolderOpen size={13} />
+                        {copy.source}
+                      </span>
+                      {project.quarter && (
+                        <span className="rounded-full border border-[#eee4d8] bg-[#fbf8f2] px-3 py-1.5 text-[12px] font-semibold text-[#756d64]">
+                          {project.quarter}
                         </span>
                       )}
-                      {p.methods?.map((m) => (
-                        <span key={m} className={cn('text-[10px] font-bold px-1.5 py-0.5 rounded-full', METHOD_COLOR[m] ?? 'bg-gray-100 text-gray-500')}>
-                          {m}
+                      <span className="rounded-full border border-[#eee4d8] bg-[#fbf8f2] px-3 py-1.5 text-[12px] font-semibold text-[#756d64]">
+                        {readyFiles > 0 ? `${readyFiles} 个文件` : '暂无文件'}
+                      </span>
+                      {project.id !== 'jisuanying_project' && readyFiles > 0 && (
+                        <span className="rounded-full border border-[#eee4d8] bg-[#fbf8f2] px-3 py-1.5 text-[12px] font-semibold text-[#756d64]">
+                          {vocCount} 条原声
                         </span>
-                      ))}
+                      )}
                     </div>
-                    {p.status ? (
-                      <span className={cn(
-                        'shrink-0 ml-1 flex items-center gap-1 text-[10px] font-semibold px-1.5 py-0.5 rounded-full',
-                        STATUS_CONFIG[p.status]?.bg,
-                        STATUS_CONFIG[p.status]?.text,
-                      )}>
-                        <span className={cn('w-1 h-1 rounded-full shrink-0', STATUS_CONFIG[p.status]?.dot)} />
-                        {p.status}
+                  </div>
+
+                  <div className="hidden w-px shrink-0 bg-[#eee7dd] md:block" />
+
+                  <div className="flex shrink-0 flex-col items-end justify-between gap-4">
+                    <div className="text-right text-[12px] font-semibold text-[#8a8176]">
+                      点击查看完整项目
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="rounded-full border border-[#e8ded2] bg-[#fbf8f2] px-3 py-2 text-[12px] font-bold text-[#6d655b] transition group-hover:border-[#e65532]/40 group-hover:text-[#e65532]">
+                        进入项目
                       </span>
-                    ) : (
-                      <span className="text-[11px] text-gray-400 shrink-0 ml-1">
-                        {new Date(p.createdAt).toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit' }).replace('/', '.')}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* name */}
-                  <div className="text-[14.5px] font-extrabold leading-snug tracking-tight mb-1.5">
-                    {p.name}
-                  </div>
-
-                  {/* meta */}
-                  <div className="text-[11px] text-gray-400 flex items-center gap-1 mb-3">
-                    {p.quarter && (
-                      <>
-                        <span className="font-bold text-gray-500">{p.quarter}</span>
-                        <span className="text-gray-200">·</span>
-                      </>
-                    )}
-                    {readyFiles > 0
-                      ? (
-                        <>
-                          <span>{readyFiles} 个文件</span>
-                          {p.id !== 'jisuanying_project' && (
-                            <>
-                              <span className="text-gray-200">·</span>
-                              <span>{vocCount} 条原声</span>
-                            </>
-                          )}
-                        </>
-                      )
-                      : <span>暂无文件</span>
-                    }
-                  </div>
-
-                  {/* foot */}
-                  <div className="flex items-center justify-between pt-2.5 border-t border-gray-100">
-                    <div className="flex items-center gap-1">
-                      <FolderOpen size={12} className="text-gray-300" />
-                      <span className="text-[11px] text-gray-400">进入项目</span>
+                      <ArrowRight size={17} className="text-[#b8afa5] transition group-hover:text-[#e65532]" />
                     </div>
-                    <div className="flex items-center gap-1.5">
-                      <button
-                        onClick={(e) => handleDelete(p.id, p.name, e)}
-                        className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-300 hover:text-red-500 hover:bg-red-50 transition-colors opacity-0 group-hover:opacity-100"
-                      >
-                        <Trash2 size={13} />
-                      </button>
-                      <ArrowRight size={15} className="text-gray-300 group-hover:text-orange-400 transition-colors" />
-                    </div>
+                    <button
+                      onClick={(event) => handleDelete(project.id, project.name, event)}
+                      className="flex h-8 w-8 items-center justify-center rounded-lg text-[#c8c0b6] opacity-0 transition hover:bg-red-50 hover:text-red-500 group-hover:opacity-100"
+                      aria-label={`删除${project.name}`}
+                    >
+                      <Trash2 size={15} />
+                    </button>
                   </div>
-                </button>
-              );
-            })}
-
-            {/* Create card */}
-            {creating ? (
-              <div className="bg-white rounded-2xl border-2 border-[#4361EE] p-[17px]">
-                <input
-                  ref={inputRef}
-                  value={newName}
-                  onChange={(e) => setNewName(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') handleCreate();
-                    if (e.key === 'Escape') { setCreating(false); setNewName(''); }
-                  }}
-                  placeholder="输入项目名称，例如：K12物理品牌调研2025Q2"
-                  className="w-full text-[14px] font-medium text-gray-900 outline-none placeholder:text-gray-300 mb-4"
-                />
-                <div className="flex gap-2">
-                  <button
-                    onClick={handleCreate}
-                    className="px-4 py-2 bg-[#4361EE] text-white text-[12.5px] font-medium rounded-lg hover:bg-[#3451d1] transition-colors"
-                  >
-                    创建项目
-                  </button>
-                  <button
-                    onClick={() => { setCreating(false); setNewName(''); }}
-                    className="px-4 py-2 text-gray-500 text-[12.5px] rounded-lg hover:bg-gray-50 transition-colors"
-                  >
-                    取消
-                  </button>
                 </div>
-              </div>
-            ) : (
-              <button
-                onClick={() => setCreating(true)}
-                className="flex flex-col items-center justify-center gap-2 p-[17px] rounded-2xl border-2 border-dashed border-gray-200 text-gray-400 hover:border-orange-400 hover:text-orange-400 transition-all min-h-[140px]"
-              >
-                <Plus size={24} strokeWidth={1.5} />
-                <span className="text-[13px] font-medium">新建研究项目</span>
               </button>
-            )}
+            );
+          })}
 
-          </div>
-        </main>
-
-    </div>
+          {creating && (
+            <div className="rounded-2xl border-2 border-[#e65532] bg-white p-5 shadow-[0_12px_30px_rgba(43,34,24,0.08)]">
+              <input
+                ref={inputRef}
+                value={newName}
+                onChange={(event) => setNewName(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') handleCreate();
+                  if (event.key === 'Escape') {
+                    setCreating(false);
+                    setNewName('');
+                  }
+                }}
+                placeholder="输入项目名称，例如：K12物理品牌调研2026Q2"
+                className="mb-4 w-full border-0 text-[16px] font-bold text-gray-900 outline-none placeholder:text-gray-300"
+              />
+              <div className="flex gap-2">
+                <button
+                  onClick={handleCreate}
+                  className="rounded-xl bg-[#e65532] px-4 py-2 text-[13px] font-bold text-white transition hover:bg-[#d64b2a]"
+                >
+                  创建项目
+                </button>
+                <button
+                  onClick={() => {
+                    setCreating(false);
+                    setNewName('');
+                  }}
+                  className="rounded-xl px-4 py-2 text-[13px] font-bold text-gray-500 transition hover:bg-gray-50"
+                >
+                  取消
+                </button>
+              </div>
+            </div>
+          )}
+        </section>
+      </div>
+    </main>
   );
 }
