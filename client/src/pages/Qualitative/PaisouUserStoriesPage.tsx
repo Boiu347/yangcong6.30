@@ -300,7 +300,7 @@ function UserCard({ user }: { user: PaisouUserStory }) {
       </div>
 
       <div className="mt-3 rounded-xl border border-gray-100 bg-white p-3">
-        <p className="text-[10px] font-black tracking-widest text-gray-400">工具组合 / 什么时候切换</p>
+        <p className="text-[10px] font-black tracking-widest text-gray-400">使用工具</p>
         <div className="mt-2 flex flex-wrap items-center gap-1.5 text-[11px] font-semibold text-gray-600">
           {user.tools.map((tool, index) => (
             <React.Fragment key={tool}>
@@ -511,7 +511,7 @@ function UserDetailPage({ user }: { user: PaisouUserStory }) {
               <div className="mt-4 space-y-3 text-[12.5px]">
                 <div><strong className="text-gray-900">当前目标：</strong><span className="text-gray-600">{user.currentGoal}</span></div>
                 <div><strong className="text-gray-900">需求倾向：</strong><span className="text-gray-600">{user.answerVsLearn}</span></div>
-                <div><strong className="text-gray-900">工具组合：</strong><span className="text-gray-600">{user.tools.join(' / ')}</span></div>
+                <div><strong className="text-gray-900">使用工具：</strong><span className="text-gray-600">{user.tools.join(' / ')}</span></div>
                 <div><strong className="text-gray-900">主要竞品：</strong><span className="text-gray-600">{user.primaryCompetitor}</span></div>
               </div>
             </div>
