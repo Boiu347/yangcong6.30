@@ -78,6 +78,45 @@ const COMPETITOR_ROWS = [
   { name: '学习机', fit: '入口顺手、学习生态完整', scene: '低龄学生、家长参与、硬件使用习惯', risk: '灵活追问和品牌情感不一定强' },
 ];
 
+const USER_EXTRA_QUOTES: Record<string, string[]> = {
+  'wu-yuyao': [
+    '他讲得有点过于深奥。',
+    '老师有些题目不会讲，只会讲那种特别难的题目。',
+  ],
+  'xu-tongxue': [
+    '因为豆包会更快一点。',
+    '洋葱的详细会更精准一点。',
+    '他会从通俗易懂的角度，通过举例子的方式讲。',
+  ],
+  'xiao-jie': [
+    '解析完整，拍出来的题都很准确，还会有举一反三的类似题给我。',
+    '科大讯飞的视频讲解还有解析，我能明白。',
+    '同类题会做了，才是完美体验。',
+  ],
+  'ding-tongxue': [
+    '要继续写作业，能够越快越好。',
+    '脑子转不过来弯的时候，就会看视频讲解。',
+  ],
+  'lv-tongxue': [
+    '作业帮我就有一个作业帮就行了。',
+    '如果这里面知识点没记牢的话，就去洋葱看一眼这个知识点，然后再回来再推一遍。',
+  ],
+  nuoshi: [
+    '作业帮他讲得太无聊了。',
+    '比较温柔、委婉、有耐心。',
+    '像朋友，因为他说话不像老师那么严肃。',
+  ],
+  mengmei: [
+    '我希望他能根据我的年级，给出适合当前年级的解题过程。',
+    'DeepSeek 的方法太过高端，实在是看不懂。',
+  ],
+  xiaolin: [
+    '完完全全搞不懂的话，那可以用洋葱。',
+    '那肯定是洋葱啊。',
+    '它可以给我上课。',
+  ],
+};
+
 function relationClass(relation: PaisouUserStory['relation']) {
   const style = RELATION_STYLE[relation];
   return cn('border px-2 py-0.5 text-[11px] font-bold', style.bg, style.text, style.border);
@@ -242,6 +281,9 @@ function ToolSwitchSection() {
 
 function UserCard({ user }: { user: PaisouUserStory }) {
   const navigate = useNavigate();
+  const [quotesExpanded, setQuotesExpanded] = React.useState(false);
+  const extraQuotes = USER_EXTRA_QUOTES[user.id] ?? [];
+  const displayedQuotes = quotesExpanded ? [user.quote, ...extraQuotes] : [user.quote];
   const statusMeta = ONION_STATUS_META[user.onionStatus];
   const judgmentTitle = user.onionStatus === '洋葱价值样本'
     ? '洋葱为什么被留下'
@@ -252,10 +294,7 @@ function UserCard({ user }: { user: PaisouUserStory }) {
   const riskLabel = user.onionStatus === '机会/边界样本' ? '现实阻力：' : '会被替代：';
 
   return (
-    <button
-      onClick={() => navigate(`/projects/paisou_project/qualitative/users/${user.id}`)}
-      className="group flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-4 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#e65532]/60 hover:shadow-md"
-    >
+    <article className="group flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-4 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#e65532]/60 hover:shadow-md">
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="flex items-center gap-2">
@@ -266,7 +305,14 @@ function UserCard({ user }: { user: PaisouUserStory }) {
             {user.region} · {user.grade} · {user.subjects.join('/')}
           </p>
         </div>
-        <ArrowRight size={16} className="mt-1 text-gray-300 transition-colors group-hover:text-[#e65532]" />
+        <button
+          type="button"
+          onClick={() => navigate(`/projects/paisou_project/qualitative/users/${user.id}`)}
+          className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-300 transition-colors hover:border-[#e65532]/40 hover:text-[#e65532]"
+          aria-label={`查看${user.name}详情`}
+        >
+          <ArrowRight size={16} />
+        </button>
       </div>
 
       <div className="mt-4 rounded-xl border border-[#f0ded8] bg-[#fff8f5] p-3.5">
@@ -326,10 +372,27 @@ function UserCard({ user }: { user: PaisouUserStory }) {
         </p>
       </div>
 
-      <blockquote className="mt-3 rounded-xl border border-gray-100 bg-gray-50 px-3 py-2.5 text-[12px] leading-5 text-gray-600">
-        <span className="mb-1 block text-[10px] font-black tracking-widest text-gray-400">用户原声</span>
-        “{user.quote}”
-      </blockquote>
+      <div className="mt-3 rounded-xl border border-gray-100 bg-gray-50 px-3 py-2.5">
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-[10px] font-black tracking-widest text-gray-400">用户原声</span>
+          {extraQuotes.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setQuotesExpanded((value) => !value)}
+              className="rounded-full border border-gray-200 bg-white px-2 py-0.5 text-[10px] font-bold text-gray-500 hover:border-[#e65532]/40 hover:text-[#e65532]"
+            >
+              {quotesExpanded ? '收起' : '展开'}
+            </button>
+          )}
+        </div>
+        <div className="mt-2 space-y-2">
+          {displayedQuotes.map((quote) => (
+            <blockquote key={quote} className="text-[12px] leading-5 text-gray-600">
+              “{quote}”
+            </blockquote>
+          ))}
+        </div>
+      </div>
 
       <div className="mt-3 flex-1 rounded-xl border border-[#E8E2D9] bg-[#fffdf9] p-3">
         <p className="text-[10px] font-black tracking-widest text-[#b7793b]">{judgmentTitle}</p>
@@ -345,7 +408,15 @@ function UserCard({ user }: { user: PaisouUserStory }) {
           </p>
         </div>
       </div>
-    </button>
+      <button
+        type="button"
+        onClick={() => navigate(`/projects/paisou_project/qualitative/users/${user.id}`)}
+        className="mt-3 inline-flex items-center justify-center gap-1.5 rounded-xl border border-gray-200 bg-white px-3 py-2 text-[12px] font-bold text-gray-600 transition-colors hover:border-[#e65532]/40 hover:text-[#e65532]"
+      >
+        查看完整故事
+        <ArrowRight size={14} />
+      </button>
+    </article>
   );
 }
 
