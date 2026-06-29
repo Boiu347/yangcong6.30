@@ -79,6 +79,29 @@ const COMPETITOR_ROWS = [
   { name: '学习机', fit: '入口顺手、学习生态完整', scene: '低龄学生、家长参与、硬件使用习惯', risk: '灵活追问和品牌情感不一定强' },
 ];
 
+const ONION_STRENGTH_ROWS = [
+  {
+    title: '把题讲成学生听得懂的话',
+    description: '学生提到洋葱会用能理解的角度讲、会举例子；这不是单纯给答案，而是在翻译题目和步骤。',
+    proof: '“洋葱会用能理解的角度来讲、举例子。”',
+  },
+  {
+    title: '难题里能提供确定感',
+    description: '当题目完全不会、学校老师没讲清或文字解析不够时，洋葱的视频和步骤能让学生愿意继续听。',
+    proof: '“完完全全搞不懂的话，那可以用洋葱。”',
+  },
+  {
+    title: '有人设温度，降低学习压力',
+    description: '温柔、耐心、像朋友的表达让讲题不只是纠错，也是在陪学生把卡住的地方走过去。',
+    proof: '“比较温柔、委婉、有耐心。”“像朋友。”',
+  },
+  {
+    title: '从做会一道题走到举一反三',
+    description: '用户认可解析完整、同类题和知识点补充；洋葱的价值更像把一道题变成一个可迁移的知识点。',
+    proof: '“解析完整……还会有举一反三的类似题给我。”',
+  },
+];
+
 const USER_EXTRA_QUOTES: Record<string, string[]> = {
   'wu-yuyao': [
     '他讲得有点过于深奥。',
@@ -326,6 +349,45 @@ function ToolSwitchSection() {
   );
 }
 
+function OnionStrengthSection() {
+  return (
+    <section className="mt-6 rounded-[22px] border border-[#f0ded8] bg-[#fffaf7] p-5 shadow-sm sm:p-6">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <div className="flex items-center gap-2 text-[11px] font-black tracking-[0.16em] text-[#e65532]">
+            <Sparkles size={15} />
+            文字记录里的正向信号
+          </div>
+          <h2 className="mt-2 text-[20px] font-black text-gray-900">学生觉得洋葱拍搜好的地方</h2>
+          <p className="mt-1 max-w-3xl text-[12px] leading-6 text-gray-500">
+            这些不是抽象卖点，而是用户在讲题体验里反复感知到的价值：听得懂、有人味、能补卡点，并且在时间允许时把一道题延展成一类题。
+          </p>
+        </div>
+        <span className="rounded-full border border-[#f0ded8] bg-white px-3 py-1 text-[11px] font-bold text-[#b84a2f]">
+          适合转化为传播主张
+        </span>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-4">
+        {ONION_STRENGTH_ROWS.map((item, index) => (
+          <article key={item.title} className="flex h-full flex-col rounded-2xl border border-[#f1ded6] bg-white p-4">
+            <div className="flex items-center gap-2">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#fff2ed] text-[12px] font-black text-[#e65532]">
+                {index + 1}
+              </span>
+              <h3 className="text-[13px] font-black leading-5 text-gray-900">{item.title}</h3>
+            </div>
+            <p className="mt-3 flex-1 text-[12px] leading-6 text-gray-600">{item.description}</p>
+            <blockquote className="mt-3 rounded-xl border border-gray-100 bg-[#FAFAF8] p-3 text-[11px] font-semibold leading-5 text-gray-600">
+              {item.proof}
+            </blockquote>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function UserCard({ user }: { user: PaisouUserStory }) {
   const navigate = useNavigate();
   const [quotesExpanded, setQuotesExpanded] = React.useState(false);
@@ -522,6 +584,8 @@ function OverviewPage() {
             note="作业帮、快对、豆包和学习机会在速度、入口、追问和题库上分别截流不同学生。"
           />
         </section>
+
+        <OnionStrengthSection />
 
         <ToolSwitchSection />
 
