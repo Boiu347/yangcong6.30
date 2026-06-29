@@ -464,6 +464,58 @@ function OnionStrengthSection() {
   );
 }
 
+export function PaisouOnionPraisePage() {
+  const totalQuotes = ONION_STRENGTH_ROWS.reduce((sum, item) => sum + item.quotes.length, 0);
+
+  return (
+    <div className="min-h-full bg-[#F7F4EE]">
+      <main className="mx-auto max-w-7xl px-5 py-6 sm:px-8">
+        <section className="rounded-[24px] border border-[#E8E2D9] bg-white p-6 shadow-[0_12px_35px_rgba(30,35,40,0.06)] sm:p-8">
+          <div className="grid gap-6 lg:grid-cols-[1.35fr_0.65fr] lg:items-end">
+            <div>
+              <div className="flex items-center gap-2 text-[11px] font-black tracking-[0.18em] text-[#e65532]">
+                <Sparkles size={15} />
+                拍搜调研 · 洋葱好评
+              </div>
+              <h1 className="mt-3 text-[28px] font-black leading-tight text-[#242421] sm:text-[38px]">
+                学生为什么还会选择洋葱：听得懂、愿意学、感觉能学透。
+              </h1>
+              <p className="mt-4 max-w-4xl text-[13px] leading-7 text-gray-600">
+                这一页只承载正向证据：把访谈纪要、妙记逐字稿和正文整理中提到洋葱好的地方集中展示。重点不是宣传口号，而是让读者看清楚学生在哪些具体时刻被洋葱打动。
+              </p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+              <div className="rounded-2xl border border-[#f0ded8] bg-[#fff8f5] p-4">
+                <p className="text-[11px] font-black text-[#b84a2f]">证据规模</p>
+                <p className="mt-2 text-[30px] font-black text-gray-900">{totalQuotes}</p>
+                <p className="text-[11px] leading-5 text-gray-500">条带上下文的正向原声/证据</p>
+              </div>
+              <div className="rounded-2xl border border-gray-100 bg-[#FAFAF8] p-4">
+                <p className="text-[11px] font-black text-gray-500">阅读方式</p>
+                <p className="mt-2 text-[13px] font-bold leading-6 text-gray-800">
+                  先看主题，再看上下文，最后看原声。小杰等非洋葱用户只作为对照参照，不混作洋葱用户原声。
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="mt-5 grid gap-3 md:grid-cols-5">
+          {ONION_STRENGTH_ROWS.map((item, index) => (
+            <div key={item.title} className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+              <p className="text-[11px] font-black text-[#e65532]">0{index + 1}</p>
+              <h2 className="mt-2 text-[13px] font-black leading-5 text-gray-900">{item.title}</h2>
+              <p className="mt-2 text-[11px] leading-5 text-gray-500">{item.quotes.length} 条证据</p>
+            </div>
+          ))}
+        </section>
+
+        <OnionStrengthSection />
+      </main>
+    </div>
+  );
+}
+
 function UserCard({ user }: { user: PaisouUserStory }) {
   const navigate = useNavigate();
   const [quotesExpanded, setQuotesExpanded] = React.useState(false);
@@ -660,8 +712,6 @@ function OverviewPage() {
             note="作业帮、快对、豆包和学习机会在速度、入口、追问和题库上分别截流不同学生。"
           />
         </section>
-
-        <OnionStrengthSection />
 
         <ToolSwitchSection />
 

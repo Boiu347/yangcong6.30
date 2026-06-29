@@ -27,6 +27,16 @@ const familyItems = [
   { label: '定性洞察', path: 'family-insights' },
 ];
 
+const paisouItems = [
+  { label: '调研背景', path: 'background' },
+  { label: '项目总结', path: 'summary' },
+  { label: '定性洞察', path: 'qualitative' },
+  { label: '洋葱好评', path: 'onion-praise' },
+  { label: '竞品分析', path: 'competitive' },
+  { label: '定量报告', path: 'quantitative' },
+  { label: '营销落地', path: 'marketing' },
+];
+
 export default function TopNavLayout() {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
@@ -36,7 +46,7 @@ export default function TopNavLayout() {
   const active = pathAfterProject.split('/')[0] || 'summary';
   const isFamily = projectId === 'jiatingbao_project';
   const isPaisou = projectId === 'paisou_project';
-  const items = isFamily ? familyItems : projectId === 'jisuanying_project' ? computingItems : standardItems;
+  const items = isFamily ? familyItems : isPaisou ? paisouItems : projectId === 'jisuanying_project' ? computingItems : standardItems;
   const showFileBar = !isFamily && !isPaisou && (active === 'qualitative' || active === 'competitive');
 
   useLayoutEffect(() => {
