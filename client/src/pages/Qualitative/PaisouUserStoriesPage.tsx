@@ -91,6 +91,21 @@ function Pill({ children }: { children: React.ReactNode }) {
   );
 }
 
+function proofMomentTitle(user: PaisouUserStory) {
+  if (user.onionStatus === '机会/边界样本') return '洋葱还没打动他的那一刻';
+  if (user.onionStatus === '场景型使用') return '洋葱被选中的场景';
+  return '洋葱打动他的那一次';
+}
+
+function ChainRow({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="grid gap-1.5 rounded-xl border border-gray-100 bg-[#FAFAF8] p-3 sm:grid-cols-[112px_1fr]">
+      <p className="text-[11px] font-black text-gray-400">{label}</p>
+      <div className="text-[12.5px] font-semibold leading-5 text-gray-700">{children}</div>
+    </div>
+  );
+}
+
 function MetricCard({
   icon,
   title,
@@ -285,7 +300,7 @@ function UserCard({ user }: { user: PaisouUserStory }) {
       </div>
 
       <div className="mt-3 rounded-xl border border-gray-100 bg-white p-3">
-        <p className="text-[10px] font-black tracking-widest text-gray-400">工具切换</p>
+        <p className="text-[10px] font-black tracking-widest text-gray-400">用了什么 / 被谁截流</p>
         <div className="mt-2 flex flex-wrap items-center gap-1.5 text-[11px] font-semibold text-gray-600">
           {user.tools.map((tool, index) => (
             <React.Fragment key={tool}>
@@ -304,12 +319,20 @@ function UserCard({ user }: { user: PaisouUserStory }) {
         </p>
       </div>
 
+      <div className="mt-3 rounded-xl border border-[#f0ded8] bg-[#fff8f5] p-3">
+        <p className="text-[10px] font-black tracking-widest text-[#b84a2f]">{proofMomentTitle(user)}</p>
+        <p className="mt-1.5 overflow-hidden text-[12px] font-bold leading-5 text-gray-800 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:3]">
+          {user.scene}
+        </p>
+      </div>
+
       <blockquote className="mt-3 rounded-xl border border-gray-100 bg-gray-50 px-3 py-2.5 text-[12px] leading-5 text-gray-600">
+        <span className="mb-1 block text-[10px] font-black tracking-widest text-gray-400">用户原声</span>
         “{user.quote}”
       </blockquote>
 
       <div className="mt-3 flex-1 rounded-xl border border-[#E8E2D9] bg-[#fffdf9] p-3">
-        <p className="text-[10px] font-black tracking-widest text-[#b7793b]">{judgmentTitle}</p>
+        <p className="text-[10px] font-black tracking-widest text-[#b7793b]">忠实粉判断 · {judgmentTitle}</p>
         <div className="mt-2 grid gap-2.5">
           <p className="text-[12px] leading-5 text-gray-700">
             <strong className="text-emerald-700">{positiveLabel}</strong>{user.retention}
@@ -337,7 +360,7 @@ function OverviewPage() {
               拍搜调研 · 8个真实学生故事
             </div>
             <h1 className="mt-3 text-[28px] font-black leading-tight text-[#242421] sm:text-[38px]">
-              学生不是固定分成“想学懂”和“只对答案”两类，而是在时间紧/松之间切换状态。
+              学生不是一直只想要答案；当任务从赶作业变成想学懂，洋葱仍然会被选择。
             </h1>
           </div>
         </section>
@@ -345,9 +368,9 @@ function OverviewPage() {
         <section className="mt-5 grid gap-4 md:grid-cols-3">
           <MetricCard
             icon={<Clock3 size={15} />}
-            title="第一变量"
-            value="时间紧迫度"
-            note="时间紧时先要快和关键步骤，时间松时才会触发深度学习、举一反三和知识点补充。"
+            title="核心切换"
+            value="时间紧迫度 × 题目难度"
+            note="赶作业时先要快；完全不懂、难题复盘和知识点缺口出现时，学生才会愿意花时间学懂。"
           />
           <MetricCard
             icon={<BookOpenCheck size={15} />}
@@ -492,6 +515,39 @@ function UserDetailPage({ user }: { user: PaisouUserStory }) {
                 <div><strong className="text-gray-900">主要竞品：</strong><span className="text-gray-600">{user.primaryCompetitor}</span></div>
               </div>
             </div>
+          </div>
+        </section>
+
+        <section className="mt-6 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+          <div className="flex items-center gap-2">
+            <Route size={16} color={ACCENT} />
+            <h2 className="text-[15px] font-black text-gray-900">用户选择链路</h2>
+          </div>
+          <p className="mt-2 text-[12px] leading-6 text-gray-500">
+            按“是谁 - 什么状态 - 想要什么 - 用了什么 - 证明时刻 - 原声 - 忠实粉判断”的顺序看，避免把用户直接压缩成一个标签。
+          </p>
+          <div className="mt-4 grid gap-2">
+            <ChainRow label="是谁">
+              {user.region} · {user.grade} · {user.subjects.join('/')}
+            </ChainRow>
+            <ChainRow label="是什么状态">
+              {user.learningStatus}；{user.pressure}
+            </ChainRow>
+            <ChainRow label="想要什么">
+              {user.currentGoal}；{user.answerVsLearn}
+            </ChainRow>
+            <ChainRow label="用了什么">
+              {user.tools.join(' / ')}；主要截流：{user.primaryCompetitor}
+            </ChainRow>
+            <ChainRow label={proofMomentTitle(user)}>
+              {user.scene}
+            </ChainRow>
+            <ChainRow label="用户原声">
+              “{user.quote}”
+            </ChainRow>
+            <ChainRow label="忠实粉判断">
+              {user.retention} {user.risk}
+            </ChainRow>
           </div>
         </section>
 
