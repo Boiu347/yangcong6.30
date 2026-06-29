@@ -300,7 +300,7 @@ function UserCard({ user }: { user: PaisouUserStory }) {
       </div>
 
       <div className="mt-3 rounded-xl border border-gray-100 bg-white p-3">
-        <p className="text-[10px] font-black tracking-widest text-gray-400">用了什么 / 被谁截流</p>
+        <p className="text-[10px] font-black tracking-widest text-gray-400">工具组合 / 什么时候切换</p>
         <div className="mt-2 flex flex-wrap items-center gap-1.5 text-[11px] font-semibold text-gray-600">
           {user.tools.map((tool, index) => (
             <React.Fragment key={tool}>
@@ -315,7 +315,7 @@ function UserCard({ user }: { user: PaisouUserStory }) {
           ))}
         </div>
         <p className="mt-2 text-[11px] leading-5 text-gray-500">
-          <strong className="text-gray-700">主要截流：</strong>{user.primaryCompetitor}
+          <strong className="text-gray-700">常切工具：</strong>{user.primaryCompetitor}
         </p>
       </div>
 
@@ -332,7 +332,7 @@ function UserCard({ user }: { user: PaisouUserStory }) {
       </blockquote>
 
       <div className="mt-3 flex-1 rounded-xl border border-[#E8E2D9] bg-[#fffdf9] p-3">
-        <p className="text-[10px] font-black tracking-widest text-[#b7793b]">忠实粉判断 · {judgmentTitle}</p>
+        <p className="text-[10px] font-black tracking-widest text-[#b7793b]">{judgmentTitle}</p>
         <div className="mt-2 grid gap-2.5">
           <p className="text-[12px] leading-5 text-gray-700">
             <strong className="text-emerald-700">{positiveLabel}</strong>{user.retention}
