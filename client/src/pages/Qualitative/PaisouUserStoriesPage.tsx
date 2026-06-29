@@ -145,6 +145,32 @@ function ChainRow({ label, children }: { label: string; children: React.ReactNod
   );
 }
 
+function storyRole(user: PaisouUserStory) {
+  return `${user.region}${user.grade}学生，${user.learningStatus}`;
+}
+
+function storyActivity(user: PaisouUserStory) {
+  return user.currentGoal;
+}
+
+function storyValue(user: PaisouUserStory) {
+  return user.answerVsLearn;
+}
+
+function storySentence(user: PaisouUserStory) {
+  return `作为一个${storyRole(user)}，我想要${storyActivity(user)}，以便${storyValue(user)}。`;
+}
+
+function storyBoundaryNote(user: PaisouUserStory) {
+  if (user.onionStatus === '机会/边界样本') {
+    return '这个故事的重点不是证明他已经在用洋葱，而是说明洋葱需要证明什么，才可能进入他的工具组合。';
+  }
+  if (user.onionStatus === '场景型使用') {
+    return '这个故事只在特定学习场景中成立：洋葱会被选择，但也会在更快、更直接的场景里被替代。';
+  }
+  return '这个故事解释的是洋葱已经被选择的原因，同时保留它仍可能被竞品替代的边界。';
+}
+
 function MetricCard({
   icon,
   title,
@@ -590,12 +616,71 @@ function UserDetailPage({ user }: { user: PaisouUserStory }) {
         </section>
 
         <section className="mt-6 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <div className="flex items-center gap-2">
+                <BookOpenCheck size={16} color={ACCENT} />
+                <h2 className="text-[15px] font-black text-gray-900">用户故事结构</h2>
+              </div>
+              <p className="mt-2 text-[12px] leading-6 text-gray-500">
+                先把这个学生作为一个独立故事读清楚：他是谁、想完成什么、洋葱在什么场景里有价值，以及这个判断靠什么证据成立。
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {['独立故事', '价值清楚', '有原声证据', '有切换边界'].map((item) => (
+                <Pill key={item}>{item}</Pill>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-4 rounded-2xl border border-[#f0ded8] bg-[#fff8f5] p-4">
+            <p className="text-[11px] font-black tracking-widest text-[#b84a2f]">一句话用户故事</p>
+            <p className="mt-2 text-[18px] font-black leading-7 text-gray-900">{user.oneLine}</p>
+            <p className="mt-3 text-[13px] font-semibold leading-6 text-gray-700">{storySentence(user)}</p>
+          </div>
+
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            <div className="rounded-2xl border border-gray-100 bg-[#FAFAF8] p-4">
+              <p className="text-[11px] font-black text-gray-400">角色</p>
+              <p className="mt-2 text-[13px] font-bold leading-6 text-gray-800">{storyRole(user)}</p>
+            </div>
+            <div className="rounded-2xl border border-gray-100 bg-[#FAFAF8] p-4">
+              <p className="text-[11px] font-black text-gray-400">想完成的事</p>
+              <p className="mt-2 text-[13px] font-bold leading-6 text-gray-800">{storyActivity(user)}</p>
+            </div>
+            <div className="rounded-2xl border border-gray-100 bg-[#FAFAF8] p-4">
+              <p className="text-[11px] font-black text-gray-400">对他的价值</p>
+              <p className="mt-2 text-[13px] font-bold leading-6 text-gray-800">{storyValue(user)}</p>
+            </div>
+          </div>
+
+          <div className="mt-4 grid gap-3 lg:grid-cols-2">
+            <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-4">
+              <p className="text-[11px] font-black text-emerald-700">故事成立证据</p>
+              <div className="mt-3 space-y-2 text-[12.5px] leading-6 text-gray-700">
+                <p><strong className="text-gray-900">前提：</strong>{user.learningStatus}；{user.pressure}</p>
+                <p><strong className="text-gray-900">触发：</strong>{user.scene}</p>
+                <p><strong className="text-gray-900">原声：</strong>“{user.quote}”</p>
+              </div>
+            </div>
+            <div className="rounded-2xl border border-amber-100 bg-amber-50 p-4">
+              <p className="text-[11px] font-black text-amber-700">故事边界</p>
+              <div className="mt-3 space-y-2 text-[12.5px] leading-6 text-gray-700">
+                <p><strong className="text-gray-900">洋葱成立处：</strong>{user.retention}</p>
+                <p><strong className="text-gray-900">切走风险：</strong>{user.risk}</p>
+                <p className="text-[12px] text-gray-500">{storyBoundaryNote(user)}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="mt-6 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
           <div className="flex items-center gap-2">
             <Route size={16} color={ACCENT} />
             <h2 className="text-[15px] font-black text-gray-900">用户选择链路</h2>
           </div>
           <p className="mt-2 text-[12px] leading-6 text-gray-500">
-            按“是谁 - 什么状态 - 想要什么 - 用了什么 - 证明时刻 - 原声 - 忠实粉判断”的顺序看，避免把用户直接压缩成一个标签。
+            按“是谁 - 什么状态 - 想要什么 - 用了什么 - 证明时刻 - 原声 - 留下/切走边界”的顺序看，避免把用户直接压缩成一个标签。
           </p>
           <div className="mt-4 grid gap-2">
             <ChainRow label="是谁">
@@ -616,7 +701,7 @@ function UserDetailPage({ user }: { user: PaisouUserStory }) {
             <ChainRow label="用户原声">
               “{user.quote}”
             </ChainRow>
-            <ChainRow label="忠实粉判断">
+            <ChainRow label="留下/切走边界">
               {user.retention} {user.risk}
             </ChainRow>
           </div>
