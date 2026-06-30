@@ -68,3 +68,4 @@ pnpm-lock.yaml
 
 # Large interview audio files (serve locally or via CDN in production)
 client/public/audio/interview-*.mp3
+client/public/clips/**/*.mp3

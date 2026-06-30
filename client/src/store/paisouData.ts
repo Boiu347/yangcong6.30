@@ -338,6 +338,7 @@ export interface PaisouUserStory {
   need: string;
   friction: string;
   quote: string;
+  onionMoment?: string;
   grade: string;
   region: string;
   subjects: string[];
@@ -556,7 +557,7 @@ export const PAISOU_USERS: PaisouUserStory[] = [
     job: '作业中遇到不会的题，希望先把答案和步骤跑通，再判断是否需要深学。',
     need: '答案快、步骤清楚、低操作成本',
     friction: '讲解不够细时，看完还是不知道下一步怎么做。',
-    quote: '没听懂还是没听懂，所以不会使用。',
+    quote: '就去洋葱看一眼这个知识点，然后再回来再推一遍。',
     grade: '初二',
     region: '黑龙江绥芬河',
     subjects: ['数学'],
@@ -591,6 +592,7 @@ export const PAISOU_USERS: PaisouUserStory[] = [
     need: '知识点提示、笔记沉淀、情绪价值',
     friction: '真人视频或机械解析容易无聊，不能持续听进去。',
     quote: '洋葱更容易理解，更有兴趣一点。',
+    onionMoment: '上次做几何题，先看了一点点解析，突然想到老师上课讲过的知识点，一下就知道怎么做了。',
     grade: '初三',
     region: '湖南永州',
     subjects: ['数学', '物理'],
@@ -658,7 +660,8 @@ export const PAISOU_USERS: PaisouUserStory[] = [
     job: '难题用洋葱视频吃透，中等题用豆包定位哪步错，简单题用快对秒看答案。',
     need: '按题型切换：学透、纠错、核对',
     friction: '洋葱旧版缺少对话框，不能直接问“哪一步错了”。',
-    quote: '告诉我哪一步错了。',
+    quote: '洋葱的不可替代性是可以上课。',
+    onionMoment: '坚持用洋葱后，数学从 60 多分提到 80 多分；“看洋葱十道题错5道，不看十道题错8道。”',
     grade: '初一',
     region: '广西南宁',
     subjects: ['数学'],

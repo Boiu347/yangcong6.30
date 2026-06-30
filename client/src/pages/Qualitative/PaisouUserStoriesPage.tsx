@@ -165,8 +165,8 @@ const USER_EXTRA_QUOTES: Record<string, string[]> = {
     '脑子转不过来弯的时候，就会看视频讲解。',
   ],
   'lv-tongxue': [
+    '老师会首先怀疑你抄的答案。',
     '作业帮我就有一个作业帮就行了。',
-    '如果这里面知识点没记牢的话，就去洋葱看一眼这个知识点，然后再回来再推一遍。',
   ],
   nuoshi: [
     '作业帮他讲得太无聊了。',
@@ -514,19 +514,22 @@ export function PaisouOnionPraisePage() {
   );
 }
 
+function CardSectionLabel({ index, title }: { index: string; title: string }) {
+  return (
+    <div className="flex items-center gap-1.5">
+      <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#fff2ed] text-[9px] font-black text-[#e65532]">
+        {index}
+      </span>
+      <span className="text-[10px] font-black tracking-widest text-gray-400">{title}</span>
+    </div>
+  );
+}
+
 function UserCard({ user }: { user: PaisouUserStory }) {
   const navigate = useNavigate();
   const [quotesExpanded, setQuotesExpanded] = React.useState(false);
   const extraQuotes = USER_EXTRA_QUOTES[user.id] ?? [];
   const displayedQuotes = quotesExpanded ? [user.quote, ...extraQuotes] : [user.quote];
-  const statusMeta = ONION_STATUS_META[user.onionStatus];
-  const judgmentTitle = user.onionStatus === '洋葱价值样本'
-    ? '洋葱为什么被留下'
-    : user.onionStatus === '场景型使用'
-      ? '洋葱在哪些场景会赢'
-      : '洋葱还要证明什么';
-  const positiveLabel = user.onionStatus === '机会/边界样本' ? '可争取价值：' : '洋葱价值：';
-  const riskLabel = user.onionStatus === '机会/边界样本' ? '现实阻力：' : '会被替代：';
   const openUserDetail = () => {
     window.sessionStorage.setItem(OVERVIEW_SCROLL_TARGET_KEY, user.id);
     navigate(`/projects/paisou_project/qualitative/users/${user.id}`);
@@ -537,6 +540,7 @@ function UserCard({ user }: { user: PaisouUserStory }) {
       id={`paisou-user-card-${user.id}`}
       className="group flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-4 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#e65532]/60 hover:shadow-md"
     >
+      {/* ① 这是谁 */}
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="flex items-center gap-2">
@@ -556,100 +560,77 @@ function UserCard({ user }: { user: PaisouUserStory }) {
           <ArrowRight size={16} />
         </button>
       </div>
+      <p className="mt-1.5 text-[11.5px] leading-5 text-gray-500">{user.learningStatus}</p>
+      <p className="mt-2.5 rounded-xl border border-[#f0ded8] bg-[#fff8f5] p-3 text-[13px] font-black leading-5 text-gray-900">
+        {user.oneLine}
+      </p>
 
-      <div className="mt-4 rounded-xl border border-[#f0ded8] bg-[#fff8f5] p-3.5">
-        <div className="flex flex-wrap items-center gap-1.5">
-          <span className={cn('rounded-full border px-2 py-0.5 text-[10px] font-black', statusMeta.tone)}>
-            {user.onionStatus}
-          </span>
-          <span className="rounded-full border border-[#f0ded8] bg-white px-2 py-0.5 text-[10px] font-bold text-[#a45138]">
-            {user.pressure.split('：')[0]}
-          </span>
-        </div>
-        <p className="mt-2.5 text-[13px] font-black leading-5 text-gray-900">{user.oneLine}</p>
-        <p className="mt-2 text-[11px] leading-5 text-gray-500">{user.onionStatusNote}</p>
-      </div>
+      {/* ② 怎么用拍搜 */}
+      <div className="mt-4 border-t border-dashed border-gray-200 pt-3">
+        <CardSectionLabel index="2" title="怎么用拍搜" />
+        <p className="mt-2 text-[12.5px] leading-5 text-gray-700">{user.jtbd}</p>
 
-      <div className="mt-3 grid gap-2">
-        <div className="rounded-xl border border-gray-100 bg-[#FAFAF8] p-3">
-          <p className="text-[10px] font-black tracking-widest text-gray-400">学习状态</p>
-          <p className="mt-1 text-[12px] leading-5 text-gray-700">{user.learningStatus}</p>
-        </div>
-        <div className="grid gap-2 sm:grid-cols-2">
-          <div className="rounded-xl border border-gray-100 bg-white p-3">
-            <p className="text-[10px] font-black tracking-widest text-gray-400">当前目标</p>
-            <p className="mt-1 text-[12px] font-bold leading-5 text-gray-800">{user.currentGoal}</p>
-          </div>
-          <div className="rounded-xl border border-gray-100 bg-white p-3">
-            <p className="text-[10px] font-black tracking-widest text-gray-400">需求倾向</p>
-            <p className="mt-1 text-[12px] font-bold leading-5 text-gray-800">{user.answerVsLearn}</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-3 rounded-xl border border-gray-100 bg-white p-3">
-        <p className="text-[10px] font-black tracking-widest text-gray-400">使用工具</p>
-        <div className="mt-2 flex flex-wrap items-center gap-1.5 text-[11px] font-semibold text-gray-600">
-          {user.tools.map((tool, index) => (
-            <React.Fragment key={tool}>
-              {index > 0 && <span className="text-gray-300">/</span>}
-              <span className={cn(
+        <div className="mt-2.5 flex flex-wrap items-center gap-1.5 text-[11px] font-semibold">
+          {user.tools.map((tool) => (
+            <span
+              key={tool}
+              className={cn(
                 'rounded-full border px-2 py-0.5',
-                tool.includes('洋葱') ? 'border-[#f0ded8] bg-[#fff8f5] text-[#d34b2a]' : 'border-gray-200 bg-gray-50 text-gray-500',
-              )}>
-                {tool}
-              </span>
-            </React.Fragment>
-          ))}
-        </div>
-        <p className="mt-2 text-[11px] leading-5 text-gray-500">
-          <strong className="text-gray-700">常切工具：</strong>{user.primaryCompetitor}
-        </p>
-      </div>
-
-      <div className="mt-3 rounded-xl border border-[#f0ded8] bg-[#fff8f5] p-3">
-        <p className="text-[10px] font-black tracking-widest text-[#b84a2f]">{proofMomentTitle(user)}</p>
-        <p className="mt-1.5 overflow-hidden text-[12px] font-bold leading-5 text-gray-800 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:3]">
-          {user.scene}
-        </p>
-      </div>
-
-      <div className="mt-3 rounded-xl border border-gray-100 bg-gray-50 px-3 py-2.5">
-        <div className="flex items-center justify-between gap-2">
-          <span className="text-[10px] font-black tracking-widest text-gray-400">用户原声</span>
-          {extraQuotes.length > 0 && (
-            <button
-              type="button"
-              onClick={() => setQuotesExpanded((value) => !value)}
-              className="rounded-full border border-gray-200 bg-white px-2 py-0.5 text-[10px] font-bold text-gray-500 hover:border-[#e65532]/40 hover:text-[#e65532]"
+                tool.includes('洋葱')
+                  ? 'border-[#f0ded8] bg-[#fff8f5] text-[#d34b2a]'
+                  : 'border-gray-200 bg-gray-50 text-gray-500',
+              )}
             >
-              {quotesExpanded ? '收起' : '展开'}
-            </button>
-          )}
-        </div>
-        <div className="mt-2 space-y-2">
-          {displayedQuotes.map((quote) => (
-            <blockquote key={quote} className="text-[12px] leading-5 text-gray-600">
-              “{quote}”
-            </blockquote>
+              {tool}
+            </span>
           ))}
+          <span className="text-[11px] text-gray-400">· 常切 {user.primaryCompetitor}</span>
+        </div>
+
+        {user.onionMoment && (
+          <div className="mt-2.5 rounded-xl border border-emerald-100 bg-emerald-50 p-2.5">
+            <div className="flex items-center gap-1">
+              <Sparkles size={11} className="text-emerald-600" />
+              <p className="text-[10px] font-black tracking-widest text-emerald-700">洋葱时刻</p>
+            </div>
+            <p className="mt-1 text-[12px] font-bold leading-5 text-emerald-900">{user.onionMoment}</p>
+          </div>
+        )}
+
+        <div className="mt-2.5 rounded-xl border border-gray-100 bg-gray-50 px-3 py-2.5">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-[10px] font-black tracking-widest text-gray-400">用户原声</span>
+            {extraQuotes.length > 0 && (
+              <button
+                type="button"
+                onClick={() => setQuotesExpanded((value) => !value)}
+                className="rounded-full border border-gray-200 bg-white px-2 py-0.5 text-[10px] font-bold text-gray-500 hover:border-[#e65532]/40 hover:text-[#e65532]"
+              >
+                {quotesExpanded ? '收起' : '展开'}
+              </button>
+            )}
+          </div>
+          <div className="mt-2 space-y-2">
+            {displayedQuotes.map((quote) => (
+              <blockquote key={quote} className="text-[12px] leading-5 text-gray-600">
+                “{quote}”
+              </blockquote>
+            ))}
+          </div>
         </div>
       </div>
 
-      <div className="mt-3 flex-1 rounded-xl border border-[#E8E2D9] bg-[#fffdf9] p-3">
-        <p className="text-[10px] font-black tracking-widest text-[#b7793b]">{judgmentTitle}</p>
-        <div className="mt-2 grid gap-2.5">
-          <p className="text-[12px] leading-5 text-gray-700">
-            <strong className="text-emerald-700">{positiveLabel}</strong>{user.retention}
-          </p>
-          <p className="text-[12px] leading-5 text-gray-700">
-            <strong className="text-rose-700">{riskLabel}</strong>{user.risk}
-          </p>
-          <p className="rounded-lg bg-white px-2.5 py-2 text-[11px] leading-5 text-gray-500">
-            <strong className="text-gray-700">关键变量：</strong>{user.pressure}
-          </p>
-        </div>
+      {/* ③ 洋葱判断 */}
+      <div className="mt-4 flex-1 border-t border-dashed border-gray-200 pt-3">
+        <CardSectionLabel index="3" title="洋葱判断" />
+        <p className="mt-2 text-[12px] leading-5 text-gray-700">
+          <strong className="text-emerald-700">留下：</strong>{user.retention}
+        </p>
+        <p className="mt-1.5 text-[12px] leading-5 text-gray-700">
+          <strong className="text-rose-700">被切走：</strong>{user.primaryCompetitor} — {user.risk}
+        </p>
       </div>
+
       <button
         type="button"
         onClick={openUserDetail}
