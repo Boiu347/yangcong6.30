@@ -392,7 +392,7 @@ function QuoteDetailModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/35 px-4 py-6"
+      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/35 px-4 py-6"
       role="dialog"
       aria-modal="true"
       aria-label={`${quote.user}的洋葱拍搜原声`}
@@ -502,7 +502,7 @@ export default function OnionPraiseSphere() {
 
       <div className="hidden md:block">
         <div
-          className="relative mx-auto h-[520px] max-w-[760px] overflow-hidden"
+          className="relative isolate mx-auto h-[520px] max-w-[760px] overflow-hidden"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
