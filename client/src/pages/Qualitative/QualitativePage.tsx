@@ -18,6 +18,7 @@ import { cn } from '@/lib/utils';
 import CalculationInsightsPage from './CalculationInsightsPage';
 import FamilyInterviews from '../FamilyPackage/FamilyInterviews';
 import PaisouUserStoriesPage from './PaisouUserStoriesPage';
+import OnionPraiseSphere from './OnionPraiseSphere';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -849,7 +850,9 @@ function LegacyQualitativePage({ projectId }: { projectId?: string }) {
   React.useEffect(() => { setSelectedBrands(new Set()); }, [activeDim]);
 
   const dimData = qualData[activeDim];
-  const subDimensions = dimData?.subDimensions ?? [];
+  const subDimensions = (dimData?.subDimensions ?? []).filter(
+    (subDim) => subDim.name !== '优势好评' && subDim.name !== '洋葱好评',
+  );
   const { color, tab } = DIM_CONFIG[activeDim];
 
   const allBrands = Array.from(
@@ -941,6 +944,7 @@ function LegacyQualitativePage({ projectId }: { projectId?: string }) {
         />
       ) : (
         <div className="flex-1 overflow-y-auto p-6 space-y-8">
+          <OnionPraiseSphere />
           {subDimensions.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-24 text-center">
               <p className="text-[14px] text-gray-400">「{activeDim}」暂无数据</p>
