@@ -514,22 +514,14 @@ export function PaisouOnionPraisePage() {
   );
 }
 
-function CardSectionLabel({ index, title }: { index: string; title: string }) {
-  return (
-    <div className="flex items-center gap-1.5">
-      <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#fff2ed] text-[9px] font-black text-[#e65532]">
-        {index}
-      </span>
-      <span className="text-[10px] font-black tracking-widest text-gray-400">{title}</span>
-    </div>
-  );
+function SectionLabel({ title }: { title: string }) {
+  return <p className="text-[10px] font-black tracking-widest text-gray-400">{title}</p>;
 }
 
 function UserCard({ user }: { user: PaisouUserStory }) {
   const navigate = useNavigate();
-  const [quotesExpanded, setQuotesExpanded] = React.useState(false);
   const extraQuotes = USER_EXTRA_QUOTES[user.id] ?? [];
-  const displayedQuotes = quotesExpanded ? [user.quote, ...extraQuotes] : [user.quote];
+  const allQuotes = [user.quote, ...extraQuotes];
   const openUserDetail = () => {
     window.sessionStorage.setItem(OVERVIEW_SCROLL_TARGET_KEY, user.id);
     navigate(`/projects/paisou_project/qualitative/users/${user.id}`);
@@ -538,107 +530,103 @@ function UserCard({ user }: { user: PaisouUserStory }) {
   return (
     <article
       id={`paisou-user-card-${user.id}`}
-      className="group flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-4 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#e65532]/60 hover:shadow-md"
+      className="group relative rounded-2xl border border-gray-200 bg-white p-4 text-left shadow-sm transition-all hover:border-[#e65532]/60 hover:shadow-md sm:p-5"
     >
-      {/* ① 这是谁 */}
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <div className="flex items-center gap-2">
-            <h3 className="text-[17px] font-black text-gray-900">{user.name}</h3>
+      <button
+        type="button"
+        onClick={openUserDetail}
+        className="absolute right-3 top-3 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-300 transition-colors hover:border-[#e65532]/40 hover:text-[#e65532]"
+        aria-label={`查看${user.name}详情`}
+      >
+        <ArrowRight size={16} />
+      </button>
+
+      <div className="grid gap-4 lg:grid-cols-[240px_minmax(0,1fr)_300px] lg:gap-6">
+        {/* ① 这是谁 */}
+        <div className="flex flex-col">
+          <div className="flex flex-wrap items-center gap-2 pr-8">
+            <h3 className="text-[18px] font-black text-gray-900">{user.name}</h3>
             <span className={relationClass(user.relation)}>{user.relation}</span>
           </div>
-          <p className="mt-1 text-[11px] font-semibold text-gray-400">
+          <p className="mt-1 text-[12px] font-semibold text-gray-400">
             {user.region} · {user.grade} · {user.subjects.join('/')}
           </p>
-        </div>
-        <button
-          type="button"
-          onClick={openUserDetail}
-          className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-300 transition-colors hover:border-[#e65532]/40 hover:text-[#e65532]"
-          aria-label={`查看${user.name}详情`}
-        >
-          <ArrowRight size={16} />
-        </button>
-      </div>
-      <p className="mt-1.5 text-[11.5px] leading-5 text-gray-500">{user.learningStatus}</p>
-      <p className="mt-2.5 rounded-xl border border-[#f0ded8] bg-[#fff8f5] p-3 text-[13px] font-black leading-5 text-gray-900">
-        {user.oneLine}
-      </p>
-
-      {/* ② 怎么用拍搜 */}
-      <div className="mt-4 border-t border-dashed border-gray-200 pt-3">
-        <CardSectionLabel index="2" title="怎么用拍搜" />
-        <p className="mt-2 text-[12.5px] leading-5 text-gray-700">{user.jtbd}</p>
-
-        <div className="mt-2.5 flex flex-wrap items-center gap-1.5 text-[11px] font-semibold">
-          {user.tools.map((tool) => (
-            <span
-              key={tool}
-              className={cn(
-                'rounded-full border px-2 py-0.5',
-                tool.includes('洋葱')
-                  ? 'border-[#f0ded8] bg-[#fff8f5] text-[#d34b2a]'
-                  : 'border-gray-200 bg-gray-50 text-gray-500',
-              )}
-            >
-              {tool}
-            </span>
-          ))}
-          <span className="text-[11px] text-gray-400">· 常切 {user.primaryCompetitor}</span>
+          <p className="mt-1.5 text-[12px] leading-5 text-gray-500">{user.learningStatus}</p>
+          <p className="mt-3 rounded-xl border border-gray-100 bg-[#FAFAF8] p-3 text-[14px] font-black leading-6 text-gray-900">
+            {user.oneLine}
+          </p>
         </div>
 
-        {user.onionMoment && (
-          <div className="mt-2.5 rounded-xl border border-emerald-100 bg-emerald-50 p-2.5">
-            <div className="flex items-center gap-1">
-              <Sparkles size={11} className="text-emerald-600" />
-              <p className="text-[10px] font-black tracking-widest text-emerald-700">洋葱时刻</p>
-            </div>
-            <p className="mt-1 text-[12px] font-bold leading-5 text-emerald-900">{user.onionMoment}</p>
+        {/* ② 用户原声（卡片重点） */}
+        <div className="flex h-full flex-col rounded-2xl border border-[#f0ded8] border-l-4 border-l-[#e65532] bg-[#fff8f5] p-4">
+          <div className="flex items-center gap-1.5">
+            <MessageSquareQuote size={15} className="text-[#e65532]" />
+            <p className="text-[12px] font-black tracking-widest text-[#b84a2f]">用户原声</p>
           </div>
-        )}
-
-        <div className="mt-2.5 rounded-xl border border-gray-100 bg-gray-50 px-3 py-2.5">
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-[10px] font-black tracking-widest text-gray-400">用户原声</span>
-            {extraQuotes.length > 0 && (
-              <button
-                type="button"
-                onClick={() => setQuotesExpanded((value) => !value)}
-                className="rounded-full border border-gray-200 bg-white px-2 py-0.5 text-[10px] font-bold text-gray-500 hover:border-[#e65532]/40 hover:text-[#e65532]"
+          <div className="mt-3 space-y-3">
+            {allQuotes.map((quote) => (
+              <blockquote
+                key={quote}
+                className="border-l-2 border-[#e65532]/30 pl-3 text-[15px] font-bold leading-7 text-gray-900"
               >
-                {quotesExpanded ? '收起' : '展开'}
-              </button>
-            )}
-          </div>
-          <div className="mt-2 space-y-2">
-            {displayedQuotes.map((quote) => (
-              <blockquote key={quote} className="text-[12px] leading-5 text-gray-600">
                 “{quote}”
               </blockquote>
             ))}
           </div>
         </div>
-      </div>
 
-      {/* ③ 洋葱判断 */}
-      <div className="mt-4 flex-1 border-t border-dashed border-gray-200 pt-3">
-        <CardSectionLabel index="3" title="洋葱判断" />
-        <p className="mt-2 text-[12px] leading-5 text-gray-700">
-          <strong className="text-emerald-700">留下：</strong>{user.retention}
-        </p>
-        <p className="mt-1.5 text-[12px] leading-5 text-gray-700">
-          <strong className="text-rose-700">被切走：</strong>{user.primaryCompetitor} — {user.risk}
-        </p>
-      </div>
+        {/* ③ 怎么用拍搜 + 洋葱判断 */}
+        <div className="flex flex-col gap-3">
+          <div>
+            <SectionLabel title="怎么用拍搜" />
+            <p className="mt-2 text-[13px] leading-6 text-gray-700">{user.jtbd}</p>
+            <div className="mt-2 flex flex-wrap items-center gap-1.5 text-[11px] font-semibold">
+              {user.tools.map((tool) => (
+                <span
+                  key={tool}
+                  className={cn(
+                    'rounded-full border px-2 py-0.5',
+                    tool.includes('洋葱')
+                      ? 'border-[#f0ded8] bg-white text-[#d34b2a]'
+                      : 'border-gray-200 bg-gray-50 text-gray-500',
+                  )}
+                >
+                  {tool}
+                </span>
+              ))}
+              <span className="text-[11px] text-gray-400">· 常切 {user.primaryCompetitor}</span>
+            </div>
+            {user.onionMoment && (
+              <div className="mt-2.5 rounded-xl border border-emerald-100 bg-emerald-50 p-2.5">
+                <div className="flex items-center gap-1">
+                  <Sparkles size={11} className="text-emerald-600" />
+                  <p className="text-[10px] font-black tracking-widest text-emerald-700">洋葱时刻</p>
+                </div>
+                <p className="mt-1 text-[12.5px] font-bold leading-6 text-emerald-900">{user.onionMoment}</p>
+              </div>
+            )}
+          </div>
 
-      <button
-        type="button"
-        onClick={openUserDetail}
-        className="mt-3 inline-flex items-center justify-center gap-1.5 rounded-xl border border-gray-200 bg-white px-3 py-2 text-[12px] font-bold text-gray-600 transition-colors hover:border-[#e65532]/40 hover:text-[#e65532]"
-      >
-        查看完整故事
-        <ArrowRight size={14} />
-      </button>
+          <div className="border-t border-dashed border-gray-200 pt-3">
+            <SectionLabel title="洋葱判断" />
+            <p className="mt-2 text-[12.5px] leading-6 text-gray-700">
+              <strong className="text-emerald-700">留下：</strong>{user.retention}
+            </p>
+            <p className="mt-1.5 text-[12.5px] leading-6 text-gray-700">
+              <strong className="text-rose-700">被切走：</strong>{user.primaryCompetitor} — {user.risk}
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={openUserDetail}
+            className="mt-auto inline-flex items-center justify-center gap-1.5 rounded-xl border border-gray-200 bg-white px-3 py-2 text-[12px] font-bold text-gray-600 transition-colors hover:border-[#e65532]/40 hover:text-[#e65532]"
+          >
+            查看完整故事
+            <ArrowRight size={14} />
+          </button>
+        </div>
+      </div>
     </article>
   );
 }
@@ -716,7 +704,7 @@ function OverviewPage() {
                       {group.users.length} 人
                     </span>
                   </div>
-                  <div className="grid gap-4 lg:grid-cols-2 2xl:grid-cols-3">
+                  <div className="space-y-4">
                     {group.users.map((user) => <UserCard key={user.id} user={user} />)}
                   </div>
                 </section>
