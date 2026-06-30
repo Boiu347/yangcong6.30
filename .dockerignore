@@ -9,6 +9,7 @@ dist
 work
 outputs
 uploads
+minutes
 
 .env
 .env.*
