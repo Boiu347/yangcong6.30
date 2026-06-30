@@ -26,6 +26,7 @@ import {
   PaisouUserStory,
 } from '../../store/paisouData';
 import { cn } from '@/lib/utils';
+import OnionPraiseSphere from './OnionPraiseSphere';
 
 const ACCENT = '#e65532';
 const OVERVIEW_SCROLL_TARGET_KEY = 'paisou-overview-scroll-target';
@@ -709,6 +710,10 @@ function OverviewPage() {
             note="作业帮、快对、豆包和学习机会在速度、入口、追问和题库上分别截流不同学生。"
           />
         </section>
+
+        <div className="mt-6">
+          <OnionPraiseSphere />
+        </div>
 
         <ToolSwitchSection />
 
