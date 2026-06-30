@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>拍题精学 · 工作坊预读 · 学生事实底座</title>
+<title>拍题精学 · 工作坊预读 · 拍搜用户调研概览</title>
 <style>
   :root{
     --bg:#fbfaf7;
@@ -141,11 +141,13 @@
   .v::before{content:"";position:absolute;left:0;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--line2);}
   .v.warm::before{background:var(--warm);}
   .v.good::before{background:var(--accent);}
-  .v.has-audio{padding-right:4px;}
+  .v.has-audio,.voice.has-audio{display:flex;flex-direction:column;align-items:flex-start;gap:8px;}
+  .voice-text{width:100%;}
   .scene .tag{margin-top:14px;font-size:12.5px;color:var(--note);}
 
-  .audio-chip{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:5px 10px 5px 6px;
-    background:var(--accent-soft);border:1px solid #cbd4ff;border-radius:999px;font-size:12px;color:#33405f;}
+  .audio-chip{display:flex;align-items:center;gap:6px;padding:5px 10px 5px 6px;
+    background:var(--accent-soft);border:1px solid #cbd4ff;border-radius:999px;font-size:12px;color:#33405f;
+    align-self:flex-start;flex-shrink:0;}
   .audio-chip button{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
     border:none;border-radius:50%;background:var(--accent);color:#fff;cursor:pointer;flex-shrink:0;}
   .audio-chip button:hover{filter:brightness(1.06);}
@@ -153,7 +155,6 @@
   .audio-chip .lbl{font-weight:700;letter-spacing:.02em;}
   .audio-chip .time{font-variant-numeric:tabular-nums;color:var(--note);font-size:11px;}
   .audio-chip input[type=range]{width:72px;height:3px;accent-color:var(--accent);cursor:pointer;}
-  .voice.has-audio .audio-chip{margin-top:6px;}
 
   .stories{margin-top:30px;display:grid;gap:18px;}
   .story{display:grid;grid-template-columns:200px 1fr;border:1px solid var(--line);
@@ -298,8 +299,8 @@
     <nav class="nav">
       <a href="#input">输入对照</a>
       <a href="#scenes">场景</a>
-      <a href="#stories">故事线</a>
       <a href="#pyramid">心态金字塔</a>
+      <a href="#stories">故事线</a>
       <a href="#switches">切换瞬间</a>
       <a href="#packs">证据包</a>
     </nav>
@@ -309,7 +310,7 @@
 <header class="hero">
   <div class="wrap">
     <div class="eyebrow">洋葱学园 · AI拍题精学 · 站外传播工作坊 · 预读材料</div>
-    <h1>学生、场景、<span class="mark">事实底座</span></h1>
+    <h1>拍搜用户调研<span class="mark">概览</span></h1>
     <p class="lede">这份材料把传播脑暴前最该看到的几件事按顺序摆给你：他们是谁、在什么时刻掏出拍搜、能归纳出几条故事线、有几种心态、为什么切换工具、洋葱在他们口中是什么。每段后附"这块主要喂给哪类脑暴"——指路，不下结论。</p>
     <div class="meta">
       <span>素材 <b>8位学生深度访谈</b></span>
@@ -332,8 +333,8 @@
         <ul>
           <li><a href="#input">输入对照｜整页目录与对照</a></li>
           <li><a href="#scenes">01｜场景：他们在什么时候掏出拍搜</a></li>
-          <li><a href="#stories">02｜故事线：先记 4 条可记忆的主线</a></li>
-          <li><a href="#pyramid">03｜心态金字塔：3 种时间状态</a></li>
+          <li><a href="#pyramid">02｜心态金字塔：3 种时间状态</a></li>
+          <li><a href="#stories">03｜故事线：先记 4 条可记忆的主线</a></li>
           <li><a href="#switches">04｜切换瞬间：为什么切到洋葱</a></li>
           <li><a href="#packs">05｜证据包：洋葱到底好在哪</a></li>
         </ul>
@@ -359,12 +360,12 @@
         <div class="cell"><b>8个真实场景卡（Part 1）</b><span>每个学生的JTBD和原话还原。</span></div>
       </div>
       <div class="row">
-        <div class="cell"><b>用户能被归纳成几类？</b><span>八个用户太碎，需要可记住的叙事单位。</span></div>
-        <div class="cell"><b>4条故事线（Part 2）</b><span>工具切换型 / 卡一步型 / 好学生精学型 / 情绪价值型。</span></div>
+        <div class="cell"><b>不同状态下学生先看什么？</b><span>时间紧迫度决定"答案/步骤/视频/变式"的优先级。</span></div>
+        <div class="cell"><b>心态金字塔（Part 2）</b><span>时间紧迫度 × 学习深度 × 情绪价值。</span></div>
       </div>
       <div class="row">
-        <div class="cell"><b>不同状态下学生先看什么？</b><span>时间紧迫度决定"答案/步骤/视频/变式"的优先级。</span></div>
-        <div class="cell"><b>心态金字塔（Part 3）</b><span>时间紧迫度 × 学习深度 × 情绪价值。</span></div>
+        <div class="cell"><b>用户能被归纳成几类？</b><span>八个用户太碎，需要可记住的叙事单位。</span></div>
+        <div class="cell"><b>4条故事线（Part 3）</b><span>工具切换型 / 卡一步型 / 好学生精学型 / 情绪价值型。</span></div>
       </div>
       <div class="row">
         <div class="cell"><b>为什么在竞品之间切换？</b><span>用户不忠诚于单一工具，按题型和时间分流。</span></div>
@@ -571,10 +572,49 @@
   </div>
 </section>
 
+<section id="pyramid" class="reveal">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Part 2 · 心态金字塔</div>
+      <h2>同一个学生，在不同时刻有三种心态</h2>
+      <p class="sub">同一个人不会只用一种工具——时间紧时只想对答案，时间松时想真正弄懂。点击金字塔任一层，看对应任务、情绪和学生原话。</p>
+    </div>
+
+    <div class="pyramid-wrap">
+      <div class="pyramid">
+        <div class="axis">时间紧迫程度（自上而下 · 越来越急）</div>
+        <button class="layer l3" data-level="3"><span class="ll">不急</span>弄懂一类</button>
+        <button class="layer l2 active" data-level="2"><span class="ll">适中</span>启发思路</button>
+        <button class="layer l1" data-level="1"><span class="ll">很急</span>对答案 / 应付</button>
+        <div class="legend">三层是同一学生的不同时刻，不是三种不同的人。任一层的学生都可能在另一时刻"切层"。</div>
+      </div>
+
+      <div class="ptl-panel t2" id="ptl">
+        <span class="ptl-tag">适中 · 启发思路</span>
+        <h3>解决卡住的那一步，让我自己重新做对</h3>
+        <p class="role"><b>任务</b>　追求"独立解决问题的能力"　·　<b>情绪</b>　成就感（自己做对一道题）</p>
+        <p class="what">代表：吴语遥、徐同学（时间松时）、小林（中等题）、梦梅（独自卡壳）、吕同学。已经写了一部分、卡在某一步——要的不是答案，是"哪一步错了/这里怎么想"。</p>
+        <div class="quotes">
+          <div class="q">"针对错题先自己写，过程卡住了再拍搜。"</div>
+          <div class="q">"重点看我不会那一步——看完之后捋思路，自己写一遍。"</div>
+          <div class="q">"我感觉这一大串计算怪怪的，就问豆包，告诉我哪一步错了。"</div>
+        </div>
+        <div class="ptl-foot"><b>传播抓手</b>　这层是"成就感型"内容的主战场——"自己做对那一刻"是最容易出爆款情绪的瞬间。</div>
+      </div>
+    </div>
+
+    <p class="caveat">＊金字塔右侧的"情绪/神经递质"是研究侧借用的解释模型（爽感/成就感/掌握感对应不同体验，非严格神经科学结论）。它在内部脑暴里很好用——帮我们区分"传播打哪种爽法"——但对外谨慎使用。</p>
+
+    <div class="feeds">
+      <b>→ 这块主要喂给：</b>传播主线/品牌定位讨论——决定我们要打哪一种情绪、对哪个层级的学生。同一句slogan打不动三层。
+    </div>
+  </div>
+</section>
+
 <section id="stories" class="reveal">
   <div class="wrap">
     <div class="sec-head">
-      <div class="kicker">Part 2 · 故事线</div>
+      <div class="kicker">Part 3 · 故事线</div>
       <h2>不要记8个人，先记4条故事线</h2>
       <p class="sub">把八个人重新组织成四种典型叙事——每条都是从访谈中反复涌现的模式。用它们作为脑暴的叙事单位，比记住每个人更好用。</p>
     </div>
@@ -649,45 +689,6 @@
 
     <div class="feeds">
       <b>→ 这块主要喂给：</b>传播主线/品牌定位——四条故事线就是四种可能的内容叙事。这次站外要把哪一条放大成一类内容？
-    </div>
-  </div>
-</section>
-
-<section id="pyramid" class="reveal">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="kicker">Part 3 · 心态金字塔</div>
-      <h2>同一个学生，在不同时刻有三种心态</h2>
-      <p class="sub">同一个人不会只用一种工具——时间紧时只想对答案，时间松时想真正弄懂。点击金字塔任一层，看对应任务、情绪和学生原话。</p>
-    </div>
-
-    <div class="pyramid-wrap">
-      <div class="pyramid">
-        <div class="axis">时间紧迫程度（自上而下 · 越来越急）</div>
-        <button class="layer l3" data-level="3"><span class="ll">不急</span>弄懂一类</button>
-        <button class="layer l2 active" data-level="2"><span class="ll">适中</span>启发思路</button>
-        <button class="layer l1" data-level="1"><span class="ll">很急</span>对答案 / 应付</button>
-        <div class="legend">三层是同一学生的不同时刻，不是三种不同的人。任一层的学生都可能在另一时刻"切层"。</div>
-      </div>
-
-      <div class="ptl-panel t2" id="ptl">
-        <span class="ptl-tag">适中 · 启发思路</span>
-        <h3>解决卡住的那一步，让我自己重新做对</h3>
-        <p class="role"><b>任务</b>　追求"独立解决问题的能力"　·　<b>情绪</b>　成就感（自己做对一道题）</p>
-        <p class="what">代表：吴语遥、徐同学（时间松时）、小林（中等题）、梦梅（独自卡壳）、吕同学。已经写了一部分、卡在某一步——要的不是答案，是"哪一步错了/这里怎么想"。</p>
-        <div class="quotes">
-          <div class="q">"针对错题先自己写，过程卡住了再拍搜。"</div>
-          <div class="q">"重点看我不会那一步——看完之后捋思路，自己写一遍。"</div>
-          <div class="q">"我感觉这一大串计算怪怪的，就问豆包，告诉我哪一步错了。"</div>
-        </div>
-        <div class="ptl-foot"><b>传播抓手</b>　这层是"成就感型"内容的主战场——"自己做对那一刻"是最容易出爆款情绪的瞬间。</div>
-      </div>
-    </div>
-
-    <p class="caveat">＊金字塔右侧的"情绪/神经递质"是研究侧借用的解释模型（爽感/成就感/掌握感对应不同体验，非严格神经科学结论）。它在内部脑暴里很好用——帮我们区分"传播打哪种爽法"——但对外谨慎使用。</p>
-
-    <div class="feeds">
-      <b>→ 这块主要喂给：</b>传播主线/品牌定位讨论——决定我们要打哪一种情绪、对哪个层级的学生。同一句slogan打不动三层。
     </div>
   </div>
 </section>
@@ -887,9 +888,24 @@
       return best;
     }
 
+    function wrapVoiceText(el){
+      if(el.querySelector('.voice-text')) return;
+      const who = el.querySelector('.who');
+      const wrap = document.createElement('div');
+      wrap.className = 'voice-text';
+      if(who){
+        while(el.firstChild && el.firstChild !== who) wrap.appendChild(el.firstChild);
+        el.insertBefore(wrap, who);
+      }else{
+        while(el.firstChild) wrap.appendChild(el.firstChild);
+        el.appendChild(wrap);
+      }
+    }
+
     function attachChip(el, clips){
       if(!clips) return;
       const list = Array.isArray(clips) ? clips : [clips];
+      wrapVoiceText(el);
       el.classList.add('has-audio');
       const chip = document.createElement('div');
       chip.className = 'audio-chip';
