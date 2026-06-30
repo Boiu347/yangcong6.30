@@ -91,7 +91,6 @@ const ONION_STRENGTH_ROWS = [
       { user: '徐同学', text: '它会翻译成你能听得懂的那种通俗语言。不会是那种文绉绉的感觉。' },
       { user: '吕同学', text: '知识点讲解，我要知道他每步能用到哪个知识点，我可能后面解到的就会轻松点。\n还不错。' },
       { user: '吕同学', text: '我一般是这么用，先看一眼步骤，然后如果这里面知识点没记牢的话，就去洋葱看一眼这个知识点，然后再回来再推一遍。' },
-      { user: '小林', text: '没有，但是我可能会去网上小红书这样子，自己去找别的网课上。\n听不懂，没有办法在那么多的网课里面找到适合我的那几。\n我能听。' },
     ],
   },
   {
@@ -101,7 +100,6 @@ const ONION_STRENGTH_ROWS = [
       { user: '诺诗', text: '作业帮。我想一下，洋葱，应该是。\n在洋葱搜不到一样的题，就会用作业帮去搜。' },
       { user: '徐同学', text: '有的时候会觉得无所谓，然后可能有的时候就会用洋葱了。\n时间比较充足，会洋葱。' },
       { user: '徐同学', text: '拍完题之后会洋葱的话，它会先给一个思路，先看思路。' },
-      { user: '徐同学', text: '洋葱没有豆包用得那么多，所以目前使用过来都是对。' },
       { user: '徐同学', text: '拍题工程功能里那洋葱就是洋葱，适合更精细化的操作，然后豆包适合你，时间不够了。然后临时。' },
       { user: '徐同学', text: '在时间充足的时候，就是比较适合有耐心的一些学生。\n目的是就是首先把这种题弄懂。然后就是。' },
       { user: '小林', text: '完完全全搞不懂的话，那可以用洋葱。有一丢丢思路，做了答案之后感觉不对劲再去问豆包。' },
@@ -113,12 +111,7 @@ const ONION_STRENGTH_ROWS = [
     title: '有趣和亲近：讲题不只是严肃纠错',
     description: '这里的重点不是“可爱标签”，而是学生明确把洋葱和作业帮的讲题体验区分开：有人设、有语气、有陪伴感，因而更愿意继续看。',
     quotes: [
-      { user: '诺诗', text: '让我更有兴趣一点。\n就是了解知识，就是。作业帮他讲得太无聊了。' },
       { user: '诺诗', text: '两个相比下来的话。洋洋葱更有，哈哈哈，洋洋葱更AI。因为作业帮它是有这种视频讲解的。' },
-      { user: '诺诗', text: '小洋葱。肖晨。不，那个。' },
-      { user: '诺诗', text: '比较温柔的，委婉啊。对，委婉温柔，还有像家里的长辈一样说话，这样一下就没耐心了。' },
-      { user: '诺诗', text: '对，就感觉他只是单纯地跟你讲题。' },
-      { user: '诺诗', text: '因为他说话不像老师。就是他要讲的那一块的那样。' },
     ],
   },
   {
@@ -131,14 +124,10 @@ const ONION_STRENGTH_ROWS = [
       { user: '徐同学', text: '就会。它板块比较多，从多个板块说吧。就比如同步的、重难点的。什么？什么？复习预习试卷库这种。' },
       { user: '徐同学', text: '只要把题弄懂就不会反对，主要是同类型的题得弄明白。\n对，只要把这类题目弄懂，下次弄到这类题，至少大概率不会错了就可以。' },
       { user: '诺诗', text: '就是说洋葱它会一步一步来，就不会像作业帮那样子莫名其妙地出现一个步骤。我现在还没搞懂这个步骤是哪里来的，对。' },
-      { user: '诺诗', text: '因为解析它有，它或许可以直接，它虽然可以直接告诉我答案，但是我可以从答案一步一步推导出来，然后。然后实在看不懂再去看那个。' },
       { user: '诺诗', text: '让我可以更好地理解那个题目，然后学会解题。举一反三。' },
       { user: '诺诗', text: '作业写完之后，我首先会拿出正确答案，然后把错误的题目圈出来，然后再去用洋葱。' },
       { user: '诺诗', text: '可能是第，我的理由是第一个就是突然弄懂。\n对，就是让他那个解题思路或者是那个解析的时候恍然大悟，原来这个题是这么做的。对。' },
-      { user: '诺诗', text: '是，他考的是哪个知识点？\n对，他考的是哪个知识点？\n对。\n有解题思路的。' },
-      { user: '诺诗', text: '我会先自己写一遍，然后再用红笔在旁边把那个一些重点和一些步骤再写下来。' },
       { user: '吕同学', text: '10 次得有 5 次吧。有一半。\n我这个自己思路推，能把这题推出来。' },
-      { user: '吕同学', text: '可能我对这个知识点的理解可能会。' },
       { user: '小林', text: '遇到就是。在洋葱课上面上过有一点类似的，有一点点印象，但是忘记了该怎么做的题。' },
       { user: '小林', text: '每次都这样。每次都这样，嗯。你之后我再把作业做完了之后，我再回去把这个视频给找到，然后我再记。' },
       { user: '小林', text: '基本上可能就是用了洋葱，我上了一两节课，因为我上的课我要边做笔记边上课嘛。就花掉了一半个小时间，然后两节课的话就是一个小时左右的时间，然后这一个多小时间我累了，我就去玩了，去做一些实际活动。' },
@@ -148,12 +137,9 @@ const ONION_STRENGTH_ROWS = [
     title: '信任与留存：愿意给分、愿意推荐、愿意回来',
     description: '这类证据不是讲单次功能，而是讲洋葱为什么能留在学生和家长心智里：课程可信、能上课、能提分、能让家长相信。',
     quotes: [
-      { user: '吴语遥', text: '有点，就老师有些题。题目不会讲，只会讲那种特别难的题目，错的特别多的题。\n其实一道都没有。' },
       { user: '徐同学', text: '就是洋葱这种，它还是比较信任。' },
       { user: '小林', text: '可以。豆包的话满分 10 分，给他打分，以后这个太贵，不怎么用。先暂时给它打个 10 分吧。然后就洋葱，我也给它打 10 分吧。' },
-      { user: '小林', text: '有啊。\n30 多分。' },
       { user: '小林', text: '这个拍题的功能吗？对。没有什么太多的，我觉得现在这个样子就不错了。' },
-      { user: '小林', text: '会小小的熬夜一下，除非我真的是很累，很累了我就直接去睡觉。' },
     ],
   },
 ];
@@ -424,32 +410,54 @@ function OnionStrengthSection() {
         </span>
       </div>
 
-      <div className="mt-5 grid items-start gap-3 lg:grid-cols-2">
+      <div className="mt-5 space-y-3 lg:hidden">
         {ONION_STRENGTH_ROWS.map((item, index) => (
-          <article key={item.title} className="rounded-2xl border border-[#f1ded6] bg-white p-4">
-            <div className="flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#fff2ed] text-[12px] font-black text-[#e65532]">
-                {index + 1}
-              </span>
-              <h3 className="text-[13px] font-black leading-5 text-gray-900">{item.title}</h3>
-            </div>
-            <p className="mt-3 text-[12px] leading-6 text-gray-600">{item.description}</p>
-            <div className="mt-3 space-y-2">
-              {item.quotes.map((quote) => (
-                <blockquote key={`${quote.user}-${quote.text}`} className="rounded-xl border border-gray-100 bg-[#FAFAF8] p-3">
-                  <p className="text-[11px] font-black text-[#b84a2f]">{quote.user}</p>
-                  <div className="mt-2 space-y-2">
-                    {quote.text.split('\n').map((line, lineIndex) => (
-                      <p key={`${quote.user}-${lineIndex}`} className="text-[12px] font-semibold leading-5 text-gray-800">“{line}”</p>
-                    ))}
-                  </div>
-                </blockquote>
-              ))}
-            </div>
-          </article>
+          <OnionStrengthCard key={item.title} item={item} index={index} />
+        ))}
+      </div>
+
+      <div className="mt-5 hidden gap-3 lg:grid lg:grid-cols-2 lg:items-start">
+        {[0, 1].map((column) => (
+          <div key={column} className="space-y-3">
+            {ONION_STRENGTH_ROWS.map((item, index) => (
+              index % 2 === column ? <OnionStrengthCard key={item.title} item={item} index={index} /> : null
+            ))}
+          </div>
         ))}
       </div>
     </section>
+  );
+}
+
+function OnionStrengthCard({
+  item,
+  index,
+}: {
+  item: (typeof ONION_STRENGTH_ROWS)[number];
+  index: number;
+}) {
+  return (
+    <article className="rounded-2xl border border-[#f1ded6] bg-white p-4">
+      <div className="flex items-center gap-2">
+        <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#fff2ed] text-[12px] font-black text-[#e65532]">
+          {index + 1}
+        </span>
+        <h3 className="text-[13px] font-black leading-5 text-gray-900">{item.title}</h3>
+      </div>
+      <p className="mt-3 text-[12px] leading-6 text-gray-600">{item.description}</p>
+      <div className="mt-3 space-y-2">
+        {item.quotes.map((quote) => (
+          <blockquote key={`${quote.user}-${quote.text}`} className="rounded-xl border border-gray-100 bg-[#FAFAF8] p-3">
+            <p className="text-[11px] font-black text-[#b84a2f]">{quote.user}</p>
+            <div className="mt-2 space-y-2">
+              {quote.text.split('\n').map((line, lineIndex) => (
+                <p key={`${quote.user}-${lineIndex}`} className="text-[12px] font-semibold leading-5 text-gray-800">“{line}”</p>
+              ))}
+            </div>
+          </blockquote>
+        ))}
+      </div>
+    </article>
   );
 }
 
