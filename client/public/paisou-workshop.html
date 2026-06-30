@@ -141,7 +141,19 @@
   .v::before{content:"";position:absolute;left:0;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--line2);}
   .v.warm::before{background:var(--warm);}
   .v.good::before{background:var(--accent);}
+  .v.has-audio{padding-right:4px;}
   .scene .tag{margin-top:14px;font-size:12.5px;color:var(--note);}
+
+  .audio-chip{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:5px 10px 5px 6px;
+    background:var(--accent-soft);border:1px solid #cbd4ff;border-radius:999px;font-size:12px;color:#33405f;}
+  .audio-chip button{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
+    border:none;border-radius:50%;background:var(--accent);color:#fff;cursor:pointer;flex-shrink:0;}
+  .audio-chip button:hover{filter:brightness(1.06);}
+  .audio-chip button svg{width:11px;height:11px;}
+  .audio-chip .lbl{font-weight:700;letter-spacing:.02em;}
+  .audio-chip .time{font-variant-numeric:tabular-nums;color:var(--note);font-size:11px;}
+  .audio-chip input[type=range]{width:72px;height:3px;accent-color:var(--accent);cursor:pointer;}
+  .voice.has-audio .audio-chip{margin-top:6px;}
 
   .stories{margin-top:30px;display:grid;gap:18px;}
   .story{display:grid;grid-template-columns:200px 1fr;border:1px solid var(--line);
@@ -842,6 +854,97 @@
     `;
   }
   layers.forEach(l => l.addEventListener('click', ()=>setLevel(l.dataset.level)));
+
+  /* ── 用户原声录音切片 ── */
+  (function initVoiceClips(){
+    const norm = t => t.replace(/[""''「」]/g,'').replace(/[，。！？、；：…—\-·\s]/g,'').trim();
+    const sim = (a,b) => {
+      if(!a||!b) return 0;
+      if(a.includes(b)||b.includes(a)) return 0.9;
+      const sa=new Set(a), sb=new Set(b);
+      let inter=0; sa.forEach(c=>{if(sb.has(c)) inter++;});
+      return inter/Math.max(sa.size,sb.size,1);
+    };
+    const fmt = s => {
+      if(!Number.isFinite(s)||s<0) return '0:00';
+      const m=Math.floor(s/60), sec=Math.floor(s%60);
+      return m+':'+String(sec).padStart(2,'0');
+    };
+    const playIcon = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+    const pauseIcon = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8 0h4V5h-4v14z"/></svg>';
+
+    let lookup = {};
+    let activeAudio = null;
+
+    function findClips(text){
+      const n = norm(text);
+      if(lookup[n]) return lookup[n];
+      let best = null, bestScore = 0.55;
+      for(const [k,v] of Object.entries(lookup)){
+        const s = sim(n, norm(k));
+        if(s > bestScore){ bestScore = s; best = v; }
+      }
+      return best;
+    }
+
+    function attachChip(el, clips){
+      if(!clips) return;
+      const list = Array.isArray(clips) ? clips : [clips];
+      el.classList.add('has-audio');
+      const chip = document.createElement('div');
+      chip.className = 'audio-chip';
+      chip.innerHTML = `<button type="button" aria-label="播放原声">${playIcon}</button><span class="lbl">听原声</span><span class="time">0:00</span><input type="range" min="0" max="100" value="0">`;
+      el.appendChild(chip);
+      const btn = chip.querySelector('button');
+      const timeEl = chip.querySelector('.time');
+      const range = chip.querySelector('input[type=range]');
+      let seg = 0, audio = new Audio(), playing = false;
+
+      function loadSeg(i){
+        seg = i;
+        audio.pause();
+        audio = new Audio(list[seg].clipUrl);
+        audio.preload = 'metadata';
+        audio.onloadedmetadata = () => { range.max = audio.duration || 0; };
+        audio.ontimeupdate = () => {
+          timeEl.textContent = fmt(audio.currentTime) + (audio.duration ? ' / '+fmt(audio.duration) : '');
+          if(audio.duration) range.value = audio.currentTime;
+        };
+        audio.onended = () => {
+          playing = false;
+          btn.innerHTML = playIcon;
+          if(seg < list.length-1){ loadSeg(seg+1); audio.play(); playing=true; btn.innerHTML=pauseIcon; }
+        };
+      }
+      loadSeg(0);
+
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        if(playing){ audio.pause(); playing=false; btn.innerHTML=playIcon; }
+        else {
+          if(activeAudio && activeAudio!==audio) activeAudio.pause();
+          activeAudio = audio;
+          audio.play().catch(()=>{});
+          playing=true; btn.innerHTML=pauseIcon;
+        }
+      });
+      range.addEventListener('input', e => {
+        e.stopPropagation();
+        if(audio.duration) audio.currentTime = Number(range.value);
+      });
+      audio.onpause = () => { if(!audio.ended){ playing=false; btn.innerHTML=playIcon; } };
+    }
+
+    fetch('/paisou-clip-lookup.json').then(r=>r.json()).then(raw=>{
+      for(const [k,v] of Object.entries(raw)) lookup[norm(k)] = v;
+      document.querySelectorAll('.v, .voice').forEach(el => {
+        let text = el.textContent.replace(/\s+/g,' ').trim();
+        const who = el.querySelector('.who');
+        if(who) text = text.replace(who.textContent,'').trim();
+        attachChip(el, findClips(text));
+      });
+    }).catch(err => console.warn('voice clips load failed', err));
+  })();
 </script>
 </body>
 </html>

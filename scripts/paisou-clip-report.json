@@ -1,0 +1,442 @@
+{
+  "matched": [
+    {
+      "user": "吴语遥",
+      "text": "老师说不会的题别一直定着，联系不上老师就用「作业批改」。针对错题，先自己写，过程卡住了就拍搜。",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnb272/001-01.mp3",
+          "startTime": 521.6,
+          "duration": 31.2
+        }
+      ],
+      "score": 0.47
+    },
+    {
+      "user": "吴语遥",
+      "text": "先看答案，再看它的过程，最后才看自己的过程。看完用精准学找同类题再做一遍——要是对了，那我就不管了。",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnb272/002-01.mp3",
+          "startTime": 881.1,
+          "duration": 16.3
+        },
+        {
+          "clipUrl": "/clips/paisou/obcnb272/002-02.mp3",
+          "startTime": 1606.4,
+          "duration": 24.5
+        }
+      ],
+      "score": 0.67
+    },
+    {
+      "user": "吴语遥",
+      "text": "DeepSeek 扣分就扣在它跳得太大，五步能从第一步直接跳到第四步，反应不过来。豆包说话有点烦，特别吵闹，不喜欢。",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnb272/003-01.mp3",
+          "startTime": 2685.1,
+          "duration": 18.2
+        }
+      ],
+      "score": 0.6
+    },
+    {
+      "user": "吴语遥",
+      "text": "“看完解析怎么判断懂了？在精准学找类似题再做一遍，要是对了，那我就不管。”",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnb272/004-01.mp3",
+          "startTime": 1606.4,
+          "duration": 24.5
+        }
+      ],
+      "score": 0.55
+    },
+    {
+      "user": "徐同学",
+      "text": "急的时候开豆包，它更快；洋葱搜要挺长时间，还多一个框选的步骤，慢。",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnb3r4/005-01.mp3",
+          "startTime": 1156.9,
+          "duration": 24.6
+        }
+      ],
+      "score": 0.51
+    },
+    {
+      "user": "徐同学",
+      "text": "洋葱会用我能理解的角度讲，像拿杯子一样举例子，翻译成听得懂的通俗话，不是文绉绉的。看完解析换成自己的方式写，更符合老师要求，不容易扣分。",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnb3r4/006-01.mp3",
+          "startTime": 3312.0,
+          "duration": 21.5
+        },
+        {
+          "clipUrl": "/clips/paisou/obcnb3r4/006-02.mp3",
+          "startTime": 4389.6,
+          "duration": 26.8
+        }
+      ],
+      "score": 0.46
+    },
+    {
+      "user": "徐同学",
+      "text": "豆包有些答案经常是错的，第二天老师一讲才发现填错了。洋葱语文讲得和答案不符，上海版本也常常对不上。",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnb3r4/007-01.mp3",
+          "startTime": 1246.3,
+          "duration": 25.3
+        }
+      ],
+      "score": 0.47
+    },
+    {
+      "user": "徐同学",
+      "text": "“洋葱会用我能理解的角度讲，会举例子，翻译成听得懂的通俗话，不是文绉绉的。”",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnb3r4/008-01.mp3",
+          "startTime": 3312.0,
+          "duration": 21.5
+        }
+      ],
+      "score": 0.49
+    },
+    {
+      "user": "徐同学",
+      "text": "“洋葱拍题后先看思路，然后试着解题，会解的话就简单看答案核实。”",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnb3r4/009-01.mp3",
+          "startTime": 2210.3,
+          "duration": 35.8
+        }
+      ],
+      "score": 0.61
+    },
+    {
+      "user": "徐同学",
+      "text": "“同类题之后都会做了，主要是同类型的题得弄明白。”",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnb3r4/010-01.mp3",
+          "startTime": 4756.2,
+          "duration": 21.0
+        }
+      ],
+      "score": 0.5
+    },
+    {
+      "user": "徐同学",
+      "text": "“换成自己的方式写，更符合老师讲的那种类型，不容易扣分。”",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnb3r4/011-01.mp3",
+          "startTime": 4389.6,
+          "duration": 26.8
+        }
+      ],
+      "score": 0.63
+    },
+    {
+      "user": "丁同学",
+      "text": "检查作业把所有题都拍给作业帮，一下出所有答案。要继续写作业，能越快越好——洋葱有点慢。",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnd6ua/012-01.mp3",
+          "startTime": 2244.0,
+          "duration": 70.8
+        }
+      ],
+      "score": 0.42
+    },
+    {
+      "user": "吕同学",
+      "text": "怎么证（角的关系）少个条件，好像证进死角里了。第一眼看的是文字解析，重点看我不会那一步——看完之后捋思路，自己写一遍，按照自己的写。",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnfdz1/013-01.mp3",
+          "startTime": 1085.7,
+          "duration": 29.0
+        },
+        {
+          "clipUrl": "/clips/paisou/obcnfdz1/013-02.mp3",
+          "startTime": 1180.2,
+          "duration": 13.3
+        }
+      ],
+      "score": 0.59
+    },
+    {
+      "user": "吕同学",
+      "text": "在作业帮发现知识点忘了，就去洋葱看一眼这个知识点视频，然后再回来再推一遍——10次得有5次这种操作。",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnfdz1/014-01.mp3",
+          "startTime": 2510.0,
+          "duration": 26.9
+        },
+        {
+          "clipUrl": "/clips/paisou/obcnfdz1/014-02.mp3",
+          "startTime": 3203.1,
+          "duration": 22.9
+        }
+      ],
+      "score": 0.59
+    },
+    {
+      "user": "吕同学",
+      "text": "老师说了，拍作业帮的肯定跟他的思路对不上，老师首先会怀疑你抄的答案。",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnfdz1/015-01.mp3",
+          "startTime": 1412.0,
+          "duration": 178.8
+        }
+      ],
+      "score": 0.48
+    },
+    {
+      "user": "吕同学",
+      "text": "“看了解析还是不理解，就去洋葱看一眼这个知识点，然后再回来推一遍。”",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnfdz1/016-01.mp3",
+          "startTime": 3203.1,
+          "duration": 22.9
+        }
+      ],
+      "score": 0.57
+    },
+    {
+      "user": "吕同学",
+      "text": "“重点看我不会那步，看完之后就捋思路，自己写一遍。”",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnfdz1/017-01.mp3",
+          "startTime": 1187.4,
+          "duration": 28.6
+        }
+      ],
+      "score": 0.63
+    },
+    {
+      "user": "诺诗",
+      "text": "洋葱讲题语气委婉、温柔、有耐心——更像朋友，不像老师和长辈那么严肃。作业帮没有感情，只是单纯讲题，听不进去。",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnfkhu/018-01.mp3",
+          "startTime": 796.6,
+          "duration": 86.2
+        },
+        {
+          "clipUrl": "/clips/paisou/obcnfkhu/018-02.mp3",
+          "startTime": 893.5,
+          "duration": 14.6
+        }
+      ],
+      "score": 0.46
+    },
+    {
+      "user": "诺诗",
+      "text": "突然想到老师上课讲到的知识点，突然就知道怎么做了——这种恍然大悟用洋葱比作业帮多。",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnfkhu/019-01.mp3",
+          "startTime": 2763.2,
+          "duration": 33.8
+        },
+        {
+          "clipUrl": "/clips/paisou/obcnfkhu/019-02.mp3",
+          "startTime": 2856.7,
+          "duration": 23.4
+        }
+      ],
+      "score": 0.44
+    },
+    {
+      "user": "诺诗",
+      "text": "弄懂了会先自己写一遍，再用红笔标重点和步骤——自己写下来比较有成就感，抄步骤会有一点小小的罪恶感。",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnfkhu/020-01.mp3",
+          "startTime": 2856.7,
+          "duration": 36.5
+        },
+        {
+          "clipUrl": "/clips/paisou/obcnfkhu/020-02.mp3",
+          "startTime": 2995.0,
+          "duration": 30.3
+        }
+      ],
+      "score": 0.63
+    },
+    {
+      "user": "诺诗",
+      "text": "“看完解析再看一遍解题思路，自己再做一遍。”",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnfkhu/021-01.mp3",
+          "startTime": 1425.2,
+          "duration": 47.6
+        }
+      ],
+      "score": 0.52
+    },
+    {
+      "user": "诺诗",
+      "text": "“自己有成就感，把这道题学会了，学会了一种题型，抄下来感觉有罪恶感。”",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnfkhu/022-01.mp3",
+          "startTime": 2995.0,
+          "duration": 53.9
+        }
+      ],
+      "score": 0.48
+    },
+    {
+      "user": "诺诗",
+      "text": "“作业帮没有感情，只是单纯讲题，听不进去。”",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnfkhu/023-01.mp3",
+          "startTime": 893.5,
+          "duration": 14.6
+        }
+      ],
+      "score": 0.45
+    },
+    {
+      "user": "小林",
+      "text": "用洋葱后数学从60多提到90多分。它的不可替代性是可以上课——看洋葱十道错5道，不看十道错8道。",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnog21/024-01.mp3",
+          "startTime": 732.9,
+          "duration": 14.6
+        }
+      ],
+      "score": 0.51
+    },
+    {
+      "user": "小林",
+      "text": "“洋葱的不可替代性是可以上课。”",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnog21/025-01.mp3",
+          "startTime": 721.4,
+          "duration": 26.2
+        }
+      ],
+      "score": 0.46
+    }
+  ],
+  "unmatched": [
+    {
+      "user": "徐同学",
+      "text": "“时间充足就会用洋葱看课，有解题课就看课。”"
+    },
+    {
+      "user": "丁同学",
+      "text": "数学物理首选洋葱，能看到不一样的解法和相关的课程。压轴题用洋葱，想要一种不一样的方法。"
+    },
+    {
+      "user": "丁同学",
+      "text": "洋葱政治历史科目覆盖少，拍不出答案——政治题被推到语文里边了。"
+    },
+    {
+      "user": "诺诗",
+      "text": "“洋葱是一步步来的，有一个步骤会说这个步骤是怎么来的。”"
+    },
+    {
+      "user": "诺诗",
+      "text": "“洋葱讲题语气委婉、温柔、有耐心，更像朋友，不像老师和长辈那样严肃。”"
+    },
+    {
+      "user": "诺诗",
+      "text": "“洋葱拍题时有人物模型，小锤和狗蛋，比较有趣，能提升我的兴趣。”"
+    },
+    {
+      "user": "小林",
+      "text": "特别难的视频看两三遍，在草稿纸上复刻，记进我专门的笔记本。在学校没手机，翻笔记本就还会做。"
+    },
+    {
+      "user": "小林",
+      "text": "第一时间没想到洋葱，因为它没有对话框。我感觉计算怪怪的，就问豆包「哪一步错了」，它直接指出来。"
+    },
+    {
+      "user": "小林",
+      "text": "\"针对错题先自己写，过程卡住了再拍搜。\""
+    },
+    {
+      "user": "小林",
+      "text": "\"重点看我不会那一步——看完之后捋思路，自己写一遍。\""
+    },
+    {
+      "user": "小林",
+      "text": "\"我感觉这一大串计算怪怪的，就问豆包，告诉我哪一步错了。\""
+    },
+    {
+      "user": "小林",
+      "text": "\"豆包答案是错的，时间充足（七点半左右写完）就会用洋葱看课。有解题课就看课，没有就拍题。\""
+    },
+    {
+      "user": "小林",
+      "text": "\"就去洋葱看一眼这个知识点，然后再回来再推一遍。10次得有5次吧。\""
+    },
+    {
+      "user": "小林",
+      "text": "\"曾找免费替代洋葱的课程但没上，原因是听不懂，觉得洋葱课好在自己能听得懂。\""
+    },
+    {
+      "user": "小林",
+      "text": "\"急的时候开豆包，洋葱多了一个框选步骤，慢。\""
+    },
+    {
+      "user": "小林",
+      "text": "\"第一时间没想到洋葱，因为它没有对话框。\""
+    },
+    {
+      "user": "小林",
+      "text": "“找过免费替代洋葱的课程但没上，原因是听不懂，洋葱好在自己能听懂。”"
+    },
+    {
+      "user": "小林",
+      "text": "“特别难的视频看两三遍，记进我专门的笔记本，在学校翻出来还会做。”"
+    },
+    {
+      "user": null,
+      "text": "不会直接看答案，直接看答案没什么用。先看思路和解析，不明白再看视频，会做之后找两道题练。"
+    },
+    {
+      "user": null,
+      "text": "科大讯飞视频讲解和举一反三我能明白，题目难度有质量。小猿只要是举例子基本都能懂。"
+    },
+    {
+      "user": null,
+      "text": "得分点很重要——老师注重过程，少写漏写一般扣3~4分。一开始照AI步骤写，验证几次发现能得分，之后就按自己理解写。"
+    },
+    {
+      "user": null,
+      "text": "父母不在，只有我自己在家，我都用学而思平板的作业批改和答疑——平时不能碰手机。"
+    },
+    {
+      "user": null,
+      "text": "奥数题我妈我爸都不会，DeepSeek 方法太高端看不懂。妈妈用豆包看懂以后，再给我讲一遍。"
+    },
+    {
+      "user": null,
+      "text": "学而思拍照角度太刁，识别出来的根本不是我这道题，拍了三四次都很奇葩，我就放弃了。"
+    },
+    {
+      "user": null,
+      "text": "“会做之后找两道题练，过几个小时拿搜过的题再做，看有没有记住。”"
+    }
+  ],
+  "no_audio": []
+}
