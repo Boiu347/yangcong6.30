@@ -632,89 +632,13 @@ function UserCard({ user }: { user: PaisouUserStory }) {
 }
 
 function OverviewPage() {
-  React.useEffect(() => {
-    const targetUserId = window.sessionStorage.getItem(OVERVIEW_SCROLL_TARGET_KEY);
-    if (!targetUserId) return;
-
-    window.sessionStorage.removeItem(OVERVIEW_SCROLL_TARGET_KEY);
-    window.requestAnimationFrame(() => {
-      document
-        .getElementById(`paisou-user-card-${targetUserId}`)
-        ?.scrollIntoView({ block: 'center', behavior: 'auto' });
-    });
-  }, []);
-
   return (
-    <div className="min-h-full bg-[#f8f8f5]">
-      <main className="mx-auto max-w-7xl px-5 py-6 sm:px-8">
-        <section className="rounded-[24px] border border-[#E8E2D9] bg-white p-6 shadow-[0_12px_35px_rgba(30,35,40,0.06)] sm:p-8">
-          <div className="max-w-4xl">
-            <div className="flex items-center gap-2 text-[11px] font-black tracking-[0.18em] text-[#e65532]">
-              <Users2 size={15} />
-              拍搜调研 · 8个真实学生故事
-            </div>
-            <h1 className="mt-3 text-[28px] font-black leading-tight text-[#242421] sm:text-[38px]">
-              学生不是一直只想要答案；当任务从赶作业变成想学懂，洋葱仍然会被选择。
-            </h1>
-          </div>
-        </section>
-
-        <section className="mt-5 grid gap-4 md:grid-cols-3">
-          <MetricCard
-            icon={<Clock3 size={15} />}
-            title="核心切换"
-            value="时间紧迫度 × 题目难度"
-            note="赶作业时先要快；完全不懂、难题复盘和知识点缺口出现时，学生才会愿意花时间学懂。"
-          />
-          <MetricCard
-            icon={<BookOpenCheck size={15} />}
-            title="洋葱优势场景"
-            value="愿意用、能看懂、感觉能学透"
-            note="洋葱最能赢的是难题复盘、找卡点和讲清楚，而不是所有场景都比竞品更快。"
-          />
-          <MetricCard
-            icon={<Gauge size={15} />}
-            title="竞品截流场景"
-            value="高压作业与低成本核答案"
-            note="作业帮、快对、豆包和学习机会在速度、入口、追问和题库上分别截流不同学生。"
-          />
-        </section>
-
-        <div className="mt-6">
-          <OnionPraiseSphere />
-        </div>
-
-        <ToolSwitchSection />
-
-        <section className="mt-6">
-          <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
-            <h2 className="text-[18px] font-black text-gray-900">8 个真实学生用户故事</h2>
-          </div>
-          <div className="space-y-5">
-            {GROUPED_PAISOU_USERS.map((group) => {
-              const meta = ONION_STATUS_META[group.status];
-              return (
-                <section key={group.status} className="rounded-[22px] border border-gray-200 bg-white/70 p-4">
-                  <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                    <div>
-                      <h3 className="text-[15px] font-black text-gray-900">{meta.title}</h3>
-                      <p className="mt-1 text-[11px] leading-5 text-gray-500">{meta.description}</p>
-                    </div>
-                    <span className={cn('rounded-full border px-3 py-1 text-[11px] font-black', meta.tone)}>
-                      {group.users.length} 人
-                    </span>
-                  </div>
-                  <div className="space-y-4">
-                    {group.users.map((user) => <UserCard key={user.id} user={user} />)}
-                  </div>
-                </section>
-              );
-            })}
-          </div>
-        </section>
-
-        <DataSignalsSection />
-      </main>
+    <div className="flex h-full min-h-0 flex-col bg-[#fbfaf7]">
+      <iframe
+        src="/paisou-workshop.html"
+        title="拍题精学 · 工作坊预读 · 学生事实底座"
+        className="min-h-0 w-full flex-1 border-0"
+      />
     </div>
   );
 }

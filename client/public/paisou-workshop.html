@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>拍题精学 · 工作坊预读 · 学生事实底座</title>
+<style>
+  :root{
+    --bg:#fbfaf7;
+    --bg2:#f1eee6;
+    --ink:#201f1b;
+    --ink2:#56524a;
+    --line:#ddd7ca;
+    --line2:#cbc4b3;
+    --accent:#4a6cf0;
+    --accent-soft:#e9edff;
+    --warm:#d9692f;
+    --warm-soft:#fbeede;
+    --note:#8c8678;
+    --hi:#fff3bf;
+    --t1:#e85a3c;
+    --t1-s:#fde4dc;
+    --t2:#e8b13c;
+    --t2-s:#fbecc7;
+    --t3:#5b8ad6;
+    --t3-s:#dfe9f7;
+    --sA:#5b8ad6;
+    --sB:#4a6cf0;
+    --sC:#a17e1d;
+    --sD:#2f8f6b;
+    --paper2:#f5f1e8;
+    --muted:#656057;
+    --light:#8d877b;
+    --blue:#4968e8;
+    --blue2:#e8ecff;
+    --orange:#d86a35;
+    --orange2:#fff0e6;
+    --green:#42785f;
+    --green2:#e7f3ed;
+    --red:#d9533f;
+    --shadow:0 12px 34px -28px rgba(44,36,18,.52);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+    line-height:1.78;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:0 26px;}
+  .eyebrow{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--note);font-weight:700;}
+
+  .topbar{position:sticky;top:0;z-index:50;
+    background:rgba(251,250,247,.85);backdrop-filter:saturate(160%) blur(14px);
+    border-bottom:1px solid var(--line);}
+  .topbar-in{max-width:980px;margin:0 auto;padding:11px 26px;
+    display:flex;gap:14px;align-items:center;}
+  .brand{font-weight:800;font-size:14px;letter-spacing:.02em;white-space:nowrap;}
+  .brand .dot{display:inline-block;width:9px;height:9px;border-radius:50%;
+    background:var(--accent);margin-right:8px;vertical-align:middle;}
+  .nav{margin-left:auto;display:flex;gap:4px;overflow:auto;}
+  .nav a{font-size:12.5px;color:var(--ink2);padding:6px 10px;border-radius:999px;
+    text-decoration:none;white-space:nowrap;font-weight:600;}
+  .nav a:hover{background:#fff;color:var(--ink);box-shadow:0 1px 6px rgba(40,35,20,.08);}
+
+  .hero{padding:72px 0 44px;}
+  .hero .eyebrow{margin-bottom:24px;}
+  .hero h1{font-size:clamp(34px,6vw,60px);line-height:1.1;font-weight:800;letter-spacing:-.01em;}
+  .hero h1 .mark{background:linear-gradient(transparent 62%,var(--hi) 62%);padding:0 2px;}
+  .hero .lede{font-size:18px;max-width:700px;margin-top:26px;color:var(--ink2);}
+  .hero .meta{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);
+    display:flex;flex-wrap:wrap;gap:8px 28px;font-size:13px;color:var(--note);}
+  .hero .meta b{color:var(--ink);font-weight:700;}
+
+  .hero-grid{margin-top:30px;display:grid;grid-template-columns:1.05fr .95fr;gap:20px;align-items:stretch;}
+  @media(max-width:860px){.hero-grid{grid-template-columns:1fr;}}
+  .intro-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px 26px;
+    box-shadow:0 1px 0 var(--bg2),0 10px 24px -18px rgba(40,35,20,.4);}
+  .intro-card h3{font-size:16px;font-weight:800;margin-bottom:10px;letter-spacing:-.01em;}
+  .intro-card p{font-size:14px;color:var(--ink2);line-height:1.7;}
+  .read-list{display:grid;gap:10px;margin-top:16px;}
+  .read-item{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;font-size:13.8px;color:#36332c;line-height:1.6;}
+  .read-item .n{font-family:Georgia,serif;font-style:italic;font-weight:800;color:var(--accent);font-size:17px;line-height:1.4;}
+  .read-item b{font-weight:800;color:var(--ink);}
+  .toc-card{background:var(--accent-soft);border:1px solid #cbd4ff;border-radius:14px;padding:24px 26px;}
+  .toc-card h3{font-size:16px;color:var(--accent);font-weight:800;margin-bottom:12px;letter-spacing:-.01em;}
+  .toc-card ul{list-style:none;margin:0;padding:0;display:grid;gap:9px;}
+  .toc-card li{font-size:13.8px;color:#33405f;line-height:1.55;}
+  .toc-card a{text-decoration:none;border-bottom:1px solid rgba(74,108,240,.25);color:#33405f;}
+  .toc-card a:hover{border-bottom-color:var(--accent);color:var(--accent);}
+
+  .matrix{margin-top:30px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;}
+  .matrix .row{display:grid;grid-template-columns:1fr 1.1fr;border-top:1px solid var(--line);}
+  .matrix .row:first-child{border-top:none;}
+  .matrix .cell{padding:18px 22px;border-right:1px solid var(--line);}
+  .matrix .cell:last-child{border-right:none;}
+  .matrix .head{background:var(--ink);color:#fff;}
+  .matrix .head .cell{padding:14px 22px;font-weight:800;font-size:13.5px;letter-spacing:.02em;}
+  .matrix .cell b{display:block;font-size:15.5px;margin-bottom:4px;font-weight:800;}
+  .matrix .cell span{font-size:13.5px;color:var(--ink2);line-height:1.6;}
+  @media(max-width:700px){
+    .matrix .row,.matrix .head{grid-template-columns:1fr;}
+    .matrix .cell{border-right:none;border-bottom:1px solid var(--line);}
+    .matrix .head .cell:last-child,.matrix .row .cell:last-child{border-bottom:none;}
+  }
+  .read-note{margin-top:16px;font-size:13.5px;color:var(--ink2);background:var(--bg2);
+    padding:14px 18px;border-radius:8px;line-height:1.65;}
+  .read-note b{color:var(--ink);}
+
+  section{padding:60px 0;border-top:1px solid var(--line);}
+  .sec-head{margin-bottom:8px;}
+  .sec-head .kicker{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);font-weight:700;}
+  .sec-head h2{font-size:clamp(24px,3.6vw,34px);font-weight:800;letter-spacing:-.01em;margin-top:8px;line-height:1.18;}
+  .sec-head .sub{font-size:16px;color:var(--ink2);margin-top:12px;max-width:700px;}
+
+  .feeds{margin-top:24px;padding:14px 18px;border-left:3px solid var(--accent);background:#fff;
+    border-radius:0 8px 8px 0;font-size:14px;color:#34405e;}
+  .feeds b{color:var(--accent);font-weight:800;letter-spacing:.02em;}
+
+  .scenes{margin-top:30px;display:grid;gap:18px;}
+  .scene{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;
+    box-shadow:0 1px 0 var(--bg2),0 10px 24px -18px rgba(40,35,20,.4);}
+  .scene .head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    padding:18px 22px 14px;border-bottom:1px dashed var(--line);}
+  .scene .uid{font-family:Georgia,serif;font-style:italic;font-weight:700;color:var(--accent);font-size:15px;}
+  .scene .who{font-weight:800;font-size:16px;}
+  .scene .facts{font-size:12.5px;color:var(--note);}
+  .scene .tools{margin-left:auto;font-size:12px;color:var(--note);background:var(--bg2);
+    padding:3px 10px;border-radius:999px;white-space:nowrap;}
+  .scene .body{padding:16px 22px 20px;}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+  .tag-chip{font-size:11.5px;font-weight:700;letter-spacing:.04em;padding:3px 10px;border-radius:999px;text-transform:uppercase;}
+  .chip-t1{background:var(--t1-s);color:#a8341a;}
+  .chip-t2{background:var(--t2-s);color:#8a6010;}
+  .chip-t3{background:var(--t3-s);color:#2c4f8a;}
+  .chip-mix{background:#eee;color:#444;}
+  .jtbd{font-size:16.5px;font-weight:600;color:var(--ink);line-height:1.7;margin-bottom:14px;}
+  .jtbd .b{background:linear-gradient(transparent 60%,var(--hi) 60%);}
+  .voices{display:grid;gap:9px;}
+  .v{position:relative;padding-left:18px;font-size:14.5px;color:#36332c;line-height:1.65;}
+  .v::before{content:"";position:absolute;left:0;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--line2);}
+  .v.warm::before{background:var(--warm);}
+  .v.good::before{background:var(--accent);}
+  .scene .tag{margin-top:14px;font-size:12.5px;color:var(--note);}
+
+  .stories{margin-top:30px;display:grid;gap:18px;}
+  .story{display:grid;grid-template-columns:200px 1fr;border:1px solid var(--line);
+    border-radius:12px;overflow:hidden;background:#fff;}
+  @media(max-width:680px){.story{grid-template-columns:1fr;}}
+  .story .label{padding:24px 22px;color:#fff;display:flex;flex-direction:column;justify-content:center;}
+  .story.A .label{background:linear-gradient(135deg,var(--sA),#7ba0e0);}
+  .story.B .label{background:linear-gradient(135deg,var(--sB),#7a92f3);}
+  .story.C .label{background:linear-gradient(135deg,var(--sC),#d4a32d);}
+  .story.D .label{background:linear-gradient(135deg,var(--sD),#52ab85);}
+  .story .label .letter{font-family:Georgia,serif;font-size:42px;font-weight:800;line-height:1;
+    font-style:italic;opacity:.92;margin-bottom:6px;}
+  .story .label h3{font-size:16.5px;font-weight:800;line-height:1.4;margin-bottom:6px;}
+  .story .label .reps{font-size:12px;opacity:.85;letter-spacing:.04em;}
+  .story .body{padding:22px 24px;}
+  .story .body .key{font-size:15.5px;color:var(--ink);font-weight:600;margin-bottom:14px;line-height:1.65;}
+  .story .body .key b{font-weight:800;}
+  .story .body .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  @media(max-width:560px){.story .body .cols{grid-template-columns:1fr;}}
+  .story .body .col{background:var(--bg2);border-radius:8px;padding:12px 14px;}
+  .story .body .col .ck{font-size:11px;letter-spacing:.12em;color:var(--note);font-weight:700;
+    text-transform:uppercase;margin-bottom:6px;}
+  .story .body .col .ct{font-size:13.5px;color:#36332c;line-height:1.6;}
+
+  .pyramid-wrap{margin-top:28px;display:grid;grid-template-columns:1.05fr 1fr;gap:28px;align-items:start;}
+  @media(max-width:760px){.pyramid-wrap{grid-template-columns:1fr;}}
+  .pyramid{position:relative;background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px 22px 18px;}
+  .pyramid .axis{font-size:11px;letter-spacing:.18em;color:var(--note);text-transform:uppercase;font-weight:700;margin-bottom:14px;}
+  .layer{margin:0 auto;border:none;cursor:pointer;transition:transform .2s ease,filter .2s ease;
+    display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;letter-spacing:.01em;
+    font-family:inherit;font-size:15px;}
+  .layer:hover{filter:brightness(1.06);}
+  .layer.active{transform:scale(1.02);box-shadow:0 6px 18px -10px rgba(0,0,0,.4);}
+  .l3{width:38%;height:54px;background:var(--t3);border-radius:8px 8px 0 0;}
+  .l2{width:68%;height:54px;background:var(--t2);margin-top:4px;}
+  .l1{width:100%;height:64px;background:var(--t1);border-radius:0 0 8px 8px;margin-top:4px;}
+  .layer .ll{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;opacity:.85;margin-right:8px;}
+  .pyramid .legend{margin-top:16px;font-size:12px;color:var(--note);border-top:1px dashed var(--line);padding-top:12px;}
+
+  .ptl-panel{background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px;}
+  .ptl-tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+    padding:4px 10px;border-radius:5px;}
+  .ptl-panel h3{font-size:22px;font-weight:800;margin:12px 0 4px;letter-spacing:-.01em;}
+  .ptl-panel .role{font-size:13px;color:var(--note);margin-bottom:14px;}
+  .ptl-panel .what{font-size:14.5px;color:var(--ink2);margin-bottom:14px;}
+  .ptl-panel .quotes{display:grid;gap:9px;font-size:14px;color:#36332c;}
+  .ptl-panel .quotes .q{position:relative;padding-left:16px;line-height:1.65;}
+  .ptl-panel .quotes .q::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;border-radius:3px;}
+  .ptl-panel.t1 .ptl-tag{background:var(--t1-s);color:#a8341a;}
+  .ptl-panel.t2 .ptl-tag{background:var(--t2-s);color:#8a6010;}
+  .ptl-panel.t3 .ptl-tag{background:var(--t3-s);color:#2c4f8a;}
+  .ptl-panel.t1 .quotes .q::before{background:var(--t1);}
+  .ptl-panel.t2 .quotes .q::before{background:var(--t2);}
+  .ptl-panel.t3 .quotes .q::before{background:var(--t3);}
+  .ptl-foot{margin-top:18px;font-size:13px;color:var(--note);border-top:1px dashed var(--line);padding-top:12px;}
+  .ptl-foot b{color:var(--ink);}
+  .caveat{margin-top:16px;font-size:13px;color:var(--note);background:var(--bg2);padding:12px 16px;border-radius:8px;line-height:1.65;}
+
+  .switches{margin-top:30px;display:grid;gap:16px;}
+  .switch{display:grid;grid-template-columns:160px 1fr;gap:0;
+    background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  @media(max-width:680px){.switch{grid-template-columns:1fr;}}
+  .switch .from{background:var(--bg2);padding:20px 18px;display:flex;flex-direction:column;justify-content:center;}
+  .switch .from .label{font-size:11px;letter-spacing:.16em;color:var(--note);font-weight:700;text-transform:uppercase;}
+  .switch .from .name{font-size:18px;font-weight:800;margin-top:4px;}
+  .switch .from .arrow{margin-top:10px;font-family:Georgia,serif;font-style:italic;color:var(--accent);font-size:14px;}
+  .switch .from .to{font-size:14px;font-weight:700;color:var(--accent);}
+  .switch .right{padding:20px 22px;}
+  .switch .right .reason{font-size:15.5px;font-weight:600;color:var(--ink);line-height:1.65;margin-bottom:12px;}
+  .switch .right .src{font-size:13px;color:var(--note);margin-top:10px;}
+  .switch .right .q{position:relative;padding-left:16px;font-size:14px;color:#36332c;line-height:1.7;margin-top:8px;}
+  .switch .right .q::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;border-radius:3px;background:var(--accent);}
+
+  .packs{margin-top:30px;display:grid;gap:18px;}
+  .pack{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  .pack .ph{padding:20px 24px 16px;border-bottom:1px dashed var(--line);display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;}
+  .pack .ph .pn{font-family:Georgia,serif;font-style:italic;font-weight:700;color:var(--accent);font-size:18px;}
+  .pack .ph h3{font-size:19px;font-weight:800;letter-spacing:-.01em;}
+  .pack .ph .sub{font-size:13px;color:var(--note);margin-left:auto;}
+  .pack .pb{padding:18px 24px 22px;}
+  .pack .pb .desc{font-size:14.5px;color:var(--ink2);margin-bottom:14px;line-height:1.7;}
+  .pack .quotes{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  @media(max-width:680px){.pack .quotes{grid-template-columns:1fr;}}
+  .pack .quotes .q{background:var(--bg2);padding:12px 14px;border-radius:8px;
+    font-size:13.8px;color:#34312b;line-height:1.65;border-left:3px solid var(--accent);}
+  .pack .quotes .q .src{display:block;font-size:11.5px;color:var(--note);margin-top:6px;letter-spacing:.02em;}
+  .pack.fric .ph .pn,.pack.fric .quotes .q{border-left-color:var(--warm);}
+  .pack.fric .ph .pn{color:var(--warm);}
+  .pack.fric .ph{background:var(--warm-soft);}
+
+  /* gpt Part 6 · Evidence（原封不动迁移） */
+  #packs .section-head{margin-bottom:30px;max-width:860px;}
+  #packs .kicker{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--blue);font-weight:800;}
+  #packs h2{margin-top:9px;font-size:clamp(26px,3.4vw,38px);line-height:1.18;letter-spacing:-.02em;font-weight:900;}
+  #packs .sub{margin-top:14px;font-size:16px;color:var(--muted);max-width:760px;}
+  .evidence-list{display:grid;gap:26px;}
+  .evidence{background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow);}
+  .evidence-head{padding:26px 30px 20px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fff,var(--paper2));}
+  .evidence-head .num{font-family:Georgia,serif;font-style:italic;color:var(--orange);font-weight:900;font-size:24px;}
+  .evidence-head h3{font-size:24px;line-height:1.25;margin-top:6px;}
+  .evidence-head p{margin-top:10px;font-size:15px;color:var(--muted);max-width:780px;}
+  .evidence-body{padding:26px 30px;display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  @media(max-width:860px){.evidence-body{grid-template-columns:1fr;}}
+  .mini-title{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--light);font-weight:900;margin-bottom:10px;}
+  .evidence ul{margin:0;padding-left:20px;color:#333;font-size:14.5px;}
+  .evidence li{margin:8px 0;}
+  .voice-box{display:grid;gap:12px;}
+  .voice{border-left:4px solid var(--blue);background:var(--blue2);padding:13px 15px;border-radius:0 12px 12px 0;font-size:14.5px;line-height:1.7;color:#28324d;}
+  .voice.orange{border-left-color:var(--orange);background:var(--orange2);color:#4d3124;}
+  .voice.green{border-left-color:var(--green);background:var(--green2);color:#244337;}
+  .voice .who{display:block;margin-top:6px;font-size:12.5px;color:var(--light);font-weight:800;}
+  .friction{margin-top:18px;background:var(--paper2);border-radius:12px;padding:14px 16px;font-size:13.5px;color:var(--muted);}
+  .friction b{color:var(--orange);}
+  .service{margin-top:28px;background:#fff;border-left:4px solid var(--blue);border-radius:0 14px 14px 0;
+    padding:16px 20px;color:#34405f;font-size:14px;box-shadow:var(--shadow);}
+  .service b{color:var(--blue);font-weight:900;}
+
+  .open{background:var(--ink);color:var(--bg);}
+  .open .wrap{padding:62px 26px 76px;}
+  .open .kicker{color:#9db0ff;}
+  .open h2{color:#fff;font-size:clamp(24px,3.6vw,34px);font-weight:800;letter-spacing:-.01em;}
+  .open .sub{color:#c7c1b4;font-size:16px;margin-top:14px;max-width:720px;}
+  .open .board{margin-top:30px;background:#2a2925;border:1px dashed #4a4840;border-radius:12px;padding:30px 30px;}
+  .open .board p{font-size:16px;color:#cfcabd;line-height:1.8;}
+  .open .board p+p{margin-top:14px;}
+  .open .board b{color:#fff;}
+
+  footer{padding:34px 0 64px;color:var(--note);font-size:12.5px;}
+  footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;}
+
+  @media(prefers-reduced-motion:no-preference){
+    .reveal{opacity:0;transform:translateY(14px);transition:opacity .65s ease,transform .65s ease;}
+    .reveal.in{opacity:1;transform:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <span class="brand"><span class="dot"></span>AI拍题精学 · 工作坊预读</span>
+    <nav class="nav">
+      <a href="#input">输入对照</a>
+      <a href="#scenes">场景</a>
+      <a href="#stories">故事线</a>
+      <a href="#pyramid">心态金字塔</a>
+      <a href="#switches">切换瞬间</a>
+      <a href="#packs">证据包</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">洋葱学园 · AI拍题精学 · 站外传播工作坊 · 预读材料</div>
+    <h1>学生、场景、<span class="mark">事实底座</span></h1>
+    <p class="lede">这份材料把传播脑暴前最该看到的几件事按顺序摆给你：他们是谁、在什么时刻掏出拍搜、能归纳出几条故事线、有几种心态、为什么切换工具、洋葱在他们口中是什么。每段后附"这块主要喂给哪类脑暴"——指路，不下结论。</p>
+    <div class="meta">
+      <span>素材 <b>8位学生深度访谈</b></span>
+      <span>方式 <b>JTBD 场景还原 + 学生原话</b></span>
+      <span>来源 <b>用户与行业研究中心</b></span>
+      <span>时间 <b>2026年1–2月</b></span>
+    </div>
+    <div class="hero-grid">
+      <div class="intro-card">
+        <h3>这份网页的使用方式</h3>
+        <p>先建立对 8 个学生的直观印象，再用心态金字塔理解他们在不同时间状态下的任务差异。后半部分重点看工具切换与洋葱证据包，用于支撑工作坊中的场景、内容、站外承接和活动玩法讨论。</p>
+        <div class="read-list">
+          <div class="read-item"><span class="n">01</span><div><b>先看用户</b>：每个学生只记一个最重要的拍搜动机。</div></div>
+          <div class="read-item"><span class="n">02</span><div><b>再看模型</b>：时间越紧，越先要答案；时间越松，越可能深学。</div></div>
+          <div class="read-item"><span class="n">03</span><div><b>最后看证据</b>：洋葱的优势不要抽象说，要看用户在什么场景下怎么说。</div></div>
+        </div>
+      </div>
+      <nav class="toc-card" aria-label="页面导航">
+        <h3>页面导航</h3>
+        <ul>
+          <li><a href="#input">输入对照｜整页目录与对照</a></li>
+          <li><a href="#scenes">01｜场景：他们在什么时候掏出拍搜</a></li>
+          <li><a href="#stories">02｜故事线：先记 4 条可记忆的主线</a></li>
+          <li><a href="#pyramid">03｜心态金字塔：3 种时间状态</a></li>
+          <li><a href="#switches">04｜切换瞬间：为什么切到洋葱</a></li>
+          <li><a href="#packs">05｜证据包：洋葱到底好在哪</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<section id="input" class="reveal" style="border-top:none;padding-top:0;">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">输入对照</div>
+      <h2>传播脑暴需要了解什么 / 用研提供什么</h2>
+      <p class="sub">这是整页的目录。后面每一模块都对应一个工作坊讨论用途，避免材料变成"好像都看了，但不知道怎么用"。</p>
+    </div>
+    <div class="matrix">
+      <div class="row head">
+        <div class="cell">脑暴前需要知道</div>
+        <div class="cell">用研提供的用户事实</div>
+      </div>
+      <div class="row">
+        <div class="cell"><b>学生为什么打开拍搜？</b><span>同一个"拍搜"动作，背后有完全不同的待办任务。</span></div>
+        <div class="cell"><b>8个真实场景卡（Part 1）</b><span>每个学生的JTBD和原话还原。</span></div>
+      </div>
+      <div class="row">
+        <div class="cell"><b>用户能被归纳成几类？</b><span>八个用户太碎，需要可记住的叙事单位。</span></div>
+        <div class="cell"><b>4条故事线（Part 2）</b><span>工具切换型 / 卡一步型 / 好学生精学型 / 情绪价值型。</span></div>
+      </div>
+      <div class="row">
+        <div class="cell"><b>不同状态下学生先看什么？</b><span>时间紧迫度决定"答案/步骤/视频/变式"的优先级。</span></div>
+        <div class="cell"><b>心态金字塔（Part 3）</b><span>时间紧迫度 × 学习深度 × 情绪价值。</span></div>
+      </div>
+      <div class="row">
+        <div class="cell"><b>为什么在竞品之间切换？</b><span>用户不忠诚于单一工具，按题型和时间分流。</span></div>
+        <div class="cell"><b>切换瞬间（Part 4）</b><span>4个真实的工具切换路径。</span></div>
+      </div>
+      <div class="row">
+        <div class="cell"><b>洋葱到底好在哪里？</b><span>不抽象说"好用"，要看到具体体验证据。</span></div>
+        <div class="cell"><b>5个证据包（Part 5）</b><span>讲得懂 / 能上课 / Aha moment / 像朋友 / 有成就感。</span></div>
+      </div>
+    </div>
+    <div class="read-note">
+      <b>怎么读这份材料</b>　主体是学生原话和真实场景，请当成创意素材，不是要被验证的结论。中间几处"我们反复观察到"是研究侧看到的模式——只作提示，欢迎在工作坊推翻、超越。
+    </div>
+  </div>
+</section>
+
+<section id="scenes" class="reveal">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Part 1 · 场景</div>
+      <h2>他们在什么时候掏出拍搜</h2>
+      <p class="sub">每张卡是一个真实学生。先看任务/情绪标签知道他在什么状态，再读他自己的原话。</p>
+    </div>
+
+    <div class="scenes">
+
+      <article class="scene">
+        <div class="head">
+          <span class="uid">01</span><span class="who">吴语遥</span>
+          <span class="facts">江苏苏州 · 初二 · 物理 · 走读 · 班级中等偏下</span>
+          <span class="tools">小猿学习机 · DeepSeek</span>
+        </div>
+        <div class="body">
+          <div class="tags">
+            <span class="tag-chip chip-t2">适中 · 启发思路</span>
+            <span class="tag-chip chip-mix">求成就感</span>
+          </div>
+          <p class="jtbd">处理物理数学作业<span class="b">没思路</span>时，想要识别准、不跳步的「保姆级」解析，好让我补全空白、写出符合老师要求的规范步骤、完成作业。</p>
+          <div class="voices">
+            <div class="v">老师说不会的题别一直定着，联系不上老师就用「作业批改」。针对错题，先自己写，过程卡住了就拍搜。</div>
+            <div class="v good">先看答案，再看它的过程，最后才看自己的过程。看完用精准学找同类题再做一遍——要是对了，那我就不管了。</div>
+            <div class="v warm">DeepSeek 扣分就扣在它跳得太大，五步能从第一步直接跳到第四步，反应不过来。豆包说话有点烦，特别吵闹，不喜欢。</div>
+          </div>
+          <p class="tag">考前集中拍十几道错题 · 平时不整理错题 · 家长平时不让用手机</p>
+        </div>
+      </article>
+
+      <article class="scene">
+        <div class="head">
+          <span class="uid">02</span><span class="who">徐同学</span>
+          <span class="facts">上海 · 初二 · 化学/语文 · 走读</span>
+          <span class="tools">豆包 · 洋葱</span>
+        </div>
+        <div class="body">
+          <div class="tags">
+            <span class="tag-chip chip-t1">紧 · 对答案</span>
+            <span class="tag-chip chip-t3">不急 · 弄懂一类</span>
+            <span class="tag-chip chip-mix">爽感→掌握感</span>
+          </div>
+          <p class="jtbd">作业量大、<span class="b">时间紧</span>时，想快速拿答案核对、赶紧交差；而面对错题、<span class="b">时间充裕</span>时，想要能用通俗例子讲透的解析，真正弄懂这类题。</p>
+          <div class="voices">
+            <div class="v">急的时候开豆包，它更快；洋葱搜要挺长时间，还多一个框选的步骤，慢。</div>
+            <div class="v good">洋葱会用我能理解的角度讲，像拿杯子一样举例子，翻译成听得懂的通俗话，不是文绉绉的。看完解析换成自己的方式写，更符合老师要求，不容易扣分。</div>
+            <div class="v warm">豆包有些答案经常是错的，第二天老师一讲才发现填错了。洋葱语文讲得和答案不符，上海版本也常常对不上。</div>
+          </div>
+          <p class="tag">一科一科集中拍 · 同类题都会做＝弄懂了 · 一周用洋葱约4天</p>
+        </div>
+      </article>
+
+      <article class="scene">
+        <div class="head">
+          <span class="uid">03</span><span class="who">小杰</span>
+          <span class="facts">广东揭阳 · 初一 · 数学 · 重点班 · 前20</span>
+          <span class="tools">科大讯飞 · 小猿 · 元宝</span>
+        </div>
+        <div class="body">
+          <div class="tags">
+            <span class="tag-chip chip-t3">不急 · 弄懂一类</span>
+            <span class="tag-chip chip-mix">求掌握感</span>
+          </div>
+          <p class="jtbd">写出大题答案但<span class="b">担心考虑不周</span>时想快速验证；遇到难题<span class="b">找不到突破口</span>时，想要生动易懂的视频讲解＋立即做变式题，真正掌握这类题、考试不丢分。</p>
+          <div class="voices">
+            <div class="v">不会直接看答案，直接看答案没什么用。先看思路和解析，不明白再看视频，会做之后找两道题练。</div>
+            <div class="v good">科大讯飞视频讲解和举一反三我能明白，题目难度有质量。小猿只要是举例子基本都能懂。</div>
+            <div class="v">得分点很重要——老师注重过程，少写漏写一般扣3~4分。一开始照AI步骤写，验证几次发现能得分，之后就按自己理解写。</div>
+          </div>
+          <p class="tag">作业场景拍搜＝检查对错 · 过几小时再做同类题、试着讲出来 · 学习机一天用五六小时</p>
+        </div>
+      </article>
+
+      <article class="scene">
+        <div class="head">
+          <span class="uid">04</span><span class="who">丁同学</span>
+          <span class="facts">安徽六安 · 初三 · 数理化英 · 走读</span>
+          <span class="tools">作业帮 · 洋葱 · 步步高</span>
+        </div>
+        <div class="body">
+          <div class="tags">
+            <span class="tag-chip chip-t1">紧 · 检查作业</span>
+            <span class="tag-chip chip-t2">适中 · 中等题卡点</span>
+            <span class="tag-chip chip-t3">不急 · 找不一样的解法</span>
+          </div>
+          <p class="jtbd">中等题<span class="b">"知道答案但过程绕不过来"</span>时要快速看过程；压轴大题<span class="b">没思路</span>时想要"不一样的解法"和深度课程，掌握底层逻辑。</p>
+          <div class="voices">
+            <div class="v">检查作业把所有题都拍给作业帮，一下出所有答案。要继续写作业，能越快越好——洋葱有点慢。</div>
+            <div class="v good">数学物理首选洋葱，能看到不一样的解法和相关的课程。压轴题用洋葱，想要一种不一样的方法。</div>
+            <div class="v warm">洋葱政治历史科目覆盖少，拍不出答案——政治题被推到语文里边了。</div>
+          </div>
+          <p class="tag">中等题是高频 · 数学135/150 · 难题不止要答案，更想要"别的解法"</p>
+        </div>
+      </article>
+
+      <article class="scene">
+        <div class="head">
+          <span class="uid">05</span><span class="who">吕同学</span>
+          <span class="facts">黑龙江绥芬河 · 初二 · 数英 · 普通班中等</span>
+          <span class="tools">作业帮 · 洋葱（平板）</span>
+        </div>
+        <div class="body">
+          <div class="tags">
+            <span class="tag-chip chip-t2">适中 · 卡在中间一步</span>
+            <span class="tag-chip chip-mix">怕被老师发现照搬</span>
+          </div>
+          <p class="jtbd">做题<span class="b">中间思路卡住</span>需要看解析，但怕直接照搬被老师发现，想看清"卡住的那一步"，用老师认可的逻辑把过程写出来。</p>
+          <div class="voices">
+            <div class="v">怎么证（角的关系）少个条件，好像证进死角里了。第一眼看的是文字解析，重点看我不会那一步——看完之后捋思路，自己写一遍，按照自己的写。</div>
+            <div class="v good">在作业帮发现知识点忘了，就去洋葱看一眼这个知识点视频，然后再回来再推一遍——10次得有5次这种操作。</div>
+            <div class="v warm">老师说了，拍作业帮的肯定跟他的思路对不上，老师首先会怀疑你抄的答案。</div>
+          </div>
+          <p class="tag">期末499.5 · 每天用平板 · 完美体验＝识别准+能听懂+VIP便宜</p>
+        </div>
+      </article>
+
+      <article class="scene">
+        <div class="head">
+          <span class="uid">06</span><span class="who">诺诗</span>
+          <span class="facts">湖南永州 · 初三 · 数英 · 寄宿 · 中等</span>
+          <span class="tools">洋葱（最常用）· 作业帮</span>
+        </div>
+        <div class="body">
+          <div class="tags">
+            <span class="tag-chip chip-t3">不急 · 弄懂一道</span>
+            <span class="tag-chip chip-mix">情绪价值 + Aha</span>
+          </div>
+          <p class="jtbd">在<span class="b">对完标准答案</span>遇到做错的题时，想要有趣易懂、能听得进去的讲解，轻松弄懂一道题、下次别再错。</p>
+          <div class="voices">
+            <div class="v good">洋葱讲题语气委婉、温柔、有耐心——更像朋友，不像老师和长辈那么严肃。作业帮没有感情，只是单纯讲题，听不进去。</div>
+            <div class="v good">突然想到老师上课讲到的知识点，突然就知道怎么做了——这种恍然大悟用洋葱比作业帮多。</div>
+            <div class="v good">弄懂了会先自己写一遍，再用红笔标重点和步骤——自己写下来比较有成就感，抄步骤会有一点小小的罪恶感。</div>
+          </div>
+          <p class="tag">寄宿，周末才能用平板 · 数学英语薄弱 · 中差生&洋葱情绪价值最敏感的样本</p>
+        </div>
+      </article>
+
+      <article class="scene">
+        <div class="head">
+          <span class="uid">07</span><span class="who">梦梅</span>
+          <span class="facts">甘肃兰州 · 六年级 · 数学 · 中等</span>
+          <span class="tools">学而思平板 · 豆包 · 小猿</span>
+        </div>
+        <div class="body">
+          <div class="tags">
+            <span class="tag-chip chip-t2">适中 · 启发思路</span>
+            <span class="tag-chip chip-t3">不急 · 弄懂一类</span>
+            <span class="tag-chip chip-mix">家长是"中介"</span>
+          </div>
+          <p class="jtbd">父母不在、<span class="b">独自做作业卡壳</span>时，想靠平板自己弄懂；奥数拔高题<span class="b">连父母都不会</span>时，想要详细思路和多种解法，靠妈妈"翻译"成已学知识彻底掌握。</p>
+          <div class="voices">
+            <div class="v">父母不在，只有我自己在家，我都用学而思平板的作业批改和答疑——平时不能碰手机。</div>
+            <div class="v">奥数题我妈我爸都不会，DeepSeek 方法太高端看不懂。妈妈用豆包看懂以后，再给我讲一遍。</div>
+            <div class="v warm">学而思拍照角度太刁，识别出来的根本不是我这道题，拍了三四次都很奇葩，我就放弃了。</div>
+          </div>
+          <p class="tag">设备＝平板（不能碰手机） · 家长是拍搜的"中介" · 超纲解法需要被翻译</p>
+        </div>
+      </article>
+
+      <article class="scene">
+        <div class="head">
+          <span class="uid">08</span><span class="who">小林</span>
+          <span class="facts">广西南宁 · 初一 · 数学 · 刻苦中等生 · 自驱强</span>
+          <span class="tools">洋葱 · 豆包 · 快对</span>
+        </div>
+        <div class="body">
+          <div class="tags">
+            <span class="tag-chip chip-t1">紧 · 对答案</span>
+            <span class="tag-chip chip-t2">适中 · 启发思路</span>
+            <span class="tag-chip chip-t3">不急 · 弄懂一类</span>
+          </div>
+          <p class="jtbd">数学<span class="b">完全没思路的难题</span>，想反复看视频把它当例题吃透、记进笔记本带回学校；中等题<span class="b">查不出哪错</span>时，想用对话框直接说困惑、定位错误点；老师让自批改时，想一拍就秒出答案。</p>
+          <div class="voices">
+            <div class="v good">用洋葱后数学从60多提到90多分。它的不可替代性是可以上课——看洋葱十道错5道，不看十道错8道。</div>
+            <div class="v good">特别难的视频看两三遍，在草稿纸上复刻，记进我专门的笔记本。在学校没手机，翻笔记本就还会做。</div>
+            <div class="v warm">第一时间没想到洋葱，因为它没有对话框。我感觉计算怪怪的，就问豆包「哪一步错了」，它直接指出来。</div>
+          </div>
+          <p class="tag">未付费、靠活动拿VIP · 妈妈嫌498/年贵、想先付一季度却没这选项 · 找过免费替代但听不懂</p>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="feeds">
+      <b>→ 这块主要喂给：</b>账号/达人/内容脚本组——用学生原话语言写脚本、设场景、立人设。读完你应能直接抽出三五句"学生自己会说的话"。
+    </div>
+  </div>
+</section>
+
+<section id="stories" class="reveal">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Part 2 · 故事线</div>
+      <h2>不要记8个人，先记4条故事线</h2>
+      <p class="sub">把八个人重新组织成四种典型叙事——每条都是从访谈中反复涌现的模式。用它们作为脑暴的叙事单位，比记住每个人更好用。</p>
+    </div>
+
+    <div class="stories">
+
+      <div class="story A">
+        <div class="label">
+          <div class="letter">A</div>
+          <h3>同一个学生为什么在不同工具间切换</h3>
+          <div class="reps">代表：徐同学 / 小林</div>
+        </div>
+        <div class="body">
+          <div class="key"><b>让大家记住：</b>用户不忠诚于某个APP，而是按题目难度、卡点类型、时间状态分流。"工具品牌"在他们脑里是"工具角色"。</div>
+          <div class="cols">
+            <div class="col"><div class="ck">简单题 / 时间紧</div><div class="ct">只想对答案，用快对/豆包。</div></div>
+            <div class="col"><div class="ck">中等题 / 卡一步</div><div class="ct">有点思路但绕不过去，用豆包问"哪步错了"。</div></div>
+            <div class="col"><div class="ck">难题 / 想学透</div><div class="ct">完全没思路，需要看课，用洋葱。</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="story B">
+        <div class="label">
+          <div class="letter">B</div>
+          <h3>学生不是不会，是卡在中间一步</h3>
+          <div class="reps">代表：吴语遥 / 吕同学</div>
+        </div>
+        <div class="body">
+          <div class="key"><b>让大家记住：</b>很多拍搜需求不是"我要答案"，而是"我知道一点，但过程接不上"。学生最怕的是AI跳步——5步直接跳到第4步，理解就断了。</div>
+          <div class="cols">
+            <div class="col"><div class="ck">触发</div><div class="ct">有一点思路，过程卡住；或老师要的步骤忘了。</div></div>
+            <div class="col"><div class="ck">痛点</div><div class="ct">AI跳步造成理解断层；老师认得出"抄的答案"。</div></div>
+            <div class="col"><div class="ck">后续</div><div class="ct">把解析"换成自己的方式写"，符合老师写法不扣分。</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="story C">
+        <div class="label">
+          <div class="letter">C</div>
+          <h3>好学生也需要拍搜，因为怕不完整、怕扣分</h3>
+          <div class="reps">代表：小杰 / 丁同学</div>
+        </div>
+        <div class="body">
+          <div class="key"><b>让大家记住：</b>精学不是只服务薄弱学生。好学生为了多解法、分类讨论、得分点也会拍搜——他们要的不止是答案，是"完整、规范、有变式"。</div>
+          <div class="cols">
+            <div class="col"><div class="ck">题型</div><div class="ct">动点、最值、压轴题、分类讨论。</div></div>
+            <div class="col"><div class="ck">目标</div><div class="ct">不是要答案，是完整性、规范步骤、不一样的解法。</div></div>
+            <div class="col"><div class="ck">闭环</div><div class="ct">看视频→做变式→记错题本→过一会再做一遍。</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="story D">
+        <div class="label">
+          <div class="letter">D</div>
+          <h3>洋葱的情绪价值不是装饰，是让学生愿意听下去</h3>
+          <div class="reps">代表：诺诗</div>
+        </div>
+        <div class="body">
+          <div class="key"><b>让大家记住：</b>对中等或中差生来说，"听得进去"本身就是学习能不能发生的前提。语气、人设、有没有耐心，直接决定他要不要看完。</div>
+          <div class="cols">
+            <div class="col"><div class="ck">行为</div><div class="ct">自己写、对答案、拍错题、用红笔标重点——不直接抄。</div></div>
+            <div class="col"><div class="ck">感受</div><div class="ct">洋葱更像朋友，语气温柔有耐心；作业帮没有感情。</div></div>
+            <div class="col"><div class="ck">结果</div><div class="ct">学会后有成就感；抄步骤有"小小的罪恶感"。</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="feeds">
+      <b>→ 这块主要喂给：</b>传播主线/品牌定位——四条故事线就是四种可能的内容叙事。这次站外要把哪一条放大成一类内容？
+    </div>
+  </div>
+</section>
+
+<section id="pyramid" class="reveal">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Part 3 · 心态金字塔</div>
+      <h2>同一个学生，在不同时刻有三种心态</h2>
+      <p class="sub">同一个人不会只用一种工具——时间紧时只想对答案，时间松时想真正弄懂。点击金字塔任一层，看对应任务、情绪和学生原话。</p>
+    </div>
+
+    <div class="pyramid-wrap">
+      <div class="pyramid">
+        <div class="axis">时间紧迫程度（自上而下 · 越来越急）</div>
+        <button class="layer l3" data-level="3"><span class="ll">不急</span>弄懂一类</button>
+        <button class="layer l2 active" data-level="2"><span class="ll">适中</span>启发思路</button>
+        <button class="layer l1" data-level="1"><span class="ll">很急</span>对答案 / 应付</button>
+        <div class="legend">三层是同一学生的不同时刻，不是三种不同的人。任一层的学生都可能在另一时刻"切层"。</div>
+      </div>
+
+      <div class="ptl-panel t2" id="ptl">
+        <span class="ptl-tag">适中 · 启发思路</span>
+        <h3>解决卡住的那一步，让我自己重新做对</h3>
+        <p class="role"><b>任务</b>　追求"独立解决问题的能力"　·　<b>情绪</b>　成就感（自己做对一道题）</p>
+        <p class="what">代表：吴语遥、徐同学（时间松时）、小林（中等题）、梦梅（独自卡壳）、吕同学。已经写了一部分、卡在某一步——要的不是答案，是"哪一步错了/这里怎么想"。</p>
+        <div class="quotes">
+          <div class="q">"针对错题先自己写，过程卡住了再拍搜。"</div>
+          <div class="q">"重点看我不会那一步——看完之后捋思路，自己写一遍。"</div>
+          <div class="q">"我感觉这一大串计算怪怪的，就问豆包，告诉我哪一步错了。"</div>
+        </div>
+        <div class="ptl-foot"><b>传播抓手</b>　这层是"成就感型"内容的主战场——"自己做对那一刻"是最容易出爆款情绪的瞬间。</div>
+      </div>
+    </div>
+
+    <p class="caveat">＊金字塔右侧的"情绪/神经递质"是研究侧借用的解释模型（爽感/成就感/掌握感对应不同体验，非严格神经科学结论）。它在内部脑暴里很好用——帮我们区分"传播打哪种爽法"——但对外谨慎使用。</p>
+
+    <div class="feeds">
+      <b>→ 这块主要喂给：</b>传播主线/品牌定位讨论——决定我们要打哪一种情绪、对哪个层级的学生。同一句slogan打不动三层。
+    </div>
+  </div>
+</section>
+
+<section id="switches" class="reveal">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Part 4 · 切换瞬间</div>
+      <h2>他们为什么从别的产品，切到洋葱</h2>
+      <p class="sub">访谈里出现过好几次真实的切换——这些瞬间是拉新最直接的弹药，因为它们说明了别人在什么情况下会"想到洋葱"。</p>
+    </div>
+
+    <div class="switches">
+
+      <div class="switch">
+        <div class="from">
+          <div class="label">切换瞬间 01</div>
+          <div class="name">豆包</div>
+          <div class="arrow">↓ 时间充裕时</div>
+          <div class="to">洋葱</div>
+        </div>
+        <div class="right">
+          <div class="reason">豆包答案错了/讲不透时，时间够就切去洋葱看课、把这类题彻底弄懂。</div>
+          <div class="q">"豆包答案是错的，时间充足（七点半左右写完）就会用洋葱看课。有解题课就看课，没有就拍题。"</div>
+          <div class="src">— 徐同学，初二，上海</div>
+        </div>
+      </div>
+
+      <div class="switch">
+        <div class="from">
+          <div class="label">切换瞬间 02</div>
+          <div class="name">作业帮（同一道题）</div>
+          <div class="arrow">↓ 忘了知识点</div>
+          <div class="to">洋葱（看一眼视频再切回）</div>
+        </div>
+        <div class="right">
+          <div class="reason">在作业帮发现知识点忘了，切去洋葱看一眼对应视频，看完再切回来推导——10次有5次这种操作。</div>
+          <div class="q">"就去洋葱看一眼这个知识点，然后再回来再推一遍。10次得有5次吧。"</div>
+          <div class="src">— 吕同学，初二，绥芬河</div>
+        </div>
+      </div>
+
+      <div class="switch">
+        <div class="from">
+          <div class="label">切换瞬间 03</div>
+          <div class="name">免费替代课</div>
+          <div class="arrow">↓ 听不懂</div>
+          <div class="to">洋葱</div>
+        </div>
+        <div class="right">
+          <div class="reason">家长嫌洋葱年费贵，找了免费替代，但孩子听不懂——最后还是回到洋葱。</div>
+          <div class="q">"曾找免费替代洋葱的课程但没上，原因是听不懂，觉得洋葱课好在自己能听得懂。"</div>
+          <div class="src">— 小林，初一，南宁（家庭月可支配有限）</div>
+        </div>
+      </div>
+
+      <div class="switch">
+        <div class="from">
+          <div class="label">反向警示 04</div>
+          <div class="name">洋葱</div>
+          <div class="arrow">↓ 时间紧 / 没对话框</div>
+          <div class="to">豆包 / 作业帮</div>
+        </div>
+        <div class="right">
+          <div class="reason">紧迫场景下洋葱会被切走——多一个框选步骤、没有对话框直接问"哪步错了"、政治历史拍不出，都是流失点。</div>
+          <div class="q">"急的时候开豆包，洋葱多了一个框选步骤，慢。"</div>
+          <div class="q">"第一时间没想到洋葱，因为它没有对话框。"</div>
+          <div class="src">— 徐同学、小林（注：用户访谈时未体验3.0）</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="feeds">
+      <b>→ 这块主要喂给：</b>拉新/投放/裂变——你做的传播要在哪个心理时刻拦住一个学生？让他从"用别的"变成"想到洋葱"。前三条是拉新最强弹药，第四条是承诺时要避开的雷。
+    </div>
+  </div>
+</section>
+
+<section id="packs" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Part 5 · 证据包</div>
+      <h2>洋葱到底好在哪：不要抽象说优势，要给证据包</h2>
+      <p class="sub">这部分替代简单的“好评/吐槽”双栏。每个证据包都包含：适用场景、用户感知价值、用户原声、以及需要注意的摩擦点。</p>
+    </div>
+    <div class="evidence-list">
+      <article class="evidence"><div class="evidence-head"><div class="num">01</div><h3>讲得懂：把题翻译成学生能理解的语言</h3><p>适用于学生看答案/解析仍不理解，需要更通俗、更低门槛的讲解方式时。</p></div><div class="evidence-body"><div><div class="mini-title">用户感知价值</div><ul><li>不是只给答案，而是把思路拆开讲。</li><li>会用通俗例子或学生能理解的角度说明。</li><li>讲解语气和节奏让学生更容易继续看下去。</li></ul><div class="friction"><b>摩擦点：</b>语文、英语、地方版本适配不稳定时，会破坏“讲得懂”的信任。</div></div><div><div class="mini-title">用户原声</div><div class="voice-box"><div class="voice">“洋葱会用我能理解的角度讲，会举例子，翻译成听得懂的通俗话，不是文绉绉的。”<span class="who">徐同学｜上海初二</span></div><div class="voice green">“洋葱是一步步来的，有一个步骤会说这个步骤是怎么来的。”<span class="who">诺诗｜湖南初三</span></div><div class="voice orange">“找过免费替代洋葱的课程但没上，原因是听不懂，洋葱好在自己能听懂。”<span class="who">小林｜南宁初一</span></div></div></div></div></article>
+      <article class="evidence"><div class="evidence-head"><div class="num">02</div><h3>能上课 / 能接知识点：从一道题连到背后的知识点</h3><p>适用于学生不是只想得到答案，而是想理解这道题背后的知识点、母题和解题套路时。</p></div><div class="evidence-body"><div><div class="mini-title">用户感知价值</div><ul><li>拍题后不止停留在解析，还能进入相关视频课。</li><li>把题当作例题，帮助学生建立知识点连接。</li><li>对难题、压轴题、考前错题尤其有价值。</li></ul><div class="friction"><b>摩擦点：</b>如果视频推荐不准、入口偏深或付费阻断过早，会削弱“以题找课”的优势。</div></div><div><div class="mini-title">用户原声</div><div class="voice-box"><div class="voice orange">“洋葱的不可替代性是可以上课。”<span class="who">小林｜南宁初一</span></div><div class="voice">“时间充足就会用洋葱看课，有解题课就看课。”<span class="who">徐同学｜上海初二</span></div><div class="voice green">“看了解析还是不理解，就去洋葱看一眼这个知识点，然后再回来推一遍。”<span class="who">吕同学｜黑龙江初二</span></div></div></div></div></article>
+      <article class="evidence"><div class="evidence-head"><div class="num">03</div><h3>能帮学生重新做出来：不是看懂答案，而是恢复独立解题</h3><p>适用于学生有一点思路，但需要被带回独立推导状态的时候。</p></div><div class="evidence-body"><div><div class="mini-title">用户感知价值</div><ul><li>看思路后尝试自己解题，再核对答案。</li><li>通过“听不懂/再解释/类似题”确认是否真正懂。</li><li>把解析变成自己的写法，而不是机械照搬。</li></ul><div class="friction"><b>摩擦点：</b>如果不能定位“我到底卡在哪一步”，中等题纠错场景仍容易流向豆包。</div></div><div><div class="mini-title">用户原声</div><div class="voice-box"><div class="voice">“看完解析怎么判断懂了？在精准学找类似题再做一遍，要是对了，那我就不管。”<span class="who">吴语遥｜苏州初二</span></div><div class="voice green">“洋葱拍题后先看思路，然后试着解题，会解的话就简单看答案核实。”<span class="who">徐同学｜上海初二</span></div><div class="voice orange">“看完解析再看一遍解题思路，自己再做一遍。”<span class="who">诺诗｜湖南初三</span></div></div></div></div></article>
+      <article class="evidence"><div class="evidence-head"><div class="num">04</div><h3>能学会一类题：从原题到变式、错题本和笔记</h3><p>适用于难题、压轴题、考前复盘、错题整理等更深学习场景。</p></div><div class="evidence-body"><div><div class="mini-title">用户感知价值</div><ul><li>同类题做对，才说明不是只记住原题答案。</li><li>视频、变式题、错题本和笔记共同构成学习闭环。</li><li>对中上游学生和自驱型中等生尤其有价值。</li></ul><div class="friction"><b>摩擦点：</b>如果缺少可见的变式检验，学生很难感知自己是否真的“学会一类题”。</div></div><div><div class="mini-title">用户原声</div><div class="voice-box"><div class="voice">“会做之后找两道题练，过几个小时拿搜过的题再做，看有没有记住。”<span class="who">小杰｜广东初一</span></div><div class="voice green">“同类题之后都会做了，主要是同类型的题得弄明白。”<span class="who">徐同学｜上海初二</span></div><div class="voice orange">“特别难的视频看两三遍，记进我专门的笔记本，在学校翻出来还会做。”<span class="who">小林｜南宁初一</span></div></div></div></div></article>
+      <article class="evidence"><div class="evidence-head"><div class="num">05</div><h3>有成就感 / 不像抄答案：学生想用自己的方式写出来</h3><p>适用于学生担心老师看出照搬，或担心解析不符合校内批改规范时。</p></div><div class="evidence-body"><div><div class="mini-title">用户感知价值</div><ul><li>学生不是每次都直接抄拍搜答案。</li><li>他们会把解析转成自己的语言和老师认可的步骤。</li><li>“自己写出来”带来成就感，也降低抄答案的罪恶感。</li></ul><div class="friction"><b>摩擦点：</b>如果步骤表达不像校内写法，学生仍会担心老师不认可或扣步骤分。</div></div><div><div class="mini-title">用户原声</div><div class="voice-box"><div class="voice">“重点看我不会那步，看完之后就捋思路，自己写一遍。”<span class="who">吕同学｜黑龙江初二</span></div><div class="voice green">“自己有成就感，把这道题学会了，学会了一种题型，抄下来感觉有罪恶感。”<span class="who">诺诗｜湖南初三</span></div><div class="voice orange">“换成自己的方式写，更符合老师讲的那种类型，不容易扣分。”<span class="who">徐同学｜上海初二</span></div></div></div></div></article>
+      <article class="evidence"><div class="evidence-head"><div class="num">06</div><h3>有陪伴感 / 听得进去：降低学习压力，让学生愿意继续听</h3><p>适用于中等或中差生，尤其是对学习有态度但成绩不稳定的学生。</p></div><div class="evidence-body"><div><div class="mini-title">用户感知价值</div><ul><li>语气温柔、有耐心，让学生不容易抵触。</li><li>人物和轻松表达降低“被老师审判”的感觉。</li><li>情绪价值让学习过程更容易开始和持续。</li></ul><div class="friction"><b>摩擦点：</b>情绪价值不能单独成立，必须和“讲得懂、能做对”一起出现。</div></div><div><div class="mini-title">用户原声</div><div class="voice-box"><div class="voice green">“洋葱讲题语气委婉、温柔、有耐心，更像朋友，不像老师和长辈那样严肃。”<span class="who">诺诗｜湖南初三</span></div><div class="voice">“作业帮没有感情，只是单纯讲题，听不进去。”<span class="who">诺诗｜湖南初三</span></div><div class="voice orange">“洋葱拍题时有人物模型，小锤和狗蛋，比较有趣，能提升我的兴趣。”<span class="who">诺诗｜湖南初三</span></div></div></div></div></article>
+    </div>
+    <div class="service"><b>服务的讨论：</b>当大家讨论“洋葱到底能被怎样感知”时，可以从这 6 个证据包里找具体场景和用户原声，而不是只说“讲得好”“更适合学习”。</div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>洋葱学园 · 用户与行业研究中心 · 拍题精学站外传播工作坊预读</span>
+    <span>本页只呈现场景、模式与原声，不含产品迭代结论</span>
+  </div>
+</footer>
+
+<script>
+  const els=document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.08});
+    els.forEach(el=>io.observe(el));
+  }else{els.forEach(el=>el.classList.add('in'));}
+
+  const PANEL_DATA = {
+    "1": {
+      cls:"t1", tag:"很急 · 对答案 / 应付", title:"快速完成作业，对步骤有个大概印象",
+      role:"<b>任务</b>　追求速度和结果　·　<b>情绪</b>　爽感（应付完作业）",
+      what:"代表：徐同学（写作业时间紧）、小林（自批改时）、丁同学（检查作业批量拍）。他们不要解析、不要讲解，只要答案秒出。",
+      quotes:[
+        "豆包它会先给你讲一大堆解析，最后才给一个答案。快对，你只要一拍就马上能找出答案。",
+        "急的时候用豆包，比洋葱快。",
+        "检查作业把所有题都拍给作业帮，一下出所有答案。"
+      ],
+      foot:"这层是<b>豆包/快对的主场</b>。如果传播想抢这层，要正面承诺「秒出」——但目前洋葱速度是劣势。可以选择避开这层、或专门为这层造一个轻量入口。"
+    },
+    "2": {
+      cls:"t2", tag:"适中 · 启发思路", title:"解决卡住的那一步，让我自己重新做对",
+      role:"<b>任务</b>　追求「独立解决问题的能力」　·　<b>情绪</b>　成就感（自己做对一道题）",
+      what:"代表：吴语遥、徐同学(时间松时)、小林(中等题)、梦梅(独自卡壳)、吕同学。已写了一部分、卡在某一步——要的不是答案，是「哪一步错了/这里怎么想」。",
+      quotes:[
+        "针对错题先自己写，过程卡住了再拍搜。",
+        "重点看我不会那一步——看完之后捋思路，自己写一遍。",
+        "我感觉这一大串计算怪怪的，就问豆包，告诉我哪一步错了。"
+      ],
+      foot:"这层是<b>「成就感型」内容的主战场</b>——「自己做对那一刻」是最容易出爆款情绪的瞬间。"
+    },
+    "3": {
+      cls:"t3", tag:"不急 · 弄懂一类", title:"真正学会这一类题，下次不扣分",
+      role:"<b>任务</b>　追求知识内化（举一反三）　·　<b>情绪</b>　掌握感（自己做对一类题）",
+      what:"代表：小杰、小林(难题)、徐同学(周末复习)、丁同学(压轴题)、诺诗。时间充裕、自驱强，反复看视频、做变式题、记笔记——把一道题当「母题」吃透。",
+      quotes:[
+        "看洋葱十道题错5道，不看十道错8道。",
+        "特别难的视频看两三遍，记进我专门的笔记本，在学校翻出来还会做。",
+        "不会直接看答案，直接看答案没什么用——会做之后找两道题练一下。"
+      ],
+      foot:"这层是<b>洋葱差异化最强的层</b>——「讲得懂、下次会做、能上课」全在这层。传播在这层有最厚的产品事实可背。"
+    }
+  };
+
+  const layers = document.querySelectorAll('.layer');
+  const panel = document.getElementById('ptl');
+  function setLevel(lvl){
+    layers.forEach(l => l.classList.toggle('active', l.dataset.level===lvl));
+    const d = PANEL_DATA[lvl];
+    panel.className = 'ptl-panel ' + d.cls;
+    panel.innerHTML = `
+      <span class="ptl-tag">${d.tag}</span>
+      <h3>${d.title}</h3>
+      <p class="role">${d.role}</p>
+      <p class="what">${d.what}</p>
+      <div class="quotes">
+        ${d.quotes.map(q=>`<div class="q">"${q}"</div>`).join('')}
+      </div>
+      <div class="ptl-foot"><b>传播抓手</b>　${d.foot}</div>
+    `;
+  }
+  layers.forEach(l => l.addEventListener('click', ()=>setLevel(l.dataset.level)));
+</script>
+</body>
+</html>
