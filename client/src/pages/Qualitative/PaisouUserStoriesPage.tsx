@@ -184,6 +184,28 @@ const USER_EXTRA_QUOTES: Record<string, string[]> = {
   ],
 };
 
+/** 聚合某个用户的全部原声：代表性原声 + 补充原声 + 文字记录里属于他的原声，按出现顺序去重 */
+function collectUserQuotes(user: PaisouUserStory): string[] {
+  const fromStrength = ONION_STRENGTH_ROWS.flatMap((row) =>
+    row.quotes
+      .filter((quote) => quote.user === user.name)
+      .flatMap((quote) => quote.text.split('\n')),
+  );
+  const candidates = [user.quote, ...(USER_EXTRA_QUOTES[user.id] ?? []), ...fromStrength];
+
+  const seen = new Set<string>();
+  const result: string[] = [];
+  for (const raw of candidates) {
+    const text = raw.trim();
+    if (!text) continue;
+    const key = text.replace(/[\s，。、！？,.!?"“”'']/g, '');
+    if (seen.has(key)) continue;
+    seen.add(key);
+    result.push(text);
+  }
+  return result;
+}
+
 function relationClass(relation: PaisouUserStory['relation']) {
   const style = RELATION_STYLE[relation];
   return cn('border px-2 py-0.5 text-[11px] font-bold', style.bg, style.text, style.border);
@@ -757,6 +779,8 @@ function UserDetailPage({ user }: { user: PaisouUserStory }) {
   const navigate = useNavigate();
   const pageRef = React.useRef<HTMLDivElement>(null);
   const statusMeta = ONION_STATUS_META[user.onionStatus];
+  const userNumber = String(Math.max(0, PAISOU_USERS.findIndex((item) => item.id === user.id)) + 1).padStart(2, '0');
+  const quotes = collectUserQuotes(user);
   const relationshipTitle = user.onionStatus === '机会/边界样本'
     ? '当前为什么没选洋葱 / 洋葱可争取什么'
     : user.onionStatus === '场景型使用'
@@ -788,38 +812,64 @@ function UserDetailPage({ user }: { user: PaisouUserStory }) {
           返回 8 个用户卡片
         </button>
 
-        <section className="overflow-hidden rounded-[24px] border border-[#E8E2D9] bg-white shadow-[0_12px_35px_rgba(30,35,40,0.06)]">
-          <div className="grid gap-5 p-6 lg:grid-cols-[1.2fr_0.8fr] lg:p-8">
-            <div>
-              <div className="flex flex-wrap items-center gap-2">
-                <span className={cn('rounded-full border px-2.5 py-1 text-[11px] font-black', statusMeta.tone)}>
-                  {user.onionStatus}
-                </span>
-                <span className={relationClass(user.relation)}>{user.relation}</span>
-                <Pill>{user.pressure}</Pill>
+        <section className="overflow-hidden rounded-[24px] border border-[#E8E2D9] bg-white p-6 shadow-[0_12px_35px_rgba(30,35,40,0.06)] sm:p-8">
+          {/* 头部：编号 + 姓名 + 元信息 + 右上工具徽章 */}
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div className="flex items-baseline gap-3">
+              <span className="text-[22px] font-black italic text-[#3f6fff]">{userNumber}</span>
+              <div>
+                <h1 className="text-[26px] font-black leading-none text-gray-900 sm:text-[30px]">{user.name}</h1>
+                <p className="mt-2 text-[12px] font-semibold text-gray-400">
+                  {user.region} · {user.grade} · {user.subjects.join('/')} · {user.learningStatus}
+                </p>
               </div>
-              <h1 className="mt-4 text-[32px] font-black text-gray-900 sm:text-[42px]">{user.name}</h1>
-              <p className="mt-2 text-[13px] font-semibold text-gray-400">
-                {user.region} · {user.grade} · {user.subjects.join('/')} · {user.learningStatus}
-              </p>
-              <p className="mt-5 max-w-3xl text-[20px] font-black leading-8 text-gray-900">{user.oneLine}</p>
-              <p className="mt-3 max-w-3xl rounded-2xl border border-gray-100 bg-[#FAFAF8] p-4 text-[13px] font-semibold leading-6 text-gray-600">
-                {user.onionStatusNote}
-              </p>
-              <blockquote className="mt-5 rounded-2xl border border-[#f0ded8] bg-[#fff8f5] p-4 text-[14px] font-semibold leading-7 text-gray-700">
-                “{user.quote}”
-              </blockquote>
             </div>
-            <div className="rounded-2xl border border-gray-100 bg-[#FAFAF8] p-5">
-              <p className="text-[11px] font-black tracking-widest text-gray-400">用户档案</p>
-              <div className="mt-4 space-y-3 text-[12.5px]">
-                <div><strong className="text-gray-900">当前目标：</strong><span className="text-gray-600">{user.currentGoal}</span></div>
-                <div><strong className="text-gray-900">需求倾向：</strong><span className="text-gray-600">{user.answerVsLearn}</span></div>
-                <div><strong className="text-gray-900">使用工具：</strong><span className="text-gray-600">{user.tools.join(' / ')}</span></div>
-                <div><strong className="text-gray-900">主要竞品：</strong><span className="text-gray-600">{user.primaryCompetitor}</span></div>
-              </div>
+            <span className="rounded-lg border border-gray-200 bg-[#FAFAF8] px-3 py-1.5 text-[11px] font-bold text-gray-500">
+              {user.tools.join(' · ')}
+            </span>
+          </div>
+
+          {/* 标签行 */}
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            <span className={cn('rounded-full border px-2.5 py-1 text-[11px] font-black', statusMeta.tone)}>
+              {user.onionStatus}
+            </span>
+            <span className={relationClass(user.relation)}>{user.relation}</span>
+            <Pill>{user.pressure}</Pill>
+            <Pill>{user.answerVsLearn}</Pill>
+          </div>
+
+          {/* 主旨句 */}
+          <p className="mt-4 max-w-4xl text-[18px] font-black leading-8 text-gray-900 sm:text-[20px]">{user.oneLine}</p>
+
+          {/* 用户原声：放在下面，多列时按列从上到下排列（而非从左到右） */}
+          <div className="mt-6 border-t border-gray-100 pt-5">
+            <div className="flex items-center gap-1.5">
+              <MessageSquareQuote size={15} className="text-[#e65532]" />
+              <p className="text-[12px] font-black tracking-widest text-[#b84a2f]">用户原声</p>
+              <span className="text-[11px] font-semibold text-gray-400">· 共 {quotes.length} 条</span>
+            </div>
+            <div className="mt-4 gap-x-6 sm:columns-2">
+              {quotes.map((quote, index) => (
+                <blockquote
+                  key={quote}
+                  className={cn(
+                    'mb-3 break-inside-avoid pl-3 text-[13px] leading-7',
+                    index === 0
+                      ? 'rounded-r-lg border-l-[3px] border-[#3f6fff] bg-[#f4f7ff] py-2 pr-3 font-bold text-gray-900'
+                      : 'border-l-2 border-gray-200 text-gray-700',
+                  )}
+                >
+                  “{quote}”
+                </blockquote>
+              ))}
             </div>
           </div>
+
+          {/* 底部小结 */}
+          <p className="mt-5 border-t border-dashed border-gray-200 pt-4 text-[11.5px] leading-6 text-gray-400">
+            {user.onionStatusNote}
+          </p>
         </section>
 
         <section className="mt-6 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
