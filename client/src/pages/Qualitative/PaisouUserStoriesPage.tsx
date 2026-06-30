@@ -541,7 +541,7 @@ function UserCard({ user }: { user: PaisouUserStory }) {
         <ArrowRight size={16} />
       </button>
 
-      <div className="grid gap-4 lg:grid-cols-[240px_minmax(0,1fr)_300px] lg:gap-6">
+      <div className="flex flex-col gap-4">
         {/* ① 这是谁 */}
         <div className="flex flex-col">
           <div className="flex flex-wrap items-center gap-2 pr-8">
@@ -558,7 +558,7 @@ function UserCard({ user }: { user: PaisouUserStory }) {
         </div>
 
         {/* ② 用户原声（卡片重点） */}
-        <div className="flex h-full flex-col rounded-2xl border border-[#f0ded8] border-l-4 border-l-[#e65532] bg-[#fff8f5] p-4">
+        <div className="flex flex-col rounded-2xl border border-[#f0ded8] border-l-4 border-l-[#e65532] bg-[#fff8f5] p-4">
           <div className="flex items-center gap-1.5">
             <MessageSquareQuote size={15} className="text-[#e65532]" />
             <p className="text-[12px] font-black tracking-widest text-[#b84a2f]">用户原声</p>
@@ -620,7 +620,7 @@ function UserCard({ user }: { user: PaisouUserStory }) {
           <button
             type="button"
             onClick={openUserDetail}
-            className="mt-auto inline-flex items-center justify-center gap-1.5 rounded-xl border border-gray-200 bg-white px-3 py-2 text-[12px] font-bold text-gray-600 transition-colors hover:border-[#e65532]/40 hover:text-[#e65532]"
+            className="inline-flex items-center justify-center gap-1.5 self-start rounded-xl border border-gray-200 bg-white px-3 py-2 text-[12px] font-bold text-gray-600 transition-colors hover:border-[#e65532]/40 hover:text-[#e65532]"
           >
             查看完整故事
             <ArrowRight size={14} />
