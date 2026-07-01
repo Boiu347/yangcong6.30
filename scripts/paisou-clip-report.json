@@ -420,10 +420,22 @@
     },
     {
       "user": "诺诗",
-      "text": "作业帮没有感情，只是单纯讲题，听不进去。",
+      "text": "比较温柔的，委婉啊。对，委婉温柔。",
       "clips": [
         {
           "clipUrl": "/clips/paisou/obcnfkhu/035-01.mp3",
+          "startTime": 796.6,
+          "duration": 86.2
+        }
+      ],
+      "score": 0.88
+    },
+    {
+      "user": "诺诗",
+      "text": "作业帮没有感情，只是单纯讲题，听不进去。",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnfkhu/036-01.mp3",
           "startTime": 893.5,
           "duration": 14.6
         }
@@ -432,10 +444,22 @@
     },
     {
       "user": "诺诗",
+      "text": "因为他说话不像老师。就是他要讲的那一块的那样。",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnfkhu/037-01.mp3",
+          "startTime": 931.0,
+          "duration": 16.3
+        }
+      ],
+      "score": 0.92
+    },
+    {
+      "user": "诺诗",
       "text": "洋葱比作业帮使用高频，原因是洋葱更容易理解，更有兴趣一点，作业帮讲得太无聊了。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnfkhu/036-01.mp3",
+          "clipUrl": "/clips/paisou/obcnfkhu/038-01.mp3",
           "startTime": 547.5,
           "duration": 101.2
         }
@@ -447,7 +471,7 @@
       "text": "找过别的网课，没上——听不懂，在那么多网课里找不到适合我的。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnog21/037-01.mp3",
+          "clipUrl": "/clips/paisou/obcnog21/039-01.mp3",
           "startTime": 1018.0,
           "duration": 13.0
         }
@@ -459,7 +483,7 @@
       "text": "有一丢丢思路，做了答案之后感觉不对劲再去问豆包。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnog21/038-01.mp3",
+          "clipUrl": "/clips/paisou/obcnog21/040-01.mp3",
           "startTime": 677.4,
           "duration": 26.3
         }
@@ -471,7 +495,7 @@
       "text": "洋葱的不可替代性是可以上课。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnog21/039-01.mp3",
+          "clipUrl": "/clips/paisou/obcnog21/041-01.mp3",
           "startTime": 721.4,
           "duration": 26.2
         }
@@ -483,7 +507,7 @@
       "text": "洋葱的不可替代性是可以上课——看洋葱十道错5道，不看错8道。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnog21/040-01.mp3",
+          "clipUrl": "/clips/paisou/obcnog21/042-01.mp3",
           "startTime": 721.4,
           "duration": 26.2
         }
@@ -511,14 +535,6 @@
     {
       "user": "吕同学",
       "text": "英语作业量大（十几页练习册）的时候，或做物理实验题、感觉拿不准的数学题，会去搜一下。"
-    },
-    {
-      "user": "诺诗",
-      "text": "洋葱讲题语气委婉、温柔、有耐心，更像朋友，不像老师和长辈那样严肃。"
-    },
-    {
-      "user": "诺诗",
-      "text": "洋葱拍题时有人物模型，小锤和狗蛋，比较有趣，能提升我的兴趣。"
     },
     {
       "user": "小林",
