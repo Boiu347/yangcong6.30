@@ -124,20 +124,30 @@
     margin-bottom:16px;line-height:1.5;text-transform:none;}
   .when .wh-title b{color:var(--ink);margin-right:8px;letter-spacing:.04em;text-transform:none;font-size:15px;}
   .when .wh-sub{display:block;margin-top:6px;font-size:12.5px;font-weight:500;color:var(--note);letter-spacing:.02em;}
-  .jtbd-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px;padding:0 4px;}
-  .jtbd-table{width:100%;min-width:1040px;border-collapse:collapse;font-size:13px;line-height:1.55;color:#34312b;}
-  .jtbd-table th,.jtbd-table td{border:1px solid var(--line);padding:10px 12px;vertical-align:top;text-align:left;}
-  .jtbd-table thead th{background:var(--bg2);font-size:12px;font-weight:800;color:var(--ink);letter-spacing:.04em;}
+  .when.jtbd-bleed{width:100vw;max-width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);
+    border-radius:0;border-left:none;border-right:none;padding-left:clamp(20px,3vw,40px);padding-right:clamp(20px,3vw,40px);}
+  .jtbd-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0;padding:0;}
+  .jtbd-table{width:max-content;min-width:100%;border-collapse:collapse;font-size:13px;line-height:1.55;color:#34312b;table-layout:auto;}
+  .jtbd-table th,.jtbd-table td{border:1px solid var(--line);padding:10px 12px;vertical-align:top;text-align:left;word-break:keep-all;}
+  .jtbd-table thead th{background:var(--bg2);font-size:12px;font-weight:800;color:var(--ink);letter-spacing:.04em;white-space:nowrap;}
   .jtbd-table tbody td:first-child{background:#faf9f6;font-weight:700;color:var(--ink);}
-  .jtbd-table p{margin:0 0 8px;}
+  .jtbd-table p{margin:0 0 6px;line-height:1.55;}
   .jtbd-table p:last-child{margin-bottom:0;}
+  .jtbd-table blockquote.jtbd-quote{margin:4px 0 8px;padding:0 0 0 10px;border-left:3px solid #c8c2b6;color:#7a756b;font-size:12px;line-height:1.55;}
+  .jtbd-table blockquote.jtbd-quote p{margin:0;color:inherit;font-size:inherit;}
+  .jtbd-table td.jtbd-scene{min-width:10.5em;}
+  .jtbd-table td.jtbd-urgency{min-width:5.5em;white-space:nowrap;}
+  .jtbd-table td.jtbd-difficulty{min-width:6.5em;}
+  .jtbd-table td.jtbd-demand{min-width:12em;max-width:15em;}
+  .jtbd-table td.jtbd-app{min-width:4.5em;text-align:center;white-space:nowrap;}
+  .jtbd-table td.jtbd-app p{margin-bottom:4px;}
   .jtbd-table .jtbd-tag{display:inline-block;background:#ffe8c8;border-radius:4px;padding:2px 7px;font-size:11.5px;font-weight:700;color:#5c3d1e;margin:0 0 6px;line-height:1.45;}
   .jtbd-table .jtbd-hl{font-weight:700;text-decoration:underline;text-decoration-color:#e8a54a;text-underline-offset:2px;background:linear-gradient(transparent 55%,#fff3bf 55%);}
   .jtbd-table .vtext-wrap,.jtbd-table td.jtbd-group{display:flex;justify-content:center;align-items:center;gap:8px;}
-  .jtbd-table .jtbd-group{text-align:center;white-space:nowrap;vertical-align:middle;}
-  .jtbd-table .jtbd-student-type{text-align:center;white-space:nowrap;vertical-align:middle;}
+  .jtbd-table td.jtbd-group{text-align:center;white-space:nowrap;vertical-align:middle;min-width:3.2em;}
+  .jtbd-table td.jtbd-student-type{text-align:center;white-space:nowrap;vertical-align:middle;min-width:3.8em;}
   .jtbd-table .vtext,.jtbd-table .jtbd-group .vtext{writing-mode:vertical-rl;display:inline-block;letter-spacing:.1em;font-weight:700;color:var(--ink);}
-  .jtbd-table .jtbd-summary{min-width:300px;max-width:420px;font-size:12.5px;color:#4a463f;line-height:1.65;}
+  .jtbd-table td.jtbd-summary{min-width:320px;max-width:440px;font-size:12.5px;color:#4a463f;line-height:1.65;}
   .interview-cta-section{padding:48px 0 64px;border-top:1px solid var(--line);}
   .interview-cta-lead{font-size:15px;color:var(--ink2);margin-bottom:16px;line-height:1.65;}
   .interview-card{display:flex;align-items:center;gap:16px;padding:18px 22px;background:#fff;border:1px solid var(--line);
@@ -425,7 +435,7 @@
     </div>
 
     
-    <div class="when">
+    <div class="when jtbd-bleed">
       <div class="wh-title"><b>访谈用户的待办任务总结</b><span class="wh-sub">来源：拍题调研 · 按「第一时间看答案 / 看解析和步骤」× 核心场景梳理</span></div>
       <div class="jtbd-table-wrap"><table class="jtbd-table"><thead><tr>
 <th colspan="1"></th>

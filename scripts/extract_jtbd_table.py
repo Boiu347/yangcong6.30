@@ -13,8 +13,18 @@ DOC = "https://guanghe.feishu.cn/wiki/PWA5wZGawiTvS2kK6aGcrBP5nWc"
 STUDENT_TYPE_COL = 2
 JTBD_COL = 7
 GROUP_COL = 0
-SIMPLE_COLS = {3, 4, 5, 6}
+BLOCK_COLS = {3, 4, 5, 6}
 SCENE_COL = 1
+
+COL_CLASSES = {
+    1: "jtbd-scene",
+    3: "jtbd-urgency",
+    4: "jtbd-difficulty",
+    5: "jtbd-demand",
+    6: "jtbd-app",
+}
+
+BLOCK_RE = re.compile(r"<blockquote>(.*?)</blockquote>|<p[^>]*>(.*?)</p>", re.S)
 
 
 def strip_tags(s: str) -> str:
@@ -108,13 +118,19 @@ def split_paragraphs(raw: str) -> list[str]:
     return [strip_tags(p) for p in parts if strip_tags(p)]
 
 
-def format_simple_cell(raw: str) -> str:
-    paras = re.findall(r"<p[^>]*>(.*?)</p>", raw, flags=re.S)
-    if paras:
-        rendered = [sanitize_paragraph(f"<p>{p}</p>") for p in paras]
-        rendered = [r for r in rendered if r]
-        if rendered:
-            return f"<p>{'<br>'.join(rendered)}</p>"
+def format_block_cell(raw: str) -> str:
+    parts: list[str] = []
+    for m in BLOCK_RE.finditer(raw):
+        if m.group(1) is not None:
+            inner = sanitize_paragraph(m.group(1))
+            if inner:
+                parts.append(f'<blockquote class="jtbd-quote"><p>{inner}</p></blockquote>')
+        else:
+            inner = sanitize_paragraph(f"<p>{m.group(2)}</p>")
+            if inner:
+                parts.append(f"<p>{inner}</p>")
+    if parts:
+        return "".join(parts)
     inner = sanitize_paragraph(raw)
     return f"<p>{inner}</p>" if inner else ""
 
@@ -125,7 +141,7 @@ def format_student_type(raw: str) -> str:
         text = strip_tags(raw)
         labels = [t.strip() for t in re.split(r"[\s\n]+", text) if t.strip()]
     if not labels:
-        return format_simple_cell(raw)
+        return format_block_cell(raw)
     spans = "".join(f'<span class="vtext">{html.escape(l)}</span>' for l in labels)
     return f'<div class="vtext-wrap">{spans}</div>'
 
@@ -142,7 +158,7 @@ def format_group_cell(raw: str) -> str:
     if text in known:
         lines = known[text]
         return "".join(f'<span class="vtext">{html.escape(ln)}</span>' for ln in lines)
-    return format_simple_cell(raw)
+    return format_block_cell(raw)
 
 
 def cell_html(raw: str, col: int | None = None) -> str:
@@ -158,8 +174,8 @@ def cell_html(raw: str, col: int | None = None) -> str:
         return f"<p>{inner}</p>" if inner else ""
     if col == JTBD_COL:
         return sanitize_inline(raw, lists=True)
-    if col in SIMPLE_COLS:
-        return format_simple_cell(raw)
+    if col in BLOCK_COLS:
+        return format_block_cell(raw)
     return sanitize_inline(raw, lists=False)
 
 
@@ -247,13 +263,17 @@ def parse_table(table_html: str) -> list[list[dict]]:
 
 
 def col_class(col: int) -> str | None:
+    classes: list[str] = []
+    extra = COL_CLASSES.get(col)
+    if extra:
+        classes.append(extra)
     if col == STUDENT_TYPE_COL:
-        return "jtbd-student-type"
-    if col == GROUP_COL:
-        return "jtbd-group"
-    if col == JTBD_COL:
-        return "jtbd-summary"
-    return None
+        classes.append("jtbd-student-type")
+    elif col == GROUP_COL:
+        classes.append("jtbd-group")
+    elif col == JTBD_COL:
+        classes.append("jtbd-summary")
+    return " ".join(classes) if classes else None
 
 
 def emit_html(grid: list[list[dict]]) -> str:
