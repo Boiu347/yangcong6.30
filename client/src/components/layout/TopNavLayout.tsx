@@ -31,9 +31,6 @@ const paisouItems = [
   { label: '调研背景', path: 'background' },
   { label: '项目总结', path: 'summary' },
   { label: '定性洞察', path: 'qualitative' },
-  { label: '竞品分析', path: 'competitive' },
-  { label: '定量报告', path: 'quantitative' },
-  { label: '营销落地', path: 'marketing' },
 ];
 
 export default function TopNavLayout() {

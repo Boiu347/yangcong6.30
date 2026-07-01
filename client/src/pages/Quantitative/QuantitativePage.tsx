@@ -15,8 +15,7 @@ import {
   Target,
   Users,
 } from 'lucide-react';
-import { useParams } from 'react-router-dom';
-import PaisouUnderConstruction from '../Paisou/PaisouUnderConstruction';
+import { useParams, Navigate } from 'react-router-dom';
 
 const ORANGE = '#E95B35';
 const INK = '#28241F';
@@ -624,6 +623,6 @@ function DefaultQuantitativeReport() {
 export default function QuantitativePage() {
   const { projectId } = useParams<{ projectId: string }>();
   if (projectId === 'jisuanying_project') return <CalculationQuantitativePage />;
-  if (projectId === 'paisou_project') return <PaisouUnderConstruction section="定量报告" hint="问卷数据与统计图表还在整理，完成后会在此呈现。" />;
+  if (projectId === 'paisou_project') return <Navigate to="../qualitative" replace />;
   return <DefaultQuantitativeReport />;
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes, Navigate, useParams } from 'react-router-dom';
 import MainLayout from './components/layout/MainLayout';
 import TopNavLayout from './components/layout/TopNavLayout';
 import ProjectsPage from './pages/Projects/ProjectsPage';
@@ -16,6 +16,12 @@ import QuantitativePage from './pages/Quantitative/QuantitativePage';
 import MarketingPage from './pages/Marketing/MarketingPage';
 import BackgroundPage from './pages/Background/BackgroundPage';
 import NotFound from './pages/NotFound/NotFound';
+
+function ProjectIndexRedirect() {
+  const { projectId } = useParams<{ projectId: string }>();
+  if (projectId === 'paisou_project') return <Navigate to="qualitative" replace />;
+  return <Navigate to="summary" replace />;
+}
 
 const RoutesComponent = () => {
   return (
@@ -40,7 +46,7 @@ const RoutesComponent = () => {
 
       {/* All project detail pages share the top tab bar */}
       <Route path="/projects/:projectId" element={<TopNavLayout />}>
-        <Route index element={<Navigate to="summary" replace />} />
+        <Route index element={<ProjectIndexRedirect />} />
         <Route path="background" element={<BackgroundPage />} />
         <Route path="summary" element={<SummaryPage />} />
         <Route path="qualitative" element={<QualitativePage />} />
