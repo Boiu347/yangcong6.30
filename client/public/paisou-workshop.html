@@ -125,7 +125,7 @@
   .when .wh-title b{color:var(--ink);margin-right:8px;letter-spacing:.04em;text-transform:none;font-size:15px;}
   .when .wh-sub{display:block;margin-top:6px;font-size:12.5px;font-weight:500;color:var(--note);letter-spacing:.02em;}
   .when.jtbd-bleed{width:100vw;max-width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);
-    border-radius:0;border-left:none;border-right:none;background:var(--bg);padding:14px 0 20px;box-shadow:none;}
+    border:none;border-radius:0;background:var(--bg);padding:14px 0 20px;box-shadow:none;}
   .when.jtbd-bleed .wh-title{width:min(1320px,calc(100vw - 32px));margin:0 auto 8px;color:#777166;font-size:12px;letter-spacing:.02em;}
   .when.jtbd-bleed .wh-title b{font-size:14px;letter-spacing:0;}
   .when.jtbd-bleed .wh-sub{display:inline;margin-left:10px;font-size:12px;}
@@ -434,130 +434,6 @@
     </div>
 
     
-    <div class="when jtbd-bleed">
-      <div class="wh-title"><b>访谈用户的待办任务总结</b><span class="wh-sub">来源：拍题调研 · 按「第一时间看答案 / 看解析和步骤」× 核心场景梳理</span></div>
-      <div class="jtbd-table-wrap">
-        <table class="jtbd-table">
-          <colgroup>
-            <col style="width:6.1%">
-            <col style="width:8.9%">
-            <col style="width:6.7%">
-            <col style="width:7.3%">
-            <col style="width:7.3%">
-            <col style="width:16.2%">
-            <col style="width:6.7%">
-            <col style="width:40.8%">
-          </colgroup>
-          <thead>
-            <tr>
-              <th></th>
-              <th>核心场景</th>
-              <th>学生类型</th>
-              <th>时间紧急程度</th>
-              <th>题型难度</th>
-              <th>需求</th>
-              <th>拍搜APP</th>
-              <th>访谈用户的待办任务总结</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td rowspan="3" class="jtbd-group answer">第一时间<br>看答案</td>
-              <td>批改作业</td>
-              <td class="jtbd-student-type">好学生<br>中等生</td>
-              <td>紧急⭐⭐⭐</td>
-              <td>都有⭐</td>
-              <td>出答案快</td>
-              <td class="jtbd-app">豆包</td>
-              <td rowspan="2" class="jtbd-summary">
-                <span class="jtbd-tag">时间紧急要完成当天作业答案核对</span>
-                当我在晚上<span class="jtbd-hl">作业量大、时间紧迫</span>时，我想要<span class="jtbd-hl">快速获得答案进行核对</span>，这样我就能<span class="jtbd-hl">迅速完成作业</span>提交任务。这个时候会选择<span class="jtbd-hl">比较快</span>的拍搜软件
-              </td>
-            </tr>
-            <tr>
-              <td>抄答案</td>
-              <td class="jtbd-student-type">中等生</td>
-              <td>紧急⭐⭐⭐</td>
-              <td>都有⭐</td>
-              <td>出答案快</td>
-              <td class="jtbd-app">豆包<br>作业帮</td>
-            </tr>
-            <tr>
-              <td>拿不准一道题是否做对了</td>
-              <td class="jtbd-student-type">好学生<br>中等生</td>
-              <td>紧急⭐⭐</td>
-              <td>中等⭐⭐</td>
-              <td>出答案快<br>有解题思路和详细步骤</td>
-              <td class="jtbd-app">科大讯飞</td>
-              <td class="jtbd-summary">
-                <span class="jtbd-tag">需要快速验证会做的题是否正确</span>
-                当我在完成补习班老师发的复杂的大题时（如涉及分类讨论），虽然写出了答案但担心考虑不周时，我想要<span class="jtbd-hl">快速验证</span>最终答案的完整性，这样我就能放一放这道题，把精力投入下一阶段学习中。
-              </td>
-            </tr>
-            <tr>
-              <td rowspan="4" class="jtbd-group analysis">第一时间<br>看解析和步骤</td>
-              <td>弄懂中等难题的一<span class="jtbd-hl">道</span>题</td>
-              <td class="jtbd-student-type" rowspan="2">好学生<br>中等生</td>
-              <td>紧急⭐</td>
-              <td>中等⭐⭐</td>
-              <td>
-                解题步骤要详细<br>
-                通俗易懂（有举例子）
-                <blockquote class="jtbd-quote"><p>用户提到科大讯飞的视频解析和洋葱点了听不懂后给的解析在这点都较好</p></blockquote>
-                有视频解析（文字枯燥不容易看下去）
-              </td>
-              <td class="jtbd-app">洋葱</td>
-              <td class="jtbd-summary">
-                <span class="jtbd-tag">时间充裕需要弄懂一道题</span>
-                <ol>
-                  <li>当我在<span class="jtbd-hl">面对错题or难题时间充裕</span>时，我想要获得详细的、能用通俗例子讲解的解析，这样我就能<span class="jtbd-hl">真正弄懂这类题，确保在未来遇到时不会出错</span></li>
-                  <li>当我<span class="jtbd-hl">面对错题且时间充裕</span>时，我想先看解析再看解题思路、不懂的时候需要有互动的讲解，让我从一大点中可以挑出一小点，再挑出一小点进行提问，逐一解决不会的地方。我<span class="jtbd-hl">需要回看解题思路来复习该题型</span>，最后我会用红笔在题目旁边<span class="jtbd-hl">标一下重点和步骤</span>。这样我感觉我好像弄懂了一种题型，我会非常有成就感。</li>
-                </ol>
-              </td>
-            </tr>
-            <tr>
-              <td>弄懂一<span class="jtbd-hl">类</span>题</td>
-              <td>紧急⭐</td>
-              <td>中等⭐⭐<br>难题⭐⭐⭐</td>
-              <td>解题步骤要详细<br>通俗易懂（有举例子）<br>有同类变式题<br>有错题本<br>有拍题库（用来后续能方便找到，检验AI出的变式题自己是否能继续做对）</td>
-              <td class="jtbd-app">科大讯飞<br>洋葱</td>
-              <td class="jtbd-summary">
-                <span class="jtbd-tag">没有解题思路但有耐心弄懂一类题</span>
-                <ol>
-                  <li>当我在遇到中等或者难题，找不到解题突破口/只知道答案但觉得没有掌握透时，我想要获得详细讲解 并立即进行变式题巩固训练，这样我就能真正掌握这类题目的解法，在考试中确保不丢分。</li>
-                  <li>（洋葱场景）当我遇到日常作业的试卷中的最后2道大题（中等&amp;难题），完全没有解题思路时，我想要先学习相关题型的视频讲解，提供我思路后我可以重新做题，如果还是不会我会看解析，点击【没听懂】，直到我重新做对这道题。我还会再重新看视频讲解的其他题型，并且摘抄到我的笔记本上，这样我就可以带到学校去。遇到相似题型的时候，我第一时间先看我的笔记本复习，在做习题，这样我感觉我好像学透了一类题，我会非常有成就感。</li>
-                </ol>
-              </td>
-            </tr>
-            <tr>
-              <td>难题的多种解法</td>
-              <td class="jtbd-student-type">好学生</td>
-              <td>紧急⭐⭐</td>
-              <td>难题⭐⭐⭐</td>
-              <td>有多种解法<br>解题步骤要详细</td>
-              <td class="jtbd-app">豆包</td>
-              <td class="jtbd-summary"><span class="jtbd-tag">需要了解难题的更简单解法</span>当我在遇到难题，不确定自己的解法是最佳解法时，我想要看到这道题的多种解法，这样我就能真正学透这道题，以及掌握最简单的做题思路，在考试中能够更快解题或者彻底掌握了这道题。</td>
-            </tr>
-            <tr>
-              <td>想了解创新题型的做题思路（如历史题、政治题）</td>
-              <td class="jtbd-student-type">好学生</td>
-              <td>紧急⭐</td>
-              <td>难题⭐⭐⭐</td>
-              <td>识别准确（洋葱被用户认为文科识别不准）<br>有解题思路<br>解题步骤要详细</td>
-              <td class="jtbd-app">豆包</td>
-              <td class="jtbd-summary">
-                <span class="jtbd-tag">需要创新题点拨思路或者给全解法</span>
-                <ol>
-                  <li>当我遇到一道文科创新题型（政治），有思路但感觉自己想的不够全面，我想要获得解题思路，这样我就知道遇到这类创新题型我应该怎么思考。</li>
-                  <li>当我遇到一道文科创新题型（历史辨析题），完全没有思路时，我期待给到我至少3种以上的解析思路和详细的答案，我觉得给我的答案更多，我就能拓展我的思路更多。</li>
-                </ol>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
     <div class="scenes">
 
       <article class="scene">
@@ -726,6 +602,131 @@
           <p class="tag">未付费、靠活动拿VIP · 妈妈嫌498/年贵、想先付一季度却没这选项 · 找过免费替代但听不懂</p>
         </div>
       </article>
+
+
+    <div class="when jtbd-bleed">
+      <div class="wh-title"><b>访谈用户的待办任务总结</b><span class="wh-sub">来源：拍题调研 · 按「第一时间看答案 / 看解析和步骤」× 核心场景梳理</span></div>
+      <div class="jtbd-table-wrap">
+        <table class="jtbd-table">
+          <colgroup>
+            <col style="width:6.1%">
+            <col style="width:8.9%">
+            <col style="width:6.7%">
+            <col style="width:7.3%">
+            <col style="width:7.3%">
+            <col style="width:16.2%">
+            <col style="width:6.7%">
+            <col style="width:40.8%">
+          </colgroup>
+          <thead>
+            <tr>
+              <th></th>
+              <th>核心场景</th>
+              <th>学生类型</th>
+              <th>时间紧急程度</th>
+              <th>题型难度</th>
+              <th>需求</th>
+              <th>拍搜APP</th>
+              <th>访谈用户的待办任务总结</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td rowspan="3" class="jtbd-group answer">第一时间<br>看答案</td>
+              <td>批改作业</td>
+              <td class="jtbd-student-type">好学生<br>中等生</td>
+              <td>紧急⭐⭐⭐</td>
+              <td>都有⭐</td>
+              <td>出答案快</td>
+              <td class="jtbd-app">豆包</td>
+              <td rowspan="2" class="jtbd-summary">
+                <span class="jtbd-tag">时间紧急要完成当天作业答案核对</span>
+                当我在晚上<span class="jtbd-hl">作业量大、时间紧迫</span>时，我想要<span class="jtbd-hl">快速获得答案进行核对</span>，这样我就能<span class="jtbd-hl">迅速完成作业</span>提交任务。这个时候会选择<span class="jtbd-hl">比较快</span>的拍搜软件
+              </td>
+            </tr>
+            <tr>
+              <td>抄答案</td>
+              <td class="jtbd-student-type">中等生</td>
+              <td>紧急⭐⭐⭐</td>
+              <td>都有⭐</td>
+              <td>出答案快</td>
+              <td class="jtbd-app">豆包<br>作业帮</td>
+            </tr>
+            <tr>
+              <td>拿不准一道题是否做对了</td>
+              <td class="jtbd-student-type">好学生<br>中等生</td>
+              <td>紧急⭐⭐</td>
+              <td>中等⭐⭐</td>
+              <td>出答案快<br>有解题思路和详细步骤</td>
+              <td class="jtbd-app">科大讯飞</td>
+              <td class="jtbd-summary">
+                <span class="jtbd-tag">需要快速验证会做的题是否正确</span>
+                当我在完成补习班老师发的复杂的大题时（如涉及分类讨论），虽然写出了答案但担心考虑不周时，我想要<span class="jtbd-hl">快速验证</span>最终答案的完整性，这样我就能放一放这道题，把精力投入下一阶段学习中。
+              </td>
+            </tr>
+            <tr>
+              <td rowspan="4" class="jtbd-group analysis">第一时间<br>看解析和步骤</td>
+              <td>弄懂中等难题的一<span class="jtbd-hl">道</span>题</td>
+              <td class="jtbd-student-type" rowspan="2">好学生<br>中等生</td>
+              <td>紧急⭐</td>
+              <td>中等⭐⭐</td>
+              <td>
+                解题步骤要详细<br>
+                通俗易懂（有举例子）
+                <blockquote class="jtbd-quote"><p>用户提到科大讯飞的视频解析和洋葱点了听不懂后给的解析在这点都较好</p></blockquote>
+                有视频解析（文字枯燥不容易看下去）
+              </td>
+              <td class="jtbd-app">洋葱</td>
+              <td class="jtbd-summary">
+                <span class="jtbd-tag">时间充裕需要弄懂一道题</span>
+                <ol>
+                  <li>当我在<span class="jtbd-hl">面对错题or难题时间充裕</span>时，我想要获得详细的、能用通俗例子讲解的解析，这样我就能<span class="jtbd-hl">真正弄懂这类题，确保在未来遇到时不会出错</span></li>
+                  <li>当我<span class="jtbd-hl">面对错题且时间充裕</span>时，我想先看解析再看解题思路、不懂的时候需要有互动的讲解，让我从一大点中可以挑出一小点，再挑出一小点进行提问，逐一解决不会的地方。我<span class="jtbd-hl">需要回看解题思路来复习该题型</span>，最后我会用红笔在题目旁边<span class="jtbd-hl">标一下重点和步骤</span>。这样我感觉我好像弄懂了一种题型，我会非常有成就感。</li>
+                </ol>
+              </td>
+            </tr>
+            <tr>
+              <td>弄懂一<span class="jtbd-hl">类</span>题</td>
+              <td>紧急⭐</td>
+              <td>中等⭐⭐<br>难题⭐⭐⭐</td>
+              <td>解题步骤要详细<br>通俗易懂（有举例子）<br>有同类变式题<br>有错题本<br>有拍题库（用来后续能方便找到，检验AI出的变式题自己是否能继续做对）</td>
+              <td class="jtbd-app">科大讯飞<br>洋葱</td>
+              <td class="jtbd-summary">
+                <span class="jtbd-tag">没有解题思路但有耐心弄懂一类题</span>
+                <ol>
+                  <li>当我在遇到中等或者难题，找不到解题突破口/只知道答案但觉得没有掌握透时，我想要获得详细讲解 并立即进行变式题巩固训练，这样我就能真正掌握这类题目的解法，在考试中确保不丢分。</li>
+                  <li>（洋葱场景）当我遇到日常作业的试卷中的最后2道大题（中等&amp;难题），完全没有解题思路时，我想要先学习相关题型的视频讲解，提供我思路后我可以重新做题，如果还是不会我会看解析，点击【没听懂】，直到我重新做对这道题。我还会再重新看视频讲解的其他题型，并且摘抄到我的笔记本上，这样我就可以带到学校去。遇到相似题型的时候，我第一时间先看我的笔记本复习，在做习题，这样我感觉我好像学透了一类题，我会非常有成就感。</li>
+                </ol>
+              </td>
+            </tr>
+            <tr>
+              <td>难题的多种解法</td>
+              <td class="jtbd-student-type">好学生</td>
+              <td>紧急⭐⭐</td>
+              <td>难题⭐⭐⭐</td>
+              <td>有多种解法<br>解题步骤要详细</td>
+              <td class="jtbd-app">豆包</td>
+              <td class="jtbd-summary"><span class="jtbd-tag">需要了解难题的更简单解法</span>当我在遇到难题，不确定自己的解法是最佳解法时，我想要看到这道题的多种解法，这样我就能真正学透这道题，以及掌握最简单的做题思路，在考试中能够更快解题或者彻底掌握了这道题。</td>
+            </tr>
+            <tr>
+              <td>想了解创新题型的做题思路（如历史题、政治题）</td>
+              <td class="jtbd-student-type">好学生</td>
+              <td>紧急⭐</td>
+              <td>难题⭐⭐⭐</td>
+              <td>识别准确（洋葱被用户认为文科识别不准）<br>有解题思路<br>解题步骤要详细</td>
+              <td class="jtbd-app">豆包</td>
+              <td class="jtbd-summary">
+                <span class="jtbd-tag">需要创新题点拨思路或者给全解法</span>
+                <ol>
+                  <li>当我遇到一道文科创新题型（政治），有思路但感觉自己想的不够全面，我想要获得解题思路，这样我就知道遇到这类创新题型我应该怎么思考。</li>
+                  <li>当我遇到一道文科创新题型（历史辨析题），完全没有思路时，我期待给到我至少3种以上的解析思路和详细的答案，我觉得给我的答案更多，我就能拓展我的思路更多。</li>
+                </ol>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
     </div>
   </div>
