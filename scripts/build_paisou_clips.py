@@ -183,6 +183,8 @@ def find_matches(query: str, segments: list[dict], student_spk: str | None) -> l
 
 def slice_audio(src: Path, start: float, end: float, out: Path):
     out.parent.mkdir(parents=True, exist_ok=True)
+    if out.exists():
+        out.unlink(missing_ok=True)
     start_p = max(0.0, start - PADDING_SEC)
     dur = max(0.8, (end + PADDING_SEC) - start_p)
     cmd = [
@@ -213,7 +215,7 @@ class QuoteExtractor(HTMLParser):
         if tag == "span" and "who" in cls.split():
             self._capture = "who"
             self._buf = []
-        if tag in ("div", "p") and any(c in cls.split() for c in ("v", "voice", "q")):
+        if tag in ("div", "p") and any(c in cls.split() for c in ("v", "voice")):
             self._capture = "quote"
             self._buf = []
 
@@ -252,6 +254,32 @@ class QuoteExtractor(HTMLParser):
             self._buf.append(data)
 
 
+def normalize_quote(text: str) -> str:
+    text = re.sub(r"\s+", " ", text).strip()
+    return text.strip("""''""").strip('"').strip("“”").strip()
+
+
+def extract_switch_quotes(html: str) -> list[dict]:
+    out: list[dict] = []
+    starts = [m.start() for m in re.finditer(r'<div class="switch">', html)]
+    for i, start in enumerate(starts):
+        end = starts[i + 1] if i + 1 < len(starts) else html.find("</div>\n    </div>\n  </div>\n</section>", start)
+        if end < 0:
+            end = len(html)
+        block = html[start:end]
+        src_m = re.search(r'<div class="src">[^<]*?([^<]+)</div>', block)
+        src_text = src_m.group(1) if src_m else ""
+        users = [name for name in USER_TOKEN if name in src_text]
+        qs = re.findall(r'<div class="q">(.*?)</div>', block, flags=re.S)
+        for j, raw in enumerate(qs):
+            text = normalize_quote(re.sub(r"<[^>]+>", "", raw))
+            if len(clean_text(text)) < 8:
+                continue
+            user = users[j] if j < len(users) else (users[0] if users else None)
+            out.append({"text": text, "user": user})
+    return out
+
+
 def extract_quotes() -> list[dict]:
     html = HTML_PATH.read_text(encoding="utf-8")
     parser = QuoteExtractor()
@@ -271,14 +299,17 @@ def extract_quotes() -> list[dict]:
         if user not in USER_TOKEN:
             continue
         for v in re.findall(r'<div class="v[^"]*">(.*?)</div>', block, flags=re.S):
-            text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", v)).strip()
+            text = normalize_quote(re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", v)).strip())
             if len(clean_text(text)) >= 8:
                 parser.quotes.append({"text": text, "user": user})
+
+    for item in extract_switch_quotes(html):
+        parser.quotes.append(item)
 
     # evidence voices with who span
     for block in re.findall(r'<div class="voice[^"]*">(.*?)</div>', html, flags=re.S):
         plain = re.sub(r"<span[^>]*>.*?</span>", "", block, flags=re.S)
-        text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", plain)).strip().strip("""''""").strip()
+        text = normalize_quote(re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", plain)).strip())
         who_m = re.search(r"<span class=\"who\">([^<]+)</span>", block)
         user = None
         if who_m:

@@ -152,7 +152,7 @@
   .v::before{content:"";position:absolute;left:0;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--line2);}
   .v.warm::before{background:var(--warm);}
   .v.good::before{background:var(--accent);}
-  .v.has-audio,.voice.has-audio{display:flex;flex-direction:column;align-items:flex-start;gap:8px;}
+  .v.has-audio,.voice.has-audio,.switch .right .q.has-audio{display:flex;flex-direction:column;align-items:flex-start;gap:8px;}
   .voice-text{width:100%;}
   .scene .tag{margin-top:14px;font-size:12.5px;color:var(--note);}
 
@@ -548,9 +548,9 @@
           </div>
           <p class="jtbd">在<span class="b">对完标准答案</span>遇到做错的题时，想要有趣易懂、能听得进去的讲解，轻松弄懂一道题、下次别再错。</p>
                     <div class="voices">
-            <div class="v">写作业的时候拍题，物理和数学的题为主。</div>
-            <div class="v">不会做或者没思路的时候，就会拿出来拍一下。</div>
-            <div class="v">对完标准答案，圈出错题之后，用洋葱来拍。</div>
+            <div class="v">写作业的时候会拍题，物理和数学的题为主。</div>
+            <div class="v">我尝试了，没有思路。</div>
+            <div class="v">作业写完之后，我首先会拿出正确答案，然后把错误的题目圈出来，然后再去用洋葱。</div>
           </div>
           <p class="tag">寄宿，周末才能用平板 · 数学英语薄弱 · 中差生&洋葱情绪价值最敏感的样本</p>
         </div>
@@ -733,7 +733,7 @@
         </div>
         <div class="right">
           <div class="reason">豆包答案错了/讲不透时，时间够就切去洋葱看课、把这类题彻底弄懂。</div>
-          <div class="q">"豆包答案是错的，时间充足（七点半左右写完）就会用洋葱看课。有解题课就看课，没有就拍题。"</div>
+          <div class="q">豆包答案是错的，时间充足（七点半左右写完全部作业）就会用洋葱看课。有解题课就看课，解题课没有就拍题。</div>
           <div class="src">— 徐同学，初二，上海</div>
         </div>
       </div>
@@ -747,7 +747,7 @@
         </div>
         <div class="right">
           <div class="reason">在作业帮发现知识点忘了，切去洋葱看一眼对应视频，看完再切回来推导——10次有5次这种操作。</div>
-          <div class="q">"就去洋葱看一眼这个知识点，然后再回来再推一遍。10次得有5次吧。"</div>
+          <div class="q">我一般是这么用，先看一眼步骤，然后如果这里面知识点没记牢的话，就去洋葱看一眼这个知识点，然后再回来再推一遍。</div>
           <div class="src">— 吕同学，初二，绥芬河</div>
         </div>
       </div>
@@ -761,7 +761,7 @@
         </div>
         <div class="right">
           <div class="reason">家长嫌洋葱年费贵，找了免费替代，但孩子听不懂——最后还是回到洋葱。</div>
-          <div class="q">"曾找免费替代洋葱的课程但没上，原因是听不懂，觉得洋葱课好在自己能听得懂。"</div>
+          <div class="q">找过别的网课，没上——听不懂，在那么多网课里找不到适合我的。</div>
           <div class="src">— 小林，初一，南宁（家庭月可支配有限）</div>
         </div>
       </div>
@@ -775,8 +775,8 @@
         </div>
         <div class="right">
           <div class="reason">紧迫场景下洋葱会被切走——多一个框选步骤、没有对话框直接问"哪步错了"、政治历史拍不出，都是流失点。</div>
-          <div class="q">"急的时候开豆包，洋葱多了一个框选步骤，慢。"</div>
-          <div class="q">"第一时间没想到洋葱，因为它没有对话框。"</div>
+          <div class="q">急的时候开豆包，它更快；洋葱搜要挺长时间，还多一个框选的步骤，慢。</div>
+          <div class="q">有一丢丢思路，做了答案之后感觉不对劲再去问豆包。</div>
           <div class="src">— 徐同学、小林（注：用户访谈时未体验3.0）</div>
         </div>
       </div>
@@ -969,8 +969,9 @@
 
     fetch('/paisou-clip-lookup.json').then(r=>r.json()).then(raw=>{
       for(const [k,v] of Object.entries(raw)) lookup[norm(k)] = v;
-      document.querySelectorAll('.v, .voice').forEach(el => {
+      document.querySelectorAll('.v, .voice, .switch .right .q').forEach(el => {
         let text = el.textContent.replace(/\s+/g,' ').trim();
+        text = text.replace(/^["“]|["”]$/g, '').trim();
         const who = el.querySelector('.who');
         if(who) text = text.replace(who.textContent,'').trim();
         attachChip(el, findClips(text));
