@@ -122,12 +122,12 @@
     },
     {
       "user": "徐同学",
-      "text": "有的时候会觉得无所谓，然后可能有的时候就会用洋葱了。",
+      "text": "有的时候会觉得无所谓，然后可能有的时候就会用洋葱了。就是时间比较充足的时候，七点半左右把作业全部写完的时候。",
       "clips": [
         {
           "clipUrl": "/clips/paisou/obcnb3r4/011-01.mp3",
           "startTime": 1936.8,
-          "duration": 10.7
+          "duration": 25.2
         }
       ],
       "score": 1.0
@@ -300,7 +300,7 @@
     },
     {
       "user": "诺诗",
-      "text": "我尝试了，没有思路。",
+      "text": "做几何题完全不会做，我尝试自己做了一下，没有思路。",
       "clips": [
         {
           "clipUrl": "/clips/paisou/obcnfkhu/025-01.mp3",
@@ -308,7 +308,7 @@
           "duration": 44.7
         }
       ],
-      "score": 0.88
+      "score": 1.0
     },
     {
       "user": "诺诗",
@@ -407,11 +407,23 @@
       "score": 1.0
     },
     {
+      "user": "诺诗",
+      "text": "洋葱比作业帮使用高频，原因是洋葱更容易理解，更有兴趣一点，作业帮讲得太无聊了。",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnfkhu/034-01.mp3",
+          "startTime": 603.6,
+          "duration": 45.1
+        }
+      ],
+      "score": 1.0
+    },
+    {
       "user": "小林",
       "text": "找过别的网课，没上——听不懂，在那么多网课里找不到适合我的。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnog21/034-01.mp3",
+          "clipUrl": "/clips/paisou/obcnog21/035-01.mp3",
           "startTime": 1018.0,
           "duration": 13.0
         }
@@ -423,7 +435,7 @@
       "text": "有一丢丢思路，做了答案之后感觉不对劲再去问豆包。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnog21/035-01.mp3",
+          "clipUrl": "/clips/paisou/obcnog21/036-01.mp3",
           "startTime": 677.4,
           "duration": 26.3
         }
@@ -435,7 +447,7 @@
       "text": "洋葱的不可替代性是可以上课。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnog21/036-01.mp3",
+          "clipUrl": "/clips/paisou/obcnog21/037-01.mp3",
           "startTime": 721.4,
           "duration": 26.2
         }
@@ -447,7 +459,7 @@
       "text": "洋葱的不可替代性是可以上课——看洋葱十道错5道，不看错8道。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnog21/037-01.mp3",
+          "clipUrl": "/clips/paisou/obcnog21/038-01.mp3",
           "startTime": 721.4,
           "duration": 26.2
         }
@@ -551,6 +563,10 @@
     {
       "user": null,
       "text": "以自己更容易理解的写法写在那个本子上——主要还是自己写，方便自己理解。"
+    },
+    {
+      "user": null,
+      "text": "老师的回答很细心。"
     }
   ],
   "no_audio": []
