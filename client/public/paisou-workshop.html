@@ -119,16 +119,20 @@
 
   .scenes{margin-top:30px;display:grid;gap:18px;}
   .when{margin-top:28px;background:#fff;border:1px solid var(--line);border-radius:12px;
-    padding:22px 24px 20px;box-shadow:0 1px 0 var(--bg2),0 10px 24px -18px rgba(40,35,20,.4);}
+    padding:22px 24px 24px;box-shadow:0 1px 0 var(--bg2),0 10px 24px -18px rgba(40,35,20,.4);}
   .when .wh-title{font-size:12.5px;letter-spacing:.16em;color:var(--note);font-weight:700;
-    margin-bottom:14px;text-transform:uppercase;}
-  .when .wh-title b{color:var(--ink);margin-right:8px;letter-spacing:.04em;text-transform:none;}
-  .when ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px 22px;}
-  @media(max-width:680px){.when ul{grid-template-columns:1fr;}}
-  .when li{position:relative;padding-left:14px;font-size:14px;color:#34312b;line-height:1.7;}
-  .when li::before{content:"";position:absolute;left:0;top:11px;width:5px;height:5px;
-    border-radius:50%;background:var(--accent);}
-  .when li .who{display:block;font-size:11.5px;color:var(--note);margin-top:2px;letter-spacing:.02em;}
+    margin-bottom:16px;line-height:1.5;text-transform:none;}
+  .when .wh-title b{color:var(--ink);margin-right:8px;letter-spacing:.04em;text-transform:none;font-size:15px;}
+  .when .wh-sub{display:block;margin-top:6px;font-size:12.5px;font-weight:500;color:var(--note);letter-spacing:.02em;}
+  .jtbd-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px;padding:0 4px;}
+  .jtbd-table{width:100%;min-width:980px;border-collapse:collapse;font-size:13px;line-height:1.55;color:#34312b;}
+  .jtbd-table th,.jtbd-table td{border:1px solid var(--line);padding:10px 12px;vertical-align:top;text-align:left;}
+  .jtbd-table thead th{background:var(--bg2);font-size:12px;font-weight:800;color:var(--ink);letter-spacing:.04em;}
+  .jtbd-table tbody td:first-child{background:#faf9f6;font-weight:700;color:var(--ink);white-space:nowrap;}
+  .jtbd-table p{margin:0 0 8px;}
+  .jtbd-table p:last-child{margin-bottom:0;}
+  .jtbd-table .jtbd-tag{display:inline-block;background:#f3f0e8;border-radius:4px;padding:1px 6px;font-size:11.5px;font-weight:700;color:#6b5a2e;margin-bottom:6px;}
+  .jtbd-table td:nth-child(8){min-width:280px;max-width:360px;font-size:12.5px;color:#4a463f;}
   .scene{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;
     box-shadow:0 1px 0 var(--bg2),0 10px 24px -18px rgba(40,35,20,.4);}
   .scene .head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
@@ -407,22 +411,82 @@
 
     
     <div class="when">
-      <div class="wh-title"><b>先用学生自己的话，一眼看清「拍搜出现在哪些时刻」</b></div>
-      <ul>
-        <li>写作业遇到难题不会的时候拍一下。<span class="who">— 初三学生</span></li>
-        <li>作业不会写或者懒得思考的时候。<span class="who">— 小三学生</span></li>
-        <li>写作业，把不会的一起查了，一科一科地，写完化学拍化学。<span class="who">— 徐同学 初二</span></li>
-        <li>大部分是做作业，遇到不会的题就会去搜一下。<span class="who">— 初二学生</span></li>
-        <li>看到题目先自己写一下，不会写了就拍。<span class="who">— 吴语遥 初二</span></li>
-        <li>中等题是高频——周内写作业，脑子绕不过来弯，知道答案但是自己证明会卡壳。<span class="who">— 丁同学 初三</span></li>
-        <li>压轴大题没思路时，数学物理首选洋葱。<span class="who">— 丁同学 初三</span></li>
-        <li>对完标准答案，遇到做错的题，想要有趣易懂的讲解。<span class="who">— 诺诗 初三</span></li>
-        <li>父母不在、独自做作业卡壳时。<span class="who">— 梦梅 六年级</span></li>
-        <li>奥数题父母都不会时。<span class="who">— 梦梅 六年级</span></li>
-        <li>英语作业量大（十几页练习册）的时候。<span class="who">— 吕同学 初二</span></li>
-        <li>做物理实验题或感觉拿不准的数学题。<span class="who">— 吕同学 初二</span></li>
-        <li>考前复习时，把这学期的错题集中拍一遍。<span class="who">— 吴语遥 初二</span></li>
-      </ul>
+      <div class="wh-title"><b>访谈用户的待办任务总结</b><span class="wh-sub">来源：拍题调研 · 按「第一时间看答案 / 看解析和步骤」× 核心场景梳理</span></div>
+      <div class="jtbd-table-wrap"><table class="jtbd-table"><thead><tr>
+<th colspan="1"></th>
+<th colspan="1">核心场景</th>
+<th colspan="1">学生类型</th>
+<th colspan="1">时间紧急程度</th>
+<th colspan="1">题型难度</th>
+<th colspan="1">需求</th>
+<th colspan="1">拍搜APP</th>
+<th colspan="1">访谈用户的待办任务总结</th>
+</tr></thead><tbody>
+<tr>
+<td rowspan="3"><p>第一时间<br>看答案</p></td>
+<td><p>批改作业</p></td>
+<td><p>好学生<br>中等生</p></td>
+<td><p>紧急⭐️⭐️⭐️</p></td>
+<td><p>都有⭐️</p></td>
+<td><p>出答案快</p></td>
+<td><p>豆包</p></td>
+<td rowspan="2"><p><span class="jtbd-tag">时间紧急要完成当天作业答案核对</span>当我在晚上作业量大、时间紧迫时，我想要快速获得答案进行核对，这样我就能迅速完成作业提交任务。这个时候会选择比较快的拍搜软件。</p></td>
+</tr>
+<tr>
+<td><p>抄答案</p></td>
+<td><p>中等生</p></td>
+<td><p>紧急⭐️⭐️⭐️</p></td>
+<td><p>都有⭐️</p></td>
+<td><p>出答案快</p></td>
+<td><p>豆包<br>作业帮</p></td>
+</tr>
+<tr>
+<td><p>拿不准一道题是否做对了</p></td>
+<td><p>好学生<br>中等生</p></td>
+<td><p>紧急⭐️⭐️</p></td>
+<td><p>中等⭐️⭐️</p></td>
+<td><p>出答案快<br>有解题思路和详细步骤</p></td>
+<td><p>科大讯飞</p></td>
+<td><p><span class="jtbd-tag">需要快速验证会做的题是否正确</span>当我在完成补习班老师发的复杂的大题时（如涉及分类讨论），虽然写出了答案但担心考虑不周时，我想要快速验证最终答案的完整性，这样我就能放一放这道题，把精力投入下一阶段学习中。</p></td>
+</tr>
+<tr>
+<td rowspan="4"><p>第一时间<br>看解析和步骤</p></td>
+<td><p>弄懂中等难题的一道题</p></td>
+<td><p>好学生<br>中等生</p></td>
+<td><p>紧急⭐️</p></td>
+<td><p>中等⭐️⭐️</p></td>
+<td><p>解题步骤要详细<br>通俗易懂（有举例子）<br>有视频解析</p></td>
+<td><p>洋葱</p></td>
+<td><p><span class="jtbd-tag">时间充裕需要弄懂一道题</span></p><p><b>1.</b> 当我在面对错题 or 难题、时间充裕时，我想要获得详细的、能用通俗例子讲解的解析，这样我就能真正弄懂这类题，确保在未来遇到时不会出错。</p><p><b>2.</b> 当我面对错题且时间充裕时，我想先看解析再看解题思路；不懂的时候需要有互动的讲解，让我从一大点中挑出一小点再提问，逐一解决不会的地方。我需要回看解题思路来复习该题型，最后我会用红笔在题目旁边标一下重点和步骤——感觉弄懂了一种题型，会非常有成就感。</p></td>
+</tr>
+<tr>
+<td><p>弄懂一类题</p></td>
+<td><p>好学生<br>中等生</p></td>
+<td><p>紧急⭐️</p></td>
+<td><p>中等⭐️⭐️<br>难题⭐️⭐️⭐️</p></td>
+<td><p>解题步骤要详细<br>通俗易懂（有举例子）<br>有同类变式题、错题本、拍题库</p></td>
+<td><p>科大讯飞<br>洋葱</p></td>
+<td><p><span class="jtbd-tag">没有解题思路但有耐心弄懂一类题</span></p><p><b>1.</b> 当我在遇到中等或者难题，找不到解题突破口 / 只知道答案但觉得没有掌握透时，我想要获得详细讲解并立即进行变式题巩固训练，这样我就能真正掌握这类题目的解法，在考试中确保不丢分。</p><p><b>2.</b> （洋葱场景）当我遇到日常作业试卷中最后 2 道大题（中等&amp;难题），完全没有解题思路时，我想要先学习相关题型的视频讲解；提供思路后重新做题，如果还是不会就看解析、点【没听懂】，直到重新做对。还会摘抄到笔记本带到学校，遇到相似题型先看笔记本复习——感觉学透了一类题，会非常有成就感。</p></td>
+</tr>
+<tr>
+<td><p>难题的多种解法</p></td>
+<td><p>好学生</p></td>
+<td><p>紧急⭐️⭐️</p></td>
+<td><p>难题⭐️⭐️⭐️</p></td>
+<td><p>有多种解法<br>解题步骤要详细</p></td>
+<td><p>豆包</p></td>
+<td><p><span class="jtbd-tag">需要了解难题的更简单解法</span>当我在遇到难题，不确定自己的解法是最佳解法时，我想要看到这道题的多种解法，这样我就能真正学透这道题，以及掌握最简单的做题思路，在考试中能够更快解题或者彻底掌握了这道题。</p></td>
+</tr>
+<tr>
+<td><p>想了解创新题型的做题思路（如历史题、政治题）</p></td>
+<td><p>好学生</p></td>
+<td><p>紧急⭐️</p></td>
+<td><p>难题⭐️⭐️⭐️</p></td>
+<td><p>识别准确<br>有解题思路<br>解题步骤要详细</p></td>
+<td><p>豆包</p></td>
+<td><p><span class="jtbd-tag">需要创新题点拨思路或者给全解法</span></p><p><b>1.</b> 当我遇到一道文科创新题型（政治），有思路但感觉自己想的不够全面，我想要获得解题思路，这样我就知道遇到这类创新题型我应该怎么思考。</p><p><b>2.</b> 当我遇到一道文科创新题型（历史辨析题），完全没有思路时，我期待给到我至少 3 种以上的解析思路和详细的答案——答案越多，我就能拓展思路更多。</p></td>
+</tr>
+</tbody></table></div>
     </div>
 
     <div class="scenes">
