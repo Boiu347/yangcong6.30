@@ -6,10 +6,15 @@ import html
 import json
 import re
 import subprocess
-import sys
 from pathlib import Path
 
 DOC = "https://guanghe.feishu.cn/wiki/PWA5wZGawiTvS2kK6aGcrBP5nWc"
+
+STUDENT_TYPE_COL = 2
+JTBD_COL = 7
+GROUP_COL = 0
+SIMPLE_COLS = {3, 4, 5, 6}
+SCENE_COL = 1
 
 
 def strip_tags(s: str) -> str:
@@ -20,30 +25,142 @@ def strip_tags(s: str) -> str:
     return s
 
 
-def cell_html(raw: str) -> str:
-    raw = raw.strip()
-    if not raw:
-        return ""
-    # preserve short code labels
+def apply_highlights(raw: str) -> str:
+    raw = re.sub(
+        r"<b>\s*<u>(.*?)</u>\s*</b>",
+        lambda m: f'<span class="jtbd-hl">{html.escape(strip_tags(m.group(1)))}</span>',
+        raw,
+        flags=re.S,
+    )
+    raw = re.sub(
+        r"<u>(.*?)</u>",
+        lambda m: f'<span class="jtbd-hl">{html.escape(strip_tags(m.group(1)))}</span>',
+        raw,
+        flags=re.S,
+    )
     raw = re.sub(
         r"<code>(.*?)</code>",
         lambda m: f'<span class="jtbd-tag">{html.escape(strip_tags(m.group(1)))}</span>',
         raw,
         flags=re.S,
     )
-    # lists -> compact paragraphs
+    return raw
+
+
+def flatten_bold(raw: str) -> str:
+    return re.sub(r"</?b>", "", raw, flags=re.I)
+
+
+def sanitize_paragraph(raw: str) -> str:
+    raw = re.sub(r"</?p[^>]*>", "", raw, flags=re.I)
+    raw = re.sub(r"<ol>.*?</ol>", "", raw, flags=re.S)
+    raw = apply_highlights(raw)
+    raw = flatten_bold(raw)
+    raw = re.sub(r"<br\s*/?>", "<br>", raw, flags=re.I)
+
+    chunks: list[str] = []
+    for m in re.finditer(
+        r'<span class="jtbd-(?:tag|hl)">.*?</span>|<br>|[^<]+',
+        raw,
+        flags=re.S,
+    ):
+        chunk = m.group(0)
+        if chunk.startswith("<"):
+            chunks.append(chunk)
+        else:
+            text = strip_tags(chunk)
+            if text:
+                chunks.append(html.escape(text))
+    return "".join(chunks).strip()
+
+
+def sanitize_inline(raw: str, *, lists: bool = True) -> str:
+    raw = raw.strip()
+    if not raw:
+        return ""
+
+    raw = re.sub(r"<blockquote>.*?</blockquote>", " ", raw, flags=re.S)
     parts: list[str] = []
-    for ol in re.findall(r"<ol>(.*?)</ol>", raw, flags=re.S):
-        items = re.findall(r"<li[^>]*>(.*?)</li>", ol, flags=re.S)
-        for i, item in enumerate(items, 1):
-            t = strip_tags(item)
-            if t:
-                parts.append(f"<p><b>{i}.</b> {html.escape(t)}</p>")
-        raw = raw.replace(ol, "")
-    main = strip_tags(raw)
+
+    if lists:
+        item_num = 0
+        for ol in re.findall(r"<ol>(.*?)</ol>", raw, flags=re.S):
+            items = re.findall(r"<li[^>]*>(.*?)</li>", ol, flags=re.S)
+            for item in items:
+                inner = sanitize_paragraph(item)
+                if inner:
+                    item_num += 1
+                    parts.append(f"<p><b>{item_num}.</b> {inner}</p>")
+            raw = raw.replace(ol, "")
+
+    raw = re.sub(r"<ol>.*?</ol>", "", raw, flags=re.S)
+    main = sanitize_paragraph(raw)
     if main:
-        parts.insert(0, f"<p>{html.escape(main)}</p>")
+        parts.insert(0, f"<p>{main}</p>")
     return "".join(parts)
+
+
+def split_paragraphs(raw: str) -> list[str]:
+    paras = re.findall(r"<p[^>]*>(.*?)</p>", raw, flags=re.S)
+    if paras:
+        return [strip_tags(p) for p in paras if strip_tags(p)]
+    parts = re.split(r"<br\s*/?>", raw, flags=re.I)
+    return [strip_tags(p) for p in parts if strip_tags(p)]
+
+
+def format_simple_cell(raw: str) -> str:
+    paras = re.findall(r"<p[^>]*>(.*?)</p>", raw, flags=re.S)
+    if paras:
+        rendered = [sanitize_paragraph(f"<p>{p}</p>") for p in paras]
+        rendered = [r for r in rendered if r]
+        if rendered:
+            return f"<p>{'<br>'.join(rendered)}</p>"
+    inner = sanitize_paragraph(raw)
+    return f"<p>{inner}</p>" if inner else ""
+
+
+def format_student_type(raw: str) -> str:
+    labels = split_paragraphs(raw)
+    if not labels:
+        text = strip_tags(raw)
+        labels = [t.strip() for t in re.split(r"[\s\n]+", text) if t.strip()]
+    if not labels:
+        return format_simple_cell(raw)
+    spans = "".join(f'<span class="vtext">{html.escape(l)}</span>' for l in labels)
+    return f'<div class="vtext-wrap">{spans}</div>'
+
+
+def format_group_cell(raw: str) -> str:
+    lines = split_paragraphs(raw)
+    if len(lines) >= 2:
+        return "".join(f'<span class="vtext">{html.escape(ln)}</span>' for ln in lines)
+    text = strip_tags(raw)
+    known = {
+        "第一时间看答案": ["第一时间", "看答案"],
+        "第一时间看解析和步骤": ["第一时间", "看解析和步骤"],
+    }
+    if text in known:
+        lines = known[text]
+        return "".join(f'<span class="vtext">{html.escape(ln)}</span>' for ln in lines)
+    return format_simple_cell(raw)
+
+
+def cell_html(raw: str, col: int | None = None) -> str:
+    raw = raw.strip()
+    if not raw:
+        return ""
+    if col == STUDENT_TYPE_COL:
+        return format_student_type(raw)
+    if col == GROUP_COL:
+        return format_group_cell(raw)
+    if col == SCENE_COL:
+        inner = sanitize_paragraph(raw)
+        return f"<p>{inner}</p>" if inner else ""
+    if col == JTBD_COL:
+        return sanitize_inline(raw, lists=True)
+    if col in SIMPLE_COLS:
+        return format_simple_cell(raw)
+    return sanitize_inline(raw, lists=False)
 
 
 def fetch_content() -> str:
@@ -97,12 +214,12 @@ def parse_table(table_html: str) -> list[list[dict]]:
         cells = re.findall(r"<td([^>]*)>(.*?)</td>", row_html, re.S)
         for attrs, inner in cells:
             while col in span_carry:
-                row.append(span_carry[col])
-                span_carry[col]["_reuse"] = True
-                if span_carry[col]["rowspan"] <= 1:
+                carried = span_carry[col]
+                row.append({**carried, "_reuse": True, "_col": col})
+                if carried["rowspan"] <= 1:
                     del span_carry[col]
                 else:
-                    span_carry[col]["rowspan"] -= 1
+                    span_carry[col] = {**carried, "rowspan": carried["rowspan"] - 1}
                 col += 1
 
             rs = 1
@@ -114,10 +231,12 @@ def parse_table(table_html: str) -> list[list[dict]]:
             if m:
                 cs = int(m.group(1))
             cell = {
-                "html": cell_html(inner),
+                "raw": inner,
+                "html": "",
                 "rowspan": rs,
                 "colspan": cs,
                 "_reuse": False,
+                "_col": col,
             }
             row.append(cell)
             if rs > 1:
@@ -127,14 +246,30 @@ def parse_table(table_html: str) -> list[list[dict]]:
     return grid
 
 
+def col_class(col: int) -> str | None:
+    if col == STUDENT_TYPE_COL:
+        return "jtbd-student-type"
+    if col == GROUP_COL:
+        return "jtbd-group"
+    if col == JTBD_COL:
+        return "jtbd-summary"
+    return None
+
+
 def emit_html(grid: list[list[dict]]) -> str:
     if not grid:
         return ""
     head = grid[0]
     body = grid[1:]
+
+    for row in grid:
+        for cell in row:
+            if not cell.get("_reuse"):
+                cell["html"] = cell_html(cell["raw"], cell.get("_col"))
+
     lines = ['<div class="jtbd-table-wrap"><table class="jtbd-table"><thead><tr>']
     for cell in head:
-        text = strip_tags(cell["html"]) or cell["html"]
+        text = strip_tags(cell["raw"]) or strip_tags(cell.get("html", ""))
         lines.append(f'<th colspan="{cell["colspan"]}">{html.escape(text)}</th>')
     lines.append("</tr></thead><tbody>")
 
@@ -143,17 +278,16 @@ def emit_html(grid: list[list[dict]]) -> str:
         for cell in row:
             if cell.get("_reuse"):
                 continue
-            attrs = []
+            attrs: list[str] = []
             if cell["rowspan"] > 1:
                 attrs.append(f'rowspan="{cell["rowspan"]}"')
             if cell["colspan"] > 1:
                 attrs.append(f'colspan="{cell["colspan"]}"')
-            cls = []
-            if cell["html"].startswith("<p>") and len(row) == 1:
-                cls.append("jtbd-cell-wide")
+            cls = col_class(cell.get("_col", -1))
+            if cls:
+                attrs.append(f'class="{cls}"')
             attr_s = (" " + " ".join(attrs)) if attrs else ""
-            class_s = f' class="{" ".join(cls)}"' if cls else ""
-            lines.append(f"<td{class_s}{attr_s}>{cell['html']}</td>")
+            lines.append(f"<td{attr_s}>{cell['html']}</td>")
         lines.append("</tr>")
     lines.append("</tbody></table></div>")
     return "\n".join(lines)

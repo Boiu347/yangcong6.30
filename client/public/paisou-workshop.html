@@ -125,14 +125,29 @@
   .when .wh-title b{color:var(--ink);margin-right:8px;letter-spacing:.04em;text-transform:none;font-size:15px;}
   .when .wh-sub{display:block;margin-top:6px;font-size:12.5px;font-weight:500;color:var(--note);letter-spacing:.02em;}
   .jtbd-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px;padding:0 4px;}
-  .jtbd-table{width:100%;min-width:980px;border-collapse:collapse;font-size:13px;line-height:1.55;color:#34312b;}
+  .jtbd-table{width:100%;min-width:1040px;border-collapse:collapse;font-size:13px;line-height:1.55;color:#34312b;}
   .jtbd-table th,.jtbd-table td{border:1px solid var(--line);padding:10px 12px;vertical-align:top;text-align:left;}
   .jtbd-table thead th{background:var(--bg2);font-size:12px;font-weight:800;color:var(--ink);letter-spacing:.04em;}
-  .jtbd-table tbody td:first-child{background:#faf9f6;font-weight:700;color:var(--ink);white-space:nowrap;}
+  .jtbd-table tbody td:first-child{background:#faf9f6;font-weight:700;color:var(--ink);}
   .jtbd-table p{margin:0 0 8px;}
   .jtbd-table p:last-child{margin-bottom:0;}
-  .jtbd-table .jtbd-tag{display:inline-block;background:#f3f0e8;border-radius:4px;padding:1px 6px;font-size:11.5px;font-weight:700;color:#6b5a2e;margin-bottom:6px;}
-  .jtbd-table td:nth-child(8){min-width:280px;max-width:360px;font-size:12.5px;color:#4a463f;}
+  .jtbd-table .jtbd-tag{display:inline-block;background:#ffe8c8;border-radius:4px;padding:2px 7px;font-size:11.5px;font-weight:700;color:#5c3d1e;margin:0 0 6px;line-height:1.45;}
+  .jtbd-table .jtbd-hl{font-weight:700;text-decoration:underline;text-decoration-color:#e8a54a;text-underline-offset:2px;background:linear-gradient(transparent 55%,#fff3bf 55%);}
+  .jtbd-table .vtext-wrap,.jtbd-table td.jtbd-group{display:flex;justify-content:center;align-items:center;gap:8px;}
+  .jtbd-table .jtbd-group{text-align:center;white-space:nowrap;vertical-align:middle;}
+  .jtbd-table .jtbd-student-type{text-align:center;white-space:nowrap;vertical-align:middle;}
+  .jtbd-table .vtext,.jtbd-table .jtbd-group .vtext{writing-mode:vertical-rl;display:inline-block;letter-spacing:.1em;font-weight:700;color:var(--ink);}
+  .jtbd-table .jtbd-summary{min-width:300px;max-width:420px;font-size:12.5px;color:#4a463f;line-height:1.65;}
+  .interview-cta-section{padding:48px 0 64px;border-top:1px solid var(--line);}
+  .interview-cta-lead{font-size:15px;color:var(--ink2);margin-bottom:16px;line-height:1.65;}
+  .interview-card{display:flex;align-items:center;gap:16px;padding:18px 22px;background:#fff;border:1px solid var(--line);
+    border-radius:12px;text-decoration:none;color:inherit;
+    box-shadow:0 1px 0 var(--bg2),0 10px 24px -18px rgba(40,35,20,.4);transition:border-color .15s,box-shadow .15s,transform .15s;}
+  .interview-card:hover{border-color:#d4cbb8;box-shadow:0 1px 0 var(--bg2),0 14px 28px -16px rgba(40,35,20,.45);transform:translateY(-1px);}
+  .interview-card-body{flex:1;min-width:0;}
+  .interview-card-meta{display:block;font-size:11.5px;letter-spacing:.08em;color:var(--note);font-weight:700;margin-bottom:4px;}
+  .interview-card-title{display:block;font-size:16px;font-weight:800;color:var(--ink);line-height:1.4;}
+  .interview-card-go{flex-shrink:0;font-size:20px;color:var(--accent);font-weight:700;line-height:1;}
   .scene{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;
     box-shadow:0 1px 0 var(--bg2),0 10px 24px -18px rgba(40,35,20,.4);}
   .scene .head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
@@ -423,18 +438,18 @@
 <th colspan="1">访谈用户的待办任务总结</th>
 </tr></thead><tbody>
 <tr>
-<td rowspan="3"><p>第一时间<br>看答案</p></td>
+<td rowspan="3" class="jtbd-group"><span class="vtext">第一时间</span><span class="vtext">看答案</span></td>
 <td><p>批改作业</p></td>
-<td><p>好学生<br>中等生</p></td>
+<td class="jtbd-student-type"><div class="vtext-wrap"><span class="vtext">好学生</span><span class="vtext">中等生</span></div></td>
 <td><p>紧急⭐️⭐️⭐️</p></td>
 <td><p>都有⭐️</p></td>
 <td><p>出答案快</p></td>
 <td><p>豆包</p></td>
-<td rowspan="2"><p><span class="jtbd-tag">时间紧急要完成当天作业答案核对</span>当我在晚上作业量大、时间紧迫时，我想要快速获得答案进行核对，这样我就能迅速完成作业提交任务。这个时候会选择比较快的拍搜软件。</p></td>
+<td rowspan="2" class="jtbd-summary"><p><span class="jtbd-tag">时间紧急要完成当天作业答案核对</span>当我在晚上<span class="jtbd-hl">作业量大、</span><span class="jtbd-hl">时间紧迫</span>时，我想要<span class="jtbd-hl">快速</span><span class="jtbd-hl">获得答案进行核对</span>，这样我就能<span class="jtbd-hl">迅速完成作业</span>提交任务。这个时候会选择<span class="jtbd-hl">比较快</span>的拍搜软件</p></td>
 </tr>
 <tr>
 <td><p>抄答案</p></td>
-<td><p>中等生</p></td>
+<td class="jtbd-student-type"><div class="vtext-wrap"><span class="vtext">中等生</span></div></td>
 <td><p>紧急⭐️⭐️⭐️</p></td>
 <td><p>都有⭐️</p></td>
 <td><p>出答案快</p></td>
@@ -442,7 +457,7 @@
 </tr>
 <tr>
 <td><p>拿不准一道题是否做对了</p></td>
-<td><p>好学生<br>中等生</p></td>
+<td class="jtbd-student-type"><div class="vtext-wrap"><span class="vtext">好学生</span><span class="vtext">中等生</span></div></td>
 <td><p>紧急⭐️⭐️</p></td>
 <td><p>中等⭐️⭐️</p></td>
 <td><p>出答案快<br>有解题思路和详细步骤</p></td>
@@ -450,41 +465,41 @@
 <td><p><span class="jtbd-tag">需要快速验证会做的题是否正确</span>当我在完成补习班老师发的复杂的大题时（如涉及分类讨论），虽然写出了答案但担心考虑不周时，我想要快速验证最终答案的完整性，这样我就能放一放这道题，把精力投入下一阶段学习中。</p></td>
 </tr>
 <tr>
-<td rowspan="4"><p>第一时间<br>看解析和步骤</p></td>
-<td><p>弄懂中等难题的一道题</p></td>
-<td><p>好学生<br>中等生</p></td>
+<td rowspan="4" class="jtbd-group"><span class="vtext">第一时间</span><span class="vtext">看解析和步骤</span></td>
+<td><p>弄懂中等难题的一<span class="jtbd-hl">道</span>题</p></td>
+<td class="jtbd-student-type"><div class="vtext-wrap"><span class="vtext">好学生</span><span class="vtext">中等生</span></div></td>
 <td><p>紧急⭐️</p></td>
 <td><p>中等⭐️⭐️</p></td>
-<td><p>解题步骤要详细<br>通俗易懂（有举例子）<br>有视频解析</p></td>
+<td><p>解题步骤要详细<br>通俗易懂（有举例子）<br>用户提到科大讯飞的视频解析和洋葱点了听不懂后给的解析在这点都较好<br>有视频解析（文字枯燥不容易看下去）</p></td>
 <td><p>洋葱</p></td>
-<td><p><span class="jtbd-tag">时间充裕需要弄懂一道题</span></p><p><b>1.</b> 当我在面对错题 or 难题、时间充裕时，我想要获得详细的、能用通俗例子讲解的解析，这样我就能真正弄懂这类题，确保在未来遇到时不会出错。</p><p><b>2.</b> 当我面对错题且时间充裕时，我想先看解析再看解题思路；不懂的时候需要有互动的讲解，让我从一大点中挑出一小点再提问，逐一解决不会的地方。我需要回看解题思路来复习该题型，最后我会用红笔在题目旁边标一下重点和步骤——感觉弄懂了一种题型，会非常有成就感。</p></td>
+<td class="jtbd-summary"><p><span class="jtbd-tag">时间充裕需要弄懂一道题</span></p><p><b>1.</b> 当我在<span class="jtbd-hl">面对错题or难题</span><span class="jtbd-hl">时间充裕</span>时，我想要获得详细的、能用通俗例子讲解的解析，这样我就能<span class="jtbd-hl">真正弄懂这类题，确保在未来遇到时不会出错</span></p><p><b>2.</b> 当我<span class="jtbd-hl">面对错题且时间充裕</span>时，我想先看解析再看解题思路、不懂的时候需要有互动的讲解，让我从一大点中可以挑出一小点，再挑出一小点进行提问，逐一解决不会的地方。我<span class="jtbd-hl">需要回看解题思路来复习该题型</span>，最后我会用红笔在题目旁边<span class="jtbd-hl">标一下重点和步骤</span>。这样我感觉我好像弄懂了一种题型，我会非常有成就感。</p></td>
 </tr>
 <tr>
-<td><p>弄懂一类题</p></td>
-<td><p>好学生<br>中等生</p></td>
+<td><p>弄懂一<span class="jtbd-hl">类</span>题</p></td>
+<td class="jtbd-student-type"><div class="vtext-wrap"><span class="vtext">好学生</span><span class="vtext">中等生</span></div></td>
 <td><p>紧急⭐️</p></td>
 <td><p>中等⭐️⭐️<br>难题⭐️⭐️⭐️</p></td>
-<td><p>解题步骤要详细<br>通俗易懂（有举例子）<br>有同类变式题、错题本、拍题库</p></td>
+<td><p>解题步骤要详细<br>通俗易懂（有举例子）<br>有同类变式题<br>有错题本<br>有拍题库（用来后续能方便找到，检验AI出的变式题自己是否能继续做对）</p></td>
 <td><p>科大讯飞<br>洋葱</p></td>
-<td><p><span class="jtbd-tag">没有解题思路但有耐心弄懂一类题</span></p><p><b>1.</b> 当我在遇到中等或者难题，找不到解题突破口 / 只知道答案但觉得没有掌握透时，我想要获得详细讲解并立即进行变式题巩固训练，这样我就能真正掌握这类题目的解法，在考试中确保不丢分。</p><p><b>2.</b> （洋葱场景）当我遇到日常作业试卷中最后 2 道大题（中等&amp;难题），完全没有解题思路时，我想要先学习相关题型的视频讲解；提供思路后重新做题，如果还是不会就看解析、点【没听懂】，直到重新做对。还会摘抄到笔记本带到学校，遇到相似题型先看笔记本复习——感觉学透了一类题，会非常有成就感。</p></td>
+<td class="jtbd-summary"><p><span class="jtbd-tag">没有解题思路但有耐心弄懂一类题</span></p><p><b>1.</b> 当我在遇到中等或者难题，找不到解题突破口/只知道答案但觉得没有掌握透时，我想要获得详细讲解 并立即进行变式题巩固训练，这样我就能真正掌握这类题目的解法，在考试中确保不丢分。</p><p><b>2.</b> （洋葱场景）当我遇到日常作业的试卷中的最后2道大题（中等&amp;难题），完全没有解题思路时，我想要先学习相关题型的视频讲解，提供我思路后我可以重新做题，如果还是不会我会看解析，点击【没听懂】，直到我重新做对这道题。我还会再重新看视频讲解的其他题型，并且摘抄到我的笔记本上，这样我就可以带到学校去。遇到相似题型的时候，我第一时间先看我的笔记本复习，在做习题，这样我感觉我好像学透了一类题，我会非常有成就感。</p></td>
 </tr>
 <tr>
 <td><p>难题的多种解法</p></td>
-<td><p>好学生</p></td>
+<td class="jtbd-student-type"><div class="vtext-wrap"><span class="vtext">好学生</span></div></td>
 <td><p>紧急⭐️⭐️</p></td>
 <td><p>难题⭐️⭐️⭐️</p></td>
 <td><p>有多种解法<br>解题步骤要详细</p></td>
 <td><p>豆包</p></td>
-<td><p><span class="jtbd-tag">需要了解难题的更简单解法</span>当我在遇到难题，不确定自己的解法是最佳解法时，我想要看到这道题的多种解法，这样我就能真正学透这道题，以及掌握最简单的做题思路，在考试中能够更快解题或者彻底掌握了这道题。</p></td>
+<td class="jtbd-summary"><p><span class="jtbd-tag">需要了解难题的更简单解法</span>当我在遇到难题，不确定自己的解法是最佳解法时，我想要看到这道题的多种解法，这样我就能真正学透这道题，以及掌握最简单的做题思路，在考试中能够更快解题或者彻底掌握了这道题。</p></td>
 </tr>
 <tr>
 <td><p>想了解创新题型的做题思路（如历史题、政治题）</p></td>
-<td><p>好学生</p></td>
+<td class="jtbd-student-type"><div class="vtext-wrap"><span class="vtext">好学生</span></div></td>
 <td><p>紧急⭐️</p></td>
 <td><p>难题⭐️⭐️⭐️</p></td>
-<td><p>识别准确<br>有解题思路<br>解题步骤要详细</p></td>
+<td><p>识别准确（洋葱被用户认为文科识别不准）<br>有解题思路<br>解题步骤要详细</p></td>
 <td><p>豆包</p></td>
-<td><p><span class="jtbd-tag">需要创新题点拨思路或者给全解法</span></p><p><b>1.</b> 当我遇到一道文科创新题型（政治），有思路但感觉自己想的不够全面，我想要获得解题思路，这样我就知道遇到这类创新题型我应该怎么思考。</p><p><b>2.</b> 当我遇到一道文科创新题型（历史辨析题），完全没有思路时，我期待给到我至少 3 种以上的解析思路和详细的答案——答案越多，我就能拓展思路更多。</p></td>
+<td class="jtbd-summary"><p><span class="jtbd-tag">需要创新题点拨思路或者给全解法</span></p><p><b>1.</b> 当我遇到一道文科创新题型（政治），有思路但感觉自己想的不够全面，我想要获得解题思路，这样我就知道遇到这类创新题型我应该怎么思考。</p><p><b>2.</b> 当我遇到一道文科创新题型（历史辨析题），完全没有思路时，我期待给到我至少3种以上的解析思路和详细的答案，我觉得给我的答案更多，我就能拓展我的思路更多。</p></td>
 </tr>
 </tbody></table></div>
     </div>
@@ -863,6 +878,19 @@
       <article class="evidence"><div class="evidence-head"><div class="num">05</div><h3>有成就感 / 不像抄答案：学生想用自己的方式写出来</h3><p>适用于学生担心老师看出照搬，或担心解析不符合校内批改规范时。</p></div><div class="evidence-body"><div><div class="mini-title">用户感知价值</div><ul><li>学生不是每次都直接抄拍搜答案。</li><li>他们会把解析转成自己的语言和老师认可的步骤。</li><li>“自己写出来”带来成就感，也降低抄答案的罪恶感。</li></ul><div class="friction"><b>摩擦点：</b>如果步骤表达不像校内写法，学生仍会担心老师不认可或扣步骤分。</div></div><div><div class="mini-title">用户原声</div><div class="voice-box"><div class="voice">“重点看我不会那步，看完之后就捋思路，自己写一遍。”<span class="who">吕同学｜黑龙江初二</span></div><div class="voice green">“自己有成就感，把这道题学会了，学会了一种题型，抄下来感觉有罪恶感。”<span class="who">诺诗｜湖南初三</span></div><div class="voice orange">“换成自己的方式写。”<span class="who">徐同学｜上海初二</span></div><div class="voice green">“要是按照自己写的话，可能。老可能更符合老师讲的那种类型，大家不容易扣分。”<span class="who">徐同学｜上海初二</span></div></div></div></div></article>
       <article class="evidence"><div class="evidence-head"><div class="num">06</div><h3>有陪伴感 / 听得进去：降低学习压力，让学生愿意继续听</h3><p>适用于中等或中差生，尤其是对学习有态度但成绩不稳定的学生。</p></div><div class="evidence-body"><div><div class="mini-title">用户感知价值</div><ul><li><b>有趣：</b>拍题里有人物模型（小锤、狗蛋等），比较有趣，能提升兴趣。</li><li><b>情绪价值 · 洋葱：</b>讲题语气委婉、温柔、有耐心，更像朋友，不像老师和长辈那样严肃。</li><li><b>情绪价值 · 作业帮：</b>没有感情，只是单纯讲题，听不进去。</li></ul><div class="friction"><b>摩擦点：</b>情绪价值不能单独成立，必须和「讲得懂、能做对」一起出现。</div></div><div><div class="mini-title">用户原声</div><div class="voice-box"><div class="voice green">“洋葱讲题语气委婉、温柔、有耐心，更像朋友，不像老师和长辈那样严肃。”<span class="who">诺诗｜湖南初三</span></div><div class="voice">“作业帮没有感情，只是单纯讲题，听不进去。”<span class="who">诺诗｜湖南初三</span></div><div class="voice orange">“洋葱拍题时有人物模型，小锤和狗蛋，比较有趣，能提升我的兴趣。”<span class="who">诺诗｜湖南初三</span></div><div class="voice green">“洋葱比作业帮使用高频，原因是洋葱更容易理解，更有兴趣一点，作业帮讲得太无聊了。”<span class="who">诺诗｜湖南初三</span></div><div class="voice">“老师的回答很细心。”<span class="who">小六学生</span></div></div></div></div></article>
     </div>
+  </div>
+</section>
+
+<section class="reveal interview-cta-section">
+  <div class="wrap">
+    <p class="interview-cta-lead">如果想详细了解 8 个用户的访谈，可点击下方访谈纪要</p>
+    <a class="interview-card" href="https://guanghe.feishu.cn/wiki/LjhIwF4wHiIBZgk56h0cnyTRnXe?from=from_copylink" target="_blank" rel="noopener noreferrer">
+      <div class="interview-card-body">
+        <span class="interview-card-meta">飞书 Wiki · 8 位用户深访</span>
+        <span class="interview-card-title">【访谈纪要】学生拍搜调研</span>
+      </div>
+      <span class="interview-card-go" aria-hidden="true">→</span>
+    </a>
   </div>
 </section>
 
