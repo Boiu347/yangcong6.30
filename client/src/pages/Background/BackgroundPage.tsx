@@ -6,9 +6,13 @@ import {
   DEFAULT_PROJECT_BACKGROUND,
   PROJECT_BACKGROUNDS,
 } from '../../content/projectBackgrounds';
+import PaisouUnderConstruction from '../Paisou/PaisouUnderConstruction';
 
 export default function BackgroundPage() {
   const { projectId } = useParams<{ projectId: string }>();
+  if (projectId === 'paisou_project') {
+    return <PaisouUnderConstruction section="调研背景" hint="调研背景与资料索引还在整理，完成后会在此呈现。" />;
+  }
   const background = PROJECT_BACKGROUNDS[projectId ?? ''] ?? DEFAULT_PROJECT_BACKGROUND;
 
   return (

@@ -1,13 +1,14 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import ReportExportToolbar from '../../components/report/ReportExportToolbar';
-import PaisouReport from '../Paisou/PaisouReport';
+import PaisouUnderConstruction from '../Paisou/PaisouUnderConstruction';
 
 export default function MarketingPage() {
   const iframeRef = React.useRef<HTMLIFrameElement>(null);
   const { projectId } = useParams<{ projectId: string }>();
 
-  if (projectId === 'paisou_project') return <PaisouReport page="marketing" />;
+  if (projectId === 'paisou_project')
+    return <PaisouUnderConstruction section="营销落地" hint="营销结论与落地建议还在撰写，完成后会在此呈现。" />;
 
   return (
     <div className="flex flex-col h-full min-h-0">

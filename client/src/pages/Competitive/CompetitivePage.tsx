@@ -16,7 +16,7 @@ import { useIsEditor } from '../../components/auth/PasswordGate';
 import CompetitiveEditor from '../../components/edit/CompetitiveEditor';
 import CrossBrandEditor, { type CrossBrandOverviewData } from '../../components/edit/CrossBrandEditor';
 import CompetitiveReportsView from '../CompetitiveReports/CompetitiveReportsView';
-import PaisouReport from '../Paisou/PaisouReport';
+import PaisouUnderConstruction from '../Paisou/PaisouUnderConstruction';
 import { cn } from '@/lib/utils';
 import {
   JISUANYING_COMPETITIVE_DATA,
@@ -775,7 +775,7 @@ export default function CompetitivePage() {
   if (projectId === 'jiatingbao_project')
     return <Navigate to="../summary" replace />;
   if (projectId === 'paisou_project')
-    return <PaisouReport page="competitive" />;
+    return <PaisouUnderConstruction section="竞品分析" hint="竞品走查与对比表格还在整理，完成后会在此呈现。" />;
   return <StandardCompetitivePage />;
 }
 
