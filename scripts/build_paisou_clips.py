@@ -21,10 +21,20 @@ MIN_SIMILARITY = 0.42
 MIN_CHUNK_CHARS = 6
 PADDING_SEC = 0.4
 
+# 模糊匹配容易错位时，用手动时间范围（秒）覆盖
+MANUAL_TIME_RANGES: dict[str, dict[str, tuple[float, float]]] = {
+    "徐同学": {
+        "有的时候就会用洋葱了。": (1936.85, 1947.5),
+    },
+    "诺诗": {
+        "我的。因为他说话不像老师。就是他要讲的那一块的那样。": (931.0, 947.5),
+        "因为他说话不像老师。就是他要讲的那一块的那样。": (940.7, 947.5),
+    },
+}
+
 USER_TOKEN: dict[str, str] = {
     "吴语遥": "obcnb2727a2g1i54ibtne6p9",
     "徐同学": "obcnb3r4z744i193ia481g6q",
-    "丁同学": "obcnd6ua623s33oaet125fhn",
     "吕同学": "obcnfdz14n1d9e5g625yoq1q",
     "诺诗": "obcnfkhu72dk55aer2da82mk",
     "小林": "obcnog21c4m2t4u127onurfk",
@@ -363,7 +373,18 @@ def main():
 
         for q in by_user.get(user, []):
             text = q["text"]
-            matches = find_matches(text, segments, student_spk)
+            manual = MANUAL_TIME_RANGES.get(user, {}).get(text)
+            if manual:
+                start_m, end_m = manual
+                matches = [{
+                    "start": start_m,
+                    "end": end_m,
+                    "matched_text": text[:120],
+                    "score": 1.0,
+                    "chunk": text,
+                }]
+            else:
+                matches = find_matches(text, segments, student_spk)
             if not matches:
                 report["unmatched"].append({"user": user, "text": text})
                 print(f"  [--] {text[:40]}...")

@@ -26,34 +26,10 @@
     },
     {
       "user": "吴语遥",
-      "text": "写完作业之后用洋葱上课（听在学校没听懂的）。",
-      "clips": [
-        {
-          "clipUrl": "/clips/paisou/obcnb272/003-01.mp3",
-          "startTime": 135.6,
-          "duration": 32.2
-        }
-      ],
-      "score": 0.49
-    },
-    {
-      "user": "吴语遥",
-      "text": "期末复习时，在洋葱里找试卷让父母打印下来做，不会的题用学习机学习，会出类似题目巩固。",
-      "clips": [
-        {
-          "clipUrl": "/clips/paisou/obcnb272/004-01.mp3",
-          "startTime": 411.0,
-          "duration": 30.9
-        }
-      ],
-      "score": 0.57
-    },
-    {
-      "user": "吴语遥",
       "text": "看完解析怎么判断懂了？在精准学找类似题再做一遍，要是对了，那我就不管。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnb272/005-01.mp3",
+          "clipUrl": "/clips/paisou/obcnb272/003-01.mp3",
           "startTime": 1606.4,
           "duration": 24.5
         }
@@ -65,7 +41,7 @@
       "text": "急的时候开豆包，它更快；洋葱搜要挺长时间，还多一个框选的步骤，慢。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnb3r4/006-01.mp3",
+          "clipUrl": "/clips/paisou/obcnb3r4/004-01.mp3",
           "startTime": 1156.9,
           "duration": 24.6
         }
@@ -77,7 +53,7 @@
       "text": "写作业，把不会的一起查了，一科一科地，写完化学拍化学。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnb3r4/007-01.mp3",
+          "clipUrl": "/clips/paisou/obcnb3r4/005-01.mp3",
           "startTime": 783.3,
           "duration": 24.2
         }
@@ -86,22 +62,34 @@
     },
     {
       "user": "徐同学",
-      "text": "豆包答案是错的，时间充足（七点半左右写完全部作业）就会用洋葱看课。有解题课就看课，解题课没有就拍题。",
+      "text": "有的时候就会用洋葱了。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnb3r4/008-01.mp3",
-          "startTime": 1913.4,
-          "duration": 69.6
+          "clipUrl": "/clips/paisou/obcnb3r4/006-01.mp3",
+          "startTime": 1936.8,
+          "duration": 10.7
         }
       ],
-      "score": 0.43
+      "score": 1.0
+    },
+    {
+      "user": "徐同学",
+      "text": "就是时间比较充足的时候。",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnb3r4/007-01.mp3",
+          "startTime": 1948.5,
+          "duration": 16.0
+        }
+      ],
+      "score": 0.73
     },
     {
       "user": "徐同学",
       "text": "洋葱适合时间充足的时候有耐心的学生用，目的是把这类题弄懂。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnb3r4/009-01.mp3",
+          "clipUrl": "/clips/paisou/obcnb3r4/008-01.mp3",
           "startTime": 4997.8,
           "duration": 27.0
         }
@@ -110,15 +98,27 @@
     },
     {
       "user": "徐同学",
-      "text": "本学期上完同步课/培优课，用试卷库检验，试卷库的题，截屏拍洋葱、另一个手机拍。期中的时候也会用。",
+      "text": "就是有些试卷库里他的题要是他还讲不明白，可以把这个题目就拿给他自己看。",
+      "clips": [
+        {
+          "clipUrl": "/clips/paisou/obcnb3r4/009-01.mp3",
+          "startTime": 3396.1,
+          "duration": 19.9
+        }
+      ],
+      "score": 0.91
+    },
+    {
+      "user": "徐同学",
+      "text": "对，截屏或者拍，用手机拍一张照片。",
       "clips": [
         {
           "clipUrl": "/clips/paisou/obcnb3r4/010-01.mp3",
-          "startTime": 1802.2,
-          "duration": 25.0
+          "startTime": 3405.6,
+          "duration": 21.5
         }
       ],
-      "score": 0.48
+      "score": 0.86
     },
     {
       "user": "徐同学",
@@ -175,15 +175,20 @@
     },
     {
       "user": "徐同学",
-      "text": "洋葱拍题后先看思路，然后试着解题，会解的话就简单看答案核实。",
+      "text": "拍完题之后会洋葱的话，它会先给一个思路，先看思路。然后先试着解一下，会解的话。就不用了。会解的话就不用看，就做完之后再简单地看一眼他的答案，核实一下。",
       "clips": [
         {
           "clipUrl": "/clips/paisou/obcnb3r4/015-01.mp3",
           "startTime": 2210.3,
-          "duration": 35.8
+          "duration": 20.0
+        },
+        {
+          "clipUrl": "/clips/paisou/obcnb3r4/015-02.mp3",
+          "startTime": 2236.5,
+          "duration": 27.2
         }
       ],
-      "score": 0.62
+      "score": 0.85
     },
     {
       "user": "徐同学",
@@ -199,44 +204,39 @@
     },
     {
       "user": "徐同学",
-      "text": "换成自己的方式写，更符合老师讲的那种类型，不容易扣分。",
+      "text": "换成自己的方式写。",
       "clips": [
         {
           "clipUrl": "/clips/paisou/obcnb3r4/017-01.mp3",
-          "startTime": 4389.6,
-          "duration": 26.8
+          "startTime": 4365.9,
+          "duration": 25.3
         }
       ],
-      "score": 0.64
+      "score": 0.84
     },
     {
       "user": "徐同学",
-      "text": "看到解析会换一种方式写到作业上，更符合老师要求，不容易扣分。格式好，更规范。",
+      "text": "要是按照自己写的话，可能。老可能更符合老师讲的那种类型，大家不容易扣分。",
       "clips": [
         {
           "clipUrl": "/clips/paisou/obcnb3r4/018-01.mp3",
           "startTime": 4389.6,
           "duration": 26.8
-        },
-        {
-          "clipUrl": "/clips/paisou/obcnb3r4/018-02.mp3",
-          "startTime": 4563.4,
-          "duration": 12.3
         }
       ],
-      "score": 0.42
+      "score": 0.88
     },
     {
-      "user": "丁同学",
-      "text": "检查作业把所有题都拍给作业帮，一下出所有答案。要继续写作业，能越快越好——洋葱有点慢。",
+      "user": "徐同学",
+      "text": "就是格式好一点就。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnd6ua/019-01.mp3",
-          "startTime": 2244.0,
-          "duration": 70.8
+          "clipUrl": "/clips/paisou/obcnb3r4/019-01.mp3",
+          "startTime": 4573.7,
+          "duration": 5.4
         }
       ],
-      "score": 0.42
+      "score": 0.92
     },
     {
       "user": "吕同学",
@@ -348,7 +348,7 @@
     },
     {
       "user": "诺诗",
-      "text": "看完解析再看一遍解题思路，自己再做一遍。",
+      "text": "看完解析再从头到尾再看一遍，就是看完解析再看一遍那个解题思路，然后再看解析思路，然后自己再去做一遍。",
       "clips": [
         {
           "clipUrl": "/clips/paisou/obcnfkhu/029-01.mp3",
@@ -356,62 +356,14 @@
           "duration": 47.6
         }
       ],
-      "score": 0.54
-    },
-    {
-      "user": "诺诗",
-      "text": "洋葱帮我弄懂这道题是突然弄懂了——看了解题思路或解析的时候，恍然大悟，发现是上课讲过的。",
-      "clips": [
-        {
-          "clipUrl": "/clips/paisou/obcnfkhu/030-01.mp3",
-          "startTime": 2695.2,
-          "duration": 21.7
-        }
-      ],
-      "score": 0.48
-    },
-    {
-      "user": "诺诗",
-      "text": "用洋葱这种情况会比作业帮多——突然想起来老师在课上讲了这个知识点。",
-      "clips": [
-        {
-          "clipUrl": "/clips/paisou/obcnfkhu/031-01.mp3",
-          "startTime": 2763.2,
-          "duration": 33.8
-        }
-      ],
-      "score": 0.55
-    },
-    {
-      "user": "诺诗",
-      "text": "上一次做几何题，先看了一点点解析，突然想到老师上课讲到的知识点，突然就知道怎么做了。",
-      "clips": [
-        {
-          "clipUrl": "/clips/paisou/obcnfkhu/032-01.mp3",
-          "startTime": 2763.2,
-          "duration": 33.8
-        }
-      ],
-      "score": 0.5
-    },
-    {
-      "user": "诺诗",
-      "text": "说明考的是哪个知识点的情况下，更容易有恍然大悟的感觉。",
-      "clips": [
-        {
-          "clipUrl": "/clips/paisou/obcnfkhu/033-01.mp3",
-          "startTime": 2842.1,
-          "duration": 14.4
-        }
-      ],
-      "score": 0.57
+      "score": 0.73
     },
     {
       "user": "诺诗",
       "text": "自己有成就感，把这道题学会了，学会了一种题型，抄下来感觉有罪恶感。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnfkhu/034-01.mp3",
+          "clipUrl": "/clips/paisou/obcnfkhu/030-01.mp3",
           "startTime": 2995.0,
           "duration": 53.9
         }
@@ -423,7 +375,7 @@
       "text": "比较温柔的，委婉啊。对，委婉温柔。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnfkhu/035-01.mp3",
+          "clipUrl": "/clips/paisou/obcnfkhu/031-01.mp3",
           "startTime": 796.6,
           "duration": 86.2
         }
@@ -432,46 +384,46 @@
     },
     {
       "user": "诺诗",
-      "text": "作业帮没有感情，只是单纯讲题，听不进去。",
+      "text": "对，就感觉他只是单纯地跟你讲题。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnfkhu/036-01.mp3",
-          "startTime": 893.5,
-          "duration": 14.6
+          "clipUrl": "/clips/paisou/obcnfkhu/032-01.mp3",
+          "startTime": 903.6,
+          "duration": 28.5
         }
       ],
-      "score": 0.47
+      "score": 0.96
     },
     {
       "user": "诺诗",
-      "text": "因为他说话不像老师。就是他要讲的那一块的那样。",
+      "text": "我的。因为他说话不像老师。就是他要讲的那一块的那样。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnfkhu/037-01.mp3",
+          "clipUrl": "/clips/paisou/obcnfkhu/033-01.mp3",
           "startTime": 931.0,
-          "duration": 16.3
+          "duration": 16.5
         }
       ],
-      "score": 0.92
+      "score": 1.0
     },
     {
       "user": "诺诗",
-      "text": "洋葱比作业帮使用高频，原因是洋葱更容易理解，更有兴趣一点，作业帮讲得太无聊了。",
+      "text": "让我更有兴趣一点。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnfkhu/038-01.mp3",
-          "startTime": 547.5,
-          "duration": 101.2
+          "clipUrl": "/clips/paisou/obcnfkhu/034-01.mp3",
+          "startTime": 603.6,
+          "duration": 19.1
         }
       ],
-      "score": 0.49
+      "score": 0.88
     },
     {
       "user": "小林",
       "text": "找过别的网课，没上——听不懂，在那么多网课里找不到适合我的。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnog21/039-01.mp3",
+          "clipUrl": "/clips/paisou/obcnog21/035-01.mp3",
           "startTime": 1018.0,
           "duration": 13.0
         }
@@ -483,7 +435,7 @@
       "text": "有一丢丢思路，做了答案之后感觉不对劲再去问豆包。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnog21/040-01.mp3",
+          "clipUrl": "/clips/paisou/obcnog21/036-01.mp3",
           "startTime": 677.4,
           "duration": 26.3
         }
@@ -495,7 +447,7 @@
       "text": "洋葱的不可替代性是可以上课。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnog21/041-01.mp3",
+          "clipUrl": "/clips/paisou/obcnog21/037-01.mp3",
           "startTime": 721.4,
           "duration": 26.2
         }
@@ -507,7 +459,7 @@
       "text": "洋葱的不可替代性是可以上课——看洋葱十道错5道，不看错8道。",
       "clips": [
         {
-          "clipUrl": "/clips/paisou/obcnog21/042-01.mp3",
+          "clipUrl": "/clips/paisou/obcnog21/038-01.mp3",
           "startTime": 721.4,
           "duration": 26.2
         }
@@ -516,22 +468,6 @@
     }
   ],
   "unmatched": [
-    {
-      "user": "吴语遥",
-      "text": "洋葱使用：用于学习在学校没听懂的数学、物理知识点。"
-    },
-    {
-      "user": "徐同学",
-      "text": "时间充足就会用洋葱看课，有解题课就看课。"
-    },
-    {
-      "user": "丁同学",
-      "text": "中等题是高频——周内写作业，脑子绕不过来弯，知道答案但是自己证明会卡壳。"
-    },
-    {
-      "user": "丁同学",
-      "text": "压轴大题没有思路时，首选洋葱——能看到不一样的解法和相关的课程。"
-    },
     {
       "user": "吕同学",
       "text": "英语作业量大（十几页练习册）的时候，或做物理实验题、感觉拿不准的数学题，会去搜一下。"
@@ -555,6 +491,18 @@
     {
       "user": null,
       "text": "不会直接看答案，直接看答案没什么用。先看思路和解析，不明白再看视频，会做之后找两道题练。"
+    },
+    {
+      "user": null,
+      "text": "检查作业把所有题都拍给作业帮，一下出所有答案。要继续写作业，能越快越好——洋葱有点慢。"
+    },
+    {
+      "user": null,
+      "text": "中等题是高频——周内写作业，脑子绕不过来弯，知道答案但是自己证明会卡壳。"
+    },
+    {
+      "user": null,
+      "text": "压轴大题没有思路时，首选洋葱——能看到不一样的解法和相关的课程。"
     },
     {
       "user": null,
@@ -607,10 +555,6 @@
     {
       "user": null,
       "text": "它里面没有推荐相关知识点，但是洋葱推荐了比较好……如果洋葱也有类似的AI助手可以互动聊天，那肯定是选洋葱啊。"
-    },
-    {
-      "user": null,
-      "text": "老师总是会一针见血地指出题目关键点，使一直搞不懂的题目一下被点醒。"
     },
     {
       "user": null,
