@@ -13,6 +13,13 @@ const standardItems = [
   { label: '营销落地', path: 'marketing' },
 ];
 
+const fromPrimaryItems = [
+  { label: '调研背景', path: 'background' },
+  { label: '调研结论', path: 'summary' },
+  { label: '竞品分析', path: 'competitive' },
+  { label: '营销落地', path: 'marketing' },
+];
+
 const computingItems = [
   { label: '调研背景', path: 'background' },
   { label: '总览', path: 'summary' },
@@ -42,8 +49,9 @@ export default function TopNavLayout() {
   const active = pathAfterProject.split('/')[0] || 'summary';
   const isFamily = projectId === 'jiatingbao_project';
   const isPaisou = projectId === 'paisou_project';
-  const items = isFamily ? familyItems : isPaisou ? paisouItems : projectId === 'jisuanying_project' ? computingItems : standardItems;
-  const showFileBar = !isFamily && !isPaisou && (active === 'qualitative' || active === 'competitive');
+  const isFromPrimary = projectId === 'default_project';
+  const items = isFamily ? familyItems : isPaisou ? paisouItems : projectId === 'jisuanying_project' ? computingItems : isFromPrimary ? fromPrimaryItems : standardItems;
+  const showFileBar = !isFamily && !isPaisou && !isFromPrimary && (active === 'qualitative' || active === 'competitive');
 
   useLayoutEffect(() => {
     if (projectId === 'paisou_project' && location.pathname.includes('/qualitative/users/')) {

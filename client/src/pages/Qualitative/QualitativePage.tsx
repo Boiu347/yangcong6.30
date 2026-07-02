@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { MessageSquare, BarChart3, ChevronDown, ChevronRight, X, Sparkles, Pencil, Save, RotateCcw, Loader2 } from 'lucide-react';
 import {
   DEFAULT_QUALITATIVE_DATA,
@@ -810,6 +810,7 @@ export default function QualitativePage() {
   if (projectId === 'jisuanying_project') return <CalculationInsightsPage />;
   if (projectId === 'jiatingbao_project') return <FamilyInterviews />;
   if (projectId === 'paisou_project') return <PaisouUserStoriesPage key={userId ?? 'overview'} />;
+  if (!projectId || projectId === 'default_project') return <Navigate to="../summary" replace />;
   return <LegacyQualitativePage projectId={projectId} />;
 }
 

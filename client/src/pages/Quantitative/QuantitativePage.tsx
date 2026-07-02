@@ -624,5 +624,6 @@ export default function QuantitativePage() {
   const { projectId } = useParams<{ projectId: string }>();
   if (projectId === 'jisuanying_project') return <CalculationQuantitativePage />;
   if (projectId === 'paisou_project') return <Navigate to="../qualitative" replace />;
+  if (!projectId || projectId === 'default_project') return <Navigate to="../summary" replace />;
   return <DefaultQuantitativeReport />;
 }

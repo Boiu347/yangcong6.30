@@ -5,6 +5,7 @@ import QuantitativePage from '../Quantitative/QuantitativePage';
 import FamilyReport from '../FamilyPackage/FamilyReport';
 import PaisouUnderConstruction from '../Paisou/PaisouUnderConstruction';
 import fromPrimaryBriefing from '../../content/from-primary-brief.md?raw';
+import FromPrimaryMergedReport from './FromPrimaryMergedReport';
 
 const FROM_PRIMARY_BRIEFING = {
   title: '前情提要',
@@ -28,6 +29,7 @@ export default function SummaryPage() {
     return <FamilyReport src="/jiatingbao-overview.html" fileName="洋葱家庭包用户调研·项目总结" title="项目总结" />;
   if (projectId === 'paisou_project')
     return <PaisouUnderConstruction section="项目总结" hint="项目总结与核心结论还在汇总，完成后会在此呈现。" />;
+  if (!projectId || projectId === 'default_project') return <FromPrimaryMergedReport />;
   return (
     <div className="flex h-full min-h-0 flex-col">
       <ReportExportToolbar
