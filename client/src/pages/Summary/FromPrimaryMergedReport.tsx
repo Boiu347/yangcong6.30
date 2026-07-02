@@ -396,9 +396,20 @@ function clipUrlsOf(voice: Voice) {
   return lookupClips(voice.text).map((clip) => clip.clipUrl);
 }
 
+function formatTime(value: number) {
+  if (!Number.isFinite(value) || value <= 0) return '0:00';
+  const minutes = Math.floor(value / 60);
+  const seconds = Math.floor(value % 60)
+    .toString()
+    .padStart(2, '0');
+  return `${minutes}:${seconds}`;
+}
+
 function AudioClipButton({ audioUrl, index, total }: { audioUrl: string; index: number; total: number }) {
   const [audio, setAudio] = React.useState<HTMLAudioElement | null>(null);
   const [playing, setPlaying] = React.useState(false);
+  const [duration, setDuration] = React.useState(0);
+  const [currentTime, setCurrentTime] = React.useState(0);
 
   const isMp3 = audioUrl.endsWith('.mp3');
   if (!isMp3) {
@@ -415,38 +426,75 @@ function AudioClipButton({ audioUrl, index, total }: { audioUrl: string; index: 
     );
   }
 
+  React.useEffect(() => {
+    return () => {
+      audio?.pause();
+    };
+  }, [audio]);
+
+  const ensureAudio = () => {
+    if (audio) return audio;
+    const next = new Audio(audioUrl);
+    next.onloadedmetadata = () => setDuration(next.duration || 0);
+    next.ontimeupdate = () => setCurrentTime(next.currentTime || 0);
+    next.onended = () => {
+      setPlaying(false);
+      setCurrentTime(next.duration || 0);
+    };
+    next.onpause = () => setPlaying(false);
+    setAudio(next);
+    return next;
+  };
+
   const toggle = () => {
-    let next = audio;
-    if (!next) {
-      next = new Audio(audioUrl);
-      next.onended = () => setPlaying(false);
-      next.onpause = () => setPlaying(false);
-      setAudio(next);
-    }
+    const next = ensureAudio();
     if (playing) {
       next.pause();
       setPlaying(false);
     } else {
-      next.currentTime = 0;
+      if (next.ended || next.currentTime >= next.duration) next.currentTime = 0;
       void next.play().catch(() => setPlaying(false));
       setPlaying(true);
     }
   };
 
+  const seek = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const next = ensureAudio();
+    const time = Number(event.target.value);
+    next.currentTime = time;
+    setCurrentTime(time);
+  };
+
+  const clipLabel = total > 1 ? `原声切片 ${index + 1}/${total}` : '原声切片';
+
   return (
-    <button
-      type="button"
-      onClick={toggle}
-      className={cn(
-        'inline-flex items-center gap-1 rounded-full border px-2 py-1 text-[11px] font-bold transition',
-        playing
-          ? 'border-[#E95B35] bg-[#E95B35] text-white'
-          : 'border-[#E95B35]/25 bg-[#FFF3EC] text-[#B94925] hover:bg-[#FFE8DB]',
-      )}
-    >
-      {playing ? <Pause size={12} /> : <Play size={12} />}
-      {total > 1 ? `原声切片 ${index + 1}/${total}` : '原声切片'}
-    </button>
+    <div className="flex w-full max-w-[340px] items-center gap-2 rounded-full border border-[#E95B35]/25 bg-[#FFF3EC] px-2 py-1.5 text-[#B94925]">
+      <button
+        type="button"
+        onClick={toggle}
+        className={cn(
+          'inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-1 text-[11px] font-bold transition',
+          playing ? 'bg-[#E95B35] text-white' : 'bg-white text-[#B94925] hover:bg-[#FFE8DB]',
+        )}
+        aria-label={playing ? `暂停${clipLabel}` : `播放${clipLabel}`}
+      >
+        {playing ? <Pause size={12} /> : <Play size={12} />}
+        <span>{clipLabel}</span>
+      </button>
+      <input
+        type="range"
+        min={0}
+        max={duration || 0}
+        step={0.1}
+        value={Math.min(currentTime, duration || currentTime)}
+        onChange={seek}
+        className="h-1 min-w-0 flex-1 accent-[#E95B35]"
+        aria-label={`${clipLabel}进度`}
+      />
+      <span className="min-w-[58px] shrink-0 text-right text-[10px] font-bold tabular-nums text-[#9A5A42]">
+        {formatTime(currentTime)} / {formatTime(duration)}
+      </span>
+    </div>
   );
 }
 
