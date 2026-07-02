@@ -1051,15 +1051,15 @@ function SourcePanel() {
         <div className="flex flex-wrap gap-2">
           <a href={STRATEGY_SOURCE_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-full border border-[#D8D0C6] px-3 py-1.5 text-[12px] font-bold text-[#5F5851] hover:text-[#E95B35]">
             <FileText size={13} />
-            课程售卖情况
+            洞察小结
           </a>
           <a href={RESEARCH_SOURCE_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-full border border-[#D8D0C6] px-3 py-1.5 text-[12px] font-bold text-[#5F5851] hover:text-[#E95B35]">
             <FileText size={13} />
-            研究拆解
+            研究方案
           </a>
           <a href={INTERVIEW_INDEX_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-full border border-[#D8D0C6] px-3 py-1.5 text-[12px] font-bold text-[#5F5851] hover:text-[#E95B35]">
             <FileText size={13} />
-            访谈目录
+            访谈纪要
           </a>
           <a href={QUANT_SOURCE_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-full border border-[#D8D0C6] px-3 py-1.5 text-[12px] font-bold text-[#5F5851] hover:text-[#E95B35]">
             <BarChart3 size={13} />
