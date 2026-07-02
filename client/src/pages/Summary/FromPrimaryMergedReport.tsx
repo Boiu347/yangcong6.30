@@ -54,7 +54,7 @@ const dimensions: Array<{ id: DimensionId; label: string; icon: typeof Lightbulb
   { id: 'purchase', label: '购买决策', icon: Target, color: '#3E76A8' },
   { id: 'experience', label: '买后体验', icon: BookOpenCheck, color: '#18806F' },
   { id: 'barrier', label: '为什么不买', icon: SearchCheck, color: '#8A5A22' },
-  { id: 'brand', label: '品牌认知', icon: Sparkles, color: '#6E4AA5' },
+  { id: 'brand', label: '品牌差异', icon: Sparkles, color: '#6E4AA5' },
   { id: 'next', label: '下一步建议', icon: BarChart3, color: '#B64A35' },
 ];
 
@@ -305,41 +305,53 @@ const cards: InsightCard[] = [
   {
     id: 'c16',
     dimension: 'brand',
-    title: '洋葱品牌信任能迁移到物理',
-    conclusion: '洋葱数学、品牌、直播间和创始人形象降低购买决策成本。',
-    data: '品牌保证 31%。',
+    title: '跨品牌洞察：家长买的不是“有趣”，而是有用且可信',
+    conclusion: '理科启蒙产品都在争夺兴趣入口，但真正影响购买的是未来学科价值、可信来源、权益透明和孩子持续主动使用。',
+    data: '竞品分析：触达依赖直播/社群口碑；权益透明度影响购买信任；孩子主动参与是续费强信号。',
     voices: [
-      { sourceId: 'u4', text: '对洋葱的信任、对品牌的信任。' },
-      { sourceId: 'u4', text: '比较喜欢他这个杨临风，他展现个人魅力还是挺好的……基于这一点，然后其他的就是单就从小学物理，我还没考察那么多。' },
-      { sourceId: 'u6', text: '当时买洋葱学园的数学课的时候，推荐了这个物理课，我才买的。' },
+      { sourceId: 'u4', text: '展现的形式孩子喜欢，孩子喜欢第一要素。' },
+      { sourceId: 'u1', text: '万物指南的话，是，也是从我们有个学习群，大概就是看了一下这个介绍觉得他这个团队还是比较靠谱的。' },
+      { sourceId: 'u4', text: '洋葱学园的从小学物理，如果说我不是不管的话，他每天他都会刷。他好像特别喜欢看那实验男做实验。他当成趣味里边学知识了。' },
     ],
   },
   {
     id: 'c17',
     dimension: 'brand',
-    title: '洋葱要占领“有趣但有用”的心智',
-    conclusion: '先让孩子愿意看，再证明它和未来理科学习有关。',
-    data: '趣味动画课 53%，孩子喜欢 40%，课程体系 29%。',
+    title: '妙懂：AR 记忆点强，但容易停在“玩”，启蒙感弱',
+    conclusion: '妙懂的强点是 AR、题库和直观展示；短板是讲法偏正式、偏应试，孩子可能只玩 AR，不深入看内容。',
+    data: '竞品分析：AR 是强记忆点，但“只玩 AR、不看内容”和应试感知会抑制启蒙场景转化。',
     voices: [
-      { sourceId: 'u4', text: '展现的形式孩子喜欢，孩子喜欢第一要素。' },
-      { sourceId: 'u7', text: '首先得是易懂，这么小的孩子如果听不懂，系统和专业也没啥用。' },
-      { sourceId: 'u8', text: '实验类课程吸引孩子的点是好玩、孩子感兴趣、用孩子能听懂的语言描述。' },
+      { sourceId: 'u5', text: '他的吸引那个点就是妙懂的AR东西，就是看着很更直观。然后还有就说里面有很多题库。' },
+      { sourceId: 'u5', text: '买了以后他就只玩那个AR，里面的东西他也不太爱看。' },
+      { sourceId: 'u5', text: '妙懂偏应试一点，它里面讲的东西不是那种小孩能接受那种，别人讲的时候那种语气，其他两个讲的时候都是小朋友讲那种，他不是，他是正儿八经的讲，很正式，孩子看着好像没有那么有感觉，就是让他学习了的那种感觉。' },
     ],
   },
   {
     id: 'c18',
     dimension: 'brand',
-    title: '竞品差异要讲清楚',
-    conclusion: '万物指南、NB、妙懂、学而思各有优势，洋葱要明确自己的差异。',
-    data: '定量报告未给竞品差异比例，不放造数。',
+    title: '万物指南：专业和稀缺内容建立信任，但产出感弱',
+    conclusion: '万物指南的优势是专业团队、化学内容稀缺、题库和长期可用；短板是更像内容库，家长仍需要看到孩子到底学会了什么。',
+    data: '竞品分析：化学内容稀缺和权威内容建立信任，但学习产出难量化是续费阻力。',
     voices: [
-      { sourceId: 'u1', text: 'NB实验室，它是一些实验性的东西。他没有那些具体的，他只是说是他里面都是一些实验，他没有，他除了实验之外的东西他是没有的。他是可以搭配着用的，我觉得。' },
-      { sourceId: 'u5', text: '妙懂是很正式的，孩子看着感觉像学习。' },
-      { sourceId: 'u8', text: '学而思是直播，洋葱是录播；学而思能动手，洋葱是纯教学。' },
+      { sourceId: 'u1', text: '万物指南的话，是，也是从我们有个学习群，大概就是看了一下这个介绍觉得他这个团队还是比较靠谱的。' },
+      { sourceId: 'u1', text: '就反正就是感觉可能专业性上各方面，他就觉得比妙懂要更专业一些。然后设计上还有包括他后边那些，他这个的话不是那种单纯的让你了解一下，他后面是跟着题的，他每个题都是相当于是那种题库，你大了以后，包括上初中了以后都还能用。就是这种，而且还是永久的嘛。' },
+      { sourceId: 'u5', text: '我看见那个万物指南里面有化学，然后就买了那个。化学好像市面上好像只有它有。' },
     ],
   },
   {
     id: 'c19',
+    dimension: 'brand',
+    title: 'NB虚拟实验室：实验探索感强，但不替代系统学习',
+    conclusion: 'NB 的优势是虚拟实验、安全、直观、可操作；短板是偏工具和实验模拟，缺少系统讲解，也无法替代真实实验和完整课程学习。',
+    data: '竞品分析：虚拟实验探索感强、低价受认可，但实际使用率低，模拟与真实实验存在落差。',
+    voices: [
+      { sourceId: 'u1', text: 'NB实验室，它是一些实验性的东西。他没有那些具体的，他只是说是他里面都是一些实验，他没有，他除了实验之外的东西他是没有的。他是可以搭配着用的，我觉得。' },
+      { sourceId: 'u4', text: '很多就危险性的实验的操作的话，肯定是在现实生活当中，有些家长就包括于我来讲，我也达不到那么的专业，但是在这个虚拟的环境下的话，可以放心让孩子去做，它不存在危险性，这是它的一大优点。' },
+      { sourceId: 'u1', text: '后来又觉得他这种模拟实验其实跟你实际做实验的话，他是有差距的。他也不能完全的，他只是模拟那个动画场景。但是他不是，他跟你当时你做实验的那种真实的这种感受，他是还是有很大区别的。' },
+    ],
+  },
+  {
+    id: 'c20',
     dimension: 'next',
     title: '营销话术从“体系好”改为“孩子笑着学，悄悄领先”',
     conclusion: '先展示趣味动画和孩子投入，再补充体系化和长期价值。',
@@ -351,7 +363,7 @@ const cards: InsightCard[] = [
     ],
   },
   {
-    id: 'c20',
+    id: 'c21',
     dimension: 'next',
     title: '渠道增长从内部转化走向公域破圈',
     conclusion: '继续用洋葱自有渠道，同时加强小红书、抖音、达人和口碑内容。',
@@ -363,7 +375,7 @@ const cards: InsightCard[] = [
     ],
   },
   {
-    id: 'c21',
+    id: 'c22',
     dimension: 'next',
     title: '产品矩阵优先地理和理科全家桶',
     conclusion: '地理需求最高，后续适合规划从小学理科全家桶。',
@@ -375,7 +387,7 @@ const cards: InsightCard[] = [
     ],
   },
   {
-    id: 'c22',
+    id: 'c23',
     dimension: 'next',
     title: '产品侧补“启蒙成功验证”',
     conclusion: '让家长看到孩子能解释现象、说出原理、做对题、讲给家长听。',
@@ -548,10 +560,7 @@ function InsightCardView({ card, color }: { card: InsightCard; color: string }) 
     <article className="rounded-[8px] border border-[#E4DDD3] bg-[#FBFAF7] shadow-[0_1px_4px_rgba(55,44,34,.05)]">
       <div className="grid gap-0 lg:grid-cols-[0.86fr_1.45fr]">
         <div className="border-b border-[#E7DED3] p-5 lg:border-b-0 lg:border-r">
-          <p className="text-[11px] font-black tracking-[0.16em]" style={{ color }}>
-            CARD {card.id.replace('c', '').padStart(2, '0')}
-          </p>
-          <h3 className="mt-3 text-[24px] font-black leading-tight text-[#292521]">{card.title}</h3>
+          <h3 className="text-[24px] font-black leading-tight text-[#292521]">{card.title}</h3>
           <p className="mt-4 text-[15px] font-black leading-7 text-[#403A34]">{card.conclusion}</p>
           {card.data && (
             <div className="mt-5 rounded-md border border-[#EEE5DC] bg-white px-4 py-3 text-[13px] font-bold leading-6 text-[#7A6255]">
@@ -614,11 +623,10 @@ export default function FromPrimaryMergedReport() {
                 将项目总结、定性洞察和定量报告合并为一页，按六个业务维度展示结论、数据和用户原声。
               </p>
             </div>
-            <div className="grid min-w-[280px] grid-cols-3 gap-2 rounded-[8px] border border-[#E5DDD3] bg-white p-3">
+            <div className="grid min-w-[190px] grid-cols-2 gap-2 rounded-[8px] border border-[#E5DDD3] bg-white p-3">
               {[
                 ['81', '问卷样本'],
                 ['8', '定性用户'],
-                ['22', '结论卡片'],
               ].map(([value, label]) => (
                 <div key={label} className="rounded-md bg-[#F8F4EE] px-3 py-3 text-center">
                   <div className="text-[22px] font-black text-[#E95B35]">{value}</div>
@@ -664,7 +672,6 @@ export default function FromPrimaryMergedReport() {
             </p>
             <h2 className="mt-1 text-[24px] font-black text-[#292521]">关键结论卡片</h2>
           </div>
-          <p className="text-[12px] font-bold text-[#8A8279]">{activeCards.length} 张卡片</p>
         </div>
         <div className="space-y-4">
           {activeCards.map((card) => (
