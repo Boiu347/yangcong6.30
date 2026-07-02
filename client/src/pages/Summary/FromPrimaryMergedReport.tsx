@@ -40,12 +40,18 @@ interface Voice {
   sourceUrl?: string;
 }
 
+interface Takeaway {
+  label: '判断' | '依据' | '动作';
+  text: string;
+}
+
 interface InsightCard {
   id: string;
   dimension: DimensionId;
   title: string;
   conclusion: string;
   data?: string;
+  takeaways?: Takeaway[];
   voices: Voice[];
 }
 
@@ -400,6 +406,124 @@ const cards: InsightCard[] = [
   },
 ];
 
+const cardTakeaways: Record<string, Takeaway[]> = {
+  c01: [
+    { label: '判断', text: '低年级用户不是要提前学完整物理，而是要让孩子先有概念、能解释自然现象。' },
+    { label: '依据', text: '定量显示核心客群集中在 1-5 年级；访谈反复出现“有个概念”“初高中更轻松”的预期。' },
+    { label: '动作', text: '定位话术避开“先修”，突出“低龄理科启蒙、未来学科不陌生”。' },
+  ],
+  c02: [
+    { label: '判断', text: '兴趣负责打开第一步，长期有用负责最终成交。' },
+    { label: '依据', text: '趣味动画课 53%、孩子喜欢 40%、课程体系 29%，说明“好玩+有体系”才成立。' },
+    { label: '动作', text: '营销先展示孩子爱看，再补充“理科学科思维/初中不吃力”的价值闭环。' },
+  ],
+  c03: [
+    { label: '判断', text: '只证明孩子爱看不够，家长还需要看到孩子到底学到了什么。' },
+    { label: '依据', text: '访谈里有孩子会转述、家长想看掌握程度的诉求；该点没有独立定量比例，按定性强信号表达。' },
+    { label: '动作', text: '补学习报告、讲给家长听、知识点掌握和生活迁移任务，把启蒙效果外显。' },
+  ],
+  c04: [
+    { label: '判断', text: '主力用户是有教育投入、关注长期理科能力的中高线家长。' },
+    { label: '依据', text: '定量画像集中在 36-44 岁、企业/事业单位、1-5 年级、年教育支出 5000+ 的家庭。' },
+    { label: '动作', text: '投放和话术优先面向“愿意为未来学科优势付费”的家庭。' },
+  ],
+  c05: [
+    { label: '判断', text: '孩子是否愿意主动看，是购买决策里最直接的触发器。' },
+    { label: '依据', text: '趣味动画课 53%、孩子喜欢 40%；访谈中多次出现“每天刷”“看得进去”。' },
+    { label: '动作', text: '首屏素材多放孩子投入观看、实验男、短视频节奏，不要先讲完整体系。' },
+  ],
+  c06: [
+    { label: '判断', text: '家长最终买的是“有趣但不零散”的体系化课程。' },
+    { label: '依据', text: '课程体系占 29%；访谈对比 NB 时认为洋葱更系统、更适合静下来看概念。' },
+    { label: '动作', text: '对外表达“从兴趣到知识结构”，把目录层级和知识地图可视化。' },
+  ],
+  c07: [
+    { label: '判断', text: '当前转化依赖存量触达，公众号、视频号、直播间承担临门一脚。' },
+    { label: '依据', text: '访谈出现郑州妈妈帮、视频号、顺着洋葱推荐购买；定量报告总结为认知到决策路径。' },
+    { label: '动作', text: '保留自有渠道转化，同时把直播答疑沉淀成可复用的购买 FAQ。' },
+  ],
+  c08: [
+    { label: '判断', text: '从小学物理不是大块上课场景，更像碎片时间的轻学习。' },
+    { label: '依据', text: '用户集中描述吃饭、休息、周末、主科学累了看；该点为定性共性，没有独立定量比例。' },
+    { label: '动作', text: '产品入口和提醒适配“5 分钟看一节”，减少打开和续看的成本。' },
+  ],
+  c09: [
+    { label: '判断', text: '体验优势是比科普更系统、比正式课更轻。' },
+    { label: '依据', text: '趣味动画课 53%、课程体系 29%；访谈提到短、可自己翻、愿意持续看。' },
+    { label: '动作', text: '课程包装强调“短视频式学习节奏 + 完整知识链”。' },
+  ],
+  c10: [
+    { label: '判断', text: '低龄理解门槛和校内不同步，会让好内容无法持续使用。' },
+    { label: '依据', text: '访谈问题集中在概念晦涩、读题困难、四年级科学找不到同步内容。' },
+    { label: '动作', text: '补口语化解释、读题/朗读、按教材或地区知识点查找。' },
+  ],
+  c11: [
+    { label: '判断', text: '实验不是主卖点，但能补强理解、记忆和“真的学会了”的感受。' },
+    { label: '依据', text: '家长认为纯视频容易忘，有动手实验能理解原理；也会拿学而思实验做对比。' },
+    { label: '动作', text: '先做低门槛家庭实验清单和安全提示，不必一开始重做完整实验课。' },
+  ],
+  c12: [
+    { label: '判断', text: '只说兴趣会陷入科普/短视频竞争，无法解释为什么要付费。' },
+    { label: '依据', text: '访谈明确不是单纯提前学，而是专业解释自然现象、建立学科概念。' },
+    { label: '动作', text: '话术从“好玩”升级到“好玩地学会物理概念”。' },
+  ],
+  c13: [
+    { label: '判断', text: '直接卖“提前学初中物理”会吓退低龄家长，也容易和同步课冲突。' },
+    { label: '依据', text: '用户担心应试排斥，认为低年级只要启蒙；正式物理价值到初中才更明显。' },
+    { label: '动作', text: '用“小初衔接前的学科兴趣和概念预热”，不要承诺完整先修。' },
+  ],
+  c14: [
+    { label: '判断', text: '科学主科化地区是小众但高强度需求，不适合忽略。' },
+    { label: '依据', text: '6 位定性用户中 1 位强同步诉求；郑州用户明确提到期中期末在考。' },
+    { label: '动作', text: '不把同步做成全国主定位，但提供地区/教材索引满足高需求用户。' },
+  ],
+  c15: [
+    { label: '判断', text: '认可课程不等于会持续用，入口和时间会直接影响留存。' },
+    { label: '依据', text: '访谈出现没时间、找不到入口、只能先选洋葱物理而舍弃 NB。' },
+    { label: '动作', text: '首页入口、学习提醒、最近学到哪里，要比新增内容更优先。' },
+  ],
+  c16: [
+    { label: '判断', text: '跨品牌竞争的核心不是“谁更好玩”，而是谁更可信、更有长期价值。' },
+    { label: '依据', text: '竞品分析显示直播/社群口碑是触达关键，权益透明和孩子主动参与影响信任与续费。' },
+    { label: '动作', text: '洋葱要把“孩子爱看”和“家长看得见效果”同时做成证据链。' },
+  ],
+  c17: [
+    { label: '判断', text: '妙懂强在 AR 记忆点，但启蒙转化容易卡在“玩具感/应试感”。' },
+    { label: '依据', text: '用户认可 AR 直观和题库，但反馈只玩 AR、不爱看内容、讲法正式偏应试。' },
+    { label: '动作', text: '对比妙懂时突出“动画讲懂 + 系统概念”，避免只拼互动形式。' },
+  ],
+  c18: [
+    { label: '判断', text: '万物指南靠专业团队和稀缺内容建立信任，弱点是学习产出不够外显。' },
+    { label: '依据', text: '用户提到团队靠谱、比妙懂专业、题库长期可用、化学内容稀缺。' },
+    { label: '动作', text: '学习“专业可信”的背书，同时补上学习成果可视化。' },
+  ],
+  c19: [
+    { label: '判断', text: 'NB 虚拟实验室更像实验工具，不是完整课程替代。' },
+    { label: '依据', text: '用户认可安全、直观、可操作，也指出只有实验、缺系统讲解、模拟与真实有落差。' },
+    { label: '动作', text: '把 NB 定位为补充竞品，强调洋葱“实验兴趣 + 系统讲解”的完整性。' },
+  ],
+  c20: [
+    { label: '判断', text: '营销要先让家长看到孩子笑着学，再说明悄悄建立理科优势。' },
+    { label: '依据', text: '趣味动画课 53%、孩子喜欢 40%、课程体系 29%，说明兴趣和体系都不能缺。' },
+    { label: '动作', text: '素材顺序改为孩子投入观看、学会概念、未来学科更轻松。' },
+  ],
+  c21: [
+    { label: '判断', text: '仅靠自有渠道会限制新增，需要公域种草补足认知。' },
+    { label: '依据', text: '定量建议社交媒体认知占比从 23% 提升到 40% 以上；访谈有小红书/抖音/公众号路径。' },
+    { label: '动作', text: '做小红书/抖音达人内容和家长口碑案例，再承接到直播/私域转化。' },
+  ],
+  c22: [
+    { label: '判断', text: '地理和理科全家桶是更自然的后续扩展方向。' },
+    { label: '依据', text: '地理需求 69%；报告提到 74% 用户倾向全科套餐，不超过 400 元接受度 52.94%。' },
+    { label: '动作', text: '先验证地理，再用补差价/组合包降低已购物理用户升级门槛。' },
+  ],
+  c23: [
+    { label: '判断', text: '产品需要定义“启蒙成功”，否则家长难判断值不值。' },
+    { label: '依据', text: '访谈中家长期待孩子能解释现象、讲给家长听、做对题。' },
+    { label: '动作', text: '用学习报告、讲解任务、生活现象迁移题来证明启蒙效果。' },
+  ],
+};
+
 function sourceOf(id: string): SourceInfo {
   return sources[id] ?? sources.u1;
 }
@@ -556,14 +680,35 @@ function VoiceEvidence({ cardId, voice }: { cardId: string; voice: Voice }) {
 }
 
 function InsightCardView({ card, color }: { card: InsightCard; color: string }) {
+  const takeaways = card.takeaways ?? cardTakeaways[card.id] ?? [];
+
   return (
     <article className="rounded-[8px] border border-[#E4DDD3] bg-[#FBFAF7] shadow-[0_1px_4px_rgba(55,44,34,.05)]">
-      <div className="grid gap-0 lg:grid-cols-[0.86fr_1.45fr]">
+      <div className="grid gap-0 lg:grid-cols-[1.08fr_1.35fr]">
         <div className="border-b border-[#E7DED3] p-5 lg:border-b-0 lg:border-r">
           <h3 className="text-[24px] font-black leading-tight text-[#292521]">{card.title}</h3>
           <p className="mt-4 text-[15px] font-black leading-7 text-[#403A34]">{card.conclusion}</p>
+          {takeaways.length > 0 && (
+            <div className="mt-5 space-y-2">
+              <p className="text-[12px] font-black text-[#9A938B]">结论拆解</p>
+              {takeaways.map((takeaway) => (
+                <div key={`${card.id}-${takeaway.label}`} className="rounded-md border border-[#EEE5DC] bg-white px-4 py-3">
+                  <div className="flex items-start gap-3">
+                    <span
+                      className="mt-0.5 shrink-0 rounded-full px-2 py-0.5 text-[11px] font-black"
+                      style={{ backgroundColor: `${color}14`, color }}
+                    >
+                      {takeaway.label}
+                    </span>
+                    <p className="text-[13px] font-semibold leading-6 text-[#514A43]">{takeaway.text}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
           {card.data && (
             <div className="mt-5 rounded-md border border-[#EEE5DC] bg-white px-4 py-3 text-[13px] font-bold leading-6 text-[#7A6255]">
+              <span className="mr-2 text-[#9A938B]">数据/来源</span>
               {card.data}
             </div>
           )}
