@@ -862,7 +862,7 @@ function AudioClipButton({ audioUrl, index, total }: { audioUrl: string; index: 
         href={audioUrl}
         target="_blank"
         rel="noreferrer"
-        className="inline-flex items-center gap-1 rounded-full border border-[#E95B35]/25 bg-[#FFF3EC] px-2 py-1 text-[11px] font-bold text-[#B94925] hover:bg-[#FFE8DB]"
+        className="inline-flex items-center gap-1 rounded-full border border-[#D9D1C7] bg-[#FAF8F4] px-2 py-1 text-[11px] font-bold text-[#6E675F] hover:border-[#BDAE9D] hover:bg-white"
       >
         <Mic2 size={12} />
         听录音
@@ -912,13 +912,13 @@ function AudioClipButton({ audioUrl, index, total }: { audioUrl: string; index: 
   const clipLabel = total > 1 ? `原声切片 ${index + 1}/${total}` : '原声切片';
 
   return (
-    <div className="flex w-full max-w-[340px] items-center gap-2 rounded-full border border-[#E95B35]/25 bg-[#FFF3EC] px-2 py-1.5 text-[#B94925]">
+    <div className="flex w-full max-w-[340px] items-center gap-2 rounded-full border border-[#D9D1C7] bg-[#FAF8F4] px-2 py-1.5 text-[#6E675F]">
       <button
         type="button"
         onClick={toggle}
         className={cn(
           'inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-1 text-[11px] font-bold transition',
-          playing ? 'bg-[#E95B35] text-white' : 'bg-white text-[#B94925] hover:bg-[#FFE8DB]',
+          playing ? 'bg-[#E95B35] text-white' : 'bg-white text-[#6E675F] hover:bg-[#F1ECE5]',
         )}
         aria-label={playing ? `暂停${clipLabel}` : `播放${clipLabel}`}
       >
@@ -932,10 +932,10 @@ function AudioClipButton({ audioUrl, index, total }: { audioUrl: string; index: 
         step={0.1}
         value={Math.min(currentTime, duration || currentTime)}
         onChange={seek}
-        className="h-1 min-w-0 flex-1 accent-[#E95B35]"
+        className="h-1 min-w-0 flex-1 accent-[#8B8176]"
         aria-label={`${clipLabel}进度`}
       />
-      <span className="min-w-[58px] shrink-0 text-right text-[10px] font-bold tabular-nums text-[#9A5A42]">
+      <span className="min-w-[58px] shrink-0 text-right text-[10px] font-bold tabular-nums text-[#8A8279]">
         {formatTime(currentTime)} / {formatTime(duration)}
       </span>
     </div>
@@ -951,7 +951,7 @@ function SourceFallbackLink({ voice, source }: { voice: Voice; source: SourceInf
       href={url}
       target="_blank"
       rel="noreferrer"
-      className="inline-flex items-center gap-1 rounded-full border border-[#DED6CC] bg-white px-2.5 py-1 text-[11px] font-bold text-[#5F5851] hover:border-[#E95B35]/40 hover:text-[#E95B35]"
+      className="inline-flex items-center gap-1 rounded-full border border-[#D9D1C7] bg-[#FAF8F4] px-2.5 py-1 text-[11px] font-bold text-[#6E675F] hover:border-[#BDAE9D] hover:bg-white"
     >
       {source.recordingUrl ? <Mic2 size={12} /> : <FileText size={12} />}
       {label}
@@ -966,17 +966,17 @@ function VoiceEvidence({ cardId, voice }: { cardId: string; voice: Voice }) {
   const clipUrls = clipUrlsOf(voice);
 
   return (
-    <article key={`${cardId}-${voice.sourceId}-${quote}`} className="rounded-[8px] border border-[#E5DDD3] bg-white p-4">
-      <div className="flex items-start gap-3">
-        <Quote size={20} className="mt-1 shrink-0 text-[#E95B35]" />
-        <p className="text-[15px] font-bold leading-8 text-[#302A25]">“{quote}”</p>
+    <article key={`${cardId}-${voice.sourceId}-${quote}`} className="rounded-[8px] border border-[#E6E0D7] bg-[#F6F2EC] p-3.5">
+      <div className="flex items-start gap-2.5">
+        <Quote size={14} className="mt-1 shrink-0 text-[#B9AEA3]" />
+        <p className="text-[13px] font-medium leading-7 text-[#4D4740]">“{quote}”</p>
       </div>
-      <div className="mt-4 rounded-md bg-[#F7F4EF] p-3">
-        <p className="text-[13px] font-black text-[#292521]">{source.title}</p>
-        <p className="mt-1 text-[12px] leading-5 text-[#746E67]">{source.meta}</p>
-        <p className="mt-1 text-[12px] leading-5 text-[#9A938A]">材料：{source.materials}</p>
+      <div className="mt-3 border-t border-[#E4DCD2] pt-2.5">
+        <p className="text-[12px] font-black text-[#5F5851]">{source.title}</p>
+        <p className="mt-1 text-[11px] leading-5 text-[#837A71]">{source.meta}</p>
+        <p className="mt-0.5 text-[11px] leading-5 text-[#9A938A]">材料：{source.materials}</p>
       </div>
-      <div className="mt-3 flex flex-wrap gap-2">
+      <div className="mt-2.5 flex flex-wrap gap-2">
         {clipUrls.length > 0 ? (
           clipUrls.map((audioUrl, index) => <AudioClipButton key={audioUrl} audioUrl={audioUrl} index={index} total={clipUrls.length} />)
         ) : (
@@ -991,37 +991,42 @@ function InsightCardView({ card, color }: { card: InsightCard; color: string }) 
   const takeaways = card.takeaways ?? cardTakeaways[card.id] ?? [];
 
   return (
-    <article className="rounded-[8px] border border-[#E4DDD3] bg-[#FBFAF7] shadow-[0_1px_4px_rgba(55,44,34,.05)]">
+    <article className="rounded-[8px] border border-[#E0D6CA] bg-[#FBFAF7] shadow-[0_1px_4px_rgba(55,44,34,.05)]">
       <div>
-        <div className="border-b border-[#E7DED3] p-5">
-          <h3 className="text-[24px] font-black leading-tight text-[#292521]">{card.title}</h3>
-          <p className="mt-4 text-[15px] font-black leading-7 text-[#403A34]">{card.conclusion}</p>
+        <div className="border-b border-[#E4D9CC] bg-white p-6">
+          <h3 className="text-[26px] font-black leading-tight text-[#292521]">{card.title}</h3>
+          <div
+            className="mt-4 rounded-md border border-[#E9DED2] bg-[#FFF8F2] px-4 py-3"
+            style={{ borderLeft: `4px solid ${color}` }}
+          >
+            <p className="text-[16px] font-black leading-7 text-[#302A25]">{card.conclusion}</p>
+          </div>
           {takeaways.length > 0 && (
-            <div className="mt-5 grid gap-2 lg:grid-cols-3">
-              <p className="text-[12px] font-black text-[#9A938B] lg:col-span-3">结论拆解</p>
+            <div className="mt-5 grid gap-3 lg:grid-cols-3">
+              <p className="text-[12px] font-black tracking-[0.12em] text-[#8A8279] lg:col-span-3">结论拆解</p>
               {takeaways.map((takeaway) => (
-                <div key={`${card.id}-${takeaway.label}`} className="rounded-md border border-[#EEE5DC] bg-white px-4 py-3">
-                  <div className="flex items-start gap-3">
+                <div key={`${card.id}-${takeaway.label}`} className="rounded-md border border-[#E7DDD2] bg-[#FFFEFC] px-4 py-4">
+                  <div className="flex items-start gap-3.5">
                     <span
-                      className="mt-0.5 shrink-0 rounded-full px-2 py-0.5 text-[11px] font-black"
+                      className="mt-0.5 shrink-0 rounded-full px-2.5 py-1 text-[12px] font-black"
                       style={{ backgroundColor: `${color}14`, color }}
                     >
                       {takeaway.label}
                     </span>
-                    <p className="text-[13px] font-semibold leading-6 text-[#514A43]">{takeaway.text}</p>
+                    <p className="text-[14px] font-bold leading-7 text-[#403A34]">{takeaway.text}</p>
                   </div>
                 </div>
               ))}
             </div>
           )}
           {card.data && (
-            <div className="mt-5 rounded-md border border-[#EEE5DC] bg-white px-4 py-3 text-[13px] font-bold leading-6 text-[#7A6255]">
+            <div className="mt-5 rounded-md border border-[#EEE5DC] bg-[#FBF8F3] px-4 py-3 text-[12px] font-semibold leading-6 text-[#7A6255]">
               {card.data}
             </div>
           )}
         </div>
-        <div className="p-5">
-          <p className="text-[12px] font-black text-[#9A938B]">用户原声与来源</p>
+        <div className="bg-[#F7F3ED] p-5">
+          <p className="text-[11px] font-black tracking-[0.12em] text-[#A19990]">用户原声与来源</p>
           <div className="mt-3 grid gap-3 xl:grid-cols-3">
             {card.voices.map((voice) => (
               <VoiceEvidence key={`${card.id}-${voice.sourceId}-${voice.text}`} cardId={card.id} voice={voice} />
