@@ -1106,10 +1106,10 @@ export default function FromPrimaryMergedReport() {
               <a
                 key={id}
                 href={`#${id}`}
-                className="flex h-12 shrink-0 items-center gap-2 border-b-2 border-transparent px-3 text-[13px] font-black text-[#736C65] transition hover:border-current hover:text-[#292521]"
+                className="flex h-14 shrink-0 items-center gap-2.5 border-b-2 border-transparent px-4 text-[16px] font-black text-[#736C65] transition hover:border-current hover:text-[#292521]"
                 style={{ color }}
               >
-                <Icon size={15} />
+                <Icon size={18} />
                 {label}
               </a>
             );
@@ -1123,10 +1123,9 @@ export default function FromPrimaryMergedReport() {
           return (
             <section key={dimension.id} id={dimension.id} className="scroll-mt-16">
               <div className="mb-5">
-                <p className="text-[12px] font-black tracking-[0.16em]" style={{ color: dimension.color }}>
+                <p className="text-[20px] font-black" style={{ color: dimension.color }}>
                   {dimension.label}
                 </p>
-                <h2 className="mt-1 text-[24px] font-black text-[#292521]">关键结论卡片</h2>
               </div>
               <div className="space-y-4">
                 {dimensionCards.map((card) => (
