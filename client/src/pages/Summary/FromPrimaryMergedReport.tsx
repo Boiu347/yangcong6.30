@@ -12,9 +12,9 @@ import {
   SearchCheck,
   Sparkles,
   Target,
-  X,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { lookupClips } from '@/utils/sourceUtils';
 
 const ORANGE = '#E95B35';
 const INK = '#292521';
@@ -37,6 +37,7 @@ interface Voice {
   text: string;
   sourceId: string;
   audioUrl?: string;
+  sourceUrl?: string;
 }
 
 interface InsightCard {
@@ -128,7 +129,7 @@ const cards: InsightCard[] = [
     conclusion: '从小学物理应占领兴趣启蒙和小初衔接之间的中间地带。',
     data: '定量报告：核心客群孩子集中在 1-5 年级。',
     voices: [
-      { sourceId: 'u1', text: '低年级只需要“学科启蒙”，不需要提前学完初中内容。', audioUrl: '/clips/interview1/0007-01.mp3' },
+      { sourceId: 'u1', text: '我就觉得他可以大概了解一下，有个概念就行。不是为了提前学什么，更多是让他了解一下自然现象，他小孩不是有的时候可能会问吗？然后这一类的可能会有一些比较直观的内容，包括一些，这个他可能会就是更准确一些，对于我们家长跟他解释的话可能有的时候不一定那么的正规。' },
       { sourceId: 'u2', text: '希望孩子现在学一遍，初高中再学一遍时更轻松。' },
       { sourceId: 'u7', text: '为孩子购买从小学物理的诉求最偏向学科启蒙。' },
     ],
@@ -140,7 +141,7 @@ const cards: InsightCard[] = [
     conclusion: '孩子喜欢是购买入口，但家长真正买单的是未来理科学习有帮助。',
     data: '趣味动画课 53%，孩子喜欢 40%，课程体系 29%。',
     voices: [
-      { sourceId: 'u3', text: '兴趣是起点，学科思维是最终目的。' },
+      { sourceId: 'u3', text: '因为他说素材可以从生活中随手，可以随时可以找到。然后就可以提前对那个物理启蒙。因为以后到初中也会学到物理，然后可以提前让他认识知道一些就是跟物理相关的知识。' },
       { sourceId: 'u7', text: '让孩子先接触一下初高中的课程，了解相关知识，之后学起来可能不吃力。' },
       { sourceId: 'u8', text: '最少他上初中、高中学习物理不会那么吃力吧。' },
     ],
@@ -153,7 +154,7 @@ const cards: InsightCard[] = [
     data: '定量报告未给该点单独比例，不放造数。',
     voices: [
       { sourceId: 'u4', text: '他看了之后会考我，会把课上看的从小学物理视频转化成自己的语言。', audioUrl: '/clips/interview4/0048-01.mp3' },
-      { sourceId: 'u5', text: '想看到孩子学了什么、学到什么、记住什么。' },
+      { sourceId: 'u5', text: '没看出，因为我有没，没有，我不知道怎么去看这个东西。就说孩子学了多少东西，因为我平时又没看的，没去，一直关注他看的是什么。然后我想知道他到底学了什么东西？学到了什么东西？学了多少？能记住什么？' },
       { sourceId: 'u8', text: '没有学习报告，不知道孩子最终掌握什么程度。' },
     ],
   },
@@ -165,8 +166,8 @@ const cards: InsightCard[] = [
     data: '广东 14.81%；江浙鲁各 9.88%；北京、河南各 8.64%。',
     voices: [
       { sourceId: 'u2', text: '更关注长期能力、学习习惯、理科思维和未来学科优势。' },
-      { sourceId: 'u4', text: '毕竟升学需求、考试科目的选取，还是不想让他之后对理科失去兴趣。', audioUrl: '/clips/interview4/0044-01.mp3' },
-      { sourceId: 'u6', text: '郑州把科学课纳入了主科，期中期末都在考。', audioUrl: '/clips/interview6/0094-01.mp3' },
+      { sourceId: 'u4', text: '还是从小激发这个物理的学习兴趣，也能不排斥以后，因为以后有更高的，毕竟升学需求，考试科目的选取，还是不想让他之后对理科失去兴趣，所以抓住从小应该掌握这个理科的黄金期，让他去早早的有所渗透。' },
+      { sourceId: 'u6', text: '郑州把科学课纳入了主科，期中期末都在考。到初中之后它就变成了物理化学生物，我不希望他只是去死记硬背。' },
     ],
   },
   {
@@ -176,7 +177,7 @@ const cards: InsightCard[] = [
     conclusion: '孩子愿意看、主动看，是最直接的购买触发。',
     data: '趣味动画课 53%；孩子喜欢 40%。',
     voices: [
-      { sourceId: 'u4', text: '如果不管的话，他每天都会刷从小学物理，特别喜欢看实验男做实验。', audioUrl: '/clips/interview4/0005-01.mp3' },
+      { sourceId: 'u4', text: '洋葱学园的从小学物理，如果说我不是不管的话，他每天他都会刷。他好像特别喜欢看那实验男做实验。他当成趣味里边学知识了。' },
       { sourceId: 'u7', text: '短视频的形式比较娱乐，孩子能看得进去。' },
       { sourceId: 'u8', text: '孩子喜欢卡实验男，因为可以做一些家里做不到的实验。' },
     ],
@@ -188,8 +189,8 @@ const cards: InsightCard[] = [
     conclusion: '家长不只买好玩，还希望课程有体系、能为后续学习打底。',
     data: '课程体系 29%；单选最重要因素约 16%。',
     voices: [
-      { sourceId: 'u4', text: '从小学物理的知识好像更多、更系统。', audioUrl: '/clips/interview4/0019-01.mp3' },
-      { sourceId: 'u4', text: '每个模块讲解的知识多，罗列的层次好，孩子能自主看。' },
+      { sourceId: 'u4', text: '从小学物理的知识好像更多更系统，更多NB实验室来讲。孩子静下心来去做，在那去看，从小学物理讲这个概念，趣味性的概念，他投入的就是专注力更多，注意力会更吸引孩子吧。' },
+      { sourceId: 'u4', text: '知识的话就是系统性更强，因为它都已经罗列得非常分层次，看得也比较清晰，孩子也能自行选取，他喜欢什么，他也可以能随机点取，自己的选择性更强。' },
       { sourceId: 'u7', text: '一个知识点接一个知识点，让孩子像看动画片一样一个接一个看下去。' },
     ],
   },
@@ -200,8 +201,8 @@ const cards: InsightCard[] = [
     conclusion: '常见路径是公众号、视频号、直播间触达，再顺手购买。',
     data: '定量报告总结为“认知 → 了解 → 决策”。',
     voices: [
-      { sourceId: 'u3', text: '直播间说实验素材可以从生活中随时找到，可以提前物理启蒙。', audioUrl: '/clips/interview3/0008-01.mp3' },
-      { sourceId: 'u6', text: '先看到公众号，内容契合当前需求，预约直播后买下来。', audioUrl: '/clips/interview6/0095-01.mp3' },
+      { sourceId: 'u3', text: '因为他说素材可以从生活中随手，可以随时可以找到。然后就可以提前对那个物理启蒙。因为以后到初中也会学到物理，然后可以提前让他认识知道一些就是跟物理相关的知识。' },
+      { sourceId: 'u6', text: '当时买洋葱学园的数学课的时候，推荐了这个物理课，我才买的。当时是郑州妈妈帮有一个线上的直播，当时主要请到了洋葱学园的老师，当时在卖数学课，科学课又间接推了一下，我就直接买了。' },
       { sourceId: 'u8', text: '给姐姐买了高中物理，然后顺着推荐给弟弟买了小学课程。' },
     ],
   },
@@ -225,7 +226,7 @@ const cards: InsightCard[] = [
     data: '趣味动画课 53%，课程体系 29%。',
     voices: [
       { sourceId: 'u4', text: '一个视频几分钟，不会太长，孩子看了还想继续看。' },
-      { sourceId: 'u4', text: '孩子自己会翻，然后学得特别多，特别喜欢。', audioUrl: '/clips/interview4/0003-01.mp3' },
+      { sourceId: 'u4', text: '他自己会学习洋葱学园里边的从小学物理，就是自己会翻，然后学的特别多。他还会往下串表，就会自己就会学。对，特别喜欢。' },
       { sourceId: 'u7', text: '孩子都是自己主动去看。' },
     ],
   },
@@ -236,9 +237,9 @@ const cards: InsightCard[] = [
     conclusion: '问题集中在小低孩子理解难、读题难、校内科学不同步。',
     data: '定量报告未给该点比例，不放造数。',
     voices: [
-      { sourceId: 'u4', text: '有些晦涩难懂的词语小低孩子不能理解，如果口语化更好。' },
+      { sourceId: 'u4', text: '就是他在视频里面介绍，很多时候有一些对孩子来讲，因为我们家小低阶段一些晦涩难懂的一些概念词，孩子还是不能很好的理解，如果说这个概念同步出来的话，再根据这个概念进行口语化，或者是孩子能接受的方式进行一些举例去介绍这个专业性的概念的话，孩子能理解更好一些。' },
       { sourceId: 'u4', text: '答题正确率高，但字不认识，如果读出来更好。' },
-      { sourceId: 'u6', text: '四年级上册内容找不到，对标校内知识点不够。', audioUrl: '/clips/interview6/0077-01.mp3' },
+      { sourceId: 'u6', text: '我理解的是涵盖的知识点应该都有，只是不同步而已。结果我去找的话，一定是课内讲的是什么，我就按这个去找，划拉了一遍，发现没有，所以就也没有再看。' },
     ],
   },
   {
@@ -260,7 +261,7 @@ const cards: InsightCard[] = [
     conclusion: '纯兴趣启蒙竞争多，洋葱需要讲出学科价值。',
     data: '定量报告未给该点比例，不放造数。',
     voices: [
-      { sourceId: 'u1', text: '看物理化学不是为了提前校内学习，是了解“为什么”的概念。', audioUrl: '/clips/interview1/0005-01.mp3' },
+      { sourceId: 'u1', text: '让他了解一下，就是有一些自然现象，他为什么他小孩不是有的时候可能会问吗？然后这一类的可能会有一些比较直观的，包括我给他弄那个NB实验室，他有一些现象会比较直观的能够表现出来，然后大概了解一下，就是不是说让他为了校内学习提前学什么的。' },
       { sourceId: 'u2', text: '科学这件事上，他更偏“学科启蒙”，不是纯兴趣。' },
       { sourceId: 'u3', text: '兴趣是起点，学科思维是最终目的。' },
     ],
@@ -284,9 +285,9 @@ const cards: InsightCard[] = [
     conclusion: '多数用户不是为了校内同步，但科学是主科的地区非常在意教材匹配。',
     data: '定性总结：6 位用户中 1 位是科学主课同步诉求。',
     voices: [
-      { sourceId: 'u6', text: '郑州把科学课纳入了主科，期中期末都在考。', audioUrl: '/clips/interview6/0094-01.mp3' },
-      { sourceId: 'u6', text: '如果同步的话，使用率上会更高一些。', audioUrl: '/clips/interview6/0102-01.mp3' },
-      { sourceId: 'u6', text: '希望根据各地区课本引入知识点，一找就知道从哪里找。', audioUrl: '/clips/interview6/0086-01.mp3' },
+      { sourceId: 'u6', text: '郑州把科学课纳入了主科，期中期末都在考。到初中之后它就变成了物理化学生物，我不希望他只是去死记硬背。' },
+      { sourceId: 'u6', text: '如果说是同步的话，我觉得会更好，就是使用率上会更高一些。如果说没那么同步的话，可能就是，想起来了去划了两下看一下，或者是哪个知识点真的不理解，去找一下。' },
+      { sourceId: 'u6', text: '我理解的是涵盖的知识点应该都有，只是不同步而已。结果我去找的话，一定是课内讲的是什么，我就按这个去找，划拉了一遍，发现没有，所以就也没有再看。' },
     ],
   },
   {
@@ -296,9 +297,9 @@ const cards: InsightCard[] = [
     conclusion: '认可课程不等于能持续用，时间和入口都会影响使用。',
     data: '定量报告未给该点比例，不放造数。',
     voices: [
-      { sourceId: 'u3', text: '不是不想学物理，而是没时间。' },
-      { sourceId: 'u4', text: '不是觉得它不重要，是因为没有时间，只能先选孩子选洋葱。', audioUrl: '/clips/interview4/0053-01.mp3' },
-      { sourceId: 'u6', text: '最近没有学，就是因为没找到位置。', audioUrl: '/clips/interview6/0082-01.mp3' },
+      { sourceId: 'u3', text: '到了三年级以上，学业比较重，你很难顾及全科的。如果我们三年级之后能把从小学物理坚持每天学已经很不错了，如果再开发地理生物有历史那些，时间没时间了，不是不想学。' },
+      { sourceId: 'u4', text: '我不是觉得它不重要，是因为没有时间，这个时间不够。平时涉及肯定是洋葱这个从小学物理占的块，时间模块是最大的，NB 实验室还有洋葱的话，只能先选孩子选洋葱了，那 NB 我肯定就舍弃了，因为这时间的话不能投入在那上面。' },
+      { sourceId: 'u6', text: '我理解的是涵盖的知识点应该都有，只是不同步而已。结果我去找的话，一定是课内讲的是什么，我就按这个去找，划拉了一遍，发现没有，所以就也没有再看。' },
     ],
   },
   {
@@ -309,8 +310,8 @@ const cards: InsightCard[] = [
     data: '品牌保证 31%。',
     voices: [
       { sourceId: 'u4', text: '对洋葱的信任、对品牌的信任。' },
-      { sourceId: 'u4', text: '比较喜欢杨临风，他展现个人魅力还是挺好的，团队也信得过。', audioUrl: '/clips/interview4/0055-01.mp3' },
-      { sourceId: 'u6', text: '买洋葱学园数学课的时候推荐了物理课，我才买的。', audioUrl: '/clips/interview6/0096-01.mp3' },
+      { sourceId: 'u4', text: '比较喜欢他这个杨临风，他展现个人魅力还是挺好的……基于这一点，然后其他的就是单就从小学物理，我还没考察那么多。' },
+      { sourceId: 'u6', text: '当时买洋葱学园的数学课的时候，推荐了这个物理课，我才买的。' },
     ],
   },
   {
@@ -332,7 +333,7 @@ const cards: InsightCard[] = [
     conclusion: '万物指南、NB、妙懂、学而思各有优势，洋葱要明确自己的差异。',
     data: '定量报告未给竞品差异比例，不放造数。',
     voices: [
-      { sourceId: 'u1', text: 'NB 更偏实验过程和现象模拟，不是系统讲知识。', audioUrl: '/clips/interview1/0057-01.mp3' },
+      { sourceId: 'u1', text: 'NB实验室，它是一些实验性的东西。他没有那些具体的，他只是说是他里面都是一些实验，他没有，他除了实验之外的东西他是没有的。他是可以搭配着用的，我觉得。' },
       { sourceId: 'u5', text: '妙懂是很正式的，孩子看着感觉像学习。' },
       { sourceId: 'u8', text: '学而思是直播，洋葱是录播；学而思能动手，洋葱是纯教学。' },
     ],
@@ -344,7 +345,7 @@ const cards: InsightCard[] = [
     conclusion: '先展示趣味动画和孩子投入，再补充体系化和长期价值。',
     data: '趣味动画课 53%，孩子喜欢 40%，课程体系 29%。',
     voices: [
-      { sourceId: 'u4', text: '如果不管，孩子每天都会刷从小学物理。', audioUrl: '/clips/interview4/0005-01.mp3' },
+      { sourceId: 'u4', text: '洋葱学园的从小学物理，如果说我不是不管的话，他每天他都会刷。他好像特别喜欢看那实验男做实验。他当成趣味里边学知识了。' },
       { sourceId: 'u7', text: '首先得孩子看得进去。' },
       { sourceId: 'u8', text: '从小学物理主要是录制课件，孩子听得也很有兴趣。' },
     ],
@@ -358,7 +359,7 @@ const cards: InsightCard[] = [
     voices: [
       { sourceId: 'u1', text: '小红书上看到 NB 实验室。' },
       { sourceId: 'u2', text: '通过抖音直播间接触 NB 实验室。' },
-      { sourceId: 'u6', text: '郑州妈妈帮公众号和微信直播促成下单。', audioUrl: '/clips/interview6/0095-01.mp3' },
+      { sourceId: 'u6', text: '当时买洋葱学园的数学课的时候，推荐了这个物理课，我才买的。当时是郑州妈妈帮有一个线上的直播，当时主要请到了洋葱学园的老师，当时在卖数学课，科学课又间接推了一下，我就直接买了。' },
     ],
   },
   {
@@ -368,9 +369,9 @@ const cards: InsightCard[] = [
     conclusion: '地理需求最高，后续适合规划从小学理科全家桶。',
     data: '地理需求 69%；报告建议提到 74% 用户倾向全科套餐；不超过 400 元接受度 52.94%。',
     voices: [
-      { sourceId: 'u3', text: '一门物理都没时间看，四门课更容易劝退，可以包装成大而全的全科课包。' },
+      { sourceId: 'u3', text: '到了三年级以上，学业比较重，你很难顾及全科的。如果我们三年级之后能把从小学物理坚持每天学已经很不错了，如果再开发地理生物有历史那些，时间没时间了，不是不想学。' },
       { sourceId: 'u4', text: '听说过从小学系列，如果体验不错，可能酌情报。' },
-      { sourceId: 'u6', text: '已经买了物理，后面再买生物和地理能不能补差价？', audioUrl: '/clips/interview6/0075-01.mp3' },
+      { sourceId: 'u6', text: '后续如果说我再需要的话，是不是还得分开再买生物和地理呀？正常的话它是四科一块，那如果我已经买了物理，后面再买是怎么样的形式？能不能补差价？' },
     ],
   },
   {
@@ -391,12 +392,13 @@ function sourceOf(id: string): SourceInfo {
   return sources[id] ?? sources.u1;
 }
 
-function AudioOrSourceLink({ voice }: { voice: Voice }) {
+function clipUrlsOf(voice: Voice) {
+  return lookupClips(voice.text).map((clip) => clip.clipUrl);
+}
+
+function AudioClipButton({ audioUrl, index, total }: { audioUrl: string; index: number; total: number }) {
   const [audio, setAudio] = React.useState<HTMLAudioElement | null>(null);
   const [playing, setPlaying] = React.useState(false);
-  const source = sourceOf(voice.sourceId);
-  const audioUrl = voice.audioUrl ?? source.recordingUrl;
-  if (!audioUrl) return null;
 
   const isMp3 = audioUrl.endsWith('.mp3');
   if (!isMp3) {
@@ -443,125 +445,80 @@ function AudioOrSourceLink({ voice }: { voice: Voice }) {
       )}
     >
       {playing ? <Pause size={12} /> : <Play size={12} />}
-      原声切片
+      {total > 1 ? `原声切片 ${index + 1}/${total}` : '原声切片'}
     </button>
   );
 }
 
-function SourceLinks({ source }: { source: SourceInfo }) {
-  return (
-    <div className="flex flex-wrap gap-2">
-      <a
-        href={source.url}
-        target="_blank"
-        rel="noreferrer"
-        className="inline-flex items-center gap-1 rounded-full border border-[#DED6CC] bg-white px-2.5 py-1 text-[11px] font-bold text-[#5F5851] hover:border-[#E95B35]/40 hover:text-[#E95B35]"
-      >
-        <FileText size={12} />
-        查看文字记录
-      </a>
-      {source.recordingUrl && (
-        <a
-          href={source.recordingUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-1 rounded-full border border-[#DED6CC] bg-white px-2.5 py-1 text-[11px] font-bold text-[#5F5851] hover:border-[#E95B35]/40 hover:text-[#E95B35]"
-        >
-          <Mic2 size={12} />
-          访谈录音
-        </a>
-      )}
-    </div>
-  );
-}
+function SourceFallbackLink({ voice, source }: { voice: Voice; source: SourceInfo }) {
+  const url = voice.sourceUrl ?? source.recordingUrl ?? source.url;
+  const label = source.recordingUrl ? '访谈录音' : '查看文字记录';
 
-function InsightCardView({ card, color, onOpen }: { card: InsightCard; color: string; onOpen: () => void }) {
   return (
-    <button
-      type="button"
-      onClick={onOpen}
-      className="group flex min-h-[280px] flex-col rounded-[8px] border border-[#E4DDD3] bg-white p-5 text-left shadow-[0_1px_4px_rgba(55,44,34,.05)] transition hover:-translate-y-0.5 hover:border-[#E9B49F] hover:shadow-[0_16px_34px_rgba(66,48,34,.10)]"
+    <a
+      href={url}
+      target="_blank"
+      rel="noreferrer"
+      className="inline-flex items-center gap-1 rounded-full border border-[#DED6CC] bg-white px-2.5 py-1 text-[11px] font-bold text-[#5F5851] hover:border-[#E95B35]/40 hover:text-[#E95B35]"
     >
-      <div className="mb-4 flex items-start justify-between gap-4">
-        <span className="rounded-full px-2.5 py-1 text-[11px] font-black" style={{ color, background: `${color}14` }}>
-          {card.id.replace('c', '').padStart(2, '0')}
-        </span>
-        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-[#958E86] group-hover:text-[#E95B35]">
-          看详情
-          <ExternalLink size={12} />
-        </span>
-      </div>
-      <h3 className="text-[20px] font-black leading-tight text-[#292521]">{card.title}</h3>
-      <p className="mt-3 text-[13px] font-semibold leading-6 text-[#5E5650]">{card.conclusion}</p>
-      {card.data && (
-        <div className="mt-4 rounded-md border border-[#EEE5DC] bg-[#FBF8F3] px-3 py-2 text-[12px] font-semibold leading-5 text-[#7A6255]">
-          {card.data}
-        </div>
-      )}
-      <div className="mt-4 space-y-2">
-        {card.voices.slice(0, 2).map((voice) => {
-          const source = sourceOf(voice.sourceId);
-          return (
-            <div key={`${card.id}-${voice.sourceId}-${voice.text}`} className="rounded-md bg-[#F7F4EF] p-3">
-              <p className="line-clamp-2 text-[12.5px] leading-6 text-[#403A34]">“{voice.text}”</p>
-              <p className="mt-1 text-[11px] font-bold text-[#9A938A]">{source.title}</p>
-            </div>
-          );
-        })}
-      </div>
-    </button>
+      {source.recordingUrl ? <Mic2 size={12} /> : <FileText size={12} />}
+      {label}
+      <ExternalLink size={11} />
+    </a>
   );
 }
 
-function CardDetailModal({ card, onClose }: { card: InsightCard; onClose: () => void }) {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6" onClick={onClose}>
-      <div
-        className="max-h-[88vh] w-full max-w-3xl overflow-y-auto rounded-[8px] bg-[#FBFAF7] shadow-[0_28px_80px_rgba(0,0,0,.24)]"
-        onClick={(event) => event.stopPropagation()}
-      >
-        <div className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-[#E7DED3] bg-[#FBFAF7]/95 px-6 py-5 backdrop-blur">
-          <div>
-            <p className="text-[11px] font-black tracking-[0.16em] text-[#E95B35]">CARD {card.id.replace('c', '').padStart(2, '0')}</p>
-            <h2 className="mt-2 text-[26px] font-black leading-tight text-[#292521]">{card.title}</h2>
-          </div>
-          <button type="button" onClick={onClose} className="rounded-full border border-[#DDD4CA] p-2 text-[#7A746D] hover:bg-white hover:text-[#E95B35]">
-            <X size={18} />
-          </button>
-        </div>
-        <div className="space-y-5 px-6 py-6">
-          <section className="rounded-[8px] border border-[#E8DED3] bg-white p-5">
-            <p className="text-[12px] font-black text-[#9A938B]">核心结论</p>
-            <p className="mt-2 text-[17px] font-black leading-8 text-[#292521]">{card.conclusion}</p>
-            {card.data && <p className="mt-3 text-[13px] font-semibold leading-6 text-[#7A6255]">{card.data}</p>}
-          </section>
+function VoiceEvidence({ cardId, voice }: { cardId: string; voice: Voice }) {
+  const source = sourceOf(voice.sourceId);
+  const quote = voice.text;
+  const clipUrls = clipUrlsOf(voice);
 
-          <section className="space-y-3">
-            <p className="text-[12px] font-black text-[#9A938B]">用户原声与来源</p>
-            {card.voices.map((voice) => {
-              const source = sourceOf(voice.sourceId);
-              return (
-                <article key={`${card.id}-${voice.sourceId}-${voice.text}`} className="rounded-[8px] border border-[#E5DDD3] bg-white p-5">
-                  <div className="flex items-start gap-3">
-                    <Quote size={20} className="mt-1 shrink-0 text-[#E95B35]" />
-                    <p className="text-[15px] font-bold leading-8 text-[#302A25]">“{voice.text}”</p>
-                  </div>
-                  <div className="mt-4 rounded-md bg-[#F7F4EF] p-3">
-                    <p className="text-[13px] font-black text-[#292521]">{source.title}</p>
-                    <p className="mt-1 text-[12px] leading-5 text-[#746E67]">{source.meta}</p>
-                    <p className="mt-1 text-[12px] leading-5 text-[#9A938A]">材料：{source.materials}</p>
-                  </div>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    <AudioOrSourceLink voice={voice} />
-                    <SourceLinks source={source} />
-                  </div>
-                </article>
-              );
-            })}
-          </section>
+  return (
+    <article key={`${cardId}-${voice.sourceId}-${quote}`} className="rounded-[8px] border border-[#E5DDD3] bg-white p-4">
+      <div className="flex items-start gap-3">
+        <Quote size={20} className="mt-1 shrink-0 text-[#E95B35]" />
+        <p className="text-[15px] font-bold leading-8 text-[#302A25]">“{quote}”</p>
+      </div>
+      <div className="mt-4 rounded-md bg-[#F7F4EF] p-3">
+        <p className="text-[13px] font-black text-[#292521]">{source.title}</p>
+        <p className="mt-1 text-[12px] leading-5 text-[#746E67]">{source.meta}</p>
+        <p className="mt-1 text-[12px] leading-5 text-[#9A938A]">材料：{source.materials}</p>
+      </div>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {clipUrls.length > 0 ? (
+          clipUrls.map((audioUrl, index) => <AudioClipButton key={audioUrl} audioUrl={audioUrl} index={index} total={clipUrls.length} />)
+        ) : (
+          <SourceFallbackLink voice={voice} source={source} />
+        )}
+      </div>
+    </article>
+  );
+}
+
+function InsightCardView({ card, color }: { card: InsightCard; color: string }) {
+  return (
+    <article className="rounded-[8px] border border-[#E4DDD3] bg-[#FBFAF7] shadow-[0_1px_4px_rgba(55,44,34,.05)]">
+      <div className="grid gap-0 lg:grid-cols-[0.86fr_1.45fr]">
+        <div className="border-b border-[#E7DED3] p-5 lg:border-b-0 lg:border-r">
+          <p className="text-[11px] font-black tracking-[0.16em]" style={{ color }}>
+            CARD {card.id.replace('c', '').padStart(2, '0')}
+          </p>
+          <h3 className="mt-3 text-[24px] font-black leading-tight text-[#292521]">{card.title}</h3>
+          <p className="mt-4 text-[15px] font-black leading-7 text-[#403A34]">{card.conclusion}</p>
+          {card.data && (
+            <div className="mt-5 rounded-md border border-[#EEE5DC] bg-white px-4 py-3 text-[13px] font-bold leading-6 text-[#7A6255]">
+              {card.data}
+            </div>
+          )}
+        </div>
+        <div className="space-y-3 p-5">
+          <p className="text-[12px] font-black text-[#9A938B]">用户原声与来源</p>
+          {card.voices.map((voice) => (
+            <VoiceEvidence key={`${card.id}-${voice.sourceId}-${voice.text}`} cardId={card.id} voice={voice} />
+          ))}
         </div>
       </div>
-    </div>
+    </article>
   );
 }
 
@@ -572,7 +529,7 @@ function SourcePanel() {
         <div>
           <p className="text-[12px] font-black tracking-[0.14em] text-[#E95B35]">资料来源</p>
           <p className="mt-2 max-w-2xl text-[13px] leading-6 text-[#706960]">
-            页面结论来自项目总结、定性洞察和定量报告；每条用户原声都落到“用户几访谈”，详情弹窗里可打开文字记录和录音。
+            页面结论来自项目总结、定性洞察和定量报告；每条用户原声都落到“用户几访谈”，有切片的可在卡片内直接播放，没有切片的跳转到原始文字记录或录音。
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -592,7 +549,6 @@ function SourcePanel() {
 
 export default function FromPrimaryMergedReport() {
   const [active, setActive] = React.useState<DimensionId>('core');
-  const [selected, setSelected] = React.useState<InsightCard | null>(null);
   const activeDim = dimensions.find((item) => item.id === active) ?? dimensions[0];
   const activeCards = cards.filter((card) => card.dimension === active);
 
@@ -662,14 +618,12 @@ export default function FromPrimaryMergedReport() {
           </div>
           <p className="text-[12px] font-bold text-[#8A8279]">{activeCards.length} 张卡片</p>
         </div>
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="space-y-4">
           {activeCards.map((card) => (
-            <InsightCardView key={card.id} card={card} color={activeDim.color} onOpen={() => setSelected(card)} />
+            <InsightCardView key={card.id} card={card} color={activeDim.color} />
           ))}
         </div>
       </section>
-
-      {selected && <CardDetailModal card={selected} onClose={() => setSelected(null)} />}
 
       <footer className="border-t border-[#E2DAD0] px-5 py-6 text-center text-[12px] font-semibold text-[#8A8279]">
         定量数据仅使用指定定量报告；用户原声来源限定为访谈目录中的用户1-用户8。
