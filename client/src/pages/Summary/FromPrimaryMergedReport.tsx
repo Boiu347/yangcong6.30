@@ -1002,8 +1002,8 @@ function InsightCardView({ card, color }: { card: InsightCard; color: string }) 
             <p className="text-[16px] font-black leading-7 text-[#302A25]">{card.conclusion}</p>
           </div>
           {takeaways.length > 0 && (
-            <div className="mt-5 grid gap-3 lg:grid-cols-3">
-              <p className="text-[12px] font-black tracking-[0.12em] text-[#8A8279] lg:col-span-3">结论拆解</p>
+            <div className="mt-5 space-y-3">
+              <p className="text-[12px] font-black tracking-[0.12em] text-[#8A8279]">结论拆解</p>
               {takeaways.map((takeaway) => (
                 <div key={`${card.id}-${takeaway.label}`} className="rounded-md border border-[#E7DDD2] bg-[#FFFEFC] px-4 py-4">
                   <div className="flex items-start gap-3.5">
