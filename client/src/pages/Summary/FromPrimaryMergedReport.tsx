@@ -605,10 +605,6 @@ function SourcePanel() {
 }
 
 export default function FromPrimaryMergedReport() {
-  const [active, setActive] = React.useState<DimensionId>('core');
-  const activeDim = dimensions.find((item) => item.id === active) ?? dimensions[0];
-  const activeCards = cards.filter((card) => card.dimension === active);
-
   return (
     <main className="min-h-full bg-[#F6F3ED] text-[#292521]">
       <header className="border-b border-[#E2DAD0] bg-[#FBFAF7] px-5 py-8 md:px-8">
@@ -644,41 +640,41 @@ export default function FromPrimaryMergedReport() {
       <div className="sticky top-0 z-30 border-b border-[#DDD4C9] bg-[#FBFAF7]/95 backdrop-blur">
         <div className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4 md:px-8">
           {dimensions.map(({ id, label, icon: Icon, color }) => {
-            const current = active === id;
             return (
-              <button
+              <a
                 key={id}
-                type="button"
-                onClick={() => setActive(id)}
-                className={cn(
-                  'flex h-12 shrink-0 items-center gap-2 border-b-2 px-3 text-[13px] font-black transition',
-                  current ? 'border-current' : 'border-transparent text-[#736C65] hover:text-[#292521]',
-                )}
-                style={current ? { color } : undefined}
+                href={`#${id}`}
+                className="flex h-12 shrink-0 items-center gap-2 border-b-2 border-transparent px-3 text-[13px] font-black text-[#736C65] transition hover:border-current hover:text-[#292521]"
+                style={{ color }}
               >
                 <Icon size={15} />
                 {label}
-              </button>
+              </a>
             );
           })}
         </div>
       </div>
 
-      <section className="mx-auto max-w-7xl px-4 py-7 md:px-8">
-        <div className="mb-5 flex items-end justify-between gap-4">
-          <div>
-            <p className="text-[12px] font-black tracking-[0.16em]" style={{ color: activeDim.color }}>
-              {activeDim.label}
-            </p>
-            <h2 className="mt-1 text-[24px] font-black text-[#292521]">关键结论卡片</h2>
-          </div>
-        </div>
-        <div className="space-y-4">
-          {activeCards.map((card) => (
-            <InsightCardView key={card.id} card={card} color={activeDim.color} />
-          ))}
-        </div>
-      </section>
+      <div className="mx-auto max-w-7xl space-y-10 px-4 py-7 md:px-8">
+        {dimensions.map((dimension) => {
+          const dimensionCards = cards.filter((card) => card.dimension === dimension.id);
+          return (
+            <section key={dimension.id} id={dimension.id} className="scroll-mt-16">
+              <div className="mb-5">
+                <p className="text-[12px] font-black tracking-[0.16em]" style={{ color: dimension.color }}>
+                  {dimension.label}
+                </p>
+                <h2 className="mt-1 text-[24px] font-black text-[#292521]">关键结论卡片</h2>
+              </div>
+              <div className="space-y-4">
+                {dimensionCards.map((card) => (
+                  <InsightCardView key={card.id} card={card} color={dimension.color} />
+                ))}
+              </div>
+            </section>
+          );
+        })}
+      </div>
 
       <footer className="border-t border-[#E2DAD0] px-5 py-6 text-center text-[12px] font-semibold text-[#8A8279]">
         定量数据仅使用指定定量报告；用户原声来源限定为访谈目录中的用户1-用户8。

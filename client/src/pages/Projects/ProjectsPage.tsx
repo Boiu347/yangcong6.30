@@ -24,6 +24,7 @@ const STATUS_CONFIG: Record<string, { className: string; dot: string }> = {
   已完成: { className: 'border-emerald-200 bg-emerald-50 text-emerald-700', dot: 'bg-emerald-500' },
   进行中: { className: 'border-blue-200 bg-blue-50 text-blue-700', dot: 'bg-blue-500' },
   部分完成: { className: 'border-amber-200 bg-amber-50 text-amber-700', dot: 'bg-amber-500' },
+  施工中: { className: 'border-amber-200 bg-amber-50 text-amber-700', dot: 'bg-amber-500' },
 };
 
 const PROJECT_COPY: Record<string, { summary: string; takeaway: string; source: string }> = {
@@ -57,6 +58,12 @@ function projectCopy(project: Project) {
     takeaway: project.summaryData?.coreFindings?.[0] ?? '进入项目查看完整结论、用户原声和支撑材料。',
     source: methods,
   };
+}
+
+function displayStatus(status?: string) {
+  if (!status) return undefined;
+  if (status === '已完成' || status === '进行中' || status === '部分完成') return '施工中';
+  return status;
 }
 
 function Pill({ children, className }: { children: React.ReactNode; className?: string }) {
@@ -130,7 +137,8 @@ export default function ProjectsPage() {
               .filter((file) => file.status === 'ready')
               .reduce((sum, file) => sum + file.vocList.length, 0);
             const copy = projectCopy(project);
-            const status = project.status ? STATUS_CONFIG[project.status] : undefined;
+            const statusLabel = displayStatus(project.status);
+            const status = statusLabel ? STATUS_CONFIG[statusLabel] : undefined;
 
             return (
               <button
@@ -158,7 +166,7 @@ export default function ProjectsPage() {
                       {status && (
                         <Pill className={status.className}>
                           <span className={cn('mr-1.5 h-1.5 w-1.5 rounded-full', status.dot)} />
-                          {project.status}
+                          {statusLabel}
                         </Pill>
                       )}
                     </div>
