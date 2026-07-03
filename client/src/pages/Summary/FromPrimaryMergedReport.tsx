@@ -1413,6 +1413,8 @@ export default function FromPrimaryMergedReport() {
   const [filterOpen, setFilterOpen] = React.useState(false);
   const [priorityFilter, setPriorityFilter] = React.useState<'全部' | ConclusionPriority>('全部');
   const [confidenceFilter, setConfidenceFilter] = React.useState<'全部' | ConclusionConfidence>('全部');
+  const detailRefs = React.useRef<Partial<Record<DimensionId, HTMLElement | null>>>({});
+  const [detailHeights, setDetailHeights] = React.useState<Partial<Record<DimensionId, number>>>({});
 
   const filteredConclusions = React.useMemo(
     () =>
@@ -1427,6 +1429,49 @@ export default function FromPrimaryMergedReport() {
   const drawerConclusion = drawerConclusionId ? reportConclusions.find((item) => item.id === drawerConclusionId) : null;
   const totalVoc = reportConclusions.reduce((sum, item) => sum + item.vocs.length, 0);
   const userCount = new Set(reportConclusions.flatMap((item) => item.vocs.map((voc) => voc.sourceId))).size;
+
+  React.useLayoutEffect(() => {
+    const measuredNodes = dimensions
+      .map((dimension) => [dimension.id, detailRefs.current[dimension.id]] as const)
+      .filter((entry): entry is readonly [DimensionId, HTMLElement] => Boolean(entry[1]));
+
+    if (measuredNodes.length === 0) return;
+
+    const nodeIds = new Map<HTMLElement, DimensionId>();
+    measuredNodes.forEach(([dimensionId, node]) => nodeIds.set(node, dimensionId));
+
+    const updateHeight = (dimensionId: DimensionId, node: HTMLElement) => {
+      const nextHeight = Math.ceil(node.getBoundingClientRect().height);
+      setDetailHeights((prev) => (prev[dimensionId] === nextHeight ? prev : { ...prev, [dimensionId]: nextHeight }));
+    };
+
+    const updateAllHeights = () => {
+      measuredNodes.forEach(([dimensionId, node]) => updateHeight(dimensionId, node));
+    };
+
+    updateAllHeights();
+
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', updateAllHeights);
+      return () => window.removeEventListener('resize', updateAllHeights);
+    }
+
+    const observer = new ResizeObserver((entries) => {
+      entries.forEach((entry) => {
+        const node = entry.target as HTMLElement;
+        const dimensionId = nodeIds.get(node);
+        if (dimensionId) updateHeight(dimensionId, node);
+      });
+    });
+
+    measuredNodes.forEach(([, node]) => observer.observe(node));
+    window.addEventListener('resize', updateAllHeights);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', updateAllHeights);
+    };
+  }, [filteredConclusions, selectedByDimension]);
 
   return (
     <main className="min-h-full bg-[#F8F6F1] text-[#292521]">
@@ -1537,6 +1582,9 @@ export default function FromPrimaryMergedReport() {
             const selectedConclusion = dimensionItems.find((item) => item.id === selectedId) ?? dimensionItems[0];
             const selectedIndex = filteredConclusions.findIndex((item) => item.id === selectedConclusion.id);
             const Icon = dimension.icon;
+            const dynamicHeightStyle = detailHeights[dimension.id]
+              ? ({ '--detail-column-height': `${detailHeights[dimension.id]}px` } as React.CSSProperties)
+              : undefined;
 
             return (
               <article
@@ -1567,7 +1615,7 @@ export default function FromPrimaryMergedReport() {
                       <p className="text-[14px] font-black text-[#403A34]">结论列表</p>
                       <span className="text-[11px] font-bold text-[#8A8279]">{dimensionItems.length} 条</span>
                     </div>
-                    <div className="max-h-[360px] space-y-2.5 overflow-y-auto pr-1">
+                    <div className="space-y-2.5 pr-1 xl:max-h-[var(--detail-column-height)] xl:overflow-y-auto" style={dynamicHeightStyle}>
                       {dimensionItems.map((item) => {
                         const selected = item.id === selectedConclusion.id;
                         const index = filteredConclusions.findIndex((entry) => entry.id === item.id);
@@ -1614,7 +1662,12 @@ export default function FromPrimaryMergedReport() {
                     </div>
                   </aside>
 
-                  <section className="self-start rounded-[18px] border border-[#E6DDD3] bg-white p-5">
+                  <section
+                    ref={(node) => {
+                      detailRefs.current[dimension.id] = node;
+                    }}
+                    className="self-start rounded-[18px] border border-[#E6DDD3] bg-white p-5"
+                  >
                     <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[12px] font-black" style={{ backgroundColor: `${dimension.color}12`, color: dimension.color }}>
                       当前结论
                       <span className="rounded-full bg-white px-2 py-0.5">{selectedIndex + 1}</span>
@@ -1667,7 +1720,7 @@ export default function FromPrimaryMergedReport() {
                       </div>
                       <span className="rounded-full bg-[#F1ECE5] px-2.5 py-1 text-[12px] font-black text-[#6E675F]">{selectedConclusion.vocs.length} 条</span>
                     </div>
-                    <div className="max-h-[640px] space-y-3 overflow-y-auto pr-1">
+                    <div className="space-y-3 pr-1 xl:max-h-[var(--detail-column-height)] xl:overflow-y-auto" style={dynamicHeightStyle}>
                       {selectedConclusion.vocs.slice(0, 3).map((voc) => (
                         <ResearchVocCard key={`${selectedConclusion.id}-${voc.sourceId}-${voc.quote}`} voc={voc} dense />
                       ))}
