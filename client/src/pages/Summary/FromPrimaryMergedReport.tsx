@@ -137,7 +137,7 @@ const cards: InsightCard[] = [
     conclusion: '从小学物理应占领兴趣启蒙和小初衔接之间的中间地带。',
     data: '定量报告：核心客群孩子集中在 1-5 年级。',
     voices: [
-      { sourceId: 'u1', text: '我就觉得他可以大概了解一下，有个概念就行。不是为了提前学什么，更多是让他了解一下自然现象，他小孩不是有的时候可能会问吗？然后这一类的可能会有一些比较直观的内容，包括一些，这个他可能会就是更准确一些，对于我们家长跟他解释的话可能有的时候不一定那么的正规。' },
+      { sourceId: 'u1', text: '有个概念就行。不是为了提前学什么，更多是让他了解一下自然现象。' },
       { sourceId: 'u2', text: '希望孩子现在学一遍，初高中再学一遍时更轻松。' },
       { sourceId: 'u7', text: '为孩子购买从小学物理的诉求最偏向学科启蒙。' },
     ],
@@ -161,7 +161,7 @@ const cards: InsightCard[] = [
     conclusion: '不能只让家长看到孩子爱看，还要看到孩子到底学到了什么。',
     voices: [
       { sourceId: 'u4', text: '他看了之后会考我，会把课上看的从小学物理视频转化成自己的语言。', audioUrl: '/clips/interview4/0048-01.mp3' },
-      { sourceId: 'u5', text: '没看出，因为我有没，没有，我不知道怎么去看这个东西。就说孩子学了多少东西，因为我平时又没看的，没去，一直关注他看的是什么。然后我想知道他到底学了什么东西？学到了什么东西？学了多少？能记住什么？' },
+      { sourceId: 'u5', text: '我想知道他到底学了什么东西？学到了什么东西？学了多少？能记住什么？' },
       { sourceId: 'u8', text: '没有学习报告，不知道孩子最终掌握什么程度。' },
     ],
   },
@@ -531,7 +531,7 @@ const redesignedCards: InsightCard[] = [
       { label: '动作', text: '页面应按真实用户诉求拆成概念启蒙型、长期铺垫型、轻度兴趣型、校内同步型，而不是只用二手总结里的“中间地带”作为依据。' },
     ],
     voices: [
-      { sourceId: 'u1', text: '我就觉得他可以大概了解一下，有个概念就行。不是为了提前学什么，更多是让他了解一下自然现象，他小孩不是有的时候可能会问吗？然后这一类的可能会有一些比较直观的内容，包括一些，这个他可能会就是更准确一些，对于我们家长跟他解释的话可能有的时候不一定那么的正规。' },
+      { sourceId: 'u1', text: '有个概念就行。不是为了提前学什么，更多是让他了解一下自然现象。' },
       { sourceId: 'u2', text: '学科启蒙：为了以后中高考、初高中理科学习。兴趣启蒙：要求更低，更像让孩子试水，培养兴趣。' },
       { sourceId: 'u6', text: '郑州把科学课纳入了主科，期中期末都在考。到初中之后它就变成了物理化学生物，我不希望他只是去死记硬背。' },
     ],
@@ -548,8 +548,8 @@ const redesignedCards: InsightCard[] = [
       { label: '动作', text: '卖点不能只停留在“孩子爱看”，要把“未来有用”讲成可理解的学科启蒙价值。' },
     ],
     voices: [
-      { sourceId: 'u3', text: '因为他说素材可以从生活中随手，可以随时可以找到。然后就可以提前对那个物理启蒙。因为以后到初中也会学到物理，然后可以提前让他认识知道一些就是跟物理相关的知识。' },
-      { sourceId: 'u4', text: '还是从小激发这个物理的学习兴趣，也能不排斥以后，因为以后有更高的，毕竟升学需求，考试科目的选取，还是不想让他之后对理科失去兴趣，所以抓住从小应该掌握这个理科的黄金期，让他去早早的有所渗透。' },
+      { sourceId: 'u3', text: '素材可以从生活中随手，可以随时可以找到。然后就可以提前对那个物理启蒙。' },
+      { sourceId: 'u4', text: '还是从小激发这个物理的学习兴趣，也能不排斥以后。' },
       { sourceId: 'u8', text: '最少他上初中、高中学习物理不会那么吃力吧。' },
     ],
   },
@@ -583,7 +583,7 @@ const redesignedCards: InsightCard[] = [
     ],
     voices: [
       { sourceId: 'u4', text: '他看了之后会考我，会把课上看的从小学物理视频转化成自己的语言。', audioUrl: '/clips/interview4/0048-01.mp3' },
-      { sourceId: 'u5', text: '没看出，因为我有没，没有，我不知道怎么去看这个东西。就说孩子学了多少东西，因为我平时又没看的，没去，一直关注他看的是什么。然后我想知道他到底学了什么东西？学到了什么东西？学了多少？能记住什么？' },
+      { sourceId: 'u5', text: '我想知道他到底学了什么东西？学到了什么东西？学了多少？能记住什么？' },
       { sourceId: 'u8', text: '没有学习报告，不知道孩子最终掌握什么程度。' },
     ],
   },
@@ -599,8 +599,8 @@ const redesignedCards: InsightCard[] = [
       { label: '动作', text: '每个渠道保留统一定位，但分别设计新媒体钩子、APP 信息密度、电销权益话术。' },
     ],
     voices: [
-      { sourceId: 'u6', text: '当时买洋葱学园的数学课的时候，推荐了这个物理课，我才买的。当时是郑州妈妈帮有一个线上的直播，当时主要请到了洋葱学园的老师，当时在卖数学课，科学课又间接推了一下，我就直接买了。' },
-      { sourceId: 'u3', text: '因为他说素材可以从生活中随手，可以随时可以找到。然后就可以提前对那个物理启蒙。因为以后到初中也会学到物理，然后可以提前让他认识知道一些就是跟物理相关的知识。' },
+      { sourceId: 'u6', text: '推荐了这个物理课，我才买的。' },
+      { sourceId: 'u3', text: '素材可以从生活中随手，可以随时可以找到。然后就可以提前对那个物理启蒙。' },
       { sourceId: 'u8', text: '给姐姐买了高中物理，然后顺着推荐给弟弟买了小学课程。' },
     ],
   },
@@ -617,7 +617,7 @@ const redesignedCards: InsightCard[] = [
     ],
     voices: [
       { sourceId: 'u4', text: '知识的话就是系统性更强，因为它都已经罗列得非常分层次，看得也比较清晰，孩子也能自行选取，他喜欢什么，他也可以能随机点取，自己的选择性更强。' },
-      { sourceId: 'u4', text: '从小学物理的知识好像更多更系统，更多NB实验室来讲。孩子静下心来去做，在那去看，从小学物理讲这个概念，趣味性的概念，他投入的就是专注力更多，注意力会更吸引孩子吧。' },
+      { sourceId: 'u4', text: '从小学物理的知识好像更多更系统，更多NB实验室来讲。' },
       { sourceId: 'u7', text: '一个知识点接一个知识点，让孩子像看动画片一样一个接一个看下去。' },
     ],
   },
@@ -651,8 +651,8 @@ const redesignedCards: InsightCard[] = [
     ],
     voices: [
       { sourceId: 'u4', text: '就还是当时他有这个链接挂链了，我也需要，就买了。有对比，没有那么多，当时。就基于他信任，然后其他的话都是随缘。' },
-      { sourceId: 'u6', text: '当时买洋葱学园的数学课的时候，推荐了这个物理课，我才买的。当时是郑州妈妈帮有一个线上的直播，当时主要请到了洋葱学园的老师，当时在卖数学课，科学课又间接推了一下，我就直接买了。' },
-      { sourceId: 'u3', text: '因为他说素材可以从生活中随手，可以随时可以找到。然后就可以提前对那个物理启蒙。' },
+      { sourceId: 'u6', text: '推荐了这个物理课，我才买的。' },
+      { sourceId: 'u3', text: '素材可以从生活中随手，可以随时可以找到。然后就可以提前对那个物理启蒙。' },
     ],
   },
   {
@@ -684,9 +684,9 @@ const redesignedCards: InsightCard[] = [
       { label: '动作', text: '优先补“儿童化讲解、读题辅助、同步索引、持续学习机制”。' },
     ],
     voices: [
-      { sourceId: 'u4', text: '就是他在视频里面介绍，很多时候有一些对孩子来讲，因为我们家小低阶段一些晦涩难懂的一些概念词，孩子还是不能很好的理解，如果说这个概念同步出来的话，再根据这个概念进行口语化，或者是孩子能接受的方式进行一些举例去介绍这个专业性的概念的话，孩子能理解更好一些。' },
+      { sourceId: 'u4', text: '晦涩难懂的一些概念词，孩子还是不能很好的理解。' },
       { sourceId: 'u4', text: '答题正确率高，但字不认识，如果读出来更好。' },
-      { sourceId: 'u6', text: '我理解的是涵盖的知识点应该都有，只是不同步而已。结果我去找的话，一定是课内讲的是什么，我就按这个去找，划拉了一遍，发现没有，所以就也没有再看。' },
+      { sourceId: 'u6', text: '我理解的是涵盖的知识点应该都有，只是不同步而已。' },
     ],
   },
   {
@@ -701,8 +701,8 @@ const redesignedCards: InsightCard[] = [
       { label: '动作', text: '把学习节奏设计成轻量任务，并在营销里降低家长对“又多一门课”的压力。' },
     ],
     voices: [
-      { sourceId: 'u3', text: '到了三年级以上，学业比较重，你很难顾及全科的。如果我们三年级之后能把从小学物理坚持每天学已经很不错了，如果再开发地理生物有历史那些，时间没时间了，不是不想学。' },
-      { sourceId: 'u4', text: '我不是觉得它不重要，是因为没有时间，这个时间不够。平时涉及肯定是洋葱这个从小学物理占的块，时间模块是最大的，NB 实验室还有洋葱的话，只能先选孩子选洋葱了，那 NB 我肯定就舍弃了，因为这时间的话不能投入在那上面。' },
+      { sourceId: 'u3', text: '到了三年级以上，学业比较重，你很难顾及全科的。' },
+      { sourceId: 'u4', text: '我不是觉得它不重要，是因为没有时间，这个时间不够。' },
     ],
   },
   {
@@ -717,9 +717,9 @@ const redesignedCards: InsightCard[] = [
       { label: '动作', text: '把孩子能懂的例子、口语化讲解、答题朗读、学习反馈作为产品优先级。' },
     ],
     voices: [
-      { sourceId: 'u4', text: '就是他在视频里面介绍，很多时候有一些对孩子来讲，因为我们家小低阶段一些晦涩难懂的一些概念词，孩子还是不能很好的理解，如果说这个概念同步出来的话，再根据这个概念进行口语化，或者是孩子能接受的方式进行一些举例去介绍这个专业性的概念的话，孩子能理解更好一些。' },
-      { sourceId: 'u5', text: '没看出，因为我有没，没有，我不知道怎么去看这个东西。就说孩子学了多少东西，因为我平时又没看的，没去，一直关注他看的是什么。然后我想知道他到底学了什么东西？学到了什么东西？学了多少？能记住什么？' },
-      { sourceId: 'u6', text: '如果说是同步的话，我觉得会更好，就是使用率上会更高一些。如果说没那么同步的话，可能就是，想起来了去划了两下看一下，或者是哪个知识点真的不理解，去找一下。' },
+      { sourceId: 'u4', text: '晦涩难懂的一些概念词，孩子还是不能很好的理解。' },
+      { sourceId: 'u5', text: '我想知道他到底学了什么东西？学到了什么东西？学了多少？能记住什么？' },
+      { sourceId: 'u6', text: '如果说是同步的话，我觉得会更好，就是使用率上会更高一些。' },
     ],
   },
   {
@@ -734,7 +734,7 @@ const redesignedCards: InsightCard[] = [
       { label: '动作', text: '落地页设置立即购买和下载 APP 了解双路径，APP 承接试听/大纲/FAQ，电销做权益补刀。' },
     ],
     voices: [
-      { sourceId: 'u6', text: '当时买洋葱学园的数学课的时候，推荐了这个物理课，我才买的。当时是郑州妈妈帮有一个线上的直播，当时主要请到了洋葱学园的老师，当时在卖数学课，科学课又间接推了一下，我就直接买了。' },
+      { sourceId: 'u6', text: '推荐了这个物理课，我才买的。' },
       { sourceId: 'u4', text: '就还是当时他有这个链接挂链了，我也需要，就买了。有对比，没有那么多，当时。就基于他信任，然后其他的话都是随缘。' },
     ],
   },
@@ -752,7 +752,7 @@ const redesignedCards: InsightCard[] = [
     voices: [
       { sourceId: 'u4', text: '洋葱学园的从小学物理，如果说我不是不管的话，他每天他都会刷。他好像特别喜欢看那实验男做实验。他当成趣味里边学知识了。' },
       { sourceId: 'u4', text: '知识的话就是系统性更强，因为它都已经罗列得非常分层次，看得也比较清晰，孩子也能自行选取，他喜欢什么，他也可以能随机点取，自己的选择性更强。' },
-      { sourceId: 'u4', text: '就是他在视频里面介绍，很多时候有一些对孩子来讲，因为我们家小低阶段一些晦涩难懂的一些概念词，孩子还是不能很好的理解。' },
+      { sourceId: 'u4', text: '晦涩难懂的一些概念词，孩子还是不能很好的理解。' },
     ],
   },
   {
@@ -784,9 +784,9 @@ const redesignedCards: InsightCard[] = [
       { label: '动作', text: '品牌差异页只保留关键竞品和关键对比，不做大而全竞品列表。' },
     ],
     voices: [
-      { sourceId: 'u5', text: '妙懂偏应试一点，它里面讲的东西不是那种小孩能接受那种，别人讲的时候那种语气，其他两个讲的时候都是小朋友讲那种，他不是，他是正儿八经的讲，很正式，孩子看着好像没有那么有感觉，就是让他学习了的那种感觉。' },
-      { sourceId: 'u1', text: '后来又觉得他这种模拟实验其实跟你实际做实验的话，他是有差距的。他也不能完全的，他只是模拟那个动画场景。但是他不是，他跟你当时你做实验的那种真实的这种感受，他是还是有很大区别的。' },
-      { sourceId: 'u4', text: '从小学物理的知识好像更多更系统，更多NB实验室来讲。孩子静下心来去做，在那去看，从小学物理讲这个概念，趣味性的概念，他投入的就是专注力更多，注意力会更吸引孩子吧。' },
+      { sourceId: 'u5', text: '妙懂偏应试一点，它里面讲的东西不是那种小孩能接受那种。' },
+      { sourceId: 'u1', text: '模拟实验其实跟你实际做实验的话，他是有差距的。' },
+      { sourceId: 'u4', text: '从小学物理的知识好像更多更系统，更多NB实验室来讲。' },
     ],
   },
   {
@@ -818,7 +818,7 @@ const redesignedCards: InsightCard[] = [
       { label: '动作', text: '落地页结构按“孩子爱学 → 听得懂 → 家长看得见效果 → 试听/购买/APP承接”组织。' },
     ],
     voices: [
-      { sourceId: 'u6', text: '当时买洋葱学园的数学课的时候，推荐了这个物理课，我才买的。当时是郑州妈妈帮有一个线上的直播，当时主要请到了洋葱学园的老师，当时在卖数学课，科学课又间接推了一下，我就直接买了。' },
+      { sourceId: 'u6', text: '推荐了这个物理课，我才买的。' },
       { sourceId: 'u4', text: '就还是当时他有这个链接挂链了，我也需要，就买了。有对比，没有那么多，当时。就基于他信任，然后其他的话都是随缘。' },
     ],
   },
@@ -1550,7 +1550,7 @@ export default function FromPrimaryMergedReport() {
                   </span>
                 </div>
 
-                <div className="grid items-start gap-5 xl:grid-cols-[300px_minmax(0,1fr)_340px]">
+                <div className="grid items-start gap-5 xl:grid-cols-[300px_minmax(0,1fr)]">
                   <aside
                     className="self-start rounded-[18px] border border-[#E6DDD3] bg-[#FBFAF7] p-3 xl:flex xl:h-[var(--detail-column-height)] xl:flex-col xl:overflow-hidden"
                     style={dynamicHeightStyle}
@@ -1642,33 +1642,30 @@ export default function FromPrimaryMergedReport() {
                     <div className="mt-4 rounded-[14px] border border-[#E6DDD3] bg-[#FBFAF7] px-4 py-3 text-[12px] font-semibold leading-6 text-[#7D746A]">
                       {selectedConclusion.evidenceNote}
                     </div>
-                  </section>
 
-                  <aside
-                    className="self-start rounded-[18px] border border-[#E6DDD3] bg-[#FBFAF7] p-4 xl:flex xl:h-[var(--detail-column-height)] xl:flex-col xl:overflow-hidden"
-                    style={dynamicHeightStyle}
-                  >
-                    <div className="mb-4 flex shrink-0 items-center justify-between gap-3">
-                      <div>
-                        <h3 className="text-[18px] font-black text-[#292521]">VOC 证据</h3>
-                        <p className="mt-1 text-[12px] font-semibold text-[#7D746A]">仅展示当前结论对应原声</p>
+                    <div className="mt-5 rounded-[16px] border border-[#E6DDD3] bg-[#FBFAF7] p-4">
+                      <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                        <div>
+                          <h3 className="text-[18px] font-black text-[#292521]">对应 VOC</h3>
+                          <p className="mt-1 text-[12px] font-semibold text-[#7D746A]">直接支撑当前结论的用户原声</p>
+                        </div>
+                        <span className="w-fit rounded-full bg-[#F1ECE5] px-2.5 py-1 text-[12px] font-black text-[#6E675F]">{selectedConclusion.vocs.length} 条</span>
                       </div>
-                      <span className="rounded-full bg-[#F1ECE5] px-2.5 py-1 text-[12px] font-black text-[#6E675F]">{selectedConclusion.vocs.length} 条</span>
+                      <div className="grid gap-3 lg:grid-cols-3">
+                        {selectedConclusion.vocs.slice(0, 3).map((voc) => (
+                          <ResearchVocCard key={`${selectedConclusion.id}-${voc.sourceId}-${voc.quote}`} voc={voc} dense />
+                        ))}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setDrawerConclusionId(selectedConclusion.id)}
+                        className="mt-4 w-full rounded-[12px] border px-4 py-3 text-[13px] font-black hover:bg-white md:w-auto"
+                        style={{ borderColor: `${dimension.color}50`, backgroundColor: `${dimension.color}10`, color: dimension.color }}
+                      >
+                        查看全部 VOC（{selectedConclusion.vocs.length} 条）
+                      </button>
                     </div>
-                    <div className="min-h-0 space-y-3 pr-1 xl:flex-1 xl:overflow-y-auto">
-                      {selectedConclusion.vocs.slice(0, 3).map((voc) => (
-                        <ResearchVocCard key={`${selectedConclusion.id}-${voc.sourceId}-${voc.quote}`} voc={voc} dense />
-                      ))}
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setDrawerConclusionId(selectedConclusion.id)}
-                      className="mt-4 w-full shrink-0 rounded-[12px] border px-4 py-3 text-[13px] font-black hover:bg-white"
-                      style={{ borderColor: `${dimension.color}50`, backgroundColor: `${dimension.color}10`, color: dimension.color }}
-                    >
-                      查看全部 VOC（{selectedConclusion.vocs.length} 条）
-                    </button>
-                  </aside>
+                  </section>
                 </div>
               </article>
             );

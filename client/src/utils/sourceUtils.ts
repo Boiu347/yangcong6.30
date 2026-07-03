@@ -4,6 +4,7 @@ import { JIATINGBAO_CLIP_MAP } from './jiatingbaoClipLookup';
 import { DEFAULT_VOC_CLIP_MAP } from './defaultVocClipLookup';
 import { JISUANYING_EVIDENCE_SOURCE_MAP } from '../store/jisuanyingData';
 import { JIATINGBAO_SEGMENTS } from '../store/jiatingbaoSegments';
+import { PHYSICS_SEGMENTS } from '../store/physicsSegments';
 
 /**
  * Look up the source interview file for an evidence quote.
@@ -23,9 +24,11 @@ export function lookupSource(evidence: string, _brand?: string): string | null {
  */
 export function lookupClips(evidence: string): EvidenceClip[] {
   const plain = evidence.replace(/\*\*/g, '');
+  const physicsSeg = PHYSICS_SEGMENT_CLIP_MAP[plain] ?? findPhysicsSegmentClip(plain);
   const raw =
     JIATINGBAO_CLIP_MAP[plain] ??
     JIATINGBAO_CLIP_MAP[evidence] ??
+    physicsSeg ??
     EVIDENCE_CLIP_MAP[plain] ??
     EVIDENCE_CLIP_MAP[evidence] ??
     DEFAULT_VOC_CLIP_MAP[plain] ??
@@ -56,6 +59,29 @@ const JIATINGBAO_SEGMENT_CLIP_MAP: Record<string, EvidenceClip> = (() => {
   }
   return map;
 })();
+
+const PHYSICS_SEGMENT_CLIP_MAP: Record<string, EvidenceClip> = (() => {
+  const map: Record<string, EvidenceClip> = {};
+  for (const seg of PHYSICS_SEGMENTS) {
+    if (!seg.clipUrl) continue;
+    const key = seg.quote.replace(/\*\*/g, '').trim();
+    if (key && !map[key]) {
+      map[key] = { clipUrl: seg.clipUrl, startTime: seg.startTime ?? 0, duration: seg.duration };
+    }
+  }
+  return map;
+})();
+
+function findPhysicsSegmentClip(quote: string): EvidenceClip | undefined {
+  const key = quote.trim();
+  if (!key) return undefined;
+  const match = PHYSICS_SEGMENTS.find((seg) => {
+    const segQuote = seg.quote.replace(/\*\*/g, '').trim();
+    return Boolean(seg.clipUrl && segQuote && (segQuote.includes(key) || key.includes(segQuote)));
+  });
+  if (!match?.clipUrl) return undefined;
+  return { clipUrl: match.clipUrl, startTime: match.startTime ?? 0, duration: match.duration };
+}
 
 /**
  * 为一条「代表原声」查找录音切片：优先命中家庭包逐句拆解片段，
