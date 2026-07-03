@@ -1410,21 +1410,8 @@ export default function FromPrimaryMergedReport() {
     ),
   );
   const [drawerConclusionId, setDrawerConclusionId] = React.useState<string | null>(null);
-  const [filterOpen, setFilterOpen] = React.useState(false);
-  const [priorityFilter, setPriorityFilter] = React.useState<'全部' | ConclusionPriority>('全部');
-  const [confidenceFilter, setConfidenceFilter] = React.useState<'全部' | ConclusionConfidence>('全部');
   const detailRefs = React.useRef<Partial<Record<DimensionId, HTMLElement | null>>>({});
   const [detailHeights, setDetailHeights] = React.useState<Partial<Record<DimensionId, number>>>({});
-
-  const filteredConclusions = React.useMemo(
-    () =>
-      reportConclusions.filter((item) => {
-        const priorityMatched = priorityFilter === '全部' || item.priority === priorityFilter;
-        const confidenceMatched = confidenceFilter === '全部' || item.confidence === confidenceFilter;
-        return priorityMatched && confidenceMatched;
-      }),
-    [confidenceFilter, priorityFilter],
-  );
 
   const drawerConclusion = drawerConclusionId ? reportConclusions.find((item) => item.id === drawerConclusionId) : null;
   const totalVoc = reportConclusions.reduce((sum, item) => sum + item.vocs.length, 0);
@@ -1471,7 +1458,7 @@ export default function FromPrimaryMergedReport() {
       observer.disconnect();
       window.removeEventListener('resize', updateAllHeights);
     };
-  }, [filteredConclusions, selectedByDimension]);
+  }, [selectedByDimension]);
 
   return (
     <main className="min-h-full bg-[#F8F6F1] text-[#292521]">
@@ -1484,67 +1471,6 @@ export default function FromPrimaryMergedReport() {
               <p className="mt-3 max-w-3xl text-[15px] font-semibold leading-7 text-[#706960]">
                 用于沉淀小学物理项目的核心结论、VOC 证据和产品优化建议，帮助业务方先看判断，再追溯到用户原声。
               </p>
-            </div>
-            <div className="relative flex flex-wrap gap-2">
-              <button
-                type="button"
-                onClick={() => setFilterOpen((open) => !open)}
-                className="inline-flex items-center gap-2 rounded-[10px] border border-[#D8D0C6] bg-white px-4 py-2 text-[13px] font-black text-[#5F5851] shadow-sm hover:border-[#E95B35] hover:text-[#E95B35]"
-              >
-                <SearchCheck size={15} />
-                筛选
-              </button>
-              <button
-                type="button"
-                onClick={() => window.print()}
-                className="inline-flex items-center gap-2 rounded-[10px] bg-[#E95B35] px-4 py-2 text-[13px] font-black text-white shadow-sm hover:bg-[#D94C28]"
-              >
-                <FileText size={15} />
-                导出报告
-              </button>
-              {filterOpen && (
-                <div className="absolute right-0 top-12 z-40 w-[280px] rounded-[14px] border border-[#DCE3EF] bg-white p-4 shadow-[0_18px_45px_rgba(15,23,42,.16)]">
-                  <p className="text-[13px] font-black text-[#0F172A]">筛选结论</p>
-                  <div className="mt-4 space-y-4">
-                    <div>
-                      <p className="mb-2 text-[11px] font-black text-[#64748B]">优先级</p>
-                      <div className="flex flex-wrap gap-2">
-                        {(['全部', '高优先级', '中优先级'] as const).map((item) => (
-                          <button
-                            key={item}
-                            type="button"
-                            onClick={() => setPriorityFilter(item)}
-                            className={cn(
-                              'rounded-full border px-3 py-1.5 text-[12px] font-bold',
-                              priorityFilter === item ? 'border-[#E95B35] bg-[#FFF3EE] text-[#E95B35]' : 'border-[#E6DDD3] text-[#7D746A]',
-                            )}
-                          >
-                            {item}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                    <div>
-                      <p className="mb-2 text-[11px] font-black text-[#64748B]">置信度</p>
-                      <div className="flex flex-wrap gap-2">
-                        {(['全部', '高置信', '中高置信'] as const).map((item) => (
-                          <button
-                            key={item}
-                            type="button"
-                            onClick={() => setConfidenceFilter(item)}
-                            className={cn(
-                              'rounded-full border px-3 py-1.5 text-[12px] font-bold',
-                              confidenceFilter === item ? 'border-[#2F9F8F] bg-[#EFFFFB] text-[#2F9F8F]' : 'border-[#E6DDD3] text-[#7D746A]',
-                            )}
-                          >
-                            {item}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
 
@@ -1576,7 +1502,7 @@ export default function FromPrimaryMergedReport() {
       <section className="px-5 pb-8 md:px-8">
         <div className="mx-auto max-w-[1440px] space-y-6">
           {dimensions.map((dimension) => {
-            const dimensionItems = filteredConclusions.filter((item) => item.dimension === dimension.id);
+            const dimensionItems = reportConclusions.filter((item) => item.dimension === dimension.id);
             if (dimensionItems.length === 0) return null;
             const selectedId = selectedByDimension[dimension.id];
             const selectedConclusion = dimensionItems.find((item) => item.id === selectedId) ?? dimensionItems[0];
