@@ -58,12 +58,12 @@ interface InsightCard {
 }
 
 const dimensions: Array<{ id: DimensionId; label: string; icon: typeof Lightbulb; color: string }> = [
-  { id: 'core', label: '核心洞察', icon: Lightbulb, color: '#E95B35' },
-  { id: 'purchase', label: '购买决策', icon: Target, color: '#3E76A8' },
-  { id: 'experience', label: '买后体验', icon: BookOpenCheck, color: '#18806F' },
-  { id: 'barrier', label: '购买卡点', icon: SearchCheck, color: '#8A5A22' },
-  { id: 'brand', label: '品牌差异', icon: Sparkles, color: '#6E4AA5' },
-  { id: 'next', label: '下一步建议', icon: BarChart3, color: '#B64A35' },
+  { id: 'core', label: '核心洞察', icon: Lightbulb, color: '#0EA5E9' },
+  { id: 'purchase', label: '购买决策', icon: Target, color: '#14B8A6' },
+  { id: 'experience', label: '买后体验', icon: BookOpenCheck, color: '#22C55E' },
+  { id: 'barrier', label: '购买卡点', icon: SearchCheck, color: '#F59E0B' },
+  { id: 'brand', label: '品牌差异', icon: Sparkles, color: '#8B5CF6' },
+  { id: 'next', label: '下一步建议', icon: BarChart3, color: '#F97316' },
 ];
 
 const sources: Record<string, SourceInfo> = {
@@ -1399,8 +1399,17 @@ function ResearchVocCard({ voc, dense = false }: { voc: ResearchVoc; dense?: boo
 }
 
 export default function FromPrimaryMergedReport() {
-  const [selectedId, setSelectedId] = React.useState(reportConclusions[0].id);
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [selectedByDimension, setSelectedByDimension] = React.useState<Record<DimensionId, string>>(() =>
+    dimensions.reduce(
+      (acc, dimension) => {
+        const first = reportConclusions.find((item) => item.dimension === dimension.id);
+        if (first) acc[dimension.id] = first.id;
+        return acc;
+      },
+      {} as Record<DimensionId, string>,
+    ),
+  );
+  const [drawerConclusionId, setDrawerConclusionId] = React.useState<string | null>(null);
   const [filterOpen, setFilterOpen] = React.useState(false);
   const [priorityFilter, setPriorityFilter] = React.useState<'全部' | ConclusionPriority>('全部');
   const [confidenceFilter, setConfidenceFilter] = React.useState<'全部' | ConclusionConfidence>('全部');
@@ -1415,25 +1424,19 @@ export default function FromPrimaryMergedReport() {
     [confidenceFilter, priorityFilter],
   );
 
-  React.useEffect(() => {
-    if (filteredConclusions.length > 0 && !filteredConclusions.some((item) => item.id === selectedId)) {
-      setSelectedId(filteredConclusions[0].id);
-    }
-  }, [filteredConclusions, selectedId]);
-
-  const selectedConclusion = filteredConclusions.find((item) => item.id === selectedId) ?? filteredConclusions[0] ?? reportConclusions[0];
+  const drawerConclusion = drawerConclusionId ? reportConclusions.find((item) => item.id === drawerConclusionId) : null;
   const totalVoc = reportConclusions.reduce((sum, item) => sum + item.vocs.length, 0);
   const userCount = new Set(reportConclusions.flatMap((item) => item.vocs.map((voc) => voc.sourceId))).size;
 
   return (
-    <main className="min-h-full bg-[#F6F8FC] text-[#0F172A]">
+    <main className="min-h-full bg-[#F7FAF5] text-[#102033]">
       <header className="px-5 py-7 md:px-8">
         <div className="mx-auto max-w-[1440px]">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
             <div>
-              <p className="text-[12px] font-black tracking-[0.16em] text-[#2563EB]">从小学系列售卖策略调研</p>
+              <p className="text-[12px] font-black tracking-[0.16em] text-[#0EA5E9]">从小学系列售卖策略调研</p>
               <h1 className="mt-3 text-[32px] font-black leading-tight md:text-[42px]">小学物理洞察总览</h1>
-              <p className="mt-3 max-w-3xl text-[15px] font-semibold leading-7 text-[#64748B]">
+              <p className="mt-3 max-w-3xl text-[15px] font-semibold leading-7 text-[#5F6F7A]">
                 用于沉淀小学物理项目的核心结论、VOC 证据和产品优化建议，帮助业务方先看判断，再追溯到用户原声。
               </p>
             </div>
@@ -1441,7 +1444,7 @@ export default function FromPrimaryMergedReport() {
               <button
                 type="button"
                 onClick={() => setFilterOpen((open) => !open)}
-                className="inline-flex items-center gap-2 rounded-[10px] border border-[#CBD5E1] bg-white px-4 py-2 text-[13px] font-black text-[#334155] shadow-sm hover:border-[#2563EB] hover:text-[#2563EB]"
+                className="inline-flex items-center gap-2 rounded-[10px] border border-[#CFE7E2] bg-white px-4 py-2 text-[13px] font-black text-[#34515C] shadow-sm hover:border-[#0EA5E9] hover:text-[#0EA5E9]"
               >
                 <SearchCheck size={15} />
                 筛选
@@ -1449,7 +1452,7 @@ export default function FromPrimaryMergedReport() {
               <button
                 type="button"
                 onClick={() => window.print()}
-                className="inline-flex items-center gap-2 rounded-[10px] bg-[#2563EB] px-4 py-2 text-[13px] font-black text-white shadow-sm hover:bg-[#1D4ED8]"
+                className="inline-flex items-center gap-2 rounded-[10px] bg-[#0EA5E9] px-4 py-2 text-[13px] font-black text-white shadow-sm hover:bg-[#0284C7]"
               >
                 <FileText size={15} />
                 导出报告
@@ -1502,21 +1505,21 @@ export default function FromPrimaryMergedReport() {
 
           <div className="mt-7 grid gap-4 md:grid-cols-3">
             {[
-              { icon: Lightbulb, value: reportConclusions.length, label: '核心结论', desc: '已沉淀的可行动判断', color: '#2563EB', bg: '#EFF6FF' },
-              { icon: Quote, value: totalVoc, label: '有效 VOC', desc: '与结论强绑定的原声', color: '#059669', bg: '#ECFDF5' },
-              { icon: Target, value: userCount, label: '涉及用户', desc: '覆盖访谈用户来源', color: '#7C3AED', bg: '#F5F3FF' },
+              { icon: Lightbulb, value: reportConclusions.length, label: '核心结论', desc: '已沉淀的可行动判断', color: '#0EA5E9', bg: '#E0F2FE' },
+              { icon: Quote, value: totalVoc, label: '有效 VOC', desc: '与结论强绑定的原声', color: '#14B8A6', bg: '#CCFBF1' },
+              { icon: Target, value: userCount, label: '涉及用户', desc: '覆盖访谈用户来源', color: '#22C55E', bg: '#DCFCE7' },
             ].map(({ icon: Icon, value, label, desc, color, bg }) => (
-              <div key={label} className="rounded-[18px] border border-[#E2E8F0] bg-white p-5 shadow-[0_10px_28px_rgba(15,23,42,.05)]">
+              <div key={label} className="rounded-[18px] border border-[#DDEADF] bg-white p-5 shadow-[0_10px_28px_rgba(42,73,63,.05)]">
                 <div className="flex items-center gap-4">
                   <div className="grid size-14 place-items-center rounded-full" style={{ backgroundColor: bg, color }}>
                     <Icon size={24} />
                   </div>
                   <div>
-                    <p className="text-[14px] font-black text-[#334155]">{label}</p>
+                    <p className="text-[14px] font-black text-[#2E4750]">{label}</p>
                     <p className="text-[34px] font-black leading-none" style={{ color }}>
                       {value}
                     </p>
-                    <p className="mt-1 text-[12px] font-semibold text-[#64748B]">{desc}</p>
+                    <p className="mt-1 text-[12px] font-semibold text-[#6B7D73]">{desc}</p>
                   </div>
                 </div>
               </div>
@@ -1526,41 +1529,45 @@ export default function FromPrimaryMergedReport() {
       </header>
 
       <section className="px-5 pb-8 md:px-8">
-        <div className="mx-auto grid max-w-[1440px] gap-5 xl:grid-cols-[340px_minmax(0,1fr)_360px]">
-          <aside className="rounded-[18px] border border-[#E2E8F0] bg-white p-4 shadow-[0_10px_28px_rgba(15,23,42,.05)]">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-[18px] font-black text-[#0F172A]">调研结论</h2>
-              <span className="rounded-full bg-[#EFF6FF] px-2.5 py-1 text-[12px] font-black text-[#2563EB]">{filteredConclusions.length} 条</span>
-            </div>
-            <div className="space-y-3">
-              {dimensions.map((dimension) => {
-                const dimensionItems = filteredConclusions.filter((item) => item.dimension === dimension.id);
-                if (dimensionItems.length === 0) return null;
-                const dimensionSelected = dimensionItems.some((item) => item.id === selectedConclusion.id);
+        <div className="mx-auto max-w-[1440px] space-y-6">
+          {dimensions.map((dimension) => {
+            const dimensionItems = filteredConclusions.filter((item) => item.dimension === dimension.id);
+            if (dimensionItems.length === 0) return null;
+            const selectedId = selectedByDimension[dimension.id];
+            const selectedConclusion = dimensionItems.find((item) => item.id === selectedId) ?? dimensionItems[0];
+            const selectedIndex = filteredConclusions.findIndex((item) => item.id === selectedConclusion.id);
+            const Icon = dimension.icon;
 
-                return (
-                  <div
-                    key={dimension.id}
-                    className={cn(
-                      'rounded-[16px] border bg-[#F8FAFC] p-3 transition',
-                      dimensionSelected ? 'border-[#93C5FD] bg-[#F8FBFF] shadow-[0_10px_24px_rgba(37,99,235,.08)]' : 'border-[#E2E8F0]',
-                    )}
-                  >
-                    <div className="mb-3 flex items-center justify-between gap-3">
-                      <div className="flex min-w-0 items-center gap-2">
-                        <span className="h-4 w-1 shrink-0 rounded-full" style={{ backgroundColor: dimension.color }} />
-                        <p className="truncate text-[13px] font-black" style={{ color: dimension.color }}>
-                          {dimension.label}
-                        </p>
-                      </div>
-                      <span
-                        className="shrink-0 rounded-full px-2 py-1 text-[11px] font-black"
-                        style={{ backgroundColor: `${dimension.color}12`, color: dimension.color }}
-                      >
-                        {dimensionItems.length} 条
-                      </span>
+            return (
+              <article
+                key={dimension.id}
+                className="rounded-[24px] border border-[#DDEADF] bg-white p-5 shadow-[0_18px_42px_rgba(42,73,63,.08)]"
+              >
+                <div className="mb-5 flex flex-col gap-3 border-b border-[#E6EFE9] pb-4 md:flex-row md:items-center md:justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="grid size-11 place-items-center rounded-full" style={{ backgroundColor: `${dimension.color}18`, color: dimension.color }}>
+                      <Icon size={21} />
                     </div>
-                    <div className="max-h-[420px] space-y-2.5 overflow-y-auto pr-1">
+                    <div>
+                      <h2 className="text-[22px] font-black text-[#102033]">{dimension.label}</h2>
+                      <p className="mt-1 text-[12px] font-semibold text-[#6B7D73]">本维度包含 {dimensionItems.length} 条结论，点击左侧结论查看对应分析和 VOC。</p>
+                    </div>
+                  </div>
+                  <span
+                    className="w-fit rounded-full px-3 py-1.5 text-[12px] font-black"
+                    style={{ backgroundColor: `${dimension.color}14`, color: dimension.color }}
+                  >
+                    {dimensionItems.length} 条结论
+                  </span>
+                </div>
+
+                <div className="grid gap-5 xl:grid-cols-[300px_minmax(0,1fr)_340px]">
+                  <aside className="rounded-[18px] border border-[#E3ECE6] bg-[#F8FBF7] p-3">
+                    <div className="mb-3 flex items-center justify-between">
+                      <p className="text-[14px] font-black text-[#2E4750]">结论列表</p>
+                      <span className="text-[11px] font-bold text-[#789084]">{dimensionItems.length} 条</span>
+                    </div>
+                    <div className="max-h-[460px] space-y-2.5 overflow-y-auto pr-1">
                       {dimensionItems.map((item) => {
                         const selected = item.id === selectedConclusion.id;
                         const index = filteredConclusions.findIndex((entry) => entry.id === item.id);
@@ -1569,33 +1576,35 @@ export default function FromPrimaryMergedReport() {
                             key={item.id}
                             type="button"
                             onClick={() => {
-                              setSelectedId(item.id);
-                              setDrawerOpen(false);
+                              setSelectedByDimension((prev) => ({ ...prev, [dimension.id]: item.id }));
+                              if (drawerConclusionId) setDrawerConclusionId(null);
                             }}
                             className={cn(
                               'w-full rounded-[14px] border p-4 text-left transition',
                               selected
-                                ? 'border-[#2563EB] bg-white shadow-[0_12px_28px_rgba(37,99,235,.12)]'
-                                : 'border-[#E2E8F0] bg-white hover:border-[#93C5FD] hover:bg-[#F8FBFF]',
+                                ? 'border-transparent bg-white shadow-[0_12px_28px_rgba(42,73,63,.14)] ring-2'
+                                : 'border-[#E3ECE6] bg-white hover:border-[#B7E4DA] hover:bg-[#F5FFFC]',
                             )}
+                            style={selected ? { ['--tw-ring-color' as string]: dimension.color } : undefined}
                           >
                             <div className="flex items-start gap-3">
                               <span
                                 className={cn(
                                   'grid size-8 shrink-0 place-items-center rounded-full text-[14px] font-black',
-                                  selected ? 'bg-[#2563EB] text-white' : 'bg-[#F1F5F9] text-[#64748B]',
+                                  selected ? 'text-white' : 'bg-[#EDF5F1] text-[#647B72]',
                                 )}
+                                style={selected ? { backgroundColor: dimension.color } : undefined}
                               >
                                 {index + 1}
                               </span>
                               <div className="min-w-0">
-                                <h3 className="text-[15px] font-black leading-6 text-[#0F172A]">{item.title}</h3>
-                                <p className="mt-1 text-[12px] font-semibold leading-5 text-[#64748B]">{item.summary}</p>
+                                <h3 className="text-[15px] font-black leading-6 text-[#102033]">{item.title}</h3>
+                                <p className="mt-1 text-[12px] font-semibold leading-5 text-[#5F6F7A]">{item.summary}</p>
                                 <div className="mt-3 flex flex-wrap gap-1.5">
-                                  <span className="rounded-full bg-[#EFF6FF] px-2 py-1 text-[11px] font-black" style={{ color: priorityColors[item.priority] }}>
+                                  <span className="rounded-full bg-[#E0F2FE] px-2 py-1 text-[11px] font-black" style={{ color: priorityColors[item.priority] }}>
                                     {item.priority}
                                   </span>
-                                  <span className="rounded-full bg-[#F5F3FF] px-2 py-1 text-[11px] font-black text-[#6D28D9]">{item.confidence}</span>
+                                  <span className="rounded-full bg-[#ECFDF5] px-2 py-1 text-[11px] font-black text-[#0F9F82]">{item.confidence}</span>
                                 </div>
                               </div>
                             </div>
@@ -1603,104 +1612,101 @@ export default function FromPrimaryMergedReport() {
                         );
                       })}
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-          </aside>
+                  </aside>
 
-          <section className="rounded-[18px] border border-[#E2E8F0] bg-white p-5 shadow-[0_10px_28px_rgba(15,23,42,.05)]">
-            <div className="inline-flex items-center gap-2 rounded-full bg-[#EFF6FF] px-3 py-1 text-[12px] font-black text-[#2563EB]">
-              当前结论
-              <span className="rounded-full bg-white px-2 py-0.5">{filteredConclusions.findIndex((item) => item.id === selectedConclusion.id) + 1}</span>
-            </div>
-            <h2 className="mt-4 text-[28px] font-black leading-tight text-[#0F172A]">{selectedConclusion.title}</h2>
+                  <section className="rounded-[18px] border border-[#E3ECE6] bg-white p-5">
+                    <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[12px] font-black" style={{ backgroundColor: `${dimension.color}12`, color: dimension.color }}>
+                      当前结论
+                      <span className="rounded-full bg-white px-2 py-0.5">{selectedIndex + 1}</span>
+                    </div>
+                    <h3 className="mt-4 text-[28px] font-black leading-tight text-[#102033]">{selectedConclusion.title}</h3>
 
-            <div className="mt-5 rounded-[16px] border border-[#DCEBFF] bg-[#F8FBFF] p-5">
-              <div className="flex items-center gap-2 text-[14px] font-black text-[#2563EB]">
-                <BookOpenCheck size={17} />
-                关键洞察
-              </div>
-              <p className="mt-3 text-[15px] font-semibold leading-8 text-[#334155]">{selectedConclusion.insight}</p>
-            </div>
+                    <div className="mt-5 rounded-[16px] border border-[#DDEFE8] bg-[#F7FCFA] p-5">
+                      <div className="flex items-center gap-2 text-[14px] font-black" style={{ color: dimension.color }}>
+                        <BookOpenCheck size={17} />
+                        关键洞察
+                      </div>
+                      <p className="mt-3 text-[15px] font-semibold leading-8 text-[#334D57]">{selectedConclusion.insight}</p>
+                    </div>
 
-            <div className="mt-4 rounded-[16px] border border-[#BFDBFE] bg-white p-5 shadow-[inset_4px_0_0_#2563EB]">
-              <div className="flex items-center gap-2 text-[14px] font-black text-[#1D4ED8]">
-                <Sparkles size={17} />
-                核心结论
-              </div>
-              <p className="mt-3 text-[18px] font-black leading-8 text-[#0F172A]">{selectedConclusion.conclusion}</p>
-            </div>
+                    <div className="mt-4 rounded-[16px] border bg-white p-5" style={{ borderColor: `${dimension.color}40`, boxShadow: `inset 4px 0 0 ${dimension.color}` }}>
+                      <div className="flex items-center gap-2 text-[14px] font-black" style={{ color: dimension.color }}>
+                        <Sparkles size={17} />
+                        核心结论
+                      </div>
+                      <p className="mt-3 text-[18px] font-black leading-8 text-[#102033]">{selectedConclusion.conclusion}</p>
+                    </div>
 
-            <div className="mt-4 rounded-[16px] border border-[#D1FAE5] bg-[#F7FEFB] p-5">
-              <div className="flex items-center gap-2 text-[14px] font-black text-[#059669]">
-                <Target size={17} />
-                建议行动
-              </div>
-              <div className="mt-3 space-y-2.5">
-                {selectedConclusion.actions.map((action, index) => (
-                  <div key={action} className="flex items-start gap-3 rounded-[12px] bg-white px-3 py-3">
-                    <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-[#10B981] text-[11px] font-black text-white">
-                      {index + 1}
-                    </span>
-                    <p className="text-[14px] font-bold leading-6 text-[#334155]">{action}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+                    <div className="mt-4 rounded-[16px] border border-[#CFF3DF] bg-[#F4FFF8] p-5">
+                      <div className="flex items-center gap-2 text-[14px] font-black text-[#16A34A]">
+                        <Target size={17} />
+                        建议行动
+                      </div>
+                      <div className="mt-3 space-y-2.5">
+                        {selectedConclusion.actions.map((action, index) => (
+                          <div key={action} className="flex items-start gap-3 rounded-[12px] bg-white px-3 py-3">
+                            <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-[#22C55E] text-[11px] font-black text-white">
+                              {index + 1}
+                            </span>
+                            <p className="text-[14px] font-bold leading-6 text-[#334D57]">{action}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
 
-            <div className="mt-4 rounded-[14px] border border-[#E2E8F0] bg-[#FAFBFC] px-4 py-3 text-[12px] font-semibold leading-6 text-[#64748B]">
-              {selectedConclusion.evidenceNote}
-            </div>
+                    <div className="mt-4 rounded-[14px] border border-[#E3ECE6] bg-[#FBFCF8] px-4 py-3 text-[12px] font-semibold leading-6 text-[#6B7D73]">
+                      {selectedConclusion.evidenceNote}
+                    </div>
+                  </section>
 
-            <div className="mt-5">
-              <SourcePanel />
-            </div>
-          </section>
-
-          <aside className="rounded-[18px] border border-[#E2E8F0] bg-white p-4 shadow-[0_10px_28px_rgba(15,23,42,.05)]">
-            <div className="mb-4 flex items-center justify-between gap-3">
-              <div>
-                <h2 className="text-[18px] font-black text-[#0F172A]">VOC 证据</h2>
-                <p className="mt-1 text-[12px] font-semibold text-[#64748B]">仅展示当前结论对应原声</p>
-              </div>
-              <span className="rounded-full bg-[#F1F5F9] px-2.5 py-1 text-[12px] font-black text-[#64748B]">{selectedConclusion.vocs.length} 条</span>
-            </div>
-            <div className="space-y-3">
-              {selectedConclusion.vocs.slice(0, 3).map((voc) => (
-                <ResearchVocCard key={`${selectedConclusion.id}-${voc.sourceId}-${voc.quote}`} voc={voc} dense />
-              ))}
-            </div>
-            <button
-              type="button"
-              onClick={() => setDrawerOpen(true)}
-              className="mt-4 w-full rounded-[12px] border border-[#BFDBFE] bg-[#EFF6FF] px-4 py-3 text-[13px] font-black text-[#2563EB] hover:bg-[#DBEAFE]"
-            >
-              查看全部 VOC（{selectedConclusion.vocs.length} 条）
-            </button>
-          </aside>
+                  <aside className="rounded-[18px] border border-[#E3ECE6] bg-[#FBFEFC] p-4">
+                    <div className="mb-4 flex items-center justify-between gap-3">
+                      <div>
+                        <h3 className="text-[18px] font-black text-[#102033]">VOC 证据</h3>
+                        <p className="mt-1 text-[12px] font-semibold text-[#6B7D73]">仅展示当前结论对应原声</p>
+                      </div>
+                      <span className="rounded-full bg-[#EDF5F1] px-2.5 py-1 text-[12px] font-black text-[#5B756A]">{selectedConclusion.vocs.length} 条</span>
+                    </div>
+                    <div className="max-h-[640px] space-y-3 overflow-y-auto pr-1">
+                      {selectedConclusion.vocs.slice(0, 3).map((voc) => (
+                        <ResearchVocCard key={`${selectedConclusion.id}-${voc.sourceId}-${voc.quote}`} voc={voc} dense />
+                      ))}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setDrawerConclusionId(selectedConclusion.id)}
+                      className="mt-4 w-full rounded-[12px] border px-4 py-3 text-[13px] font-black hover:bg-white"
+                      style={{ borderColor: `${dimension.color}50`, backgroundColor: `${dimension.color}10`, color: dimension.color }}
+                    >
+                      查看全部 VOC（{selectedConclusion.vocs.length} 条）
+                    </button>
+                  </aside>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
 
-      {drawerOpen && (
-        <div className="fixed inset-0 z-50 bg-[#0F172A]/35" role="presentation" onClick={() => setDrawerOpen(false)}>
+      {drawerConclusion && (
+        <div className="fixed inset-0 z-50 bg-[#102033]/35" role="presentation" onClick={() => setDrawerConclusionId(null)}>
           <aside
-            className="ml-auto h-full w-full max-w-[520px] overflow-y-auto bg-[#F8FAFC] p-5 shadow-[-18px_0_42px_rgba(15,23,42,.22)]"
+            className="ml-auto h-full w-full max-w-[520px] overflow-y-auto bg-[#F7FAF5] p-5 shadow-[-18px_0_42px_rgba(16,32,51,.22)]"
             role="dialog"
             aria-modal="true"
-            aria-label={`${selectedConclusion.title}全部 VOC`}
+            aria-label={`${drawerConclusion.title}全部 VOC`}
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="sticky top-0 z-10 -mx-5 -mt-5 border-b border-[#E2E8F0] bg-[#F8FAFC]/95 px-5 py-4 backdrop-blur">
+            <div className="sticky top-0 z-10 -mx-5 -mt-5 border-b border-[#DDEADF] bg-[#F7FAF5]/95 px-5 py-4 backdrop-blur">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-[12px] font-black tracking-[0.12em] text-[#2563EB]">全部 VOC</p>
-                  <h2 className="mt-1 text-[22px] font-black text-[#0F172A]">{selectedConclusion.title}</h2>
+                  <p className="text-[12px] font-black tracking-[0.12em] text-[#0EA5E9]">全部 VOC</p>
+                  <h2 className="mt-1 text-[22px] font-black text-[#102033]">{drawerConclusion.title}</h2>
                 </div>
                 <button
                   type="button"
-                  onClick={() => setDrawerOpen(false)}
-                  className="grid size-9 shrink-0 place-items-center rounded-full border border-[#CBD5E1] bg-white text-[20px] font-light text-[#64748B] hover:border-[#2563EB] hover:text-[#2563EB]"
+                  onClick={() => setDrawerConclusionId(null)}
+                  className="grid size-9 shrink-0 place-items-center rounded-full border border-[#CFE7E2] bg-white text-[20px] font-light text-[#6B7D73] hover:border-[#0EA5E9] hover:text-[#0EA5E9]"
                   aria-label="关闭全部 VOC"
                 >
                   ×
@@ -1708,16 +1714,16 @@ export default function FromPrimaryMergedReport() {
               </div>
             </div>
             <div className="mt-5 space-y-3">
-              {selectedConclusion.vocs.map((voc) => (
-                <ResearchVocCard key={`drawer-${selectedConclusion.id}-${voc.sourceId}-${voc.quote}`} voc={voc} />
+              {drawerConclusion.vocs.map((voc) => (
+                <ResearchVocCard key={`drawer-${drawerConclusion.id}-${voc.sourceId}-${voc.quote}`} voc={voc} />
               ))}
             </div>
           </aside>
         </div>
       )}
 
-      <footer className="px-5 pb-8 text-center text-[12px] font-semibold text-[#94A3B8] md:px-8">
-        用户原声来源限定为访谈目录中的用户1-用户8；切换左侧结论时，中间分析和右侧 VOC 同步变化。
+      <footer className="px-5 pb-8 text-center text-[12px] font-semibold text-[#8BA198] md:px-8">
+        用户原声来源限定为访谈目录中的用户1-用户8；每个维度卡片内的结论、分析和 VOC 独立联动。
       </footer>
     </main>
   );
