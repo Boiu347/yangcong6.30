@@ -1267,11 +1267,6 @@ const researchConclusions = [
   },
 ];
 
-const priorityColors: Record<ConclusionPriority, string> = {
-  高优先级: '#2563EB',
-  中优先级: '#D97706',
-};
-
 const dimensionLabelById = dimensions.reduce(
   (acc, dimension) => {
     acc[dimension.id] = dimension.label;
@@ -1559,30 +1554,17 @@ export default function FromPrimaryMergedReport() {
                             className={cn(
                               'w-full rounded-[14px] border p-4 text-left transition',
                               selected
-                                ? 'border-transparent bg-white shadow-[0_12px_28px_rgba(55,44,34,.12)] ring-2'
+                                ? 'border-[#E6DDD3] bg-white shadow-[0_12px_28px_rgba(55,44,34,.08)]'
                                 : 'border-[#E6DDD3] bg-white hover:border-[#E95B35] hover:bg-[#FFF9F5]',
                             )}
-                            style={selected ? { ['--tw-ring-color' as string]: dimension.color } : undefined}
                           >
                             <div className="flex items-start gap-3">
-                              <span
-                                className={cn(
-                                  'grid size-8 shrink-0 place-items-center rounded-full text-[14px] font-black',
-                                  selected ? 'text-white' : 'bg-[#F1ECE5] text-[#7D746A]',
-                                )}
-                                style={selected ? { backgroundColor: dimension.color } : undefined}
-                              >
+                              <span className="grid size-8 shrink-0 place-items-center rounded-full bg-[#F1ECE5] text-[14px] font-black text-[#7D746A]">
                                 {index + 1}
                               </span>
                               <div className="min-w-0">
                                 <h3 className="text-[15px] font-black leading-6 text-[#292521]">{item.title}</h3>
                                 <p className="mt-1 text-[12px] font-semibold leading-5 text-[#6F675F]">{item.summary}</p>
-                                <div className="mt-3 flex flex-wrap gap-1.5">
-                                  <span className="rounded-full bg-[#FFF3EE] px-2 py-1 text-[11px] font-black" style={{ color: priorityColors[item.priority] }}>
-                                    {item.priority}
-                                  </span>
-                                  <span className="rounded-full bg-[#EFFFFB] px-2 py-1 text-[11px] font-black text-[#2F9F8F]">{item.confidence}</span>
-                                </div>
                               </div>
                             </div>
                           </button>
