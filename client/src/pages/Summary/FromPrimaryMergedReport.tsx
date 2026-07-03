@@ -829,7 +829,7 @@ function sourceOf(id: string): SourceInfo {
 }
 
 function clipUrlsOf(voice: Voice) {
-  return lookupClips(voice.text).map((clip) => clip.clipUrl);
+  return Array.from(new Set([voice.audioUrl, ...lookupClips(voice.text).map((clip) => clip.clipUrl)].filter(Boolean) as string[]));
 }
 
 function formatTime(value: number) {
@@ -1072,10 +1072,13 @@ interface ResearchVoc {
   identity: string;
   tags: string[];
   sourceLabel: string;
+  audioUrl?: string;
+  sourceUrl?: string;
 }
 
 interface ResearchConclusion {
   id: string;
+  dimension: DimensionId;
   title: string;
   summary: string;
   priority: ConclusionPriority;
@@ -1087,7 +1090,7 @@ interface ResearchConclusion {
   vocs: ResearchVoc[];
 }
 
-const researchConclusions: ResearchConclusion[] = [
+const researchConclusions = [
   {
     id: 'positioning',
     title: '学科启蒙才是核心定位',
@@ -1269,12 +1272,80 @@ const priorityColors: Record<ConclusionPriority, string> = {
   中优先级: '#D97706',
 };
 
+const dimensionLabelById = dimensions.reduce(
+  (acc, dimension) => {
+    acc[dimension.id] = dimension.label;
+    return acc;
+  },
+  {} as Record<DimensionId, string>,
+);
+
+const priorityByDimension: Record<DimensionId, ConclusionPriority> = {
+  core: '高优先级',
+  purchase: '高优先级',
+  experience: '高优先级',
+  barrier: '高优先级',
+  brand: '中优先级',
+  next: '中优先级',
+};
+
+const confidenceByDimension: Record<DimensionId, ConclusionConfidence> = {
+  core: '高置信',
+  purchase: '中高置信',
+  experience: '高置信',
+  barrier: '中高置信',
+  brand: '中高置信',
+  next: '中高置信',
+};
+
+function compactSummary(text: string) {
+  return text.length > 52 ? `${text.slice(0, 52)}...` : text;
+}
+
+function tagsForCard(card: InsightCard) {
+  const titleTag = card.title.split('：')[0].split('——')[0].replace(/[1-4]\./g, '').trim();
+  return Array.from(new Set([dimensionLabelById[card.dimension], titleTag].filter(Boolean))).slice(0, 3);
+}
+
+const reportConclusions: ResearchConclusion[] = redesignedCards.map((card) => {
+  const takeaways = card.takeaways ?? cardTakeaways[card.id] ?? [];
+  const judgment = takeaways.find((item) => item.label === '判断')?.text;
+  const evidence = takeaways.find((item) => item.label === '依据')?.text;
+  const action = takeaways.find((item) => item.label === '动作')?.text;
+
+  return {
+    id: card.id,
+    dimension: card.dimension,
+    title: card.title,
+    summary: compactSummary(judgment ?? card.conclusion),
+    priority: priorityByDimension[card.dimension],
+    confidence: confidenceByDimension[card.dimension],
+    insight: evidence ?? card.data ?? card.conclusion,
+    conclusion: card.conclusion,
+    actions: action ? [action] : ['把该结论转成页面话术、产品反馈或转化链路中的具体表达，并继续用对应 VOC 校验。'],
+    evidenceNote: card.data ?? `来源说明：访谈纪要/文字记录，涉及 ${card.voices.map((voice) => sourceOf(voice.sourceId).title.split('-')[0]).join('、')}。`,
+    vocs: card.voices.map((voice) => {
+      const source = sourceOf(voice.sourceId);
+      return {
+        quote: voice.text,
+        sourceId: voice.sourceId,
+        identity: `${source.title}｜${source.meta}`,
+        tags: tagsForCard(card),
+        sourceLabel: `${source.title.split('-')[0]}访谈`,
+        audioUrl: voice.audioUrl,
+        sourceUrl: voice.sourceUrl,
+      };
+    }),
+  };
+});
+
 function sourceUrlOf(voc: ResearchVoc) {
-  return sourceOf(voc.sourceId).url;
+  return voc.sourceUrl ?? sourceOf(voc.sourceId).url;
 }
 
 function ResearchVocCard({ voc, dense = false }: { voc: ResearchVoc; dense?: boolean }) {
   const source = sourceOf(voc.sourceId);
+  const clipUrls = clipUrlsOf({ text: voc.quote, sourceId: voc.sourceId, audioUrl: voc.audioUrl, sourceUrl: voc.sourceUrl });
 
   return (
     <article className={cn('rounded-[14px] border border-[#E2E8F0] bg-white p-4 shadow-[0_8px_22px_rgba(15,23,42,.04)]', dense && 'p-3.5')}>
@@ -1295,21 +1366,40 @@ function ResearchVocCard({ voc, dense = false }: { voc: ResearchVoc; dense?: boo
           </span>
         ))}
       </div>
-      <a
-        href={sourceUrlOf(voc)}
-        target="_blank"
-        rel="noreferrer"
-        className="mt-3 inline-flex items-center gap-1 text-[12px] font-bold text-[#64748B] hover:text-[#2563EB]"
-      >
-        查看来源记录
-        <ExternalLink size={12} />
-      </a>
+      <div className="mt-3 flex flex-wrap items-center gap-2">
+        {clipUrls.length > 0 ? (
+          <>
+            {clipUrls.map((audioUrl, index) => (
+              <AudioClipButton key={`${voc.sourceId}-${audioUrl}`} audioUrl={audioUrl} index={index} total={clipUrls.length} />
+            ))}
+            <a
+              href={sourceUrlOf(voc)}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 rounded-full border border-[#E2E8F0] bg-[#F8FAFC] px-2.5 py-1 text-[11px] font-bold text-[#64748B] hover:border-[#93C5FD] hover:text-[#2563EB]"
+            >
+              来源
+              <ExternalLink size={11} />
+            </a>
+          </>
+        ) : (
+          <a
+            href={sourceUrlOf(voc)}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1 rounded-full border border-[#E2E8F0] bg-[#F8FAFC] px-2.5 py-1 text-[11px] font-bold text-[#64748B] hover:border-[#93C5FD] hover:text-[#2563EB]"
+          >
+            查看来源记录
+            <ExternalLink size={11} />
+          </a>
+        )}
+      </div>
     </article>
   );
 }
 
 export default function FromPrimaryMergedReport() {
-  const [selectedId, setSelectedId] = React.useState(researchConclusions[0].id);
+  const [selectedId, setSelectedId] = React.useState(reportConclusions[0].id);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const [filterOpen, setFilterOpen] = React.useState(false);
   const [priorityFilter, setPriorityFilter] = React.useState<'全部' | ConclusionPriority>('全部');
@@ -1317,7 +1407,7 @@ export default function FromPrimaryMergedReport() {
 
   const filteredConclusions = React.useMemo(
     () =>
-      researchConclusions.filter((item) => {
+      reportConclusions.filter((item) => {
         const priorityMatched = priorityFilter === '全部' || item.priority === priorityFilter;
         const confidenceMatched = confidenceFilter === '全部' || item.confidence === confidenceFilter;
         return priorityMatched && confidenceMatched;
@@ -1331,9 +1421,9 @@ export default function FromPrimaryMergedReport() {
     }
   }, [filteredConclusions, selectedId]);
 
-  const selectedConclusion = filteredConclusions.find((item) => item.id === selectedId) ?? filteredConclusions[0] ?? researchConclusions[0];
-  const totalVoc = researchConclusions.reduce((sum, item) => sum + item.vocs.length, 0);
-  const userCount = new Set(researchConclusions.flatMap((item) => item.vocs.map((voc) => voc.sourceId))).size;
+  const selectedConclusion = filteredConclusions.find((item) => item.id === selectedId) ?? filteredConclusions[0] ?? reportConclusions[0];
+  const totalVoc = reportConclusions.reduce((sum, item) => sum + item.vocs.length, 0);
+  const userCount = new Set(reportConclusions.flatMap((item) => item.vocs.map((voc) => voc.sourceId))).size;
 
   return (
     <main className="min-h-full bg-[#F6F8FC] text-[#0F172A]">
@@ -1412,7 +1502,7 @@ export default function FromPrimaryMergedReport() {
 
           <div className="mt-7 grid gap-4 md:grid-cols-3">
             {[
-              { icon: Lightbulb, value: researchConclusions.length, label: '核心结论', desc: '已沉淀的可行动判断', color: '#2563EB', bg: '#EFF6FF' },
+              { icon: Lightbulb, value: reportConclusions.length, label: '核心结论', desc: '已沉淀的可行动判断', color: '#2563EB', bg: '#EFF6FF' },
               { icon: Quote, value: totalVoc, label: '有效 VOC', desc: '与结论强绑定的原声', color: '#059669', bg: '#ECFDF5' },
               { icon: Target, value: userCount, label: '涉及用户', desc: '覆盖访谈用户来源', color: '#7C3AED', bg: '#F5F3FF' },
             ].map(({ icon: Icon, value, label, desc, color, bg }) => (
@@ -1439,48 +1529,64 @@ export default function FromPrimaryMergedReport() {
         <div className="mx-auto grid max-w-[1440px] gap-5 xl:grid-cols-[340px_minmax(0,1fr)_360px]">
           <aside className="rounded-[18px] border border-[#E2E8F0] bg-white p-4 shadow-[0_10px_28px_rgba(15,23,42,.05)]">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-[18px] font-black text-[#0F172A]">核心结论</h2>
+              <h2 className="text-[18px] font-black text-[#0F172A]">调研结论</h2>
               <span className="rounded-full bg-[#EFF6FF] px-2.5 py-1 text-[12px] font-black text-[#2563EB]">{filteredConclusions.length} 条</span>
             </div>
             <div className="space-y-3">
-              {filteredConclusions.map((item, index) => {
-                const selected = item.id === selectedConclusion.id;
+              {dimensions.map((dimension) => {
+                const dimensionItems = filteredConclusions.filter((item) => item.dimension === dimension.id);
+                if (dimensionItems.length === 0) return null;
+
                 return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => {
-                      setSelectedId(item.id);
-                      setDrawerOpen(false);
-                    }}
-                    className={cn(
-                      'w-full rounded-[14px] border p-4 text-left transition',
-                      selected
-                        ? 'border-[#2563EB] bg-[#F8FBFF] shadow-[0_12px_28px_rgba(37,99,235,.12)]'
-                        : 'border-[#E2E8F0] bg-white hover:border-[#93C5FD] hover:bg-[#F8FBFF]',
-                    )}
-                  >
-                    <div className="flex items-start gap-3">
-                      <span
-                        className={cn(
-                          'grid size-8 shrink-0 place-items-center rounded-full text-[14px] font-black',
-                          selected ? 'bg-[#2563EB] text-white' : 'bg-[#F1F5F9] text-[#64748B]',
-                        )}
-                      >
-                        {index + 1}
-                      </span>
-                      <div className="min-w-0">
-                        <h3 className="text-[15px] font-black leading-6 text-[#0F172A]">{item.title}</h3>
-                        <p className="mt-1 text-[12px] font-semibold leading-5 text-[#64748B]">{item.summary}</p>
-                        <div className="mt-3 flex flex-wrap gap-1.5">
-                          <span className="rounded-full bg-[#EFF6FF] px-2 py-1 text-[11px] font-black" style={{ color: priorityColors[item.priority] }}>
-                            {item.priority}
-                          </span>
-                          <span className="rounded-full bg-[#F5F3FF] px-2 py-1 text-[11px] font-black text-[#6D28D9]">{item.confidence}</span>
-                        </div>
-                      </div>
+                  <div key={dimension.id} className="space-y-2.5">
+                    <div className="flex items-center justify-between px-1 pt-2">
+                      <p className="text-[12px] font-black" style={{ color: dimension.color }}>
+                        {dimension.label}
+                      </p>
+                      <span className="text-[11px] font-bold text-[#94A3B8]">{dimensionItems.length} 条</span>
                     </div>
-                  </button>
+                    {dimensionItems.map((item) => {
+                      const selected = item.id === selectedConclusion.id;
+                      const index = filteredConclusions.findIndex((entry) => entry.id === item.id);
+                      return (
+                        <button
+                          key={item.id}
+                          type="button"
+                          onClick={() => {
+                            setSelectedId(item.id);
+                            setDrawerOpen(false);
+                          }}
+                          className={cn(
+                            'w-full rounded-[14px] border p-4 text-left transition',
+                            selected
+                              ? 'border-[#2563EB] bg-[#F8FBFF] shadow-[0_12px_28px_rgba(37,99,235,.12)]'
+                              : 'border-[#E2E8F0] bg-white hover:border-[#93C5FD] hover:bg-[#F8FBFF]',
+                          )}
+                        >
+                          <div className="flex items-start gap-3">
+                            <span
+                              className={cn(
+                                'grid size-8 shrink-0 place-items-center rounded-full text-[14px] font-black',
+                                selected ? 'bg-[#2563EB] text-white' : 'bg-[#F1F5F9] text-[#64748B]',
+                              )}
+                            >
+                              {index + 1}
+                            </span>
+                            <div className="min-w-0">
+                              <h3 className="text-[15px] font-black leading-6 text-[#0F172A]">{item.title}</h3>
+                              <p className="mt-1 text-[12px] font-semibold leading-5 text-[#64748B]">{item.summary}</p>
+                              <div className="mt-3 flex flex-wrap gap-1.5">
+                                <span className="rounded-full bg-[#EFF6FF] px-2 py-1 text-[11px] font-black" style={{ color: priorityColors[item.priority] }}>
+                                  {item.priority}
+                                </span>
+                                <span className="rounded-full bg-[#F5F3FF] px-2 py-1 text-[11px] font-black text-[#6D28D9]">{item.confidence}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
                 );
               })}
             </div>
