@@ -1580,7 +1580,7 @@ export default function FromPrimaryMergedReport() {
             if (dimensionItems.length === 0) return null;
             const selectedId = selectedByDimension[dimension.id];
             const selectedConclusion = dimensionItems.find((item) => item.id === selectedId) ?? dimensionItems[0];
-            const selectedIndex = filteredConclusions.findIndex((item) => item.id === selectedConclusion.id);
+            const selectedIndex = dimensionItems.findIndex((item) => item.id === selectedConclusion.id);
             const Icon = dimension.icon;
             const dynamicHeightStyle = detailHeights[dimension.id]
               ? ({ '--detail-column-height': `${detailHeights[dimension.id]}px` } as React.CSSProperties)
@@ -1621,7 +1621,7 @@ export default function FromPrimaryMergedReport() {
                     <div className="min-h-0 space-y-2.5 pr-1 xl:flex-1 xl:overflow-y-auto">
                       {dimensionItems.map((item) => {
                         const selected = item.id === selectedConclusion.id;
-                        const index = filteredConclusions.findIndex((entry) => entry.id === item.id);
+                        const index = dimensionItems.findIndex((entry) => entry.id === item.id);
                         return (
                           <button
                             key={item.id}
