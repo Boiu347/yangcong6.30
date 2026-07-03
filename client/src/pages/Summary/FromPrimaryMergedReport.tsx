@@ -1610,12 +1610,15 @@ export default function FromPrimaryMergedReport() {
                 </div>
 
                 <div className="grid items-start gap-5 xl:grid-cols-[300px_minmax(0,1fr)_340px]">
-                  <aside className="self-start rounded-[18px] border border-[#E6DDD3] bg-[#FBFAF7] p-3">
-                    <div className="mb-3 flex items-center justify-between">
+                  <aside
+                    className="self-start rounded-[18px] border border-[#E6DDD3] bg-[#FBFAF7] p-3 xl:flex xl:h-[var(--detail-column-height)] xl:flex-col xl:overflow-hidden"
+                    style={dynamicHeightStyle}
+                  >
+                    <div className="mb-3 flex shrink-0 items-center justify-between">
                       <p className="text-[14px] font-black text-[#403A34]">结论列表</p>
                       <span className="text-[11px] font-bold text-[#8A8279]">{dimensionItems.length} 条</span>
                     </div>
-                    <div className="space-y-2.5 pr-1 xl:max-h-[var(--detail-column-height)] xl:overflow-y-auto" style={dynamicHeightStyle}>
+                    <div className="min-h-0 space-y-2.5 pr-1 xl:flex-1 xl:overflow-y-auto">
                       {dimensionItems.map((item) => {
                         const selected = item.id === selectedConclusion.id;
                         const index = filteredConclusions.findIndex((entry) => entry.id === item.id);
@@ -1712,15 +1715,18 @@ export default function FromPrimaryMergedReport() {
                     </div>
                   </section>
 
-                  <aside className="self-start rounded-[18px] border border-[#E6DDD3] bg-[#FBFAF7] p-4">
-                    <div className="mb-4 flex items-center justify-between gap-3">
+                  <aside
+                    className="self-start rounded-[18px] border border-[#E6DDD3] bg-[#FBFAF7] p-4 xl:flex xl:h-[var(--detail-column-height)] xl:flex-col xl:overflow-hidden"
+                    style={dynamicHeightStyle}
+                  >
+                    <div className="mb-4 flex shrink-0 items-center justify-between gap-3">
                       <div>
                         <h3 className="text-[18px] font-black text-[#292521]">VOC 证据</h3>
                         <p className="mt-1 text-[12px] font-semibold text-[#7D746A]">仅展示当前结论对应原声</p>
                       </div>
                       <span className="rounded-full bg-[#F1ECE5] px-2.5 py-1 text-[12px] font-black text-[#6E675F]">{selectedConclusion.vocs.length} 条</span>
                     </div>
-                    <div className="space-y-3 pr-1 xl:max-h-[var(--detail-column-height)] xl:overflow-y-auto" style={dynamicHeightStyle}>
+                    <div className="min-h-0 space-y-3 pr-1 xl:flex-1 xl:overflow-y-auto">
                       {selectedConclusion.vocs.slice(0, 3).map((voc) => (
                         <ResearchVocCard key={`${selectedConclusion.id}-${voc.sourceId}-${voc.quote}`} voc={voc} dense />
                       ))}
@@ -1728,7 +1734,7 @@ export default function FromPrimaryMergedReport() {
                     <button
                       type="button"
                       onClick={() => setDrawerConclusionId(selectedConclusion.id)}
-                      className="mt-4 w-full rounded-[12px] border px-4 py-3 text-[13px] font-black hover:bg-white"
+                      className="mt-4 w-full shrink-0 rounded-[12px] border px-4 py-3 text-[13px] font-black hover:bg-white"
                       style={{ borderColor: `${dimension.color}50`, backgroundColor: `${dimension.color}10`, color: dimension.color }}
                     >
                       查看全部 VOC（{selectedConclusion.vocs.length} 条）
