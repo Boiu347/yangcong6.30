@@ -86,9 +86,11 @@ let _projects: Project[] = (() => {
     const restored = buildDefaultProject();
     const hasDefaultFiles = defaultProj.files.some((f) => f.id === 'default_file_1');
     const needsMeta = !defaultProj.category || !defaultProj.methods || !defaultProj.status || !defaultProj.quarter;
-    if (!hasDefaultFiles || needsMeta) {
+    const needsDefaultNameRefresh = defaultProj.name !== restored.name;
+    if (!hasDefaultFiles || needsMeta || needsDefaultNameRefresh) {
       migrated[defaultIdx] = {
         ...defaultProj,
+        name: restored.name,
         files: hasDefaultFiles ? defaultProj.files : restored.files,
         category: defaultProj.category ?? restored.category,
         team: defaultProj.team ?? restored.team,

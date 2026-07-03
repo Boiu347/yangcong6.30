@@ -1462,7 +1462,7 @@ export default function FromPrimaryMergedReport() {
           <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
             <div>
               <p className="text-[12px] font-black tracking-[0.16em] text-[#E95B35]">从小学系列售卖策略调研</p>
-              <h1 className="mt-3 text-[32px] font-black leading-tight md:text-[42px]">小学物理洞察总览</h1>
+              <h1 className="mt-3 text-[32px] font-black leading-tight md:text-[42px]">从小学物理洞察总览</h1>
               <p className="mt-3 max-w-3xl text-[15px] font-semibold leading-7 text-[#706960]">
                 用于沉淀小学物理项目的核心结论、VOC 证据和产品优化建议，帮助业务方先看判断，再追溯到用户原声。
               </p>

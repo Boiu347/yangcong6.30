@@ -1988,7 +1988,7 @@ export function buildDefaultProject(): Project {
   }));
   return {
     id: 'default_project',
-    name: '小学物理新课定位调研',
+    name: '从小学物理新课定位调研',
     createdAt: 1747526400000,
     quarter: '2026Q2',
     files,
