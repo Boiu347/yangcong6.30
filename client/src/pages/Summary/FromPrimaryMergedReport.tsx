@@ -1536,56 +1536,73 @@ export default function FromPrimaryMergedReport() {
               {dimensions.map((dimension) => {
                 const dimensionItems = filteredConclusions.filter((item) => item.dimension === dimension.id);
                 if (dimensionItems.length === 0) return null;
+                const dimensionSelected = dimensionItems.some((item) => item.id === selectedConclusion.id);
 
                 return (
-                  <div key={dimension.id} className="space-y-2.5">
-                    <div className="flex items-center justify-between px-1 pt-2">
-                      <p className="text-[12px] font-black" style={{ color: dimension.color }}>
-                        {dimension.label}
-                      </p>
-                      <span className="text-[11px] font-bold text-[#94A3B8]">{dimensionItems.length} 条</span>
+                  <div
+                    key={dimension.id}
+                    className={cn(
+                      'rounded-[16px] border bg-[#F8FAFC] p-3 transition',
+                      dimensionSelected ? 'border-[#93C5FD] bg-[#F8FBFF] shadow-[0_10px_24px_rgba(37,99,235,.08)]' : 'border-[#E2E8F0]',
+                    )}
+                  >
+                    <div className="mb-3 flex items-center justify-between gap-3">
+                      <div className="flex min-w-0 items-center gap-2">
+                        <span className="h-4 w-1 shrink-0 rounded-full" style={{ backgroundColor: dimension.color }} />
+                        <p className="truncate text-[13px] font-black" style={{ color: dimension.color }}>
+                          {dimension.label}
+                        </p>
+                      </div>
+                      <span
+                        className="shrink-0 rounded-full px-2 py-1 text-[11px] font-black"
+                        style={{ backgroundColor: `${dimension.color}12`, color: dimension.color }}
+                      >
+                        {dimensionItems.length} 条
+                      </span>
                     </div>
-                    {dimensionItems.map((item) => {
-                      const selected = item.id === selectedConclusion.id;
-                      const index = filteredConclusions.findIndex((entry) => entry.id === item.id);
-                      return (
-                        <button
-                          key={item.id}
-                          type="button"
-                          onClick={() => {
-                            setSelectedId(item.id);
-                            setDrawerOpen(false);
-                          }}
-                          className={cn(
-                            'w-full rounded-[14px] border p-4 text-left transition',
-                            selected
-                              ? 'border-[#2563EB] bg-[#F8FBFF] shadow-[0_12px_28px_rgba(37,99,235,.12)]'
-                              : 'border-[#E2E8F0] bg-white hover:border-[#93C5FD] hover:bg-[#F8FBFF]',
-                          )}
-                        >
-                          <div className="flex items-start gap-3">
-                            <span
-                              className={cn(
-                                'grid size-8 shrink-0 place-items-center rounded-full text-[14px] font-black',
-                                selected ? 'bg-[#2563EB] text-white' : 'bg-[#F1F5F9] text-[#64748B]',
-                              )}
-                            >
-                              {index + 1}
-                            </span>
-                            <div className="min-w-0">
-                              <h3 className="text-[15px] font-black leading-6 text-[#0F172A]">{item.title}</h3>
-                              <p className="mt-1 text-[12px] font-semibold leading-5 text-[#64748B]">{item.summary}</p>
-                              <div className="mt-3 flex flex-wrap gap-1.5">
-                                <span className="rounded-full bg-[#EFF6FF] px-2 py-1 text-[11px] font-black" style={{ color: priorityColors[item.priority] }}>
-                                  {item.priority}
-                                </span>
-                                <span className="rounded-full bg-[#F5F3FF] px-2 py-1 text-[11px] font-black text-[#6D28D9]">{item.confidence}</span>
+                    <div className="max-h-[420px] space-y-2.5 overflow-y-auto pr-1">
+                      {dimensionItems.map((item) => {
+                        const selected = item.id === selectedConclusion.id;
+                        const index = filteredConclusions.findIndex((entry) => entry.id === item.id);
+                        return (
+                          <button
+                            key={item.id}
+                            type="button"
+                            onClick={() => {
+                              setSelectedId(item.id);
+                              setDrawerOpen(false);
+                            }}
+                            className={cn(
+                              'w-full rounded-[14px] border p-4 text-left transition',
+                              selected
+                                ? 'border-[#2563EB] bg-white shadow-[0_12px_28px_rgba(37,99,235,.12)]'
+                                : 'border-[#E2E8F0] bg-white hover:border-[#93C5FD] hover:bg-[#F8FBFF]',
+                            )}
+                          >
+                            <div className="flex items-start gap-3">
+                              <span
+                                className={cn(
+                                  'grid size-8 shrink-0 place-items-center rounded-full text-[14px] font-black',
+                                  selected ? 'bg-[#2563EB] text-white' : 'bg-[#F1F5F9] text-[#64748B]',
+                                )}
+                              >
+                                {index + 1}
+                              </span>
+                              <div className="min-w-0">
+                                <h3 className="text-[15px] font-black leading-6 text-[#0F172A]">{item.title}</h3>
+                                <p className="mt-1 text-[12px] font-semibold leading-5 text-[#64748B]">{item.summary}</p>
+                                <div className="mt-3 flex flex-wrap gap-1.5">
+                                  <span className="rounded-full bg-[#EFF6FF] px-2 py-1 text-[11px] font-black" style={{ color: priorityColors[item.priority] }}>
+                                    {item.priority}
+                                  </span>
+                                  <span className="rounded-full bg-[#F5F3FF] px-2 py-1 text-[11px] font-black text-[#6D28D9]">{item.confidence}</span>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </button>
-                      );
-                    })}
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
                 );
               })}
