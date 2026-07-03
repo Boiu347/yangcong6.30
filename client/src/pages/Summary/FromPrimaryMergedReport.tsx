@@ -58,12 +58,12 @@ interface InsightCard {
 }
 
 const dimensions: Array<{ id: DimensionId; label: string; icon: typeof Lightbulb; color: string }> = [
-  { id: 'core', label: '核心洞察', icon: Lightbulb, color: '#0EA5E9' },
-  { id: 'purchase', label: '购买决策', icon: Target, color: '#14B8A6' },
-  { id: 'experience', label: '买后体验', icon: BookOpenCheck, color: '#22C55E' },
-  { id: 'barrier', label: '购买卡点', icon: SearchCheck, color: '#F59E0B' },
-  { id: 'brand', label: '品牌差异', icon: Sparkles, color: '#8B5CF6' },
-  { id: 'next', label: '下一步建议', icon: BarChart3, color: '#F97316' },
+  { id: 'core', label: '核心洞察', icon: Lightbulb, color: '#E95B35' },
+  { id: 'purchase', label: '购买决策', icon: Target, color: '#C58A3D' },
+  { id: 'experience', label: '买后体验', icon: BookOpenCheck, color: '#2F9F8F' },
+  { id: 'barrier', label: '购买卡点', icon: SearchCheck, color: '#D96D62' },
+  { id: 'brand', label: '品牌差异', icon: Sparkles, color: '#5D78BD' },
+  { id: 'next', label: '下一步建议', icon: BarChart3, color: '#B35A3F' },
 ];
 
 const sources: Record<string, SourceInfo> = {
@@ -1348,20 +1348,20 @@ function ResearchVocCard({ voc, dense = false }: { voc: ResearchVoc; dense?: boo
   const clipUrls = clipUrlsOf({ text: voc.quote, sourceId: voc.sourceId, audioUrl: voc.audioUrl, sourceUrl: voc.sourceUrl });
 
   return (
-    <article className={cn('rounded-[14px] border border-[#E2E8F0] bg-white p-4 shadow-[0_8px_22px_rgba(15,23,42,.04)]', dense && 'p-3.5')}>
+    <article className={cn('rounded-[14px] border border-[#E6DDD3] bg-white p-4 shadow-[0_8px_22px_rgba(55,44,34,.04)]', dense && 'p-3.5')}>
       <div className="flex items-start gap-2.5">
-        <Quote size={16} className="mt-1 shrink-0 text-[#2563EB]" />
-        <p className={cn('font-semibold leading-7 text-[#1F2937]', dense ? 'text-[13px]' : 'text-[14px]')}>“{voc.quote}”</p>
+        <Quote size={16} className="mt-1 shrink-0 text-[#E95B35]" />
+        <p className={cn('font-semibold leading-7 text-[#2E2924]', dense ? 'text-[13px]' : 'text-[14px]')}>“{voc.quote}”</p>
       </div>
-      <div className="mt-3 border-t border-[#EDF2F7] pt-3">
-        <p className="text-[12px] font-black text-[#334155]">{voc.identity}</p>
-        <p className="mt-1 text-[11px] font-semibold text-[#64748B]">
+      <div className="mt-3 border-t border-[#EEE5DC] pt-3">
+        <p className="text-[12px] font-black text-[#403A34]">{voc.identity}</p>
+        <p className="mt-1 text-[11px] font-semibold text-[#7D746A]">
           {voc.sourceLabel}｜{source.materials}
         </p>
       </div>
       <div className="mt-3 flex flex-wrap gap-1.5">
         {voc.tags.map((tag) => (
-          <span key={`${voc.sourceId}-${tag}`} className="rounded-full bg-[#EFF6FF] px-2 py-1 text-[11px] font-bold text-[#2563EB]">
+          <span key={`${voc.sourceId}-${tag}`} className="rounded-full bg-[#FFF3EE] px-2 py-1 text-[11px] font-bold text-[#E95B35]">
             {tag}
           </span>
         ))}
@@ -1376,7 +1376,7 @@ function ResearchVocCard({ voc, dense = false }: { voc: ResearchVoc; dense?: boo
               href={sourceUrlOf(voc)}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1 rounded-full border border-[#E2E8F0] bg-[#F8FAFC] px-2.5 py-1 text-[11px] font-bold text-[#64748B] hover:border-[#93C5FD] hover:text-[#2563EB]"
+              className="inline-flex items-center gap-1 rounded-full border border-[#D9D1C7] bg-[#FAF8F4] px-2.5 py-1 text-[11px] font-bold text-[#6E675F] hover:border-[#E95B35] hover:text-[#E95B35]"
             >
               来源
               <ExternalLink size={11} />
@@ -1387,7 +1387,7 @@ function ResearchVocCard({ voc, dense = false }: { voc: ResearchVoc; dense?: boo
             href={sourceUrlOf(voc)}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1 rounded-full border border-[#E2E8F0] bg-[#F8FAFC] px-2.5 py-1 text-[11px] font-bold text-[#64748B] hover:border-[#93C5FD] hover:text-[#2563EB]"
+            className="inline-flex items-center gap-1 rounded-full border border-[#D9D1C7] bg-[#FAF8F4] px-2.5 py-1 text-[11px] font-bold text-[#6E675F] hover:border-[#E95B35] hover:text-[#E95B35]"
           >
             查看来源记录
             <ExternalLink size={11} />
@@ -1429,14 +1429,14 @@ export default function FromPrimaryMergedReport() {
   const userCount = new Set(reportConclusions.flatMap((item) => item.vocs.map((voc) => voc.sourceId))).size;
 
   return (
-    <main className="min-h-full bg-[#F7FAF5] text-[#102033]">
+    <main className="min-h-full bg-[#F8F6F1] text-[#292521]">
       <header className="px-5 py-7 md:px-8">
         <div className="mx-auto max-w-[1440px]">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
             <div>
-              <p className="text-[12px] font-black tracking-[0.16em] text-[#0EA5E9]">从小学系列售卖策略调研</p>
+              <p className="text-[12px] font-black tracking-[0.16em] text-[#E95B35]">从小学系列售卖策略调研</p>
               <h1 className="mt-3 text-[32px] font-black leading-tight md:text-[42px]">小学物理洞察总览</h1>
-              <p className="mt-3 max-w-3xl text-[15px] font-semibold leading-7 text-[#5F6F7A]">
+              <p className="mt-3 max-w-3xl text-[15px] font-semibold leading-7 text-[#706960]">
                 用于沉淀小学物理项目的核心结论、VOC 证据和产品优化建议，帮助业务方先看判断，再追溯到用户原声。
               </p>
             </div>
@@ -1444,7 +1444,7 @@ export default function FromPrimaryMergedReport() {
               <button
                 type="button"
                 onClick={() => setFilterOpen((open) => !open)}
-                className="inline-flex items-center gap-2 rounded-[10px] border border-[#CFE7E2] bg-white px-4 py-2 text-[13px] font-black text-[#34515C] shadow-sm hover:border-[#0EA5E9] hover:text-[#0EA5E9]"
+                className="inline-flex items-center gap-2 rounded-[10px] border border-[#D8D0C6] bg-white px-4 py-2 text-[13px] font-black text-[#5F5851] shadow-sm hover:border-[#E95B35] hover:text-[#E95B35]"
               >
                 <SearchCheck size={15} />
                 筛选
@@ -1452,7 +1452,7 @@ export default function FromPrimaryMergedReport() {
               <button
                 type="button"
                 onClick={() => window.print()}
-                className="inline-flex items-center gap-2 rounded-[10px] bg-[#0EA5E9] px-4 py-2 text-[13px] font-black text-white shadow-sm hover:bg-[#0284C7]"
+                className="inline-flex items-center gap-2 rounded-[10px] bg-[#E95B35] px-4 py-2 text-[13px] font-black text-white shadow-sm hover:bg-[#D94C28]"
               >
                 <FileText size={15} />
                 导出报告
@@ -1471,7 +1471,7 @@ export default function FromPrimaryMergedReport() {
                             onClick={() => setPriorityFilter(item)}
                             className={cn(
                               'rounded-full border px-3 py-1.5 text-[12px] font-bold',
-                              priorityFilter === item ? 'border-[#2563EB] bg-[#EFF6FF] text-[#2563EB]' : 'border-[#E2E8F0] text-[#64748B]',
+                              priorityFilter === item ? 'border-[#E95B35] bg-[#FFF3EE] text-[#E95B35]' : 'border-[#E6DDD3] text-[#7D746A]',
                             )}
                           >
                             {item}
@@ -1489,7 +1489,7 @@ export default function FromPrimaryMergedReport() {
                             onClick={() => setConfidenceFilter(item)}
                             className={cn(
                               'rounded-full border px-3 py-1.5 text-[12px] font-bold',
-                              confidenceFilter === item ? 'border-[#7C3AED] bg-[#F5F3FF] text-[#6D28D9]' : 'border-[#E2E8F0] text-[#64748B]',
+                              confidenceFilter === item ? 'border-[#2F9F8F] bg-[#EFFFFB] text-[#2F9F8F]' : 'border-[#E6DDD3] text-[#7D746A]',
                             )}
                           >
                             {item}
@@ -1505,21 +1505,21 @@ export default function FromPrimaryMergedReport() {
 
           <div className="mt-7 grid gap-4 md:grid-cols-3">
             {[
-              { icon: Lightbulb, value: reportConclusions.length, label: '核心结论', desc: '已沉淀的可行动判断', color: '#0EA5E9', bg: '#E0F2FE' },
-              { icon: Quote, value: totalVoc, label: '有效 VOC', desc: '与结论强绑定的原声', color: '#14B8A6', bg: '#CCFBF1' },
-              { icon: Target, value: userCount, label: '涉及用户', desc: '覆盖访谈用户来源', color: '#22C55E', bg: '#DCFCE7' },
+              { icon: Lightbulb, value: reportConclusions.length, label: '核心结论', desc: '已沉淀的可行动判断', color: '#E95B35', bg: '#FFF3EE' },
+              { icon: Quote, value: totalVoc, label: '有效 VOC', desc: '与结论强绑定的原声', color: '#2F9F8F', bg: '#EFFFFB' },
+              { icon: Target, value: userCount, label: '涉及用户', desc: '覆盖访谈用户来源', color: '#C58A3D', bg: '#FFF7E8' },
             ].map(({ icon: Icon, value, label, desc, color, bg }) => (
-              <div key={label} className="rounded-[18px] border border-[#DDEADF] bg-white p-5 shadow-[0_10px_28px_rgba(42,73,63,.05)]">
+              <div key={label} className="rounded-[18px] border border-[#E6DDD3] bg-white p-5 shadow-[0_10px_28px_rgba(55,44,34,.05)]">
                 <div className="flex items-center gap-4">
                   <div className="grid size-14 place-items-center rounded-full" style={{ backgroundColor: bg, color }}>
                     <Icon size={24} />
                   </div>
                   <div>
-                    <p className="text-[14px] font-black text-[#2E4750]">{label}</p>
+                    <p className="text-[14px] font-black text-[#403A34]">{label}</p>
                     <p className="text-[34px] font-black leading-none" style={{ color }}>
                       {value}
                     </p>
-                    <p className="mt-1 text-[12px] font-semibold text-[#6B7D73]">{desc}</p>
+                    <p className="mt-1 text-[12px] font-semibold text-[#8A8279]">{desc}</p>
                   </div>
                 </div>
               </div>
@@ -1541,16 +1541,16 @@ export default function FromPrimaryMergedReport() {
             return (
               <article
                 key={dimension.id}
-                className="rounded-[24px] border border-[#DDEADF] bg-white p-5 shadow-[0_18px_42px_rgba(42,73,63,.08)]"
+                className="rounded-[24px] border border-[#E0D7CC] bg-white p-5 shadow-[0_18px_42px_rgba(55,44,34,.07)]"
               >
-                <div className="mb-5 flex flex-col gap-3 border-b border-[#E6EFE9] pb-4 md:flex-row md:items-center md:justify-between">
+                <div className="mb-5 flex flex-col gap-3 border-b border-[#E8DED3] pb-4 md:flex-row md:items-center md:justify-between">
                   <div className="flex items-center gap-3">
                     <div className="grid size-11 place-items-center rounded-full" style={{ backgroundColor: `${dimension.color}18`, color: dimension.color }}>
                       <Icon size={21} />
                     </div>
                     <div>
-                      <h2 className="text-[22px] font-black text-[#102033]">{dimension.label}</h2>
-                      <p className="mt-1 text-[12px] font-semibold text-[#6B7D73]">本维度包含 {dimensionItems.length} 条结论，点击左侧结论查看对应分析和 VOC。</p>
+                      <h2 className="text-[22px] font-black text-[#292521]">{dimension.label}</h2>
+                      <p className="mt-1 text-[12px] font-semibold text-[#7D746A]">本维度包含 {dimensionItems.length} 条结论，点击左侧结论查看对应分析和 VOC。</p>
                     </div>
                   </div>
                   <span
@@ -1561,13 +1561,13 @@ export default function FromPrimaryMergedReport() {
                   </span>
                 </div>
 
-                <div className="grid gap-5 xl:grid-cols-[300px_minmax(0,1fr)_340px]">
-                  <aside className="rounded-[18px] border border-[#E3ECE6] bg-[#F8FBF7] p-3">
+                <div className="grid items-start gap-5 xl:grid-cols-[300px_minmax(0,1fr)_340px]">
+                  <aside className="self-start rounded-[18px] border border-[#E6DDD3] bg-[#FBFAF7] p-3">
                     <div className="mb-3 flex items-center justify-between">
-                      <p className="text-[14px] font-black text-[#2E4750]">结论列表</p>
-                      <span className="text-[11px] font-bold text-[#789084]">{dimensionItems.length} 条</span>
+                      <p className="text-[14px] font-black text-[#403A34]">结论列表</p>
+                      <span className="text-[11px] font-bold text-[#8A8279]">{dimensionItems.length} 条</span>
                     </div>
-                    <div className="max-h-[460px] space-y-2.5 overflow-y-auto pr-1">
+                    <div className="max-h-[360px] space-y-2.5 overflow-y-auto pr-1">
                       {dimensionItems.map((item) => {
                         const selected = item.id === selectedConclusion.id;
                         const index = filteredConclusions.findIndex((entry) => entry.id === item.id);
@@ -1582,8 +1582,8 @@ export default function FromPrimaryMergedReport() {
                             className={cn(
                               'w-full rounded-[14px] border p-4 text-left transition',
                               selected
-                                ? 'border-transparent bg-white shadow-[0_12px_28px_rgba(42,73,63,.14)] ring-2'
-                                : 'border-[#E3ECE6] bg-white hover:border-[#B7E4DA] hover:bg-[#F5FFFC]',
+                                ? 'border-transparent bg-white shadow-[0_12px_28px_rgba(55,44,34,.12)] ring-2'
+                                : 'border-[#E6DDD3] bg-white hover:border-[#E95B35] hover:bg-[#FFF9F5]',
                             )}
                             style={selected ? { ['--tw-ring-color' as string]: dimension.color } : undefined}
                           >
@@ -1591,20 +1591,20 @@ export default function FromPrimaryMergedReport() {
                               <span
                                 className={cn(
                                   'grid size-8 shrink-0 place-items-center rounded-full text-[14px] font-black',
-                                  selected ? 'text-white' : 'bg-[#EDF5F1] text-[#647B72]',
+                                  selected ? 'text-white' : 'bg-[#F1ECE5] text-[#7D746A]',
                                 )}
                                 style={selected ? { backgroundColor: dimension.color } : undefined}
                               >
                                 {index + 1}
                               </span>
                               <div className="min-w-0">
-                                <h3 className="text-[15px] font-black leading-6 text-[#102033]">{item.title}</h3>
-                                <p className="mt-1 text-[12px] font-semibold leading-5 text-[#5F6F7A]">{item.summary}</p>
+                                <h3 className="text-[15px] font-black leading-6 text-[#292521]">{item.title}</h3>
+                                <p className="mt-1 text-[12px] font-semibold leading-5 text-[#6F675F]">{item.summary}</p>
                                 <div className="mt-3 flex flex-wrap gap-1.5">
-                                  <span className="rounded-full bg-[#E0F2FE] px-2 py-1 text-[11px] font-black" style={{ color: priorityColors[item.priority] }}>
+                                  <span className="rounded-full bg-[#FFF3EE] px-2 py-1 text-[11px] font-black" style={{ color: priorityColors[item.priority] }}>
                                     {item.priority}
                                   </span>
-                                  <span className="rounded-full bg-[#ECFDF5] px-2 py-1 text-[11px] font-black text-[#0F9F82]">{item.confidence}</span>
+                                  <span className="rounded-full bg-[#EFFFFB] px-2 py-1 text-[11px] font-black text-[#2F9F8F]">{item.confidence}</span>
                                 </div>
                               </div>
                             </div>
@@ -1614,19 +1614,19 @@ export default function FromPrimaryMergedReport() {
                     </div>
                   </aside>
 
-                  <section className="rounded-[18px] border border-[#E3ECE6] bg-white p-5">
+                  <section className="self-start rounded-[18px] border border-[#E6DDD3] bg-white p-5">
                     <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[12px] font-black" style={{ backgroundColor: `${dimension.color}12`, color: dimension.color }}>
                       当前结论
                       <span className="rounded-full bg-white px-2 py-0.5">{selectedIndex + 1}</span>
                     </div>
-                    <h3 className="mt-4 text-[28px] font-black leading-tight text-[#102033]">{selectedConclusion.title}</h3>
+                    <h3 className="mt-4 text-[28px] font-black leading-tight text-[#292521]">{selectedConclusion.title}</h3>
 
-                    <div className="mt-5 rounded-[16px] border border-[#DDEFE8] bg-[#F7FCFA] p-5">
+                    <div className="mt-5 rounded-[16px] border border-[#EEE0D6] bg-[#FFF9F5] p-5">
                       <div className="flex items-center gap-2 text-[14px] font-black" style={{ color: dimension.color }}>
                         <BookOpenCheck size={17} />
                         关键洞察
                       </div>
-                      <p className="mt-3 text-[15px] font-semibold leading-8 text-[#334D57]">{selectedConclusion.insight}</p>
+                      <p className="mt-3 text-[15px] font-semibold leading-8 text-[#403A34]">{selectedConclusion.insight}</p>
                     </div>
 
                     <div className="mt-4 rounded-[16px] border bg-white p-5" style={{ borderColor: `${dimension.color}40`, boxShadow: `inset 4px 0 0 ${dimension.color}` }}>
@@ -1634,38 +1634,38 @@ export default function FromPrimaryMergedReport() {
                         <Sparkles size={17} />
                         核心结论
                       </div>
-                      <p className="mt-3 text-[18px] font-black leading-8 text-[#102033]">{selectedConclusion.conclusion}</p>
+                      <p className="mt-3 text-[18px] font-black leading-8 text-[#292521]">{selectedConclusion.conclusion}</p>
                     </div>
 
-                    <div className="mt-4 rounded-[16px] border border-[#CFF3DF] bg-[#F4FFF8] p-5">
-                      <div className="flex items-center gap-2 text-[14px] font-black text-[#16A34A]">
+                    <div className="mt-4 rounded-[16px] border border-[#D8EFE8] bg-[#F5FFFC] p-5">
+                      <div className="flex items-center gap-2 text-[14px] font-black text-[#2F9F8F]">
                         <Target size={17} />
                         建议行动
                       </div>
                       <div className="mt-3 space-y-2.5">
                         {selectedConclusion.actions.map((action, index) => (
                           <div key={action} className="flex items-start gap-3 rounded-[12px] bg-white px-3 py-3">
-                            <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-[#22C55E] text-[11px] font-black text-white">
+                            <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-[#2F9F8F] text-[11px] font-black text-white">
                               {index + 1}
                             </span>
-                            <p className="text-[14px] font-bold leading-6 text-[#334D57]">{action}</p>
+                            <p className="text-[14px] font-bold leading-6 text-[#403A34]">{action}</p>
                           </div>
                         ))}
                       </div>
                     </div>
 
-                    <div className="mt-4 rounded-[14px] border border-[#E3ECE6] bg-[#FBFCF8] px-4 py-3 text-[12px] font-semibold leading-6 text-[#6B7D73]">
+                    <div className="mt-4 rounded-[14px] border border-[#E6DDD3] bg-[#FBFAF7] px-4 py-3 text-[12px] font-semibold leading-6 text-[#7D746A]">
                       {selectedConclusion.evidenceNote}
                     </div>
                   </section>
 
-                  <aside className="rounded-[18px] border border-[#E3ECE6] bg-[#FBFEFC] p-4">
+                  <aside className="self-start rounded-[18px] border border-[#E6DDD3] bg-[#FBFAF7] p-4">
                     <div className="mb-4 flex items-center justify-between gap-3">
                       <div>
-                        <h3 className="text-[18px] font-black text-[#102033]">VOC 证据</h3>
-                        <p className="mt-1 text-[12px] font-semibold text-[#6B7D73]">仅展示当前结论对应原声</p>
+                        <h3 className="text-[18px] font-black text-[#292521]">VOC 证据</h3>
+                        <p className="mt-1 text-[12px] font-semibold text-[#7D746A]">仅展示当前结论对应原声</p>
                       </div>
-                      <span className="rounded-full bg-[#EDF5F1] px-2.5 py-1 text-[12px] font-black text-[#5B756A]">{selectedConclusion.vocs.length} 条</span>
+                      <span className="rounded-full bg-[#F1ECE5] px-2.5 py-1 text-[12px] font-black text-[#6E675F]">{selectedConclusion.vocs.length} 条</span>
                     </div>
                     <div className="max-h-[640px] space-y-3 overflow-y-auto pr-1">
                       {selectedConclusion.vocs.slice(0, 3).map((voc) => (
@@ -1689,24 +1689,24 @@ export default function FromPrimaryMergedReport() {
       </section>
 
       {drawerConclusion && (
-        <div className="fixed inset-0 z-50 bg-[#102033]/35" role="presentation" onClick={() => setDrawerConclusionId(null)}>
+        <div className="fixed inset-0 z-50 bg-[#292521]/35" role="presentation" onClick={() => setDrawerConclusionId(null)}>
           <aside
-            className="ml-auto h-full w-full max-w-[520px] overflow-y-auto bg-[#F7FAF5] p-5 shadow-[-18px_0_42px_rgba(16,32,51,.22)]"
+            className="ml-auto h-full w-full max-w-[520px] overflow-y-auto bg-[#F8F6F1] p-5 shadow-[-18px_0_42px_rgba(55,44,34,.22)]"
             role="dialog"
             aria-modal="true"
             aria-label={`${drawerConclusion.title}全部 VOC`}
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="sticky top-0 z-10 -mx-5 -mt-5 border-b border-[#DDEADF] bg-[#F7FAF5]/95 px-5 py-4 backdrop-blur">
+            <div className="sticky top-0 z-10 -mx-5 -mt-5 border-b border-[#E6DDD3] bg-[#F8F6F1]/95 px-5 py-4 backdrop-blur">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-[12px] font-black tracking-[0.12em] text-[#0EA5E9]">全部 VOC</p>
-                  <h2 className="mt-1 text-[22px] font-black text-[#102033]">{drawerConclusion.title}</h2>
+                  <p className="text-[12px] font-black tracking-[0.12em] text-[#E95B35]">全部 VOC</p>
+                  <h2 className="mt-1 text-[22px] font-black text-[#292521]">{drawerConclusion.title}</h2>
                 </div>
                 <button
                   type="button"
                   onClick={() => setDrawerConclusionId(null)}
-                  className="grid size-9 shrink-0 place-items-center rounded-full border border-[#CFE7E2] bg-white text-[20px] font-light text-[#6B7D73] hover:border-[#0EA5E9] hover:text-[#0EA5E9]"
+                  className="grid size-9 shrink-0 place-items-center rounded-full border border-[#D8D0C6] bg-white text-[20px] font-light text-[#7D746A] hover:border-[#E95B35] hover:text-[#E95B35]"
                   aria-label="关闭全部 VOC"
                 >
                   ×
@@ -1722,7 +1722,7 @@ export default function FromPrimaryMergedReport() {
         </div>
       )}
 
-      <footer className="px-5 pb-8 text-center text-[12px] font-semibold text-[#8BA198] md:px-8">
+      <footer className="px-5 pb-8 text-center text-[12px] font-semibold text-[#A19990] md:px-8">
         用户原声来源限定为访谈目录中的用户1-用户8；每个维度卡片内的结论、分析和 VOC 独立联动。
       </footer>
     </main>
