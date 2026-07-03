@@ -1037,7 +1037,7 @@ function SourcePanel() {
         <div>
           <p className="text-[12px] font-black tracking-[0.14em] text-[#E95B35]">资料来源</p>
           <p className="mt-2 max-w-2xl text-[13px] leading-6 text-[#706960]">
-            页面结论来自课程售卖情况、研究拆解、项目总结、定性洞察和定量报告；每条用户原声都落到“用户几访谈”，有切片的可在卡片内直接播放，没有切片的跳转到原始文字记录或录音。
+            页面结论来自课程售卖情况、研究拆解、项目总结、定性洞察和定量报告；每条用户原声都落到“用户几访谈”，可跳转到对应访谈纪要、文字记录或录音来源继续追溯。
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -1063,79 +1063,538 @@ function SourcePanel() {
   );
 }
 
-export default function FromPrimaryMergedReport() {
+type ConclusionPriority = '高优先级' | '中优先级';
+type ConclusionConfidence = '高置信' | '中高置信';
+
+interface ResearchVoc {
+  quote: string;
+  sourceId: string;
+  identity: string;
+  tags: string[];
+  sourceLabel: string;
+}
+
+interface ResearchConclusion {
+  id: string;
+  title: string;
+  summary: string;
+  priority: ConclusionPriority;
+  confidence: ConclusionConfidence;
+  insight: string;
+  conclusion: string;
+  actions: string[];
+  evidenceNote: string;
+  vocs: ResearchVoc[];
+}
+
+const researchConclusions: ResearchConclusion[] = [
+  {
+    id: 'positioning',
+    title: '学科启蒙才是核心定位',
+    summary: '低年级家长不是要提前学完整物理，而是先建立概念、降低后续学习门槛。',
+    priority: '高优先级',
+    confidence: '高置信',
+    insight:
+      '从一手访谈看，低年级家长普遍不是在追求提前学完整体系，而是在寻找“先建立概念、降低后续学习门槛”的启蒙内容。部分家长明确提到低年级阶段只需要“有个概念”，也有家长把小学物理视为后续初高中理科学习的铺垫；在科学课主科化地区，家长还会把它和校内科学理解、避免死记硬背联系起来。',
+    conclusion: '课程包装弱化“提前学物理”，强化“科学启蒙、概念建立、未来不陌生”。',
+    actions: [
+      '首屏卖点从“提前学物理”改成“把生活现象讲成孩子听得懂的科学概念”。',
+      '按概念启蒙型、长期铺垫型、校内同步型拆分话术，不用一套话术覆盖所有家庭。',
+      '把“有概念、能解释、初中不陌生”做成可被家长快速理解的购买理由。',
+    ],
+    evidenceNote: '来源说明：访谈纪要/文字记录，涉及用户1、用户2、用户3、用户6。',
+    vocs: [
+      {
+        sourceId: 'u1',
+        identity: '家长｜二年级｜体验竞品科学启蒙',
+        tags: ['概念启蒙', '生活现象', '低年级'],
+        sourceLabel: '用户1访谈纪要',
+        quote:
+          '我就觉得他可以大概了解一下，有个概念就行。不是为了提前学什么，更多是让他了解一下自然现象，他小孩不是有的时候可能会问吗？然后这一类的可能会有一些比较直观的内容，包括一些，这个他可能会就是更准确一些，对于我们家长跟他解释的话可能有的时候不一定那么的正规。',
+      },
+      {
+        sourceId: 'u2',
+        identity: '家长｜三年级｜学而思科学 & NB实验室',
+        tags: ['学科启蒙', '长期铺垫', '初高中理科'],
+        sourceLabel: '用户2访谈纪要',
+        quote: '学科启蒙：为了以后中高考、初高中理科学习。兴趣启蒙：要求更低，更像让孩子试水，培养兴趣。',
+      },
+      {
+        sourceId: 'u3',
+        identity: '家长｜二年级｜已购从小学物理',
+        tags: ['物理启蒙', '生活素材', '初中衔接'],
+        sourceLabel: '用户3访谈纪要',
+        quote:
+          '因为他说素材可以从生活中随手，可以随时可以找到。然后就可以提前对那个物理启蒙。因为以后到初中也会学到物理，然后可以提前让他认识知道一些就是跟物理相关的知识。',
+      },
+      {
+        sourceId: 'u6',
+        identity: '家长｜四年级｜已购从小学物理',
+        tags: ['校内科学', '科学主科化', '避免死记硬背'],
+        sourceLabel: '用户6文字记录',
+        quote: '郑州把科学课纳入了主科，期中期末都在考。到初中之后它就变成了物理化学生物，我不希望他只是去死记硬背。',
+      },
+    ],
+  },
+  {
+    id: 'visible-effect',
+    title: '启蒙效果需要被家长看见',
+    summary: '家长担心不知道孩子学到了什么，效果外化比单纯爱看更能支撑转化。',
+    priority: '高优先级',
+    confidence: '中高置信',
+    insight:
+      '从访谈原声看，孩子喜欢看并不自动等于家长认可“学到了”。有的家长会通过孩子能不能转述、能不能反问家长来判断效果，也有家长明确说自己不知道孩子学了多少、记住了什么。启蒙类产品如果不能把学习结果外化，就容易停留在“买了但不确定值不值”。',
+    conclusion: '把“孩子爱看”继续推进到“家长看得见孩子学会了什么”。',
+    actions: [
+      '每个主题结束后给家长一张轻量学习报告，展示已看内容、掌握概念和生活迁移任务。',
+      '设计“孩子讲给家长听”的复述任务，让启蒙效果变成可听见的家庭反馈。',
+      '在商详页展示“学完能解释什么现象”，不要只展示课时和目录。',
+    ],
+    evidenceNote: '来源说明：访谈纪要/文字记录/本地录音切片，涉及用户4、用户5、用户8。',
+    vocs: [
+      {
+        sourceId: 'u4',
+        identity: '家长｜二年级｜已购从小学物理',
+        tags: ['效果外化', '孩子转述', '主动学习'],
+        sourceLabel: '用户4访谈纪要',
+        quote: '他看了之后会考我，会把课上看的从小学物理视频转化成自己的语言。',
+      },
+      {
+        sourceId: 'u5',
+        identity: '家长｜三年级｜体验妙懂/物理十分通',
+        tags: ['学习反馈', '家长不确定', '效果判断'],
+        sourceLabel: '用户5访谈逐字稿',
+        quote:
+          '没看出，因为我有没，没有，我不知道怎么去看这个东西。就说孩子学了多少东西，因为我平时又没看的，没去，一直关注他看的是什么。然后我想知道他到底学了什么东西？学到了什么东西？学了多少？能记住什么？',
+      },
+      {
+        sourceId: 'u8',
+        identity: '家长｜一年级｜已购从小学物理',
+        tags: ['学习报告', '掌握程度', '家长反馈'],
+        sourceLabel: '用户8访谈纪要',
+        quote: '没有学习报告，不知道孩子最终掌握什么程度。',
+      },
+    ],
+  },
+  {
+    id: 'child-language',
+    title: '孩子视角讲解决定能不能听懂',
+    summary: '低龄孩子卡在抽象概念、专业词和读题上，讲法需要更口语化、生活化。',
+    priority: '高优先级',
+    confidence: '高置信',
+    insight:
+      '从一手访谈看，家长反复提到“孩子能不能理解”而不是“内容够不够深”。抽象概念、晦涩词语、题目文字都会让低年级孩子掉线；相反，孩子能接受的例子、口语化解释和讲读辅助，会直接影响课程是否能被持续使用。',
+    conclusion: '从小学物理要把专业概念翻译成孩子能听懂、能联想到生活的表达。',
+    actions: [
+      '每个专业概念先给生活化现象，再给概念词，最后回到一道小问题验证理解。',
+      '补充题目朗读和关键字解释，降低低年级孩子因为识字量导致的答题挫败。',
+      '讲解文案按“孩子听得懂”重写，不只按学科知识点完整度组织。',
+    ],
+    evidenceNote: '来源说明：访谈纪要/文字记录，涉及用户4、用户7、用户8。',
+    vocs: [
+      {
+        sourceId: 'u4',
+        identity: '家长｜二年级｜已购从小学物理',
+        tags: ['口语化讲解', '概念理解', '低龄孩子'],
+        sourceLabel: '用户4访谈纪要',
+        quote:
+          '就是他在视频里面介绍，很多时候有一些对孩子来讲，因为我们家小低阶段一些晦涩难懂的一些概念词，孩子还是不能很好的理解，如果说这个概念同步出来的话，再根据这个概念进行口语化，或者是孩子能接受的方式进行一些举例去介绍这个专业性的概念的话，孩子能理解更好一些。',
+      },
+      {
+        sourceId: 'u4',
+        identity: '家长｜二年级｜已购从小学物理',
+        tags: ['读题辅助', '答题体验', '低年级'],
+        sourceLabel: '用户4访谈纪要',
+        quote: '答题正确率高，但字不认识，如果读出来更好。',
+      },
+      {
+        sourceId: 'u7',
+        identity: '家长｜二年级｜已购从小学物理',
+        tags: ['易懂', '持续观看', '动画表达'],
+        sourceLabel: '用户7访谈纪要',
+        quote: '一个知识点接一个知识点，让孩子像看动画片一样一个接一个看下去。',
+      },
+      {
+        sourceId: 'u8',
+        identity: '家长｜一年级｜已购从小学物理',
+        tags: ['未来不吃力', '理解门槛', '长期价值'],
+        sourceLabel: '用户8访谈纪要',
+        quote: '最少他上初中、高中学习物理不会那么吃力吧。',
+      },
+    ],
+  },
+  {
+    id: 'experiment',
+    title: '实验兴趣高，但要从好玩走向理解',
+    summary: '实验男和动手实验能吸引孩子，但需要步骤、观察问题和结果解释承接理解。',
+    priority: '中优先级',
+    confidence: '中高置信',
+    insight:
+      '访谈里实验相关内容有明显吸引力，孩子会把实验视频当成趣味内容主动看；但家长并不只满足于“好玩”，他们还会关注实验能不能解释原理、能不能在家安全做、能不能和知识点连起来。',
+    conclusion: '实验内容要承担“吸引进入”和“解释概念”两件事，不能只做热闹的视频段落。',
+    actions: [
+      '实验视频加固定结构：准备什么、观察什么、为什么会这样、对应哪个概念。',
+      '把不适合在家做的实验标注为“观看型”，把安全可做的实验做成家庭任务。',
+      '实验后增加一句“生活中哪里也有这个现象”，把兴趣转成迁移理解。',
+    ],
+    evidenceNote: '来源说明：访谈纪要/文字记录，涉及用户4、用户5、用户7。',
+    vocs: [
+      {
+        sourceId: 'u4',
+        identity: '家长｜二年级｜已购从小学物理',
+        tags: ['实验男', '孩子主动看', '趣味学习'],
+        sourceLabel: '用户4访谈纪要',
+        quote: '洋葱学园的从小学物理，如果说我不是不管的话，他每天他都会刷。他好像特别喜欢看那实验男做实验。他当成趣味里边学知识了。',
+      },
+      {
+        sourceId: 'u5',
+        identity: '家长｜三年级｜体验妙懂/物理十分通',
+        tags: ['实验解释', '原理理解', '视频不足'],
+        sourceLabel: '用户5访谈逐字稿',
+        quote: '只看视频容易忘，如果有实验会更清楚原理。',
+      },
+      {
+        sourceId: 'u7',
+        identity: '家长｜二年级｜已购从小学物理',
+        tags: ['动手实验', '能力培养', '科学启蒙'],
+        sourceLabel: '用户7访谈纪要',
+        quote: '能够动手做实验的话，对孩子的动手能力和理解能力都会有帮助。',
+      },
+    ],
+  },
+];
+
+const priorityColors: Record<ConclusionPriority, string> = {
+  高优先级: '#2563EB',
+  中优先级: '#D97706',
+};
+
+function sourceUrlOf(voc: ResearchVoc) {
+  return sourceOf(voc.sourceId).url;
+}
+
+function ResearchVocCard({ voc, dense = false }: { voc: ResearchVoc; dense?: boolean }) {
+  const source = sourceOf(voc.sourceId);
+
   return (
-    <main className="min-h-full bg-[#F6F3ED] text-[#292521]">
-      <header className="border-b border-[#E2DAD0] bg-[#FBFAF7] px-5 py-8 md:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-3xl">
-              <p className="text-[12px] font-black tracking-[0.18em] text-[#E95B35]">从小学系列售卖策略调研</p>
-              <h1 className="mt-3 text-[34px] font-black leading-tight tracking-[-0.03em] md:text-[48px]">
-                小学物理项目结论
-              </h1>
-              <p className="mt-4 text-[15px] font-semibold leading-8 text-[#5F5851]">
-                将项目总结、定性洞察和定量报告合并为一页，按六个业务维度展示结论、数据和用户原声。
+    <article className={cn('rounded-[14px] border border-[#E2E8F0] bg-white p-4 shadow-[0_8px_22px_rgba(15,23,42,.04)]', dense && 'p-3.5')}>
+      <div className="flex items-start gap-2.5">
+        <Quote size={16} className="mt-1 shrink-0 text-[#2563EB]" />
+        <p className={cn('font-semibold leading-7 text-[#1F2937]', dense ? 'text-[13px]' : 'text-[14px]')}>“{voc.quote}”</p>
+      </div>
+      <div className="mt-3 border-t border-[#EDF2F7] pt-3">
+        <p className="text-[12px] font-black text-[#334155]">{voc.identity}</p>
+        <p className="mt-1 text-[11px] font-semibold text-[#64748B]">
+          {voc.sourceLabel}｜{source.materials}
+        </p>
+      </div>
+      <div className="mt-3 flex flex-wrap gap-1.5">
+        {voc.tags.map((tag) => (
+          <span key={`${voc.sourceId}-${tag}`} className="rounded-full bg-[#EFF6FF] px-2 py-1 text-[11px] font-bold text-[#2563EB]">
+            {tag}
+          </span>
+        ))}
+      </div>
+      <a
+        href={sourceUrlOf(voc)}
+        target="_blank"
+        rel="noreferrer"
+        className="mt-3 inline-flex items-center gap-1 text-[12px] font-bold text-[#64748B] hover:text-[#2563EB]"
+      >
+        查看来源记录
+        <ExternalLink size={12} />
+      </a>
+    </article>
+  );
+}
+
+export default function FromPrimaryMergedReport() {
+  const [selectedId, setSelectedId] = React.useState(researchConclusions[0].id);
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [filterOpen, setFilterOpen] = React.useState(false);
+  const [priorityFilter, setPriorityFilter] = React.useState<'全部' | ConclusionPriority>('全部');
+  const [confidenceFilter, setConfidenceFilter] = React.useState<'全部' | ConclusionConfidence>('全部');
+
+  const filteredConclusions = React.useMemo(
+    () =>
+      researchConclusions.filter((item) => {
+        const priorityMatched = priorityFilter === '全部' || item.priority === priorityFilter;
+        const confidenceMatched = confidenceFilter === '全部' || item.confidence === confidenceFilter;
+        return priorityMatched && confidenceMatched;
+      }),
+    [confidenceFilter, priorityFilter],
+  );
+
+  React.useEffect(() => {
+    if (filteredConclusions.length > 0 && !filteredConclusions.some((item) => item.id === selectedId)) {
+      setSelectedId(filteredConclusions[0].id);
+    }
+  }, [filteredConclusions, selectedId]);
+
+  const selectedConclusion = filteredConclusions.find((item) => item.id === selectedId) ?? filteredConclusions[0] ?? researchConclusions[0];
+  const totalVoc = researchConclusions.reduce((sum, item) => sum + item.vocs.length, 0);
+  const userCount = new Set(researchConclusions.flatMap((item) => item.vocs.map((voc) => voc.sourceId))).size;
+
+  return (
+    <main className="min-h-full bg-[#F6F8FC] text-[#0F172A]">
+      <header className="px-5 py-7 md:px-8">
+        <div className="mx-auto max-w-[1440px]">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <p className="text-[12px] font-black tracking-[0.16em] text-[#2563EB]">从小学系列售卖策略调研</p>
+              <h1 className="mt-3 text-[32px] font-black leading-tight md:text-[42px]">小学物理洞察总览</h1>
+              <p className="mt-3 max-w-3xl text-[15px] font-semibold leading-7 text-[#64748B]">
+                用于沉淀小学物理项目的核心结论、VOC 证据和产品优化建议，帮助业务方先看判断，再追溯到用户原声。
               </p>
             </div>
-            <div className="grid min-w-[190px] grid-cols-2 gap-2 rounded-[8px] border border-[#E5DDD3] bg-white p-3">
-              {[
-                ['81', '问卷样本'],
-                ['8', '定性用户'],
-              ].map(([value, label]) => (
-                <div key={label} className="rounded-md bg-[#F8F4EE] px-3 py-3 text-center">
-                  <div className="text-[22px] font-black text-[#E95B35]">{value}</div>
-                  <div className="mt-1 text-[11px] font-bold text-[#8A8279]">{label}</div>
+            <div className="relative flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => setFilterOpen((open) => !open)}
+                className="inline-flex items-center gap-2 rounded-[10px] border border-[#CBD5E1] bg-white px-4 py-2 text-[13px] font-black text-[#334155] shadow-sm hover:border-[#2563EB] hover:text-[#2563EB]"
+              >
+                <SearchCheck size={15} />
+                筛选
+              </button>
+              <button
+                type="button"
+                onClick={() => window.print()}
+                className="inline-flex items-center gap-2 rounded-[10px] bg-[#2563EB] px-4 py-2 text-[13px] font-black text-white shadow-sm hover:bg-[#1D4ED8]"
+              >
+                <FileText size={15} />
+                导出报告
+              </button>
+              {filterOpen && (
+                <div className="absolute right-0 top-12 z-40 w-[280px] rounded-[14px] border border-[#DCE3EF] bg-white p-4 shadow-[0_18px_45px_rgba(15,23,42,.16)]">
+                  <p className="text-[13px] font-black text-[#0F172A]">筛选结论</p>
+                  <div className="mt-4 space-y-4">
+                    <div>
+                      <p className="mb-2 text-[11px] font-black text-[#64748B]">优先级</p>
+                      <div className="flex flex-wrap gap-2">
+                        {(['全部', '高优先级', '中优先级'] as const).map((item) => (
+                          <button
+                            key={item}
+                            type="button"
+                            onClick={() => setPriorityFilter(item)}
+                            className={cn(
+                              'rounded-full border px-3 py-1.5 text-[12px] font-bold',
+                              priorityFilter === item ? 'border-[#2563EB] bg-[#EFF6FF] text-[#2563EB]' : 'border-[#E2E8F0] text-[#64748B]',
+                            )}
+                          >
+                            {item}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <p className="mb-2 text-[11px] font-black text-[#64748B]">置信度</p>
+                      <div className="flex flex-wrap gap-2">
+                        {(['全部', '高置信', '中高置信'] as const).map((item) => (
+                          <button
+                            key={item}
+                            type="button"
+                            onClick={() => setConfidenceFilter(item)}
+                            className={cn(
+                              'rounded-full border px-3 py-1.5 text-[12px] font-bold',
+                              confidenceFilter === item ? 'border-[#7C3AED] bg-[#F5F3FF] text-[#6D28D9]' : 'border-[#E2E8F0] text-[#64748B]',
+                            )}
+                          >
+                            {item}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              ))}
+              )}
             </div>
           </div>
-          <div className="mt-6">
-            <SourcePanel />
+
+          <div className="mt-7 grid gap-4 md:grid-cols-3">
+            {[
+              { icon: Lightbulb, value: researchConclusions.length, label: '核心结论', desc: '已沉淀的可行动判断', color: '#2563EB', bg: '#EFF6FF' },
+              { icon: Quote, value: totalVoc, label: '有效 VOC', desc: '与结论强绑定的原声', color: '#059669', bg: '#ECFDF5' },
+              { icon: Target, value: userCount, label: '涉及用户', desc: '覆盖访谈用户来源', color: '#7C3AED', bg: '#F5F3FF' },
+            ].map(({ icon: Icon, value, label, desc, color, bg }) => (
+              <div key={label} className="rounded-[18px] border border-[#E2E8F0] bg-white p-5 shadow-[0_10px_28px_rgba(15,23,42,.05)]">
+                <div className="flex items-center gap-4">
+                  <div className="grid size-14 place-items-center rounded-full" style={{ backgroundColor: bg, color }}>
+                    <Icon size={24} />
+                  </div>
+                  <div>
+                    <p className="text-[14px] font-black text-[#334155]">{label}</p>
+                    <p className="text-[34px] font-black leading-none" style={{ color }}>
+                      {value}
+                    </p>
+                    <p className="mt-1 text-[12px] font-semibold text-[#64748B]">{desc}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </header>
 
-      <div className="sticky top-0 z-30 border-b border-[#DDD4C9] bg-[#FBFAF7]/95 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4 md:px-8">
-          {dimensions.map(({ id, label, icon: Icon, color }) => {
-            return (
-              <a
-                key={id}
-                href={`#${id}`}
-                className="flex h-14 shrink-0 items-center gap-2.5 border-b-2 border-transparent px-4 text-[16px] font-black text-[#736C65] transition hover:border-current hover:text-[#292521]"
-                style={{ color }}
-              >
-                <Icon size={18} />
-                {label}
-              </a>
-            );
-          })}
-        </div>
-      </div>
+      <section className="px-5 pb-8 md:px-8">
+        <div className="mx-auto grid max-w-[1440px] gap-5 xl:grid-cols-[340px_minmax(0,1fr)_360px]">
+          <aside className="rounded-[18px] border border-[#E2E8F0] bg-white p-4 shadow-[0_10px_28px_rgba(15,23,42,.05)]">
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-[18px] font-black text-[#0F172A]">核心结论</h2>
+              <span className="rounded-full bg-[#EFF6FF] px-2.5 py-1 text-[12px] font-black text-[#2563EB]">{filteredConclusions.length} 条</span>
+            </div>
+            <div className="space-y-3">
+              {filteredConclusions.map((item, index) => {
+                const selected = item.id === selectedConclusion.id;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => {
+                      setSelectedId(item.id);
+                      setDrawerOpen(false);
+                    }}
+                    className={cn(
+                      'w-full rounded-[14px] border p-4 text-left transition',
+                      selected
+                        ? 'border-[#2563EB] bg-[#F8FBFF] shadow-[0_12px_28px_rgba(37,99,235,.12)]'
+                        : 'border-[#E2E8F0] bg-white hover:border-[#93C5FD] hover:bg-[#F8FBFF]',
+                    )}
+                  >
+                    <div className="flex items-start gap-3">
+                      <span
+                        className={cn(
+                          'grid size-8 shrink-0 place-items-center rounded-full text-[14px] font-black',
+                          selected ? 'bg-[#2563EB] text-white' : 'bg-[#F1F5F9] text-[#64748B]',
+                        )}
+                      >
+                        {index + 1}
+                      </span>
+                      <div className="min-w-0">
+                        <h3 className="text-[15px] font-black leading-6 text-[#0F172A]">{item.title}</h3>
+                        <p className="mt-1 text-[12px] font-semibold leading-5 text-[#64748B]">{item.summary}</p>
+                        <div className="mt-3 flex flex-wrap gap-1.5">
+                          <span className="rounded-full bg-[#EFF6FF] px-2 py-1 text-[11px] font-black" style={{ color: priorityColors[item.priority] }}>
+                            {item.priority}
+                          </span>
+                          <span className="rounded-full bg-[#F5F3FF] px-2 py-1 text-[11px] font-black text-[#6D28D9]">{item.confidence}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </aside>
 
-      <div className="mx-auto max-w-7xl space-y-10 px-4 py-7 md:px-8">
-        {dimensions.map((dimension) => {
-          const dimensionCards = redesignedCards.filter((card) => card.dimension === dimension.id);
-          return (
-            <section key={dimension.id} id={dimension.id} className="scroll-mt-16">
-              <div className="mb-5">
-                <p className="text-[20px] font-black" style={{ color: dimension.color }}>
-                  {dimension.label}
-                </p>
+          <section className="rounded-[18px] border border-[#E2E8F0] bg-white p-5 shadow-[0_10px_28px_rgba(15,23,42,.05)]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-[#EFF6FF] px-3 py-1 text-[12px] font-black text-[#2563EB]">
+              当前结论
+              <span className="rounded-full bg-white px-2 py-0.5">{filteredConclusions.findIndex((item) => item.id === selectedConclusion.id) + 1}</span>
+            </div>
+            <h2 className="mt-4 text-[28px] font-black leading-tight text-[#0F172A]">{selectedConclusion.title}</h2>
+
+            <div className="mt-5 rounded-[16px] border border-[#DCEBFF] bg-[#F8FBFF] p-5">
+              <div className="flex items-center gap-2 text-[14px] font-black text-[#2563EB]">
+                <BookOpenCheck size={17} />
+                关键洞察
               </div>
-              <div className="space-y-4">
-                {dimensionCards.map((card) => (
-                  <InsightCardView key={card.id} card={card} color={dimension.color} />
+              <p className="mt-3 text-[15px] font-semibold leading-8 text-[#334155]">{selectedConclusion.insight}</p>
+            </div>
+
+            <div className="mt-4 rounded-[16px] border border-[#BFDBFE] bg-white p-5 shadow-[inset_4px_0_0_#2563EB]">
+              <div className="flex items-center gap-2 text-[14px] font-black text-[#1D4ED8]">
+                <Sparkles size={17} />
+                核心结论
+              </div>
+              <p className="mt-3 text-[18px] font-black leading-8 text-[#0F172A]">{selectedConclusion.conclusion}</p>
+            </div>
+
+            <div className="mt-4 rounded-[16px] border border-[#D1FAE5] bg-[#F7FEFB] p-5">
+              <div className="flex items-center gap-2 text-[14px] font-black text-[#059669]">
+                <Target size={17} />
+                建议行动
+              </div>
+              <div className="mt-3 space-y-2.5">
+                {selectedConclusion.actions.map((action, index) => (
+                  <div key={action} className="flex items-start gap-3 rounded-[12px] bg-white px-3 py-3">
+                    <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-[#10B981] text-[11px] font-black text-white">
+                      {index + 1}
+                    </span>
+                    <p className="text-[14px] font-bold leading-6 text-[#334155]">{action}</p>
+                  </div>
                 ))}
               </div>
-            </section>
-          );
-        })}
-      </div>
+            </div>
 
-      <footer className="border-t border-[#E2DAD0] px-5 py-6 text-center text-[12px] font-semibold text-[#8A8279]">
-        定量数据仅使用指定定量报告；用户原声来源限定为访谈目录中的用户1-用户8。
+            <div className="mt-4 rounded-[14px] border border-[#E2E8F0] bg-[#FAFBFC] px-4 py-3 text-[12px] font-semibold leading-6 text-[#64748B]">
+              {selectedConclusion.evidenceNote}
+            </div>
+
+            <div className="mt-5">
+              <SourcePanel />
+            </div>
+          </section>
+
+          <aside className="rounded-[18px] border border-[#E2E8F0] bg-white p-4 shadow-[0_10px_28px_rgba(15,23,42,.05)]">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <div>
+                <h2 className="text-[18px] font-black text-[#0F172A]">VOC 证据</h2>
+                <p className="mt-1 text-[12px] font-semibold text-[#64748B]">仅展示当前结论对应原声</p>
+              </div>
+              <span className="rounded-full bg-[#F1F5F9] px-2.5 py-1 text-[12px] font-black text-[#64748B]">{selectedConclusion.vocs.length} 条</span>
+            </div>
+            <div className="space-y-3">
+              {selectedConclusion.vocs.slice(0, 3).map((voc) => (
+                <ResearchVocCard key={`${selectedConclusion.id}-${voc.sourceId}-${voc.quote}`} voc={voc} dense />
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={() => setDrawerOpen(true)}
+              className="mt-4 w-full rounded-[12px] border border-[#BFDBFE] bg-[#EFF6FF] px-4 py-3 text-[13px] font-black text-[#2563EB] hover:bg-[#DBEAFE]"
+            >
+              查看全部 VOC（{selectedConclusion.vocs.length} 条）
+            </button>
+          </aside>
+        </div>
+      </section>
+
+      {drawerOpen && (
+        <div className="fixed inset-0 z-50 bg-[#0F172A]/35" role="presentation" onClick={() => setDrawerOpen(false)}>
+          <aside
+            className="ml-auto h-full w-full max-w-[520px] overflow-y-auto bg-[#F8FAFC] p-5 shadow-[-18px_0_42px_rgba(15,23,42,.22)]"
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${selectedConclusion.title}全部 VOC`}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="sticky top-0 z-10 -mx-5 -mt-5 border-b border-[#E2E8F0] bg-[#F8FAFC]/95 px-5 py-4 backdrop-blur">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-[12px] font-black tracking-[0.12em] text-[#2563EB]">全部 VOC</p>
+                  <h2 className="mt-1 text-[22px] font-black text-[#0F172A]">{selectedConclusion.title}</h2>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setDrawerOpen(false)}
+                  className="grid size-9 shrink-0 place-items-center rounded-full border border-[#CBD5E1] bg-white text-[20px] font-light text-[#64748B] hover:border-[#2563EB] hover:text-[#2563EB]"
+                  aria-label="关闭全部 VOC"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+            <div className="mt-5 space-y-3">
+              {selectedConclusion.vocs.map((voc) => (
+                <ResearchVocCard key={`drawer-${selectedConclusion.id}-${voc.sourceId}-${voc.quote}`} voc={voc} />
+              ))}
+            </div>
+          </aside>
+        </div>
+      )}
+
+      <footer className="px-5 pb-8 text-center text-[12px] font-semibold text-[#94A3B8] md:px-8">
+        用户原声来源限定为访谈目录中的用户1-用户8；切换左侧结论时，中间分析和右侧 VOC 同步变化。
       </footer>
     </main>
   );
