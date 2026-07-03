@@ -1554,9 +1554,10 @@ export default function FromPrimaryMergedReport() {
                             className={cn(
                               'w-full rounded-[14px] border p-4 text-left transition',
                               selected
-                                ? 'border-[#E6DDD3] bg-white shadow-[0_12px_28px_rgba(55,44,34,.08)]'
-                                : 'border-[#E6DDD3] bg-white hover:border-[#E95B35] hover:bg-[#FFF9F5]',
+                                ? 'bg-white shadow-[0_12px_28px_rgba(55,44,34,.08)]'
+                                : 'bg-white hover:bg-[#FFF9F5]',
                             )}
+                            style={{ borderColor: selected ? dimension.color : `${dimension.color}55` }}
                           >
                             <div className="flex items-start gap-3">
                               <span className="grid size-8 shrink-0 place-items-center rounded-full bg-[#F1ECE5] text-[14px] font-black text-[#7D746A]">
