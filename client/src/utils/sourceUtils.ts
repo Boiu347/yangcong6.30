@@ -33,9 +33,48 @@ export function lookupClips(evidence: string): EvidenceClip[] {
     EVIDENCE_CLIP_MAP[evidence] ??
     DEFAULT_VOC_CLIP_MAP[plain] ??
     DEFAULT_VOC_CLIP_MAP[evidence];
-  if (!raw) return [];
-  if (Array.isArray(raw)) return raw;
-  return [raw as EvidenceClip];
+  if (raw) return Array.isArray(raw) ? raw : [raw as EvidenceClip];
+  // 回退：报告原声常是完整访谈原话的「去标点精简子串」，
+  // 用归一化（去除标点/空白）后的双向子串匹配复用已有切片。
+  return normalizedSubstringClips(plain);
+}
+
+/** 去除标点、空白等噪声，用于宽松子串匹配。 */
+function normalizeForMatch(s: string): string {
+  return s.replace(/[\s，。、？！,.?!；;：:“”"'’‘（）()【】《》\-—…~·]/g, '');
+}
+
+/**
+ * 归一化子串回退匹配：在 PHYSICS_SEGMENTS / DEFAULT / EVIDENCE 三个来源中，
+ * 找到与目标原声互为「去标点子串」的切片。要求较短一方长度 ≥ 10，避免短语误命中。
+ */
+function normalizedSubstringClips(quote: string): EvidenceClip[] {
+  const nq = normalizeForMatch(quote);
+  if (nq.length < 10) return [];
+
+  const consider = (text: string, clips: EvidenceClip[]): EvidenceClip[] | null => {
+    const nt = normalizeForMatch(text);
+    if (nt.length < 10) return null;
+    if (nt.includes(nq) || nq.includes(nt)) return clips;
+    return null;
+  };
+
+  for (const seg of PHYSICS_SEGMENTS) {
+    if (!seg.clipUrl) continue;
+    const hit = consider(seg.quote.replace(/\*\*/g, ''), [
+      { clipUrl: seg.clipUrl, startTime: seg.startTime ?? 0, duration: seg.duration },
+    ]);
+    if (hit) return hit;
+  }
+  for (const [text, rawVal] of Object.entries(DEFAULT_VOC_CLIP_MAP)) {
+    const hit = consider(text, Array.isArray(rawVal) ? rawVal : [rawVal]);
+    if (hit) return hit;
+  }
+  for (const [text, rawVal] of Object.entries(EVIDENCE_CLIP_MAP)) {
+    const hit = consider(text, Array.isArray(rawVal) ? rawVal : [rawVal]);
+    if (hit) return hit;
+  }
+  return [];
 }
 
 /** @deprecated use lookupClips */

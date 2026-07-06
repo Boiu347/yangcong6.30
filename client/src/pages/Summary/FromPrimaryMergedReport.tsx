@@ -10,6 +10,9 @@ import {
   Target,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import EvidenceAudioClips from '@/components/EvidenceAudioClips';
+import { clipsForQuote } from '@/utils/sourceUtils';
+import type { EvidenceClip } from '@/utils/evidenceClipLookup';
 
 const INTERVIEW_INDEX_URL = 'https://guanghe.feishu.cn/wiki/STo3wNQSui7aohkP4oacAXVVnKf';
 const QUANT_SOURCE_URL = 'https://guanghe.feishu.cn/wiki/XvjcwdzsZiEiJ1kF9UOcburXnig';
@@ -106,6 +109,9 @@ interface ResearchVoc {
   sourceId: string;
   tags: string[];
   sourceUrl?: string;
+  // 显式录音切片：当原声为访谈纪要中的精简/转述、无法通过文本匹配命中已有切片时，
+  // 在此直接指定从访谈录音切出的片段。
+  clips?: EvidenceClip[];
 }
 
 interface ResearchConclusion {
@@ -206,7 +212,7 @@ const reportConclusions: ResearchConclusion[] = [
     evidenceNote: '来源说明：售卖策略调研、洞察小结、访谈纪要；涉及用户3、用户4、用户5、用户7、用户8。',
     vocs: [
       { sourceId: 'u4', tags: ['爱看', '实验男', '主动学习'], quote: '洋葱学园的从小学物理，如果说我不是不管的话，他每天他都会刷。他好像特别喜欢看那实验男做实验。他当成趣味里边学知识了。' },
-      { sourceId: 'u4', tags: ['能说', '转述', '主动反馈'], quote: '他看了之后会考我，会把课上看的从小学物理视频转化成自己的语言。' },
+      { sourceId: 'u4', tags: ['能说', '转述', '主动反馈'], quote: '他看了之后会考我，会把课上看的从小学物理视频转化成自己的语言。', clips: [{ clipUrl: '/clips/interview4/0044-01.mp3', startTime: 2680.7, duration: 4.2 }] },
       { sourceId: 'u1', tags: ['能说原理', '概念认知', '理解本质'], quote: '孩子大概了解这个内容，能说出一些基本原理，有概念性认知即可。' },
       { sourceId: 'u7', tags: ['生活迁移', '惯性', '理解反馈'], quote: '现实生活中见到以后能联想到，比如停车前倾知道是惯性。' },
       { sourceId: 'u3', tags: ['长期验证', '初中物理', '未来有用'], quote: '到初中正式学物理才能看出。' },
@@ -237,7 +243,7 @@ const reportConclusions: ResearchConclusion[] = [
     vocs: [
       { sourceId: 'u5', tags: ['不知道学了什么', '效果不可见', '购买犹豫'], quote: '我想知道他到底学了什么东西？学到了什么东西？学了多少？能记住什么？' },
       { sourceId: 'u8', tags: ['学习报告', '掌握程度', '验证缺口'], quote: '没有学习报告，不知道孩子最终掌握什么程度。' },
-      { sourceId: 'u4', tags: ['孩子复述', '效果外化', '家庭反馈'], quote: '他看了之后会考我，会把课上看的从小学物理视频转化成自己的语言。' },
+      { sourceId: 'u4', tags: ['孩子复述', '效果外化', '家庭反馈'], quote: '他看了之后会考我，会把课上看的从小学物理视频转化成自己的语言。', clips: [{ clipUrl: '/clips/interview4/0044-01.mp3', startTime: 2680.7, duration: 4.2 }] },
       { sourceId: 'u1', tags: ['能解释', '概念认知', '启蒙结果'], quote: '孩子能说出一些基本原理，有概念性认知即可。' },
     ],
   },
@@ -250,6 +256,7 @@ function sourceUrlOf(voc: ResearchVoc) {
 function ResearchVocCard({ voc, dense = false }: { voc: ResearchVoc; dense?: boolean }) {
   const source = sourceOf(voc.sourceId);
   const sourceLabel = `${source.title.split('-')[0]}访谈`;
+  const clips = voc.clips ?? clipsForQuote(voc.quote);
 
   return (
     <article className={cn('rounded-[14px] border border-[#E6DDD3] bg-white p-4 shadow-[0_8px_22px_rgba(55,44,34,.04)]', dense && 'p-3.5')}>
@@ -257,6 +264,15 @@ function ResearchVocCard({ voc, dense = false }: { voc: ResearchVoc; dense?: boo
         <Quote size={16} className="mt-1 shrink-0 text-[#E95B35]" />
         <p className={cn('font-semibold leading-7 text-[#2E2924]', dense ? 'text-[13px]' : 'text-[14px]')}>“{voc.quote}”</p>
       </div>
+      {clips.length > 0 && (
+        <div className="mt-2 rounded-[10px] bg-[#F7F4EF] px-3 py-2">
+          <div className="mb-1 flex items-center gap-1 text-[10px] font-bold text-[#9A8F82]">
+            <Quote size={10} className="text-[#4361EE]" />
+            访谈原声录音
+          </div>
+          <EvidenceAudioClips clips={clips} />
+        </div>
+      )}
       <div className="mt-3 border-t border-[#EEE5DC] pt-3">
         <p className="text-[12px] font-black text-[#403A34]">{`${source.title}｜${source.meta}`}</p>
         <p className="mt-1 text-[11px] font-semibold text-[#7D746A]">
