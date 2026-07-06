@@ -1329,32 +1329,32 @@ const conclusionDetailsByCardId: Record<string, string[]> = {
   ],
 };
 
-// 每条核心结论对应的访谈原声录音切片（按 conclusionDetailsByCardId 顺序对齐）。
-// 优先取语义最贴切且可获取音频的原声：多数复用仓库已有切片；u7「停车前倾知道是惯性」
-// 为从访谈纪要录音新切（interview7/0247-01）。u2/u3/u8 部分录音暂无导出权限，用同卡最贴切的可得原声承接。
-const conclusionClipsByCardId: Record<string, string[]> = {
+// 每条核心结论对应的访谈原声录音切片（按 conclusionDetailsByCardId 顺序对齐，每条 2-3 段）。
+// 优先取语义最贴切且可获取音频的原声：多数复用仓库已有切片；u7「孩子能看得进去」「停车前倾知道是惯性」
+// 为从访谈纪要录音新切（interview7/0208-01、interview7/0247-01）。u2/u8 部分录音暂无导出权限，用最贴切的可得原声承接。
+const conclusionClipsByCardId: Record<string, string[][]> = {
   r01: [
-    '/clips/interview1/0002-01.mp3',
-    '/clips/interview1/0002-01.mp3',
-    '/clips/interview6/0016-01.mp3',
+    ['/clips/interview1/0002-01.mp3', '/clips/interview1/0079-01.mp3', '/clips/interview3/0007-01.mp3'],
+    ['/clips/interview1/0002-01.mp3', '/clips/interview1/0079-01.mp3', '/clips/interview5/0031-01.mp3'],
+    ['/clips/interview6/0016-01.mp3', '/clips/interview6/0023-01.mp3', '/clips/interview6/0022-01.mp3'],
   ],
   r02: [
-    '/clips/interview4/0080-01.mp3',
-    '/clips/interview4/0080-01.mp3',
-    '/clips/interview4/0009-01.mp3',
-    '/clips/interview4/0092-01.mp3',
+    ['/clips/interview4/0041-01.mp3', '/clips/interview4/0040-01.mp3', '/clips/interview7/0208-01.mp3'],
+    ['/clips/interview4/0080-01.mp3', '/clips/interview3/0007-01.mp3', '/clips/interview5/0031-01.mp3'],
+    ['/clips/interview4/0009-01.mp3', '/clips/interview6/0012-01.mp3', '/clips/interview6/0048-01.mp3'],
+    ['/clips/interview4/0092-01.mp3', '/clips/interview4/0091-01.mp3', '/clips/interview4/0054-01.mp3'],
   ],
   r03: [
-    '/clips/interview4/0040-01.mp3',
-    '/clips/interview7/0247-01.mp3',
-    '/clips/interview3/0007-01.mp3',
-    '/clips/interview4/0040-01.mp3',
+    ['/clips/interview4/0041-01.mp3', '/clips/interview4/0040-01.mp3', '/clips/interview1/0079-01.mp3'],
+    ['/clips/interview7/0247-01.mp3', '/clips/interview1/0079-01.mp3', '/clips/interview4/0054-01.mp3'],
+    ['/clips/interview3/0007-01.mp3', '/clips/interview4/0080-01.mp3', '/clips/interview6/0016-01.mp3'],
+    ['/clips/interview4/0080-01.mp3', '/clips/interview3/0012-01.mp3', '/clips/interview5/0057-01.mp3'],
   ],
   r04: [
-    '/clips/interview4/0080-01.mp3',
-    '/clips/interview5/0057-01.mp3',
-    '/clips/interview5/0057-01.mp3',
-    '/clips/interview4/0048-01.mp3',
+    ['/clips/interview4/0080-01.mp3', '/clips/interview3/0007-01.mp3', '/clips/interview6/0016-01.mp3'],
+    ['/clips/interview5/0057-01.mp3', '/clips/interview4/0054-01.mp3', '/clips/interview5/0031-01.mp3'],
+    ['/clips/interview5/0057-01.mp3', '/clips/interview4/0048-01.mp3', '/clips/interview4/0040-01.mp3'],
+    ['/clips/interview4/0048-01.mp3', '/clips/interview4/0040-01.mp3', '/clips/interview5/0057-01.mp3'],
   ],
 };
 
@@ -1678,7 +1678,7 @@ export default function FromPrimaryMergedReport() {
                       </div>
                       <div className="mt-3 space-y-2.5">
                         {selectedConclusion.conclusions.map((conclusion, index) => {
-                          const conclusionClip = conclusionClipsByCardId[selectedConclusion.id]?.[index];
+                          const conclusionClips = conclusionClipsByCardId[selectedConclusion.id]?.[index] ?? [];
                           return (
                             <div key={conclusion} className="flex items-start gap-3 rounded-[12px] bg-[#FFF9F5] px-3 py-3">
                               <span
@@ -1689,13 +1689,20 @@ export default function FromPrimaryMergedReport() {
                               </span>
                               <div className="min-w-0 flex-1">
                                 <p className="text-[16px] font-black leading-7 text-[#292521]">{conclusion}</p>
-                                {conclusionClip && (
-                                  <div className="mt-2 flex items-center gap-2">
+                                {conclusionClips.length > 0 && (
+                                  <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1.5">
                                     <span className="inline-flex shrink-0 items-center gap-1 text-[11px] font-bold text-[#9A8F82]">
                                       <Mic2 size={12} className="text-[#4361EE]" />
                                       访谈原声
                                     </span>
-                                    <AudioClipButton audioUrl={conclusionClip} index={0} total={1} />
+                                    {conclusionClips.map((clip, clipIndex) => (
+                                      <AudioClipButton
+                                        key={clip + clipIndex}
+                                        audioUrl={clip}
+                                        index={clipIndex}
+                                        total={conclusionClips.length}
+                                      />
+                                    ))}
                                   </div>
                                 )}
                               </div>
