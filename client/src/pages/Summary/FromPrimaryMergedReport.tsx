@@ -117,6 +117,7 @@ interface ResearchConclusion {
   confidence: ConclusionConfidence;
   insight: string;
   conclusion: string;
+  conclusions: string[];
   actions: string[];
   evidenceNote: string;
   vocs: ResearchVoc[];
@@ -133,6 +134,11 @@ const reportConclusions: ResearchConclusion[] = [
     insight:
       '从小学系列更适合站在“学科启蒙”位置：它避开纯兴趣科普的红海，也不把低年级孩子推向初中先修。这个位置的核心是让小学 1-4 年级孩子先理解自然现象、建立基础概念，对未来理科学习不陌生。',
     conclusion: '从小学系列应占领“学科启蒙”：用孩子能听懂、家长觉得有长期价值的方式，连接兴趣入口和未来理科学习。',
+    conclusions: [
+      '从小学系列真正要占领的是兴趣启蒙和衔接先修之间的“学科启蒙”：家长还没有明确说出这个词，但需求真实存在。',
+      '主要受众应聚焦小学 1-4 年级家长：他们不是学前纯兴趣启蒙，也还没进入小高阶段强应试、强先修的诉求。',
+      '不应把主定位放在纯兴趣启蒙、初中先修或校内科学同步上：纯兴趣启蒙竞争激烈，先修需求更适合初中同步课，校内同步目前需求小众且内容难完全同步。',
+    ],
     actions: [
       '页面主叙事统一到“学科启蒙”，避免同时讲纯科普、先修和同步导致心智发散。',
       '把核心受众写成小学 1-4 年级、关注未来理科但不想过早应试的家庭。',
@@ -156,6 +162,12 @@ const reportConclusions: ResearchConclusion[] = [
     insight:
       '家长会用“兴趣”“启蒙”描述需求，但继续追问后，真正支撑购买的是未来学理科别排斥、别畏难、吸收更快。洋葱适合承接这个需求，是因为它同时具备动画易懂、内容系统、品牌可信和孩子愿意持续看的基础。',
     conclusion: '这个板块需要把“为什么买”和“为什么洋葱能做”连起来：兴趣是入口，学科价值是成交理由，洋葱负责把二者接住。',
+    conclusions: [
+      '兴趣是入口，孩子喜欢、看得进去，家长才会进一步考虑购买。',
+      '未来学科价值才是家长最终合理化购买的理由：正式学理科时别排斥、别畏难，对初高中理科学习有帮助。',
+      '洋葱目前更多被“品牌信任”和“顺手加购”带动，而不是靠从小学物理本身的课程卖点形成清晰记忆点。',
+      '洋葱的机会是把动画易懂、内容系统、孩子视角讲解和学科启蒙价值连起来，塑造更明确的课程心智。',
+    ],
     actions: [
       '卖点顺序先讲孩子愿意看，再讲听得懂、能解释、未来理科不陌生。',
       '“洋葱适合做”不单独拉成新模块，放在本结论里作为品牌和产品承接依据。',
@@ -163,6 +175,7 @@ const reportConclusions: ResearchConclusion[] = [
     ],
     evidenceNote: '来源说明：洞察小结、购买原因与体验横向汇总、访谈纪要；涉及用户3、用户4、用户7、用户8。',
     vocs: [
+      { sourceId: 'u7', tags: ['兴趣入口', '看得进去', '学习前提'], quote: '首先是孩子能看得进去，看得进去的话，想教他的知识，他才能听进去，学进去。' },
       { sourceId: 'u4', tags: ['系统性', '课程目录', '自主选择'], quote: '知识的话就是系统性更强，因为它都已经罗列得非常分层次，看得也比较清晰，孩子也能自行选取。' },
       { sourceId: 'u4', tags: ['品牌信任', '购买原因', '顺手加购'], quote: '就还是当时他有这个链接挂链了，我也需要，就买了。有对比，没有那么多，当时。就基于他信任。' },
       { sourceId: 'u7', tags: ['动画表达', '持续观看', '易懂'], quote: '一个知识点接一个知识点，让孩子像看动画片一样一个接一个看下去。' },
@@ -179,6 +192,12 @@ const reportConclusions: ResearchConclusion[] = [
     insight:
       '短期需求不是立刻提分，而是孩子愿意看、能听懂、能用自己的话说出来、能通过实验或生活现象理解原理，并且学习压力足够轻。长期需求则是进入初中理科时不陌生、不排斥、吸收更快。',
     conclusion: '需求表达要同时覆盖短期可见反馈和长期学科价值：短期让孩子进入，长期让家长觉得值得。',
+    conclusions: [
+      '短期有效标准包括孩子爱看、愿意主动学，并且看到生活现象时能产生“为什么”的思考意识。',
+      '中期有效标准是孩子能理解本质，大概说出现象背后的原理或概念，而不是只停留在看过视频。',
+      '长期有效标准是进入初中理科学习时不陌生、不排斥，并且能更快吸收老师讲的内容。',
+      '“未来有用”需要拆成短期兴趣与思考、中期原理表达、长期初中承接，而不是停留在一句空泛口号。',
+    ],
     actions: [
       '短期维度拆成“爱学、听懂、能说、能做、低压力”，并分别挂对应 VOC。',
       '长期维度拆成“不陌生、不排斥、吸收更快、理科思维”，避免只写“未来有用”。',
@@ -188,7 +207,7 @@ const reportConclusions: ResearchConclusion[] = [
     vocs: [
       { sourceId: 'u4', tags: ['爱看', '实验男', '主动学习'], quote: '洋葱学园的从小学物理，如果说我不是不管的话，他每天他都会刷。他好像特别喜欢看那实验男做实验。他当成趣味里边学知识了。' },
       { sourceId: 'u4', tags: ['能说', '转述', '主动反馈'], quote: '他看了之后会考我，会把课上看的从小学物理视频转化成自己的语言。' },
-      { sourceId: 'u5', tags: ['能做', '实验理解', '原理记忆'], quote: '只看视频容易忘，如果有实验会更清楚原理。' },
+      { sourceId: 'u1', tags: ['能说原理', '概念认知', '理解本质'], quote: '孩子大概了解这个内容，能说出一些基本原理，有概念性认知即可。' },
       { sourceId: 'u7', tags: ['生活迁移', '惯性', '理解反馈'], quote: '现实生活中见到以后能联想到，比如停车前倾知道是惯性。' },
       { sourceId: 'u3', tags: ['长期验证', '初中物理', '未来有用'], quote: '到初中正式学物理才能看出。' },
     ],
@@ -203,6 +222,12 @@ const reportConclusions: ResearchConclusion[] = [
     insight:
       '家长对启蒙有效的终极判断是“未来初中有没有用”，但这个结果太远，购买当下无法验证。现有困境是孩子爱看不等于家长知道学到了什么，后果是购买不确定、使用低频、担心吃灰。机会点是把启蒙效果外化成学习报告、孩子复述、知识进度、实验完成和小测反馈。',
     conclusion: '启蒙有效的机会点不是再喊“未来有用”，而是把“学会了什么”做成家长现在就能看见的证据链。',
+    conclusions: [
+      '家长对启蒙有效的终极判断是未来初中有没有用：正式学理科时是否不陌生、不排斥，学习时是否更快、更好吸收。',
+      '当前困境是小学阶段短期缺少清晰可见的验证标准，孩子爱看还不能直接证明启蒙正在变得有用。',
+      '直接后果是家长不知道孩子学到了什么、记住了什么、掌握到什么程度，也不知道学科思维有没有变化。',
+      '机会点是阶段性地把启蒙效果外化，让家长通过学习报告、孩子复述、概念掌握和生活现象解释看见结果。',
+    ],
     actions: [
       '第三层内容按“终极判断-现有困境-导致后果-机会点”呈现，不把卡点和机会点单独拆成外部模块。',
       '把学习报告、孩子讲给家长听、生活现象解释和小测反馈作为效果外化方案。',
@@ -432,7 +457,19 @@ export default function FromPrimaryMergedReport() {
                         <Sparkles size={17} />
                         核心结论
                       </div>
-                      <p className="mt-3 text-[18px] font-black leading-8 text-[#292521]">{selectedConclusion.conclusion}</p>
+                      <div className="mt-3 space-y-2.5">
+                        {(selectedConclusion.conclusions.length ? selectedConclusion.conclusions : [selectedConclusion.conclusion]).map((conclusion, index) => (
+                          <div key={conclusion} className="flex items-start gap-3 rounded-[12px] bg-[#FFF9F5] px-3 py-3">
+                            <span
+                              className="mt-1 grid size-5 shrink-0 place-items-center rounded-full text-[11px] font-black text-white"
+                              style={{ backgroundColor: dimension.color }}
+                            >
+                              {index + 1}
+                            </span>
+                            <p className="text-[16px] font-black leading-7 text-[#292521]">{conclusion}</p>
+                          </div>
+                        ))}
+                      </div>
                     </div>
 
                     <div className="mt-4 rounded-[16px] border border-[#D8EFE8] bg-[#F5FFFC] p-5">
