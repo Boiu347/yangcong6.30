@@ -190,16 +190,16 @@ export default function CoreConclusionsReport() {
   return (
     <main className="min-h-full bg-[#F8F6F1] text-[#292521]">
       <header className="px-5 py-7 md:px-8">
-        <div className="mx-auto max-w-[1440px]">
+        <div className="mx-auto max-w-[2880px]">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
             <div>
               <p className="text-[12px] font-black tracking-[0.16em] text-[#E95B35]">从小学系列售卖策略调研</p>
               <h1 className="mt-3 text-[32px] font-black leading-tight md:text-[42px]">核心结论</h1>
-              <p className="mt-3 max-w-3xl text-[15px] font-semibold leading-7 text-[#706960]">
+              <p className="mt-3 max-w-[1536px] text-[15px] font-semibold leading-7 text-[#706960]">
                 按「成交原因 / 未成交卡点 / 产品体验」三个子页面沉淀核心结论，每条结论拆到用研洞察与业务启发，并落到问卷、销售数据与访谈原声。
               </p>
             </div>
-            <div className="grid w-full max-w-[420px] grid-cols-2 gap-2 lg:w-[420px] lg:shrink-0">
+            <div className="grid w-full max-w-[840px] grid-cols-2 gap-2 lg:w-[840px] lg:shrink-0">
               {[
                 { label: '洞察小结', url: STRATEGY_SOURCE_URL },
                 { label: '研究方案', url: RESEARCH_SOURCE_URL },
@@ -247,7 +247,7 @@ export default function CoreConclusionsReport() {
       </header>
 
       <section className="px-5 pb-8 md:px-8">
-        <div className="mx-auto max-w-[1440px] space-y-6">
+        <div className="mx-auto max-w-[2880px] space-y-6">
           {coreConclusionSections.map((section) => {
             const Icon = iconByKey[section.iconKey];
             const selectedId = selectedByDimension[section.id];
@@ -281,12 +281,12 @@ export default function CoreConclusionsReport() {
                   </span>
                 </div>
 
-                <div className="grid w-full items-start gap-5 lg:grid-cols-[300px_minmax(0,1fr)]">
+                <div className="grid w-full items-start gap-5 lg:grid-cols-[600px_minmax(0,1fr)]">
                   <aside
                     ref={(node) => {
                       detailRefs.current[section.id] = node;
                     }}
-                    className="w-full shrink-0 self-start rounded-[18px] border border-[#E6DDD3] bg-[#FBFAF7] p-3 lg:w-[300px]"
+                    className="w-full shrink-0 self-start rounded-[18px] border border-[#E6DDD3] bg-[#FBFAF7] p-3 lg:w-[600px]"
                   >
                     <div className="mb-3 flex shrink-0 items-center justify-between">
                       <p className="text-[14px] font-black text-[#403A34]">结论列表</p>
