@@ -90,17 +90,6 @@ export const conclusionDetailsByCardId: Record<string, string[]> = {
     '对比妙懂：洋葱更偏启蒙语气，妙懂太正式、偏应试。（对比妙懂）',
     '对比 NB/直播课：洋葱体系更强，但实验参与感和效果外化是短板；机会在「孩子说得出、家长看得见」。（对比实验）',
   ],
-  'r17': [
-    '爱学（RTB：动画课/实验男/真动手实验）：孩子看得进去、愿意主动学。（爱学）',
-    '听懂（RTB：生活化讲解/思维模型）：能把抽象概念讲成孩子听得懂的话。（听懂）',
-    '有用（RTB：学习报告/学做练闭环）：家长看得见阶段性效果，未来初中不陌生。（有用）',
-  ],
-  'r18': [
-    '新媒体：话术不用「提前学/小初衔接」大词，主打「孩子爱学 + 学科启蒙」。（新媒体）',
-    'APP：信息密度高，承接试听/大纲/FAQ/学情报告。（APP）',
-    '电销：通知权益升级，而非卖全新产品。（电销）',
-    '落地页结构：孩子爱学 → 听得懂 → 家长看得见效果 → 试听/购买/APP 承接。（落地页）',
-  ],
 };
 
 export const conclusionClipsByCardId: Record<string, string[][]> = {
@@ -194,17 +183,6 @@ export const conclusionClipsByCardId: Record<string, string[][]> = {
     ['/clips/interview2/0095-01.mp3', '/clips/interview2/0093-01.mp3'],
     ['/clips/interview5/0044-01.mp3'],
     ['/clips/interview4/0091-01.mp3', '/clips/interview4/0048-01.mp3'],
-  ],
-  r17: [
-    ['/clips/interview7/0208-01.mp3', '/clips/interview4/0041-01.mp3'],
-    ['/clips/interview4/0054-01.mp3'],
-    ['/clips/interview4/0048-01.mp3', '/clips/interview8/0002-01.mp3'],
-  ],
-  r18: [
-    ['/clips/interview1/0002-01.mp3'],
-    ['/clips/interview4/0092-01.mp3'],
-    ['/clips/interview6/0048-01.mp3'],
-    ['/clips/interview4/0048-01.mp3', '/clips/interview7/0247-01.mp3'],
   ],
 };
 

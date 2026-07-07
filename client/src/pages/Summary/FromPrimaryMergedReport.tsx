@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils';
 import EvidenceAudioClips from '@/components/EvidenceAudioClips';
 import type { EvidenceClip } from '@/utils/evidenceClipLookup';
 import { clipMetaByUrl, conclusionClipsByCardId, conclusionDetailsByCardId } from './conclusionMaps';
+import { nextStepPrimaries } from './nextStepData';
 
 const ORANGE = '#E95B35';
 const INK = '#292521';
@@ -360,30 +361,6 @@ const redesignedCards: InsightCard[] = [
       { label: '动作', text: '品牌差异页只保留关键竞品和关键对比，不做大而全竞品列表。' },
     ],
   },
-  {
-    id: 'r17',
-    dimension: 'next',
-    title: '三大价值主张',
-    conclusion: '下一步建议直接围绕三大价值主张组织：爱学、听懂、有用。',
-    data: '来源：课程定位和卖点；定量报告：趣味动画课 53%，孩子喜欢 40%，课程体系 29%。',
-    takeaways: [
-      { label: '判断', text: '三大价值主张可以作为页面、直播间和商详页的统一 Message House。' },
-      { label: '依据', text: '文档原文：趣味、听得懂是 RTB，学得会、初中不陌生是利益点。定量报告中“趣味动画课”占 53%、“孩子喜欢”占 40%、“课程体系”占 29%，正好对应“爱学、听懂、有用”三层价值主张。' },
-      { label: '动作', text: '每条价值主张都绑定 RTB：观看数据/动画课/真动手实验，生活化讲解/思维模型，学习报告/学做练闭环。' },
-    ],
-  },
-  {
-    id: 'r18',
-    dimension: 'next',
-    title: '营销落地页参考',
-    conclusion: '营销落地要做到一个核心定位、三套场景表达：新媒体打启蒙和信任，APP打信息密度，电销打权益升级感。',
-    data: '来源：研究拆解和假设｜有路；定量报告：社交媒体认知 23%→40%+，地理需求 69%，全科套餐倾向 74%，400 元以内接受度 52.94%。',
-    takeaways: [
-      { label: '判断', text: '新媒体、APP、电销不是互相替代，而是一个漏斗里的不同节点。' },
-      { label: '依据', text: '文档原文：新媒体话术不能用“提前学/小初衔接”作为大词主打；APP 相对新媒体的结构性优势是信息密度高；电销核心不是卖一个新产品而是通知一个权益。定量报告建议社交媒体认知从 23% 提升到 40%+，并给出地理需求 69%、全科套餐倾向 74%、400 元以内接受度 52.94% 作为落地页选品和套餐表达依据。' },
-      { label: '动作', text: '落地页结构按“孩子爱学 → 听得懂 → 家长看得见效果 → 试听/购买/APP承接”组织。' },
-    ],
-  },
 ];
 
 
@@ -459,6 +436,28 @@ function compactSummary(text: string) {
   return text.length > 52 ? `${text.slice(0, 52)}...` : text;
 }
 
+function renderVocClipCards(clips: string[]) {
+  if (clips.length === 0) return null;
+  return (
+    <div className="mt-2.5 flex flex-col gap-2">
+      {clips.map((clip, clipIndex) => {
+        const meta = clipMetaByUrl[clip];
+        const evidenceClips: EvidenceClip[] = [{ clipUrl: clip, startTime: 0, duration: 0 }];
+        return (
+          <div key={clip + clipIndex} className="flex w-full flex-col rounded-[12px] border border-[#EADFD2] bg-white px-3.5 py-3">
+            <div className="flex items-start gap-1.5">
+              <Quote size={13} className="mt-0.5 shrink-0 text-[#E95B35]" />
+              <p className="text-[12.5px] font-semibold leading-5 text-[#3A342E]">{meta?.text ?? ''}</p>
+            </div>
+            <p className="mt-1.5 text-[11px] font-bold text-[#9A8F82]">— {meta?.source ?? '访谈原声'}</p>
+            <EvidenceAudioClips clips={evidenceClips} />
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 
 const reportConclusions: ResearchConclusion[] = redesignedCards.map((card) => {
   const takeaways = card.takeaways ?? cardTakeaways[card.id] ?? [];
@@ -486,6 +485,10 @@ export default function FromPrimaryMergedReport() {
   const [selectedByDimension, setSelectedByDimension] = React.useState<Record<DimensionId, string>>(() =>
     dimensions.reduce(
       (acc, dimension) => {
+        if (dimension.id === 'next') {
+          acc[dimension.id] = nextStepPrimaries[0].id;
+          return acc;
+        }
         const first = reportConclusions.find((item) => item.dimension === dimension.id);
         if (first) acc[dimension.id] = first.id;
         return acc;
@@ -498,7 +501,11 @@ export default function FromPrimaryMergedReport() {
   const prevSelectedRef = React.useRef(selectedByDimension);
   const [sharedDetailHeight, setSharedDetailHeight] = React.useState<number | null>(null);
 
-  const totalVoc = Object.values(conclusionClipsByCardId).flat(2).length;
+  const nextStepVocCount = nextStepPrimaries.reduce(
+    (sum, primary) => sum + primary.secondaries.reduce((inner, secondary) => inner + secondary.clips.length, 0),
+    0,
+  );
+  const totalVoc = Object.values(conclusionClipsByCardId).flat(2).length + nextStepVocCount;
   const userCount = new Set(Object.values(clipMetaByUrl).map((item) => item.source.split('·')[0].trim())).size;
 
   React.useLayoutEffect(() => {
@@ -603,15 +610,28 @@ export default function FromPrimaryMergedReport() {
       <section className="px-5 pb-8 md:px-8">
         <div className="mx-auto max-w-[1440px] space-y-6">
           {dimensions.map((dimension) => {
-            const dimensionItems = reportConclusions.filter((item) => item.dimension === dimension.id);
-            if (dimensionItems.length === 0) return null;
+            const isNextDimension = dimension.id === 'next';
+            const dimensionItems = isNextDimension
+              ? nextStepPrimaries
+              : reportConclusions.filter((item) => item.dimension === dimension.id);
+            if (!isNextDimension && dimensionItems.length === 0) return null;
+
             const selectedId = selectedByDimension[dimension.id];
-            const selectedConclusion = dimensionItems.find((item) => item.id === selectedId) ?? dimensionItems[0];
-            const selectedIndex = dimensionItems.findIndex((item) => item.id === selectedConclusion.id);
+            const selectedNextPrimary = isNextDimension
+              ? (nextStepPrimaries.find((item) => item.id === selectedId) ?? nextStepPrimaries[0])
+              : null;
+            const selectedConclusion = !isNextDimension
+              ? (dimensionItems as ResearchConclusion[]).find((item) => item.id === selectedId) ??
+                (dimensionItems as ResearchConclusion[])[0]
+              : null;
+            const selectedIndex = dimensionItems.findIndex((item) => item.id === (selectedNextPrimary?.id ?? selectedConclusion?.id));
             const Icon = dimension.icon;
             const dynamicHeightStyle = sharedDetailHeight
               ? ({ '--detail-column-height': `${sharedDetailHeight + 48}px` } as React.CSSProperties)
               : undefined;
+            const panelScrollClass = isNextDimension
+              ? 'lg:max-h-[var(--detail-column-height)] lg:overflow-y-auto'
+              : 'lg:h-[var(--detail-column-height)] lg:overflow-y-auto';
 
             return (
               <article
@@ -625,14 +645,18 @@ export default function FromPrimaryMergedReport() {
                     </div>
                     <div>
                       <h2 className="text-[22px] font-black text-[#292521]">{dimension.label}</h2>
-                      <p className="mt-1 text-[12px] font-semibold text-[#7D746A]">本维度包含 {dimensionItems.length} 条结论，点击左侧结论查看对应分析和 VOC。</p>
+                      <p className="mt-1 text-[12px] font-semibold text-[#7D746A]">
+                        {isNextDimension
+                          ? '本维度包含 4 个方向，点击左侧查看对应二级动作与 VOC。'
+                          : `本维度包含 ${dimensionItems.length} 条结论，点击左侧结论查看对应分析和 VOC。`}
+                      </p>
                     </div>
                   </div>
                   <span
                     className="w-fit rounded-full px-3 py-1.5 text-[12px] font-black"
                     style={{ backgroundColor: `${dimension.color}14`, color: dimension.color }}
                   >
-                    {dimensionItems.length} 条结论
+                    {isNextDimension ? '4 个方向' : `${dimensionItems.length} 条结论`}
                   </span>
                 </div>
 
@@ -644,12 +668,13 @@ export default function FromPrimaryMergedReport() {
                     className="w-full shrink-0 self-start rounded-[18px] border border-[#E6DDD3] bg-[#FBFAF7] p-3 lg:w-[300px]"
                   >
                     <div className="mb-3 flex shrink-0 items-center justify-between">
-                      <p className="text-[14px] font-black text-[#403A34]">结论列表</p>
+                      <p className="text-[14px] font-black text-[#403A34]">{isNextDimension ? '方向列表' : '结论列表'}</p>
                       <span className="text-[11px] font-bold text-[#8A8279]">{dimensionItems.length} 条</span>
                     </div>
                     <div className="space-y-2.5">
                       {dimensionItems.map((item) => {
-                        const selected = item.id === selectedConclusion.id;
+                        const activeId = selectedNextPrimary?.id ?? selectedConclusion?.id;
+                        const selected = item.id === activeId;
                         const index = dimensionItems.findIndex((entry) => entry.id === item.id);
                         return (
                           <button
@@ -685,90 +710,147 @@ export default function FromPrimaryMergedReport() {
                     ref={(node) => {
                       detailPanelRefs.current[dimension.id] = node;
                     }}
-                    className="w-full min-w-0 self-start rounded-[18px] border border-[#E6DDD3] bg-white p-5 lg:h-[var(--detail-column-height)] lg:overflow-y-auto"
+                    className={cn('w-full min-w-0 self-start rounded-[18px] border border-[#E6DDD3] bg-white p-5', panelScrollClass)}
                     style={dynamicHeightStyle}
                   >
-                    <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[12px] font-black" style={{ backgroundColor: `${dimension.color}12`, color: dimension.color }}>
-                      当前结论
-                      <span className="rounded-full bg-white px-2 py-0.5">{selectedIndex + 1}</span>
-                    </div>
-                    <h3 className="mt-4 text-[28px] font-black leading-tight text-[#292521]">{selectedConclusion.title}</h3>
+                    {isNextDimension && selectedNextPrimary ? (
+                      <>
+                        <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[12px] font-black" style={{ backgroundColor: `${dimension.color}12`, color: dimension.color }}>
+                          当前方向
+                          <span className="rounded-full bg-white px-2 py-0.5">{selectedIndex + 1}</span>
+                        </div>
+                        <h3 className="mt-4 text-[28px] font-black leading-tight text-[#292521]">{selectedNextPrimary.title}</h3>
 
-                    <div className="mt-5 rounded-[16px] border border-[#EEE0D6] bg-[#FFF9F5] p-5">
-                      <div className="flex items-center gap-2 text-[14px] font-black" style={{ color: dimension.color }}>
-                        <BookOpenCheck size={17} />
-                        关键洞察
-                      </div>
-                      <p className="mt-3 text-[15px] font-semibold leading-8 text-[#403A34]">{selectedConclusion.insight}</p>
-                    </div>
-
-                    <div className="mt-4 rounded-[16px] border bg-white p-5" style={{ borderColor: `${dimension.color}40`, boxShadow: `inset 4px 0 0 ${dimension.color}` }}>
-                      <div className="flex items-center gap-2 text-[14px] font-black" style={{ color: dimension.color }}>
-                        <Sparkles size={17} />
-                        核心结论
-                      </div>
-                      <div className="mt-3 space-y-2.5">
-                        {selectedConclusion.conclusions.map((conclusion, index) => {
-                          const conclusionClips = conclusionClipsByCardId[selectedConclusion.id]?.[index] ?? [];
-                          return (
-                            <div key={conclusion} className="flex items-start gap-3 rounded-[12px] bg-[#FFF9F5] px-3 py-3">
-                              <span
-                                className="mt-1 grid size-5 shrink-0 place-items-center rounded-full text-[11px] font-black text-white"
-                                style={{ backgroundColor: dimension.color }}
-                              >
-                                {index + 1}
-                              </span>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-[16px] font-black leading-7 text-[#292521]">{conclusion}</p>
-                                {conclusionClips.length > 0 && (
-                                  <div className="mt-2.5 flex flex-col gap-2">
-                                    {conclusionClips.map((clip, clipIndex) => {
-                                      const meta = clipMetaByUrl[clip];
-                                      const evidenceClips: EvidenceClip[] = [{ clipUrl: clip, startTime: 0, duration: 0 }];
-                                      return (
-                                        <div
-                                          key={clip + clipIndex}
-                                          className="flex w-full flex-col rounded-[12px] border border-[#EADFD2] bg-white px-3.5 py-3"
-                                        >
-                                          <div className="flex items-start gap-1.5">
-                                            <Quote size={13} className="mt-0.5 shrink-0 text-[#E95B35]" />
-                                            <p className="text-[12.5px] font-semibold leading-5 text-[#3A342E]">{meta?.text ?? ''}</p>
-                                          </div>
-                                          <p className="mt-1.5 text-[11px] font-bold text-[#9A8F82]">— {meta?.source ?? '访谈原声'}</p>
-                                          <EvidenceAudioClips clips={evidenceClips} />
-                                        </div>
-                                      );
-                                    })}
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-
-                    <div className="mt-4 rounded-[16px] border border-[#D8EFE8] bg-[#F5FFFC] p-5">
-                      <div className="flex items-center gap-2 text-[14px] font-black text-[#2F9F8F]">
-                        <Target size={17} />
-                        建议行动
-                      </div>
-                      <div className="mt-3 space-y-2.5">
-                        {selectedConclusion.actions.map((action, index) => (
-                          <div key={action} className="flex items-start gap-3 rounded-[12px] bg-white px-3 py-3">
-                            <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-[#2F9F8F] text-[11px] font-black text-white">
-                              {index + 1}
-                            </span>
-                            <p className="text-[14px] font-bold leading-6 text-[#403A34]">{action}</p>
+                        <div className="mt-5 rounded-[16px] border border-[#EEE0D6] bg-[#FFF9F5] p-5">
+                          <div className="flex items-center gap-2 text-[14px] font-black" style={{ color: dimension.color }}>
+                            <BookOpenCheck size={17} />
+                            关键洞察
                           </div>
-                        ))}
-                      </div>
-                    </div>
+                          <p className="mt-3 text-[15px] font-semibold leading-8 text-[#403A34]">{selectedNextPrimary.insight}</p>
+                        </div>
 
-                    <div className="mt-4 rounded-[14px] border border-[#E6DDD3] bg-[#FBFAF7] px-4 py-3 text-[12px] font-semibold leading-6 text-[#7D746A]">
-                      {selectedConclusion.evidenceNote}
-                    </div>
+                        <div className="mt-4 rounded-[16px] border border-[#E6DDD3] bg-[#FBFAF7] px-4 py-3">
+                          <p className="text-[15px] font-black leading-7 text-[#292521]">{selectedNextPrimary.conclusion}</p>
+                        </div>
 
+                        <div className="mt-4 rounded-[16px] border bg-white p-5" style={{ borderColor: `${dimension.color}40`, boxShadow: `inset 4px 0 0 ${dimension.color}` }}>
+                          <div className="flex items-center gap-2 text-[14px] font-black" style={{ color: dimension.color }}>
+                            <Sparkles size={17} />
+                            二级动作
+                          </div>
+                          <div className="mt-3 space-y-3">
+                            {selectedNextPrimary.secondaries.map((secondary, index) => (
+                              <div key={secondary.title} className="rounded-[12px] bg-[#FFF9F5] px-3.5 py-3.5">
+                                <div className="flex items-start gap-3">
+                                  <span
+                                    className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full text-[11px] font-black text-white"
+                                    style={{ backgroundColor: dimension.color }}
+                                  >
+                                    {index + 1}
+                                  </span>
+                                  <div className="min-w-0 flex-1">
+                                    <h4 className="text-[16px] font-black leading-7 text-[#292521]">{secondary.title}</h4>
+                                    <p className="mt-1 text-[14px] font-bold leading-6 text-[#5F5851]">{secondary.action}</p>
+                                    <ul className="mt-2.5 space-y-1.5">
+                                      {secondary.points.map((point) => (
+                                        <li key={point} className="text-[13px] font-semibold leading-6 text-[#403A34]">
+                                          · {point}
+                                        </li>
+                                      ))}
+                                    </ul>
+                                    {renderVocClipCards(secondary.clips)}
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="mt-4 rounded-[16px] border border-[#D8EFE8] bg-[#F5FFFC] p-5">
+                          <div className="flex items-center gap-2 text-[14px] font-black text-[#2F9F8F]">
+                            <Target size={17} />
+                            建议行动
+                          </div>
+                          <div className="mt-3 space-y-2.5">
+                            {selectedNextPrimary.actions.map((action, index) => (
+                              <div key={action} className="flex items-start gap-3 rounded-[12px] bg-white px-3 py-3">
+                                <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-[#2F9F8F] text-[11px] font-black text-white">
+                                  {index + 1}
+                                </span>
+                                <p className="text-[14px] font-bold leading-6 text-[#403A34]">{action}</p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="mt-4 rounded-[14px] border border-[#E6DDD3] bg-[#FBFAF7] px-4 py-3 text-[12px] font-semibold leading-6 text-[#7D746A]">
+                          {selectedNextPrimary.evidenceNote}
+                        </div>
+                      </>
+                    ) : selectedConclusion ? (
+                      <>
+                        <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[12px] font-black" style={{ backgroundColor: `${dimension.color}12`, color: dimension.color }}>
+                          当前结论
+                          <span className="rounded-full bg-white px-2 py-0.5">{selectedIndex + 1}</span>
+                        </div>
+                        <h3 className="mt-4 text-[28px] font-black leading-tight text-[#292521]">{selectedConclusion.title}</h3>
+
+                        <div className="mt-5 rounded-[16px] border border-[#EEE0D6] bg-[#FFF9F5] p-5">
+                          <div className="flex items-center gap-2 text-[14px] font-black" style={{ color: dimension.color }}>
+                            <BookOpenCheck size={17} />
+                            关键洞察
+                          </div>
+                          <p className="mt-3 text-[15px] font-semibold leading-8 text-[#403A34]">{selectedConclusion.insight}</p>
+                        </div>
+
+                        <div className="mt-4 rounded-[16px] border bg-white p-5" style={{ borderColor: `${dimension.color}40`, boxShadow: `inset 4px 0 0 ${dimension.color}` }}>
+                          <div className="flex items-center gap-2 text-[14px] font-black" style={{ color: dimension.color }}>
+                            <Sparkles size={17} />
+                            核心结论
+                          </div>
+                          <div className="mt-3 space-y-2.5">
+                            {selectedConclusion.conclusions.map((conclusion, index) => {
+                              const conclusionClips = conclusionClipsByCardId[selectedConclusion.id]?.[index] ?? [];
+                              return (
+                                <div key={conclusion} className="flex items-start gap-3 rounded-[12px] bg-[#FFF9F5] px-3 py-3">
+                                  <span
+                                    className="mt-1 grid size-5 shrink-0 place-items-center rounded-full text-[11px] font-black text-white"
+                                    style={{ backgroundColor: dimension.color }}
+                                  >
+                                    {index + 1}
+                                  </span>
+                                  <div className="min-w-0 flex-1">
+                                    <p className="text-[16px] font-black leading-7 text-[#292521]">{conclusion}</p>
+                                    {renderVocClipCards(conclusionClips)}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+
+                        <div className="mt-4 rounded-[16px] border border-[#D8EFE8] bg-[#F5FFFC] p-5">
+                          <div className="flex items-center gap-2 text-[14px] font-black text-[#2F9F8F]">
+                            <Target size={17} />
+                            建议行动
+                          </div>
+                          <div className="mt-3 space-y-2.5">
+                            {selectedConclusion.actions.map((action, index) => (
+                              <div key={action} className="flex items-start gap-3 rounded-[12px] bg-white px-3 py-3">
+                                <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-[#2F9F8F] text-[11px] font-black text-white">
+                                  {index + 1}
+                                </span>
+                                <p className="text-[14px] font-bold leading-6 text-[#403A34]">{action}</p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="mt-4 rounded-[14px] border border-[#E6DDD3] bg-[#FBFAF7] px-4 py-3 text-[12px] font-semibold leading-6 text-[#7D746A]">
+                          {selectedConclusion.evidenceNote}
+                        </div>
+                      </>
+                    ) : null}
                   </section>
                 </div>
               </article>
