@@ -247,7 +247,7 @@ export default function CoreConclusionsReport() {
       </header>
 
       <section className="px-5 pb-8 md:px-8">
-        <div className="mx-auto max-w-[2880px] space-y-6">
+        <div className="mx-auto max-w-[1440px] space-y-6">
           {coreConclusionSections.map((section) => {
             const Icon = iconByKey[section.iconKey];
             const selectedId = selectedByDimension[section.id];
@@ -281,12 +281,12 @@ export default function CoreConclusionsReport() {
                   </span>
                 </div>
 
-                <div className="grid w-full items-start gap-5 lg:grid-cols-[600px_minmax(0,1fr)]">
+                <div className="grid w-full items-start gap-5 lg:grid-cols-[300px_minmax(0,1fr)]">
                   <aside
                     ref={(node) => {
                       detailRefs.current[section.id] = node;
                     }}
-                    className="w-full shrink-0 self-start rounded-[18px] border border-[#E6DDD3] bg-[#FBFAF7] p-3 lg:w-[600px]"
+                    className="w-full shrink-0 self-start rounded-[18px] border border-[#E6DDD3] bg-[#FBFAF7] p-3 lg:w-[300px]"
                   >
                     <div className="mb-3 flex shrink-0 items-center justify-between">
                       <p className="text-[14px] font-black text-[#403A34]">结论列表</p>
