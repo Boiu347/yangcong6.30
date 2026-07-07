@@ -494,6 +494,8 @@ export default function FromPrimaryMergedReport() {
     ),
   );
   const detailRefs = React.useRef<Partial<Record<DimensionId, HTMLElement | null>>>({});
+  const detailPanelRefs = React.useRef<Partial<Record<DimensionId, HTMLElement | null>>>({});
+  const prevSelectedRef = React.useRef(selectedByDimension);
   const [sharedDetailHeight, setSharedDetailHeight] = React.useState<number | null>(null);
 
   const totalVoc = Object.values(conclusionClipsByCardId).flat(2).length;
@@ -529,6 +531,14 @@ export default function FromPrimaryMergedReport() {
       observer.disconnect();
       window.removeEventListener('resize', updateAllHeights);
     };
+  }, [selectedByDimension]);
+
+  React.useLayoutEffect(() => {
+    dimensions.forEach((dimension) => {
+      if (prevSelectedRef.current[dimension.id] === selectedByDimension[dimension.id]) return;
+      detailPanelRefs.current[dimension.id]?.scrollTo({ top: 0 });
+    });
+    prevSelectedRef.current = selectedByDimension;
   }, [selectedByDimension]);
 
   return (
@@ -672,6 +682,9 @@ export default function FromPrimaryMergedReport() {
                   </aside>
 
                   <section
+                    ref={(node) => {
+                      detailPanelRefs.current[dimension.id] = node;
+                    }}
                     className="w-full min-w-0 self-start rounded-[18px] border border-[#E6DDD3] bg-white p-5 lg:h-[var(--detail-column-height)] lg:overflow-y-auto"
                     style={dynamicHeightStyle}
                   >
