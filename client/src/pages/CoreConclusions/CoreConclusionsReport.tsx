@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  BarChart3,
   BookOpenCheck,
   ExternalLink,
   FileText,
@@ -53,14 +52,21 @@ function VocClipCard({ clip, color }: { clip: VocClip; color: string }) {
   );
 }
 
+const LOSS_RED = '#D64C3C';
+
 function PointBlock({ point, color }: { point: Point; color: string }) {
+  const isLoss = point.label?.includes('劣势') ?? false;
+  const accent = isLoss ? LOSS_RED : color;
   return (
-    <div className="rounded-[12px] bg-[#FFF9F5] px-3.5 py-3.5">
+    <div
+      className="rounded-[12px] px-3.5 py-3.5"
+      style={{ backgroundColor: isLoss ? '#FEF2F0' : '#FFF9F5' }}
+    >
       <div className="flex items-start gap-2">
         {point.label && (
           <span
             className="mt-0.5 shrink-0 rounded-full px-2 py-0.5 text-[11px] font-black"
-            style={{ backgroundColor: `${color}18`, color }}
+            style={{ backgroundColor: `${accent}18`, color: accent }}
           >
             {point.label}
           </span>
@@ -84,7 +90,7 @@ function PointBlock({ point, color }: { point: Point; color: string }) {
       {point.quotes && point.quotes.length > 0 && (
         <div className="mt-3 flex flex-col gap-2">
           {point.quotes.map((clip, index) => (
-            <VocClipCard key={clip.text + index} clip={clip} color={color} />
+            <VocClipCard key={clip.text + index} clip={clip} color={accent} />
           ))}
         </div>
       )}
@@ -105,6 +111,11 @@ function PointBlock({ point, color }: { point: Point; color: string }) {
       )}
     </div>
   );
+}
+
+/** 取主标题在 —— 或 ：/: 之前的短词，无分隔符则返回全称 */
+function toShortTitle(title: string): string {
+  return title.split(/——|：|:/)[0].trim() || title;
 }
 
 function SubSectionBlock({ sub, index, color }: { sub: SubSection; index: number; color: string }) {
@@ -142,7 +153,9 @@ export default function CoreConclusionsReport() {
   );
 
   const detailPanelRefs = React.useRef<Record<string, HTMLElement | null>>({});
+  const sectionRefs = React.useRef<Record<string, HTMLElement | null>>({});
   const prevSelectedRef = React.useRef(selectedByDimension);
+  const [activeSection, setActiveSection] = React.useState(coreConclusionSections[0]?.id ?? '');
 
   const totalVoc = countCoreVocClips();
   const userCount = countCoreUsers();
@@ -155,6 +168,26 @@ export default function CoreConclusionsReport() {
     });
     prevSelectedRef.current = selectedByDimension;
   }, [selectedByDimension]);
+
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible?.target instanceof HTMLElement && visible.target.dataset.sectionId) {
+          setActiveSection(visible.target.dataset.sectionId);
+        }
+      },
+      { rootMargin: '-45% 0px -45% 0px', threshold: [0, 0.2, 0.5, 1] },
+    );
+    Object.values(sectionRefs.current).forEach((el) => el && observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  const jumpToSection = React.useCallback((id: string) => {
+    sectionRefs.current[id]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, []);
 
   return (
     <main className="min-h-full bg-[#F8F6F1] text-[#292521]">
@@ -215,7 +248,40 @@ export default function CoreConclusionsReport() {
         </div>
       </header>
 
-      <section className="px-5 pb-8 md:px-8">
+      <nav className="sticky top-0 z-20 border-y border-[#E4E2DA] bg-[#F8F6F1]/92 backdrop-blur">
+        <div className="mx-auto flex max-w-[1440px] items-stretch gap-1 overflow-x-auto px-5 md:px-8">
+          {coreConclusionSections.map((section, index) => {
+            const active = activeSection === section.id;
+            return (
+              <button
+                key={section.id}
+                type="button"
+                onClick={() => jumpToSection(section.id)}
+                className="group relative flex shrink-0 items-center gap-2 py-3.5 pl-1 pr-4 text-left"
+              >
+                <span
+                  className="grid h-7 w-7 place-items-center rounded-full text-[10px] font-black transition-colors"
+                  style={{
+                    background: active ? section.color : `${section.color}18`,
+                    color: active ? '#fff' : section.color,
+                  }}
+                >
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <span
+                  className="whitespace-nowrap text-[13px]"
+                  style={{ color: active ? '#292521' : '#746E67', fontWeight: active ? 800 : 500 }}
+                >
+                  {section.label}
+                </span>
+                {active && <span className="absolute inset-x-1 bottom-0 h-0.5" style={{ background: section.color }} />}
+              </button>
+            );
+          })}
+        </div>
+      </nav>
+
+      <section className="px-5 pb-8 pt-6 md:px-8">
         <div className="mx-auto max-w-[1440px] space-y-6">
           {coreConclusionSections.map((section) => {
             const Icon = iconByKey[section.iconKey];
@@ -226,7 +292,11 @@ export default function CoreConclusionsReport() {
             return (
               <article
                 key={section.id}
-                className="w-full rounded-[24px] border border-[#E0D7CC] bg-white p-5 shadow-[0_18px_42px_rgba(55,44,34,.07)]"
+                ref={(node) => {
+                  sectionRefs.current[section.id] = node;
+                }}
+                data-section-id={section.id}
+                className="w-full scroll-mt-16 rounded-[24px] border border-[#E0D7CC] bg-white p-5 shadow-[0_18px_42px_rgba(55,44,34,.07)]"
               >
                 <div className="mb-5 flex flex-col gap-3 border-b border-[#E8DED3] pb-4 md:flex-row md:items-center md:justify-between">
                   <div className="flex items-center gap-3">
@@ -246,46 +316,50 @@ export default function CoreConclusionsReport() {
                   </span>
                 </div>
 
-                <div className="grid w-full items-start gap-5 lg:grid-cols-[300px_minmax(0,1fr)]">
-                  <aside className="w-full shrink-0 self-start rounded-[18px] border border-[#E6DDD3] bg-[#FBFAF7] p-3 lg:sticky lg:top-4 lg:w-[300px]">
-                    <div className="mb-3 flex shrink-0 items-center justify-between">
-                      <p className="text-[14px] font-black text-[#403A34]">结论列表</p>
-                      <span className="text-[11px] font-bold text-[#8A8279]">{section.mains.length} 条</span>
-                    </div>
-                    <div className="space-y-2.5">
-                      {section.mains.map((main, index) => {
-                        const selected = main.id === selectedMain.id;
-                        return (
-                          <button
-                            key={main.id}
-                            type="button"
-                            onClick={() => setSelectedByDimension((prev) => ({ ...prev, [section.id]: main.id }))}
-                            className={cn(
-                              'w-full rounded-[14px] border p-4 text-left transition',
-                              selected ? 'bg-white shadow-[0_12px_28px_rgba(55,44,34,.08)]' : 'bg-white hover:bg-[#FFF9F5]',
-                            )}
-                            style={{ borderColor: selected ? section.color : `${section.color}55` }}
+                <div className="w-full">
+                  <div className="mb-4 flex items-center justify-between">
+                    <p className="text-[14px] font-black text-[#403A34]">结论列表</p>
+                    <span className="text-[11px] font-bold text-[#8A8279]">{section.mains.length} 条</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2.5">
+                    {section.mains.map((main, index) => {
+                      const selected = main.id === selectedMain.id;
+                      return (
+                        <button
+                          key={main.id}
+                          type="button"
+                          onClick={() => setSelectedByDimension((prev) => ({ ...prev, [section.id]: main.id }))}
+                          className={cn(
+                            'flex items-center gap-2.5 rounded-full border px-4 py-2.5 text-left transition',
+                            selected ? 'shadow-[0_10px_24px_rgba(55,44,34,.08)]' : 'hover:bg-[#FFF9F5]',
+                          )}
+                          style={{
+                            borderColor: selected ? section.color : `${section.color}55`,
+                            backgroundColor: selected ? `${section.color}12` : '#fff',
+                          }}
+                        >
+                          <span
+                            className="grid size-6 shrink-0 place-items-center rounded-full text-[12px] font-black text-white"
+                            style={{ backgroundColor: selected ? section.color : `${section.color}80` }}
                           >
-                            <div className="flex items-start gap-3">
-                              <span className="grid size-8 shrink-0 place-items-center rounded-full bg-[#F1ECE5] text-[14px] font-black text-[#7D746A]">
-                                {index + 1}
-                              </span>
-                              <div className="min-w-0">
-                                <h3 className="text-[15px] font-black leading-6 text-[#292521]">{main.title}</h3>
-                                <p className="mt-1 text-[12px] font-semibold leading-5 text-[#6F675F]">{main.summary}</p>
-                              </div>
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </aside>
+                            {index + 1}
+                          </span>
+                          <span
+                            className="whitespace-nowrap text-[14px] font-black"
+                            style={{ color: selected ? section.color : '#5F5851' }}
+                          >
+                            {toShortTitle(main.title)}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
 
                   <section
                     ref={(node) => {
                       detailPanelRefs.current[section.id] = node;
                     }}
-                    className="w-full min-w-0 self-start scroll-mt-4 rounded-[18px] border border-[#E6DDD3] bg-white p-5"
+                    className="mt-5 w-full min-w-0 scroll-mt-16 rounded-[18px] border border-[#E6DDD3] bg-white p-5"
                   >
                     <div
                       className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[12px] font-black"
@@ -295,6 +369,7 @@ export default function CoreConclusionsReport() {
                       <span className="rounded-full bg-white px-2 py-0.5">{selectedIndex + 1}</span>
                     </div>
                     <h3 className="mt-4 text-[26px] font-black leading-tight text-[#292521]">{selectedMain.title}</h3>
+                    <p className="mt-2 text-[14px] font-semibold leading-6 text-[#7D746A]">{selectedMain.summary}</p>
 
                     <div className="mt-5 rounded-[16px] border border-[#EEE0D6] bg-[#FFF9F5] p-5">
                       <div className="flex items-center gap-2 text-[14px] font-black" style={{ color: section.color }}>
