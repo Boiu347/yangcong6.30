@@ -374,20 +374,20 @@ function SourcePanel() {
             页面结论来自课程售卖情况、研究拆解、项目总结、定性洞察和定量报告；每条用户原声都落到“用户几访谈”，可跳转到对应访谈纪要、文字记录或录音来源继续追溯。
           </p>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <a href={STRATEGY_SOURCE_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-full border border-[#D8D0C6] px-3 py-1.5 text-[12px] font-bold text-[#5F5851] hover:text-[#E95B35]">
+        <div className="grid grid-cols-2 gap-2 sm:max-w-[320px]">
+          <a href={STRATEGY_SOURCE_URL} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-1 rounded-full border border-[#D8D0C6] px-3 py-1.5 text-[12px] font-bold text-[#5F5851] hover:text-[#E95B35]">
             <FileText size={13} />
             洞察小结
           </a>
-          <a href={RESEARCH_SOURCE_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-full border border-[#D8D0C6] px-3 py-1.5 text-[12px] font-bold text-[#5F5851] hover:text-[#E95B35]">
+          <a href={RESEARCH_SOURCE_URL} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-1 rounded-full border border-[#D8D0C6] px-3 py-1.5 text-[12px] font-bold text-[#5F5851] hover:text-[#E95B35]">
             <FileText size={13} />
             研究方案
           </a>
-          <a href={INTERVIEW_INDEX_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-full border border-[#D8D0C6] px-3 py-1.5 text-[12px] font-bold text-[#5F5851] hover:text-[#E95B35]">
+          <a href={INTERVIEW_INDEX_URL} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-1 rounded-full border border-[#D8D0C6] px-3 py-1.5 text-[12px] font-bold text-[#5F5851] hover:text-[#E95B35]">
             <FileText size={13} />
             访谈纪要
           </a>
-          <a href={QUANT_SOURCE_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-full border border-[#D8D0C6] px-3 py-1.5 text-[12px] font-bold text-[#5F5851] hover:text-[#E95B35]">
+          <a href={QUANT_SOURCE_URL} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-1 rounded-full border border-[#D8D0C6] px-3 py-1.5 text-[12px] font-bold text-[#5F5851] hover:text-[#E95B35]">
             <BarChart3 size={13} />
             定量报告
           </a>
@@ -560,7 +560,7 @@ export default function FromPrimaryMergedReport() {
                 用于沉淀小学物理项目的核心结论、VOC 证据和产品优化建议，帮助业务方先看判断，再追溯到用户原声。
               </p>
             </div>
-            <div className="flex flex-wrap gap-2 lg:max-w-[420px] lg:justify-end">
+            <div className="grid w-full max-w-[420px] grid-cols-2 gap-2 lg:w-[420px] lg:shrink-0">
               {[
                 { label: '洞察小结', url: STRATEGY_SOURCE_URL },
                 { label: '研究方案', url: RESEARCH_SOURCE_URL },
@@ -572,7 +572,7 @@ export default function FromPrimaryMergedReport() {
                   href={link.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full border border-[#D8D0C6] bg-white px-3 py-2 text-[12px] font-black text-[#5F5851] shadow-sm transition hover:border-[#E95B35] hover:text-[#E95B35]"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#D8D0C6] bg-white px-3 py-2 text-[12px] font-black text-[#5F5851] shadow-sm transition hover:border-[#E95B35] hover:text-[#E95B35]"
                 >
                   <FileText size={13} />
                   {link.label}
