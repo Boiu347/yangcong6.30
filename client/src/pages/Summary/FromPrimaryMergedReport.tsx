@@ -462,7 +462,6 @@ function renderVocClipCards(clips: string[]) {
 const reportConclusions: ResearchConclusion[] = redesignedCards.map((card) => {
   const takeaways = card.takeaways ?? cardTakeaways[card.id] ?? [];
   const judgment = takeaways.find((item) => item.label === '判断')?.text;
-  const evidence = takeaways.find((item) => item.label === '依据')?.text;
   const action = takeaways.find((item) => item.label === '动作')?.text;
 
   return {
@@ -472,7 +471,7 @@ const reportConclusions: ResearchConclusion[] = redesignedCards.map((card) => {
     summary: compactSummary(judgment ?? card.conclusion),
     priority: priorityByDimension[card.dimension],
     confidence: confidenceByDimension[card.dimension],
-    insight: evidence ?? card.data ?? card.conclusion,
+    insight: judgment ?? card.conclusion,
     conclusion: card.conclusion,
     conclusions: conclusionDetailsByCardId[card.id] ?? [card.conclusion],
     actions: action ? [action] : ['把该结论转成页面话术、产品反馈或转化链路中的具体表达。'],
