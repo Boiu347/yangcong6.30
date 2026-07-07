@@ -13,7 +13,7 @@ import {
 import { cn } from '@/lib/utils';
 import EvidenceAudioClips from '@/components/EvidenceAudioClips';
 import type { EvidenceClip } from '@/utils/evidenceClipLookup';
-import { clipMetaByUrl, conclusionClipsByCardId, conclusionDetailsByCardId } from './conclusionMaps';
+import { clipMetaByUrl, conclusionClipsByCardId, conclusionDetailsByCardId, countBoundVocCitations } from './conclusionMaps';
 import { nextStepPrimaries } from './nextStepData';
 
 const ORANGE = '#E95B35';
@@ -500,12 +500,13 @@ export default function FromPrimaryMergedReport() {
   const prevSelectedRef = React.useRef(selectedByDimension);
   const [sharedDetailHeight, setSharedDetailHeight] = React.useState<number | null>(null);
 
-  const nextStepVocCount = nextStepPrimaries.reduce(
-    (sum, primary) => sum + primary.secondaries.reduce((inner, secondary) => inner + secondary.clips.length, 0),
-    0,
-  );
-  const totalVoc = Object.values(conclusionClipsByCardId).flat(2).length + nextStepVocCount;
-  const userCount = new Set(Object.values(clipMetaByUrl).map((item) => item.source.split('·')[0].trim())).size;
+  const nextStepClipGroups = nextStepPrimaries.flatMap((primary) => primary.secondaries.map((secondary) => secondary.clips));
+  const totalVoc = countBoundVocCitations(nextStepClipGroups);
+  const userCount = new Set(
+    [...Object.values(conclusionClipsByCardId).flat(2), ...nextStepClipGroups.flat()]
+      .map((clip) => clipMetaByUrl[clip]?.source.split('·')[0].trim())
+      .filter(Boolean),
+  ).size;
 
   React.useLayoutEffect(() => {
     const measuredNodes = dimensions

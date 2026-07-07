@@ -186,6 +186,16 @@ export const conclusionClipsByCardId: Record<string, string[][]> = {
   ],
 };
 
+/** 统计与结论绑定的原声引用数（按 clipUrl 去重，与下方引用卡片一一对应） */
+export function countBoundVocCitations(extraClipGroups: string[][] = []): number {
+  const urls = new Set<string>();
+  Object.values(conclusionClipsByCardId)
+    .flat(2)
+    .forEach((url) => urls.add(url));
+  extraClipGroups.flat().forEach((url) => urls.add(url));
+  return urls.size;
+}
+
 export const clipMetaByUrl: Record<string, { text: string; source: string }> = {
   '/clips/interview1/0001-01.mp3': { text: '万物指南的话，也是从我们有个学习群，大概就是看了一下这个介绍觉得他这个团队还是比较靠谱的。', source: '访谈1 · 二年级 · 山东临沂' },
   '/clips/interview1/0002-01.mp3': { text: '有个概念就行。不是为了提前学什么，更多是让他了解一下自然现象。', source: '访谈1 · 二年级 · 山东临沂' },
