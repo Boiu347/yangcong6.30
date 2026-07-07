@@ -111,20 +111,20 @@ export const conclusionClipsByCardId: Record<string, string[][]> = {
   ],
   r02: [
     ['/clips/interview4/0041-01.mp3', '/clips/interview4/0040-01.mp3', '/clips/interview7/0208-01.mp3'],
-    ['/clips/interview4/0080-01.mp3', '/clips/interview3/0007-01.mp3', '/clips/interview3/0007-01.mp3'],
+    ['/clips/interview4/0080-01.mp3', '/clips/interview2/0095-01.mp3', '/clips/interview8/0001-01.mp3'],
     ['/clips/interview4/0009-01.mp3', '/clips/interview6/0012-01.mp3', '/clips/interview6/0048-01.mp3'],
     ['/clips/interview4/0092-01.mp3', '/clips/interview4/0091-01.mp3', '/clips/interview4/0054-01.mp3'],
   ],
   r03: [
     ['/clips/interview4/0041-01.mp3', '/clips/interview4/0040-01.mp3', '/clips/interview1/0079-01.mp3'],
     ['/clips/interview7/0247-01.mp3', '/clips/interview1/0079-01.mp3', '/clips/interview4/0054-01.mp3'],
-    ['/clips/interview3/0007-01.mp3', '/clips/interview4/0080-01.mp3', '/clips/interview3/0007-01.mp3'],
+    ['/clips/interview8/0001-01.mp3', '/clips/interview4/0080-01.mp3', '/clips/interview2/0094-01.mp3'],
     ['/clips/interview4/0080-01.mp3', '/clips/interview3/0012-01.mp3', '/clips/interview5/0057-01.mp3'],
   ],
   r04: [
-    ['/clips/interview4/0080-01.mp3', '/clips/interview3/0007-01.mp3', '/clips/interview3/0007-01.mp3'],
+    ['/clips/interview4/0080-01.mp3', '/clips/interview8/0001-01.mp3', '/clips/interview2/0094-01.mp3'],
     ['/clips/interview5/0057-01.mp3', '/clips/interview4/0054-01.mp3', '/clips/interview5/0031-01.mp3'],
-    ['/clips/interview5/0057-01.mp3', '/clips/interview4/0048-01.mp3', '/clips/interview5/0057-01.mp3'],
+    ['/clips/interview8/0002-01.mp3', '/clips/interview5/0057-01.mp3', '/clips/interview4/0048-01.mp3'],
     ['/clips/interview4/0048-01.mp3', '/clips/interview4/0040-01.mp3', '/clips/interview7/0247-01.mp3'],
   ],
   r05: [
@@ -141,13 +141,13 @@ export const conclusionClipsByCardId: Record<string, string[][]> = {
   ],
   r07: [
     ['/clips/interview1/0002-01.mp3', '/clips/interview5/0031-01.mp3'],
-    ['/clips/interview3/0007-01.mp3', '/clips/interview7/0208-01.mp3', '/clips/interview3/0007-01.mp3'],
-    ['/clips/interview1/0002-01.mp3', '/clips/interview2/0020-01.mp3', '/clips/interview2/0013-01.mp3'],
+    ['/clips/interview3/0007-01.mp3', '/clips/interview7/0208-01.mp3', '/clips/interview8/0001-01.mp3'],
+    ['/clips/interview2/0093-01.mp3', '/clips/interview2/0094-01.mp3', '/clips/interview2/0095-01.mp3'],
   ],
   r08: [
     ['/clips/interview1/0013-01.mp3', '/clips/interview5/0044-01.mp3'],
     ['/clips/interview1/0001-01.mp3', '/clips/interview4/0009-01.mp3'],
-    ['/clips/interview6/0048-01.mp3', '/clips/interview3/0007-01.mp3'],
+    ['/clips/interview6/0048-01.mp3', '/clips/interview8/0001-01.mp3'],
     ['/clips/interview4/0092-01.mp3', '/clips/interview4/0041-01.mp3'],
   ],
   r09: [
@@ -169,7 +169,7 @@ export const conclusionClipsByCardId: Record<string, string[][]> = {
   ],
   r12: [
     ['/clips/interview4/0054-01.mp3'],
-    ['/clips/interview5/0057-01.mp3', '/clips/interview5/0057-01.mp3'],
+    ['/clips/interview8/0002-01.mp3', '/clips/interview5/0057-01.mp3'],
     ['/clips/interview1/0013-01.mp3', '/clips/interview4/0041-01.mp3'],
     ['/clips/interview6/0022-01.mp3', '/clips/interview6/0023-01.mp3'],
   ],
@@ -182,7 +182,7 @@ export const conclusionClipsByCardId: Record<string, string[][]> = {
     ['/clips/interview4/0041-01.mp3', '/clips/interview4/0040-01.mp3'],
     ['/clips/interview4/0092-01.mp3', '/clips/interview4/0091-01.mp3'],
     ['/clips/interview4/0054-01.mp3'],
-    ['/clips/interview5/0057-01.mp3', '/clips/interview5/0057-01.mp3'],
+    ['/clips/interview8/0002-01.mp3', '/clips/interview5/0057-01.mp3'],
   ],
   r15: [
     ['/clips/interview1/0013-01.mp3'],
@@ -191,14 +191,14 @@ export const conclusionClipsByCardId: Record<string, string[][]> = {
     ['/clips/interview6/0012-01.mp3'],
   ],
   r16: [
-    ['/clips/interview2/0013-01.mp3', '/clips/interview2/0020-01.mp3'],
+    ['/clips/interview2/0095-01.mp3', '/clips/interview2/0093-01.mp3'],
     ['/clips/interview5/0044-01.mp3'],
     ['/clips/interview4/0091-01.mp3', '/clips/interview4/0048-01.mp3'],
   ],
   r17: [
     ['/clips/interview7/0208-01.mp3', '/clips/interview4/0041-01.mp3'],
     ['/clips/interview4/0054-01.mp3'],
-    ['/clips/interview4/0048-01.mp3', '/clips/interview5/0057-01.mp3'],
+    ['/clips/interview4/0048-01.mp3', '/clips/interview8/0002-01.mp3'],
   ],
   r18: [
     ['/clips/interview1/0002-01.mp3'],
@@ -237,6 +237,9 @@ export const clipMetaByUrl: Record<string, { text: string; source: string }> = {
   '/clips/interview6/0048-01.mp3': { text: '当时买洋葱学园的数学课的时候，推荐了这个物理课，我才买的。', source: '访谈6 · 四年级 · 河南郑州' },
   '/clips/interview7/0208-01.mp3': { text: '首先是孩子能看得进去，看得进去的话，想教他的知识，他才能听进去、学进去。', source: '访谈7 · 二年级 · 山东潍坊' },
   '/clips/interview7/0247-01.mp3': { text: '开车前方停车突然踩刹车，我们和孩子一起往前倾，这就是惯性。', source: '访谈7 · 二年级 · 山东潍坊' },
-  '/clips/interview3/0007-01.mp3': { text: '最少他上初中、高中学习物理不会那么吃力吧？因为他小时候就喜欢接触，应该是有点帮助。', source: '访谈8 · 一年级 · 安徽合肥' },
-  '/clips/interview5/0057-01.mp3': { text: '就是没有，就没有没有就他没有学习报告。', source: '访谈8 · 一年级 · 安徽合肥' },
+  '/clips/interview2/0093-01.mp3': { text: '当时说启蒙笨鸟先飞，我学一遍，在初高中再学一遍。当时是这么个简单的想法。', source: '访谈2 · 三年级 · 北京昌平' },
+  '/clips/interview2/0094-01.mp3': { text: '就是以后。初高中做铺垫。', source: '访谈2 · 三年级 · 北京昌平' },
+  '/clips/interview2/0095-01.mp3': { text: '学科启蒙，那就是为了以后中高考这个考试嘛。其实兴趣类的话，他可能会比那个学科类的更要求，孩子方面我觉得更低一点吧。', source: '访谈2 · 三年级 · 北京昌平' },
+  '/clips/interview8/0001-01.mp3': { text: '最少他上初中、高中学习物理不会那么吃力吧？因为他小时候就喜欢接触，应该是有点帮助。', source: '访谈8 · 一年级 · 安徽合肥' },
+  '/clips/interview8/0002-01.mp3': { text: '就是没有，就没有没有就他没有学习报告。', source: '访谈8 · 一年级 · 安徽合肥' },
 };
