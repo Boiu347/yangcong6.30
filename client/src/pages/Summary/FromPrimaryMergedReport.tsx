@@ -1717,14 +1717,14 @@ export default function FromPrimaryMergedReport() {
                               <div className="min-w-0 flex-1">
                                 <p className="text-[16px] font-black leading-7 text-[#292521]">{conclusion}</p>
                                 {conclusionClips.length > 0 && (
-                                  <div className="mt-2.5 flex gap-2.5 overflow-x-auto pb-1">
+                                  <div className="mt-2.5 flex flex-col gap-2">
                                     {conclusionClips.map((clip, clipIndex) => {
                                       const meta = clipMetaByUrl[clip];
                                       const evidenceClips: EvidenceClip[] = [{ clipUrl: clip, startTime: 0, duration: 0 }];
                                       return (
                                         <div
                                           key={clip + clipIndex}
-                                          className="flex min-w-[260px] max-w-[340px] flex-1 flex-col rounded-[12px] border border-[#EADFD2] bg-white px-3.5 py-3"
+                                          className="flex w-full flex-col rounded-[12px] border border-[#EADFD2] bg-white px-3.5 py-3"
                                         >
                                           <div className="flex items-start gap-1.5">
                                             <Quote size={13} className="mt-0.5 shrink-0 text-[#E95B35]" />
