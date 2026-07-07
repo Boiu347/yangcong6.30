@@ -342,7 +342,6 @@ function PersonaChapter({
   return (
     <section ref={registerRef} data-section-id={persona.id} className="scroll-mt-14 border-b border-[#e4e2da]">
       <div className="mx-auto max-w-[1180px] px-5 py-12 md:py-20">
-        {/* 大章节号 + 标题 */}
         <motion.div {...reveal} className="flex items-start gap-4 md:gap-6">
           <motion.span
             initial={{ opacity: 0, x: -16 }}
@@ -365,176 +364,190 @@ function PersonaChapter({
           </div>
         </motion.div>
 
-        {/* sticky 左栏 + 滚动右栏（scrollytelling） */}
-        <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,300px)_minmax(0,1fr)]">
-          <div className="lg:sticky lg:top-[72px] lg:self-start">
-            <StickyPersonaCard persona={persona} />
-          </div>
+        {/* 用户画像：先讲这一类人 */}
+        <motion.div {...reveal} className="mt-10">
+          <ChapterSectionHeader label="用户画像" subtitle="这一类家长是谁、要什么、痛在哪、偏好什么" accent={persona.accent} />
+        </motion.div>
 
-          <div className="space-y-5">
-            <ScrollBlock persona={persona} delay={0}>
-              <SectionLabel icon={GitCompare} label="与其他类型的边界" accent={persona.accent} />
-              <p className="mt-3 text-sm leading-7 text-[#3f3a35]">{persona.boundary}</p>
-            </ScrollBlock>
-
-            <ScrollBlock persona={persona} delay={0.05}>
-              <SectionLabel icon={Lightbulb} label="产品机会（来自偏好）" accent={persona.accent} />
-              <p className="mt-3 text-sm leading-7 text-[#3f3a35]">{persona.productOpportunity}</p>
-            </ScrollBlock>
-
-            {/* 四维属性 —— 逐格淡入 */}
-            <div className="grid gap-px overflow-hidden rounded-xl border border-[#e4e2da] bg-[#e4e2da] sm:grid-cols-2">
-              {persona.attributes.map((attr, i) => {
-                const Icon = ATTRIBUTE_ICON[attr.key];
-                return (
-                  <motion.div
-                    {...reveal}
-                    transition={{ ...reveal.transition, delay: i * 0.07 }}
-                    key={attr.key}
-                    whileHover={{ backgroundColor: '#fffaf7' }}
-                    className="bg-white p-4 transition-colors"
-                  >
-                    <div className="flex items-center gap-2" style={{ color: persona.accent }}>
-                      <Icon size={14} />
-                      <span className="text-[11px] font-black">{attr.label}</span>
-                    </div>
-                    <p className="mt-2 text-xs leading-6 text-[#4a453f]">{attr.value}</p>
-                  </motion.div>
-                );
-              })}
+        <div className="mt-5 space-y-5">
+          <motion.div {...reveal} className="rounded-2xl border border-[#e7e5de] bg-white p-5 md:p-6" style={{ borderTopWidth: 3, borderTopColor: persona.accent }}>
+            <div className="text-[11px] font-black tracking-wide" style={{ color: persona.accent }}>
+              类型 {persona.index} · {persona.name}
             </div>
+            <p className="mt-3 text-[15px] font-semibold leading-8 text-[#332f2a]">{persona.definition}</p>
+          </motion.div>
 
-            {persona.cases.length > 0 && (
-              <motion.div {...reveal} className="flex flex-wrap gap-3">
-                {persona.cases.map((c) => (
-                  <motion.div
-                    key={`${c.brand}-${c.tone}`}
-                    whileHover={{ y: -2 }}
-                    className="flex items-start gap-2 rounded-lg border bg-white px-3 py-2.5"
-                    style={{ borderColor: c.tone === 'positive' ? '#cfe6dc' : '#f0d6cd' }}
-                  >
-                    {c.tone === 'positive' ? (
-                      <ThumbsUp size={14} className="mt-0.5 shrink-0 text-[#2F8272]" />
-                    ) : (
-                      <ThumbsDown size={14} className="mt-0.5 shrink-0 text-[#C9622E]" />
-                    )}
-                    <div>
-                      <span className="text-xs font-black text-[#292521]">{c.brand}</span>
-                      <span className="mx-1.5 text-[#ccc]">·</span>
-                      <span className="text-xs text-[#5c564f]">{c.note}</span>
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            )}
+          <ScrollBlock persona={persona} delay={0}>
+            <SectionLabel icon={GitCompare} label="与其他类型的边界" accent={persona.accent} />
+            <p className="mt-3 text-sm leading-7 text-[#3f3a35]">{persona.boundary}</p>
+          </ScrollBlock>
 
-            {/* 轻量故事线：2 段滚动叙事 */}
-            <motion.div {...reveal} className="flex items-center gap-2 pt-2">
-              <span className="h-4 w-1 rounded" style={{ background: persona.accent }} />
-              <h3 className="text-sm font-black tracking-wide text-[#292521]">代表用户 · 故事片段</h3>
-            </motion.div>
+          <ScrollBlock persona={persona} delay={0.05}>
+            <SectionLabel icon={Lightbulb} label="产品机会（来自偏好）" accent={persona.accent} />
+            <p className="mt-3 text-sm leading-7 text-[#3f3a35]">{persona.productOpportunity}</p>
+          </ScrollBlock>
 
-            {persona.storyBeats.map((beat, i) => (
-              <motion.article
-                {...reveal}
-                transition={{ ...reveal.transition, delay: Math.min(i * 0.06, 0.18) }}
-                key={beat.heading}
-                whileHover={{ x: 4 }}
-                className="rounded-xl border border-[#e7e5de] bg-white p-5"
-              >
-                <div className="flex items-center gap-3">
-                  <span
-                    className="grid h-6 w-6 shrink-0 place-items-center rounded-full text-[11px] font-black"
-                    style={{ background: persona.accentSoft, color: persona.accent }}
-                  >
-                    {i + 1}
-                  </span>
-                  <h4 className="text-[15px] font-black text-[#292521]">{beat.heading}</h4>
-                </div>
-                <p className="mt-3 pl-9 text-sm leading-7 text-[#4a453f]">{beat.body}</p>
-              </motion.article>
-            ))}
-
-            {/* 金句卡 */}
-            <motion.blockquote
-              {...reveal}
-              className="relative overflow-hidden rounded-xl p-5 md:p-6"
-              style={{ background: persona.accentSoft }}
-            >
-              <Quote size={48} className="absolute -right-1 -top-1 opacity-15" style={{ color: persona.accent }} />
-              <p className="relative text-[15px] font-semibold leading-8 text-[#332f2a]">“{persona.representative.quote}”</p>
-            </motion.blockquote>
-
-            {extraQuotes.length > 0 && (
-              <div>
-                <button
-                  type="button"
-                  onClick={() => setShowMoreQuotes((v) => !v)}
-                  className="flex items-center gap-1.5 text-xs font-bold transition-colors hover:opacity-80"
-                  style={{ color: persona.accent }}
+          <div className="grid gap-px overflow-hidden rounded-xl border border-[#e4e2da] bg-[#e4e2da] sm:grid-cols-2">
+            {persona.attributes.map((attr, i) => {
+              const Icon = ATTRIBUTE_ICON[attr.key];
+              return (
+                <motion.div
+                  {...reveal}
+                  transition={{ ...reveal.transition, delay: i * 0.07 }}
+                  key={attr.key}
+                  whileHover={{ backgroundColor: '#fffaf7' }}
+                  className="bg-white p-4 transition-colors"
                 >
-                  <motion.span animate={{ rotate: showMoreQuotes ? 180 : 0 }}>
-                    <ChevronDown size={14} />
-                  </motion.span>
-                  {showMoreQuotes ? '收起更多原声' : '展开更多原声'}
-                </button>
-                <AnimatePresence>
-                  {showMoreQuotes && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      className="mt-3 space-y-2 overflow-hidden"
-                    >
-                      {extraQuotes.map((q) => (
-                        <blockquote key={q} className="rounded-lg border border-[#e7e5de] bg-white px-4 py-3 text-sm leading-7 text-[#555]">
-                          “{q}”
-                        </blockquote>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            )}
+                  <div className="flex items-center gap-2" style={{ color: persona.accent }}>
+                    <Icon size={14} />
+                    <span className="text-[11px] font-black">{attr.label}</span>
+                  </div>
+                  <p className="mt-2 text-xs leading-6 text-[#4a453f]">{attr.value}</p>
+                </motion.div>
+              );
+            })}
           </div>
+
+          {persona.cases.length > 0 && (
+            <motion.div {...reveal} className="flex flex-wrap gap-3">
+              {persona.cases.map((c) => (
+                <motion.div
+                  key={`${c.brand}-${c.tone}`}
+                  whileHover={{ y: -2 }}
+                  className="flex items-start gap-2 rounded-lg border bg-white px-3 py-2.5"
+                  style={{ borderColor: c.tone === 'positive' ? '#cfe6dc' : '#f0d6cd' }}
+                >
+                  {c.tone === 'positive' ? (
+                    <ThumbsUp size={14} className="mt-0.5 shrink-0 text-[#2F8272]" />
+                  ) : (
+                    <ThumbsDown size={14} className="mt-0.5 shrink-0 text-[#C9622E]" />
+                  )}
+                  <div>
+                    <span className="text-xs font-black text-[#292521]">{c.brand}</span>
+                    <span className="mx-1.5 text-[#ccc]">·</span>
+                    <span className="text-xs text-[#5c564f]">{c.note}</span>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+        </div>
+
+        {/* 用户故事：再讲这一类人中的典型代表 */}
+        <motion.div {...reveal} className="mt-12 md:mt-16">
+          <ChapterSectionHeader label="用户故事" subtitle="该类型中的典型代表 · 真实访谈还原" accent="#3F5E8C" />
+        </motion.div>
+
+        <div className="mt-5 space-y-5">
+          <RepresentativeUserCard persona={persona} />
+
+          {persona.storyBeats.map((beat, i) => (
+            <motion.article
+              {...reveal}
+              transition={{ ...reveal.transition, delay: Math.min(i * 0.06, 0.18) }}
+              key={beat.heading}
+              whileHover={{ x: 4 }}
+              className="rounded-xl border border-[#d8e4ef] bg-[#f8fbfe] p-5"
+            >
+              <div className="flex items-center gap-3">
+                <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#3F5E8C]/12 text-[11px] font-black text-[#3F5E8C]">
+                  {i + 1}
+                </span>
+                <h4 className="text-[15px] font-black text-[#292521]">{beat.heading}</h4>
+              </div>
+              <p className="mt-3 pl-9 text-sm leading-7 text-[#4a453f]">{beat.body}</p>
+            </motion.article>
+          ))}
+
+          <motion.blockquote
+            {...reveal}
+            className="relative overflow-hidden rounded-xl border border-[#d8e4ef] bg-[#eef4fa] p-5 md:p-6"
+          >
+            <Quote size={48} className="absolute -right-1 -top-1 text-[#3F5E8C]/15" />
+            <p className="relative text-[11px] font-black tracking-wide text-[#3F5E8C]">代表原声</p>
+            <p className="relative mt-2 text-[15px] font-semibold leading-8 text-[#332f2a]">"{persona.representative.quote}"</p>
+          </motion.blockquote>
+
+          {extraQuotes.length > 0 && (
+            <div>
+              <button
+                type="button"
+                onClick={() => setShowMoreQuotes((v) => !v)}
+                className="flex items-center gap-1.5 text-xs font-bold text-[#3F5E8C] transition-colors hover:opacity-80"
+              >
+                <motion.span animate={{ rotate: showMoreQuotes ? 180 : 0 }}>
+                  <ChevronDown size={14} />
+                </motion.span>
+                {showMoreQuotes ? '收起更多原声' : '展开更多原声'}
+              </button>
+              <AnimatePresence>
+                {showMoreQuotes && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="mt-3 space-y-2 overflow-hidden"
+                  >
+                    {extraQuotes.map((q) => (
+                      <blockquote key={q} className="rounded-lg border border-[#d8e4ef] bg-white px-4 py-3 text-sm leading-7 text-[#555]">
+                        "{q}"
+                      </blockquote>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          )}
         </div>
       </div>
     </section>
   );
 }
 
-function StickyPersonaCard({ persona }: { persona: FromPrimaryPersona }) {
+function ChapterSectionHeader({
+  label,
+  subtitle,
+  accent,
+}: {
+  label: string;
+  subtitle: string;
+  accent: string;
+}) {
+  return (
+    <div className="flex items-start gap-3 border-b border-[#e4e2da] pb-4">
+      <span className="mt-1 h-8 w-1 shrink-0 rounded-full" style={{ background: accent }} />
+      <div>
+        <h3 className="text-lg font-black text-[#292521]">{label}</h3>
+        <p className="mt-1 text-sm text-[#746E67]">{subtitle}</p>
+      </div>
+    </div>
+  );
+}
+
+function RepresentativeUserCard({ persona }: { persona: FromPrimaryPersona }) {
   const rep = persona.representative;
   return (
     <motion.div
-      initial={{ opacity: 0, x: -12 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-      className="overflow-hidden rounded-2xl border border-[#e7e5de] bg-white shadow-sm"
+      {...reveal}
+      className="overflow-hidden rounded-2xl border border-[#d8e4ef] bg-white shadow-sm"
     >
-      <div className="px-5 pt-5 pb-4" style={{ background: persona.accentSoft }}>
-        <div className="text-[11px] font-black tracking-wide" style={{ color: persona.accent }}>
-          类型 {persona.index}
-        </div>
-        <div className="mt-2 text-lg font-black text-[#292521]">{persona.name}</div>
-        <p className="mt-2 text-xs leading-6 text-[#5c564f]">{persona.definition}</p>
-      </div>
-      <div className="border-t border-[#efeee9] px-5 py-4">
-        <div className="text-[11px] font-black tracking-wide text-[#9a938a]">代表用户</div>
+      <div className="border-b border-[#e8eef3] bg-[#f8fbfe] px-5 py-4">
+        <div className="text-[11px] font-black tracking-wide text-[#3F5E8C]">典型代表</div>
         <div className="mt-3 flex items-start gap-3">
-          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-white" style={{ background: persona.accent }}>
-            <UserRound size={18} />
+          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#3F5E8C] text-white">
+            <UserRound size={20} />
           </span>
           <div>
-            <div className="text-sm font-black text-[#292521]">{rep.title}</div>
-            <div className="mt-1 flex items-center gap-1 text-[11px] font-semibold" style={{ color: persona.accent }}>
-              <MapPin size={11} />
-              {rep.region} · {rep.grade}
+            <div className="text-base font-black text-[#292521]">{rep.title}</div>
+            <div className="mt-1 flex items-center gap-1 text-[12px] font-semibold text-[#3F5E8C]">
+              <MapPin size={12} />
+              {rep.region} · {rep.grade} · {rep.role}
             </div>
-            <p className="mt-2 text-xs leading-6 text-[#5c564f]">{rep.snapshot}</p>
           </div>
         </div>
+      </div>
+      <div className="px-5 py-4">
+        <p className="text-sm leading-7 text-[#4a453f]">{rep.snapshot}</p>
       </div>
     </motion.div>
   );
