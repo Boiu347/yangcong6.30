@@ -10,6 +10,11 @@ export interface PersonaCase {
   note: string;
 }
 
+export interface PersonaStoryBeat {
+  heading: string;
+  body: string;
+}
+
 export interface FromPrimaryPersona {
   id: string;
   index: string;
@@ -26,15 +31,16 @@ export interface FromPrimaryPersona {
   accentSoft: string;
   attributes: PersonaAttribute[];
   cases: PersonaCase[];
+  /** 轻量故事线：2 段，用于滚动叙事 */
+  storyBeats: PersonaStoryBeat[];
   representative: {
     title: string;
     region: string;
     grade: string;
     role: string;
-    /** 压缩后的代表场景，1–2 句 */
     snapshot: string;
-    /** 只保留 1 条最有代表性的原声 */
     quote: string;
+    extraQuotes?: string[];
   };
 }
 
@@ -87,6 +93,16 @@ export const FROM_PRIMARY_PERSONAS: FromPrimaryPersona[] = [
       { tone: 'positive', brand: '洋葱', note: '孩子喜欢看实验男做实验' },
       { tone: 'negative', brand: '妙懂', note: '太正式，不是小孩能接受的预期' },
     ],
+    storyBeats: [
+      {
+        heading: '顺手加购，期待很轻',
+        body: '给姐姐买高中物理时顺着推荐看到小学课程；弟弟有兴趣就买了，不定义成硬性学习任务，也不检验启蒙效果。',
+      },
+      {
+        heading: '认可的是「听得有兴趣」',
+        body: '相比普通科普，实验男做实验等内容更能把孩子拉进来——尤其是家里做不到、会「爆炸」的实验。',
+      },
+    ],
     representative: {
       title: '安徽合肥妈妈',
       region: '安徽合肥',
@@ -94,6 +110,7 @@ export const FROM_PRIMARY_PERSONAS: FromPrimaryPersona[] = [
       role: '妈妈',
       snapshot: '给姐姐买高中物理时顺手加购；弟弟看到小学物理有兴趣就买了，不定义成硬性学习任务。',
       quote: '孩子喜欢学就学，多看一点总归有帮助。',
+      extraQuotes: ['孩子喜欢看实验男，因为家里做不到且会爆炸的实验，实验男可以做。'],
     },
   },
   {
@@ -117,6 +134,16 @@ export const FROM_PRIMARY_PERSONAS: FromPrimaryPersona[] = [
       { tone: 'positive', brand: '效果外化', note: '阶段性让家长看到学科启蒙的效果，是差异化机会点' },
       { tone: 'negative', brand: '洋葱与竞品', note: '目前均未很好做到「有用」的可见验证' },
     ],
+    storyBeats: [
+      {
+        heading: '「笨鸟先飞」的学科启蒙逻辑',
+        body: '购买学而思科学、NB实验室，不是单纯为了兴趣，而是带着和未来学科挂钩的启蒙逻辑——希望孩子初高中再学一遍时更轻松。',
+      },
+      {
+        heading: '短期缺标准，长期看接纳',
+        body: '没有清晰的效果标准，主要用孩子是否接纳、是否愿意学、对理科内容接纳度是否提升来判断启蒙是否成立。',
+      },
+    ],
     representative: {
       title: '北京昌平爸爸',
       region: '北京昌平',
@@ -124,6 +151,7 @@ export const FROM_PRIMARY_PERSONAS: FromPrimaryPersona[] = [
       role: '爸爸',
       snapshot: '文科背景，担心孩子未来被理科限制；选 NB 实验室等，是因为覆盖小学到高中、能连接未来学习路径。',
       quote: '学的东西未来要有用，理科启蒙要和未来学科挂钩，不能只是玩一玩。',
+      extraQuotes: ['希望孩子现在学一遍，初高中再学一遍时更轻松。'],
     },
   },
   {
@@ -147,6 +175,16 @@ export const FROM_PRIMARY_PERSONAS: FromPrimaryPersona[] = [
       { tone: 'positive', brand: '真人实验直播课', note: '专业老师带做实验讲解，孩子感兴趣、吸收得多' },
       { tone: 'negative', brand: 'NB实验室', note: '动手交互不能代替真实实验' },
     ],
+    storyBeats: [
+      {
+        heading: '讲解 + 动手要兼备',
+        body: '赛先生评价高，是因为真人老师边讲边带做；NB 动手多但讲解弱，洋葱讲解系统但实验动手不足。',
+      },
+      {
+        heading: '对洋葱的三点期待',
+        body: '保持系统与趣味；概念更儿童化；实验更可操作——实践出真知，自己看不如自己动手。',
+      },
+    ],
     representative: {
       title: '北京顺义妈妈',
       region: '北京顺义',
@@ -154,6 +192,7 @@ export const FROM_PRIMARY_PERSONAS: FromPrimaryPersona[] = [
       role: '妈妈',
       snapshot: '报过多门实验课；认可洋葱的系统讲解，但更看重赛先生「老师边讲边带做」的真人实验体验。',
       quote: '实验肯定是重要的，理科的话肯定就是说，实践出真知。',
+      extraQuotes: ['一定要有专业的老师带着做实验才效果好。'],
     },
   },
   {
@@ -176,6 +215,16 @@ export const FROM_PRIMARY_PERSONAS: FromPrimaryPersona[] = [
     cases: [
       { tone: 'negative', brand: '洋葱', note: '有些学校科学课的知识点在洋葱没有，需更强的年级 / 教材 / 知识点检索匹配' },
     ],
+    storyBeats: [
+      {
+        heading: '科学是要考试的主科',
+        body: '郑州科学课期中期末要考；孩子平时靠背书容易理解不透，希望用动画把校内抽象知识点讲明白。',
+      },
+      {
+        heading: '使用落差：不够同步',
+        body: '四上部分内容找不到；不能按年级、教材、知识点检索，使用频率就会降低，变成「想起来划两下」。',
+      },
+    ],
     representative: {
       title: '河南郑州妈妈',
       region: '河南郑州',
@@ -183,6 +232,7 @@ export const FROM_PRIMARY_PERSONAS: FromPrimaryPersona[] = [
       role: '妈妈',
       snapshot: '郑州科学要期中期末考；买来主要是查漏补缺，但四上部分内容找不到，使用频率因此降低。',
       quote: '洋葱主要用来复习知识点，这个单元需要考试，或者某个知识点有明显缺漏需要看。',
+      extraQuotes: ['之前以为顺序不一样但知识点都有，后面发现四上的内容找不到。'],
     },
   },
 ];

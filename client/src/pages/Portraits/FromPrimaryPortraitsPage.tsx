@@ -1,8 +1,9 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import {
   AlertTriangle,
   ArrowRight,
+  ChevronDown,
   ExternalLink,
   GitCompare,
   Heart,
@@ -36,10 +37,10 @@ const ATTRIBUTE_ICON: Record<PersonaAttribute['key'], React.ComponentType<{ size
 };
 
 const reveal = {
-  initial: { opacity: 0, y: 16 },
+  initial: { opacity: 0, y: 22 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: '-48px' },
-  transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
+  viewport: { once: true, margin: '-56px' },
+  transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
 };
 
 export default function FromPrimaryPortraitsPage() {
@@ -57,28 +58,23 @@ export default function FromPrimaryPortraitsPage() {
           setActiveId(visible.target.dataset.sectionId);
         }
       },
-      { rootMargin: '-42% 0px -42% 0px', threshold: [0, 0.2, 0.5] },
+      { rootMargin: '-42% 0px -42% 0px', threshold: [0, 0.2, 0.5, 1] },
     );
     Object.values(sectionRefs.current).forEach((el) => el && observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
-  const jumpTo = (id: string) => {
+  const jumpTo = React.useCallback((id: string) => {
     sectionRefs.current[id]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
+  }, []);
 
   return (
     <main className="bg-[#f8f8f5]">
-      <IntroHero />
+      <IntroHero onJump={jumpTo} />
 
       <nav className="sticky top-0 z-20 border-y border-[#e4e2da] bg-[#f8f8f5]/92 backdrop-blur">
         <div className="mx-auto flex max-w-[1180px] items-stretch gap-0.5 overflow-x-auto px-5">
-          <NavButton
-            label="总览对比"
-            active={activeId === 'overview'}
-            accent="#C9622E"
-            onClick={() => jumpTo('overview')}
-          />
+          <NavButton label="总览对比" active={activeId === 'overview'} accent="#C9622E" onClick={() => jumpTo('overview')} />
           {personas.map((persona) => (
             <NavButton
               key={persona.id}
@@ -128,39 +124,39 @@ function NavButton({
   onClick: () => void;
 }) {
   return (
-    <button
+    <motion.button
+      whileHover={{ y: active ? 0 : -1 }}
+      whileTap={{ scale: 0.98 }}
       onClick={onClick}
       className="group relative flex shrink-0 items-center gap-2 py-3.5 pl-1 pr-4 text-left"
     >
       {index && (
-        <span
-          className="grid h-6 w-6 place-items-center rounded-full text-[10px] font-black"
+        <motion.span
+          animate={{ scale: active ? 1.05 : 1 }}
+          className="grid h-7 w-7 place-items-center rounded-full text-[10px] font-black transition-colors"
           style={{
             background: active ? accent : `${accent}18`,
             color: active ? '#fff' : accent,
           }}
         >
           {index}
-        </span>
+        </motion.span>
       )}
-      <span
-        className="whitespace-nowrap text-[13px]"
-        style={{ color: active ? INK : MUTED, fontWeight: active ? 800 : 500 }}
-      >
+      <span className="whitespace-nowrap text-[13px]" style={{ color: active ? INK : MUTED, fontWeight: active ? 800 : 500 }}>
         {label}
       </span>
       {active && (
         <motion.span layoutId="portrait-nav-underline" className="absolute inset-x-1 bottom-0 h-0.5" style={{ background: accent }} />
       )}
-    </button>
+    </motion.button>
   );
 }
 
-function IntroHero() {
+function IntroHero({ onJump }: { onJump: (id: string) => void }) {
   return (
     <header className="border-b border-[#e4e2da] bg-[#f4f2ec]">
       <div className="mx-auto max-w-[1180px] px-5 py-10 md:py-14">
-        <motion.div {...reveal}>
+        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
           <div className="flex items-center gap-2 text-[#C9622E]">
             <Users size={16} />
             <span className="text-[11px] font-black tracking-[0.14em]">{PORTRAIT_INTRO.eyebrow}</span>
@@ -168,6 +164,25 @@ function IntroHero() {
           <h1 className="mt-3 text-3xl font-black leading-tight text-[#292521] md:text-[40px]">{PORTRAIT_INTRO.title}</h1>
           <p className="mt-3 max-w-3xl text-base leading-7 text-[#4a453f]">{PORTRAIT_INTRO.lead}</p>
           <p className="mt-2 text-sm leading-6 text-[#746E67]">{PORTRAIT_INTRO.note}</p>
+          <div className="mt-7 flex flex-wrap gap-2.5">
+            {FROM_PRIMARY_PERSONAS.map((persona, i) => (
+              <motion.button
+                key={persona.id}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15 + i * 0.08, duration: 0.4 }}
+                whileHover={{ scale: 1.04, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => onJump(persona.id)}
+                className="inline-flex items-center gap-2 rounded-full border bg-white px-3.5 py-1.5 text-xs font-bold shadow-sm"
+                style={{ borderColor: persona.accent, color: persona.accent }}
+              >
+                <span className="font-black">{persona.index}</span>
+                {persona.name}
+                <ArrowRight size={12} className="opacity-60" />
+              </motion.button>
+            ))}
+          </div>
         </motion.div>
       </div>
     </header>
@@ -183,6 +198,7 @@ function PortraitOverview({
 }) {
   const matrix = getComparisonMatrix();
   const { coreJudgment, classificationLogic } = PORTRAIT_OVERVIEW;
+  const [hoverCol, setHoverCol] = React.useState<string | null>(null);
 
   return (
     <section ref={registerRef} data-section-id="overview" className="scroll-mt-14 border-b border-[#e4e2da] bg-white">
@@ -193,7 +209,7 @@ function PortraitOverview({
         </motion.div>
 
         <div className="mt-8 grid gap-5 lg:grid-cols-2">
-          <motion.div {...reveal} className="rounded-xl border border-[#eadfce] bg-[#fffaf6] p-5 md:p-6">
+          <motion.div {...reveal} whileHover={{ y: -2 }} className="rounded-xl border border-[#eadfce] bg-[#fffaf6] p-5 md:p-6">
             <div className="text-xs font-black tracking-wide text-[#C9622E]">{coreJudgment.title}</div>
             <p className="mt-3 text-[15px] font-semibold leading-8 text-[#332f2a]">
               {coreJudgment.text.split(/(兴趣启蒙型|学科启蒙打底型)/).map((part, i) =>
@@ -208,30 +224,32 @@ function PortraitOverview({
             </p>
           </motion.div>
 
-          <motion.div {...reveal} className="rounded-xl border border-[#e4e2da] bg-[#fafaf7] p-5 md:p-6">
+          <motion.div {...reveal} whileHover={{ y: -2 }} className="rounded-xl border border-[#e4e2da] bg-[#fafaf7] p-5 md:p-6">
             <div className="text-xs font-black tracking-wide text-[#746E67]">{classificationLogic.title}</div>
             <p className="mt-3 text-sm leading-7 text-[#4a453f]">{classificationLogic.text}</p>
             <div className="mt-4 flex flex-wrap gap-2">
               {FROM_PRIMARY_PERSONAS.map((p) => (
-                <button
+                <motion.button
                   key={p.id}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
                   onClick={() => onJump(p.id)}
-                  className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-bold transition-opacity hover:opacity-80"
+                  className="inline-flex items-center gap-1.5 rounded-full border bg-white px-3 py-1 text-xs font-bold"
                   style={{ borderColor: p.accent, color: p.accent }}
                 >
                   {p.name}
                   <ArrowRight size={12} />
-                </button>
+                </motion.button>
               ))}
             </div>
           </motion.div>
         </div>
 
-        {/* 四维横向对比表 */}
+        {/* 可交互对比表：hover 高亮列，点击跳转 */}
         <motion.div {...reveal} className="mt-8 overflow-hidden rounded-xl border border-[#e4e2da]">
           <div className="border-b border-[#e4e2da] bg-[#fafaf7] px-4 py-3">
             <div className="text-sm font-black text-[#292521]">四类画像 · 四维对比</div>
-            <p className="mt-1 text-xs text-[#746E67]">横向扫读差异；点击上方标签可跳到单类详情。</p>
+            <p className="mt-1 text-xs text-[#746E67]">悬停或点击列头，高亮该类型并跳转详情。</p>
           </div>
           <div className="overflow-x-auto">
             <table className="min-w-[960px] w-full text-left text-sm">
@@ -239,7 +257,17 @@ function PortraitOverview({
                 <tr className="border-b border-[#eceae3] bg-white text-xs font-black text-[#888]">
                   <th className="w-28 px-4 py-3">维度</th>
                   {FROM_PRIMARY_PERSONAS.map((p) => (
-                    <th key={p.id} className="px-4 py-3" style={{ color: p.accent }}>
+                    <th
+                      key={p.id}
+                      onMouseEnter={() => setHoverCol(p.id)}
+                      onMouseLeave={() => setHoverCol(null)}
+                      onClick={() => onJump(p.id)}
+                      className="cursor-pointer px-4 py-3 transition-colors"
+                      style={{
+                        color: p.accent,
+                        background: hoverCol === p.id ? p.accentSoft : undefined,
+                      }}
+                    >
                       {p.name}
                     </th>
                   ))}
@@ -250,7 +278,14 @@ function PortraitOverview({
                   <tr key={row.dimension} className="border-b border-[#f0efea] align-top last:border-0">
                     <td className="px-4 py-4 text-xs font-black text-[#555]">{row.dimension}</td>
                     {row.cells.map((cell) => (
-                      <td key={cell.personaId} className="px-4 py-4 text-xs leading-6 text-[#4a453f]">
+                      <td
+                        key={cell.personaId}
+                        onMouseEnter={() => setHoverCol(cell.personaId)}
+                        onMouseLeave={() => setHoverCol(null)}
+                        onClick={() => onJump(cell.personaId)}
+                        className="cursor-pointer px-4 py-4 text-xs leading-6 text-[#4a453f] transition-colors"
+                        style={{ background: hoverCol === cell.personaId ? `${cell.accent}12` : undefined }}
+                      >
                         {cell.value}
                       </td>
                     ))}
@@ -261,25 +296,23 @@ function PortraitOverview({
           </div>
         </motion.div>
 
-        {/* 类型卡片速览：定义 + 产品机会 */}
         <div className="mt-8 grid gap-4 md:grid-cols-2">
           {FROM_PRIMARY_PERSONAS.map((persona, i) => (
             <motion.button
               {...reveal}
-              transition={{ ...reveal.transition, delay: i * 0.04 }}
+              transition={{ ...reveal.transition, delay: i * 0.05 }}
+              whileHover={{ y: -3, boxShadow: '0 8px 24px rgba(0,0,0,0.06)' }}
+              whileTap={{ scale: 0.99 }}
               key={persona.id}
               onClick={() => onJump(persona.id)}
-              className="rounded-xl border border-[#e7e5de] bg-white p-5 text-left transition-shadow hover:shadow-sm"
+              className="rounded-xl border border-[#e7e5de] bg-white p-5 text-left"
             >
               <div className="flex items-center gap-2">
                 <span className="text-lg font-black" style={{ color: persona.accent }}>
                   {persona.index}
                 </span>
                 <span className="text-base font-black text-[#292521]">{persona.name}</span>
-                <span
-                  className="rounded px-1.5 py-0.5 text-[10px] font-black"
-                  style={{ background: persona.accentSoft, color: persona.accent }}
-                >
+                <span className="rounded px-1.5 py-0.5 text-[10px] font-black" style={{ background: persona.accentSoft, color: persona.accent }}>
                   {persona.keyword}
                 </span>
               </div>
@@ -303,123 +336,228 @@ function PersonaChapter({
   persona: FromPrimaryPersona;
   registerRef: (el: HTMLElement | null) => void;
 }) {
+  const [showMoreQuotes, setShowMoreQuotes] = React.useState(false);
+  const extraQuotes = persona.representative.extraQuotes ?? [];
+
   return (
     <section ref={registerRef} data-section-id={persona.id} className="scroll-mt-14 border-b border-[#e4e2da]">
-      <div className="mx-auto max-w-[1180px] px-5 py-12 md:py-16">
-        {/* 章节头 */}
-        <motion.div {...reveal} className="flex items-start gap-4">
-          <span className="text-4xl font-black leading-none md:text-6xl" style={{ color: persona.accent }}>
+      <div className="mx-auto max-w-[1180px] px-5 py-12 md:py-20">
+        {/* 大章节号 + 标题 */}
+        <motion.div {...reveal} className="flex items-start gap-4 md:gap-6">
+          <motion.span
+            initial={{ opacity: 0, x: -16 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-5xl font-black leading-none md:text-7xl"
+            style={{ color: persona.accent }}
+          >
             {persona.index}
-          </span>
-          <div>
+          </motion.span>
+          <div className="pt-1">
             <div className="flex flex-wrap items-center gap-2">
-              <h2 className="text-2xl font-black text-[#292521]">{persona.name}</h2>
-              <span
-                className="rounded px-2 py-0.5 text-[11px] font-black"
-                style={{ background: persona.accentSoft, color: persona.accent }}
-              >
+              <h2 className="text-2xl font-black text-[#292521] md:text-3xl">{persona.name}</h2>
+              <span className="rounded px-2 py-0.5 text-[11px] font-black" style={{ background: persona.accentSoft, color: persona.accent }}>
                 {persona.keyword}
               </span>
             </div>
-            <p className="mt-2 text-base font-semibold text-[#4a453f]">{persona.tagline}</p>
+            <p className="mt-2 max-w-2xl text-base leading-7 text-[#4a453f]">{persona.tagline}</p>
           </div>
         </motion.div>
 
-        {/* 类型定义 + 边界 + 产品机会 —— 主内容区 */}
-        <div className="mt-8 grid gap-4 lg:grid-cols-3">
-          <motion.div {...reveal} className="rounded-xl border border-[#e7e5de] bg-white p-5 lg:col-span-1">
-            <SectionLabel icon={Users} label="类型定义" accent={persona.accent} />
-            <p className="mt-3 text-sm leading-7 text-[#3f3a35]">{persona.definition}</p>
-          </motion.div>
-          <motion.div {...reveal} className="rounded-xl border border-[#e7e5de] bg-white p-5 lg:col-span-1">
-            <SectionLabel icon={GitCompare} label="与其他类型的边界" accent={persona.accent} />
-            <p className="mt-3 text-sm leading-7 text-[#3f3a35]">{persona.boundary}</p>
-          </motion.div>
-          <motion.div {...reveal} className="rounded-xl border border-[#e7e5de] bg-white p-5 lg:col-span-1">
-            <SectionLabel icon={Lightbulb} label="产品机会（来自偏好）" accent={persona.accent} />
-            <p className="mt-3 text-sm leading-7 text-[#3f3a35]">{persona.productOpportunity}</p>
-          </motion.div>
-        </div>
+        {/* sticky 左栏 + 滚动右栏（scrollytelling） */}
+        <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,300px)_minmax(0,1fr)]">
+          <div className="lg:sticky lg:top-[72px] lg:self-start">
+            <StickyPersonaCard persona={persona} />
+          </div>
 
-        {/* 四维属性 */}
-        <div className="mt-6 grid gap-px overflow-hidden rounded-xl border border-[#e4e2da] bg-[#e4e2da] sm:grid-cols-2 lg:grid-cols-4">
-          {persona.attributes.map((attr, i) => {
-            const Icon = ATTRIBUTE_ICON[attr.key];
-            return (
-              <motion.div
-                {...reveal}
-                transition={{ ...reveal.transition, delay: i * 0.04 }}
-                key={attr.key}
-                className="bg-white p-4"
-              >
-                <div className="flex items-center gap-2" style={{ color: persona.accent }}>
-                  <Icon size={14} />
-                  <span className="text-[11px] font-black">{attr.label}</span>
-                </div>
-                <p className="mt-2 text-xs leading-6 text-[#4a453f]">{attr.value}</p>
-              </motion.div>
-            );
-          })}
-        </div>
+          <div className="space-y-5">
+            <ScrollBlock persona={persona} delay={0}>
+              <SectionLabel icon={GitCompare} label="与其他类型的边界" accent={persona.accent} />
+              <p className="mt-3 text-sm leading-7 text-[#3f3a35]">{persona.boundary}</p>
+            </ScrollBlock>
 
-        {/* 典型案例 */}
-        {persona.cases.length > 0 && (
-          <motion.div {...reveal} className="mt-6 flex flex-wrap gap-3">
-            {persona.cases.map((c) => (
-              <div
-                key={`${c.brand}-${c.tone}`}
-                className="flex items-start gap-2 rounded-lg border bg-white px-3 py-2.5"
-                style={{ borderColor: c.tone === 'positive' ? '#cfe6dc' : '#f0d6cd' }}
-              >
-                {c.tone === 'positive' ? (
-                  <ThumbsUp size={14} className="mt-0.5 shrink-0 text-[#2F8272]" />
-                ) : (
-                  <ThumbsDown size={14} className="mt-0.5 shrink-0 text-[#C9622E]" />
-                )}
-                <div>
-                  <span className="text-xs font-black text-[#292521]">{c.brand}</span>
-                  <span className="mx-1.5 text-[#ccc]">·</span>
-                  <span className="text-xs text-[#5c564f]">{c.note}</span>
-                </div>
-              </div>
-            ))}
-          </motion.div>
-        )}
+            <ScrollBlock persona={persona} delay={0.05}>
+              <SectionLabel icon={Lightbulb} label="产品机会（来自偏好）" accent={persona.accent} />
+              <p className="mt-3 text-sm leading-7 text-[#3f3a35]">{persona.productOpportunity}</p>
+            </ScrollBlock>
 
-        {/* 轻量证据：代表用户 + 1 条原声 */}
-        <motion.div
-          {...reveal}
-          className="mt-8 rounded-xl border border-dashed border-[#ddd8cf] bg-[#fafaf7] p-5 md:p-6"
-        >
-          <div className="mb-4 text-[11px] font-black tracking-wide text-[#9a938a]">代表用户 · 感受一下真人</div>
-          <div className="grid gap-4 md:grid-cols-[minmax(0,280px)_minmax(0,1fr)] md:items-start">
-            <div className="flex items-start gap-3">
-              <span
-                className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-white"
-                style={{ background: persona.accent }}
-              >
-                <UserRound size={18} />
-              </span>
-              <div>
-                <div className="text-sm font-black text-[#292521]">{persona.representative.title}</div>
-                <div className="mt-1 flex items-center gap-1 text-[11px] font-semibold" style={{ color: persona.accent }}>
-                  <MapPin size={11} />
-                  {persona.representative.region} · {persona.representative.grade} · {persona.representative.role}
-                </div>
-                <p className="mt-2 text-xs leading-6 text-[#5c564f]">{persona.representative.snapshot}</p>
-              </div>
+            {/* 四维属性 —— 逐格淡入 */}
+            <div className="grid gap-px overflow-hidden rounded-xl border border-[#e4e2da] bg-[#e4e2da] sm:grid-cols-2">
+              {persona.attributes.map((attr, i) => {
+                const Icon = ATTRIBUTE_ICON[attr.key];
+                return (
+                  <motion.div
+                    {...reveal}
+                    transition={{ ...reveal.transition, delay: i * 0.07 }}
+                    key={attr.key}
+                    whileHover={{ backgroundColor: '#fffaf7' }}
+                    className="bg-white p-4 transition-colors"
+                  >
+                    <div className="flex items-center gap-2" style={{ color: persona.accent }}>
+                      <Icon size={14} />
+                      <span className="text-[11px] font-black">{attr.label}</span>
+                    </div>
+                    <p className="mt-2 text-xs leading-6 text-[#4a453f]">{attr.value}</p>
+                  </motion.div>
+                );
+              })}
             </div>
-            <blockquote
-              className="relative rounded-lg p-4"
+
+            {persona.cases.length > 0 && (
+              <motion.div {...reveal} className="flex flex-wrap gap-3">
+                {persona.cases.map((c) => (
+                  <motion.div
+                    key={`${c.brand}-${c.tone}`}
+                    whileHover={{ y: -2 }}
+                    className="flex items-start gap-2 rounded-lg border bg-white px-3 py-2.5"
+                    style={{ borderColor: c.tone === 'positive' ? '#cfe6dc' : '#f0d6cd' }}
+                  >
+                    {c.tone === 'positive' ? (
+                      <ThumbsUp size={14} className="mt-0.5 shrink-0 text-[#2F8272]" />
+                    ) : (
+                      <ThumbsDown size={14} className="mt-0.5 shrink-0 text-[#C9622E]" />
+                    )}
+                    <div>
+                      <span className="text-xs font-black text-[#292521]">{c.brand}</span>
+                      <span className="mx-1.5 text-[#ccc]">·</span>
+                      <span className="text-xs text-[#5c564f]">{c.note}</span>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
+
+            {/* 轻量故事线：2 段滚动叙事 */}
+            <motion.div {...reveal} className="flex items-center gap-2 pt-2">
+              <span className="h-4 w-1 rounded" style={{ background: persona.accent }} />
+              <h3 className="text-sm font-black tracking-wide text-[#292521]">代表用户 · 故事片段</h3>
+            </motion.div>
+
+            {persona.storyBeats.map((beat, i) => (
+              <motion.article
+                {...reveal}
+                transition={{ ...reveal.transition, delay: Math.min(i * 0.06, 0.18) }}
+                key={beat.heading}
+                whileHover={{ x: 4 }}
+                className="rounded-xl border border-[#e7e5de] bg-white p-5"
+              >
+                <div className="flex items-center gap-3">
+                  <span
+                    className="grid h-6 w-6 shrink-0 place-items-center rounded-full text-[11px] font-black"
+                    style={{ background: persona.accentSoft, color: persona.accent }}
+                  >
+                    {i + 1}
+                  </span>
+                  <h4 className="text-[15px] font-black text-[#292521]">{beat.heading}</h4>
+                </div>
+                <p className="mt-3 pl-9 text-sm leading-7 text-[#4a453f]">{beat.body}</p>
+              </motion.article>
+            ))}
+
+            {/* 金句卡 */}
+            <motion.blockquote
+              {...reveal}
+              className="relative overflow-hidden rounded-xl p-5 md:p-6"
               style={{ background: persona.accentSoft }}
             >
-              <Quote size={28} className="absolute right-2 top-2 opacity-15" style={{ color: persona.accent }} />
-              <p className="text-sm font-semibold leading-7 text-[#332f2a]">“{persona.representative.quote}”</p>
-            </blockquote>
+              <Quote size={48} className="absolute -right-1 -top-1 opacity-15" style={{ color: persona.accent }} />
+              <p className="relative text-[15px] font-semibold leading-8 text-[#332f2a]">“{persona.representative.quote}”</p>
+            </motion.blockquote>
+
+            {extraQuotes.length > 0 && (
+              <div>
+                <button
+                  type="button"
+                  onClick={() => setShowMoreQuotes((v) => !v)}
+                  className="flex items-center gap-1.5 text-xs font-bold transition-colors hover:opacity-80"
+                  style={{ color: persona.accent }}
+                >
+                  <motion.span animate={{ rotate: showMoreQuotes ? 180 : 0 }}>
+                    <ChevronDown size={14} />
+                  </motion.span>
+                  {showMoreQuotes ? '收起更多原声' : '展开更多原声'}
+                </button>
+                <AnimatePresence>
+                  {showMoreQuotes && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="mt-3 space-y-2 overflow-hidden"
+                    >
+                      {extraQuotes.map((q) => (
+                        <blockquote key={q} className="rounded-lg border border-[#e7e5de] bg-white px-4 py-3 text-sm leading-7 text-[#555]">
+                          “{q}”
+                        </blockquote>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
+  );
+}
+
+function StickyPersonaCard({ persona }: { persona: FromPrimaryPersona }) {
+  const rep = persona.representative;
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -12 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+      className="overflow-hidden rounded-2xl border border-[#e7e5de] bg-white shadow-sm"
+    >
+      <div className="px-5 pt-5 pb-4" style={{ background: persona.accentSoft }}>
+        <div className="text-[11px] font-black tracking-wide" style={{ color: persona.accent }}>
+          类型 {persona.index}
+        </div>
+        <div className="mt-2 text-lg font-black text-[#292521]">{persona.name}</div>
+        <p className="mt-2 text-xs leading-6 text-[#5c564f]">{persona.definition}</p>
+      </div>
+      <div className="border-t border-[#efeee9] px-5 py-4">
+        <div className="text-[11px] font-black tracking-wide text-[#9a938a]">代表用户</div>
+        <div className="mt-3 flex items-start gap-3">
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-white" style={{ background: persona.accent }}>
+            <UserRound size={18} />
+          </span>
+          <div>
+            <div className="text-sm font-black text-[#292521]">{rep.title}</div>
+            <div className="mt-1 flex items-center gap-1 text-[11px] font-semibold" style={{ color: persona.accent }}>
+              <MapPin size={11} />
+              {rep.region} · {rep.grade}
+            </div>
+            <p className="mt-2 text-xs leading-6 text-[#5c564f]">{rep.snapshot}</p>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function ScrollBlock({
+  persona,
+  delay,
+  children,
+}: {
+  persona: FromPrimaryPersona;
+  delay?: number;
+  children: React.ReactNode;
+}) {
+  return (
+    <motion.div
+      {...reveal}
+      transition={{ ...reveal.transition, delay }}
+      className="rounded-xl border border-[#e7e5de] bg-white p-5 md:p-6"
+      style={{ borderLeftWidth: 3, borderLeftColor: persona.accent }}
+    >
+      {children}
+    </motion.div>
   );
 }
 
