@@ -15,6 +15,8 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { lookupClips } from '@/utils/sourceUtils';
+import EvidenceAudioClips from '@/components/EvidenceAudioClips';
+import type { EvidenceClip } from '@/utils/evidenceClipLookup';
 
 const ORANGE = '#E95B35';
 const INK = '#292521';
@@ -1358,29 +1360,29 @@ const conclusionClipsByCardId: Record<string, string[][]> = {
   ],
 };
 
-// 每个原声切片对应的 VOC 文字记录（取报告中该原声的简洁文字）与用户来源。
-const clipMetaByUrl: Record<string, { text: string; user: string }> = {
-  '/clips/interview1/0002-01.mp3': { text: '有个概念就行。不是为了提前学什么，更多是让他了解一下自然现象。', user: '用户1' },
-  '/clips/interview1/0079-01.mp3': { text: '让他了解一下，就是有一些自然现象，他为什么他小孩不是有的时候可能会问吗？然后这一类的可能会有一些比较直观的，包括我给他弄那个NB实验室，他有一些现象会比较直观的能够表现出来，然后大概了解一下，就是不是说让他为了校内学习提前学什么的。', user: '用户1' },
-  '/clips/interview3/0007-01.mp3': { text: '素材可以从生活中随手，可以随时可以找到。然后就可以提前对那个物理启蒙。', user: '用户3' },
-  '/clips/interview3/0012-01.mp3': { text: '到了三年级以上，学业比较重，你很难顾及全科的。', user: '用户3' },
-  '/clips/interview4/0009-01.mp3': { text: '就还是当时他有这个链接挂链了，我也需要，就买了。有对比，没有那么多，当时。就基于他信任，然后其他的话都是随缘。', user: '用户4' },
-  '/clips/interview4/0040-01.mp3': { text: '他自己会学习洋葱学园里边的从小学物理，就是自己会翻，然后学的特别多。他还会往下串表，就会自己就会学。对，特别喜欢。', user: '用户4' },
-  '/clips/interview4/0041-01.mp3': { text: '洋葱学园的从小学物理，如果说我不是不管的话，他每天他都会刷。他好像特别喜欢看那实验男做实验。他当成趣味里边学知识了。', user: '用户4' },
-  '/clips/interview4/0048-01.mp3': { text: '他看了之后会考我，会把课上看的从小学物理视频转化成自己的语言。', user: '用户4' },
-  '/clips/interview4/0054-01.mp3': { text: '晦涩难懂的一些概念词，孩子还是不能很好的理解。', user: '用户4' },
-  '/clips/interview4/0080-01.mp3': { text: '还是从小激发这个物理的学习兴趣，也能不排斥以后。', user: '用户4' },
-  '/clips/interview4/0091-01.mp3': { text: '从小学物理的知识好像更多更系统，更多NB实验室来讲。', user: '用户4' },
-  '/clips/interview4/0092-01.mp3': { text: '知识的话就是系统性更强，因为它都已经罗列得非常分层次，看得也比较清晰，孩子也能自行选取，他喜欢什么，他也可以能随机点取，自己的选择性更强。', user: '用户4' },
-  '/clips/interview5/0031-01.mp3': { text: '现在接触应试的话，怕孩子排斥。', user: '用户5' },
-  '/clips/interview5/0057-01.mp3': { text: '我想知道他到底学了什么东西？学到了什么东西？学了多少？能记住什么？', user: '用户5' },
-  '/clips/interview6/0012-01.mp3': { text: '推荐了这个物理课，我才买的。', user: '用户6' },
-  '/clips/interview6/0016-01.mp3': { text: '郑州把科学课纳入了主科，期中期末都在考。到初中之后它就变成了物理化学生物，我不希望他只是去死记硬背。', user: '用户6' },
-  '/clips/interview6/0022-01.mp3': { text: '如果说是同步的话，我觉得会更好，就是使用率上会更高一些。', user: '用户6' },
-  '/clips/interview6/0023-01.mp3': { text: '我理解的是涵盖的知识点应该都有，只是不同步而已。', user: '用户6' },
-  '/clips/interview6/0048-01.mp3': { text: '当时买洋葱学园的数学课的时候，推荐了这个物理课，我才买的。当时是郑州妈妈帮有一个线上的直播，当时主要请到了洋葱学园的老师，当时在卖数学课，科学课又间接推了一下，我就直接买了。', user: '用户6' },
-  '/clips/interview7/0208-01.mp3': { text: '首先是孩子能看得进去，看得进去的话，想教他的知识，他才能听进去、学进去。', user: '用户7' },
-  '/clips/interview7/0247-01.mp3': { text: '开车前方停车突然踩刹车，我们和孩子一起往前倾，这就是惯性。', user: '用户7' },
+// 每个原声切片对应的 VOC 文字记录（取报告中该原声的简洁文字）与访谈来源。
+const clipMetaByUrl: Record<string, { text: string; source: string }> = {
+  '/clips/interview1/0002-01.mp3': { text: '有个概念就行。不是为了提前学什么，更多是让他了解一下自然现象。', source: '访谈1 · 山东临沂' },
+  '/clips/interview1/0079-01.mp3': { text: '让他了解一下，就是有一些自然现象，他为什么他小孩不是有的时候可能会问吗？然后这一类的可能会有一些比较直观的，包括我给他弄那个NB实验室，他有一些现象会比较直观的能够表现出来，然后大概了解一下，就是不是说让他为了校内学习提前学什么的。', source: '访谈1 · 山东临沂' },
+  '/clips/interview3/0007-01.mp3': { text: '素材可以从生活中随手，可以随时可以找到。然后就可以提前对那个物理启蒙。', source: '访谈3 · 广东中山' },
+  '/clips/interview3/0012-01.mp3': { text: '到了三年级以上，学业比较重，你很难顾及全科的。', source: '访谈3 · 广东中山' },
+  '/clips/interview4/0009-01.mp3': { text: '就还是当时他有这个链接挂链了，我也需要，就买了。有对比，没有那么多，当时。就基于他信任，然后其他的话都是随缘。', source: '访谈4 · 北京顺义' },
+  '/clips/interview4/0040-01.mp3': { text: '他自己会学习洋葱学园里边的从小学物理，就是自己会翻，然后学的特别多。他还会往下串表，就会自己就会学。对，特别喜欢。', source: '访谈4 · 北京顺义' },
+  '/clips/interview4/0041-01.mp3': { text: '洋葱学园的从小学物理，如果说我不是不管的话，他每天他都会刷。他好像特别喜欢看那实验男做实验。他当成趣味里边学知识了。', source: '访谈4 · 北京顺义' },
+  '/clips/interview4/0048-01.mp3': { text: '他看了之后会考我，会把课上看的从小学物理视频转化成自己的语言。', source: '访谈4 · 北京顺义' },
+  '/clips/interview4/0054-01.mp3': { text: '晦涩难懂的一些概念词，孩子还是不能很好的理解。', source: '访谈4 · 北京顺义' },
+  '/clips/interview4/0080-01.mp3': { text: '还是从小激发这个物理的学习兴趣，也能不排斥以后。', source: '访谈4 · 北京顺义' },
+  '/clips/interview4/0091-01.mp3': { text: '从小学物理的知识好像更多更系统，更多NB实验室来讲。', source: '访谈4 · 北京顺义' },
+  '/clips/interview4/0092-01.mp3': { text: '知识的话就是系统性更强，因为它都已经罗列得非常分层次，看得也比较清晰，孩子也能自行选取，他喜欢什么，他也可以能随机点取，自己的选择性更强。', source: '访谈4 · 北京顺义' },
+  '/clips/interview5/0031-01.mp3': { text: '现在接触应试的话，怕孩子排斥。', source: '访谈5 · 重庆渝中' },
+  '/clips/interview5/0057-01.mp3': { text: '我想知道他到底学了什么东西？学到了什么东西？学了多少？能记住什么？', source: '访谈5 · 重庆渝中' },
+  '/clips/interview6/0012-01.mp3': { text: '推荐了这个物理课，我才买的。', source: '访谈6 · 河南郑州' },
+  '/clips/interview6/0016-01.mp3': { text: '郑州把科学课纳入了主科，期中期末都在考。到初中之后它就变成了物理化学生物，我不希望他只是去死记硬背。', source: '访谈6 · 河南郑州' },
+  '/clips/interview6/0022-01.mp3': { text: '如果说是同步的话，我觉得会更好，就是使用率上会更高一些。', source: '访谈6 · 河南郑州' },
+  '/clips/interview6/0023-01.mp3': { text: '我理解的是涵盖的知识点应该都有，只是不同步而已。', source: '访谈6 · 河南郑州' },
+  '/clips/interview6/0048-01.mp3': { text: '当时买洋葱学园的数学课的时候，推荐了这个物理课，我才买的。当时是郑州妈妈帮有一个线上的直播，当时主要请到了洋葱学园的老师，当时在卖数学课，科学课又间接推了一下，我就直接买了。', source: '访谈6 · 河南郑州' },
+  '/clips/interview7/0208-01.mp3': { text: '首先是孩子能看得进去，看得进去的话，想教他的知识，他才能听进去、学进去。', source: '访谈7 · 山东潍坊' },
+  '/clips/interview7/0247-01.mp3': { text: '开车前方停车突然踩刹车，我们和孩子一起往前倾，这就是惯性。', source: '访谈7 · 山东潍坊' },
 };
 
 const reportConclusions: ResearchConclusion[] = redesignedCards.map((card) => {
@@ -1715,42 +1717,24 @@ export default function FromPrimaryMergedReport() {
                               <div className="min-w-0 flex-1">
                                 <p className="text-[16px] font-black leading-7 text-[#292521]">{conclusion}</p>
                                 {conclusionClips.length > 0 && (
-                                  <div className="mt-2.5 space-y-2">
-                                    {/* 第一行：VOC 文字记录，横向平行排列 */}
-                                    <div className="flex gap-2 overflow-x-auto pb-1">
-                                      {conclusionClips.map((clip, clipIndex) => {
-                                        const meta = clipMetaByUrl[clip];
-                                        return (
-                                          <div
-                                            key={clip + clipIndex}
-                                            className="flex min-w-[210px] max-w-[280px] flex-1 flex-col rounded-[10px] border border-[#EADFD2] bg-white/80 px-3 py-2"
-                                          >
-                                            <div className="flex items-center gap-1 text-[10px] font-black text-[#9A8F82]">
-                                              <span className="grid size-4 place-items-center rounded-full bg-[#FFF1EA] text-[9px] text-[#E95B35]">
-                                                {clipIndex + 1}
-                                              </span>
-                                              {meta?.user ?? '访谈'}｜文字记录
-                                            </div>
-                                            <p className="mt-1 text-[12px] leading-5 text-[#4A443D]">“{meta?.text ?? ''}”</p>
-                                          </div>
-                                        );
-                                      })}
-                                    </div>
-                                    {/* 第二行：录音播放器，横向排列 */}
-                                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
-                                      <span className="inline-flex shrink-0 items-center gap-1 text-[11px] font-bold text-[#9A8F82]">
-                                        <Mic2 size={12} className="text-[#4361EE]" />
-                                        访谈原声
-                                      </span>
-                                      {conclusionClips.map((clip, clipIndex) => (
-                                        <AudioClipButton
+                                  <div className="mt-2.5 flex gap-2.5 overflow-x-auto pb-1">
+                                    {conclusionClips.map((clip, clipIndex) => {
+                                      const meta = clipMetaByUrl[clip];
+                                      const evidenceClips: EvidenceClip[] = [{ clipUrl: clip, startTime: 0, duration: 0 }];
+                                      return (
+                                        <div
                                           key={clip + clipIndex}
-                                          audioUrl={clip}
-                                          index={clipIndex}
-                                          total={conclusionClips.length}
-                                        />
-                                      ))}
-                                    </div>
+                                          className="flex min-w-[260px] max-w-[340px] flex-1 flex-col rounded-[12px] border border-[#EADFD2] bg-white px-3.5 py-3"
+                                        >
+                                          <div className="flex items-start gap-1.5">
+                                            <Quote size={13} className="mt-0.5 shrink-0 text-[#E95B35]" />
+                                            <p className="text-[12.5px] font-semibold leading-5 text-[#3A342E]">{meta?.text ?? ''}</p>
+                                          </div>
+                                          <p className="mt-1.5 text-[11px] font-bold text-[#9A8F82]">— {meta?.source ?? '访谈原声'}</p>
+                                          <EvidenceAudioClips clips={evidenceClips} />
+                                        </div>
+                                      );
+                                    })}
                                   </div>
                                 )}
                               </div>
