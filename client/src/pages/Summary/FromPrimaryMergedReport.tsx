@@ -494,7 +494,7 @@ export default function FromPrimaryMergedReport() {
     ),
   );
   const detailRefs = React.useRef<Partial<Record<DimensionId, HTMLElement | null>>>({});
-  const [detailHeights, setDetailHeights] = React.useState<Partial<Record<DimensionId, number>>>({});
+  const [sharedDetailHeight, setSharedDetailHeight] = React.useState<number | null>(null);
 
   const totalVoc = Object.values(conclusionClipsByCardId).flat(2).length;
   const userCount = new Set(Object.values(clipMetaByUrl).map((item) => item.source.split('·')[0].trim())).size;
@@ -506,16 +506,9 @@ export default function FromPrimaryMergedReport() {
 
     if (measuredNodes.length === 0) return;
 
-    const nodeIds = new Map<HTMLElement, DimensionId>();
-    measuredNodes.forEach(([dimensionId, node]) => nodeIds.set(node, dimensionId));
-
-    const updateHeight = (dimensionId: DimensionId, node: HTMLElement) => {
-      const nextHeight = Math.ceil(node.getBoundingClientRect().height);
-      setDetailHeights((prev) => (prev[dimensionId] === nextHeight ? prev : { ...prev, [dimensionId]: nextHeight }));
-    };
-
     const updateAllHeights = () => {
-      measuredNodes.forEach(([dimensionId, node]) => updateHeight(dimensionId, node));
+      const maxHeight = Math.max(...measuredNodes.map(([, node]) => Math.ceil(node.getBoundingClientRect().height)));
+      setSharedDetailHeight((prev) => (prev === maxHeight ? prev : maxHeight));
     };
 
     updateAllHeights();
@@ -525,12 +518,8 @@ export default function FromPrimaryMergedReport() {
       return () => window.removeEventListener('resize', updateAllHeights);
     }
 
-    const observer = new ResizeObserver((entries) => {
-      entries.forEach((entry) => {
-        const node = entry.target as HTMLElement;
-        const dimensionId = nodeIds.get(node);
-        if (dimensionId) updateHeight(dimensionId, node);
-      });
+    const observer = new ResizeObserver(() => {
+      updateAllHeights();
     });
 
     measuredNodes.forEach(([, node]) => observer.observe(node));
@@ -610,14 +599,14 @@ export default function FromPrimaryMergedReport() {
             const selectedConclusion = dimensionItems.find((item) => item.id === selectedId) ?? dimensionItems[0];
             const selectedIndex = dimensionItems.findIndex((item) => item.id === selectedConclusion.id);
             const Icon = dimension.icon;
-            const dynamicHeightStyle = detailHeights[dimension.id]
-              ? ({ '--detail-column-height': `${detailHeights[dimension.id]! + 48}px` } as React.CSSProperties)
+            const dynamicHeightStyle = sharedDetailHeight
+              ? ({ '--detail-column-height': `${sharedDetailHeight + 48}px` } as React.CSSProperties)
               : undefined;
 
             return (
               <article
                 key={dimension.id}
-                className="rounded-[24px] border border-[#E0D7CC] bg-white p-5 shadow-[0_18px_42px_rgba(55,44,34,.07)]"
+                className="w-full rounded-[24px] border border-[#E0D7CC] bg-white p-5 shadow-[0_18px_42px_rgba(55,44,34,.07)]"
               >
                 <div className="mb-5 flex flex-col gap-3 border-b border-[#E8DED3] pb-4 md:flex-row md:items-center md:justify-between">
                   <div className="flex items-center gap-3">
@@ -637,12 +626,12 @@ export default function FromPrimaryMergedReport() {
                   </span>
                 </div>
 
-                <div className="grid items-start gap-5 xl:grid-cols-[300px_minmax(0,1fr)]">
+                <div className="grid w-full items-start gap-5 lg:grid-cols-[300px_minmax(0,1fr)]">
                   <aside
                     ref={(node) => {
                       detailRefs.current[dimension.id] = node;
                     }}
-                    className="self-start rounded-[18px] border border-[#E6DDD3] bg-[#FBFAF7] p-3"
+                    className="w-full shrink-0 self-start rounded-[18px] border border-[#E6DDD3] bg-[#FBFAF7] p-3 lg:w-[300px]"
                   >
                     <div className="mb-3 flex shrink-0 items-center justify-between">
                       <p className="text-[14px] font-black text-[#403A34]">结论列表</p>
@@ -683,7 +672,7 @@ export default function FromPrimaryMergedReport() {
                   </aside>
 
                   <section
-                    className="self-start rounded-[18px] border border-[#E6DDD3] bg-white p-5 xl:h-[var(--detail-column-height)] xl:overflow-y-auto"
+                    className="w-full min-w-0 self-start rounded-[18px] border border-[#E6DDD3] bg-white p-5 lg:h-[var(--detail-column-height)] lg:overflow-y-auto"
                     style={dynamicHeightStyle}
                   >
                     <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[12px] font-black" style={{ backgroundColor: `${dimension.color}12`, color: dimension.color }}>
