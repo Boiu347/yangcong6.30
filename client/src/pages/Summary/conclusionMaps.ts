@@ -148,12 +148,12 @@ export const conclusionClipsByCardId: Record<string, string[][]> = {
   r10: [
     ['/clips/interview4/0054-01.mp3'],
     ['/clips/interview4/0054-01.mp3'],
-    ['/clips/interview5/0031-01.mp3'],
+    ['/clips/interview3/0034-01.mp3'],
     ['/clips/interview6/0023-01.mp3', '/clips/interview6/0022-01.mp3'],
   ],
   r11: [
     ['/clips/interview3/0012-01.mp3'],
-    ['/clips/interview4/0040-01.mp3', '/clips/interview5/0031-01.mp3'],
+    ['/clips/interview5/0045-01.mp3', '/clips/interview3/0033-01.mp3'],
     ['/clips/interview3/0012-01.mp3'],
   ],
   r12: [
@@ -207,6 +207,8 @@ export const clipMetaByUrl: Record<string, { text: string; source: string }> = {
   '/clips/interview2/0034-01.mp3': { text: '您看那个，比如说到初中、高中。他这个做实验。在家玩虚拟实验，你什么时候都可以玩。', source: '访谈2 · 三年级 · 北京昌平' },
   '/clips/interview3/0007-01.mp3': { text: '素材可以从生活中随手，可以随时可以找到。然后就可以提前对那个物理启蒙。', source: '访谈3 · 二年级 · 广东中山' },
   '/clips/interview3/0012-01.mp3': { text: '到了三年级以上，学业比较重，你很难顾及全科的。', source: '访谈3 · 二年级 · 广东中山' },
+  '/clips/interview3/0033-01.mp3': { text: '他很少主动去看。有时间就带他看看，但是我们没有一个规划是固定一个时间去学这样子的，就是有时候偶尔这段时间有空我打开去看，他就跟着我看。', source: '访谈3 · 二年级 · 广东中山' },
+  '/clips/interview3/0034-01.mp3': { text: '因为他喜欢的话他会自己去看、去了解的，但是有时间他也不会打开那个去看，他宁愿打开其他的。他不太感兴趣。', source: '访谈3 · 二年级 · 广东中山' },
   '/clips/interview4/0009-01.mp3': { text: '就还是当时他有这个链接挂链了，我也需要，就买了。就基于他信任，然后其他的话都是随缘。', source: '访谈4 · 二年级 · 北京顺义' },
   '/clips/interview4/0040-01.mp3': { text: '他自己会学习洋葱学园里边的从小学物理，就是自己会翻，然后学的特别多。对，特别喜欢。', source: '访谈4 · 二年级 · 北京顺义' },
   '/clips/interview4/0041-01.mp3': { text: '洋葱学园的从小学物理，如果说我不是不管的话，他每天他都会刷。他好像特别喜欢看那实验男做实验。', source: '访谈4 · 二年级 · 北京顺义' },
@@ -217,6 +219,7 @@ export const clipMetaByUrl: Record<string, { text: string; source: string }> = {
   '/clips/interview4/0092-01.mp3': { text: '知识的话就是系统性更强，因为它都已经罗列得非常分层次，看得也比较清晰。', source: '访谈4 · 二年级 · 北京顺义' },
   '/clips/interview5/0031-01.mp3': { text: '现在接触应试的话，怕孩子排斥。', source: '访谈5 · 三年级 · 重庆渝中' },
   '/clips/interview5/0044-01.mp3': { text: '他的吸引那个点就是妙懂的AR东西，就是看着很更直观。然后还有就说里面有很多题库。', source: '访谈5 · 三年级 · 重庆渝中' },
+  '/clips/interview5/0045-01.mp3': { text: '当时比如一年级，我让他看的时候他在看，但是好像没有特别感兴趣。就是然后我问他要不要看，他说要，但是他也感觉他没那么感兴趣，我能感觉到。但是现在看的话就是真的还是挺认真的，挺感兴趣的。', source: '访谈5 · 三年级 · 重庆渝中' },
   '/clips/interview5/0057-01.mp3': { text: '我想知道他到底学了什么东西？学到了什么东西？学了多少？能记住什么？', source: '访谈5 · 三年级 · 重庆渝中' },
   '/clips/interview6/0012-01.mp3': { text: '推荐了这个物理课，我才买的。', source: '访谈6 · 四年级 · 河南郑州' },
   '/clips/interview6/0016-01.mp3': { text: '郑州把科学课纳入了主科，期中期末都在考。到初中之后它就变成了物理化学生物，我不希望他只是去死记硬背。', source: '访谈6 · 四年级 · 河南郑州' },
