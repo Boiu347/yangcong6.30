@@ -1765,28 +1765,30 @@ export default function FromPrimaryMergedReport() {
                       {selectedConclusion.evidenceNote}
                     </div>
 
-                    <div className="mt-5 rounded-[16px] border border-[#E6DDD3] bg-[#FBFAF7] p-4">
-                      <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                        <div>
-                          <h3 className="text-[18px] font-black text-[#292521]">对应 VOC</h3>
-                          <p className="mt-1 text-[12px] font-semibold text-[#7D746A]">直接支撑当前结论的用户原声</p>
+                    {dimension.id !== 'core' && (
+                      <div className="mt-5 rounded-[16px] border border-[#E6DDD3] bg-[#FBFAF7] p-4">
+                        <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                          <div>
+                            <h3 className="text-[18px] font-black text-[#292521]">对应 VOC</h3>
+                            <p className="mt-1 text-[12px] font-semibold text-[#7D746A]">直接支撑当前结论的用户原声</p>
+                          </div>
+                          <span className="w-fit rounded-full bg-[#F1ECE5] px-2.5 py-1 text-[12px] font-black text-[#6E675F]">{selectedConclusion.vocs.length} 条</span>
                         </div>
-                        <span className="w-fit rounded-full bg-[#F1ECE5] px-2.5 py-1 text-[12px] font-black text-[#6E675F]">{selectedConclusion.vocs.length} 条</span>
+                        <div className="grid gap-3 lg:grid-cols-3">
+                          {selectedConclusion.vocs.slice(0, 3).map((voc) => (
+                            <ResearchVocCard key={`${selectedConclusion.id}-${voc.sourceId}-${voc.quote}`} voc={voc} dense />
+                          ))}
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setDrawerConclusionId(selectedConclusion.id)}
+                          className="mt-4 w-full rounded-[12px] border px-4 py-3 text-[13px] font-black hover:bg-white md:w-auto"
+                          style={{ borderColor: `${dimension.color}50`, backgroundColor: `${dimension.color}10`, color: dimension.color }}
+                        >
+                          查看全部 VOC（{selectedConclusion.vocs.length} 条）
+                        </button>
                       </div>
-                      <div className="grid gap-3 lg:grid-cols-3">
-                        {selectedConclusion.vocs.slice(0, 3).map((voc) => (
-                          <ResearchVocCard key={`${selectedConclusion.id}-${voc.sourceId}-${voc.quote}`} voc={voc} dense />
-                        ))}
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => setDrawerConclusionId(selectedConclusion.id)}
-                        className="mt-4 w-full rounded-[12px] border px-4 py-3 text-[13px] font-black hover:bg-white md:w-auto"
-                        style={{ borderColor: `${dimension.color}50`, backgroundColor: `${dimension.color}10`, color: dimension.color }}
-                      >
-                        查看全部 VOC（{selectedConclusion.vocs.length} 条）
-                      </button>
-                    </div>
+                    )}
                   </section>
                 </div>
               </article>
