@@ -10,17 +10,18 @@ export interface PersonaCase {
   note: string;
 }
 
-export interface PersonaStorySection {
-  heading: string;
-  body: string;
-}
-
 export interface FromPrimaryPersona {
   id: string;
   index: string;
   name: string;
   keyword: string;
   tagline: string;
+  /** 一句话类型定义 */
+  definition: string;
+  /** 与其他类型的边界 */
+  boundary: string;
+  /** 课程偏好 → 产品机会（轻量，非完整策略） */
+  productOpportunity: string;
   accent: string;
   accentSoft: string;
   attributes: PersonaAttribute[];
@@ -30,17 +31,32 @@ export interface FromPrimaryPersona {
     region: string;
     grade: string;
     role: string;
-    coreTrait: string;
-    story: PersonaStorySection[];
-    quotes: string[];
+    /** 压缩后的代表场景，1–2 句 */
+    snapshot: string;
+    /** 只保留 1 条最有代表性的原声 */
+    quote: string;
   };
 }
 
 export const PORTRAIT_INTRO = {
-  eyebrow: 'INSIGHTHUB · 用户画像和故事',
-  title: '用户画像和故事',
-  lead: '根据「家长买这类课时，真正想解决什么问题」来分，将 8 位访谈家长抽象成 4 类画像。',
-  note: '同一位家长可能同时具备多种特征，访谈家长大多属于「兴趣启蒙 + 学科启蒙」。每一类画像都配了一位真实代表家长的故事与原声。',
+  eyebrow: 'INSIGHTHUB · 用户画像',
+  title: '用户画像',
+  lead: '根据「家长买这类课时，真正想解决什么问题」，将 8 位访谈家长抽象成 4 类画像。',
+  note: '本页聚焦类型定义与人群差异；具体策略与动作建议见「调研结论」。',
+};
+
+/** 页面级总结：核心客群判断 + 分类逻辑 */
+export const PORTRAIT_OVERVIEW = {
+  coreJudgment: {
+    title: '核心客群判断',
+    text: '同一位家长可能同时具备多种特征；访谈中大多数家长属于「兴趣启蒙型 + 学科启蒙打底型」的叠加——先用兴趣打开接触，再用「未来有用」合理化长期投入。',
+    highlight: ['兴趣启蒙型', '学科启蒙打底型'],
+  },
+  classificationLogic: {
+    title: '分类逻辑',
+    text: '分类轴不是年级或地域，而是「家长买课真正想解决什么问题」：是打开兴趣、长期打底、动手验证，还是辅助校内。',
+  },
+  comparisonColumns: ['学情特征', '用户需求', '核心痛点', '课程偏好'] as const,
 };
 
 export const PORTRAIT_SOURCES: Array<{ label: string; url: string }> = [
@@ -56,6 +72,9 @@ export const FROM_PRIMARY_PERSONAS: FromPrimaryPersona[] = [
     name: '兴趣启蒙型',
     keyword: '入口',
     tagline: '把物理当作孩子「愿意看」的理科兴趣入口',
+    definition: '低年级、低压力家庭：不急于提分，首要目标是让孩子愿意接触理科、不排斥未来学习。',
+    boundary: '和「学科打底型」不同：同样不追短期成绩，但这类家长对「未来有用」的表述更轻，购买理由更偏「孩子喜欢就先接触」。',
+    productOpportunity: '趣味动画、短视频节奏、实验男等「孩子愿意主动看」的入口内容；避免太正式、太像上课的表达。',
     accent: '#C9622E',
     accentSoft: 'rgba(201, 98, 46, 0.10)',
     attributes: [
@@ -73,26 +92,8 @@ export const FROM_PRIMARY_PERSONAS: FromPrimaryPersona[] = [
       region: '安徽合肥',
       grade: '一年级',
       role: '妈妈',
-      coreTrait: '不急着让孩子提前学完整套初中物理，也不会用成绩检验启蒙效果；她首先要的是孩子愿意看、听得懂、觉得好玩。',
-      story: [
-        {
-          heading: '两个孩子，姐姐高中、弟弟一年级',
-          body: '她对孩子学习没有特别焦虑的强规划，一年级孩子目前没报很多辅导班，整体掌握情况也不错。相比「必须学到什么程度」，她更在意孩子能不能先愿意接触、愿意听、愿意看下去。',
-        },
-        {
-          heading: '顺手加购，期待很轻',
-          body: '最初买《从小学物理》，是给姐姐买高中物理时顺着推荐看到了小学课程；弟弟看到里面有从小学物理表现出兴趣，她就顺手买了。她不会把这件事定义成明确的学习任务，也没要求孩子每天固定学。',
-        },
-        {
-          heading: '认可的，是孩子「听得有兴趣」',
-          body: '相比普通科普视频，这类内容更像是孩子愿意主动看的科学内容，能把孩子先拉进来；尤其是实验男做实验相关内容，对孩子很有吸引力。',
-        },
-      ],
-      quotes: [
-        '孩子喜欢学就学，多看一点总归有帮助。',
-        '因为学习是个长期的过程，不是一蹴而就的。所以也没什么目的，孩子喜欢学就学。',
-        '孩子喜欢看实验男，因为学而思的教具或课堂都不能做危险的实验，而实验男可以做一些家里做不到、且会爆炸的实验。',
-      ],
+      snapshot: '给姐姐买高中物理时顺手加购；弟弟看到小学物理有兴趣就买了，不定义成硬性学习任务。',
+      quote: '孩子喜欢学就学，多看一点总归有帮助。',
     },
   },
   {
@@ -101,6 +102,9 @@ export const FROM_PRIMARY_PERSONAS: FromPrimaryPersona[] = [
     name: '学科启蒙打底型',
     keyword: '长期',
     tagline: '把理科启蒙当作「未来别被卡住」的长期打底',
+    definition: '有明确「未来学科价值」预期：不追短期提分，但要求启蒙内容和初高中理科学习挂钩，形成长期优势。',
+    boundary: '和「兴趣启蒙型」共享低压力场景，但更「功利」——需要看见「有用」的路径，而不只是「孩子爱看」。和「实验探究型」不同：实验是手段之一，核心诉求是思维框架与未来衔接。',
+    productOpportunity: '体系化大纲、生活化讲解、轻量验证、与未来初中知识的关联；「效果外化」是这类家长最缺的判断依据，也是差异化机会。',
     accent: '#3F5E8C',
     accentSoft: 'rgba(63, 94, 140, 0.10)',
     attributes: [
@@ -118,26 +122,8 @@ export const FROM_PRIMARY_PERSONAS: FromPrimaryPersona[] = [
       region: '北京昌平',
       grade: '三年级',
       role: '爸爸',
-      coreTrait: '不会用短期成绩检验课程价值，也不希望孩子过早进入刷题；但明确要求课程「未来有用」，能帮孩子建立理科接纳度、熟悉感和长期学习优势。',
-      story: [
-        {
-          heading: '文科背景爸爸，不想孩子走老路',
-          body: '两个孩子，课程主要买给三年级的大孩。爸爸是文科背景，自己理科相对弱，所以希望孩子不要走自己的老路。他对理科学习有明确的长期规划：小学阶段不一定立刻见效，但不能让孩子未来初高中被理科限制。',
-        },
-        {
-          heading: '「笨鸟先飞」的学科启蒙逻辑',
-          body: '他更在意孩子未来能不能形成理科思维、在初高中面对物理化学时不吃力，甚至大学选专业时不因理科弱而被动。购买学而思科学、NB实验室，不是单纯为了兴趣，而是带着「和未来学科挂钩」的启蒙逻辑。',
-        },
-        {
-          heading: '看重能否长期使用、连接未来路径',
-          body: '相比一次性的兴趣内容，他更看重产品能不能长期使用。他选 NB 实验室，是因为它覆盖小学到高中、能选教材版本、有实验有习题、能寒暑假按单元复习预习。短期没有清晰的效果标准，主要用孩子是否接纳、是否愿意学来判断启蒙是否成立。',
-        },
-      ],
-      quotes: [
-        '希望孩子现在学一遍，初高中再学一遍时更轻松。',
-        '学的东西未来要有用，理科启蒙要和未来学科挂钩，不能只是玩一玩。',
-        '孩子保持兴趣、不逆反、布置任务时愿意点进去学，对科学书籍和理科内容接纳度提升。',
-      ],
+      snapshot: '文科背景，担心孩子未来被理科限制；选 NB 实验室等，是因为覆盖小学到高中、能连接未来学习路径。',
+      quote: '学的东西未来要有用，理科启蒙要和未来学科挂钩，不能只是玩一玩。',
     },
   },
   {
@@ -146,6 +132,9 @@ export const FROM_PRIMARY_PERSONAS: FromPrimaryPersona[] = [
     name: '实验探究型',
     keyword: '动手',
     tagline: '相信实验与系统讲解，想让孩子在动手中真正理解物理',
+    definition: '把「动手验证」视为理科学习的核心方式：不只接受视频讲解，要求孩子能观察、操作、提问并理解原理。',
+    boundary: '和「兴趣启蒙型」都可能被实验吸引，但这类家长要的是「讲解 + 动手」兼备，而不是只看实验视频。和「校内助力型」不同：动机是理解原理，不是对标教材拿分。',
+    productOpportunity: '真实验、材料易得、可跟着做；讲解要儿童化，实验要更可操作——虚拟实验难以替代「真动手」的参与感。',
     accent: '#2F8272',
     accentSoft: 'rgba(47, 130, 114, 0.10)',
     attributes: [
@@ -163,30 +152,8 @@ export const FROM_PRIMARY_PERSONAS: FromPrimaryPersona[] = [
       region: '北京顺义',
       grade: '二年级',
       role: '妈妈',
-      coreTrait: '相信兴趣重要，但更相信「实践出真知」；要的不是孩子只看懂视频，而是能动手、能提问、能在实验中把抽象概念真正理解。',
-      story: [
-        {
-          heading: '长期关注，报过很多实验课',
-          body: '家里一个二年级男孩，报过很多物理启蒙 / 实验课（从小学物理、NB实验室、学而思自然博物、赛先生科学课等）。她不是随便买来试试，而是长期关注孩子的学习兴趣、学科启蒙和未来升学。',
-        },
-        {
-          heading: '既信任洋葱品牌，也被实验吸引',
-          body: '她购买《从小学物理》，一方面是信任洋葱品牌，另一方面是被实验吸引，孩子也喜欢看实验男做实验。',
-        },
-        {
-          heading: '「知识讲解」和「动手实验」要兼备',
-          body: '她认为只有讲解与动手兼备，孩子才能真正印证理论。她对赛先生评价高，就是因为有真人老师边讲边带做实验，孩子吸收更多。相比之下 NB 动手多但讲解弱，洋葱讲解系统但实验动手不足。',
-        },
-        {
-          heading: '对洋葱的三点期待',
-          body: '保持内容系统和趣味的优势；把专业概念讲得更儿童化；把实验做得更可操作。',
-        },
-      ],
-      quotes: [
-        '我主要是看中他理科的同步校内，看那实验做得也比较好，孩子看了也很感兴趣，我才又添加了这笔钱买的从小学物理。',
-        '一定要有专业的老师带着做实验才效果好，孩子做实验时能问老师，老师能纠正过来。',
-        '实验肯定是重要的，理科的话肯定就是说，实践出真知。',
-      ],
+      snapshot: '报过多门实验课；认可洋葱的系统讲解，但更看重赛先生「老师边讲边带做」的真人实验体验。',
+      quote: '实验肯定是重要的，理科的话肯定就是说，实践出真知。',
     },
   },
   {
@@ -195,6 +162,9 @@ export const FROM_PRIMARY_PERSONAS: FromPrimaryPersona[] = [
     name: '校内科学课助力型',
     keyword: '同步',
     tagline: '把《从小学物理》当作小学科学课的辅助工具',
+    definition: '动机来自校内：所在地区科学是主课、要考试，希望帮孩子理解课本、减少死记硬背，而非做长期启蒙或提前学。',
+    boundary: '和前三类都不同：购买理由不是「兴趣」或「未来打底」，而是「现在这门课要考」。对教材版本、知识点顺序、检索能力的要求远高于其他类型。',
+    productOpportunity: '按年级 / 教材版本 / 知识点组织与快速检索；内容覆盖需尽量对齐校内，否则使用频率会快速下降。',
     accent: '#7C5A93',
     accentSoft: 'rgba(124, 90, 147, 0.10)',
     attributes: [
@@ -211,30 +181,25 @@ export const FROM_PRIMARY_PERSONAS: FromPrimaryPersona[] = [
       region: '河南郑州',
       grade: '四年级',
       role: '妈妈',
-      coreTrait: '不是为了启蒙或提前学，而是希望课程能帮孩子学透校内科学课；她最看重能不能对标教材，让孩子不再死记硬背，而能真正理解书本内容背后的原理。',
-      story: [
-        {
-          heading: '郑州的科学课是要考试的主科',
-          body: '她有一个四年级孩子，和很多地区不同，郑州的科学课是需要考试的主科：期中期末要考，平时也有单元测。',
-        },
-        {
-          heading: '不希望孩子死记硬背',
-          body: '打动她购买的，是科学课本身占据了很多学习时间，而孩子平时更多靠背书，容易背不下来、理解不透。她希望用动画视频帮孩子把校内科学里的抽象知识点讲明白。',
-        },
-        {
-          heading: '期待校内同步、场景是查漏补缺',
-          body: '她的期待很具体：能对标校内知识点，孩子哪个单元不理解就能快速找到对应视频。她并不强求系统学完整套课程，而是把它当作一种「知识点复习 / 理解工具」。',
-        },
-        {
-          heading: '使用落差：不够同步',
-          body: '课程虽然动画不枯燥，但不够同步，四年级上册的一些内容找不到。对她来说，如果不能按年级、教材、知识点检索，这门课的使用频率就会降低，容易变成「想起来划两下」的补充内容。',
-        },
-      ],
-      quotes: [
-        '不希望孩子死记硬背，刚好有这个课。',
-        '洋葱主要用来复习知识点，这个单元需要考试，或者某个知识点有明显缺漏需要看。',
-        '之前以为顺序不一样但知识点都有，后面发现不一样，四上的内容找不到。',
-      ],
+      snapshot: '郑州科学要期中期末考；买来主要是查漏补缺，但四上部分内容找不到，使用频率因此降低。',
+      quote: '洋葱主要用来复习知识点，这个单元需要考试，或者某个知识点有明显缺漏需要看。',
     },
   },
 ];
+
+/** 横向对比表：供总览区使用 */
+export function getComparisonMatrix() {
+  const dims: Array<{ key: keyof PersonaAttribute; label: string }> = [
+    { key: 'situation', label: '学情特征' },
+    { key: 'need', label: '用户需求' },
+    { key: 'pain', label: '核心痛点' },
+    { key: 'preference', label: '课程偏好' },
+  ];
+  return dims.map((dim) => ({
+    dimension: dim.label,
+    cells: FROM_PRIMARY_PERSONAS.map((p) => {
+      const attr = p.attributes.find((a) => a.key === dim.key);
+      return { personaId: p.id, personaName: p.name, accent: p.accent, value: attr?.value ?? '' };
+    }),
+  }));
+}
