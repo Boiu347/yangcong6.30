@@ -9,6 +9,7 @@ import InsightCategoryPage from './pages/InsightCategory/InsightCategoryPage';
 import InsightTopicQuotesPage from './pages/InsightCategory/InsightTopicQuotesPage';
 import QualitativeResearchPage from './pages/QualitativeResearch/QualitativeResearchPage';
 import SummaryPage from './pages/Summary/SummaryPage';
+import CoreConclusionsReport from './pages/CoreConclusions/CoreConclusionsReport';
 import QualitativePage from './pages/Qualitative/QualitativePage';
 import FamilyInsights from './pages/FamilyPackage/FamilyInsights';
 import CompetitivePage from './pages/Competitive/CompetitivePage';
@@ -50,6 +51,7 @@ const RoutesComponent = () => {
         <Route index element={<ProjectIndexRedirect />} />
         <Route path="background" element={<BackgroundPage />} />
         <Route path="summary" element={<SummaryPage />} />
+        <Route path="core-conclusions" element={<CoreConclusionsReport />} />
         <Route path="portraits" element={<FromPrimaryPortraitsPage />} />
         <Route path="qualitative" element={<QualitativePage />} />
         <Route path="family-insights" element={<FamilyInsights />} />
