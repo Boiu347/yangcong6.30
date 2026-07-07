@@ -141,48 +141,17 @@ export default function CoreConclusionsReport() {
     ),
   );
 
-  const detailRefs = React.useRef<Record<string, HTMLElement | null>>({});
   const detailPanelRefs = React.useRef<Record<string, HTMLElement | null>>({});
   const prevSelectedRef = React.useRef(selectedByDimension);
-  const [sharedDetailHeight, setSharedDetailHeight] = React.useState<number | null>(null);
 
   const totalVoc = countCoreVocClips();
   const userCount = countCoreUsers();
   const totalConclusions = coreConclusionSections.reduce((sum, section) => sum + section.mains.length, 0);
 
   React.useLayoutEffect(() => {
-    const measuredNodes = coreConclusionSections
-      .map((section) => [section.id, detailRefs.current[section.id]] as const)
-      .filter((entry): entry is readonly [string, HTMLElement] => Boolean(entry[1]));
-
-    if (measuredNodes.length === 0) return;
-
-    const updateAllHeights = () => {
-      const maxHeight = Math.max(...measuredNodes.map(([, node]) => Math.ceil(node.getBoundingClientRect().height)));
-      setSharedDetailHeight((prev) => (prev === maxHeight ? prev : maxHeight));
-    };
-
-    updateAllHeights();
-
-    if (typeof ResizeObserver === 'undefined') {
-      window.addEventListener('resize', updateAllHeights);
-      return () => window.removeEventListener('resize', updateAllHeights);
-    }
-
-    const observer = new ResizeObserver(() => updateAllHeights());
-    measuredNodes.forEach(([, node]) => observer.observe(node));
-    window.addEventListener('resize', updateAllHeights);
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('resize', updateAllHeights);
-    };
-  }, [selectedByDimension]);
-
-  React.useLayoutEffect(() => {
     coreConclusionSections.forEach((section) => {
       if (prevSelectedRef.current[section.id] === selectedByDimension[section.id]) return;
-      detailPanelRefs.current[section.id]?.scrollTo({ top: 0 });
+      detailPanelRefs.current[section.id]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
     prevSelectedRef.current = selectedByDimension;
   }, [selectedByDimension]);
@@ -254,10 +223,6 @@ export default function CoreConclusionsReport() {
             const selectedMain = section.mains.find((item) => item.id === selectedId) ?? section.mains[0];
             const selectedIndex = section.mains.findIndex((item) => item.id === selectedMain.id);
 
-            const dynamicHeightStyle = sharedDetailHeight
-              ? ({ '--detail-column-height': `${sharedDetailHeight + 48}px` } as React.CSSProperties)
-              : undefined;
-
             return (
               <article
                 key={section.id}
@@ -282,12 +247,7 @@ export default function CoreConclusionsReport() {
                 </div>
 
                 <div className="grid w-full items-start gap-5 lg:grid-cols-[300px_minmax(0,1fr)]">
-                  <aside
-                    ref={(node) => {
-                      detailRefs.current[section.id] = node;
-                    }}
-                    className="w-full shrink-0 self-start rounded-[18px] border border-[#E6DDD3] bg-[#FBFAF7] p-3 lg:w-[300px]"
-                  >
+                  <aside className="w-full shrink-0 self-start rounded-[18px] border border-[#E6DDD3] bg-[#FBFAF7] p-3 lg:sticky lg:top-4 lg:w-[300px]">
                     <div className="mb-3 flex shrink-0 items-center justify-between">
                       <p className="text-[14px] font-black text-[#403A34]">结论列表</p>
                       <span className="text-[11px] font-bold text-[#8A8279]">{section.mains.length} 条</span>
@@ -325,8 +285,7 @@ export default function CoreConclusionsReport() {
                     ref={(node) => {
                       detailPanelRefs.current[section.id] = node;
                     }}
-                    className="w-full min-w-0 self-start rounded-[18px] border border-[#E6DDD3] bg-white p-5 lg:h-[var(--detail-column-height)] lg:overflow-y-auto"
-                    style={dynamicHeightStyle}
+                    className="w-full min-w-0 self-start scroll-mt-4 rounded-[18px] border border-[#E6DDD3] bg-white p-5"
                   >
                     <div
                       className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[12px] font-black"
