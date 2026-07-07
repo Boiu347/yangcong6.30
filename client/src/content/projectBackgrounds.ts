@@ -13,6 +13,7 @@ export interface ProjectBackgroundConfig {
   title: string;
   eyebrow: string;
   summary: string;
+  projectLead?: string;
   markdown: string;
   resources: ProjectBackgroundResource[];
 }
@@ -31,8 +32,10 @@ const pendingResources: ProjectBackgroundResource[] = [
 export const PROJECT_BACKGROUNDS: Record<string, ProjectBackgroundConfig> = {
   default_project: {
     title: '从小学系列售卖策略调研',
-    eyebrow: 'PROJECT CONTEXT',
-    summary: '从增长目标、研究问题与目标人群出发，说明本次研究为何启动、需要回答什么，以及研究覆盖的边界。',
+    eyebrow: '研究概览',
+    summary:
+      '《从小学物理》增长路径尚未完全清晰。本次调研围绕核心人群、产品定位与竞品差异展开，目标是将《从小学系列课程》推向规模化爆品，支撑营收目标达成。',
+    projectLead: '绳桐',
     markdown: fromPrimaryBriefing,
     resources: [
       {

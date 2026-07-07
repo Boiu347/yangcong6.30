@@ -29,6 +29,12 @@ export default function BackgroundPage() {
           <p className="mt-5 text-[15px] leading-8 text-[#716C65] md:text-[17px]">
             {background.summary}
           </p>
+          {background.projectLead && (
+            <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-[#E4DED5] bg-white px-4 py-2 text-[13px] font-bold text-[#5F5851]">
+              <span className="text-[#9A948B]">项目负责人</span>
+              <span className="text-[#292724]">{background.projectLead}</span>
+            </p>
+          )}
         </header>
 
         <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1fr)_320px]">
