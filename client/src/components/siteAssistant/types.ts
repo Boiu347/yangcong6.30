@@ -17,7 +17,8 @@ export interface KnowledgeChunk extends EvidenceLink {
     | 'quote'
     | 'family_interview'
     | 'profile'
-    | 'learning';
+    | 'learning'
+    | 'conclusion';
 }
 
 export interface SiteAssistantResponse {

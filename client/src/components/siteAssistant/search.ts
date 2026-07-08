@@ -82,6 +82,14 @@ export function searchKnowledge(query: string, chunks: KnowledgeChunk[], limit =
       if (asksSenior && /小学|小学生|学前|一年级|二年级|三年级|四年级|五年级|六年级|初中|初一|初二|初三|中考/.test(`${title} ${text}`)) score -= 4;
       if (/买|购买|付费|续费|升单|价格|成交/.test(query) && /购买|付费|续费|升单|价格|成交|家庭包|未购|已购/.test(`${title} ${text}`)) score += 6;
 
+      // 结论/卖点/建议/成交/卡点/体验类问题：优先命中沉淀好的结论卡片（核心结论 / 调研结论 / 下一步建议）
+      if (
+        /结论|洞察|卖点|建议|策略|成交|卡点|未成交|体验|优势|劣势|下一步|怎么做|如何做/.test(query) &&
+        chunk.type === 'conclusion'
+      ) {
+        score += 7;
+      }
+
       return { chunk, score };
     })
     .filter((item) => item.score > 0)

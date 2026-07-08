@@ -10,7 +10,24 @@ import {
   QUALITATIVE_RESEARCH_SLUGS,
   type InsightCategorySlug,
 } from '../../pages/InsightCategory/categoryInsights';
+import { coreConclusionSections } from '../../pages/CoreConclusions/coreConclusionsData';
+import { reportConclusions } from '../../pages/Summary/FromPrimaryMergedReport';
+import { nextStepPrimaries } from '../../pages/Summary/nextStepData';
 import type { KnowledgeChunk } from './types';
+
+// 「从小学物理」项目下的调研结论 / 核心结论页面路由
+const FROM_PRIMARY_PROJECT_ID = 'default_project';
+const SUMMARY_ROUTE = `/projects/${FROM_PRIMARY_PROJECT_ID}/summary`;
+const CORE_CONCLUSIONS_ROUTE = `/projects/${FROM_PRIMARY_PROJECT_ID}/core-conclusions`;
+
+const RESEARCH_DIMENSION_LABELS: Record<string, string> = {
+  core: '核心洞察',
+  purchase: '购买决策',
+  experience: '买后体验',
+  barrier: '购买卡点',
+  brand: '品牌差异',
+  next: '下一步建议',
+};
 
 function compact(text: string, max = 180) {
   const clean = text.replace(/\s+/g, ' ').trim();
@@ -203,6 +220,78 @@ export function buildSiteKnowledge(projects: Project[]): KnowledgeChunk[] {
     source: '学情分析',
     route: '/learning-analysis',
     keywords: ['学情分析', '学习痛点', '小低', '小高', '初中', '错题', '备考', '习惯'],
+  });
+
+  // ── 调研结论页：各维度结论（含核心结论、建议行动） ──────────────────────────
+  reportConclusions.forEach((conclusion) => {
+    const dimensionLabel = RESEARCH_DIMENSION_LABELS[conclusion.dimension] ?? '调研结论';
+    addChunk(chunks, {
+      id: `research_conclusion_${conclusion.id}`,
+      type: 'conclusion',
+      title: `调研结论 · ${conclusion.title}`,
+      text: [
+        conclusion.title,
+        conclusion.insight,
+        conclusion.conclusion,
+        conclusion.conclusions.join('。'),
+        conclusion.actions.join('。'),
+        conclusion.evidenceNote,
+      ].filter(Boolean).join('。'),
+      excerpt: compact(conclusion.insight || conclusion.conclusion),
+      source: `调研结论 · ${dimensionLabel}`,
+      projectName: '从小学物理售卖策略调研',
+      route: SUMMARY_ROUTE,
+      keywords: ['调研结论', '洞察总览', dimensionLabel, conclusion.title, '结论', '建议'],
+    });
+  });
+
+  // ── 调研结论页：下一步建议（方向 + 二级动作） ──────────────────────────────
+  nextStepPrimaries.forEach((primary) => {
+    addChunk(chunks, {
+      id: `research_next_${primary.id}`,
+      type: 'conclusion',
+      title: `下一步建议 · ${primary.title}`,
+      text: [
+        primary.title,
+        primary.summary,
+        primary.insight,
+        primary.conclusion,
+        primary.actions.join('。'),
+        primary.secondaries.map((s) => `${s.title}：${s.action}。${s.points.join('。')}`).join('。'),
+      ].filter(Boolean).join('。'),
+      excerpt: compact(primary.summary || primary.insight),
+      source: '调研结论 · 下一步建议',
+      projectName: '从小学物理售卖策略调研',
+      route: SUMMARY_ROUTE,
+      keywords: ['下一步建议', '行动建议', '策略', primary.title, '结论'],
+    });
+  });
+
+  // ── 核心结论页：三大板块（成交原因 / 未成交卡点 / 产品体验） ────────────────
+  coreConclusionSections.forEach((section) => {
+    section.mains.forEach((main) => {
+      const pointsText = main.subs
+        .flatMap((sub) => [sub.title, ...sub.points.map((point) => `${point.label ? `${point.label}：` : ''}${point.text}`)])
+        .filter(Boolean)
+        .join('。');
+      const quotesText = main.subs
+        .flatMap((sub) => sub.points.flatMap((point) => (point.quotes ?? []).map((quote) => quote.text)))
+        .filter(Boolean)
+        .join('。');
+      addChunk(chunks, {
+        id: `core_conclusion_${section.id}_${main.id}`,
+        type: 'conclusion',
+        title: `核心结论 · ${section.label} · ${main.title}`,
+        text: [main.title, main.summary, main.insight, pointsText, quotesText, main.evidenceNote]
+          .filter(Boolean)
+          .join('。'),
+        excerpt: compact(main.summary || main.insight),
+        source: `核心结论 · ${section.label}`,
+        projectName: '从小学物理售卖策略调研',
+        route: CORE_CONCLUSIONS_ROUTE,
+        keywords: ['核心结论', section.label, main.title, '结论', '成交', '卡点', '体验'],
+      });
+    });
   });
 
   const seen = new Set<string>();

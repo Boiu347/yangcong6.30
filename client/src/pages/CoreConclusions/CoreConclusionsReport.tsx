@@ -17,6 +17,7 @@ import type { EvidenceClip } from '@/utils/evidenceClipLookup';
 import { useIsEditor } from '@/components/auth/PasswordGate';
 import { useContentStore } from '@/hooks/useContentStore';
 import { EditDrawer, ListField, SaveBar, TextField } from '@/components/edit/EditDrawer';
+import { citeMatches, useCiteKey } from '@/components/siteAssistant/evidenceHighlight';
 import {
   coreConclusionSections,
   countCoreUsers,
@@ -232,6 +233,29 @@ export default function CoreConclusionsReport() {
   const jumpToSection = React.useCallback((id: string) => {
     sectionRefs.current[id]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, []);
+
+  // 问答助手带 ?cite= 跳转过来时，自动选中命中的那条结论，让高亮能定位到详情区
+  const citeKey = useCiteKey();
+  React.useEffect(() => {
+    if (!citeKey) return;
+    for (const section of sections) {
+      const hit = section.mains.find((main) => {
+        const matchText = [
+          main.title,
+          main.summary,
+          main.insight,
+          ...main.subs.flatMap((sub) => [sub.title, ...sub.points.map((point) => point.text)]),
+          ...main.subs.flatMap((sub) => sub.points.flatMap((point) => (point.quotes ?? []).map((quote) => quote.text))),
+        ].filter(Boolean).join(' ');
+        return citeMatches(matchText, citeKey);
+      });
+      if (hit) {
+        setSelectedByDimension((prev) => (prev[section.id] === hit.id ? prev : { ...prev, [section.id]: hit.id }));
+        requestAnimationFrame(() => jumpToSection(section.id));
+        break;
+      }
+    }
+  }, [citeKey, sections, jumpToSection]);
 
   return (
     <main className="min-h-full bg-[#F8F6F1] text-[#292521]">

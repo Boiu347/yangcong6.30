@@ -17,6 +17,7 @@ import type { EvidenceClip } from '@/utils/evidenceClipLookup';
 import { useIsEditor } from '@/components/auth/PasswordGate';
 import { useContentStore } from '@/hooks/useContentStore';
 import { EditDrawer, ListField, SaveBar, TextField } from '@/components/edit/EditDrawer';
+import { citeMatches, useCiteKey } from '@/components/siteAssistant/evidenceHighlight';
 import { clipMetaByUrl, conclusionClipsByCardId, conclusionDetailsByCardId, countBoundVocCitations } from './conclusionMaps';
 import { nextStepPrimaries, type NextStepPrimaryItem } from './nextStepData';
 
@@ -407,7 +408,7 @@ function SourcePanel() {
 type ConclusionPriority = '高优先级' | '中优先级';
 type ConclusionConfidence = '高置信' | '中高置信';
 
-interface ResearchConclusion {
+export interface ResearchConclusion {
   id: string;
   dimension: DimensionId;
   title: string;
@@ -466,7 +467,7 @@ function renderVocClipCards(clips: string[]) {
 }
 
 
-const reportConclusions: ResearchConclusion[] = redesignedCards.map((card) => {
+export const reportConclusions: ResearchConclusion[] = redesignedCards.map((card) => {
   const takeaways = card.takeaways ?? cardTakeaways[card.id] ?? [];
   const judgment = takeaways.find((item) => item.label === '判断')?.text;
   const action = takeaways.find((item) => item.label === '动作')?.text;
@@ -604,6 +605,28 @@ export default function FromPrimaryMergedReport() {
     });
     prevSelectedRef.current = selectedByDimension;
   }, [selectedByDimension]);
+
+  // 问答助手带 ?cite= 跳转过来时，自动选中命中的结论 / 下一步方向，让高亮能定位到详情区
+  const citeKey = useCiteKey();
+  React.useEffect(() => {
+    if (!citeKey) return;
+    const conclusionHit = conclusions.find((item) =>
+      citeMatches([item.title, item.summary, item.insight, item.conclusion, item.conclusions.join(' '), item.actions.join(' ')].join(' '), citeKey),
+    );
+    if (conclusionHit) {
+      setSelectedByDimension((prev) => (prev[conclusionHit.dimension] === conclusionHit.id ? prev : { ...prev, [conclusionHit.dimension]: conclusionHit.id }));
+      return;
+    }
+    const nextHit = nextSteps.find((item) =>
+      citeMatches(
+        [item.title, item.summary, item.insight, item.conclusion, item.actions.join(' '), item.secondaries.map((s) => `${s.title} ${s.action} ${s.points.join(' ')}`).join(' ')].join(' '),
+        citeKey,
+      ),
+    );
+    if (nextHit) {
+      setSelectedByDimension((prev) => (prev.next === nextHit.id ? prev : { ...prev, next: nextHit.id }));
+    }
+  }, [citeKey, conclusions, nextSteps]);
 
   return (
     <main className="min-h-full bg-[#F8F6F1] text-[#292521]">

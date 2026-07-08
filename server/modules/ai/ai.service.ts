@@ -916,11 +916,16 @@ ${textContent}`;
     if (/买|购买|付费|续费|升单|价格|贵|便宜|值/.test(question)) intents.push('购买决策');
     if (/为什么|为何|原因/.test(question)) intents.push('原因解释');
     if (/顾虑|担心|阻碍|未购/.test(question)) intents.push('顾虑分析');
+    if (/结论|洞察|总览/.test(question)) intents.push('结论总结');
+    if (/卖点|优势|劣势|差异|竞品|对比/.test(question)) intents.push('卖点/竞争分析');
+    if (/建议|策略|下一步|怎么做|如何做|优化/.test(question)) intents.push('行动建议');
+    if (/成交|卡点|未成交|体验/.test(question)) intents.push('成交/卡点/体验');
 
     return [
       stages.length ? `学段：${stages.join('、')}` : '学段：未明确',
       intents.length ? `意图：${intents.join('、')}` : '意图：站内问答',
       '要求：回答必须贴合问题中的学段和意图，不要泛化成所有家庭。',
+      '若问到结论/卖点/建议，可优先引用「核心结论」「调研结论」「下一步建议」中已沉淀的判断与行动，并保持简洁。',
     ].join('；');
   }
 
