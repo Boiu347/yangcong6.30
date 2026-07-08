@@ -11,6 +11,9 @@ interface UseContentStoreResult<T> {
   reload: () => Promise<void>;
 }
 
+/** 后台轮询间隔（毫秒）：让其他浏览者不刷新也能准实时看到编辑更新 */
+const POLL_INTERVAL_MS = 30_000;
+
 export function useContentStore<T>(
   key: string,
   defaultData: T,
@@ -18,10 +21,20 @@ export function useContentStore<T>(
   const [data, setData] = useState<T>(defaultData);
   const [saving, setSaving] = useState(false);
   const defaultRef = useRef(defaultData);
+  const dataRef = useRef(data);
+  const savingRef = useRef(false);
 
   useEffect(() => {
     defaultRef.current = defaultData;
   }, [defaultData]);
+
+  useEffect(() => {
+    dataRef.current = data;
+  }, [data]);
+
+  useEffect(() => {
+    savingRef.current = saving;
+  }, [saving]);
 
   const load = useCallback(async () => {
     const remote = await fetchContent<T>(key);
@@ -33,6 +46,24 @@ export function useContentStore<T>(
   }, [key]);
 
   useEffect(() => { void load(); }, [load]);
+
+  // 智能轮询：后台比对远端数据，仅在有变化且未在保存时更新，避免整页刷新/打断编辑
+  useEffect(() => {
+    let cancelled = false;
+    const tick = async () => {
+      if (savingRef.current || document.hidden) return;
+      const remote = await fetchContent<T>(key);
+      if (cancelled || remote === null || savingRef.current) return;
+      if (JSON.stringify(remote) !== JSON.stringify(dataRef.current)) {
+        setData(remote);
+      }
+    };
+    const id = setInterval(() => { void tick(); }, POLL_INTERVAL_MS);
+    return () => {
+      cancelled = true;
+      clearInterval(id);
+    };
+  }, [key]);
 
   const save = useCallback(async (next: T) => {
     setData(next);
