@@ -5,6 +5,7 @@ import {
   FileText,
   Handshake,
   Lightbulb,
+  Pencil,
   Quote,
   SearchCheck,
   Sparkles,
@@ -13,15 +14,26 @@ import {
 import { cn } from '@/lib/utils';
 import EvidenceAudioClips from '@/components/EvidenceAudioClips';
 import type { EvidenceClip } from '@/utils/evidenceClipLookup';
+import { useIsEditor } from '@/components/auth/PasswordGate';
+import { useContentStore } from '@/hooks/useContentStore';
+import { EditDrawer, ListField, SaveBar, TextField } from '@/components/edit/EditDrawer';
 import {
   coreConclusionSections,
   countCoreUsers,
   countCoreVocClips,
   type DimensionSection,
+  type MainConclusion,
   type Point,
   type SubSection,
   type VocClip,
 } from './coreConclusionsData';
+
+const CORE_CONCLUSIONS_STORE_KEY = 'core-conclusions';
+
+function cloneMain(main: MainConclusion): MainConclusion {
+  if (typeof structuredClone === 'function') return structuredClone(main);
+  return JSON.parse(JSON.stringify(main)) as MainConclusion;
+}
 
 const INTERVIEW_INDEX_URL = 'https://guanghe.feishu.cn/wiki/STo3wNQSui7aohkP4oacAXVVnKf';
 const QUANT_SOURCE_URL = 'https://guanghe.feishu.cn/wiki/HBKvwABW1ibBvPkUX1ncVVBbnRe';
@@ -142,6 +154,13 @@ function SubSectionBlock({ sub, index, color }: { sub: SubSection; index: number
 }
 
 export default function CoreConclusionsReport() {
+  const editor = useIsEditor();
+  const { data: storedSections, saving, save } = useContentStore<DimensionSection[]>(
+    CORE_CONCLUSIONS_STORE_KEY,
+    coreConclusionSections,
+  );
+  const sections = storedSections.length > 0 ? storedSections : coreConclusionSections;
+
   const [selectedByDimension, setSelectedByDimension] = React.useState<Record<string, string>>(() =>
     coreConclusionSections.reduce(
       (acc, section) => {
@@ -151,6 +170,7 @@ export default function CoreConclusionsReport() {
       {} as Record<string, string>,
     ),
   );
+  const [draft, setDraft] = React.useState<{ sectionId: string; main: MainConclusion } | null>(null);
 
   const detailPanelRefs = React.useRef<Record<string, HTMLElement | null>>({});
   const sectionRefs = React.useRef<Record<string, HTMLElement | null>>({});
@@ -159,7 +179,31 @@ export default function CoreConclusionsReport() {
 
   const totalVoc = countCoreVocClips();
   const userCount = countCoreUsers();
-  const totalConclusions = coreConclusionSections.reduce((sum, section) => sum + section.mains.length, 0);
+  const totalConclusions = sections.reduce((sum, section) => sum + section.mains.length, 0);
+
+  const openEdit = React.useCallback((sectionId: string, main: MainConclusion) => {
+    setDraft({ sectionId, main: cloneMain(main) });
+  }, []);
+
+  const patchDraftMain = React.useCallback((updater: (main: MainConclusion) => void) => {
+    setDraft((prev) => {
+      if (!prev) return prev;
+      const nextMain = cloneMain(prev.main);
+      updater(nextMain);
+      return { ...prev, main: nextMain };
+    });
+  }, []);
+
+  const saveDraft = React.useCallback(async () => {
+    if (!draft) return;
+    const next = sections.map((section) =>
+      section.id === draft.sectionId
+        ? { ...section, mains: section.mains.map((main) => (main.id === draft.main.id ? draft.main : main)) }
+        : section,
+    );
+    await save(next);
+    setDraft(null);
+  }, [draft, sections, save]);
 
   React.useLayoutEffect(() => {
     coreConclusionSections.forEach((section) => {
@@ -283,7 +327,7 @@ export default function CoreConclusionsReport() {
 
       <section className="px-5 pb-8 pt-6 md:px-8">
         <div className="mx-auto max-w-[1440px] space-y-6">
-          {coreConclusionSections.map((section) => {
+          {sections.map((section) => {
             const Icon = iconByKey[section.iconKey];
             const selectedId = selectedByDimension[section.id];
             const selectedMain = section.mains.find((item) => item.id === selectedId) ?? section.mains[0];
@@ -361,12 +405,24 @@ export default function CoreConclusionsReport() {
                     }}
                     className="mt-5 w-full min-w-0 scroll-mt-16 rounded-[18px] border border-[#E6DDD3] bg-white p-5"
                   >
-                    <div
-                      className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[12px] font-black"
-                      style={{ backgroundColor: `${section.color}12`, color: section.color }}
-                    >
-                      当前结论
-                      <span className="rounded-full bg-white px-2 py-0.5">{selectedIndex + 1}</span>
+                    <div className="flex items-center justify-between gap-3">
+                      <div
+                        className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[12px] font-black"
+                        style={{ backgroundColor: `${section.color}12`, color: section.color }}
+                      >
+                        当前结论
+                        <span className="rounded-full bg-white px-2 py-0.5">{selectedIndex + 1}</span>
+                      </div>
+                      {editor && (
+                        <button
+                          type="button"
+                          onClick={() => openEdit(section.id, selectedMain)}
+                          className="flex shrink-0 items-center gap-1 rounded-lg border border-amber-200 px-2.5 py-1.5 text-[11px] font-bold text-amber-600 transition-colors hover:bg-amber-50"
+                        >
+                          <Pencil size={11} />
+                          编辑
+                        </button>
+                      )}
                     </div>
                     <h3 className="mt-4 text-[26px] font-black leading-tight text-[#292521]">{selectedMain.title}</h3>
                     <p className="mt-2 text-[14px] font-semibold leading-6 text-[#7D746A]">{selectedMain.summary}</p>
@@ -405,6 +461,121 @@ export default function CoreConclusionsReport() {
       <footer className="px-5 pb-8 text-center text-[12px] font-semibold text-[#A19990] md:px-8">
         内容对应《从小学系列售卖策略调研》主页面2·核心结论；访谈原声取自访谈纪要中的用户1-用户8。
       </footer>
+
+      <EditDrawer
+        open={!!draft}
+        onClose={() => setDraft(null)}
+        title={draft ? `编辑「${toShortTitle(draft.main.title)}」` : '编辑核心结论'}
+      >
+        {draft && (
+          <div className="space-y-5">
+            <TextField
+              label="结论标题"
+              value={draft.main.title}
+              onChange={(value) => patchDraftMain((main) => { main.title = value; })}
+            />
+            <TextField
+              label="一句话摘要"
+              value={draft.main.summary}
+              multiline
+              onChange={(value) => patchDraftMain((main) => { main.summary = value; })}
+            />
+            <TextField
+              label="关键洞察"
+              value={draft.main.insight}
+              multiline
+              onChange={(value) => patchDraftMain((main) => { main.insight = value; })}
+            />
+
+            <div className="space-y-4">
+              {draft.main.subs.map((sub, subIndex) => (
+                <div key={`sub-${subIndex}`} className="rounded-2xl border border-gray-200 bg-gray-50/50 p-4">
+                  <TextField
+                    label={`副标题 ${subIndex + 1}`}
+                    value={sub.title}
+                    onChange={(value) =>
+                      patchDraftMain((main) => { main.subs[subIndex].title = value; })
+                    }
+                  />
+                  <div className="space-y-3">
+                    {sub.points.map((point, pointIndex) => (
+                      <div key={`point-${subIndex}-${pointIndex}`} className="rounded-xl border border-gray-200 bg-white p-3">
+                        <p className="mb-2 text-[11px] font-bold text-gray-400">要点 {pointIndex + 1}</p>
+                        <TextField
+                          label="标签"
+                          value={point.label ?? ''}
+                          placeholder="如 前提 / 核心 / 体验优势 / 体验劣势"
+                          onChange={(value) =>
+                            patchDraftMain((main) => {
+                              main.subs[subIndex].points[pointIndex].label = value || undefined;
+                            })
+                          }
+                        />
+                        <TextField
+                          label="正文"
+                          value={point.text}
+                          multiline
+                          onChange={(value) =>
+                            patchDraftMain((main) => {
+                              main.subs[subIndex].points[pointIndex].text = value;
+                            })
+                          }
+                        />
+                        <ListField
+                          label="文字论据（问卷 / 行业 / 销售等）"
+                          items={point.notes ?? []}
+                          onChange={(items) =>
+                            patchDraftMain((main) => {
+                              main.subs[subIndex].points[pointIndex].notes = items;
+                            })
+                          }
+                        />
+                        {(point.quotes?.length ?? 0) > 0 && (
+                          <div className="mt-1 space-y-2">
+                            <p className="text-[11px] font-medium text-gray-400">访谈原声（音频切片不受影响）</p>
+                            {point.quotes!.map((quote, quoteIndex) => (
+                              <div key={`quote-${subIndex}-${pointIndex}-${quoteIndex}`} className="rounded-lg border border-gray-100 bg-gray-50/60 p-2.5">
+                                <TextField
+                                  label="原话"
+                                  value={quote.text}
+                                  multiline
+                                  onChange={(value) =>
+                                    patchDraftMain((main) => {
+                                      main.subs[subIndex].points[pointIndex].quotes![quoteIndex].text = value;
+                                    })
+                                  }
+                                />
+                                <TextField
+                                  label="来源"
+                                  value={quote.source}
+                                  onChange={(value) =>
+                                    patchDraftMain((main) => {
+                                      main.subs[subIndex].points[pointIndex].quotes![quoteIndex].source = value;
+                                    })
+                                  }
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <TextField
+              label="底部来源说明"
+              value={draft.main.evidenceNote}
+              multiline
+              onChange={(value) => patchDraftMain((main) => { main.evidenceNote = value; })}
+            />
+
+            <SaveBar saving={saving} onSave={() => void saveDraft()} onCancel={() => setDraft(null)} />
+          </div>
+        )}
+      </EditDrawer>
     </main>
   );
 }
