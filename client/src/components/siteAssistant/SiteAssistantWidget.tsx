@@ -46,6 +46,24 @@ function dedupeLinksForDisplay(links: EvidenceLink[] = []): EvidenceLink[] {
   return out;
 }
 
+// 把 AI 返回的轻量 Markdown 渲染成加粗：**文字** → <strong>；同时清理裸露的多余 * 号
+function renderAnswerText(text: string): React.ReactNode {
+  // 先规整：去掉行首列表用的孤立 *（如「* 文字」），保留 **加粗**
+  const cleaned = text.replace(/^[ \t]*\*[ \t]+/gm, '');
+  const parts = cleaned.split(/(\*\*[^*\n]+\*\*)/g);
+  return parts.map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**') && part.length > 4) {
+      return (
+        <strong key={index} className="font-bold text-[#252525]">
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    // 兜底：清掉任何残留的成对/单个 * 号，避免露出星号
+    return <React.Fragment key={index}>{part.replace(/\*+/g, '')}</React.Fragment>;
+  });
+}
+
 function fallbackAnswer(question: string, links: EvidenceLink[]): SiteAssistantResponse {
   return {
     answer: [
@@ -210,7 +228,9 @@ export default function SiteAssistantWidget() {
                     {message.unavailable && <span className="text-[#9b8d82]"> · AI不可用</span>}
                   </div>
                 )}
-                <div className="whitespace-pre-wrap">{message.text}</div>
+                <div className="whitespace-pre-wrap">
+                  {message.role === 'assistant' ? renderAnswerText(message.text) : message.text}
+                </div>
                 {message.links?.length ? (
                   <div className="mt-3 space-y-2">
                     {dedupeLinksForDisplay(message.links).slice(0, 5).map((link, index) => (
