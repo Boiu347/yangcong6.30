@@ -17,6 +17,7 @@ import QuantitativePage from './pages/Quantitative/QuantitativePage';
 import MarketingPage from './pages/Marketing/MarketingPage';
 import BackgroundPage from './pages/Background/BackgroundPage';
 import FromPrimaryPortraitsPage from './pages/Portraits/FromPrimaryPortraitsPage';
+import PortraitsV2Page from './pages/Portraits/PortraitsV2Page';
 import NotFound from './pages/NotFound/NotFound';
 
 function ProjectIndexRedirect() {
@@ -53,6 +54,7 @@ const RoutesComponent = () => {
         <Route path="summary" element={<SummaryPage />} />
         <Route path="core-conclusions" element={<CoreConclusionsReport />} />
         <Route path="portraits" element={<FromPrimaryPortraitsPage />} />
+        <Route path="portraits-v2" element={<PortraitsV2Page />} />
         <Route path="qualitative" element={<QualitativePage />} />
         <Route path="family-insights" element={<FamilyInsights />} />
         <Route path="qualitative/users/:userId" element={<QualitativePage />} />

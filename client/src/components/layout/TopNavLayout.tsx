@@ -18,6 +18,7 @@ const fromPrimaryItems = [
   { label: '调研结论', path: 'summary' },
   { label: '核心结论', path: 'core-conclusions' },
   { label: '用户画像', path: 'portraits' },
+  { label: '用户画像2', path: 'portraits-v2' },
   { label: '竞品分析', path: 'competitive' },
   { label: '营销落地', path: 'marketing' },
 ];
