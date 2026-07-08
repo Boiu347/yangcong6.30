@@ -25,6 +25,7 @@ const STATUS_CONFIG: Record<string, { className: string; dot: string }> = {
   进行中: { className: 'border-blue-200 bg-blue-50 text-blue-700', dot: 'bg-blue-500' },
   部分完成: { className: 'border-amber-200 bg-amber-50 text-amber-700', dot: 'bg-amber-500' },
   施工中: { className: 'border-amber-200 bg-amber-50 text-amber-700', dot: 'bg-amber-500' },
+  待验收: { className: 'border-sky-200 bg-sky-50 text-sky-700', dot: 'bg-sky-500' },
 };
 
 const PROJECT_COPY: Record<string, { summary: string; takeaway: string; source: string }> = {
@@ -60,7 +61,9 @@ function projectCopy(project: Project) {
   };
 }
 
-function displayStatus(status?: string) {
+function displayStatus(status?: string, projectId?: string) {
+  // 从小学物理项目已进入待验收阶段
+  if (projectId === 'default_project') return '待验收';
   if (!status) return undefined;
   if (status === '已完成' || status === '进行中' || status === '部分完成') return '施工中';
   return status;
@@ -137,7 +140,7 @@ export default function ProjectsPage() {
               .filter((file) => file.status === 'ready')
               .reduce((sum, file) => sum + file.vocList.length, 0);
             const copy = projectCopy(project);
-            const statusLabel = displayStatus(project.status);
+            const statusLabel = displayStatus(project.status, project.id);
             const status = statusLabel ? STATUS_CONFIG[statusLabel] : undefined;
 
             return (
