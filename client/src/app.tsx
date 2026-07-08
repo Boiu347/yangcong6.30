@@ -56,6 +56,7 @@ const RoutesComponent = () => {
         <Route path="portraits" element={<FromPrimaryPortraitsPage />} />
         <Route path="qualitative" element={<QualitativePage />} />
         <Route path="family-insights" element={<FamilyInsights />} />
+        <Route path="research-conclusions" element={<JiatingbaoConclusionsReport />} />
         <Route path="qualitative/users/:userId" element={<QualitativePage />} />
         <Route path="onion-praise" element={<Navigate to="../qualitative" replace />} />
         <Route path="competitive" element={<CompetitivePage />} />
