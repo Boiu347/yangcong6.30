@@ -5,6 +5,7 @@ import {
   ExternalLink,
   FileText,
   Lightbulb,
+  Pencil,
   Quote,
   SearchCheck,
   Sparkles,
@@ -13,8 +14,14 @@ import {
 import { cn } from '@/lib/utils';
 import EvidenceAudioClips from '@/components/EvidenceAudioClips';
 import type { EvidenceClip } from '@/utils/evidenceClipLookup';
+import { useIsEditor } from '@/components/auth/PasswordGate';
+import { useContentStore } from '@/hooks/useContentStore';
+import { EditDrawer, ListField, SaveBar, TextField } from '@/components/edit/EditDrawer';
 import { clipMetaByUrl, conclusionClipsByCardId, conclusionDetailsByCardId, countBoundVocCitations } from './conclusionMaps';
-import { nextStepPrimaries } from './nextStepData';
+import { nextStepPrimaries, type NextStepPrimaryItem } from './nextStepData';
+
+const RESEARCH_CONCLUSIONS_STORE_KEY = 'research-conclusions';
+const RESEARCH_NEXT_STEPS_STORE_KEY = 'research-next-steps';
 
 const ORANGE = '#E95B35';
 const INK = '#292521';
@@ -480,7 +487,57 @@ const reportConclusions: ResearchConclusion[] = redesignedCards.map((card) => {
 });
 
 
+function deepClone<T>(value: T): T {
+  if (typeof structuredClone === 'function') return structuredClone(value);
+  return JSON.parse(JSON.stringify(value)) as T;
+}
+
+type ReportDraft =
+  | { kind: 'conclusion'; item: ResearchConclusion }
+  | { kind: 'next'; item: NextStepPrimaryItem };
+
 export default function FromPrimaryMergedReport() {
+  const editor = useIsEditor();
+  const { data: storedConclusions, saving: savingConclusions, save: saveConclusions } =
+    useContentStore<ResearchConclusion[]>(RESEARCH_CONCLUSIONS_STORE_KEY, reportConclusions);
+  const { data: storedNextSteps, saving: savingNextSteps, save: saveNextSteps } =
+    useContentStore<NextStepPrimaryItem[]>(RESEARCH_NEXT_STEPS_STORE_KEY, nextStepPrimaries);
+  const conclusions = storedConclusions.length > 0 ? storedConclusions : reportConclusions;
+  const nextSteps = storedNextSteps.length > 0 ? storedNextSteps : nextStepPrimaries;
+
+  const [draft, setDraft] = React.useState<ReportDraft | null>(null);
+  const saving = savingConclusions || savingNextSteps;
+
+  const patchConclusionDraft = React.useCallback((updater: (item: ResearchConclusion) => void) => {
+    setDraft((prev) => {
+      if (!prev || prev.kind !== 'conclusion') return prev;
+      const next = deepClone(prev.item);
+      updater(next);
+      return { kind: 'conclusion', item: next };
+    });
+  }, []);
+
+  const patchNextDraft = React.useCallback((updater: (item: NextStepPrimaryItem) => void) => {
+    setDraft((prev) => {
+      if (!prev || prev.kind !== 'next') return prev;
+      const next = deepClone(prev.item);
+      updater(next);
+      return { kind: 'next', item: next };
+    });
+  }, []);
+
+  const saveDraft = React.useCallback(async () => {
+    if (!draft) return;
+    if (draft.kind === 'conclusion') {
+      const next = conclusions.map((item) => (item.id === draft.item.id ? draft.item : item));
+      await saveConclusions(next);
+    } else {
+      const next = nextSteps.map((item) => (item.id === draft.item.id ? draft.item : item));
+      await saveNextSteps(next);
+    }
+    setDraft(null);
+  }, [draft, conclusions, nextSteps, saveConclusions, saveNextSteps]);
+
   const [selectedByDimension, setSelectedByDimension] = React.useState<Record<DimensionId, string>>(() =>
     dimensions.reduce(
       (acc, dimension) => {
@@ -584,7 +641,7 @@ export default function FromPrimaryMergedReport() {
 
           <div className="mt-7 grid gap-4 md:grid-cols-3">
             {[
-              { icon: Lightbulb, value: reportConclusions.length, label: '核心结论', desc: '已沉淀的可行动判断', color: '#E95B35', bg: '#FFF3EE' },
+              { icon: Lightbulb, value: conclusions.length, label: '核心结论', desc: '已沉淀的可行动判断', color: '#E95B35', bg: '#FFF3EE' },
               { icon: Quote, value: totalVoc, label: '有效 VOC', desc: '与结论强绑定的原声', color: '#2F9F8F', bg: '#EFFFFB' },
               { icon: Target, value: userCount, label: '涉及用户', desc: '覆盖访谈用户来源', color: '#C58A3D', bg: '#FFF7E8' },
             ].map(({ icon: Icon, value, label, desc, color, bg }) => (
@@ -612,13 +669,13 @@ export default function FromPrimaryMergedReport() {
           {dimensions.map((dimension) => {
             const isNextDimension = dimension.id === 'next';
             const dimensionItems = isNextDimension
-              ? nextStepPrimaries
-              : reportConclusions.filter((item) => item.dimension === dimension.id);
+              ? nextSteps
+              : conclusions.filter((item) => item.dimension === dimension.id);
             if (!isNextDimension && dimensionItems.length === 0) return null;
 
             const selectedId = selectedByDimension[dimension.id];
             const selectedNextPrimary = isNextDimension
-              ? (nextStepPrimaries.find((item) => item.id === selectedId) ?? nextStepPrimaries[0])
+              ? (nextSteps.find((item) => item.id === selectedId) ?? nextSteps[0])
               : null;
             const selectedConclusion = !isNextDimension
               ? (dimensionItems as ResearchConclusion[]).find((item) => item.id === selectedId) ??
@@ -715,9 +772,21 @@ export default function FromPrimaryMergedReport() {
                   >
                     {isNextDimension && selectedNextPrimary ? (
                       <>
-                        <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[12px] font-black" style={{ backgroundColor: `${dimension.color}12`, color: dimension.color }}>
-                          当前方向
-                          <span className="rounded-full bg-white px-2 py-0.5">{selectedIndex + 1}</span>
+                        <div className="flex items-center justify-between gap-3">
+                          <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[12px] font-black" style={{ backgroundColor: `${dimension.color}12`, color: dimension.color }}>
+                            当前方向
+                            <span className="rounded-full bg-white px-2 py-0.5">{selectedIndex + 1}</span>
+                          </div>
+                          {editor && (
+                            <button
+                              type="button"
+                              onClick={() => setDraft({ kind: 'next', item: deepClone(selectedNextPrimary) })}
+                              className="flex shrink-0 items-center gap-1 rounded-lg border border-amber-200 px-2.5 py-1.5 text-[11px] font-bold text-amber-600 transition-colors hover:bg-amber-50"
+                            >
+                              <Pencil size={11} />
+                              编辑
+                            </button>
+                          )}
                         </div>
                         <h3 className="mt-4 text-[28px] font-black leading-tight text-[#292521]">{selectedNextPrimary.title}</h3>
 
@@ -789,9 +858,21 @@ export default function FromPrimaryMergedReport() {
                       </>
                     ) : selectedConclusion ? (
                       <>
-                        <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[12px] font-black" style={{ backgroundColor: `${dimension.color}12`, color: dimension.color }}>
-                          当前结论
-                          <span className="rounded-full bg-white px-2 py-0.5">{selectedIndex + 1}</span>
+                        <div className="flex items-center justify-between gap-3">
+                          <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[12px] font-black" style={{ backgroundColor: `${dimension.color}12`, color: dimension.color }}>
+                            当前结论
+                            <span className="rounded-full bg-white px-2 py-0.5">{selectedIndex + 1}</span>
+                          </div>
+                          {editor && (
+                            <button
+                              type="button"
+                              onClick={() => setDraft({ kind: 'conclusion', item: deepClone(selectedConclusion) })}
+                              className="flex shrink-0 items-center gap-1 rounded-lg border border-amber-200 px-2.5 py-1.5 text-[11px] font-bold text-amber-600 transition-colors hover:bg-amber-50"
+                            >
+                              <Pencil size={11} />
+                              编辑
+                            </button>
+                          )}
                         </div>
                         <h3 className="mt-4 text-[28px] font-black leading-tight text-[#292521]">{selectedConclusion.title}</h3>
 
@@ -863,6 +944,119 @@ export default function FromPrimaryMergedReport() {
       <footer className="px-5 pb-8 text-center text-[12px] font-semibold text-[#A19990] md:px-8">
         用户原声来源限定为访谈目录中的用户1-用户8；每个维度卡片内的结论与内联原声独立联动。
       </footer>
+
+      <EditDrawer
+        open={!!draft}
+        onClose={() => setDraft(null)}
+        title={draft ? `编辑「${draft.item.title}」` : '编辑调研结论'}
+      >
+        {draft?.kind === 'conclusion' && (
+          <div className="space-y-5">
+            <TextField
+              label="结论标题"
+              value={draft.item.title}
+              onChange={(value) => patchConclusionDraft((item) => { item.title = value; })}
+            />
+            <TextField
+              label="列表摘要"
+              value={draft.item.summary}
+              multiline
+              onChange={(value) => patchConclusionDraft((item) => { item.summary = value; })}
+            />
+            <TextField
+              label="关键洞察"
+              value={draft.item.insight}
+              multiline
+              onChange={(value) => patchConclusionDraft((item) => { item.insight = value; })}
+            />
+            <ListField
+              label="核心结论"
+              items={draft.item.conclusions}
+              onChange={(items) => patchConclusionDraft((item) => { item.conclusions = items; })}
+            />
+            <ListField
+              label="建议行动"
+              items={draft.item.actions}
+              onChange={(items) => patchConclusionDraft((item) => { item.actions = items; })}
+            />
+            <TextField
+              label="来源说明"
+              value={draft.item.evidenceNote}
+              multiline
+              onChange={(value) => patchConclusionDraft((item) => { item.evidenceNote = value; })}
+            />
+            <p className="text-[11px] leading-5 text-gray-400">
+              说明：结论下方的访谈原声（录音切片）按原文匹配，不在此处编辑，以免影响音频对应关系。
+            </p>
+            <SaveBar saving={saving} onSave={() => void saveDraft()} onCancel={() => setDraft(null)} />
+          </div>
+        )}
+        {draft?.kind === 'next' && (
+          <div className="space-y-5">
+            <TextField
+              label="方向标题"
+              value={draft.item.title}
+              onChange={(value) => patchNextDraft((item) => { item.title = value; })}
+            />
+            <TextField
+              label="列表摘要"
+              value={draft.item.summary}
+              multiline
+              onChange={(value) => patchNextDraft((item) => { item.summary = value; })}
+            />
+            <TextField
+              label="关键洞察"
+              value={draft.item.insight}
+              multiline
+              onChange={(value) => patchNextDraft((item) => { item.insight = value; })}
+            />
+            <TextField
+              label="方向结论"
+              value={draft.item.conclusion}
+              multiline
+              onChange={(value) => patchNextDraft((item) => { item.conclusion = value; })}
+            />
+            <div className="space-y-4">
+              {draft.item.secondaries.map((secondary, index) => (
+                <div key={`secondary-${index}`} className="rounded-2xl border border-gray-200 bg-gray-50/50 p-4">
+                  <p className="mb-2 text-[11px] font-bold text-gray-400">二级动作 {index + 1}</p>
+                  <TextField
+                    label="标题"
+                    value={secondary.title}
+                    onChange={(value) => patchNextDraft((item) => { item.secondaries[index].title = value; })}
+                  />
+                  <TextField
+                    label="动作"
+                    value={secondary.action}
+                    multiline
+                    onChange={(value) => patchNextDraft((item) => { item.secondaries[index].action = value; })}
+                  />
+                  <ListField
+                    label="要点"
+                    items={secondary.points}
+                    onChange={(items) => patchNextDraft((item) => { item.secondaries[index].points = items; })}
+                  />
+                </div>
+              ))}
+            </div>
+            <ListField
+              label="建议行动"
+              items={draft.item.actions}
+              onChange={(items) => patchNextDraft((item) => { item.actions = items; })}
+            />
+            <TextField
+              label="来源说明"
+              value={draft.item.evidenceNote}
+              multiline
+              onChange={(value) => patchNextDraft((item) => { item.evidenceNote = value; })}
+            />
+            <p className="text-[11px] leading-5 text-gray-400">
+              说明：二级动作下方的访谈原声（录音切片）按原文匹配，不在此处编辑，以免影响音频对应关系。
+            </p>
+            <SaveBar saving={saving} onSave={() => void saveDraft()} onCancel={() => setDraft(null)} />
+          </div>
+        )}
+      </EditDrawer>
     </main>
   );
 }
