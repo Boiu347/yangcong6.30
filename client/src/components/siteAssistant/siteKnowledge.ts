@@ -11,6 +11,7 @@ import {
   type InsightCategorySlug,
 } from '../../pages/InsightCategory/categoryInsights';
 import { coreConclusionSections } from '../../pages/CoreConclusions/coreConclusionsData';
+import { jiatingbaoConclusionSections } from '../../pages/JiatingbaoConclusions/jiatingbaoConclusionsData';
 import { reportConclusions } from '../../pages/Summary/FromPrimaryMergedReport';
 import { nextStepPrimaries } from '../../pages/Summary/nextStepData';
 import type { KnowledgeChunk } from './types';
@@ -290,6 +291,34 @@ export function buildSiteKnowledge(projects: Project[]): KnowledgeChunk[] {
         projectName: '从小学物理售卖策略调研',
         route: CORE_CONCLUSIONS_ROUTE,
         keywords: ['核心结论', section.label, main.title, '结论', '成交', '卡点', '体验'],
+      });
+    });
+  });
+
+  // ── 家庭包「调研结论」页：六大板块（核心结论/购买动机/关键顾虑/成立原因/放大价值/推课逻辑） ──
+  const JTB_CONCLUSIONS_ROUTE = '/projects/jiatingbao_project/research-conclusions';
+  jiatingbaoConclusionSections.forEach((section) => {
+    section.mains.forEach((main) => {
+      const pointsText = main.subs
+        .flatMap((sub) => [sub.title, ...sub.points.map((point) => `${point.label ? `${point.label}：` : ''}${point.text}`)])
+        .filter(Boolean)
+        .join('。');
+      const quotesText = main.subs
+        .flatMap((sub) => sub.points.flatMap((point) => (point.quotes ?? []).map((quote) => quote.text)))
+        .filter(Boolean)
+        .join('。');
+      addChunk(chunks, {
+        id: `jtb_conclusion_${section.id}_${main.id}`,
+        type: 'conclusion',
+        title: `家庭包调研结论 · ${section.label} · ${main.title}`,
+        text: [main.title, main.summary, main.insight, pointsText, quotesText, main.evidenceNote]
+          .filter(Boolean)
+          .join('。'),
+        excerpt: compact(main.summary || main.insight),
+        source: `家庭包调研结论 · ${section.label}`,
+        projectName: '洋葱家庭包用户调研',
+        route: JTB_CONCLUSIONS_ROUTE,
+        keywords: ['家庭包', '调研结论', section.label, main.title, '结论', '购买动机', '顾虑', '成交', '推课', '话术'],
       });
     });
   });
