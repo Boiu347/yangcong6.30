@@ -749,7 +749,9 @@ ${textContent}`;
         answerMode: 'ai',
       };
     } catch (err) {
-      this.logger.warn(`Site assistant AI request failed: ${err}`);
+      this.logger.warn(
+        `Site assistant AI request failed (model=${this.aiModel}): ${this.formatAiError(err)}`,
+      );
       return {
         answer: this.siteEvidenceOnlyMessage('AI 请求失败，我只能先展示检索到的站内证据。'),
         relatedLinks,
@@ -830,6 +832,30 @@ ${textContent}`;
       this.logger.debug(`Raw response: ${raw.slice(0, 500)}`);
       return {};
     }
+  }
+
+  /** Extract useful detail from an axios/gateway error for logging & diagnosis */
+  private formatAiError(err: unknown): string {
+    if (axios.isAxiosError(err)) {
+      const status = err.response?.status;
+      const statusText = err.response?.statusText;
+      const data = err.response?.data;
+      const body =
+        typeof data === 'string'
+          ? data.slice(0, 800)
+          : data
+            ? JSON.stringify(data).slice(0, 800)
+            : '';
+      const parts = [
+        status ? `HTTP ${status}${statusText ? ` ${statusText}` : ''}` : '',
+        err.code ? `code=${err.code}` : '',
+        err.message ? `message=${err.message}` : '',
+        body ? `body=${body}` : '',
+      ].filter(Boolean);
+      return parts.join(' | ') || 'unknown axios error';
+    }
+    if (err instanceof Error) return `${err.name}: ${err.message}`;
+    return String(err);
   }
 
   private siteEvidenceOnlyMessage(reason: string): string {
