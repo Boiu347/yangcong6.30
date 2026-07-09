@@ -1,4 +1,4 @@
-import { BarChart3, Brain, Library, MessageSquareQuote, UserRoundSearch } from 'lucide-react';
+import { Brain, Library, MessageSquareQuote, UserRoundSearch } from 'lucide-react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 const items = [
@@ -6,7 +6,6 @@ const items = [
   { path: '/qualitative-research', label: '定性调研', icon: MessageSquareQuote },
   { path: '/profile', label: '用户画像', icon: UserRoundSearch },
   { path: '/learning-analysis', label: '学情分析', icon: Brain },
-  { path: '/competitive-2', label: '竞品分析2', icon: BarChart3 },
 ];
 
 export default function MainLayout() {

@@ -46,7 +46,6 @@ const RoutesComponent = () => {
         <Route path="/purchase-decision" element={<Navigate to="/qualitative-research/purchase-decision" replace />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/learning-analysis" element={<LearningAnalysisPage />} />
-        <Route path="/competitive-2" element={<Competitive2Page />} />
       </Route>
 
       {/* All project detail pages share the top tab bar */}
@@ -62,6 +61,7 @@ const RoutesComponent = () => {
         <Route path="qualitative/users/:userId" element={<QualitativePage />} />
         <Route path="onion-praise" element={<Navigate to="../qualitative" replace />} />
         <Route path="competitive" element={<CompetitivePage />} />
+        <Route path="competitive-2" element={<Competitive2Page />} />
         <Route path="quantitative" element={<QuantitativePage />} />
         <Route path="marketing" element={<MarketingPage />} />
         <Route path="reports" element={<Navigate to="../summary" replace />} />
