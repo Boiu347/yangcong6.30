@@ -387,48 +387,82 @@ function Rich({ text, accent }: { text: string; accent: string }) {
 
 // ════════════════════════════════════════════════════════════════════════════
 export default function PortraitsV2Page() {
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+  const sectionRefs = React.useRef<Record<string, HTMLElement | null>>({});
   const [activeId, setActiveId] = React.useState(PERSONAS[0].id);
-  const persona = PERSONAS.find((p) => p.id === activeId) ?? PERSONAS[0];
+  const activeAccent = PERSONAS.find((p) => p.id === activeId)?.accent ?? PERSONAS[0].accent;
+
+  React.useEffect(() => {
+    const root = scrollRef.current;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible?.target instanceof HTMLElement && visible.target.dataset.id) {
+          setActiveId(visible.target.dataset.id);
+        }
+      },
+      { root, rootMargin: '-45% 0px -45% 0px', threshold: [0, 0.2, 0.5, 1] },
+    );
+    Object.values(sectionRefs.current).forEach((el) => el && observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  const jumpTo = (id: string) => {
+    sectionRefs.current[id]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   return (
     <div className="flex h-full flex-col bg-[#f8f8f5]">
-      {/* 类型切换 */}
-      <div className="shrink-0 border-b border-[#e4e2da] bg-white px-5 py-3 md:px-8">
-        <div className="mx-auto max-w-[940px]">
-          <div className="flex items-center gap-2" style={{ color: persona.accent }}>
-            <Sparkles size={15} />
-            <span className="text-[11px] font-black tracking-[0.14em]">用户画像 V2 · 从小学物理</span>
-          </div>
-          <div className="mt-2.5 flex flex-wrap gap-1.5">
-            {PERSONAS.map((p) => {
-              const active = p.id === activeId;
-              return (
-                <button
-                  key={p.id}
-                  onClick={() => setActiveId(p.id)}
-                  className={cn(
-                    'flex items-center gap-1.5 rounded-xl px-3 py-2 text-[12.5px] font-bold transition-all',
-                    active ? 'text-white shadow-sm' : 'bg-[#f4f1eb] text-[#6b655c] hover:bg-[#eee9e0]',
-                  )}
-                  style={active ? { background: p.accent } : undefined}
-                >
-                  <span className={cn('text-[10px] font-black', active ? 'text-white/80' : '')} style={!active ? { color: p.accent } : undefined}>
-                    {p.type.index}
-                  </span>
-                  {p.type.name}
-                </button>
-              );
-            })}
+      <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto">
+        {/* 锚点导航（sticky）*/}
+        <div className="sticky top-0 z-20 border-b border-[#e4e2da] bg-white/95 px-5 py-3 backdrop-blur md:px-8">
+          <div className="mx-auto max-w-[940px]">
+            <div className="flex items-center gap-2" style={{ color: activeAccent }}>
+              <Sparkles size={15} />
+              <span className="text-[11px] font-black tracking-[0.14em]">用户画像 V2 · 从小学物理</span>
+            </div>
+            <div className="mt-2.5 flex flex-wrap gap-1.5">
+              {PERSONAS.map((p) => {
+                const active = p.id === activeId;
+                return (
+                  <button
+                    key={p.id}
+                    onClick={() => jumpTo(p.id)}
+                    className={cn(
+                      'flex items-center gap-1.5 rounded-xl px-3 py-2 text-[12.5px] font-bold transition-all',
+                      active ? 'text-white shadow-sm' : 'bg-[#f4f1eb] text-[#6b655c] hover:bg-[#eee9e0]',
+                    )}
+                    style={active ? { background: p.accent } : undefined}
+                  >
+                    <span className={cn('text-[10px] font-black', active ? 'text-white/80' : '')} style={!active ? { color: p.accent } : undefined}>
+                      {p.type.index}
+                    </span>
+                    {p.type.name}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* 内容 */}
-      <div className="min-h-0 flex-1 overflow-y-auto">
-        <div className="mx-auto max-w-[940px] px-5 py-8 md:py-10">
-          <TypeHero key={`hero-${persona.id}`} persona={persona} />
-          <PortraitSection key={`portrait-${persona.id}`} persona={persona} />
-          <StorySection key={`story-${persona.id}`} persona={persona} />
+        {/* 四类平铺 */}
+        <div className="mx-auto max-w-[940px] px-5 md:px-8">
+          {PERSONAS.map((persona) => (
+            <section
+              key={persona.id}
+              data-id={persona.id}
+              ref={(el) => {
+                sectionRefs.current[persona.id] = el;
+              }}
+              className="scroll-mt-24 border-b border-[#e4e2da] py-9 last:border-0"
+            >
+              <TypeHero persona={persona} />
+              <PortraitSection persona={persona} />
+              <StorySection persona={persona} />
+            </section>
+          ))}
           <FooterNote />
         </div>
       </div>
