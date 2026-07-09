@@ -14,6 +14,7 @@ import QualitativePage from './pages/Qualitative/QualitativePage';
 import FamilyInsights from './pages/FamilyPackage/FamilyInsights';
 import JiatingbaoConclusionsReport from './pages/JiatingbaoConclusions/JiatingbaoConclusionsReport';
 import CompetitivePage from './pages/Competitive/CompetitivePage';
+import Competitive2Page from './pages/Competitive2/Competitive2Page';
 import QuantitativePage from './pages/Quantitative/QuantitativePage';
 import MarketingPage from './pages/Marketing/MarketingPage';
 import BackgroundPage from './pages/Background/BackgroundPage';
@@ -45,6 +46,7 @@ const RoutesComponent = () => {
         <Route path="/purchase-decision" element={<Navigate to="/qualitative-research/purchase-decision" replace />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/learning-analysis" element={<LearningAnalysisPage />} />
+        <Route path="/competitive-2" element={<Competitive2Page />} />
       </Route>
 
       {/* All project detail pages share the top tab bar */}
