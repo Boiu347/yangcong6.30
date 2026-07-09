@@ -350,8 +350,7 @@ export class AiService {
 文字稿内容：
 ${timestampedText}`;
 
-    const response = await axios.post(
-      `${this.baseUrl}/chat/completions`,
+    const response = await this.postChatCompletion(
       {
         model: this.aiModel,
         messages: [
@@ -361,13 +360,7 @@ ${timestampedText}`;
         max_tokens: 32768,
         temperature: 0.1,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${this.apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        timeout: 180_000,
-      },
+      180_000,
     );
 
     const raw = response.data?.choices?.[0]?.message?.content?.trim() ?? '[]';
@@ -434,8 +427,7 @@ ${timestampedText}`;
 文档内容：
 ${textContent}`;
 
-    const response = await axios.post(
-      `${this.baseUrl}/chat/completions`,
+    const response = await this.postChatCompletion(
       {
         model: this.aiModel,
         messages: [
@@ -445,13 +437,7 @@ ${textContent}`;
         max_tokens: 16384,
         temperature: 0.1,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${this.apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        timeout: 120_000,
-      },
+      120_000,
     );
 
     const raw = response.data?.choices?.[0]?.message?.content?.trim() ?? '[]';
@@ -556,8 +542,7 @@ ${textContent}`;
 
     const vocText = vocItems.map(v => `[${v.brand}][${v.sentiment}][${v.dimension || ''}] ${v.respondent}: ${v.text}`).join('\n');
 
-    const response = await axios.post(
-      `${this.baseUrl}/chat/completions`,
+    const response = await this.postChatCompletion(
       {
         model: this.aiModel,
         messages: [
@@ -567,13 +552,7 @@ ${textContent}`;
         max_tokens: 8192,
         temperature: 0.3,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${this.apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        timeout: 120_000,
-      },
+      120_000,
     );
 
     const raw = response.data?.choices?.[0]?.message?.content?.trim() ?? '{}';
@@ -599,8 +578,7 @@ ${textContent}`;
 
     const vocText = vocItems.map(v => `[${v.brand}][${v.sentiment}][${v.dimension || ''}] ${v.respondent}: ${v.text}`).join('\n');
 
-    const response = await axios.post(
-      `${this.baseUrl}/chat/completions`,
+    const response = await this.postChatCompletion(
       {
         model: this.aiModel,
         messages: [
@@ -610,13 +588,7 @@ ${textContent}`;
         max_tokens: 4096,
         temperature: 0.3,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${this.apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        timeout: 120_000,
-      },
+      120_000,
     );
 
     const raw = response.data?.choices?.[0]?.message?.content?.trim() ?? '{}';
@@ -692,8 +664,7 @@ ${textContent}`;
 11. 仅当 evidence 与问题完全无关时，才只输出一句：“站内证据不足以回答这个问题。”`;
 
     try {
-      const response = await axios.post(
-        `${this.baseUrl}/chat/completions`,
+      const response = await this.postChatCompletion(
         {
           model: this.aiModel,
           messages: [
@@ -708,16 +679,10 @@ ${textContent}`;
               }, null, 2),
             },
           ],
-          max_tokens: 1600,
+          max_tokens: 4096,
           temperature: 0.2,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${this.apiKey}`,
-            'Content-Type': 'application/json',
-          },
-          timeout: 60_000,
-        },
+        60_000,
       );
 
       const raw = this.extractAiText(response.data);
@@ -766,8 +731,7 @@ ${textContent}`;
       `Parsing document text (${textContent.length} chars)`,
     );
 
-    const response = await axios.post(
-      `${this.baseUrl}/chat/completions`,
+    const response = await this.postChatCompletion(
       {
         model: this.aiModel,
         messages: [
@@ -781,13 +745,7 @@ ${textContent}`;
         max_tokens: 16384,
         temperature: 0.1,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${this.apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        timeout: 120_000,
-      },
+      120_000,
     );
 
     const text = response.data?.choices?.[0]?.message?.content?.trim() ?? '';
@@ -832,6 +790,78 @@ ${textContent}`;
       this.logger.debug(`Raw response: ${raw.slice(0, 500)}`);
       return {};
     }
+  }
+
+  /**
+   * 是否为推理（Reasoning）模型。这类模型（如 claude-sonnet-5 / gpt-5 / o1-o4）
+   * 在 OpenAI 兼容接口上通常不接受自定义 temperature，只允许默认值。
+   * 可用环境变量 AI_MODEL_REASONING=true/false 显式覆盖自动判断。
+   */
+  private isReasoningModel(): boolean {
+    const flag = this.configService.get<string>('AI_MODEL_REASONING');
+    if (flag != null && flag !== '') return flag === 'true' || flag === '1';
+    const m = this.aiModel.toLowerCase();
+    return /sonnet-5|opus-5|haiku-5|gpt-5|(^|[^a-z0-9])o[1-9]([^a-z0-9]|$)|reasoning/.test(m);
+  }
+
+  /**
+   * 统一的 chat/completions 请求入口：
+   * 1. 推理模型自动去掉 temperature（否则网关会返回 400）。
+   * 2. 若仍因不支持的参数返回 400，剥离相关参数后自动重试一次。
+   */
+  private async postChatCompletion(
+    payload: Record<string, unknown>,
+    timeoutMs: number,
+  ): Promise<any> {
+    const url = `${this.baseUrl}/chat/completions`;
+    const headers = {
+      Authorization: `Bearer ${this.apiKey}`,
+      'Content-Type': 'application/json',
+    };
+
+    const primary = { ...payload };
+    if (this.isReasoningModel() && 'temperature' in primary) {
+      delete primary.temperature;
+    }
+
+    try {
+      return await axios.post(url, primary, { headers, timeout: timeoutMs });
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.status === 400) {
+        const retry = this.buildRetryPayload(primary, err.response?.data);
+        if (retry) {
+          this.logger.warn(
+            `Retrying AI request with adjusted params (model=${this.aiModel}): ${this.formatAiError(err)}`,
+          );
+          return await axios.post(url, retry, { headers, timeout: timeoutMs });
+        }
+      }
+      throw err;
+    }
+  }
+
+  /** 依据网关 400 错误体，剥离/改写它抱怨的参数，返回可重试的 payload；无可调整则返回 null */
+  private buildRetryPayload(
+    payload: Record<string, unknown>,
+    errorBody: unknown,
+  ): Record<string, unknown> | null {
+    const bodyText = (
+      typeof errorBody === 'string' ? errorBody : JSON.stringify(errorBody ?? '')
+    ).toLowerCase();
+    const next = { ...payload };
+    let changed = false;
+
+    if ('temperature' in next && bodyText.includes('temperature')) {
+      delete next.temperature;
+      changed = true;
+    }
+    if ('max_tokens' in next && bodyText.includes('max_completion_tokens')) {
+      next.max_completion_tokens = next.max_tokens;
+      delete next.max_tokens;
+      changed = true;
+    }
+
+    return changed ? next : null;
   }
 
   /** Extract useful detail from an axios/gateway error for logging & diagnosis */
