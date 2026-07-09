@@ -20,6 +20,10 @@ import { EditDrawer, ListField, SaveBar, TextField } from '@/components/edit/Edi
 import { citeMatches, useCiteKey } from '@/components/siteAssistant/evidenceHighlight';
 import { clipMetaByUrl, conclusionClipsByCardId, conclusionDetailsByCardId, countBoundVocCitations } from './conclusionMaps';
 import { nextStepPrimaries, type NextStepPrimaryItem } from './nextStepData';
+import { HighlightText } from '@/components/report/HighlightText';
+import { Disclosure } from '@/components/report/Disclosure';
+import { DecisionFunnel } from '@/components/report/DecisionFunnel';
+import { InsightHeadline } from '@/components/report/InsightHeadline';
 
 const RESEARCH_CONCLUSIONS_STORE_KEY = 'research-conclusions';
 const RESEARCH_NEXT_STEPS_STORE_KEY = 'research-next-steps';
@@ -444,28 +448,29 @@ function compactSummary(text: string) {
   return text.length > 52 ? `${text.slice(0, 52)}...` : text;
 }
 
-function renderVocClipCards(clips: string[]) {
+function renderVocClipCards(clips: string[], color = '#E95B35') {
   if (clips.length === 0) return null;
   return (
-    <div className="mt-2.5 flex flex-col gap-2">
-      {clips.map((clip, clipIndex) => {
-        const meta = clipMetaByUrl[clip];
-        const evidenceClips: EvidenceClip[] = [{ clipUrl: clip, startTime: 0, duration: 0 }];
-        return (
-          <div key={clip + clipIndex} className="flex w-full flex-col rounded-[12px] border border-[#EADFD2] bg-white px-3.5 py-3">
-            <div className="flex items-start gap-1.5">
-              <Quote size={13} className="mt-0.5 shrink-0 text-[#E95B35]" />
-              <p className="text-[12.5px] font-semibold leading-5 text-[#3A342E]">{meta?.text ?? ''}</p>
+    <Disclosure label="听访谈原声" count={clips.length} color={color} icon={<Quote size={13} />} className="mt-2.5">
+      <div className="flex flex-col gap-2">
+        {clips.map((clip, clipIndex) => {
+          const meta = clipMetaByUrl[clip];
+          const evidenceClips: EvidenceClip[] = [{ clipUrl: clip, startTime: 0, duration: 0 }];
+          return (
+            <div key={clip + clipIndex} className="flex w-full flex-col rounded-[12px] border border-[#EADFD2] bg-white px-3.5 py-3">
+              <div className="flex items-start gap-1.5">
+                <Quote size={13} className="mt-0.5 shrink-0" style={{ color }} />
+                <p className="text-[12.5px] font-semibold leading-5 text-[#3A342E]">{meta?.text ?? ''}</p>
+              </div>
+              <p className="mt-1.5 text-[11px] font-bold text-[#9A8F82]">— {meta?.source ?? '访谈原声'}</p>
+              <EvidenceAudioClips clips={evidenceClips} />
             </div>
-            <p className="mt-1.5 text-[11px] font-bold text-[#9A8F82]">— {meta?.source ?? '访谈原声'}</p>
-            <EvidenceAudioClips clips={evidenceClips} />
-          </div>
-        );
-      })}
-    </div>
+          );
+        })}
+      </div>
+    </Disclosure>
   );
 }
-
 
 export const reportConclusions: ResearchConclusion[] = redesignedCards.map((card) => {
   const takeaways = card.takeaways ?? cardTakeaways[card.id] ?? [];
@@ -740,6 +745,16 @@ export default function FromPrimaryMergedReport() {
                   </span>
                 </div>
 
+                {dimension.id === 'purchase' && (
+                  <div className="mb-5 rounded-[18px] border border-[#EEE0D6] bg-[#FFFCF8] p-5">
+                    <div className="mb-3 flex items-center gap-2 text-[13px] font-black" style={{ color: dimension.color }}>
+                      <Target size={16} />
+                      购买决策漏斗 · 每一层对应一个用户阻碍
+                    </div>
+                    <DecisionFunnel color={dimension.color} />
+                  </div>
+                )}
+
                 <div className="grid w-full items-start gap-5 lg:grid-cols-[300px_minmax(0,1fr)]">
                   <aside
                     ref={(node) => {
@@ -813,16 +828,17 @@ export default function FromPrimaryMergedReport() {
                         </div>
                         <h3 className="mt-4 text-[28px] font-black leading-tight text-[#292521]">{selectedNextPrimary.title}</h3>
 
-                        <div className="mt-5 rounded-[16px] border border-[#EEE0D6] bg-[#FFF9F5] p-5">
-                          <div className="flex items-center gap-2 text-[14px] font-black" style={{ color: dimension.color }}>
-                            <BookOpenCheck size={17} />
-                            关键洞察
-                          </div>
-                          <p className="mt-3 text-[15px] font-semibold leading-8 text-[#403A34]">{selectedNextPrimary.insight}</p>
-                        </div>
+                        <InsightHeadline
+                          insight={selectedNextPrimary.insight}
+                          color={dimension.color}
+                          statsSource={`${selectedNextPrimary.conclusion} ${selectedNextPrimary.evidenceNote}`}
+                          className="mt-5"
+                        />
 
                         <div className="mt-4 rounded-[16px] border border-[#E6DDD3] bg-[#FBFAF7] px-4 py-3">
-                          <p className="text-[15px] font-black leading-7 text-[#292521]">{selectedNextPrimary.conclusion}</p>
+                          <p className="text-[15px] font-black leading-7 text-[#292521]">
+                            <HighlightText color={dimension.color}>{selectedNextPrimary.conclusion}</HighlightText>
+                          </p>
                         </div>
 
                         <div className="mt-4 rounded-[16px] border bg-white p-5" style={{ borderColor: `${dimension.color}40`, boxShadow: `inset 4px 0 0 ${dimension.color}` }}>
@@ -842,15 +858,17 @@ export default function FromPrimaryMergedReport() {
                                   </span>
                                   <div className="min-w-0 flex-1">
                                     <h4 className="text-[16px] font-black leading-7 text-[#292521]">{secondary.title}</h4>
-                                    <p className="mt-1 text-[14px] font-bold leading-6 text-[#5F5851]">{secondary.action}</p>
+                                    <p className="mt-1 text-[14px] font-bold leading-6 text-[#5F5851]">
+                                      <HighlightText color={dimension.color}>{secondary.action}</HighlightText>
+                                    </p>
                                     <ul className="mt-2.5 space-y-1.5">
                                       {secondary.points.map((point) => (
                                         <li key={point} className="text-[13px] font-semibold leading-6 text-[#403A34]">
-                                          · {point}
+                                          · <HighlightText color={dimension.color}>{point}</HighlightText>
                                         </li>
                                       ))}
                                     </ul>
-                                    {renderVocClipCards(secondary.clips)}
+                                    {renderVocClipCards(secondary.clips, dimension.color)}
                                   </div>
                                 </div>
                               </div>
@@ -875,9 +893,11 @@ export default function FromPrimaryMergedReport() {
                           </div>
                         </div>
 
-                        <div className="mt-4 rounded-[14px] border border-[#E6DDD3] bg-[#FBFAF7] px-4 py-3 text-[12px] font-semibold leading-6 text-[#7D746A]">
-                          {selectedNextPrimary.evidenceNote}
-                        </div>
+                        <Disclosure label="查看来源" color={dimension.color} icon={<FileText size={13} />} className="mt-4">
+                          <p className="rounded-[14px] border border-[#E6DDD3] bg-[#FBFAF7] px-4 py-3 text-[12px] font-semibold leading-6 text-[#7D746A]">
+                            {selectedNextPrimary.evidenceNote}
+                          </p>
+                        </Disclosure>
                       </>
                     ) : selectedConclusion ? (
                       <>
@@ -899,13 +919,12 @@ export default function FromPrimaryMergedReport() {
                         </div>
                         <h3 className="mt-4 text-[28px] font-black leading-tight text-[#292521]">{selectedConclusion.title}</h3>
 
-                        <div className="mt-5 rounded-[16px] border border-[#EEE0D6] bg-[#FFF9F5] p-5">
-                          <div className="flex items-center gap-2 text-[14px] font-black" style={{ color: dimension.color }}>
-                            <BookOpenCheck size={17} />
-                            关键洞察
-                          </div>
-                          <p className="mt-3 text-[15px] font-semibold leading-8 text-[#403A34]">{selectedConclusion.insight}</p>
-                        </div>
+                        <InsightHeadline
+                          insight={selectedConclusion.insight}
+                          color={dimension.color}
+                          statsSource={`${selectedConclusion.conclusion} ${selectedConclusion.evidenceNote}`}
+                          className="mt-5"
+                        />
 
                         <div className="mt-4 rounded-[16px] border bg-white p-5" style={{ borderColor: `${dimension.color}40`, boxShadow: `inset 4px 0 0 ${dimension.color}` }}>
                           <div className="flex items-center gap-2 text-[14px] font-black" style={{ color: dimension.color }}>
@@ -924,8 +943,10 @@ export default function FromPrimaryMergedReport() {
                                     {index + 1}
                                   </span>
                                   <div className="min-w-0 flex-1">
-                                    <p className="text-[16px] font-black leading-7 text-[#292521]">{conclusion}</p>
-                                    {renderVocClipCards(conclusionClips)}
+                                    <p className="text-[16px] font-black leading-7 text-[#292521]">
+                                      <HighlightText color={dimension.color}>{conclusion}</HighlightText>
+                                    </p>
+                                    {renderVocClipCards(conclusionClips, dimension.color)}
                                   </div>
                                 </div>
                               );
@@ -950,9 +971,11 @@ export default function FromPrimaryMergedReport() {
                           </div>
                         </div>
 
-                        <div className="mt-4 rounded-[14px] border border-[#E6DDD3] bg-[#FBFAF7] px-4 py-3 text-[12px] font-semibold leading-6 text-[#7D746A]">
-                          {selectedConclusion.evidenceNote}
-                        </div>
+                        <Disclosure label="查看来源" color={dimension.color} icon={<FileText size={13} />} className="mt-4">
+                          <p className="rounded-[14px] border border-[#E6DDD3] bg-[#FBFAF7] px-4 py-3 text-[12px] font-semibold leading-6 text-[#7D746A]">
+                            {selectedConclusion.evidenceNote}
+                          </p>
+                        </Disclosure>
                       </>
                     ) : null}
                   </section>

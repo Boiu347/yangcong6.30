@@ -28,6 +28,10 @@ import {
   type SubSection,
   type VocClip,
 } from './coreConclusionsData';
+import { HighlightText } from '@/components/report/HighlightText';
+import { Disclosure } from '@/components/report/Disclosure';
+import { InsightHeadline } from '@/components/report/InsightHeadline';
+import { ProsConsMatrix, onionExperiencePros, onionExperienceCons } from '@/components/report/ProsConsMatrix';
 
 const CORE_CONCLUSIONS_STORE_KEY = 'core-conclusions';
 
@@ -84,43 +88,56 @@ function PointBlock({ point, color }: { point: Point; color: string }) {
             {point.label}
           </span>
         )}
-        <p className="min-w-0 flex-1 text-[15px] font-bold leading-7 text-[#292521]">{point.text}</p>
+        <p className="min-w-0 flex-1 text-[15px] font-bold leading-7 text-[#292521]">
+          <HighlightText color={accent}>{point.text}</HighlightText>
+        </p>
       </div>
 
-      {point.notes && point.notes.length > 0 && (
-        <div className="mt-3 rounded-[10px] border border-[#EEE3D6] bg-white px-3 py-2.5">
-          <p className="mb-1.5 text-[11px] font-black tracking-[0.08em] text-[#B08968]">论据支撑</p>
-          <ul className="space-y-1.5">
-            {point.notes.map((note) => (
-              <li key={note} className="text-[13px] font-semibold leading-6 text-[#5F5851]">
-                · {note}
-              </li>
-            ))}
-          </ul>
-        </div>
+      {((point.notes && point.notes.length > 0) || (point.images && point.images.length > 0)) && (
+        <Disclosure
+          label="展开论据"
+          count={(point.notes?.length ?? 0) + (point.images?.length ?? 0)}
+          color={accent}
+          className="mt-3"
+        >
+          {point.notes && point.notes.length > 0 && (
+            <div className="rounded-[10px] border border-[#EEE3D6] bg-white px-3 py-2.5">
+              <p className="mb-1.5 text-[11px] font-black tracking-[0.08em] text-[#B08968]">论据支撑</p>
+              <ul className="space-y-1.5">
+                {point.notes.map((note) => (
+                  <li key={note} className="text-[13px] font-semibold leading-6 text-[#5F5851]">
+                    · <HighlightText color={accent}>{note}</HighlightText>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {point.images && point.images.length > 0 && (
+            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              {point.images.map((image) => (
+                <figure key={image.src} className="overflow-hidden rounded-[12px] border border-[#EADFD2] bg-white">
+                  <img src={image.src} alt={image.caption ?? ''} className="w-full object-contain" loading="lazy" />
+                  {image.caption && (
+                    <figcaption className="border-t border-[#F0E7DB] px-3 py-1.5 text-[11px] font-bold text-[#9A8F82]">
+                      {image.caption}
+                    </figcaption>
+                  )}
+                </figure>
+              ))}
+            </div>
+          )}
+        </Disclosure>
       )}
 
       {point.quotes && point.quotes.length > 0 && (
-        <div className="mt-3 flex flex-col gap-2">
-          {point.quotes.map((clip, index) => (
-            <VocClipCard key={clip.text + index} clip={clip} color={accent} />
-          ))}
-        </div>
-      )}
-
-      {point.images && point.images.length > 0 && (
-        <div className="mt-3 grid gap-3 sm:grid-cols-2">
-          {point.images.map((image) => (
-            <figure key={image.src} className="overflow-hidden rounded-[12px] border border-[#EADFD2] bg-white">
-              <img src={image.src} alt={image.caption ?? ''} className="w-full object-contain" loading="lazy" />
-              {image.caption && (
-                <figcaption className="border-t border-[#F0E7DB] px-3 py-1.5 text-[11px] font-bold text-[#9A8F82]">
-                  {image.caption}
-                </figcaption>
-              )}
-            </figure>
-          ))}
-        </div>
+        <Disclosure label="听访谈原声" count={point.quotes.length} color={accent} icon={<Quote size={13} />} className="mt-2.5">
+          <div className="flex flex-col gap-2">
+            {point.quotes.map((clip, index) => (
+              <VocClipCard key={clip.text + index} clip={clip} color={accent} />
+            ))}
+          </div>
+        </Disclosure>
       )}
     </div>
   );
@@ -384,6 +401,16 @@ export default function CoreConclusionsReport() {
                   </span>
                 </div>
 
+                {section.id === 'experience' && (
+                  <div className="mb-5 rounded-[18px] border border-[#E6DDD3] bg-[#FBFAF7] p-5">
+                    <div className="mb-3 flex items-center gap-2 text-[13px] font-black" style={{ color: section.color }}>
+                      <BookOpenCheck size={16} />
+                      洋葱体验一眼看 · 优势 vs 折损
+                    </div>
+                    <ProsConsMatrix pros={onionExperiencePros} cons={onionExperienceCons} prosColor={section.color} />
+                  </div>
+                )}
+
                 <div className="w-full">
                   <div className="mb-4 flex items-center justify-between">
                     <p className="text-[14px] font-black text-[#403A34]">结论列表</p>
@@ -449,15 +476,16 @@ export default function CoreConclusionsReport() {
                       )}
                     </div>
                     <h3 className="mt-4 text-[26px] font-black leading-tight text-[#292521]">{selectedMain.title}</h3>
-                    <p className="mt-2 text-[14px] font-semibold leading-6 text-[#7D746A]">{selectedMain.summary}</p>
+                    <p className="mt-2 text-[14px] font-semibold leading-6 text-[#7D746A]">
+                      <HighlightText color={section.color}>{selectedMain.summary}</HighlightText>
+                    </p>
 
-                    <div className="mt-5 rounded-[16px] border border-[#EEE0D6] bg-[#FFF9F5] p-5">
-                      <div className="flex items-center gap-2 text-[14px] font-black" style={{ color: section.color }}>
-                        <BookOpenCheck size={17} />
-                        关键洞察
-                      </div>
-                      <p className="mt-3 text-[15px] font-semibold leading-8 text-[#403A34]">{selectedMain.insight}</p>
-                    </div>
+                    <InsightHeadline
+                      insight={selectedMain.insight}
+                      color={section.color}
+                      statsSource={`${selectedMain.summary} ${selectedMain.evidenceNote}`}
+                      className="mt-5"
+                    />
 
                     <div className="mt-4 rounded-[16px] border bg-white p-5" style={{ borderColor: `${section.color}40`, boxShadow: `inset 4px 0 0 ${section.color}` }}>
                       <div className="flex items-center gap-2 text-[14px] font-black" style={{ color: section.color }}>
@@ -471,9 +499,11 @@ export default function CoreConclusionsReport() {
                       </div>
                     </div>
 
-                    <div className="mt-4 rounded-[14px] border border-[#E6DDD3] bg-[#FBFAF7] px-4 py-3 text-[12px] font-semibold leading-6 text-[#7D746A]">
-                      {selectedMain.evidenceNote}
-                    </div>
+                    <Disclosure label="查看来源" color={section.color} icon={<FileText size={13} />} className="mt-4">
+                      <p className="rounded-[14px] border border-[#E6DDD3] bg-[#FBFAF7] px-4 py-3 text-[12px] font-semibold leading-6 text-[#7D746A]">
+                        {selectedMain.evidenceNote}
+                      </p>
+                    </Disclosure>
                   </section>
                 </div>
               </article>
