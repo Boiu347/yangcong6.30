@@ -103,6 +103,7 @@ interface PersonaV2 {
     role: string;
     coreFeature: string;
     family: { k: string; v: string }[];
+    narrative: { heading: string; body: string; quotes?: string[] }[];
     chartTitle: string;
     chart: PersonaChart;
     heroQuote: string;
@@ -149,6 +150,27 @@ const PERSONAS: PersonaV2[] = [
         { k: '孩子', v: '两个：姐姐高中、弟弟一年级' },
         { k: '弟弟学情', v: '没报很多辅导班，整体掌握情况也不错' },
         { k: '购买方式', v: '给姐姐买高中物理时，顺着推荐加购《从小学物理》' },
+      ],
+      narrative: [
+        {
+          heading: '不焦虑的家庭：先愿意接触，比学到什么程度更重要',
+          body: '两个孩子，姐姐高中、弟弟一年级。她对孩子学习没有特别焦虑的强规划，一年级的弟弟目前没报很多辅导班，整体掌握情况也不错。相比「必须学到什么程度」，她更在意孩子能不能先愿意接触、愿意听、愿意看下去。',
+        },
+        {
+          heading: '顺手加购：期待很轻，因为孩子喜欢才买',
+          body: '最初购买《从小学物理》，是给姐姐买高中物理时顺着推荐看到了小学课程；弟弟看到里面有从小学物理后表现出兴趣，她就顺手买了。她不会把这件事定义成明确的学习任务，也没要求孩子每天固定学。对她来说，小学阶段的物理启蒙不是为了马上衔接，而是因为孩子喜欢，先让孩子接触。',
+          quotes: [
+            '孩子喜欢学就学，多看一点总归有帮助。',
+            '因为学习是个长期的过程，不是一蹴而就的。所以也没什么目的，孩子喜欢学就学。',
+          ],
+        },
+        {
+          heading: '认可点：孩子「听得有兴趣」，实验男最有吸引力',
+          body: '她认可洋葱的一点，是孩子确实「听得有兴趣」。相比普通科普视频，这类内容更像孩子愿意主动看的科学内容，能把孩子先拉进来；尤其是实验男做实验相关内容，对孩子很有吸引力。',
+          quotes: [
+            '孩子喜欢看实验男，因为学而思的教具或者课堂都不能做危险的实验，而实验男可以做一些家里做不到、且会爆炸的实验。',
+          ],
+        },
       ],
       chartTitle: '教育逻辑 · 兴趣自驱正循环',
       chart: {
@@ -211,6 +233,28 @@ const PERSONAS: PersonaV2[] = [
         { k: '教育观', v: '长期打底，不追短期见效，不希望过早刷题' },
         { k: '已选产品', v: '学而思科学、NB 实验室等，带「笨鸟先飞」逻辑' },
       ],
+      narrative: [
+        {
+          heading: '文科背景的爸爸：不想孩子走自己理科弱的老路',
+          body: '两个孩子，课程主要买给三年级的大孩。爸爸是文科背景、自己理科相对弱，所以希望孩子不要走自己的老路。他对孩子的理科学习有很明确的长期规划：小学阶段不一定要立刻见效，但不能让孩子未来初高中被理科限制。',
+        },
+        {
+          heading: '真正在意的：理科思维、未来不吃力、选专业不被动',
+          body: '他更在意孩子未来能不能形成理科思维、能不能在初高中面对物理化学时不吃力，甚至大学选专业时不要因为理科弱而被动。因此购买学而思科学、NB 实验室，不是单纯为了兴趣，而是带着「笨鸟先飞」的学科启蒙逻辑——真正有价值的启蒙不是「看着玩」，而是和未来学科挂钩。',
+          quotes: [
+            '希望孩子现在学一遍，初高中再学一遍时更轻松。',
+            '学科启蒙为了以后中高考、初高中理科学习；兴趣启蒙要求更低，更像让孩子试水，培养兴趣。',
+          ],
+        },
+        {
+          heading: '看重长期可用，却缺一把「效果尺子」',
+          body: '相比一次性的兴趣内容，他更看重产品能不能长期使用、能不能连接未来学习路径。他选 NB 实验室，是因为它覆盖小学到高中、能选教材版本、有实验、有知识闯关和习题，还能寒暑假按单元复习或预习。但短期内并没有非常清晰的效果标准，主要用孩子是否接纳、是否愿意学来判断启蒙是否成立。',
+          quotes: [
+            '覆盖教材、覆盖小学到高中、能做实验、能做习题，说明产品具备学科启蒙属性。',
+            '孩子保持兴趣、不逆反；布置任务时愿意点进去学；对科学书籍和理科内容接纳度提升。',
+          ],
+        },
+      ],
       chartTitle: '教育逻辑 · 笨鸟先飞的长期阶梯',
       chart: {
         type: 'ladder',
@@ -272,6 +316,32 @@ const PERSONAS: PersonaV2[] = [
         { k: '报课', v: '从小学物理、NB 实验室、学而思自然博物、赛先生等' },
         { k: '教育观', v: '「实践出真知」，知识讲解 + 动手实验缺一不可' },
       ],
+      narrative: [
+        {
+          heading: '长期关注学科启蒙的妈妈：报过很多实验课',
+          body: '家里一个二年级男孩，报过很多物理启蒙 / 实验课（如从小学物理、NB 实验室、学而思自然博物、赛先生科学课等）。她不是随便买来试试，而是长期关注孩子的学习兴趣、学科启蒙和未来升学。',
+        },
+        {
+          heading: '为什么买洋葱：信任品牌 + 被实验吸引',
+          body: '她购买《从小学物理》，一方面是因为信任洋葱品牌，另一方面是被实验吸引，孩子也喜欢看实验男做实验。',
+          quotes: [
+            '购买前：我主要是看中他这个理科的同步校内，然后看他那实验做得也比较好，孩子看了也很感兴趣，我才又添加了这笔钱买的从小学物理这个课程。',
+            '购买后：洋葱如果不管的话每天都会看，喜欢看实验男做实验。',
+          ],
+        },
+        {
+          heading: '对「好启蒙」的要求：讲解 + 动手，缺一不可',
+          body: '她认为只有「知识讲解」和「动手实验」兼备，孩子才能真正印证理论知识。她对赛先生科学课评价高，就是因为有真人老师一边讲解、一边带着做实验，孩子吸收更多也更有参与感。相比之下，NB 实验室动手多但讲解弱，洋葱内容讲解系统但实验动手不足。',
+          quotes: [
+            '一定要有专业的老师带着做实验才效果好，孩子做实验时能问老师，老师能纠正过来。',
+            '实验在理科中很重要，实践出真知，自己看肯定不如自己动手。',
+          ],
+        },
+        {
+          heading: '对洋葱的期待',
+          body: '保持内容系统和趣味的优势；把专业概念讲得更儿童化；把实验做得更可操作。',
+        },
+      ],
       chartTitle: '教育逻辑 · 讲解与动手的天平',
       chart: {
         type: 'balance',
@@ -332,6 +402,36 @@ const PERSONAS: PersonaV2[] = [
         { k: '孩子', v: '四年级' },
         { k: '地区特点', v: '郑州科学是主科，期中期末考、有单元测' },
         { k: '使用定位', v: '查漏补缺 / 复习知识点工具，非系统学完' },
+      ],
+      narrative: [
+        {
+          heading: '郑州的特殊性：科学是要考试的主科',
+          body: '这位妈妈有一个四年级孩子，和很多地区不同，郑州的科学课是需要考试的主科：期中期末要考，平时也有单元测。',
+        },
+        {
+          heading: '为什么买：想帮孩子把校内抽象知识点讲明白',
+          body: '打动她购买的，是科学课本身占据了很多学习时间，而孩子平时更多靠背书，容易背不下来、理解不透。她希望用动画视频帮助孩子把校内科学里的抽象知识点讲明白。',
+          quotes: [
+            '孩子日常单元课在科学上占据很多时间，老师会梳理知识点——实验、名词解释都需要背。',
+            '不希望孩子死记硬背，刚好有这个课。',
+          ],
+        },
+        {
+          heading: '期待与场景：对标教材、查漏补缺',
+          body: '她对课程的期待和使用场景很具体——期待校内同步：能对标校内知识点，孩子哪个单元不理解，就能快速找到对应视频看一看；场景是查漏补缺：她并不强求孩子系统学完整套课程，而是把它当作知识点复习 / 理解工具。',
+          quotes: [
+            '可以研究各个地区的课本，根据课本有相关知识点，一找就能找到知识点。',
+            '洋葱主要是用来复习知识点，这个单元需要考试，或者某个知识点有明显缺漏需要看。',
+          ],
+        },
+        {
+          heading: '使用落差：不够同步，四上内容找不到',
+          body: '使用落差明显：课程虽然动画不枯燥，但不够同步，四年级上册的一些内容找不到。对她来说，如果不能按年级、教材、知识点检索，这门课的使用频率就会降低，容易变成「想起来划两下」的补充内容。',
+          quotes: [
+            '之前以为顺序不一样但知识点都有，后面发现不一样，四上的内容找不到。',
+            '如果没那么同步，可能就是想起来了去划两下看一下……平时用不到。',
+          ],
+        },
       ],
       chartTitle: '教育逻辑 · 教材对齐决定用不用得上',
       chart: {
@@ -641,6 +741,9 @@ function StorySection({ persona }: { persona: PersonaV2 }) {
         </div>
       </motion.div>
 
+      {/* 访谈还原（同事总结的精华叙事）*/}
+      <NarrativeBlock narrative={story.narrative} accent={accent} />
+
       {/* ④ 教育逻辑可视化（可插拔）*/}
       <div className="mt-6">
         <div className="mb-3 flex items-center gap-2">
@@ -880,6 +983,52 @@ function Match({ chart, accent }: { chart: MatchChart; accent: string }) {
         </div>
       </div>
     </motion.div>
+  );
+}
+
+// ── 访谈还原：分段叙事（同事总结的精华）──────────────────────────────────────
+function NarrativeBlock({ narrative, accent }: { narrative: PersonaV2['story']['narrative']; accent: string }) {
+  return (
+    <div className="mt-6">
+      <div className="mb-3 flex items-center gap-2">
+        <span className="h-5 w-1 rounded-full" style={{ background: STORY }} />
+        <h4 className="text-[14px] font-black" style={{ color: INK }}>
+          访谈还原 · 她 / 他为什么这样选
+        </h4>
+      </div>
+      <ol className="relative space-y-4 border-l-2 pl-6" style={{ borderColor: `${accent}33` }}>
+        {narrative.map((seg, i) => (
+          <motion.li {...reveal} transition={{ ...reveal.transition, delay: i * 0.05 }} key={seg.heading} className="relative">
+            <span
+              className="absolute -left-[31px] top-0.5 grid h-5 w-5 place-items-center rounded-full text-[10px] font-black text-white"
+              style={{ background: accent }}
+            >
+              {i + 1}
+            </span>
+            <h5 className="text-[14px] font-black" style={{ color: INK }}>
+              {seg.heading}
+            </h5>
+            <p className="mt-1.5 text-[13.5px] leading-8" style={{ color: '#4a453f' }}>
+              {seg.body}
+            </p>
+            {seg.quotes && seg.quotes.length > 0 && (
+              <div className="mt-2.5 space-y-2">
+                {seg.quotes.map((q) => (
+                  <blockquote
+                    key={q}
+                    className="flex gap-2 rounded-lg px-3.5 py-2.5 text-[12.5px] italic leading-7"
+                    style={{ background: soft(accent), color: '#5c564f' }}
+                  >
+                    <Quote size={14} className="mt-1 shrink-0" style={{ color: accent }} />
+                    <span>「{q}」</span>
+                  </blockquote>
+                ))}
+              </div>
+            )}
+          </motion.li>
+        ))}
+      </ol>
+    </div>
   );
 }
 
