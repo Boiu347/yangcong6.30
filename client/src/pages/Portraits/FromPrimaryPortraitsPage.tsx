@@ -455,7 +455,27 @@ function PersonaChapter({
                 </span>
                 <h4 className="text-[15px] font-black text-[#292521]">{beat.heading}</h4>
               </div>
-              <p className="mt-3 pl-9 text-sm leading-7 text-[#4a453f]">{beat.body}</p>
+              <div className="mt-3 space-y-3 pl-9">
+                {beat.body && <p className="text-sm leading-7 text-[#4a453f]">{beat.body}</p>}
+                {beat.points?.map((pt, j) => (
+                  <div key={j} className="space-y-2">
+                    {pt.text && (
+                      <div className="flex items-start gap-2">
+                        <span className="mt-[10px] h-1 w-1 shrink-0 rounded-full bg-[#3F5E8C]/60" />
+                        <p className="text-sm leading-7 text-[#4a453f]">{pt.text}</p>
+                      </div>
+                    )}
+                    {pt.quotes?.map((q, k) => (
+                      <blockquote
+                        key={k}
+                        className="ml-4 border-l-2 border-[#c9d7e8] bg-white px-3.5 py-2 text-[13px] italic leading-6 text-[#5c564f]"
+                      >
+                        "{q}"
+                      </blockquote>
+                    ))}
+                  </div>
+                ))}
+              </div>
             </motion.article>
           ))}
 
