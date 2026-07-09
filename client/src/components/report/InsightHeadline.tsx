@@ -1,8 +1,7 @@
 import React from 'react';
-import { BookOpenCheck, Lightbulb } from 'lucide-react';
+import { Lightbulb } from 'lucide-react';
 import { HighlightText } from './HighlightText';
 import { KeyStat, extractStats } from './KeyStat';
-import { Disclosure } from './Disclosure';
 import { firstSentence, restAfterFirstSentence } from './reportText';
 
 /**
@@ -46,11 +45,9 @@ export function InsightHeadline({
       </p>
       {stats.length > 0 && <KeyStat stats={stats} color={color} className="mt-4" />}
       {rest && (
-        <Disclosure label="展开完整洞察" color={color} icon={<BookOpenCheck size={13} />} className="mt-4">
-          <p className="text-[14px] font-semibold leading-7 text-[#403A34]">
-            <HighlightText color={color}>{rest}</HighlightText>
-          </p>
-        </Disclosure>
+        <p className="mt-4 text-[14px] font-semibold leading-7 text-[#403A34]">
+          <HighlightText color={color}>{rest}</HighlightText>
+        </p>
       )}
     </div>
   );
