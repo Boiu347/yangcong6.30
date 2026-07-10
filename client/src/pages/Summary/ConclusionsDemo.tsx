@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   BookOpenCheck,
-  ChevronRight,
   Lightbulb,
   SearchCheck,
   Sparkles,
@@ -9,15 +8,14 @@ import {
 } from 'lucide-react';
 import { reportConclusions, type ResearchConclusion } from './FromPrimaryMergedReport';
 import { HighlightText } from '@/components/report/HighlightText';
-import { KeyStat, extractStats, type Stat } from '@/components/report/KeyStat';
-import { Disclosure } from '@/components/report/Disclosure';
-import { firstSentence, restAfterFirstSentence } from '@/components/report/reportText';
+import { KeyStat, extractStats } from '@/components/report/KeyStat';
 
-// Demo：把「调研结论」从「文档式仓库」改成「地图式浏览」
-//   降噪原则：全页只用一个强调色；维度色仅作小色点区分；单列阅读动线；每卡只保留一个折叠。
+// Demo：把「调研结论」从「文档式仓库」改成「层级清晰、一次看清」的浏览体验。
+//   不用折叠/点击展开，靠字号-字重-颜色-留白的层级阶梯把主次拉开。
+//   层级：主标题(title) > 副标题(conclusion) > 数字锚点 > 核心要点 > 支撑信息(行动/来源)
 
 const ACCENT = '#E95B35';
-const BORDER = '#ECE6DD';
+const DIVIDER = '#F0EAE1';
 
 const DIMS: { id: string; label: string; icon: typeof Lightbulb; color: string }[] = [
   { id: 'core', label: '核心洞察', icon: Lightbulb, color: '#E95B35' },
@@ -31,91 +29,68 @@ function itemsOf(dimId: string): ResearchConclusion[] {
   return reportConclusions.filter((item) => item.dimension === dimId);
 }
 
-function firstStatOf(items: ResearchConclusion[]): Stat | null {
-  for (const item of items) {
-    const stats = extractStats(`${item.conclusion} ${item.evidenceNote}`, 1);
-    if (stats.length > 0) return stats[0];
-  }
-  return null;
-}
-
 export default function ConclusionsDemo() {
   const jumpTo = React.useCallback((id: string) => {
-    document.getElementById(`demo-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById(`demo-item-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, []);
 
   return (
     <main className="min-h-full bg-[#FAF8F4] text-[#2A2621]">
-      <div className="mx-auto max-w-[860px] px-5 py-9 md:px-6">
+      <div className="mx-auto max-w-[820px] px-5 py-9 md:px-6">
         <header>
           <p className="text-[12px] font-bold tracking-[0.14em] text-[#B29B7E]">从小学系列售卖策略调研 · DEMO</p>
           <h1 className="mt-2.5 text-[28px] font-black leading-tight md:text-[34px]">结论速览</h1>
           <p className="mt-2.5 text-[14px] font-medium leading-7 text-[#8A8279]">
-            先看这面墙的 5 句结论，30 秒抓住全貌；想深挖某一块，点卡片跳到详情。
+            先扫一遍总览目录抓全貌，再往下逐条看；每条结论标题、要点、支撑信息层层分明。
           </p>
         </header>
 
-        {/* ① 结论速览墙 */}
-        <section className="mt-6 grid gap-2.5 sm:grid-cols-2">
-          {DIMS.map((dim) => {
-            const items = itemsOf(dim.id);
-            if (items.length === 0) return null;
-            const Icon = dim.icon;
-            const headline = firstSentence(items[0].insight);
-            const stat = firstStatOf(items);
-            return (
-              <button
-                key={dim.id}
-                type="button"
-                onClick={() => jumpTo(dim.id)}
-                className="group flex h-full flex-col rounded-[14px] border bg-white p-4 text-left transition hover:border-[#DcCFbf]"
-                style={{ borderColor: BORDER }}
-              >
-                <div className="flex items-center gap-2">
-                  <span className="size-1.5 rounded-full" style={{ backgroundColor: dim.color }} />
-                  <span className="text-[12.5px] font-bold text-[#6F675E]">{dim.label}</span>
-                  <span className="ml-auto text-[11px] font-semibold text-[#C3B9AC]">{items.length} 条</span>
+        {/* 总览目录 */}
+        <nav className="mt-6 rounded-[16px] border border-[#ECE6DD] bg-white p-5">
+          <p className="text-[11px] font-black tracking-[0.12em] text-[#B29B7E]">总览目录</p>
+          <div className="mt-3 space-y-3">
+            {DIMS.map((dim) => {
+              const items = itemsOf(dim.id);
+              if (items.length === 0) return null;
+              return (
+                <div key={dim.id} className="flex flex-col gap-1.5 sm:flex-row sm:gap-3">
+                  <div className="flex shrink-0 items-center gap-1.5 sm:w-24 sm:pt-0.5">
+                    <span className="size-1.5 rounded-full" style={{ backgroundColor: dim.color }} />
+                    <span className="text-[12.5px] font-bold text-[#6F675E]">{dim.label}</span>
+                  </div>
+                  <ul className="flex flex-1 flex-wrap gap-x-4 gap-y-1">
+                    {items.map((item) => (
+                      <li key={item.id}>
+                        <button
+                          type="button"
+                          onClick={() => jumpTo(item.id)}
+                          className="text-left text-[13px] font-semibold text-[#4A453F] underline-offset-4 transition hover:text-[#E95B35] hover:underline"
+                        >
+                          {item.title}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
+              );
+            })}
+          </div>
+        </nav>
 
-                <p className="mt-2.5 line-clamp-2 min-h-[44px] text-[15px] font-bold leading-6 text-[#2A2621]">
-                  {headline}
-                </p>
-
-                <div className="mt-3 flex items-baseline gap-2 border-t pt-3" style={{ borderColor: BORDER }}>
-                  {stat ? (
-                    <>
-                      <span className="text-[22px] font-black leading-none" style={{ color: ACCENT }}>
-                        {stat.value}
-                      </span>
-                      {stat.label && <span className="text-[11px] font-semibold text-[#9A8F82]">{stat.label}</span>}
-                    </>
-                  ) : (
-                    <span className="text-[12px] font-semibold text-[#C3B9AC]">查看结论</span>
-                  )}
-                  <ChevronRight
-                    size={15}
-                    className="ml-auto text-[#C3B9AC] transition group-hover:translate-x-0.5"
-                  />
-                </div>
-              </button>
-            );
-          })}
-        </section>
-
-        {/* ② 详情区（单列 · 瘦身版） */}
-        <section className="mt-10 space-y-9">
+        {/* 详情区（单列 · 层级分明 · 不折叠） */}
+        <section className="mt-10 space-y-10">
           {DIMS.map((dim) => {
             const items = itemsOf(dim.id);
             if (items.length === 0) return null;
             return (
-              <div key={dim.id} id={`demo-${dim.id}`} className="scroll-mt-4">
-                <div className="mb-3.5 flex items-center gap-2">
+              <div key={dim.id} className="scroll-mt-4">
+                <div className="mb-4 flex items-center gap-2">
                   <span className="size-2 rounded-full" style={{ backgroundColor: dim.color }} />
-                  <h2 className="text-[17px] font-black text-[#2A2621]">{dim.label}</h2>
+                  <h2 className="text-[15px] font-black tracking-wide text-[#6F675E]">{dim.label}</h2>
                   <span className="text-[12px] font-semibold text-[#C3B9AC]">{items.length} 条结论</span>
                 </div>
 
-                <div className="space-y-2.5">
+                <div className="space-y-4">
                   {items.map((item, index) => (
                     <ConclusionCard key={item.id} item={item} index={index + 1} />
                   ))}
@@ -126,7 +101,7 @@ export default function ConclusionsDemo() {
         </section>
 
         <footer className="mt-12 text-center text-[12px] font-medium text-[#B7AEA3]">
-          Demo · 仅用于对比新版「速览优先 + 详情瘦身」的浏览体验，数据同「调研结论」。
+          Demo · 仅用于对比新版「层级清晰 · 一次看清」的浏览体验，数据同「调研结论」。
         </footer>
       </div>
     </main>
@@ -134,68 +109,69 @@ export default function ConclusionsDemo() {
 }
 
 function ConclusionCard({ item, index }: { item: ResearchConclusion; index: number }) {
-  const headline = firstSentence(item.insight);
-  const rest = restAfterFirstSentence(item.insight);
   const stats = extractStats(`${item.conclusion} ${item.evidenceNote}`);
-  const points = item.conclusions.slice(0, 3);
-  const hasMore = Boolean(rest) || item.actions.length > 0 || Boolean(item.evidenceNote);
 
   return (
-    <article className="rounded-[14px] border bg-white p-5" style={{ borderColor: BORDER }}>
-      {/* 金句：一级信息 */}
-      <div className="flex gap-3">
-        <span className="mt-0.5 text-[13px] font-black tabular-nums text-[#D8CDBE]">{String(index).padStart(2, '0')}</span>
-        <p className="text-[16px] font-bold leading-7 text-[#2A2621]">
-          <HighlightText color={ACCENT}>{headline}</HighlightText>
-        </p>
+    <article
+      id={`demo-item-${item.id}`}
+      className="scroll-mt-4 rounded-[16px] border border-[#ECE6DD] bg-white p-6"
+    >
+      {/* 顶部：序号 */}
+      <div className="flex items-center gap-2 text-[11px] font-black tracking-[0.1em] text-[#D2C7B8]">
+        <span className="tabular-nums">{String(index).padStart(2, '0')}</span>
+        <span className="h-px w-6 bg-[#E9E1D5]" />
       </div>
 
-      {stats.length > 0 && <KeyStat stats={stats} color={ACCENT} className="mt-3.5 pl-7" />}
+      {/* L1 主标题 */}
+      <h3 className="mt-2.5 text-[20px] font-black leading-8 text-[#2A2621]">{item.title}</h3>
 
-      {/* 核心要点：二级信息 */}
-      {points.length > 0 && (
-        <ul className="mt-3.5 space-y-1.5 pl-7">
-          {points.map((pt) => (
-            <li key={pt} className="flex items-start gap-2 text-[13.5px] font-medium leading-6 text-[#5A544C]">
-              <span className="mt-[9px] size-1 shrink-0 rounded-full" style={{ background: `${ACCENT}88` }} />
-              <span>
-                <HighlightText color={ACCENT}>{pt}</HighlightText>
-              </span>
-            </li>
-          ))}
-        </ul>
+      {/* L2 副标题：一句话结论 */}
+      <p className="mt-2 text-[14.5px] font-medium leading-7 text-[#6F675E]">
+        <HighlightText color={ACCENT}>{item.conclusion}</HighlightText>
+      </p>
+
+      {/* L3 数字锚点 */}
+      {stats.length > 0 && <KeyStat stats={stats} color={ACCENT} className="mt-4" />}
+
+      {/* L4 核心要点 */}
+      {item.conclusions.length > 0 && (
+        <div className="mt-5 border-t pt-4" style={{ borderColor: DIVIDER }}>
+          <p className="text-[11.5px] font-black tracking-[0.08em]" style={{ color: ACCENT }}>
+            核心结论
+          </p>
+          <ul className="mt-2.5 space-y-2">
+            {item.conclusions.map((point) => (
+              <li key={point} className="flex items-start gap-2.5 text-[14px] font-medium leading-7 text-[#4A453F]">
+                <span className="mt-[10px] size-1.5 shrink-0 rounded-full" style={{ background: `${ACCENT}99` }} />
+                <span>
+                  <HighlightText color={ACCENT}>{point}</HighlightText>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
 
-      {/* 三级信息：合并为单个折叠 */}
-      {hasMore && (
-        <div className="mt-3.5 pl-7">
-          <Disclosure label="展开完整洞察与建议" color={ACCENT}>
-            <div className="space-y-4">
-              {rest && (
-                <p className="text-[13.5px] font-medium leading-7 text-[#5A544C]">
-                  <HighlightText color={ACCENT}>{rest}</HighlightText>
-                </p>
-              )}
-              {item.actions.length > 0 && (
-                <div>
-                  <p className="mb-1.5 text-[12px] font-bold text-[#8A8279]">建议行动</p>
-                  <ul className="space-y-1.5">
-                    {item.actions.map((action) => (
-                      <li key={action} className="rounded-[10px] bg-[#FBFAF7] px-3 py-2 text-[13px] font-medium leading-6 text-[#4A453F]">
-                        {action}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {item.evidenceNote && (
-                <p className="border-l-2 pl-3 text-[12px] font-medium leading-6 text-[#8A8279]" style={{ borderColor: BORDER }}>
-                  {item.evidenceNote}
-                </p>
-              )}
-            </div>
-          </Disclosure>
+      {/* 支撑信息：建议行动（视觉降权） */}
+      {item.actions.length > 0 && (
+        <div className="mt-4 border-t pt-4" style={{ borderColor: DIVIDER }}>
+          <p className="text-[11.5px] font-black tracking-[0.08em] text-[#A89C8C]">建议行动</p>
+          <ul className="mt-2 space-y-1.5">
+            {item.actions.map((action) => (
+              <li key={action} className="flex items-start gap-2.5 text-[12.5px] font-medium leading-6 text-[#8A8279]">
+                <span className="mt-[9px] size-1 shrink-0 rounded-full bg-[#CBBFAF]" />
+                <span>{action}</span>
+              </li>
+            ))}
+          </ul>
         </div>
+      )}
+
+      {/* 支撑信息：来源（最弱） */}
+      {item.evidenceNote && (
+        <p className="mt-4 border-t pt-3 text-[11.5px] font-medium leading-6 text-[#B0A695]" style={{ borderColor: DIVIDER }}>
+          {item.evidenceNote}
+        </p>
       )}
     </article>
   );
