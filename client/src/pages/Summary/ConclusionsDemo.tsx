@@ -182,7 +182,7 @@ export default function ConclusionsDemo() {
             return (
               <div key={dim.id} id={`demo-dim-${dim.id}`} className="scroll-mt-14">
                 {/* 维度分区标题：吸附在 tab 栏下方，滚动时始终显示当前板块重点 */}
-                <div className="sticky top-12 z-10 -mx-5 mb-4 flex items-center gap-2.5 border-b border-[#EFE8DE] bg-[#FAF8F4] px-5 py-3 shadow-[0_6px_10px_-8px_rgba(60,45,30,0.25)] md:-mx-6 md:px-6">
+                <div className="sticky top-12 z-10 -mx-5 mb-4 flex items-center gap-2.5 border-b border-[#EFE8DE] bg-[#FAF8F4] px-5 py-2.5 shadow-[0_6px_10px_-8px_rgba(60,45,30,0.25)] md:-mx-6 md:px-6">
                   <span
                     className="grid size-9 shrink-0 place-items-center rounded-[10px]"
                     style={{ backgroundColor: `${dim.color}1A`, color: dim.color }}
@@ -283,32 +283,35 @@ function ConclusionCard({
   return (
     <article
       id={`demo-item-${item.id}`}
-      className="relative scroll-mt-[120px] overflow-hidden rounded-[16px] border border-[#ECE6DD] bg-white p-6 pl-7"
-      style={{ boxShadow: `inset 4px 0 0 ${color}` }}
+      className="relative scroll-mt-[108px] rounded-[16px] border border-l-4 border-[#ECE6DD] bg-white p-6"
+      style={{ borderLeftColor: color }}
     >
-      {/* 顶部：序号 + 编辑按钮 */}
-      <div className="flex items-center gap-2 text-[11px] font-black tracking-[0.1em]" style={{ color: `${color}80` }}>
-        <span className="tabular-nums">{String(index).padStart(2, '0')}</span>
-        <span className="h-px w-6" style={{ backgroundColor: `${color}40` }} />
-        {editor && (
-          <button
-            type="button"
-            onClick={onEdit}
-            className="ml-auto flex items-center gap-1 rounded-full border border-[#E6DDD3] bg-white px-2.5 py-1 text-[11px] font-bold text-[#8A8279] transition hover:border-[#E95B35] hover:text-[#E95B35]"
-          >
-            <Pencil size={11} />
-            编辑
-          </button>
-        )}
+      {/* 卡片头：序号+主标题+副标题，吸附在板块标题下方 */}
+      <div className="sticky top-[104px] z-[5] -mx-6 -mt-6 rounded-t-[13px] bg-white px-6 pb-3 pt-6">
+        {/* 顶部：序号 + 编辑按钮 */}
+        <div className="flex items-center gap-2 text-[11px] font-black tracking-[0.1em]" style={{ color: `${color}80` }}>
+          <span className="tabular-nums">{String(index).padStart(2, '0')}</span>
+          <span className="h-px w-6" style={{ backgroundColor: `${color}40` }} />
+          {editor && (
+            <button
+              type="button"
+              onClick={onEdit}
+              className="ml-auto flex items-center gap-1 rounded-full border border-[#E6DDD3] bg-white px-2.5 py-1 text-[11px] font-bold text-[#8A8279] transition hover:border-[#E95B35] hover:text-[#E95B35]"
+            >
+              <Pencil size={11} />
+              编辑
+            </button>
+          )}
+        </div>
+
+        {/* L1 主标题 */}
+        <h3 className="mt-2.5 text-[20px] font-black leading-8 text-[#2A2621]">{item.title}</h3>
+
+        {/* L2 副标题：一句话结论 */}
+        <p className="mt-2 text-[14.5px] font-medium leading-7 text-[#6F675E]">
+          <HighlightText color={color}>{item.conclusion}</HighlightText>
+        </p>
       </div>
-
-      {/* L1 主标题 */}
-      <h3 className="mt-2.5 text-[20px] font-black leading-8 text-[#2A2621]">{item.title}</h3>
-
-      {/* L2 副标题：一句话结论 */}
-      <p className="mt-2 text-[14.5px] font-medium leading-7 text-[#6F675E]">
-        <HighlightText color={color}>{item.conclusion}</HighlightText>
-      </p>
 
       {/* L3 数字锚点 */}
       {stats.length > 0 && <KeyStat stats={stats} color={color} className="mt-4" />}
