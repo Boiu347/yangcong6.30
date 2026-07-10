@@ -1,7 +1,7 @@
 import React from 'react';
 import {
-  ArrowRight,
   BookOpenCheck,
+  ChevronRight,
   Lightbulb,
   SearchCheck,
   Sparkles,
@@ -14,8 +14,10 @@ import { Disclosure } from '@/components/report/Disclosure';
 import { firstSentence, restAfterFirstSentence } from '@/components/report/reportText';
 
 // Demo：把「调研结论」从「文档式仓库」改成「地图式浏览」
-//   ① 顶部结论速览墙：一眼看完 5 个维度的结论钩子
-//   ② 详情默认瘦身：只给金句 + 短要点，完整洞察 / 建议行动 / 来源折叠
+//   降噪原则：全页只用一个强调色；维度色仅作小色点区分；单列阅读动线；每卡只保留一个折叠。
+
+const ACCENT = '#E95B35';
+const BORDER = '#ECE6DD';
 
 const DIMS: { id: string; label: string; icon: typeof Lightbulb; color: string }[] = [
   { id: 'core', label: '核心洞察', icon: Lightbulb, color: '#E95B35' },
@@ -43,20 +45,18 @@ export default function ConclusionsDemo() {
   }, []);
 
   return (
-    <main className="min-h-full bg-[#F8F6F1] text-[#292521]">
-      <header className="px-5 pt-8 md:px-8">
-        <div className="mx-auto max-w-[1120px]">
-          <p className="text-[12px] font-black tracking-[0.16em] text-[#E95B35]">从小学系列售卖策略调研 · DEMO</p>
-          <h1 className="mt-3 text-[30px] font-black leading-tight md:text-[40px]">结论速览</h1>
-          <p className="mt-3 max-w-2xl text-[14px] font-semibold leading-7 text-[#8A8279]">
-            先给全貌：5 个维度的结论钩子一眼看完；想深挖再点开。90% 的人看完这面墙 + 金句就够了。
+    <main className="min-h-full bg-[#FAF8F4] text-[#2A2621]">
+      <div className="mx-auto max-w-[860px] px-5 py-9 md:px-6">
+        <header>
+          <p className="text-[12px] font-bold tracking-[0.14em] text-[#B29B7E]">从小学系列售卖策略调研 · DEMO</p>
+          <h1 className="mt-2.5 text-[28px] font-black leading-tight md:text-[34px]">结论速览</h1>
+          <p className="mt-2.5 text-[14px] font-medium leading-7 text-[#8A8279]">
+            先看这面墙的 5 句结论，30 秒抓住全貌；想深挖某一块，点卡片跳到详情。
           </p>
-        </div>
-      </header>
+        </header>
 
-      {/* ① 结论速览墙 */}
-      <section className="px-5 pt-6 md:px-8">
-        <div className="mx-auto grid max-w-[1120px] gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {/* ① 结论速览墙 */}
+        <section className="mt-6 grid gap-2.5 sm:grid-cols-2">
           {DIMS.map((dim) => {
             const items = itemsOf(dim.id);
             if (items.length === 0) return null;
@@ -68,147 +68,135 @@ export default function ConclusionsDemo() {
                 key={dim.id}
                 type="button"
                 onClick={() => jumpTo(dim.id)}
-                className="group flex flex-col rounded-[18px] border bg-white p-5 text-left transition hover:-translate-y-0.5 hover:shadow-[0_16px_36px_rgba(55,44,34,.09)]"
-                style={{ borderColor: `${dim.color}33` }}
+                className="group flex h-full flex-col rounded-[14px] border bg-white p-4 text-left transition hover:border-[#DcCFbf]"
+                style={{ borderColor: BORDER }}
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="grid size-9 place-items-center rounded-full" style={{ backgroundColor: `${dim.color}18`, color: dim.color }}>
-                      <Icon size={18} />
-                    </span>
-                    <span className="text-[14px] font-black" style={{ color: dim.color }}>
-                      {dim.label}
-                    </span>
-                  </div>
-                  <span className="text-[11px] font-bold text-[#B7ADA1]">{items.length} 条</span>
+                <div className="flex items-center gap-2">
+                  <span className="size-1.5 rounded-full" style={{ backgroundColor: dim.color }} />
+                  <span className="text-[12.5px] font-bold text-[#6F675E]">{dim.label}</span>
+                  <span className="ml-auto text-[11px] font-semibold text-[#C3B9AC]">{items.length} 条</span>
                 </div>
 
-                <p className="mt-3 min-h-[52px] text-[16px] font-black leading-7 text-[#292521]">
-                  <HighlightText color={dim.color}>{headline}</HighlightText>
+                <p className="mt-2.5 line-clamp-2 min-h-[44px] text-[15px] font-bold leading-6 text-[#2A2621]">
+                  {headline}
                 </p>
 
-                <div className="mt-auto flex items-end justify-between pt-3">
+                <div className="mt-3 flex items-baseline gap-2 border-t pt-3" style={{ borderColor: BORDER }}>
                   {stat ? (
-                    <div>
-                      <div className="text-[26px] font-black leading-none" style={{ color: dim.color }}>
+                    <>
+                      <span className="text-[22px] font-black leading-none" style={{ color: ACCENT }}>
                         {stat.value}
-                      </div>
-                      {stat.label && <div className="mt-1 text-[11px] font-bold text-[#9A8F82]">{stat.label}</div>}
-                    </div>
+                      </span>
+                      {stat.label && <span className="text-[11px] font-semibold text-[#9A8F82]">{stat.label}</span>}
+                    </>
                   ) : (
-                    <span />
+                    <span className="text-[12px] font-semibold text-[#C3B9AC]">查看结论</span>
                   )}
-                  <span className="flex items-center gap-1 text-[11px] font-black opacity-0 transition group-hover:opacity-100" style={{ color: dim.color }}>
-                    看详情 <ArrowRight size={12} />
-                  </span>
+                  <ChevronRight
+                    size={15}
+                    className="ml-auto text-[#C3B9AC] transition group-hover:translate-x-0.5"
+                  />
                 </div>
               </button>
             );
           })}
-        </div>
-      </section>
+        </section>
 
-      {/* ② 详情区（瘦身版） */}
-      <section className="px-5 py-8 md:px-8">
-        <div className="mx-auto max-w-[1120px] space-y-10">
+        {/* ② 详情区（单列 · 瘦身版） */}
+        <section className="mt-10 space-y-9">
           {DIMS.map((dim) => {
             const items = itemsOf(dim.id);
             if (items.length === 0) return null;
-            const Icon = dim.icon;
             return (
-              <div key={dim.id} id={`demo-${dim.id}`} className="scroll-mt-6">
-                <div className="mb-4 flex items-center gap-2.5">
-                  <span className="grid size-8 place-items-center rounded-full" style={{ backgroundColor: `${dim.color}18`, color: dim.color }}>
-                    <Icon size={17} />
-                  </span>
-                  <h2 className="text-[20px] font-black" style={{ color: '#292521' }}>
-                    {dim.label}
-                  </h2>
-                  <span className="text-[12px] font-bold text-[#B7ADA1]">{items.length} 条结论</span>
+              <div key={dim.id} id={`demo-${dim.id}`} className="scroll-mt-4">
+                <div className="mb-3.5 flex items-center gap-2">
+                  <span className="size-2 rounded-full" style={{ backgroundColor: dim.color }} />
+                  <h2 className="text-[17px] font-black text-[#2A2621]">{dim.label}</h2>
+                  <span className="text-[12px] font-semibold text-[#C3B9AC]">{items.length} 条结论</span>
                 </div>
 
-                <div className="grid gap-3 lg:grid-cols-2">
-                  {items.map((item) => (
-                    <ConclusionCard key={item.id} item={item} color={dim.color} />
+                <div className="space-y-2.5">
+                  {items.map((item, index) => (
+                    <ConclusionCard key={item.id} item={item} index={index + 1} />
                   ))}
                 </div>
               </div>
             );
           })}
-        </div>
-      </section>
+        </section>
 
-      <footer className="px-5 pb-10 text-center text-[12px] font-semibold text-[#A19990] md:px-8">
-        Demo · 仅用于对比新版「速览优先 + 详情瘦身」的浏览体验；数据同「调研结论」。
-      </footer>
+        <footer className="mt-12 text-center text-[12px] font-medium text-[#B7AEA3]">
+          Demo · 仅用于对比新版「速览优先 + 详情瘦身」的浏览体验，数据同「调研结论」。
+        </footer>
+      </div>
     </main>
   );
 }
 
-function ConclusionCard({ item, color }: { item: ResearchConclusion; color: string }) {
+function ConclusionCard({ item, index }: { item: ResearchConclusion; index: number }) {
   const headline = firstSentence(item.insight);
   const rest = restAfterFirstSentence(item.insight);
   const stats = extractStats(`${item.conclusion} ${item.evidenceNote}`);
   const points = item.conclusions.slice(0, 3);
+  const hasMore = Boolean(rest) || item.actions.length > 0 || Boolean(item.evidenceNote);
 
   return (
-    <article
-      className="flex flex-col rounded-[16px] border bg-white p-5"
-      style={{ borderColor: `${color}26` }}
-    >
-      <p className="text-[11px] font-black tracking-[0.08em]" style={{ color }}>
-        {item.title}
-      </p>
-
+    <article className="rounded-[14px] border bg-white p-5" style={{ borderColor: BORDER }}>
       {/* 金句：一级信息 */}
-      <p className="mt-2 text-[18px] font-black leading-7 text-[#292521]">
-        <HighlightText color={color}>{headline}</HighlightText>
-      </p>
+      <div className="flex gap-3">
+        <span className="mt-0.5 text-[13px] font-black tabular-nums text-[#D8CDBE]">{String(index).padStart(2, '0')}</span>
+        <p className="text-[16px] font-bold leading-7 text-[#2A2621]">
+          <HighlightText color={ACCENT}>{headline}</HighlightText>
+        </p>
+      </div>
 
-      {stats.length > 0 && <KeyStat stats={stats} color={color} className="mt-3" />}
+      {stats.length > 0 && <KeyStat stats={stats} color={ACCENT} className="mt-3.5 pl-7" />}
 
-      {/* 核心结论短要点：二级信息 */}
+      {/* 核心要点：二级信息 */}
       {points.length > 0 && (
-        <ul className="mt-3 space-y-1.5">
+        <ul className="mt-3.5 space-y-1.5 pl-7">
           {points.map((pt) => (
-            <li key={pt} className="flex items-start gap-2 text-[13.5px] font-semibold leading-6 text-[#4a453f]">
-              <span className="mt-[9px] size-1 shrink-0 rounded-full" style={{ background: `${color}99` }} />
+            <li key={pt} className="flex items-start gap-2 text-[13.5px] font-medium leading-6 text-[#5A544C]">
+              <span className="mt-[9px] size-1 shrink-0 rounded-full" style={{ background: `${ACCENT}88` }} />
               <span>
-                <HighlightText color={color}>{pt}</HighlightText>
+                <HighlightText color={ACCENT}>{pt}</HighlightText>
               </span>
             </li>
           ))}
         </ul>
       )}
 
-      {/* 三级信息：折叠 */}
-      <div className="mt-3 space-y-2">
-        {rest && (
-          <Disclosure label="展开完整洞察" color={color} icon={<BookOpenCheck size={13} />}>
-            <p className="text-[13.5px] font-medium leading-7 text-[#4a453f]">
-              <HighlightText color={color}>{rest}</HighlightText>
-            </p>
+      {/* 三级信息：合并为单个折叠 */}
+      {hasMore && (
+        <div className="mt-3.5 pl-7">
+          <Disclosure label="展开完整洞察与建议" color={ACCENT}>
+            <div className="space-y-4">
+              {rest && (
+                <p className="text-[13.5px] font-medium leading-7 text-[#5A544C]">
+                  <HighlightText color={ACCENT}>{rest}</HighlightText>
+                </p>
+              )}
+              {item.actions.length > 0 && (
+                <div>
+                  <p className="mb-1.5 text-[12px] font-bold text-[#8A8279]">建议行动</p>
+                  <ul className="space-y-1.5">
+                    {item.actions.map((action) => (
+                      <li key={action} className="rounded-[10px] bg-[#FBFAF7] px-3 py-2 text-[13px] font-medium leading-6 text-[#4A453F]">
+                        {action}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {item.evidenceNote && (
+                <p className="border-l-2 pl-3 text-[12px] font-medium leading-6 text-[#8A8279]" style={{ borderColor: BORDER }}>
+                  {item.evidenceNote}
+                </p>
+              )}
+            </div>
           </Disclosure>
-        )}
-        {item.actions.length > 0 && (
-          <Disclosure label="建议行动" color={color} icon={<Target size={13} />} count={item.actions.length}>
-            <ul className="space-y-1.5">
-              {item.actions.map((action) => (
-                <li key={action} className="rounded-[10px] bg-[#FBFAF7] px-3 py-2 text-[13px] font-semibold leading-6 text-[#403A34]">
-                  {action}
-                </li>
-              ))}
-            </ul>
-          </Disclosure>
-        )}
-        {item.evidenceNote && (
-          <Disclosure label="查看来源" color={color} icon={<Lightbulb size={13} />}>
-            <p className="rounded-[10px] border border-[#E6DDD3] bg-[#FBFAF7] px-3 py-2 text-[12px] font-semibold leading-6 text-[#7D746A]">
-              {item.evidenceNote}
-            </p>
-          </Disclosure>
-        )}
-      </div>
+        </div>
+      )}
     </article>
   );
 }
