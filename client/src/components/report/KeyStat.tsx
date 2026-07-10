@@ -11,33 +11,68 @@ export interface Stat {
   label?: string;
 }
 
-/** 从一段文字里抽取「名词 + 百分比」形式的关键数据 */
-const STAT_STOPWORDS = new Set([
+/**
+ * 从一段文字里抽取「名词 + 百分比」形式的关键数据。
+ * 只保留标签干净的数字：像「提升到 40%」这类前面只有方位/动词的，
+ * 清洗后标签为空，就整条丢弃（避免出现没头没尾的孤立数字）。
+ */
+
+// 需要从标签首尾剥离的方位 / 动词 / 量化词
+const LABEL_AFFIXES = [
   '从',
   '到',
-  '占',
+  '至',
   '约',
-  '超过',
-  '提升',
-  '提升到',
-  '达到',
-  '接受度',
+  '为',
+  '是',
+  '将',
+  '需',
   '占比',
+  '占',
+  '提升到',
+  '提升',
+  '达到',
+  '超过',
+  '接受度',
   '比例',
-]);
+  '以上',
+  '以下',
+  '大约',
+];
+
+function cleanLabel(raw: string | undefined): string | undefined {
+  let label = raw?.trim();
+  if (!label) return undefined;
+  let changed = true;
+  while (changed && label) {
+    changed = false;
+    for (const affix of LABEL_AFFIXES) {
+      if (label.endsWith(affix)) {
+        label = label.slice(0, -affix.length).trim();
+        changed = true;
+      }
+      if (label.startsWith(affix)) {
+        label = label.slice(affix.length).trim();
+        changed = true;
+      }
+    }
+  }
+  if (!label || label.length < 2) return undefined;
+  return label;
+}
 
 export function extractStats(text: string | undefined, max = 3): Stat[] {
   if (!text) return [];
   const out: Stat[] = [];
   const seen = new Set<string>();
-  const re = /([\u4e00-\u9fa5]{2,8})?\s*(\d+(?:\.\d+)?%)/g;
+  const re = /([\u4e00-\u9fa5]{2,12})?\s*(\d+(?:\.\d+)?%)/g;
   let match: RegExpExecArray | null;
   while ((match = re.exec(text)) !== null && out.length < max) {
     const value = match[2];
     if (seen.has(value)) continue;
     seen.add(value);
-    let label: string | undefined = match[1]?.trim();
-    if (label && STAT_STOPWORDS.has(label)) label = undefined;
+    const label = cleanLabel(match[1]);
+    if (!label) continue; // 标签不干净 / 为空 → 不展示该数字
     out.push({ value, label });
   }
   return out;
