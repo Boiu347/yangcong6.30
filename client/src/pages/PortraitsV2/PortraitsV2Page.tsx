@@ -805,9 +805,6 @@ function StorySection({ persona }: { persona: PersonaV2 }) {
         </div>
       </motion.div>
 
-      {/* 访谈还原（同事总结的精华叙事）*/}
-      <NarrativeBlock narrative={story.narrative} accent={accent} />
-
       {/* ④ 教育逻辑可视化（可插拔）*/}
       <div className="mt-6">
         <div className="mb-3 flex items-center gap-2">
@@ -820,6 +817,9 @@ function StorySection({ persona }: { persona: PersonaV2 }) {
       </div>
 
       <OnionBlock onion={story.onion} />
+
+      {/* 访谈还原（同事总结的精华叙事）*/}
+      <NarrativeBlock narrative={story.narrative} accent={accent} />
     </section>
   );
 }
