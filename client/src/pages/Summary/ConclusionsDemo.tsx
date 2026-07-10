@@ -34,12 +34,67 @@ function itemsOf(dimId: string): ResearchConclusion[] {
 }
 
 export default function ConclusionsDemo() {
+  const visibleDims = React.useMemo(() => DIMS.filter((dim) => itemsOf(dim.id).length > 0), []);
+  const [activeDim, setActiveDim] = React.useState(visibleDims[0]?.id ?? '');
+
   const jumpTo = React.useCallback((id: string) => {
     document.getElementById(`demo-item-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, []);
+  const jumpToDim = React.useCallback((id: string) => {
+    setActiveDim(id);
+    document.getElementById(`demo-dim-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, []);
+
+  // Scroll-spy：高亮当前所在维度
+  React.useEffect(() => {
+    const sections = visibleDims
+      .map((dim) => document.getElementById(`demo-dim-${dim.id}`))
+      .filter((el): el is HTMLElement => Boolean(el));
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const hit = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        if (hit?.target.id) setActiveDim(hit.target.id.replace('demo-dim-', ''));
+      },
+      { rootMargin: '-72px 0px -60% 0px', threshold: 0 },
+    );
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [visibleDims]);
 
   return (
     <main className="min-h-full bg-[#FAF8F4] text-[#2A2621]">
+      {/* 吸顶维度 tab 栏：页面太长时快速跳转 + 当前定位 */}
+      <div className="sticky top-0 z-20 border-b border-[#ECE6DD] bg-[#FAF8F4]/90 backdrop-blur">
+        <div className="mx-auto flex max-w-[820px] items-center gap-1 overflow-x-auto px-4 py-2 md:px-6">
+          {visibleDims.map((dim) => {
+            const isActive = activeDim === dim.id;
+            return (
+              <button
+                key={dim.id}
+                type="button"
+                onClick={() => jumpToDim(dim.id)}
+                className="shrink-0 rounded-full px-3 py-1.5 text-[12.5px] font-bold transition"
+                style={
+                  isActive
+                    ? { backgroundColor: `${dim.color}16`, color: dim.color }
+                    : { color: '#8A8279' }
+                }
+              >
+                <span
+                  className="mr-1.5 inline-block size-1.5 rounded-full align-middle"
+                  style={{ backgroundColor: dim.color, opacity: isActive ? 1 : 0.4 }}
+                />
+                {dim.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       <div className="mx-auto max-w-[820px] px-5 py-9 md:px-6">
         <header>
           <p className="text-[12px] font-bold tracking-[0.14em] text-[#B29B7E]">从小学系列售卖策略调研 · DEMO</p>
@@ -88,12 +143,9 @@ export default function ConclusionsDemo() {
             if (items.length === 0) return null;
             const Icon = dim.icon;
             return (
-              <div key={dim.id} className="scroll-mt-4">
-                {/* 维度分区标题：粘顶 + 图标色块，滚动时始终知道当前板块 */}
-                <div
-                  className="sticky top-0 z-10 -mx-1 mb-4 flex items-center gap-2.5 rounded-[12px] px-1 py-2 backdrop-blur"
-                  style={{ backgroundColor: 'rgba(250,248,244,0.86)' }}
-                >
+              <div key={dim.id} id={`demo-dim-${dim.id}`} className="scroll-mt-14">
+                {/* 维度分区标题：图标色块，标记板块起始 */}
+                <div className="mb-4 flex items-center gap-2.5">
                   <span
                     className="grid size-9 shrink-0 place-items-center rounded-[10px]"
                     style={{ backgroundColor: `${dim.color}1A`, color: dim.color }}
