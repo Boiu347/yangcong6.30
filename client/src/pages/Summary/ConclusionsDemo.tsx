@@ -2,13 +2,17 @@ import React from 'react';
 import {
   BookOpenCheck,
   Lightbulb,
+  Quote,
   SearchCheck,
   Sparkles,
   Target,
 } from 'lucide-react';
 import { reportConclusions, type ResearchConclusion } from './FromPrimaryMergedReport';
+import { clipMetaByUrl, conclusionClipsByCardId } from './conclusionMaps';
 import { HighlightText } from '@/components/report/HighlightText';
 import { KeyStat, extractStats } from '@/components/report/KeyStat';
+import EvidenceAudioClips from '@/components/EvidenceAudioClips';
+import type { EvidenceClip } from '@/utils/evidenceClipLookup';
 
 // Demo：把「调研结论」从「文档式仓库」改成「层级清晰、一次看清」的浏览体验。
 //   不用折叠/点击展开，靠字号-字重-颜色-留白的层级阶梯把主次拉开。
@@ -155,15 +159,21 @@ function ConclusionCard({ item, index, color = ACCENT }: { item: ResearchConclus
           <p className="text-[11.5px] font-black tracking-[0.08em]" style={{ color }}>
             核心结论
           </p>
-          <ul className="mt-2.5 space-y-2">
-            {item.conclusions.map((point) => (
-              <li key={point} className="flex items-start gap-2.5 text-[14px] font-medium leading-7 text-[#4A453F]">
-                <span className="mt-[10px] size-1.5 shrink-0 rounded-full" style={{ background: `${color}99` }} />
-                <span>
-                  <HighlightText color={color}>{point}</HighlightText>
-                </span>
-              </li>
-            ))}
+          <ul className="mt-2.5 space-y-3.5">
+            {item.conclusions.map((point, i) => {
+              const clips = conclusionClipsByCardId[item.id]?.[i] ?? [];
+              return (
+                <li key={point} className="text-[14px] font-medium leading-7 text-[#4A453F]">
+                  <div className="flex items-start gap-2.5">
+                    <span className="mt-[10px] size-1.5 shrink-0 rounded-full" style={{ background: `${color}99` }} />
+                    <span>
+                      <HighlightText color={color}>{point}</HighlightText>
+                    </span>
+                  </div>
+                  <VocClips clips={clips} color={color} />
+                </li>
+              );
+            })}
           </ul>
         </div>
       )}
@@ -190,5 +200,27 @@ function ConclusionCard({ item, index, color = ACCENT }: { item: ResearchConclus
         </p>
       )}
     </article>
+  );
+}
+
+function VocClips({ clips, color }: { clips: string[]; color: string }) {
+  if (clips.length === 0) return null;
+  return (
+    <div className="ml-4 mt-2 flex flex-col gap-2">
+      {clips.map((clip, clipIndex) => {
+        const meta = clipMetaByUrl[clip];
+        const evidenceClips: EvidenceClip[] = [{ clipUrl: clip, startTime: 0, duration: 0 }];
+        return (
+          <div key={clip + clipIndex} className="rounded-[12px] border border-[#EFE7DB] bg-[#FBFAF7] px-3.5 py-3">
+            <div className="flex items-start gap-1.5">
+              <Quote size={13} className="mt-0.5 shrink-0" style={{ color }} />
+              <p className="text-[12.5px] font-medium leading-5 text-[#5A544C]">{meta?.text ?? ''}</p>
+            </div>
+            <p className="mt-1.5 text-[11px] font-bold text-[#A89C8C]">— {meta?.source ?? '访谈原声'}</p>
+            <EvidenceAudioClips clips={evidenceClips} />
+          </div>
+        );
+      })}
+    </div>
   );
 }
