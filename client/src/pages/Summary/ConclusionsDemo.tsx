@@ -69,7 +69,7 @@ export default function ConclusionsDemo() {
     <main className="min-h-full bg-[#FAF8F4] text-[#2A2621]">
       {/* 吸顶维度 tab 栏：页面太长时快速跳转 + 当前定位 */}
       <div className="sticky top-0 z-20 border-b border-[#ECE6DD] bg-[#FAF8F4]/90 backdrop-blur">
-        <div className="mx-auto flex max-w-[820px] items-center gap-1 overflow-x-auto px-4 py-2 md:px-6">
+        <div className="mx-auto flex h-12 max-w-[820px] items-center gap-1 overflow-x-auto px-4 md:px-6">
           {visibleDims.map((dim) => {
             const isActive = activeDim === dim.id;
             return (
@@ -144,8 +144,8 @@ export default function ConclusionsDemo() {
             const Icon = dim.icon;
             return (
               <div key={dim.id} id={`demo-dim-${dim.id}`} className="scroll-mt-14">
-                {/* 维度分区标题：图标色块，标记板块起始 */}
-                <div className="mb-4 flex items-center gap-2.5">
+                {/* 维度分区标题：吸附在 tab 栏下方，滚动时始终显示当前板块重点 */}
+                <div className="sticky top-12 z-10 -mx-5 mb-4 flex items-center gap-2.5 bg-[#FAF8F4]/95 px-5 py-2.5 backdrop-blur md:-mx-6 md:px-6">
                   <span
                     className="grid size-9 shrink-0 place-items-center rounded-[10px]"
                     style={{ backgroundColor: `${dim.color}1A`, color: dim.color }}
@@ -185,7 +185,7 @@ function ConclusionCard({ item, index, color = ACCENT }: { item: ResearchConclus
   return (
     <article
       id={`demo-item-${item.id}`}
-      className="scroll-mt-16 overflow-hidden rounded-[16px] border border-[#ECE6DD] bg-white p-6 pl-7"
+      className="scroll-mt-[120px] overflow-hidden rounded-[16px] border border-[#ECE6DD] bg-white p-6 pl-7"
       style={{ boxShadow: `inset 4px 0 0 ${color}` }}
     >
       {/* 顶部：序号 */}
