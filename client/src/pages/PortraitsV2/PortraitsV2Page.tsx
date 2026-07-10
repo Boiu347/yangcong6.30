@@ -1068,11 +1068,11 @@ function NarrativeBlock({ narrative, accent }: { narrative: PersonaV2['story']['
             >
               {i + 1}
             </span>
-            <h5 className="text-[14px] font-black" style={{ color: INK }}>
+            <h5 className="text-[16px] font-black" style={{ color: INK }}>
               {seg.heading}
             </h5>
             {seg.intro && (
-              <p className="mt-1.5 text-[13.5px] leading-8" style={{ color: '#4a453f' }}>
+              <p className="mt-1.5 text-[14px] font-semibold leading-8" style={{ color: '#33302b' }}>
                 {seg.intro}
               </p>
             )}
@@ -1081,7 +1081,7 @@ function NarrativeBlock({ narrative, accent }: { narrative: PersonaV2['story']['
                 <div key={j} className="space-y-1.5">
                   <div className="flex items-start gap-2">
                     <span className="mt-[11px] h-1 w-1 shrink-0 rounded-full" style={{ background: `${accent}99` }} />
-                    <p className="text-[13.5px] font-semibold leading-7" style={{ color: INK }}>
+                    <p className="text-[13.5px] font-medium leading-7" style={{ color: '#4a453f' }}>
                       {pt.text}
                     </p>
                   </div>
