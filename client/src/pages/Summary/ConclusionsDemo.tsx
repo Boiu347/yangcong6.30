@@ -2,6 +2,7 @@ import React from 'react';
 import {
   BookOpenCheck,
   Lightbulb,
+  Pencil,
   Quote,
   SearchCheck,
   Sparkles,
@@ -13,11 +14,15 @@ import { HighlightText } from '@/components/report/HighlightText';
 import { KeyStat, extractStats } from '@/components/report/KeyStat';
 import EvidenceAudioClips from '@/components/EvidenceAudioClips';
 import type { EvidenceClip } from '@/utils/evidenceClipLookup';
+import { useIsEditor } from '@/components/auth/PasswordGate';
+import { useContentStore } from '@/hooks/useContentStore';
+import { EditDrawer, ListField, SaveBar, TextField } from '@/components/edit/EditDrawer';
 
 // Demo：把「调研结论」从「文档式仓库」改成「层级清晰、一次看清」的浏览体验。
 //   不用折叠/点击展开，靠字号-字重-颜色-留白的层级阶梯把主次拉开。
 //   层级：主标题(title) > 副标题(conclusion) > 数字锚点 > 核心要点 > 支撑信息(行动/来源)
 
+const RESEARCH_CONCLUSIONS_STORE_KEY = 'research-conclusions';
 const ACCENT = '#E95B35';
 const DIVIDER = '#F0EAE1';
 
@@ -29,13 +34,45 @@ const DIMS: { id: string; label: string; icon: typeof Lightbulb; color: string }
   { id: 'brand', label: '品牌差异', icon: Sparkles, color: '#5D78BD' },
 ];
 
-function itemsOf(dimId: string): ResearchConclusion[] {
-  return reportConclusions.filter((item) => item.dimension === dimId);
+function deepClone<T>(value: T): T {
+  if (typeof structuredClone === 'function') return structuredClone(value);
+  return JSON.parse(JSON.stringify(value)) as T;
 }
 
 export default function ConclusionsDemo() {
-  const visibleDims = React.useMemo(() => DIMS.filter((dim) => itemsOf(dim.id).length > 0), []);
+  const editor = useIsEditor();
+  const { data: storedConclusions, saving, save } = useContentStore<ResearchConclusion[]>(
+    RESEARCH_CONCLUSIONS_STORE_KEY,
+    reportConclusions,
+  );
+  const conclusions = storedConclusions.length > 0 ? storedConclusions : reportConclusions;
+
+  const itemsOf = React.useCallback(
+    (dimId: string) => conclusions.filter((item) => item.dimension === dimId),
+    [conclusions],
+  );
+
+  const visibleDims = React.useMemo(
+    () => DIMS.filter((dim) => conclusions.some((item) => item.dimension === dim.id)),
+    [conclusions],
+  );
   const [activeDim, setActiveDim] = React.useState(visibleDims[0]?.id ?? '');
+
+  const [draft, setDraft] = React.useState<ResearchConclusion | null>(null);
+  const patchDraft = React.useCallback((updater: (item: ResearchConclusion) => void) => {
+    setDraft((prev) => {
+      if (!prev) return prev;
+      const next = deepClone(prev);
+      updater(next);
+      return next;
+    });
+  }, []);
+  const saveDraft = React.useCallback(async () => {
+    if (!draft) return;
+    const next = conclusions.map((item) => (item.id === draft.id ? draft : item));
+    await save(next);
+    setDraft(null);
+  }, [draft, conclusions, save]);
 
   const jumpTo = React.useCallback((id: string) => {
     document.getElementById(`demo-item-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -163,7 +200,14 @@ export default function ConclusionsDemo() {
 
                 <div className="space-y-4">
                   {items.map((item, index) => (
-                    <ConclusionCard key={item.id} item={item} index={index + 1} color={dim.color} />
+                    <ConclusionCard
+                      key={item.id}
+                      item={item}
+                      index={index + 1}
+                      color={dim.color}
+                      editor={editor}
+                      onEdit={() => setDraft(deepClone(item))}
+                    />
                   ))}
                 </div>
               </div>
@@ -175,23 +219,87 @@ export default function ConclusionsDemo() {
           Demo · 仅用于对比新版「层级清晰 · 一次看清」的浏览体验，数据同「调研结论」。
         </footer>
       </div>
+
+      <EditDrawer
+        open={!!draft}
+        onClose={() => setDraft(null)}
+        title={draft ? `编辑「${draft.title}」` : '编辑调研结论'}
+      >
+        {draft && (
+          <div className="space-y-5">
+            <TextField
+              label="结论标题"
+              value={draft.title}
+              onChange={(value) => patchDraft((item) => { item.title = value; })}
+            />
+            <TextField
+              label="一句话结论（副标题）"
+              value={draft.conclusion}
+              multiline
+              onChange={(value) => patchDraft((item) => { item.conclusion = value; })}
+            />
+            <ListField
+              label="核心结论"
+              items={draft.conclusions}
+              onChange={(items) => patchDraft((item) => { item.conclusions = items; })}
+            />
+            <ListField
+              label="建议行动"
+              items={draft.actions}
+              onChange={(items) => patchDraft((item) => { item.actions = items; })}
+            />
+            <TextField
+              label="来源说明"
+              value={draft.evidenceNote}
+              multiline
+              onChange={(value) => patchDraft((item) => { item.evidenceNote = value; })}
+            />
+            <p className="text-[11px] leading-5 text-gray-400">
+              说明：结论下方的访谈原声（录音切片）按原文匹配，不在此处编辑，以免影响音频对应关系。
+            </p>
+            <SaveBar saving={saving} onSave={() => void saveDraft()} onCancel={() => setDraft(null)} />
+          </div>
+        )}
+      </EditDrawer>
     </main>
   );
 }
 
-function ConclusionCard({ item, index, color = ACCENT }: { item: ResearchConclusion; index: number; color?: string }) {
+function ConclusionCard({
+  item,
+  index,
+  color = ACCENT,
+  editor = false,
+  onEdit,
+}: {
+  item: ResearchConclusion;
+  index: number;
+  color?: string;
+  editor?: boolean;
+  onEdit?: () => void;
+}) {
   const stats = extractStats(`${item.conclusion} ${item.evidenceNote}`);
 
   return (
     <article
       id={`demo-item-${item.id}`}
-      className="scroll-mt-[120px] overflow-hidden rounded-[16px] border border-[#ECE6DD] bg-white p-6 pl-7"
+      className="relative scroll-mt-[120px] overflow-hidden rounded-[16px] border border-[#ECE6DD] bg-white p-6 pl-7"
       style={{ boxShadow: `inset 4px 0 0 ${color}` }}
     >
-      {/* 顶部：序号 */}
+      {/* 顶部：序号 + 编辑按钮 */}
       <div className="flex items-center gap-2 text-[11px] font-black tracking-[0.1em]" style={{ color: `${color}80` }}>
         <span className="tabular-nums">{String(index).padStart(2, '0')}</span>
         <span className="h-px w-6" style={{ backgroundColor: `${color}40` }} />
+        {editor && (
+          <button
+            type="button"
+            onClick={onEdit}
+            className="ml-auto flex items-center gap-1 rounded-full border border-[#E6DDD3] bg-white px-2.5 py-1 text-[11px] font-bold text-[#8A8279] transition hover:border-[#E95B35] hover:text-[#E95B35]"
+          >
+            <Pencil size={11} />
+            编辑
+          </button>
+        )}
       </div>
 
       {/* L1 主标题 */}
