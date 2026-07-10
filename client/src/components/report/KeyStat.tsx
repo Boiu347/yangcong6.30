@@ -71,8 +71,12 @@ export function extractStats(text: string | undefined, max = 3): Stat[] {
     const value = match[2];
     if (seen.has(value)) continue;
     seen.add(value);
+    if (!match[1]) continue; // 数字前没有中文标签 → 不展示
+    // 标签起点前若仍是中文，说明数字嵌在长叙述句里、标签是被硬截出来的 → 丢弃
+    const prevChar = match.index > 0 ? text[match.index - 1] : '';
+    if (/[\u4e00-\u9fa5]/.test(prevChar)) continue;
     const label = cleanLabel(match[1]);
-    if (!label) continue; // 标签不干净 / 为空 → 不展示该数字
+    if (!label) continue; // 标签清洗后为空 → 不展示该数字
     out.push({ value, label });
   }
   return out;
