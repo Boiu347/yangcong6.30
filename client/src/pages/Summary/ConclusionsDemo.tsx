@@ -55,8 +55,8 @@ export default function ConclusionsDemo() {
               return (
                 <div key={dim.id} className="flex flex-col gap-1.5 sm:flex-row sm:gap-3">
                   <div className="flex shrink-0 items-center gap-1.5 sm:w-24 sm:pt-0.5">
-                    <span className="size-1.5 rounded-full" style={{ backgroundColor: dim.color }} />
-                    <span className="text-[12.5px] font-bold text-[#6F675E]">{dim.label}</span>
+                    <span className="size-2 rounded-full" style={{ backgroundColor: dim.color }} />
+                    <span className="text-[12.5px] font-black" style={{ color: dim.color }}>{dim.label}</span>
                   </div>
                   <ul className="flex flex-1 flex-wrap gap-x-4 gap-y-1">
                     {items.map((item) => (
@@ -78,21 +78,36 @@ export default function ConclusionsDemo() {
         </nav>
 
         {/* 详情区（单列 · 层级分明 · 不折叠） */}
-        <section className="mt-10 space-y-10">
+        <section className="mt-10 space-y-12">
           {DIMS.map((dim) => {
             const items = itemsOf(dim.id);
             if (items.length === 0) return null;
+            const Icon = dim.icon;
             return (
               <div key={dim.id} className="scroll-mt-4">
-                <div className="mb-4 flex items-center gap-2">
-                  <span className="size-2 rounded-full" style={{ backgroundColor: dim.color }} />
-                  <h2 className="text-[15px] font-black tracking-wide text-[#6F675E]">{dim.label}</h2>
-                  <span className="text-[12px] font-semibold text-[#C3B9AC]">{items.length} 条结论</span>
+                {/* 维度分区标题：粘顶 + 图标色块，滚动时始终知道当前板块 */}
+                <div
+                  className="sticky top-0 z-10 -mx-1 mb-4 flex items-center gap-2.5 rounded-[12px] px-1 py-2 backdrop-blur"
+                  style={{ backgroundColor: 'rgba(250,248,244,0.86)' }}
+                >
+                  <span
+                    className="grid size-9 shrink-0 place-items-center rounded-[10px]"
+                    style={{ backgroundColor: `${dim.color}1A`, color: dim.color }}
+                  >
+                    <Icon size={18} />
+                  </span>
+                  <h2 className="text-[19px] font-black leading-none text-[#2A2621]">{dim.label}</h2>
+                  <span
+                    className="ml-auto rounded-full px-2.5 py-1 text-[11.5px] font-bold"
+                    style={{ backgroundColor: `${dim.color}14`, color: dim.color }}
+                  >
+                    {items.length} 条
+                  </span>
                 </div>
 
                 <div className="space-y-4">
                   {items.map((item, index) => (
-                    <ConclusionCard key={item.id} item={item} index={index + 1} />
+                    <ConclusionCard key={item.id} item={item} index={index + 1} color={dim.color} />
                   ))}
                 </div>
               </div>
@@ -108,18 +123,19 @@ export default function ConclusionsDemo() {
   );
 }
 
-function ConclusionCard({ item, index }: { item: ResearchConclusion; index: number }) {
+function ConclusionCard({ item, index, color = ACCENT }: { item: ResearchConclusion; index: number; color?: string }) {
   const stats = extractStats(`${item.conclusion} ${item.evidenceNote}`);
 
   return (
     <article
       id={`demo-item-${item.id}`}
-      className="scroll-mt-4 rounded-[16px] border border-[#ECE6DD] bg-white p-6"
+      className="scroll-mt-16 overflow-hidden rounded-[16px] border border-[#ECE6DD] bg-white p-6 pl-7"
+      style={{ boxShadow: `inset 4px 0 0 ${color}` }}
     >
       {/* 顶部：序号 */}
-      <div className="flex items-center gap-2 text-[11px] font-black tracking-[0.1em] text-[#D2C7B8]">
+      <div className="flex items-center gap-2 text-[11px] font-black tracking-[0.1em]" style={{ color: `${color}80` }}>
         <span className="tabular-nums">{String(index).padStart(2, '0')}</span>
-        <span className="h-px w-6 bg-[#E9E1D5]" />
+        <span className="h-px w-6" style={{ backgroundColor: `${color}40` }} />
       </div>
 
       {/* L1 主标题 */}
@@ -127,24 +143,24 @@ function ConclusionCard({ item, index }: { item: ResearchConclusion; index: numb
 
       {/* L2 副标题：一句话结论 */}
       <p className="mt-2 text-[14.5px] font-medium leading-7 text-[#6F675E]">
-        <HighlightText color={ACCENT}>{item.conclusion}</HighlightText>
+        <HighlightText color={color}>{item.conclusion}</HighlightText>
       </p>
 
       {/* L3 数字锚点 */}
-      {stats.length > 0 && <KeyStat stats={stats} color={ACCENT} className="mt-4" />}
+      {stats.length > 0 && <KeyStat stats={stats} color={color} className="mt-4" />}
 
       {/* L4 核心要点 */}
       {item.conclusions.length > 0 && (
         <div className="mt-5 border-t pt-4" style={{ borderColor: DIVIDER }}>
-          <p className="text-[11.5px] font-black tracking-[0.08em]" style={{ color: ACCENT }}>
+          <p className="text-[11.5px] font-black tracking-[0.08em]" style={{ color }}>
             核心结论
           </p>
           <ul className="mt-2.5 space-y-2">
             {item.conclusions.map((point) => (
               <li key={point} className="flex items-start gap-2.5 text-[14px] font-medium leading-7 text-[#4A453F]">
-                <span className="mt-[10px] size-1.5 shrink-0 rounded-full" style={{ background: `${ACCENT}99` }} />
+                <span className="mt-[10px] size-1.5 shrink-0 rounded-full" style={{ background: `${color}99` }} />
                 <span>
-                  <HighlightText color={ACCENT}>{point}</HighlightText>
+                  <HighlightText color={color}>{point}</HighlightText>
                 </span>
               </li>
             ))}
