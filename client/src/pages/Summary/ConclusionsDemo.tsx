@@ -182,7 +182,7 @@ export default function ConclusionsDemo() {
             return (
               <div key={dim.id} id={`demo-dim-${dim.id}`} className="scroll-mt-14">
                 {/* 维度分区标题：吸附在 tab 栏下方，滚动时始终显示当前板块重点 */}
-                <div className="sticky top-12 z-10 -mx-5 mb-4 flex items-center gap-2.5 bg-[#FAF8F4]/95 px-5 py-2.5 backdrop-blur md:-mx-6 md:px-6">
+                <div className="sticky top-12 z-10 -mx-5 mb-4 flex items-center gap-2.5 border-b border-[#EFE8DE] bg-[#FAF8F4] px-5 py-3 shadow-[0_6px_10px_-8px_rgba(60,45,30,0.25)] md:-mx-6 md:px-6">
                   <span
                     className="grid size-9 shrink-0 place-items-center rounded-[10px]"
                     style={{ backgroundColor: `${dim.color}1A`, color: dim.color }}
