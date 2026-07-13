@@ -487,13 +487,9 @@ function ConclusionCard({
               return (
                 <li
                   key={point}
-                  className={`overflow-hidden rounded-[14px] border border-[#EDE6DC] bg-[#FFFDFC] ${
-                    clips.length > 0
-                      ? 'lg:grid lg:grid-cols-[minmax(0,1.85fr)_minmax(280px,1fr)]'
-                      : ''
-                  }`}
+                  className="overflow-hidden rounded-[14px] border border-[#EDE6DC] bg-[#FFFDFC]"
                 >
-                  <div className="relative px-4 py-4 lg:px-5 lg:py-5">
+                  <div className="relative px-4 py-4 lg:px-6 lg:py-5">
                     <span
                       className="mb-3 grid size-7 place-items-center rounded-full text-[11px] font-black text-white"
                       style={{ backgroundColor: color }}
@@ -511,14 +507,14 @@ function ConclusionCard({
                     </div>
                   </div>
                   {clips.length > 0 && (
-                    <div className="border-t border-[#EDE6DC] bg-[#F8F6F2] px-4 py-4 lg:border-l lg:border-t-0 lg:px-5 lg:py-5">
+                    <div className="border-t border-[#EDE6DC] bg-[#F8F6F2] px-4 py-4 lg:px-6">
                       <div className="mb-3 flex items-center gap-1.5">
                         <Quote size={12} style={{ color }} />
                         <p
                           className="text-[10.5px] font-black tracking-[0.1em]"
                           style={{ color }}
                         >
-                          用户证据
+                          对应用户证据
                         </p>
                       </div>
                       <VocClips clips={clips} color={color} />
@@ -580,7 +576,7 @@ function ConclusionCard({
 function VocClips({ clips, color }: { clips: string[]; color: string }) {
   if (clips.length === 0) return null;
   return (
-    <div className="flex flex-col">
+    <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-3">
       {clips.map((clip, clipIndex) => {
         const meta = clipMetaByUrl[clip];
         const evidenceClips: EvidenceClip[] = [
@@ -589,9 +585,7 @@ function VocClips({ clips, color }: { clips: string[]; color: string }) {
         return (
           <div
             key={clip + clipIndex}
-            className={
-              clipIndex > 0 ? 'mt-3 border-t border-[#E7DFD4] pt-3' : ''
-            }
+            className="rounded-[10px] bg-white/75 px-3 py-3"
           >
             <div className="flex items-start gap-1.5">
               <Quote
