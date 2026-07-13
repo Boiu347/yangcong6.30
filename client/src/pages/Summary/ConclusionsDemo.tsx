@@ -173,7 +173,7 @@ export default function ConclusionsDemo() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-[1120px] px-5 md:px-6 lg:grid lg:grid-cols-[180px_minmax(0,820px)] lg:gap-8">
+      <div className="mx-auto max-w-[1320px] px-5 md:px-6 lg:grid lg:grid-cols-[190px_minmax(0,1050px)] lg:gap-10">
         <aside className="hidden lg:block">
           <nav className="sticky top-4 py-9">
             <p className="px-3 text-[11px] font-black tracking-[0.12em] text-[#B29B7E]">
@@ -241,7 +241,7 @@ export default function ConclusionsDemo() {
             <p className="text-[11px] font-black tracking-[0.12em] text-[#B29B7E]">
               总览目录
             </p>
-            <div className="mt-3 space-y-3">
+            <div className="mt-3 space-y-3 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:gap-y-4 lg:space-y-0">
               {DIMS.map((dim) => {
                 const items = itemsOf(dim.id);
                 if (items.length === 0) return null;
@@ -462,14 +462,14 @@ function ConclusionCard({
         </h3>
 
         {/* L2 副标题：一句话结论 */}
-        <p className="mt-2 text-[14.5px] font-medium leading-7 text-[#6F675E]">
+        <p className="mt-2 text-[14.5px] font-medium leading-7 text-[#6F675E] lg:max-w-[820px]">
           <HighlightText color={color}>{item.conclusion}</HighlightText>
         </p>
       </div>
 
       {/* L3 数字锚点 */}
       {stats.length > 0 && (
-        <KeyStat stats={stats} color={color} className="mt-4" />
+        <KeyStat stats={stats} color={color} className="mt-4 lg:max-w-[65%]" />
       )}
 
       {/* L4 核心要点 */}
@@ -481,24 +481,49 @@ function ConclusionCard({
           >
             核心结论
           </p>
-          <ul className="mt-2.5 space-y-3.5">
+          <ul className="mt-3 space-y-3">
             {item.conclusions.map((point, i) => {
               const clips = conclusionClipsByCardId[item.id]?.[i] ?? [];
               return (
                 <li
                   key={point}
-                  className="text-[14px] font-medium leading-7 text-[#4A453F]"
+                  className={`overflow-hidden rounded-[14px] border border-[#EDE6DC] bg-[#FFFDFC] ${
+                    clips.length > 0
+                      ? 'lg:grid lg:grid-cols-[minmax(0,1.85fr)_minmax(280px,1fr)]'
+                      : ''
+                  }`}
                 >
-                  <div className="flex items-start gap-2.5">
+                  <div className="relative px-4 py-4 lg:px-5 lg:py-5">
                     <span
-                      className="mt-[10px] size-1.5 shrink-0 rounded-full"
-                      style={{ background: `${color}99` }}
-                    />
-                    <span>
-                      <HighlightText color={color}>{point}</HighlightText>
+                      className="mb-3 grid size-7 place-items-center rounded-full text-[11px] font-black text-white"
+                      style={{ backgroundColor: color }}
+                    >
+                      {String(i + 1).padStart(2, '0')}
                     </span>
+                    <div className="flex items-start gap-3">
+                      <span
+                        className="mt-[11px] h-5 w-0.5 shrink-0 rounded-full"
+                        style={{ background: `${color}99` }}
+                      />
+                      <p className="text-[17px] font-black leading-8 text-[#2A2621] lg:text-[18px]">
+                        <HighlightText color={color}>{point}</HighlightText>
+                      </p>
+                    </div>
                   </div>
-                  <VocClips clips={clips} color={color} />
+                  {clips.length > 0 && (
+                    <div className="border-t border-[#EDE6DC] bg-[#F8F6F2] px-4 py-4 lg:border-l lg:border-t-0 lg:px-5 lg:py-5">
+                      <div className="mb-3 flex items-center gap-1.5">
+                        <Quote size={12} style={{ color }} />
+                        <p
+                          className="text-[10.5px] font-black tracking-[0.1em]"
+                          style={{ color }}
+                        >
+                          用户证据
+                        </p>
+                      </div>
+                      <VocClips clips={clips} color={color} />
+                    </div>
+                  )}
                 </li>
               );
             })}
@@ -506,34 +531,47 @@ function ConclusionCard({
         </div>
       )}
 
-      {/* 支撑信息：建议行动（视觉降权） */}
-      {item.actions.length > 0 && (
-        <div className="mt-4 border-t pt-4" style={{ borderColor: DIVIDER }}>
-          <p className="text-[11.5px] font-black tracking-[0.08em] text-[#A89C8C]">
-            建议行动
-          </p>
-          <ul className="mt-2 space-y-1.5">
-            {item.actions.map((action) => (
-              <li
-                key={action}
-                className="flex items-start gap-2.5 text-[12.5px] font-medium leading-6 text-[#8A8279]"
-              >
-                <span className="mt-[9px] size-1 shrink-0 rounded-full bg-[#CBBFAF]" />
-                <span>{action}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {/* 支撑信息：来源（最弱） */}
-      {item.evidenceNote && (
-        <p
-          className="mt-4 border-t pt-3 text-[11.5px] font-medium leading-6 text-[#B0A695]"
+      {(item.actions.length > 0 || item.evidenceNote) && (
+        <div
+          className={`mt-5 grid gap-3 border-t pt-4 ${
+            item.actions.length > 0 && item.evidenceNote
+              ? 'lg:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)]'
+              : 'lg:grid-cols-1'
+          }`}
           style={{ borderColor: DIVIDER }}
         >
-          {item.evidenceNote}
-        </p>
+          {item.actions.length > 0 && (
+            <div className="rounded-[12px] bg-[#FAF8F4] px-4 py-3.5">
+              <p className="text-[10.5px] font-black tracking-[0.1em] text-[#9D9181]">
+                建议行动
+              </p>
+              <ul className="mt-2 space-y-1.5">
+                {item.actions.map((action) => (
+                  <li
+                    key={action}
+                    className="flex items-start gap-2.5 text-[12.5px] font-medium leading-6 text-[#746C63]"
+                  >
+                    <span
+                      className="mt-[9px] size-1 shrink-0 rounded-full"
+                      style={{ backgroundColor: `${color}80` }}
+                    />
+                    <span>{action}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {item.evidenceNote && (
+            <div className="rounded-[12px] bg-[#FAF8F4] px-4 py-3.5">
+              <p className="text-[10.5px] font-black tracking-[0.1em] text-[#B0A695]">
+                来源说明
+              </p>
+              <p className="mt-2 text-[11.5px] font-medium leading-6 text-[#9A9186]">
+                {item.evidenceNote}
+              </p>
+            </div>
+          )}
+        </div>
       )}
     </article>
   );
@@ -542,7 +580,7 @@ function ConclusionCard({
 function VocClips({ clips, color }: { clips: string[]; color: string }) {
   if (clips.length === 0) return null;
   return (
-    <div className="ml-4 mt-2 flex flex-col gap-2">
+    <div className="flex flex-col">
       {clips.map((clip, clipIndex) => {
         const meta = clipMetaByUrl[clip];
         const evidenceClips: EvidenceClip[] = [
@@ -551,18 +589,24 @@ function VocClips({ clips, color }: { clips: string[]; color: string }) {
         return (
           <div
             key={clip + clipIndex}
-            className="rounded-[12px] border border-[#EFE7DB] bg-[#FBFAF7] px-3.5 py-3"
+            className={
+              clipIndex > 0 ? 'mt-3 border-t border-[#E7DFD4] pt-3' : ''
+            }
           >
             <div className="flex items-start gap-1.5">
-              <Quote size={13} className="mt-0.5 shrink-0" style={{ color }} />
-              <p className="text-[12.5px] font-medium leading-5 text-[#5A544C]">
+              <Quote
+                size={12}
+                className="mt-0.5 shrink-0 opacity-60"
+                style={{ color }}
+              />
+              <p className="text-[12px] font-medium leading-5 text-[#716A62]">
                 {meta?.text ?? ''}
               </p>
             </div>
-            <p className="mt-1.5 text-[11px] font-bold text-[#A89C8C]">
+            <p className="mt-1.5 pl-[18px] text-[10.5px] font-semibold text-[#A89C8C]">
               — {meta?.source ?? '访谈原声'}
             </p>
-            <EvidenceAudioClips clips={evidenceClips} />
+            <EvidenceAudioClips clips={evidenceClips} className="ml-[18px]" />
           </div>
         );
       })}
