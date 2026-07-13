@@ -13,7 +13,10 @@ import {
   type ResearchConclusion,
 } from './FromPrimaryMergedReport';
 import { clipMetaByUrl, conclusionClipsByCardId } from './conclusionMaps';
-import { HighlightText } from '@/components/report/HighlightText';
+import {
+  DEFAULT_KEYWORDS,
+  HighlightText,
+} from '@/components/report/HighlightText';
 import { KeyStat, extractStats } from '@/components/report/KeyStat';
 import EvidenceAudioClips from '@/components/EvidenceAudioClips';
 import type { EvidenceClip } from '@/utils/evidenceClipLookup';
@@ -33,6 +36,57 @@ import {
 const RESEARCH_CONCLUSIONS_STORE_KEY = 'research-conclusions';
 const ACCENT = '#E95B35';
 const DIVIDER = '#F0EAE1';
+const SUMMARY_HIGHLIGHT_KEYWORDS = [
+  ...DEFAULT_KEYWORDS,
+  '真实需求',
+  '目标人群',
+  '兴趣启蒙',
+  '衔接先修',
+  '短期需求',
+  '长期需求',
+  '短期反馈',
+  '长期价值',
+  '启蒙效果',
+  '关键变量',
+  '理科思维',
+  '触达渠道',
+  '新媒体',
+  '电销',
+  '诉求标准',
+  '系统性',
+  '专业性',
+  '丰富性',
+  '关联性',
+  '易懂性',
+  '购前预期',
+  '不抢跑',
+  '有收获',
+  '品牌信任',
+  '顺手加购',
+  '终身制',
+  '永久有效',
+  '买后体验',
+  '知识多',
+  '更系统',
+  '时长短无压力',
+  '概念晦涩',
+  '不够口语化',
+  '读题困难',
+  '用户侧卡点',
+  '产品侧卡点',
+  '商业化卡点',
+  '持续学习机制',
+  '实验感',
+  '漏斗断裂',
+  '洋葱优势',
+  '洋葱劣势',
+  '虚拟实验',
+  '专业背书',
+  '真人实验课',
+  '启蒙性',
+  '体系性',
+  '差异化优势',
+];
 
 const DIMS: {
   id: string;
@@ -270,7 +324,12 @@ export default function ConclusionsDemo() {
                             onClick={() => jumpTo(item.id)}
                             className="text-left text-[13px] font-semibold text-[#4A453F] underline-offset-4 transition hover:text-[#E95B35] hover:underline"
                           >
-                            {item.title}
+                            <HighlightText
+                              color={dim.color}
+                              keywords={SUMMARY_HIGHLIGHT_KEYWORDS}
+                            >
+                              {item.title}
+                            </HighlightText>
                           </button>
                         </li>
                       ))}
@@ -458,12 +517,16 @@ function ConclusionCard({
 
         {/* L1 主标题 */}
         <h3 className="mt-2.5 text-[20px] font-black leading-8 text-[#2A2621]">
-          {item.title}
+          <HighlightText color={color} keywords={SUMMARY_HIGHLIGHT_KEYWORDS}>
+            {item.title}
+          </HighlightText>
         </h3>
 
         {/* L2 副标题：一句话结论 */}
         <p className="mt-2 text-[14.5px] font-medium leading-7 text-[#6F675E] lg:max-w-[820px]">
-          <HighlightText color={color}>{item.conclusion}</HighlightText>
+          <HighlightText color={color} keywords={SUMMARY_HIGHLIGHT_KEYWORDS}>
+            {item.conclusion}
+          </HighlightText>
         </p>
       </div>
 
@@ -502,7 +565,12 @@ function ConclusionCard({
                         style={{ background: `${color}99` }}
                       />
                       <p className="text-[17px] font-black leading-8 text-[#2A2621] lg:text-[18px]">
-                        <HighlightText color={color}>{point}</HighlightText>
+                        <HighlightText
+                          color={color}
+                          keywords={SUMMARY_HIGHLIGHT_KEYWORDS}
+                        >
+                          {point}
+                        </HighlightText>
                       </p>
                     </div>
                   </div>
@@ -551,7 +619,14 @@ function ConclusionCard({
                       className="mt-[9px] size-1 shrink-0 rounded-full"
                       style={{ backgroundColor: `${color}80` }}
                     />
-                    <span>{action}</span>
+                    <span>
+                      <HighlightText
+                        color={color}
+                        keywords={SUMMARY_HIGHLIGHT_KEYWORDS}
+                      >
+                        {action}
+                      </HighlightText>
+                    </span>
                   </li>
                 ))}
               </ul>
