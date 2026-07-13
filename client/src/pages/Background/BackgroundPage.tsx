@@ -6,6 +6,7 @@ import {
   DEFAULT_PROJECT_BACKGROUND,
   PROJECT_BACKGROUNDS,
 } from '../../content/projectBackgrounds';
+import { normalizeMarkdownEmphasis } from '../../utils/markdownText';
 import PaisouUnderConstruction from '../Paisou/PaisouUnderConstruction';
 
 export default function BackgroundPage() {
@@ -40,7 +41,16 @@ export default function BackgroundPage() {
         <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1fr)_320px]">
           <article className="rounded-[28px] border border-[#E4DED5] bg-white px-6 py-7 shadow-[0_18px_60px_rgba(61,49,37,.06)] md:px-10 md:py-10">
             <div className="prose prose-stone max-w-none prose-headings:tracking-[-0.025em] prose-headings:text-[#292724] prose-h1:hidden prose-h2:mt-10 prose-h2:text-[23px] prose-h3:text-[18px] prose-p:leading-8 prose-li:leading-7 prose-strong:text-[#3B342E] prose-table:text-sm">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{background.markdown}</ReactMarkdown>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  strong: ({ children }) => (
+                    <strong className="font-bold text-[#3B342E]">{children}</strong>
+                  ),
+                }}
+              >
+                {normalizeMarkdownEmphasis(background.markdown)}
+              </ReactMarkdown>
             </div>
           </article>
 
