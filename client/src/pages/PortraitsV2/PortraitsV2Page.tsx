@@ -37,6 +37,7 @@ import { cn } from '@/lib/utils';
 const STORY = '#33302b'; // 用户故事 / 人设横幅 统一墨色
 const INK = '#292521';
 const MUTED = '#746E67';
+const BASE_PATH = process.env.CLIENT_BASE_PATH || '';
 
 const reveal = {
   initial: { opacity: 0, y: 20 },
@@ -90,6 +91,8 @@ interface PersonaV2 {
   accent: string;
   type: { index: string; name: string; keyword: string; tagline: string };
   portrait: {
+    image: string;
+    imageAlt: string;
     definition: string;
     boundary: string;
     attributes: AttrItem[];
@@ -122,6 +125,8 @@ const PERSONAS: PersonaV2[] = [
     accent: '#C9622E',
     type: { index: '01', name: '兴趣启蒙型', keyword: '入口', tagline: '把物理当作孩子「愿意看」的理科兴趣入口' },
     portrait: {
+      image: '/portraits-v2/interest-enlightenment.png',
+      imageAlt: '兴趣启蒙型家长陪孩子进行火山科学实验',
       definition:
         '低年级、低压力家庭：不急于提分，首要目标是让孩子愿意接触理科、不排斥未来学习。「兴趣」是入口，孩子喜欢，家长才会考虑。',
       boundary:
@@ -218,6 +223,8 @@ const PERSONAS: PersonaV2[] = [
     accent: '#3F5E8C',
     type: { index: '02', name: '学科启蒙打底型', keyword: '长期', tagline: '把理科启蒙当作「未来别被卡住」的长期打底' },
     portrait: {
+      image: '/portraits-v2/subject-foundation.png',
+      imageAlt: '学科启蒙打底型家长陪孩子学习基础学科知识',
       definition:
         '有明确「未来学科价值」预期：不追短期提分，但要求启蒙内容和初高中理科学习挂钩，形成长期优势。',
       boundary:
@@ -316,6 +323,8 @@ const PERSONAS: PersonaV2[] = [
     accent: '#2F8272',
     type: { index: '03', name: '实验探究型', keyword: '动手', tagline: '相信实验与系统讲解，想让孩子在动手中真正理解物理' },
     portrait: {
+      image: '/portraits-v2/experiment-exploration.png',
+      imageAlt: '实验探究型家长陪孩子观察并记录科学实验',
       definition:
         '把「动手验证」视为理科学习的核心方式：不只接受视频讲解，要求孩子能观察、操作、提问并理解原理。',
       boundary:
@@ -420,6 +429,8 @@ const PERSONAS: PersonaV2[] = [
     accent: '#7C5A93',
     type: { index: '04', name: '校内科学课助力型', keyword: '同步', tagline: '把《从小学物理》当作小学科学课的辅助工具' },
     portrait: {
+      image: '/portraits-v2/school-science-support.png',
+      imageAlt: '校内科学课助力型家长陪孩子学习课堂科学知识',
       definition:
         '动机来自校内：所在地区科学是主课、要考试，希望帮孩子理解课本、减少死记硬背，而非做长期启蒙或提前学。',
       boundary:
@@ -709,24 +720,34 @@ function PortraitSection({ persona }: { persona: PersonaV2 }) {
     <section className="mt-8">
       <SectionHeader icon={Users} label="用户画像" subtitle={`${persona.type.name}这一类家长：是谁、要什么、痛在哪、偏好什么`} accent={accent} />
 
-      <div className="mt-5 grid gap-4 md:grid-cols-2">
-        <motion.div {...reveal} className="rounded-xl border p-4 md:p-5" style={{ borderColor: `${accent}44`, background: soft(accent) }}>
-          <div className="text-[12px] font-black" style={{ color: accent }}>
-            类型定义
-          </div>
-          <p className="mt-3 text-[14px] font-semibold leading-8" style={{ color: '#332f2a' }}>
-            {portrait.definition}
-          </p>
-        </motion.div>
-        <motion.div {...reveal} className="rounded-xl border border-[#e7e5de] bg-white p-4 md:p-5">
-          <div className="flex items-center gap-2" style={{ color: MUTED }}>
-            <GitCompare size={14} />
-            <span className="text-[12px] font-black">与其他类型的边界</span>
-          </div>
-          <p className="mt-3 text-[13.5px] leading-7" style={{ color: '#4a453f' }}>
-            {portrait.boundary}
-          </p>
-        </motion.div>
+      <div className="mt-5 grid items-stretch gap-4 md:grid-cols-[minmax(260px,0.78fr)_1.22fr]">
+        <motion.figure {...reveal} className="overflow-hidden rounded-xl border border-[#e7e5de] bg-white p-2 shadow-sm">
+          <img
+            src={`${BASE_PATH}${portrait.image}`}
+            alt={portrait.imageAlt}
+            className="h-full max-h-[520px] w-full rounded-lg object-contain"
+            loading="lazy"
+          />
+        </motion.figure>
+        <div className="grid gap-4">
+          <motion.div {...reveal} className="rounded-xl border p-4 md:p-5" style={{ borderColor: `${accent}44`, background: soft(accent) }}>
+            <div className="text-[12px] font-black" style={{ color: accent }}>
+              类型定义
+            </div>
+            <p className="mt-3 text-[14px] font-semibold leading-8" style={{ color: '#332f2a' }}>
+              {portrait.definition}
+            </p>
+          </motion.div>
+          <motion.div {...reveal} className="rounded-xl border border-[#e7e5de] bg-white p-4 md:p-5">
+            <div className="flex items-center gap-2" style={{ color: MUTED }}>
+              <GitCompare size={14} />
+              <span className="text-[12px] font-black">与其他类型的边界</span>
+            </div>
+            <p className="mt-3 text-[13.5px] leading-7" style={{ color: '#4a453f' }}>
+              {portrait.boundary}
+            </p>
+          </motion.div>
+        </div>
       </div>
 
       <div className="mt-4 grid gap-px overflow-hidden rounded-xl border border-[#e4e2da] bg-[#e4e2da] sm:grid-cols-2">
