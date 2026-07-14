@@ -6,8 +6,32 @@ import {
   DEFAULT_PROJECT_BACKGROUND,
   PROJECT_BACKGROUNDS,
 } from '../../content/projectBackgrounds';
-import { normalizeMarkdownEmphasis } from '../../utils/markdownText';
+import {
+  extractResearchObjectives,
+  normalizeMarkdownEmphasis,
+} from '../../utils/markdownText';
 import PaisouUnderConstruction from '../Paisou/PaisouUnderConstruction';
+
+const objectiveStyles = [
+  {
+    accent: '#D94A3A',
+    background: '#FFF5F2',
+    border: '#F2C8C0',
+    label: '#A5362B',
+  },
+  {
+    accent: '#4D6FB8',
+    background: '#F3F6FD',
+    border: '#CAD5EF',
+    label: '#38558F',
+  },
+  {
+    accent: '#2F8A78',
+    background: '#F1F8F6',
+    border: '#C1DFD7',
+    label: '#22695B',
+  },
+];
 
 export default function BackgroundPage() {
   const { projectId } = useParams<{ projectId: string }>();
@@ -15,6 +39,21 @@ export default function BackgroundPage() {
     return <PaisouUnderConstruction section="调研背景" hint="调研背景与资料索引还在整理，完成后会在此呈现。" />;
   }
   const background = PROJECT_BACKGROUNDS[projectId ?? ''] ?? DEFAULT_PROJECT_BACKGROUND;
+  const normalizedMarkdown = normalizeMarkdownEmphasis(background.markdown);
+  const researchSection = extractResearchObjectives(normalizedMarkdown);
+
+  const renderMarkdown = (markdown: string) => (
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm]}
+      components={{
+        strong: ({ children }) => (
+          <strong className="font-bold text-[#3B342E]">{children}</strong>
+        ),
+      }}
+    >
+      {markdown}
+    </ReactMarkdown>
+  );
 
   return (
     <main className="min-h-full bg-[#F7F5F0] px-5 py-10 text-[#292724] md:px-10 md:py-16">
@@ -41,16 +80,77 @@ export default function BackgroundPage() {
         <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1fr)_320px]">
           <article className="rounded-[28px] border border-[#E4DED5] bg-white px-6 py-7 shadow-[0_18px_60px_rgba(61,49,37,.06)] md:px-10 md:py-10">
             <div className="prose prose-stone max-w-none prose-headings:tracking-[-0.025em] prose-headings:text-[#292724] prose-h1:hidden prose-h2:mt-10 prose-h2:text-[23px] prose-h3:text-[18px] prose-p:leading-8 prose-li:leading-7 prose-strong:text-[#3B342E] prose-table:text-sm">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  strong: ({ children }) => (
-                    <strong className="font-bold text-[#3B342E]">{children}</strong>
-                  ),
-                }}
-              >
-                {normalizeMarkdownEmphasis(background.markdown)}
-              </ReactMarkdown>
+              {researchSection ? (
+                <>
+                  {renderMarkdown(researchSection.before)}
+
+                  <section className="not-prose mt-10" aria-labelledby="research-objectives">
+                    <h2
+                      id="research-objectives"
+                      className="text-[23px] font-black tracking-[-0.025em] text-[#292724]"
+                    >
+                      研究目标
+                    </h2>
+                    <div className="mt-5 grid gap-3 md:grid-cols-3">
+                      {researchSection.objectives.map((objective, index) => {
+                        const style = objectiveStyles[index % objectiveStyles.length];
+                        return (
+                          <div
+                            key={`${objective.number}-${objective.title}`}
+                            className="flex min-h-[280px] flex-col rounded-[20px] border p-5"
+                            style={{
+                              backgroundColor: style.background,
+                              borderColor: style.border,
+                            }}
+                          >
+                            <span
+                              className="flex h-8 w-8 items-center justify-center rounded-full text-[13px] font-black text-white"
+                              style={{ backgroundColor: style.accent }}
+                            >
+                              {objective.number}
+                            </span>
+                            <h3
+                              className="mt-5 text-[20px] font-black leading-tight tracking-[-0.035em]"
+                              style={{ color: style.label }}
+                            >
+                              {objective.title}
+                            </h3>
+                            <div className="mt-5">
+                              <p
+                                className="text-[11px] font-black tracking-[0.08em]"
+                                style={{ color: style.accent }}
+                              >
+                                研究需回答
+                              </p>
+                              <p className="mt-1.5 text-[13px] leading-6 text-[#514C46]">
+                                {objective.question}
+                              </p>
+                            </div>
+                            <div
+                              className="mt-4 border-t pt-4"
+                              style={{ borderColor: style.border }}
+                            >
+                              <p
+                                className="text-[11px] font-black tracking-[0.08em]"
+                                style={{ color: style.accent }}
+                              >
+                                业务价值
+                              </p>
+                              <p className="mt-1.5 text-[12px] leading-5 text-[#716C65]">
+                                {objective.value}
+                              </p>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </section>
+
+                  {researchSection.after && renderMarkdown(researchSection.after)}
+                </>
+              ) : (
+                renderMarkdown(normalizedMarkdown)
+              )}
             </div>
           </article>
 
