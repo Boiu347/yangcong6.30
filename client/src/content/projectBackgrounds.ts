@@ -43,7 +43,6 @@ export const PROJECT_BACKGROUNDS: Record<string, ProjectBackgroundConfig> = {
         description: '从小学物理项目的研究背景、业务问题与研究边界',
         url: 'https://guanghe.feishu.cn/wiki/S7NrwiHD8iQhkFkzR50cs54bnMf',
       },
-      ...pendingResources,
     ],
   },
   jisuanying_project: {

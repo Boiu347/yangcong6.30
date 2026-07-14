@@ -1,4 +1,4 @@
-import { ArrowUpRight, ExternalLink, FileText, Link2, Sparkles } from 'lucide-react';
+import { ArrowUpRight, FileText } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useParams } from 'react-router-dom';
@@ -41,6 +41,7 @@ export default function BackgroundPage() {
   const background = PROJECT_BACKGROUNDS[projectId ?? ''] ?? DEFAULT_PROJECT_BACKGROUND;
   const normalizedMarkdown = normalizeMarkdownEmphasis(background.markdown);
   const researchSection = extractResearchObjectives(normalizedMarkdown);
+  const backgroundDocument = background.resources.find((resource) => resource.url);
 
   const renderMarkdown = (markdown: string) => (
     <ReactMarkdown
@@ -77,9 +78,8 @@ export default function BackgroundPage() {
           )}
         </header>
 
-        <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1fr)_320px]">
-          <article className="rounded-[28px] border border-[#E4DED5] bg-white px-6 py-7 shadow-[0_18px_60px_rgba(61,49,37,.06)] md:px-10 md:py-10">
-            <div className="prose prose-stone max-w-none prose-headings:tracking-[-0.025em] prose-headings:text-[#292724] prose-h1:hidden prose-h2:mt-10 prose-h2:text-[23px] prose-h3:text-[18px] prose-p:leading-8 prose-li:leading-7 prose-strong:text-[#3B342E] prose-table:text-sm">
+        <article className="rounded-[28px] border border-[#E4DED5] bg-white px-6 py-7 shadow-[0_18px_60px_rgba(61,49,37,.06)] md:px-10 md:py-10 lg:px-12">
+          <div className="prose prose-stone max-w-none prose-headings:tracking-[-0.025em] prose-headings:text-[#292724] prose-h1:hidden prose-h2:mt-10 prose-h2:text-[23px] prose-h3:text-[18px] prose-p:leading-8 prose-li:leading-7 prose-strong:text-[#3B342E] prose-table:text-sm">
               {researchSection ? (
                 <>
                   {renderMarkdown(researchSection.before)}
@@ -146,80 +146,43 @@ export default function BackgroundPage() {
                     </div>
                   </section>
 
+                  {backgroundDocument?.url && (
+                    <a
+                      href={backgroundDocument.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="not-prose group mt-5 flex flex-col gap-4 rounded-[18px] border border-[#E4DED5] bg-[#FAF8F4] px-5 py-4 transition-colors hover:border-[#E8A38F] hover:bg-[#FFF9F6] sm:flex-row sm:items-center sm:justify-between"
+                    >
+                      <span className="flex min-w-0 items-center gap-3.5">
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#FFF0EA] text-[#D94A3A]">
+                          <FileText size={18} />
+                        </span>
+                        <span className="min-w-0">
+                          <span className="block text-[10px] font-black tracking-[0.12em] text-[#B25A43]">
+                            研究方案文档
+                          </span>
+                          <span className="mt-1 block text-[15px] font-black text-[#352F2A]">
+                            {backgroundDocument.label}
+                          </span>
+                          <span className="mt-1 block text-[12px] leading-5 text-[#77716A]">
+                            {backgroundDocument.description}
+                          </span>
+                        </span>
+                      </span>
+                      <span className="inline-flex shrink-0 items-center gap-1.5 text-[12px] font-black text-[#C64A2E]">
+                        查看文档
+                        <ArrowUpRight size={14} />
+                      </span>
+                    </a>
+                  )}
+
                   {researchSection.after && renderMarkdown(researchSection.after)}
                 </>
               ) : (
                 renderMarkdown(normalizedMarkdown)
               )}
-            </div>
-          </article>
-
-          <aside className="space-y-4 lg:sticky lg:top-8">
-            <div className="rounded-[24px] bg-[#292724] p-6 text-white">
-              <div className="flex items-center gap-2 text-[11px] font-bold tracking-[0.14em] text-[#FF9C7D]">
-                <Link2 size={15} />
-                相关资料
-              </div>
-              <p className="mt-4 text-[13px] leading-6 text-[#D5D0C9]">
-                将会议上下文与研究结论放在同一入口，方便回看关键讨论和决策依据。
-              </p>
-            </div>
-
-            {background.resources.map((resource, index) => {
-              const Icon = index === 0 ? FileText : Sparkles;
-              const content = (
-                <>
-                  <div className="flex items-start justify-between gap-4">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FFF0EA] text-[#E65532]">
-                      <Icon size={19} />
-                    </span>
-                    {resource.url ? (
-                      <span className="inline-flex items-center gap-1.5 rounded-full border border-[#F0B39F] bg-[#FFF4EF] px-2.5 py-1 text-[10px] font-black text-[#D84E2C]">
-                        点击打开
-                        <ArrowUpRight size={12} />
-                      </span>
-                    ) : (
-                      <span className="rounded-full bg-[#F1EFEA] px-2.5 py-1 text-[10px] font-bold text-[#9A948B]">
-                        链接待补充
-                      </span>
-                    )}
-                  </div>
-                  <h2 className="mt-5 text-[15px] font-black">{resource.label}</h2>
-                  <p className="mt-2 text-[12px] leading-6 text-[#77716A]">{resource.description}</p>
-                  {resource.url && (
-                    <div className="mt-4 flex items-center justify-between rounded-2xl border border-[#F0E0D8] bg-[#FFF9F6] px-3.5 py-3 text-[11px] font-bold text-[#C74E2F]">
-                      <span className="inline-flex items-center gap-2">
-                        <ExternalLink size={13} />
-                        外部链接
-                      </span>
-                      <span className="text-[#E65532]">查看资料</span>
-                    </div>
-                  )}
-                </>
-              );
-
-              return resource.url ? (
-                <a
-                  key={resource.label}
-                  href={resource.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="group block rounded-[22px] border border-[#E4DED5] bg-white p-5 shadow-[0_10px_30px_rgba(61,49,37,.04)] ring-1 ring-transparent transition-all hover:-translate-y-0.5 hover:border-[#E65532] hover:shadow-[0_18px_45px_rgba(230,85,50,.14)] hover:ring-[#F5B8A5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E65532]"
-                >
-                  {content}
-                </a>
-              ) : (
-                <div
-                  key={resource.label}
-                  aria-disabled="true"
-                  className="rounded-[22px] border border-[#E4DED5] bg-white/75 p-5"
-                >
-                  {content}
-                </div>
-              );
-            })}
-          </aside>
-        </div>
+          </div>
+        </article>
       </div>
     </main>
   );
