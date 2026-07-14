@@ -720,46 +720,68 @@ function PortraitSection({ persona }: { persona: PersonaV2 }) {
     <section className="mt-8">
       <SectionHeader icon={Users} label="用户画像" subtitle={`${persona.type.name}这一类家长：是谁、要什么、痛在哪、偏好什么`} accent={accent} />
 
-      <div className="mt-5 grid items-stretch gap-4 md:grid-cols-[minmax(260px,0.78fr)_1.22fr]">
-        <motion.figure {...reveal} className="overflow-hidden rounded-xl border border-[#e7e5de] bg-white p-2 shadow-sm">
+      <motion.div
+        {...reveal}
+        className="mt-5 grid overflow-hidden rounded-2xl border border-[#e4e2da] bg-white shadow-sm md:grid-cols-[280px_1fr]"
+      >
+        <figure className="flex items-center justify-center bg-[#faf9f6] p-3">
           <img
             src={`${BASE_PATH}${portrait.image}`}
             alt={portrait.imageAlt}
-            className="h-full max-h-[520px] w-full rounded-lg object-contain"
+            className="max-h-[440px] w-full rounded-xl object-contain md:max-h-[390px]"
             loading="lazy"
           />
-        </motion.figure>
-        <div className="grid gap-4">
-          <motion.div {...reveal} className="rounded-xl border p-4 md:p-5" style={{ borderColor: `${accent}44`, background: soft(accent) }}>
-            <div className="text-[12px] font-black" style={{ color: accent }}>
-              类型定义
-            </div>
-            <p className="mt-3 text-[14px] font-semibold leading-8" style={{ color: '#332f2a' }}>
-              {portrait.definition}
-            </p>
-          </motion.div>
-          <motion.div {...reveal} className="rounded-xl border border-[#e7e5de] bg-white p-4 md:p-5">
-            <div className="flex items-center gap-2" style={{ color: MUTED }}>
-              <GitCompare size={14} />
-              <span className="text-[12px] font-black">与其他类型的边界</span>
-            </div>
-            <p className="mt-3 text-[13.5px] leading-7" style={{ color: '#4a453f' }}>
-              {portrait.boundary}
-            </p>
-          </motion.div>
+        </figure>
+        <div className="flex flex-col justify-center p-5 md:p-8">
+          <div className="flex items-center gap-2 text-[11px] font-black tracking-[0.12em]" style={{ color: accent }}>
+            <span className="h-2 w-2 rounded-full" style={{ background: accent }} />
+            一句话认识这类家长
+          </div>
+          <p className="mt-4 text-[17px] font-black leading-9 md:text-[20px]" style={{ color: INK }}>
+            {portrait.definition}
+          </p>
+          <div className="mt-5 h-px w-12" style={{ background: `${accent}66` }} />
+          <p className="mt-4 text-[13px] font-semibold leading-7" style={{ color: MUTED }}>
+            {persona.type.tagline}
+          </p>
         </div>
-      </div>
+      </motion.div>
 
-      <div className="mt-4 grid gap-px overflow-hidden rounded-xl border border-[#e4e2da] bg-[#e4e2da] sm:grid-cols-2">
+      <div className="mt-7 flex items-end justify-between gap-4">
+        <div>
+          <div className="text-[14px] font-black" style={{ color: INK }}>
+            画像四维
+          </div>
+          <p className="mt-1 text-[12px]" style={{ color: MUTED }}>
+            从学情、需求、痛点与偏好快速识别
+          </p>
+        </div>
+        <span className="text-[11px] font-black" style={{ color: accent }}>
+          01—04
+        </span>
+      </div>
+      <div className="mt-3 grid gap-3 sm:grid-cols-2">
         {portrait.attributes.map((attr, i) => {
           const Icon = attr.icon;
           return (
-            <motion.div {...reveal} transition={{ ...reveal.transition, delay: i * 0.05 }} key={attr.label} className="bg-white p-4">
-              <div className="flex items-center gap-2" style={{ color: accent }}>
-                <Icon size={14} />
-                <span className="text-[12px] font-black">{attr.label}</span>
+            <motion.div
+              {...reveal}
+              transition={{ ...reveal.transition, delay: i * 0.05 }}
+              key={attr.label}
+              className="rounded-xl border border-[#e7e5de] bg-white p-4 md:p-5"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2" style={{ color: accent }}>
+                  <span className="grid h-7 w-7 place-items-center rounded-lg" style={{ background: soft(accent) }}>
+                    <Icon size={14} />
+                  </span>
+                  <span className="text-[12px] font-black">{attr.label}</span>
+                </div>
+                <span className="text-[10px] font-black" style={{ color: `${accent}88` }}>
+                  0{i + 1}
+                </span>
               </div>
-              <p className="mt-2 text-[13px] leading-7" style={{ color: '#4a453f' }}>
+              <p className="mt-3 text-[13px] leading-7" style={{ color: '#4a453f' }}>
                 {attr.value}
               </p>
             </motion.div>
@@ -767,18 +789,36 @@ function PortraitSection({ persona }: { persona: PersonaV2 }) {
         })}
       </div>
 
-      <motion.div {...reveal} className="mt-4 flex flex-wrap gap-3">
-        {portrait.cases.map((c, i) => (
-          <CaseChip key={`${c.brand}-${i}`} {...c} />
-        ))}
+      <motion.div {...reveal} className="mt-5 rounded-xl border border-[#e4e2da] bg-[#faf9f6] p-4 md:p-5">
+        <div className="flex items-start gap-3">
+          <GitCompare size={15} className="mt-1 shrink-0" style={{ color: MUTED }} />
+          <div>
+            <div className="text-[12px] font-black" style={{ color: INK }}>
+              辅助判断 · 与其他类型的边界
+            </div>
+            <p className="mt-2 text-[13px] leading-7" style={{ color: '#5c564f' }}>
+              {portrait.boundary}
+            </p>
+          </div>
+        </div>
+        <div className="my-4 h-px bg-[#e4e2da]" />
+        <div className="mb-2 text-[11px] font-black tracking-wide" style={{ color: MUTED }}>
+          案例信号
+        </div>
+        <div className="flex flex-wrap gap-3">
+          {portrait.cases.map((c, i) => (
+            <CaseChip key={`${c.brand}-${i}`} {...c} />
+          ))}
+        </div>
       </motion.div>
 
-      <motion.div {...reveal} className="mt-4 rounded-xl border p-4 md:p-5" style={{ borderColor: `${accent}44`, background: soft(accent) }}>
+      <motion.div {...reveal} className="relative mt-5 overflow-hidden rounded-xl border p-5 md:p-6" style={{ borderColor: `${accent}55`, background: soft(accent) }}>
+        <span className="absolute inset-y-0 left-0 w-1" style={{ background: accent }} />
         <div className="flex items-center gap-2" style={{ color: accent }}>
           <Lightbulb size={15} />
-          <span className="text-[12px] font-black tracking-wide">产品机会（来自偏好）</span>
+          <span className="text-[12px] font-black tracking-wide">行动建议 · 产品机会</span>
         </div>
-        <p className="mt-3 text-[13.5px] leading-8" style={{ color: '#332f2a' }}>
+        <p className="mt-3 text-[14px] font-semibold leading-8" style={{ color: '#332f2a' }}>
           <Rich text={portrait.productOpportunity} accent={accent} />
         </p>
       </motion.div>
