@@ -17,6 +17,7 @@ const fromPrimaryItems = [
   { label: '调研背景', path: 'background' },
   { label: '调研结论', path: 'summary' },
   { label: '结论速览Demo', path: 'summary-demo' },
+  { label: '结论速览旧版', path: 'summary-demo-legacy' },
   { label: '核心结论', path: 'core-conclusions' },
   { label: '用户画像', path: 'portraits' },
   { label: '用户画像V2', path: 'portraits-v2' },

@@ -10,6 +10,7 @@ import InsightTopicQuotesPage from './pages/InsightCategory/InsightTopicQuotesPa
 import QualitativeResearchPage from './pages/QualitativeResearch/QualitativeResearchPage';
 import SummaryPage from './pages/Summary/SummaryPage';
 import ConclusionsDemo from './pages/Summary/ConclusionsStoryDemo';
+import ConclusionsLegacyDemo from './pages/Summary/ConclusionsDemo';
 import CoreConclusionsReport from './pages/CoreConclusions/CoreConclusionsReport';
 import JiatingbaoCoreConclusionsPage from './pages/JiatingbaoCoreConclusions/JiatingbaoCoreConclusionsPage';
 import QualitativePage from './pages/Qualitative/QualitativePage';
@@ -66,6 +67,7 @@ const RoutesComponent = () => {
         <Route path="background" element={<BackgroundPage />} />
         <Route path="summary" element={<SummaryPage />} />
         <Route path="summary-demo" element={<ConclusionsDemo />} />
+        <Route path="summary-demo-legacy" element={<ConclusionsLegacyDemo />} />
         <Route path="core-conclusions" element={<ProjectCoreConclusionsPage />} />
         <Route path="portraits" element={<FromPrimaryPortraitsPage />} />
         <Route path="portraits-v2" element={<PortraitsV2Page />} />
