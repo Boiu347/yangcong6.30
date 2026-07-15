@@ -9,7 +9,7 @@ import InsightCategoryPage from './pages/InsightCategory/InsightCategoryPage';
 import InsightTopicQuotesPage from './pages/InsightCategory/InsightTopicQuotesPage';
 import QualitativeResearchPage from './pages/QualitativeResearch/QualitativeResearchPage';
 import SummaryPage from './pages/Summary/SummaryPage';
-import ConclusionsDemo from './pages/Summary/ConclusionsDemo';
+import ConclusionsDemo from './pages/Summary/ConclusionsStoryDemo';
 import CoreConclusionsReport from './pages/CoreConclusions/CoreConclusionsReport';
 import JiatingbaoCoreConclusionsPage from './pages/JiatingbaoCoreConclusions/JiatingbaoCoreConclusionsPage';
 import QualitativePage from './pages/Qualitative/QualitativePage';
