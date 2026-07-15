@@ -31,17 +31,31 @@ const objectiveStyles = [
     border: '#C1DFD7',
     label: '#22695B',
   },
+  {
+    accent: '#A06A2B',
+    background: '#FFF8EC',
+    border: '#E9D2AD',
+    label: '#7B4F1E',
+  },
 ];
 
 export default function BackgroundPage() {
   const { projectId } = useParams<{ projectId: string }>();
   if (projectId === 'paisou_project') {
-    return <PaisouUnderConstruction section="调研背景" hint="调研背景与资料索引还在整理，完成后会在此呈现。" />;
+    return (
+      <PaisouUnderConstruction
+        section="调研背景"
+        hint="调研背景与资料索引还在整理，完成后会在此呈现。"
+      />
+    );
   }
-  const background = PROJECT_BACKGROUNDS[projectId ?? ''] ?? DEFAULT_PROJECT_BACKGROUND;
+  const background =
+    PROJECT_BACKGROUNDS[projectId ?? ''] ?? DEFAULT_PROJECT_BACKGROUND;
   const normalizedMarkdown = normalizeMarkdownEmphasis(background.markdown);
   const researchSection = extractResearchObjectives(normalizedMarkdown);
-  const backgroundDocument = background.resources.find((resource) => resource.url);
+  const backgroundDocument = background.resources.find(
+    (resource) => resource.url,
+  );
 
   const renderMarkdown = (markdown: string) => (
     <ReactMarkdown
@@ -80,52 +94,63 @@ export default function BackgroundPage() {
 
         <article className="rounded-[28px] border border-[#E4DED5] bg-white px-6 py-7 shadow-[0_18px_60px_rgba(61,49,37,.06)] md:px-10 md:py-10 lg:px-12">
           <div className="prose prose-stone max-w-none prose-headings:tracking-[-0.025em] prose-headings:text-[#292724] prose-h1:hidden prose-h2:mt-10 prose-h2:text-[23px] prose-h3:text-[18px] prose-p:leading-8 prose-li:leading-7 prose-strong:text-[#3B342E] prose-table:text-sm">
-              {researchSection ? (
-                <>
-                  {renderMarkdown(researchSection.before)}
+            {researchSection ? (
+              <>
+                {renderMarkdown(researchSection.before)}
 
-                  <section className="not-prose mt-10" aria-labelledby="research-objectives">
-                    <h2
-                      id="research-objectives"
-                      className="text-[23px] font-black tracking-[-0.025em] text-[#292724]"
-                    >
-                      研究目标
-                    </h2>
-                    <div className="mt-5 grid gap-3 md:grid-cols-3">
-                      {researchSection.objectives.map((objective, index) => {
-                        const style = objectiveStyles[index % objectiveStyles.length];
-                        return (
-                          <div
-                            key={`${objective.number}-${objective.title}`}
-                            className="flex min-h-[280px] flex-col rounded-[20px] border p-5"
-                            style={{
-                              backgroundColor: style.background,
-                              borderColor: style.border,
-                            }}
+                <section
+                  className="not-prose mt-10"
+                  aria-labelledby="research-objectives"
+                >
+                  <h2
+                    id="research-objectives"
+                    className="text-[23px] font-black tracking-[-0.025em] text-[#292724]"
+                  >
+                    研究目标
+                  </h2>
+                  <div
+                    className={`mt-5 grid gap-3 ${
+                      researchSection.objectives.length === 4
+                        ? 'md:grid-cols-2 xl:grid-cols-4'
+                        : 'md:grid-cols-3'
+                    }`}
+                  >
+                    {researchSection.objectives.map((objective, index) => {
+                      const style =
+                        objectiveStyles[index % objectiveStyles.length];
+                      return (
+                        <div
+                          key={`${objective.number}-${objective.title}`}
+                          className="flex min-h-[280px] flex-col rounded-[20px] border p-5"
+                          style={{
+                            backgroundColor: style.background,
+                            borderColor: style.border,
+                          }}
+                        >
+                          <span
+                            className="flex h-8 w-8 items-center justify-center rounded-full text-[13px] font-black text-white"
+                            style={{ backgroundColor: style.accent }}
                           >
-                            <span
-                              className="flex h-8 w-8 items-center justify-center rounded-full text-[13px] font-black text-white"
-                              style={{ backgroundColor: style.accent }}
+                            {objective.number}
+                          </span>
+                          <h3
+                            className="mt-5 text-[20px] font-black leading-tight tracking-[-0.035em]"
+                            style={{ color: style.label }}
+                          >
+                            {objective.title}
+                          </h3>
+                          <div className="mt-5">
+                            <p
+                              className="text-[11px] font-black tracking-[0.08em]"
+                              style={{ color: style.accent }}
                             >
-                              {objective.number}
-                            </span>
-                            <h3
-                              className="mt-5 text-[20px] font-black leading-tight tracking-[-0.035em]"
-                              style={{ color: style.label }}
-                            >
-                              {objective.title}
-                            </h3>
-                            <div className="mt-5">
-                              <p
-                                className="text-[11px] font-black tracking-[0.08em]"
-                                style={{ color: style.accent }}
-                              >
-                                研究需回答
-                              </p>
-                              <p className="mt-1.5 text-[13px] leading-6 text-[#514C46]">
-                                {objective.question}
-                              </p>
-                            </div>
+                              研究需回答
+                            </p>
+                            <p className="mt-1.5 text-[13px] leading-6 text-[#514C46]">
+                              {objective.question}
+                            </p>
+                          </div>
+                          {objective.value && (
                             <div
                               className="mt-4 border-t pt-4"
                               style={{ borderColor: style.border }}
@@ -140,47 +165,48 @@ export default function BackgroundPage() {
                                 {objective.value}
                               </p>
                             </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </section>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </section>
 
-                  {backgroundDocument?.url && (
-                    <a
-                      href={backgroundDocument.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="not-prose group mt-5 flex flex-col gap-4 rounded-[18px] border border-[#E4DED5] bg-[#FAF8F4] px-5 py-4 transition-colors hover:border-[#E8A38F] hover:bg-[#FFF9F6] sm:flex-row sm:items-center sm:justify-between"
-                    >
-                      <span className="flex min-w-0 items-center gap-3.5">
-                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#FFF0EA] text-[#D94A3A]">
-                          <FileText size={18} />
+                {backgroundDocument?.url && (
+                  <a
+                    href={backgroundDocument.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="not-prose group mt-5 flex flex-col gap-4 rounded-[18px] border border-[#E4DED5] bg-[#FAF8F4] px-5 py-4 transition-colors hover:border-[#E8A38F] hover:bg-[#FFF9F6] sm:flex-row sm:items-center sm:justify-between"
+                  >
+                    <span className="flex min-w-0 items-center gap-3.5">
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#FFF0EA] text-[#D94A3A]">
+                        <FileText size={18} />
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block text-[10px] font-black tracking-[0.12em] text-[#B25A43]">
+                          研究方案文档
                         </span>
-                        <span className="min-w-0">
-                          <span className="block text-[10px] font-black tracking-[0.12em] text-[#B25A43]">
-                            研究方案文档
-                          </span>
-                          <span className="mt-1 block text-[15px] font-black text-[#352F2A]">
-                            {backgroundDocument.label}
-                          </span>
-                          <span className="mt-1 block text-[12px] leading-5 text-[#77716A]">
-                            {backgroundDocument.description}
-                          </span>
+                        <span className="mt-1 block text-[15px] font-black text-[#352F2A]">
+                          {backgroundDocument.label}
+                        </span>
+                        <span className="mt-1 block text-[12px] leading-5 text-[#77716A]">
+                          {backgroundDocument.description}
                         </span>
                       </span>
-                      <span className="inline-flex shrink-0 items-center gap-1.5 text-[12px] font-black text-[#C64A2E]">
-                        查看文档
-                        <ArrowUpRight size={14} />
-                      </span>
-                    </a>
-                  )}
+                    </span>
+                    <span className="inline-flex shrink-0 items-center gap-1.5 text-[12px] font-black text-[#C64A2E]">
+                      查看文档
+                      <ArrowUpRight size={14} />
+                    </span>
+                  </a>
+                )}
 
-                  {researchSection.after && renderMarkdown(researchSection.after)}
-                </>
-              ) : (
-                renderMarkdown(normalizedMarkdown)
-              )}
+                {researchSection.after && renderMarkdown(researchSection.after)}
+              </>
+            ) : (
+              renderMarkdown(normalizedMarkdown)
+            )}
           </div>
         </article>
       </div>

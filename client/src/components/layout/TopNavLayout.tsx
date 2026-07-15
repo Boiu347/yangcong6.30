@@ -38,6 +38,7 @@ const familyItems = [
   { label: '用户访谈', path: 'qualitative' },
   { label: '定性洞察', path: 'family-insights' },
   { label: '调研结论', path: 'research-conclusions' },
+  { label: '核心结论', path: 'core-conclusions' },
 ];
 
 const paisouItems = [

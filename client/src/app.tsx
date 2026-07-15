@@ -11,6 +11,7 @@ import QualitativeResearchPage from './pages/QualitativeResearch/QualitativeRese
 import SummaryPage from './pages/Summary/SummaryPage';
 import ConclusionsDemo from './pages/Summary/ConclusionsDemo';
 import CoreConclusionsReport from './pages/CoreConclusions/CoreConclusionsReport';
+import JiatingbaoCoreConclusionsPage from './pages/JiatingbaoCoreConclusions/JiatingbaoCoreConclusionsPage';
 import QualitativePage from './pages/Qualitative/QualitativePage';
 import FamilyInsights from './pages/FamilyPackage/FamilyInsights';
 import JiatingbaoConclusionsReport from './pages/JiatingbaoConclusions/JiatingbaoConclusionsReport';
@@ -27,6 +28,15 @@ function ProjectIndexRedirect() {
   const { projectId } = useParams<{ projectId: string }>();
   if (projectId === 'paisou_project') return <Navigate to="qualitative" replace />;
   return <Navigate to="summary" replace />;
+}
+
+function ProjectCoreConclusionsPage() {
+  const { projectId } = useParams<{ projectId: string }>();
+  return projectId === 'jiatingbao_project' ? (
+    <JiatingbaoCoreConclusionsPage />
+  ) : (
+    <CoreConclusionsReport />
+  );
 }
 
 const RoutesComponent = () => {
@@ -56,7 +66,7 @@ const RoutesComponent = () => {
         <Route path="background" element={<BackgroundPage />} />
         <Route path="summary" element={<SummaryPage />} />
         <Route path="summary-demo" element={<ConclusionsDemo />} />
-        <Route path="core-conclusions" element={<CoreConclusionsReport />} />
+        <Route path="core-conclusions" element={<ProjectCoreConclusionsPage />} />
         <Route path="portraits" element={<FromPrimaryPortraitsPage />} />
         <Route path="portraits-v2" element={<PortraitsV2Page />} />
         <Route path="qualitative" element={<QualitativePage />} />

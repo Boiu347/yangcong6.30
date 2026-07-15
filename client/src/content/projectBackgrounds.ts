@@ -54,14 +54,16 @@ export const PROJECT_BACKGROUNDS: Record<string, ProjectBackgroundConfig> = {
   },
   jiatingbao_project: {
     title: '家庭包用户调研背景',
-    eyebrow: 'PROJECT CONTEXT',
-    summary: '从家庭包上线后的真实转化差异出发，解释不同年级组合为什么买、为什么不买，以及哪些人群和话术值得在暑促中放大。',
+    eyebrow: '研究概览',
+    summary:
+      '从家庭包上线后的真实转化差异出发，识别最值得优先转化的家庭组合，拆解购买动机与未成交卡点，并判断长期价值需要如何被证明。',
     markdown: jiatingbaoBriefing,
     resources: [
       {
-        label: '研究方案',
-        description: '家庭包用户调研的业务问题、人群优先级、研究假设与访谈提纲',
-        url: 'https://guanghe.feishu.cn/wiki/SW7FwtXejisq42kR241cdjuPnAd',
+        label: '家庭包用户购买决策洞察',
+        description:
+          '家庭包调研的研究概览、购买决策、机会人群地图与典型家庭故事',
+        url: 'https://guanghe.feishu.cn/wiki/HLzew9x1gisyRhkNbfmccO5En4b',
       },
       ...pendingResources,
     ],
