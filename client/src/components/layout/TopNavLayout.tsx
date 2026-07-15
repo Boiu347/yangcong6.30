@@ -19,6 +19,7 @@ const fromPrimaryItems = [
   { label: '结论速览Demo', path: 'summary-demo' },
   { label: '结论速览旧版', path: 'summary-demo-legacy' },
   { label: '核心结论', path: 'core-conclusions' },
+  { label: 'codex', path: 'codex' },
   { label: '用户画像', path: 'portraits' },
   { label: '用户画像V2', path: 'portraits-v2' },
   { label: '竞品分析', path: 'competitive' },

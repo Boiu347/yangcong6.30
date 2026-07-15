@@ -23,6 +23,7 @@ import MarketingPage from './pages/Marketing/MarketingPage';
 import BackgroundPage from './pages/Background/BackgroundPage';
 import FromPrimaryPortraitsPage from './pages/Portraits/FromPrimaryPortraitsPage';
 import PortraitsV2Page from './pages/PortraitsV2/PortraitsV2Page';
+import CodexConclusionsPage from './pages/Codex/CodexConclusionsPage';
 import NotFound from './pages/NotFound/NotFound';
 
 function ProjectIndexRedirect() {
@@ -69,6 +70,7 @@ const RoutesComponent = () => {
         <Route path="summary-demo" element={<ConclusionsDemo />} />
         <Route path="summary-demo-legacy" element={<ConclusionsLegacyDemo />} />
         <Route path="core-conclusions" element={<ProjectCoreConclusionsPage />} />
+        <Route path="codex" element={<CodexConclusionsPage />} />
         <Route path="portraits" element={<FromPrimaryPortraitsPage />} />
         <Route path="portraits-v2" element={<PortraitsV2Page />} />
         <Route path="qualitative" element={<QualitativePage />} />
