@@ -14,9 +14,11 @@ import {
   SaveBar,
   TextField,
 } from '@/components/edit/EditDrawer';
+import EvidenceAudioClips from '@/components/EvidenceAudioClips';
 import { HighlightText } from '@/components/report/HighlightText';
 import { KeyStat, extractStats } from '@/components/report/KeyStat';
 import { useContentStore } from '@/hooks/useContentStore';
+import { JIATINGBAO_CLIP_MAP } from '@/utils/jiatingbaoClipLookup';
 import {
   familyCoreConclusions,
   type FamilyConclusionPoint,
@@ -91,19 +93,25 @@ function EvidenceBlock({
         </p>
       </div>
       <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-3">
-        {point.evidence.map((evidence) => (
-          <blockquote
-            key={`${evidence.quote}-${evidence.source}`}
-            className="rounded-[10px] bg-white/80 px-3 py-3"
-          >
-            <p className="text-[12px] font-medium leading-5 text-[#716A62]">
-              “{evidence.quote}”
-            </p>
-            <footer className="mt-1.5 text-[10.5px] font-semibold text-[#A89C8C]">
-              — {evidence.source}
-            </footer>
-          </blockquote>
-        ))}
+        {point.evidence.map((evidence) => {
+          const clip = evidence.clipCaption
+            ? JIATINGBAO_CLIP_MAP[evidence.clipCaption]
+            : undefined;
+          return (
+            <blockquote
+              key={`${evidence.quote}-${evidence.source}`}
+              className="rounded-[10px] bg-white/80 px-3 py-3"
+            >
+              <p className="text-[12px] font-medium leading-5 text-[#716A62]">
+                “{evidence.quote}”
+              </p>
+              <footer className="mt-1.5 text-[10.5px] font-semibold text-[#A89C8C]">
+                — {evidence.source}
+              </footer>
+              {clip && <EvidenceAudioClips clips={[clip]} className="mt-2" />}
+            </blockquote>
+          );
+        })}
       </div>
     </div>
   );
