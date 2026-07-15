@@ -220,6 +220,32 @@ function ConclusionCard({
                     </p>
                   </div>
                 </div>
+                {point.keyPoints && point.keyPoints.length > 0 && (
+                  <ul
+                    className="mt-4 space-y-2.5 border-t pt-3.5"
+                    style={{ borderColor: `${color}20` }}
+                  >
+                    {point.keyPoints.map((keyPoint) => (
+                      <li
+                        key={keyPoint}
+                        className="flex items-start gap-3 rounded-[10px] bg-white px-3 py-2.5"
+                      >
+                        <span
+                          className="mt-[8px] size-1.5 shrink-0 rounded-[2px]"
+                          style={{ backgroundColor: color }}
+                        />
+                        <p className="text-[13.5px] font-bold leading-6 text-[#4D4740]">
+                          <HighlightText
+                            color={color}
+                            keywords={HIGHLIGHT_KEYWORDS}
+                          >
+                            {keyPoint}
+                          </HighlightText>
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
               <EvidenceBlock point={point} color={color} />
             </li>
@@ -271,6 +297,34 @@ function ConclusionCard({
   );
 }
 
+function mergeDefaultEnhancements(
+  stored: FamilyCoreConclusion[],
+): FamilyCoreConclusion[] {
+  if (stored.length === 0) return familyCoreConclusions;
+  return stored.map((item) => {
+    const defaultItem = familyCoreConclusions.find(
+      (candidate) => candidate.id === item.id,
+    );
+    if (!defaultItem) return item;
+    return {
+      ...item,
+      points: item.points.map((point, pointIndex) => {
+        const defaultPoint = defaultItem.points[pointIndex];
+        return {
+          ...point,
+          keyPoints: point.keyPoints ?? defaultPoint?.keyPoints,
+          evidence: point.evidence?.map((evidence, evidenceIndex) => ({
+            ...evidence,
+            clipCaption:
+              evidence.clipCaption ??
+              defaultPoint?.evidence?.[evidenceIndex]?.clipCaption,
+          })),
+        };
+      }),
+    };
+  });
+}
+
 export default function JiatingbaoCoreConclusionsPage() {
   const editor = useIsEditor();
   const {
@@ -278,8 +332,10 @@ export default function JiatingbaoCoreConclusionsPage() {
     saving,
     save,
   } = useContentStore<FamilyCoreConclusion[]>(STORE_KEY, familyCoreConclusions);
-  const conclusions =
-    storedConclusions.length > 0 ? storedConclusions : familyCoreConclusions;
+  const conclusions = React.useMemo(
+    () => mergeDefaultEnhancements(storedConclusions),
+    [storedConclusions],
+  );
   const [activeDimension, setActiveDimension] = React.useState<DimensionId>(
     DIMENSIONS[0].id,
   );
