@@ -1,6 +1,8 @@
 export interface FamilyConclusionEvidence {
   quote: string;
   source: string;
+  /** 该原声对应 keyPoints 中的第几条（从 0 开始） */
+  keyPointIndex?: number;
   /** 对应 JIATINGBAO_CLIP_MAP 的访谈切片标题 */
   clipCaption?: string;
 }
@@ -43,14 +45,19 @@ export const familyCoreConclusions: FamilyCoreConclusion[] = [
             quote:
               '我还是以哥哥的标准来推荐，就是暑假预习初中，还有一个思维拓展。',
             source: '黄妈妈｜广州｜3年级&6年级',
+            keyPointIndex: 0,
+            clipCaption: '以哥哥为标准推荐：暑假预习初中，加上思维拓展。',
           },
           {
             quote: '现在先学5年级内容复习，暑假的时候就可以让他提前学6年级了。',
             source: '叶妈妈｜杭州｜5年级&高三',
+            keyPointIndex: 1,
+            clipCaption: '现在复习五年级，暑假再提前学六年级。',
           },
           {
             quote: '不想等出现问题的时候再来，就提前去做一些准备吧。',
             source: '刘爸爸｜九江｜1年级&6年级',
+            keyPointIndex: 2,
             clipCaption:
               '没有具体学习问题，只因博主介绍、想提前准备；7000 多元、知道是 6 年。',
           },
@@ -68,6 +75,7 @@ export const familyCoreConclusions: FamilyCoreConclusion[] = [
             quote:
               '主要考虑的是哥哥，妹妹顺带着用；但如果没有妹妹的权益，可能就会买个短期课，不会买家庭包了。',
             source: '黄妈妈｜广州｜3年级&6年级',
+            keyPointIndex: 0,
             clipCaption:
               '成交原因：2 个孩子都能顾及、有 90 天 1对1 服务、能衔接到高中、哥哥试用后三科都喜欢（尤其语文）。',
           },
@@ -75,6 +83,7 @@ export const familyCoreConclusions: FamilyCoreConclusion[] = [
             quote:
               '希望他俩一起用，姐姐虽然是一起使用者，但都要发挥最大的功效，要把我花的钱大部分学过来。',
             source: '刘爸爸｜九江｜1年级&6年级',
+            keyPointIndex: 1,
             clipCaption:
               '希望 2 个孩子一起用，账号不会相互冲突，希望能发挥到最大的功效。',
           },
@@ -95,6 +104,7 @@ export const familyCoreConclusions: FamilyCoreConclusion[] = [
           {
             quote: '洋葱不需要家长接送，孩子也不用赶路，时间成本也没有。',
             source: '张妈妈｜合肥',
+            keyPointIndex: 1,
             clipCaption:
               '不需要接送，孩子也不用赶路，时间成本也没有，还比私教班便宜，私教班一门就一万多。',
           },
@@ -102,13 +112,39 @@ export const familyCoreConclusions: FamilyCoreConclusion[] = [
             quote:
               '高途单次上课时间太久了，每天2个小时，孩子看完视力变差了，初中也没有这么多时间去看。',
             source: '黄妈妈｜广州',
+            keyPointIndex: 1,
             clipCaption:
               '不买这个包也会买其他机构课；高途每天 2 小时太久，初中没时间。',
+          },
+          {
+            quote: '洋葱比上一堆私教班便宜，私教班一门就一万多。',
+            source: '张妈妈｜合肥',
+            keyPointIndex: 2,
+            clipCaption:
+              '不需要接送，孩子也不用赶路，时间成本也没有，还比私教班便宜，私教班一门就一万多。',
+          },
+          {
+            quote:
+              '我希望他能够自己消化吸收，形成自己的知识体系，用一条主线把知识串联起来。',
+            source: '王妈妈｜景德镇',
+            keyPointIndex: 3,
+            clipCaption:
+              '超前学能消化吸收，培养的知识能成体系（自己总结主线、串联知识）。',
           },
           {
             quote:
               '不想等出现问题的时候再来，到那个时候再赶，可能就真的只能跟着线下老师去补习班了。',
             source: '刘爸爸｜九江',
+            keyPointIndex: 4,
+            clipCaption:
+              '没有具体学习问题，只因博主介绍、想提前准备；7000 多元、知道是 6 年。',
+          },
+          {
+            quote: '去年价格低很多，当时没有买；吃过一次亏了，就想着这次先买。',
+            source: '张妈妈｜合肥',
+            keyPointIndex: 5,
+            clipCaption:
+              '价格焦虑：去年价格低没买，后来涨价很多，吃过一次亏，这次先买。',
           },
         ],
       },
@@ -151,12 +187,14 @@ export const familyCoreConclusions: FamilyCoreConclusion[] = [
           {
             quote: '会不会看一会就不看了？',
             source: '叶妈妈｜杭州｜5年级&高三',
+            keyPointIndex: 0,
             clipCaption:
               '顾虑：线下有无门店、会不会倒闭、课程更新是否及时、孩子会不会看一会就不看。',
           },
           {
             quote: '主要担忧是小孩不适应这个课，买了浪费。',
             source: '黄妈妈｜广州｜3年级&6年级',
+            keyPointIndex: 0,
           },
         ],
       },
@@ -172,11 +210,13 @@ export const familyCoreConclusions: FamilyCoreConclusion[] = [
           {
             quote: '花这么多钱不一定见到提分效果吧，高中有效果再买吧。',
             source: '施爸爸｜镇江｜4年级&初一',
+            keyPointIndex: 0,
             clipCaption: '花这么多钱不一定能见到提分效果。',
           },
           {
             quote: '不确定孩子学得到底怎么样，如果后面好，我肯定会一次性投入。',
             source: '未购用户｜学龄前&3年级',
+            keyPointIndex: 0,
           },
         ],
       },
@@ -193,10 +233,12 @@ export const familyCoreConclusions: FamilyCoreConclusion[] = [
             quote:
               '这个涵盖的跨度时间太长，不确定性比较高，我不确定后面会不会有别的更好的替代。',
             source: '未购用户｜学龄前&3年级',
+            keyPointIndex: 0,
           },
           {
             quote: '课程更新不及时，或者你们公司倒闭了怎么办？',
             source: '未购用户',
+            keyPointIndex: 1,
             clipCaption:
               '顾虑：线下有无门店、会不会倒闭、课程更新是否及时、孩子会不会看一会就不看。',
           },
@@ -230,11 +272,13 @@ export const familyCoreConclusions: FamilyCoreConclusion[] = [
           {
             quote: '他数学方面需要进一步提升，班里52人有时候数学都排到40名了。',
             source: '小低+初中家庭',
+            keyPointIndex: 0,
           },
           {
             quote:
               '姐姐小升初的时候周边的人都在补，我顶住压力没有给报班，现在想起来有点后悔。',
             source: '小低+初中家庭',
+            keyPointIndex: 1,
             clipCaption: '小升初的时候没有给报，现在想起来有点后悔。',
           },
         ],
@@ -253,11 +297,13 @@ export const familyCoreConclusions: FamilyCoreConclusion[] = [
             quote:
               '升到高中之后慢慢就不可能再管他了，就是提供一个学习工具，让他碰到疑难点的时候自己看一看。',
             source: '小低+高中家庭',
+            keyPointIndex: 1,
             clipCaption: '姐姐上高中没精力管他了，会把更多精力放在小的身上。',
           },
           {
             quote: '大宝前面没有那么早规划，小宝肯定会提早给他规划、提前学习。',
             source: '小低+高中家庭',
+            keyPointIndex: 2,
           },
         ],
       },
@@ -296,6 +342,7 @@ export const familyCoreConclusions: FamilyCoreConclusion[] = [
           {
             quote: '现在先学5年级内容复习，寒暑假预习6年级内容。',
             source: '小高家庭',
+            keyPointIndex: 0,
           },
         ],
       },
@@ -318,6 +365,7 @@ export const familyCoreConclusions: FamilyCoreConclusion[] = [
           {
             quote: '花这么多钱不一定见到提分效果吧，高中有效果再买吧。',
             source: '施爸爸｜镇江｜4年级&初一',
+            keyPointIndex: 0,
             clipCaption: '花这么多钱不一定能见到提分效果。',
           },
         ],

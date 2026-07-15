@@ -83,6 +83,15 @@ export const JTB_VOICE_CLIPS: JtbVoiceClip[] = [
     "duration": 3.9
   },
   {
+    "seq": 1,
+    "dimension": "关键原声",
+    "caption": "以哥哥为标准推荐：暑假预习初中，加上思维拓展。",
+    "text": "我还是以哥哥的标准来推荐。暑假预习，还有一个思维拓展。",
+    "clipUrl": "/clips/jiatingbao/user1/0009.m4a",
+    "startTime": 2528,
+    "duration": 22
+  },
+  {
     "seq": 2,
     "dimension": "基本学情",
     "caption": "老二七年级（年级前几名，近 2000 学生），主要靠超前学；自己安排好、基本不用管。",
@@ -459,6 +468,15 @@ export const JTB_VOICE_CLIPS: JtbVoiceClip[] = [
     "clipUrl": "/clips/jiatingbao/user5/0006.mp3",
     "startTime": 2249.7,
     "duration": 2.7
+  },
+  {
+    "seq": 5,
+    "dimension": "关键原声",
+    "caption": "现在复习五年级，暑假再提前学六年级。",
+    "text": "复习五年级，现在还是以五年级的为主，暑假的时候再给他上六年级的。",
+    "clipUrl": "/clips/jiatingbao/user5/0007.m4a",
+    "startTime": 1885,
+    "duration": 17
   },
   {
     "seq": 6,

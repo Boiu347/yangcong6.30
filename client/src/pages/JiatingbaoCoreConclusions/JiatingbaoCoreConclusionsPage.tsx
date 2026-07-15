@@ -21,6 +21,7 @@ import { useContentStore } from '@/hooks/useContentStore';
 import { JIATINGBAO_CLIP_MAP } from '@/utils/jiatingbaoClipLookup';
 import {
   familyCoreConclusions,
+  type FamilyConclusionEvidence,
   type FamilyConclusionPoint,
   type FamilyCoreConclusion,
 } from './jiatingbaoCoreConclusionsData';
@@ -73,13 +74,16 @@ function deepClone<Value>(value: Value): Value {
 }
 
 function EvidenceBlock({
-  point,
+  evidence,
   color,
 }: {
-  point: FamilyConclusionPoint;
+  evidence: FamilyConclusionEvidence[];
   color: string;
 }) {
-  if (!point.evidence?.length) return null;
+  if (evidence.length === 0) return null;
+  const hasAudio = evidence.some(
+    (item) => item.clipCaption && JIATINGBAO_CLIP_MAP[item.clipCaption],
+  );
 
   return (
     <div className="border-t border-[#EDE6DC] bg-[#F8F6F2] px-4 py-4 lg:px-6">
@@ -89,24 +93,24 @@ function EvidenceBlock({
           className="text-[10.5px] font-black tracking-[0.1em]"
           style={{ color }}
         >
-          对应用户证据
+          {hasAudio ? '本条重点对应原声' : '本条重点对应原话'}
         </p>
       </div>
       <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-3">
-        {point.evidence.map((evidence) => {
-          const clip = evidence.clipCaption
-            ? JIATINGBAO_CLIP_MAP[evidence.clipCaption]
+        {evidence.map((item) => {
+          const clip = item.clipCaption
+            ? JIATINGBAO_CLIP_MAP[item.clipCaption]
             : undefined;
           return (
             <blockquote
-              key={`${evidence.quote}-${evidence.source}`}
+              key={`${item.quote}-${item.source}`}
               className="rounded-[10px] bg-white/80 px-3 py-3"
             >
               <p className="text-[12px] font-medium leading-5 text-[#716A62]">
-                “{evidence.quote}”
+                “{item.quote}”
               </p>
               <footer className="mt-1.5 text-[10.5px] font-semibold text-[#A89C8C]">
-                — {evidence.source}
+                — {item.source}
               </footer>
               {clip && <EvidenceAudioClips clips={[clip]} className="mt-2" />}
             </blockquote>
@@ -225,29 +229,42 @@ function ConclusionCard({
                     className="mt-4 space-y-2.5 border-t pt-3.5"
                     style={{ borderColor: `${color}20` }}
                   >
-                    {point.keyPoints.map((keyPoint) => (
+                    {point.keyPoints.map((keyPoint, keyPointIndex) => (
                       <li
                         key={keyPoint}
-                        className="flex items-start gap-3 rounded-[10px] bg-white px-3 py-2.5"
+                        className="overflow-hidden rounded-[10px] bg-white"
                       >
-                        <span
-                          className="mt-[8px] size-1.5 shrink-0 rounded-[2px]"
-                          style={{ backgroundColor: color }}
+                        <div className="flex items-start gap-3 px-3 py-2.5">
+                          <span
+                            className="mt-[8px] size-1.5 shrink-0 rounded-[2px]"
+                            style={{ backgroundColor: color }}
+                          />
+                          <p className="text-[13.5px] font-bold leading-6 text-[#4D4740]">
+                            <HighlightText
+                              color={color}
+                              keywords={HIGHLIGHT_KEYWORDS}
+                            >
+                              {keyPoint}
+                            </HighlightText>
+                          </p>
+                        </div>
+                        <EvidenceBlock
+                          evidence={(point.evidence ?? []).filter(
+                            (item) => item.keyPointIndex === keyPointIndex,
+                          )}
+                          color={color}
                         />
-                        <p className="text-[13.5px] font-bold leading-6 text-[#4D4740]">
-                          <HighlightText
-                            color={color}
-                            keywords={HIGHLIGHT_KEYWORDS}
-                          >
-                            {keyPoint}
-                          </HighlightText>
-                        </p>
                       </li>
                     ))}
                   </ul>
                 )}
               </div>
-              <EvidenceBlock point={point} color={color} />
+              <EvidenceBlock
+                evidence={(point.evidence ?? []).filter(
+                  (item) => item.keyPointIndex === undefined,
+                )}
+                color={color}
+              />
             </li>
           ))}
         </ul>
@@ -310,15 +327,33 @@ function mergeDefaultEnhancements(
       ...item,
       points: item.points.map((point, pointIndex) => {
         const defaultPoint = defaultItem.points[pointIndex];
+        const storedEvidence = point.evidence ?? [];
+        const defaultEvidence = defaultPoint?.evidence ?? [];
+        const enhancedEvidence = storedEvidence.map((evidence) => {
+          const defaultMatch = defaultEvidence.find(
+            (candidate) =>
+              candidate.quote === evidence.quote &&
+              candidate.source === evidence.source,
+          );
+          return {
+            ...evidence,
+            keyPointIndex:
+              evidence.keyPointIndex ?? defaultMatch?.keyPointIndex,
+            clipCaption: evidence.clipCaption ?? defaultMatch?.clipCaption,
+          };
+        });
+        const newDefaultEvidence = defaultEvidence.filter(
+          (candidate) =>
+            !storedEvidence.some(
+              (evidence) =>
+                evidence.quote === candidate.quote &&
+                evidence.source === candidate.source,
+            ),
+        );
         return {
           ...point,
           keyPoints: point.keyPoints ?? defaultPoint?.keyPoints,
-          evidence: point.evidence?.map((evidence, evidenceIndex) => ({
-            ...evidence,
-            clipCaption:
-              evidence.clipCaption ??
-              defaultPoint?.evidence?.[evidenceIndex]?.clipCaption,
-          })),
+          evidence: [...enhancedEvidence, ...newDefaultEvidence],
         };
       }),
     };
