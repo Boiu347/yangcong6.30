@@ -307,32 +307,49 @@ function DataBars({
   unit?: string;
   color?: string;
 }) {
-  const max = Math.max(...data.map((d) => d.value));
+  const max = Math.max(...data.map((d) => d.value), 1);
   return (
-    <div className="space-y-2.5">
-      {data.map((d) => (
-        <div key={d.label} className="grid grid-cols-[130px_1fr_56px] items-center gap-3">
-          <span className="truncate text-[12px] font-bold text-[#5B534A]" title={d.label}>
-            {d.label}
-          </span>
-          <span className="h-3 overflow-hidden rounded-full bg-[#F1Eadf]">
-            <Reveal>
-              <span
-                className="block h-full rounded-full transition-[width] duration-700 ease-out"
+    <div className="space-y-3">
+      {data.map((d) => {
+        const ratio = d.value / max;
+        return (
+          <div
+            key={d.label}
+            className="grid grid-cols-[minmax(0,132px)_minmax(0,1fr)_52px] items-center gap-3"
+          >
+            <span
+              className="truncate text-[12px] font-bold text-[#5B534A]"
+              title={d.label}
+            >
+              {d.label}
+            </span>
+            <div
+              className="h-3 w-full overflow-hidden rounded-full bg-[#F1Eadf]"
+              role="meter"
+              aria-valuenow={d.value}
+              aria-valuemin={0}
+              aria-valuemax={max}
+              aria-label={d.label}
+            >
+              <div
+                className="h-full rounded-full transition-[width] duration-700 ease-out"
                 style={{
-                  width: `${(d.value / max) * 100}%`,
+                  width: `${ratio * 100}%`,
                   backgroundColor: color,
-                  opacity: 0.35 + 0.65 * (d.value / max),
+                  opacity: d.value > 0 ? 0.45 + 0.55 * ratio : 0,
                 }}
               />
-            </Reveal>
-          </span>
-          <span className="text-right text-[12.5px] font-black tabular-nums" style={{ color }}>
-            {d.value}
-            {unit}
-          </span>
-        </div>
-      ))}
+            </div>
+            <span
+              className="text-right text-[12.5px] font-black tabular-nums"
+              style={{ color }}
+            >
+              {d.value}
+              {unit}
+            </span>
+          </div>
+        );
+      })}
     </div>
   );
 }
