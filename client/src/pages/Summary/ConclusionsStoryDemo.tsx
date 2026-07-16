@@ -255,7 +255,11 @@ function VoiceCard({ voice }: { voice: Voice }) {
       </p>
       {voice.clipUrl ? (
         <EvidenceAudioClips clips={clips} className="ml-[21px] mt-1" />
-      ) : null}
+      ) : (
+        <p className="mt-2 pl-[21px] text-[11px] font-semibold text-[#B4A99B]">
+          （该原声暂无录音切片，保留完整文字）
+        </p>
+      )}
     </div>
   );
 }
@@ -396,6 +400,7 @@ const INTEREST_VOICES: Voice[] = [
   {
     text: '我是基于我们家孩子喜欢，我才付费去买这个课程的。',
     source: '用户4｜二年级｜北京顺义',
+    clipUrl: '/clips/interview4/0086-01.mp3',
   },
 ];
 
@@ -404,6 +409,7 @@ const FUTURE_VALUE_VOICES: Voice[] = [
   {
     text: '因为以后到初中也会学到物理。然后可以提前让他认识知道一些跟物理相关的知识。',
     source: '用户3｜二年级｜广东中山',
+    clipUrl: '/clips/interview3/0007-01.mp3',
   },
   {
     text: '初中、高中肯定都会有这个课程，那提前小学现在这个阶段，通过各种渠道让他先接触一下，了解一下相关知识，然后他之后学起来可能不会很吃力。',
@@ -461,10 +467,12 @@ const COMPETITORS = [
       {
         text: 'NB实验室是因为我当时觉得他那个操作比较方便一点，他演示的操作看上去比较直观。',
         source: '用户1｜二年级｜山东济宁',
+        clipUrl: '/clips/interview1/0074-01.mp3',
       },
       {
         text: '比较吸引我的就是有一些比较危险的一些实验，可以在比较安全的这种情况下能让孩子了解到。',
         source: '用户1｜二年级｜山东济宁',
+        clipUrl: '/clips/interview1/0038-01.mp3',
       },
     ] as Voice[],
   },
@@ -473,7 +481,10 @@ const COMPETITORS = [
     hook: '真人老师动手实验，参与感强',
     tone: '#FFDCD6',
     voices: [
-      { text: '很好，讲得特别好，老师特别有吸引力。', source: '用户8｜一年级｜安徽合肥' },
+      {
+        text: '很好，讲得特别好，老师特别有吸引力。',
+        source: '用户8｜一年级｜安徽合肥',
+      },
       {
         text: '学而思科学课主要老师备课备得好呀，然后孩子很感兴趣呀。',
         source: '用户8｜一年级｜安徽合肥',
@@ -492,6 +503,7 @@ const COMPETITORS = [
       {
         text: '我想让他玩那个 AR，但是买了以后他就只玩那个 AR，里面的东西他也不太爱看。',
         source: '用户5｜三年级｜重庆渝中',
+        clipUrl: '/clips/interview5/0023-01.mp3',
       },
     ] as Voice[],
   },
@@ -503,10 +515,12 @@ const COMPETITORS = [
       {
         text: '因为我就觉着他万物指南的团队比较靠谱，因为他不是个什么不刷题的吴姥姥吗？',
         source: '用户1｜二年级｜山东济宁',
+        clipUrl: '/clips/interview1/0081-01.mp3',
       },
       {
         text: '我觉得吴姥姥既然她比较靠谱，她也不会去找不靠谱的团队合作吧；因为她这种已经荣誉加身的人，然后比较爱惜羽毛一点。',
         source: '用户1｜二年级｜山东济宁',
+        clipUrl: '/clips/interview1/0085-01.mp3',
       },
     ] as Voice[],
   },
@@ -514,8 +528,16 @@ const COMPETITORS = [
 
 // 洋葱：品牌信任 + 顺手加购
 const ONION_BUY_VOICES: Voice[] = [
-  { text: '名校的光环，就是觉得这个人还是挺信得过的。', source: '用户4｜二年级｜北京顺义' },
-  { text: '就基于他信任，然后其他的话都是随缘。', source: '用户4｜二年级｜北京顺义' },
+  {
+    text: '名校的光环，就是觉得这个人还是挺信得过的。',
+    source: '用户4｜二年级｜北京顺义',
+    clipUrl: '/clips/interview4/0021-01.mp3',
+  },
+  {
+    text: '就基于他信任，然后其他的话都是随缘。',
+    source: '用户4｜二年级｜北京顺义',
+    clipUrl: '/clips/interview4/0064-01.mp3',
+  },
   {
     text: '就是因为给姐姐买了高中物理，然后就顺着推荐；弟弟看到里面有从小学物理，就想学，后来发现要收费，我就买了。',
     source: '用户8｜一年级｜安徽合肥',
@@ -606,6 +628,7 @@ const SCENE_VOICES: Voice[] = [
   {
     text: '这些看的，看这些的话就是零碎的时间看。比如吃饭……星期六、星期天出去玩，他玩累了，休息的时候他也可能去看一下。',
     source: '用户5｜三年级｜重庆渝中',
+    clipUrl: '/clips/interview5/0053-01.mp3',
   },
   {
     text: '洋葱学园的从小学物理，如果说我不是不管的话，他每天他都会刷。',
@@ -630,6 +653,7 @@ const EXPERIENCE_MATRIX: {
         {
           text: '他自己会学习洋葱学园里边的从小学物理……定了 15 到 20 分钟之后，他还会往下串表，特别喜欢。',
           source: '用户4｜二年级｜北京顺义',
+          clipUrl: '/clips/interview4/0040-01.mp3',
         },
         {
           text: '洋葱学园的从小学物理，如果说我不是不管的话，他每天他都会刷。',
@@ -644,10 +668,12 @@ const EXPERIENCE_MATRIX: {
         {
           text: '有些晦涩难懂的词语小低孩子不能理解，如果口语化更好。',
           source: '用户4｜二年级｜北京顺义',
+          clipUrl: '/clips/interview4/0054-01.mp3',
         },
         {
           text: '答题正确率高，字不认识，如果读出来更好。',
           source: '用户4｜二年级｜北京顺义',
+          clipUrl: '/clips/interview4/0055-01.mp3',
         },
       ],
     },
@@ -660,10 +686,12 @@ const EXPERIENCE_MATRIX: {
         {
           text: '万物指南的团队比较靠谱，因为他不是个什么不刷题的吴姥姥吗？',
           source: '用户1｜二年级｜山东济宁',
+          clipUrl: '/clips/interview1/0081-01.mp3',
         },
         {
           text: '物理十分通里面非常简洁明了……没有过多的废话。',
           source: '用户1｜二年级｜山东济宁',
+          clipUrl: '/clips/interview1/0043-01.mp3',
         },
       ],
     },
@@ -673,6 +701,7 @@ const EXPERIENCE_MATRIX: {
         {
           text: '我孩子把这个万物视频全部看完了，他能吸收多少呢？',
           source: '用户5｜三年级｜重庆渝中',
+          clipUrl: '/clips/interview5/0033-01.mp3',
         },
         {
           text: '我想知道他到底学了什么东西？学到了什么东西？学了多少？能记住什么？',
@@ -690,20 +719,26 @@ const EXPERIENCE_MATRIX: {
         {
           text: 'NB实验室……操作比较方便一点，演示的操作看上去比较直观。',
           source: '用户1｜二年级｜山东济宁',
+          clipUrl: '/clips/interview1/0074-01.mp3',
         },
         {
           text: '有一些比较危险的一些实验，可以在比较安全的这种情况下能让孩子了解到。',
           source: '用户1｜二年级｜山东济宁',
+          clipUrl: '/clips/interview1/0038-01.mp3',
         },
       ],
     },
     con: {
       summary: '1、无法替代真实实验，参与感不如真人　2、低龄孩子自己操作时缺少讲解和引导，容易卡住。',
       voices: [
-        { text: '你在视频上看他是完全感受不一样的。', source: '用户1｜二年级｜山东济宁' },
+        {
+          text: '你在视频上看他是完全感受不一样的。',
+          source: '用户1｜二年级｜山东济宁',
+        },
         {
           text: 'NB的话他得自己乱拖，他自己有些字还不认识，然后那实验操作的话，兴许他还做不好。',
           source: '用户4｜二年级｜北京顺义',
+          clipUrl: '/clips/interview4/0031-01.mp3',
         },
       ],
     },
@@ -716,6 +751,7 @@ const EXPERIENCE_MATRIX: {
         {
           text: '有真人老师，老师也能照顾过来，孩子吸收的也多。老师会带着做实验讲解。',
           source: '用户4｜二年级｜北京顺义',
+          clipUrl: '/clips/interview4/0049-01.mp3',
         },
       ],
     },
@@ -729,6 +765,7 @@ const EXPERIENCE_MATRIX: {
         {
           text: '老师讲解知识点也是有点问题，理论讲解不好，没用孩子的语言讲解。',
           source: '用户4｜二年级｜北京顺义',
+          clipUrl: '/clips/interview4/0058-01.mp3',
         },
       ],
     },
@@ -1160,23 +1197,7 @@ export default function ConclusionsDemo() {
                   </div>
                   <div className="space-y-2.5">
                     {c.voices.map((v, vi) => (
-                      <div
-                        key={vi}
-                        className="rounded-[10px] bg-[#F8FAF7] p-3"
-                      >
-                        <p className="text-[13px] font-semibold leading-6 text-[#4C564F]">
-                          「{v.text}」
-                        </p>
-                        <p className="mt-1.5 text-[11px] font-bold text-[#98A39B]">
-                          — {v.source}
-                        </p>
-                        {v.clipUrl && (
-                          <EvidenceAudioClips
-                            clips={[{ clipUrl: v.clipUrl, startTime: 0, duration: 0 }]}
-                            className="mt-1"
-                          />
-                        )}
-                      </div>
+                      <VoiceCard key={vi} voice={v} />
                     ))}
                   </div>
                 </div>
@@ -1201,14 +1222,7 @@ export default function ConclusionsDemo() {
                 </ol>
                 <div className="mt-6 space-y-2.5">
                   {ONION_BUY_VOICES.map((v, i) => (
-                    <div key={i} className="rounded-[10px] border border-[#D8E1D9] bg-white/70 p-3">
-                      <p className="text-[13px] font-semibold leading-6 text-[#4C564F]">
-                        「{v.text}」
-                      </p>
-                      <p className="mt-1.5 text-[11px] font-bold text-[#98A39B]">
-                        — {v.source}
-                      </p>
-                    </div>
+                    <VoiceCard key={i} voice={v} />
                   ))}
                 </div>
               </div>
