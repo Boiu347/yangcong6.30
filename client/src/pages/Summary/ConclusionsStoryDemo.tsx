@@ -879,7 +879,7 @@ export default function ConclusionsDemo() {
           </Reveal>
 
           {/* 用研洞察 · 前提：兴趣入口 */}
-          <div className="mt-16 grid gap-12 lg:grid-cols-[minmax(0,.92fr)_minmax(0,1.08fr)] lg:gap-20">
+          <div className="mt-16 space-y-16">
             <Reveal>
               <SubHead
                 kicker="用研洞察 · 前提"
@@ -911,7 +911,7 @@ export default function ConclusionsDemo() {
               </div>
             </Reveal>
 
-            <Reveal delay={80}>
+            <Reveal className="border-t border-[#E4D7B4] pt-14" delay={80}>
               <SubHead
                 kicker="用研洞察 · 核心"
                 title={<>「未来学科价值」才是最终合理化购买的理由</>}
