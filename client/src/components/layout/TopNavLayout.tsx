@@ -34,8 +34,8 @@ const computingItems = [
 
 const familyItems = [
   { label: '调研背景', path: 'background' },
-  { label: '项目总览', path: 'summary' },
   { label: '用户访谈', path: 'qualitative' },
+  { label: '典型家庭故事', path: 'family-stories' },
   { label: '定性洞察', path: 'family-insights' },
   { label: '调研结论', path: 'research-conclusions' },
   { label: '核心结论', path: 'core-conclusions' },

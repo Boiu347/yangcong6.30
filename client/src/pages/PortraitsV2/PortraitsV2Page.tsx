@@ -1,5 +1,4 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import { motion } from 'motion/react';
 import {
   AlertTriangle,
@@ -27,7 +26,6 @@ import {
   XCircle,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import TypicalFamilyStories from '@/pages/FamilyPackage/TypicalFamilyStories';
 
 // ════════════════════════════════════════════════════════════════════════════
 // 用户画像 · 对齐《小学家长画像白皮书》「典型用户代表」的共性版式
@@ -564,9 +562,6 @@ function Rich({ text, accent }: { text: string; accent: string }) {
 
 // ════════════════════════════════════════════════════════════════════════════
 export default function PortraitsV2Page() {
-  const { projectId } = useParams<{ projectId: string }>();
-  if (projectId === 'jiatingbao_project') return <TypicalFamilyStories />;
-
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const sectionRefs = React.useRef<Record<string, HTMLElement | null>>({});
   const [activeId, setActiveId] = React.useState(PERSONAS[0].id);

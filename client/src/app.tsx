@@ -15,6 +15,7 @@ import CoreConclusionsReport from './pages/CoreConclusions/CoreConclusionsReport
 import JiatingbaoCoreConclusionsPage from './pages/JiatingbaoCoreConclusions/JiatingbaoCoreConclusionsPage';
 import QualitativePage from './pages/Qualitative/QualitativePage';
 import FamilyInsights from './pages/FamilyPackage/FamilyInsights';
+import TypicalFamilyStories from './pages/FamilyPackage/TypicalFamilyStories';
 import JiatingbaoConclusionsReport from './pages/JiatingbaoConclusions/JiatingbaoConclusionsReport';
 import CompetitivePage from './pages/Competitive/CompetitivePage';
 import Competitive2Page from './pages/Competitive2/Competitive2Page';
@@ -71,6 +72,7 @@ const RoutesComponent = () => {
         <Route path="portraits" element={<PortraitsV2Page />} />
         <Route path="portraits-v2" element={<Navigate to="../portraits" replace />} />
         <Route path="qualitative" element={<QualitativePage />} />
+        <Route path="family-stories" element={<TypicalFamilyStories />} />
         <Route path="family-insights" element={<FamilyInsights />} />
         <Route path="research-conclusions" element={<JiatingbaoConclusionsReport />} />
         <Route path="qualitative/users/:userId" element={<QualitativePage />} />
