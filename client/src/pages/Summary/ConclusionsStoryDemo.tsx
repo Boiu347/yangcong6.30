@@ -736,7 +736,7 @@ export default function ConclusionsDemo() {
   }, []);
 
   return (
-    <main className="min-h-full overflow-x-hidden bg-[#F6F0E7] text-[#191816]">
+    <main className="min-h-full overflow-x-hidden bg-[#F7F3EC] text-[#191816]">
       {/* 顶部细阅读进度线 */}
       <div className="fixed inset-x-0 top-0 z-50 h-[3px] bg-transparent">
         <div
@@ -822,7 +822,7 @@ export default function ConclusionsDemo() {
       </section>
 
       {/* ============================= 全篇导航 ============================= */}
-      <section className="border-b border-[#D7CCBF] bg-[#F6F0E7]">
+      <section className="border-b border-[#D7CCBF] bg-[#F7F3EC]">
         <div className="mx-auto max-w-[1280px] px-5 py-14 md:px-10 md:py-20 lg:px-14">
           <p className="mb-8 text-[11px] font-black tracking-[0.16em] text-[#83796E]">
             全篇围绕三个研究问题展开
@@ -861,8 +861,8 @@ export default function ConclusionsDemo() {
       </section>
 
       {/* ============================= 章节一：成交原因 ============================= */}
-      {/* —— 1. 品类动机（奶油黄） —— */}
-      <section id="ch1" className="scroll-mt-2 bg-[#FFF4CC]">
+      {/* —— 1. 品类动机（浅奶油黄） —— */}
+      <section id="ch1" className="scroll-mt-2 bg-[#FFF9E8]">
         <div className="mx-auto max-w-[1280px] px-5 py-20 md:px-10 md:py-28 lg:px-14 lg:py-32">
           <ChapterMarker number="01" label="成交原因 · 品类动机" />
           <Reveal>
@@ -933,7 +933,7 @@ export default function ConclusionsDemo() {
                       {i < arr.length - 1 && (
                         <ArrowDown
                           size={16}
-                          className="absolute -bottom-[8px] left-[12px] z-10 bg-[#FFF4CC] text-[#A5945C]"
+                          className="absolute -bottom-[8px] left-[12px] z-10 bg-[#FFF9E8] text-[#A5945C]"
                         />
                       )}
                     </div>
@@ -1070,15 +1070,15 @@ export default function ConclusionsDemo() {
         </div>
       </section>
 
-      {/* —— 2. 产品决策（深森林绿） —— */}
-      <section className="bg-[#1E2B24] text-white">
+      {/* —— 2. 产品决策（浅灰绿，深色仅用于核心反转） —— */}
+      <section className="bg-[#F1F4EF]">
         <div className="mx-auto max-w-[1280px] px-5 py-20 md:px-10 md:py-28 lg:px-14 lg:py-32">
-          <ChapterMarker number="01" label="成交原因 · 产品决策" tone="light" />
+          <ChapterMarker number="01" label="成交原因 · 产品决策" />
           <Reveal>
             <h2 className="max-w-[880px] text-[34px] font-black leading-[1.2] tracking-[-0.035em] md:text-[50px]">
               相比竞品，洋葱缺少一个
               <br className="hidden md:block" />
-              <span className="text-[#C9FF5B]">清晰的课程记忆点</span>。
+              <span className="text-[#456A58]">清晰的课程记忆点</span>。
             </h2>
           </Reveal>
 
@@ -1088,14 +1088,13 @@ export default function ConclusionsDemo() {
               <SubHead
                 kicker="用户洞察 · 竞品"
                 title={<>家长被什么吸引下单——更多来自「单点爆破」</>}
-                tone="light"
               />
             </div>
           </Reveal>
           <div className="grid gap-4 md:grid-cols-2">
             {COMPETITORS.map((c, i) => (
               <Reveal key={c.name} delay={i * 60}>
-                <div className="h-full rounded-[16px] border border-white/12 bg-white/[0.05] p-5">
+                <div className="h-full rounded-[16px] border border-[#D8E1D9] bg-white/70 p-5">
                   <div className="mb-4 flex items-center gap-3">
                     <span
                       className="inline-block -rotate-1 px-2.5 py-1.5 text-[13px] font-black text-[#191816]"
@@ -1103,7 +1102,7 @@ export default function ConclusionsDemo() {
                     >
                       {c.name}
                     </span>
-                    <span className="text-[13px] font-bold text-white/70">
+                    <span className="text-[13px] font-bold text-[#5F6E64]">
                       {c.hook}
                     </span>
                   </div>
@@ -1111,12 +1110,12 @@ export default function ConclusionsDemo() {
                     {c.voices.map((v, vi) => (
                       <div
                         key={vi}
-                        className="rounded-[10px] bg-white/[0.06] p-3"
+                        className="rounded-[10px] bg-[#F8FAF7] p-3"
                       >
-                        <p className="text-[13px] font-semibold leading-6 text-white/85">
+                        <p className="text-[13px] font-semibold leading-6 text-[#4C564F]">
                           「{v.text}」
                         </p>
-                        <p className="mt-1.5 text-[11px] font-bold text-white/40">
+                        <p className="mt-1.5 text-[11px] font-bold text-[#98A39B]">
                           — {v.source}
                         </p>
                         {v.clipUrl && (
@@ -1135,33 +1134,33 @@ export default function ConclusionsDemo() {
 
           {/* 洋葱：品牌信任 + 顺手加购 + 洋葱困境 */}
           <Reveal>
-            <div className="mt-12 grid gap-8 border-t border-white/15 pt-10 lg:grid-cols-[1.05fr_.95fr] lg:gap-16">
+            <div className="mt-12 grid gap-8 border-t border-[#CDD8CF] pt-10 lg:grid-cols-[1.05fr_.95fr] lg:gap-16">
               <div>
-                <p className="text-[11px] font-black tracking-[0.15em] text-[#C9FF5B]">
+                <p className="text-[11px] font-black tracking-[0.15em] text-[#456A58]">
                   洋葱：主要来自「品牌信任」和「顺手加购」
                 </p>
-                <ol className="mt-5 space-y-3 text-[15px] font-bold text-white/85">
-                  <li className="flex gap-3 border-b border-white/10 pb-3">
-                    <span className="text-white/35">01</span>信任洋葱的品牌
+                <ol className="mt-5 space-y-3 text-[15px] font-bold text-[#39443D]">
+                  <li className="flex gap-3 border-b border-[#D8E1D9] pb-3">
+                    <span className="text-[#A2ADA5]">01</span>信任洋葱的品牌
                   </li>
-                  <li className="flex gap-3 border-b border-white/10 pb-3">
-                    <span className="text-white/35">02</span>买小学/全科课包时顺手加购
+                  <li className="flex gap-3 border-b border-[#D8E1D9] pb-3">
+                    <span className="text-[#A2ADA5]">02</span>买小学/全科课包时顺手加购
                   </li>
                 </ol>
                 <div className="mt-6 space-y-2.5">
                   {ONION_BUY_VOICES.map((v, i) => (
-                    <div key={i} className="rounded-[10px] bg-white/[0.06] p-3">
-                      <p className="text-[13px] font-semibold leading-6 text-white/85">
+                    <div key={i} className="rounded-[10px] border border-[#D8E1D9] bg-white/70 p-3">
+                      <p className="text-[13px] font-semibold leading-6 text-[#4C564F]">
                         「{v.text}」
                       </p>
-                      <p className="mt-1.5 text-[11px] font-bold text-white/40">
+                      <p className="mt-1.5 text-[11px] font-bold text-[#98A39B]">
                         — {v.source}
                       </p>
                     </div>
                   ))}
                 </div>
               </div>
-              <div className="self-start rounded-[16px] border border-[#C9FF5B]/40 bg-[#C9FF5B]/[0.08] p-6">
+              <div className="self-start rounded-[16px] border border-[#1E2B24] bg-[#1E2B24] p-6">
                 <div className="mb-3 flex items-center gap-2 text-[11px] font-black tracking-[0.12em] text-[#C9FF5B]">
                   <TriangleAlert size={14} />
                   洋葱困境
@@ -1176,16 +1175,15 @@ export default function ConclusionsDemo() {
 
           {/* 业务启发 · 最专业的学科启蒙课 */}
           <Reveal>
-            <div className="mt-16 border-t border-white/15 pt-10">
+            <div className="mt-16 border-t border-[#CDD8CF] pt-10">
               <SubHead
                 kicker="业务启发"
                 title={
                   <>
                     最大优势不是拼单一功能，而是塑造
-                    <span className="text-[#C9FF5B]">「最专业的学科启蒙课」</span>
+                    <span className="text-[#456A58]">「最专业的学科启蒙课」</span>
                   </>
                 }
-                tone="light"
               />
             </div>
           </Reveal>
@@ -1194,19 +1192,19 @@ export default function ConclusionsDemo() {
               const Icon = p.icon;
               return (
                 <Reveal key={p.tag} delay={i * 70}>
-                  <div className="flex h-full flex-col rounded-[16px] border border-white/12 bg-white/[0.05] p-6">
+                  <div className="flex h-full flex-col rounded-[16px] border border-[#D8E1D9] bg-white/70 p-6">
                     <div className="mb-4 flex items-center gap-2.5">
-                      <span className="grid size-9 place-items-center rounded-[10px] bg-[#C9FF5B]/15 text-[#C9FF5B]">
+                      <span className="grid size-9 place-items-center rounded-[10px] bg-[#DDE8E0] text-[#456A58]">
                         <Icon size={18} />
                       </span>
-                      <span className="text-[17px] font-black text-white">
+                      <span className="text-[17px] font-black text-[#2F3B34]">
                         {p.tag}
                       </span>
                     </div>
-                    <ul className="space-y-3 text-[13px] font-semibold leading-7 text-white/70">
+                    <ul className="space-y-3 text-[13px] font-semibold leading-7 text-[#627067]">
                       {p.points.map((pt, pi) => (
                         <li key={pi} className="flex gap-2.5">
-                          <span className="mt-[10px] size-1.5 shrink-0 rounded-full bg-[#C9FF5B]" />
+                          <span className="mt-[10px] size-1.5 shrink-0 rounded-full bg-[#6D8E7B]" />
                           <span>{pt}</span>
                         </li>
                       ))}
@@ -1216,14 +1214,14 @@ export default function ConclusionsDemo() {
               );
             })}
           </div>
-          <p className="mt-4 text-[10.5px] font-semibold text-white/30">
+          <p className="mt-4 text-[10.5px] font-semibold text-[#99A49C]">
             系统性/专业性中的课程体系、教材对应、专家团队、思维模型，原文以配图呈现，此处提炼其要点。
           </p>
         </div>
       </section>
 
       {/* ============================= 章节二：未成交卡点 ============================= */}
-      <section id="ch2" className="scroll-mt-2 bg-[#F5DCD5]">
+      <section id="ch2" className="scroll-mt-2 bg-[#FCF1EE]">
         <div className="mx-auto max-w-[1280px] px-5 py-20 md:px-10 md:py-28 lg:px-14 lg:py-32">
           <ChapterMarker number="02" label="未成交卡点" />
 
@@ -1358,7 +1356,7 @@ export default function ConclusionsDemo() {
       </section>
 
       {/* ============================= 章节三：产品体验 ============================= */}
-      <section id="ch3" className="scroll-mt-2 bg-[#F6F0E7]">
+      <section id="ch3" className="scroll-mt-2 bg-[#F1F7F5]">
         <div className="mx-auto max-w-[1280px] px-5 py-20 md:px-10 md:py-28 lg:px-14 lg:py-32">
           <ChapterMarker number="03" label="产品体验 · 典型使用场景" />
           <Reveal>
@@ -1387,7 +1385,7 @@ export default function ConclusionsDemo() {
                   {i < SCENE_STEPS.length - 1 && (
                     <ArrowRight
                       size={16}
-                      className="absolute -right-[11px] top-1/2 z-10 hidden -translate-y-1/2 bg-[#F6F0E7] text-[#B7C7B3] lg:block"
+                      className="absolute -right-[11px] top-1/2 z-10 hidden -translate-y-1/2 bg-[#F1F7F5] text-[#B7C7B3] lg:block"
                     />
                   )}
                 </div>
