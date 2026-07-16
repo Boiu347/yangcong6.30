@@ -260,7 +260,15 @@ function VoiceCard({ voice }: { voice: Voice }) {
   );
 }
 
-function VoiceGroup({ voices, title }: { voices: Voice[]; title?: string }) {
+function VoiceGroup({
+  voices,
+  title,
+  columns = 2,
+}: {
+  voices: Voice[];
+  title?: string;
+  columns?: 1 | 2;
+}) {
   return (
     <div>
       {title && (
@@ -269,7 +277,12 @@ function VoiceGroup({ voices, title }: { voices: Voice[]; title?: string }) {
           {title}
         </div>
       )}
-      <div className="grid gap-3 md:grid-cols-2">
+      <div
+        className={cn(
+          'grid gap-3',
+          columns === 1 ? 'grid-cols-1' : 'md:grid-cols-2',
+        )}
+      >
         {voices.map((v, i) => (
           <VoiceCard key={v.text + i} voice={v} />
         ))}
@@ -302,23 +315,28 @@ function DataBars({
   data,
   unit = '%',
   color = '#E95B35',
+  scale = 'absolute',
 }: {
   data: { label: string; value: number; hint?: string }[];
   unit?: string;
   color?: string;
+  /** absolute：按 0–100% 真实占比；relative：按最高项归一化 */
+  scale?: 'absolute' | 'relative';
 }) {
   const max = Math.max(...data.map((d) => d.value), 1);
+  const meterMax = scale === 'absolute' ? 100 : max;
   return (
     <div className="space-y-3">
       {data.map((d) => {
-        const ratio = d.value / max;
+        const widthPct =
+          scale === 'absolute' ? d.value : (d.value / max) * 100;
         return (
           <div
             key={d.label}
-            className="grid grid-cols-[minmax(0,132px)_minmax(0,1fr)_52px] items-center gap-3"
+            className="grid grid-cols-[minmax(0,148px)_minmax(0,1fr)_52px] items-center gap-3"
           >
             <span
-              className="truncate text-[12px] font-bold text-[#5B534A]"
+              className="truncate text-[12px] font-bold leading-5 text-[#5B534A]"
               title={d.label}
             >
               {d.label}
@@ -328,15 +346,15 @@ function DataBars({
               role="meter"
               aria-valuenow={d.value}
               aria-valuemin={0}
-              aria-valuemax={max}
+              aria-valuemax={meterMax}
               aria-label={d.label}
             >
               <div
                 className="h-full rounded-full transition-[width] duration-700 ease-out"
                 style={{
-                  width: `${ratio * 100}%`,
+                  width: `${Math.min(100, Math.max(0, widthPct))}%`,
                   backgroundColor: color,
-                  opacity: d.value > 0 ? 0.45 + 0.55 * ratio : 0,
+                  opacity: d.value > 0 ? 0.55 + 0.45 * (widthPct / 100) : 0,
                 }}
               />
             </div>
@@ -398,11 +416,22 @@ const FUTURE_VALUE_VOICES: Voice[] = [
   },
 ];
 
-// 品类定位 · 匿名原声（原文引号，无编号）
+// 品类定位 · 原声（与核心结论数据中的录音对应）
 const POSITION_VOICES: Voice[] = [
-  { text: '不需要提前学完初中内容，能确保以后正式学时不陌生就可以了。', source: '访谈原声' },
-  { text: '到真正学物理的时候，讲到的时候孩子都知道，比其他同学更好吸收。', source: '访谈原声' },
-  { text: '初中学印象中有这个东西，不排斥这个学科就好。', source: '访谈原声' },
+  {
+    text: '不需要提前学完初中内容，能确保以后正式学时不陌生就可以了。',
+    source: '访谈原声',
+  },
+  {
+    text: '到真正学物理的时候，讲到的时候孩子都知道，比其他同学更好吸收。',
+    source: '用户3｜二年级｜广东中山',
+    clipUrl: '/clips/interview3/0045-01.mp3',
+  },
+  {
+    text: '让他不排斥，印象里面有这个东西，他就更感兴趣去学，学起来也容易一些。',
+    source: '用户5｜三年级｜重庆渝中',
+    clipUrl: '/clips/interview5/0001-01.mp3',
+  },
 ];
 
 // 问卷：家长对课程的定位（n=41，数据来自原文配图图注）
@@ -994,39 +1023,45 @@ export default function ConclusionsDemo() {
             </div>
           </Reveal>
 
-          <div className="mt-10 grid gap-6 lg:grid-cols-2">
+          <div className="mt-10 space-y-8">
             <Reveal>
+              <div className="rounded-[16px] border border-[#E4D9C9] bg-white p-5 md:p-6">
+                <p className="mb-4 text-[12px] font-black tracking-[0.1em] text-[#9C4A2F]">
+                  行业研究：为什么是「学科启蒙」
+                </p>
+                <ul className="space-y-4 text-[14px] font-semibold leading-7 text-[#5B534A]">
+                  <li className="border-l-2 border-[#E95B35]/35 pl-4">
+                    <span className="font-black text-[#25211D]">
+                      兴趣启蒙——竞争激烈、红海市场：
+                    </span>
+                    一边有更方便实惠护眼的绘本/科普书籍，一边有更有趣主流的线上化竞品（斑马、叫叫等），洋葱做「课」起家，在纯启蒙领域不一定有优势。
+                  </li>
+                  <li className="border-l-2 border-[#E95B35]/35 pl-4">
+                    <span className="font-black text-[#25211D]">
+                      小初衔接提前学——需求和方案不匹配：
+                    </span>
+                    有「提前学理科」需求的用户更希望直接对标课本教材，可选秒懂，或买洋葱小初 6
+                    年卡直接学【初中物理同步课】。
+                  </li>
+                </ul>
+              </div>
+            </Reveal>
+
+            <Reveal delay={60}>
               <EvidenceFigure caption="数据来自原文配图：问卷调研「家长对课程的定位」，有效填写 41 人次">
                 <p className="mb-4 text-[12px] font-black tracking-[0.1em] text-[#9C4A2F]">
                   家长对课程的定位（n=41）
                 </p>
-                <DataBars data={POSITION_SURVEY} />
+                <DataBars data={POSITION_SURVEY} scale="absolute" />
               </EvidenceFigure>
             </Reveal>
-            <Reveal delay={80}>
-              <div className="flex h-full flex-col gap-6">
-                <div className="rounded-[16px] border border-[#E4D9C9] bg-white p-5 md:p-6">
-                  <p className="mb-3 text-[12px] font-black tracking-[0.1em] text-[#9C4A2F]">
-                    行业研究：为什么是「学科启蒙」
-                  </p>
-                  <ul className="space-y-3 text-[13.5px] font-semibold leading-7 text-[#5B534A]">
-                    <li>
-                      <span className="font-black text-[#25211D]">
-                        兴趣启蒙——竞争激烈、红海市场：
-                      </span>
-                      一边有更方便实惠护眼的绘本/科普书籍，一边有更有趣主流的线上化竞品（斑马、叫叫等），洋葱做「课」起家，在纯启蒙领域不一定有优势。
-                    </li>
-                    <li>
-                      <span className="font-black text-[#25211D]">
-                        小初衔接提前学——需求和方案不匹配：
-                      </span>
-                      有「提前学理科」需求的用户更希望直接对标课本教材，可选秒懂，或买洋葱小初 6
-                      年卡直接学【初中物理同步课】。
-                    </li>
-                  </ul>
-                </div>
-                <VoiceGroup voices={POSITION_VOICES} title="访谈录音片段" />
-              </div>
+
+            <Reveal delay={120}>
+              <VoiceGroup
+                voices={POSITION_VOICES}
+                title="访谈录音片段"
+                columns={1}
+              />
             </Reveal>
           </div>
 
