@@ -28,7 +28,7 @@ import {
 import { cn } from '@/lib/utils';
 
 // ════════════════════════════════════════════════════════════════════════════
-// 用户画像 V2 · 对齐《小学家长画像白皮书》「典型用户代表」的共性版式
+// 用户画像 · 对齐《小学家长画像白皮书》「典型用户代表」的共性版式
 //   每类一页两大块：A. 用户画像（这一类人） B. 用户故事（典型代表）
 //   ④ 教育逻辑可视化为可插拔槽位（chart.type），四类各用不同图式：
 //     兴趣启蒙 flywheel · 学科打底 ladder · 实验探究 balance · 校内助力 match
@@ -596,7 +596,7 @@ export default function PortraitsV2Page() {
           <div className="mx-auto max-w-[940px]">
             <div className="flex items-center gap-2" style={{ color: activeAccent }}>
               <Sparkles size={15} />
-              <span className="text-[11px] font-black tracking-[0.14em]">用户画像 V2 · 从小学物理</span>
+              <span className="text-[11px] font-black tracking-[0.14em]">用户画像 · 从小学物理</span>
             </div>
             <div className="mt-2.5 flex flex-wrap gap-1.5">
               {PERSONAS.map((p) => {

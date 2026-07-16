@@ -21,7 +21,6 @@ import Competitive2Page from './pages/Competitive2/Competitive2Page';
 import QuantitativePage from './pages/Quantitative/QuantitativePage';
 import MarketingPage from './pages/Marketing/MarketingPage';
 import BackgroundPage from './pages/Background/BackgroundPage';
-import FromPrimaryPortraitsPage from './pages/Portraits/FromPrimaryPortraitsPage';
 import PortraitsV2Page from './pages/PortraitsV2/PortraitsV2Page';
 import CodexConclusionsPage from './pages/Codex/CodexConclusionsPage';
 import NotFound from './pages/NotFound/NotFound';
@@ -71,8 +70,8 @@ const RoutesComponent = () => {
         <Route path="summary-demo-legacy" element={<ConclusionsLegacyDemo />} />
         <Route path="core-conclusions" element={<ProjectCoreConclusionsPage />} />
         <Route path="codex" element={<CodexConclusionsPage />} />
-        <Route path="portraits" element={<FromPrimaryPortraitsPage />} />
-        <Route path="portraits-v2" element={<PortraitsV2Page />} />
+        <Route path="portraits" element={<PortraitsV2Page />} />
+        <Route path="portraits-v2" element={<Navigate to="../portraits" replace />} />
         <Route path="qualitative" element={<QualitativePage />} />
         <Route path="family-insights" element={<FamilyInsights />} />
         <Route path="research-conclusions" element={<JiatingbaoConclusionsReport />} />
