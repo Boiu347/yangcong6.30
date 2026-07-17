@@ -251,6 +251,7 @@ const MODULE_TONES: Record<
 };
 
 function StoryModule({
+  id,
   number,
   label,
   title,
@@ -258,6 +259,7 @@ function StoryModule({
   tone,
   children,
 }: {
+  id?: string;
   number: string;
   label: string;
   title: React.ReactNode;
@@ -269,7 +271,8 @@ function StoryModule({
 
   return (
     <section
-      className="border-t-2 pt-7 md:pt-9"
+      id={id}
+      className="scroll-mt-14 border-t-2 pt-7 md:pt-9"
       style={{ borderColor: colors.line }}
     >
       <header className="grid gap-4 md:grid-cols-[156px_minmax(0,1fr)] md:items-start">
@@ -523,7 +526,12 @@ const CHAPTERS = [
     q: '为什么成交？',
     hint: '品类动机与产品决策',
     color: '#C58A3D',
-    modules: ['购买动机', '品类与人群', '竞品记忆点', '洋葱价值'],
+    modules: [
+      { id: 'mod-purchase', label: '购买动机' },
+      { id: 'mod-audience', label: '品类与人群' },
+      { id: 'mod-competitor', label: '竞品记忆点' },
+      { id: 'mod-onion-value', label: '洋葱价值' },
+    ],
   },
   {
     id: 'ch2',
@@ -531,7 +539,10 @@ const CHAPTERS = [
     q: '为什么没有成交？',
     hint: '两个无法确认的问题',
     color: '#C0685C',
-    modules: ['成交阻力', '打消顾虑'],
+    modules: [
+      { id: 'mod-barrier', label: '成交阻力' },
+      { id: 'mod-reassure', label: '打消顾虑' },
+    ],
   },
   {
     id: 'ch3',
@@ -539,7 +550,10 @@ const CHAPTERS = [
     q: '买后体验到底怎么样？',
     hint: '使用场景与优劣势',
     color: '#2F9F8F',
-    modules: ['使用场景', '体验对比'],
+    modules: [
+      { id: 'mod-scene', label: '使用场景' },
+      { id: 'mod-experience', label: '体验对比' },
+    ],
   },
 ];
 
@@ -1118,31 +1132,37 @@ export default function ConclusionsDemo() {
           </p>
           <div className="grid gap-4 md:grid-cols-3 md:gap-5">
             {CHAPTERS.map((c) => (
-              <button
+              <div
                 key={c.id}
-                type="button"
-                onClick={() => jumpToId(c.id)}
-                className="group flex h-full flex-col justify-between rounded-[18px] border border-[#E0D5C6] bg-white px-5 py-6 text-left shadow-[0_10px_28px_-24px_rgba(60,45,30,0.45)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_32px_-22px_rgba(60,45,30,0.5)]"
+                className="group flex h-full flex-col justify-between rounded-[18px] border border-[#E0D5C6] bg-white px-5 py-6 shadow-[0_10px_28px_-24px_rgba(60,45,30,0.45)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_32px_-22px_rgba(60,45,30,0.5)]"
                 style={{ borderTopWidth: 3, borderTopColor: c.color }}
               >
                 <div>
-                  <span
-                    className="text-[13px] font-black tracking-[0.14em]"
-                    style={{ color: c.color }}
+                  <button
+                    type="button"
+                    onClick={() => jumpToId(c.id)}
+                    className="w-full text-left"
                   >
-                    {c.no}
-                  </span>
-                  <p className="mt-4 text-[22px] font-black leading-8 text-[#25211D] md:text-[25px]">
-                    {c.q}
-                  </p>
-                  <p className="mt-2 text-[13px] font-semibold text-[#8A7E71]">
-                    {c.hint}
-                  </p>
-                  <div className="mt-5 space-y-2 border-t border-[#E7DDD0] pt-4">
+                    <span
+                      className="text-[13px] font-black tracking-[0.14em]"
+                      style={{ color: c.color }}
+                    >
+                      {c.no}
+                    </span>
+                    <p className="mt-4 text-[22px] font-black leading-8 text-[#25211D] md:text-[25px]">
+                      {c.q}
+                    </p>
+                    <p className="mt-2 text-[13px] font-semibold text-[#8A7E71]">
+                      {c.hint}
+                    </p>
+                  </button>
+                  <div className="mt-5 space-y-1.5 border-t border-[#E7DDD0] pt-4">
                     {c.modules.map((module, moduleIndex) => (
-                      <p
-                        key={module}
-                        className="flex items-center gap-2 text-[12px] font-bold text-[#766C61]"
+                      <button
+                        key={module.id}
+                        type="button"
+                        onClick={() => jumpToId(module.id)}
+                        className="flex w-full items-center gap-2 rounded-[10px] px-2 py-2 text-left text-[12px] font-bold text-[#766C61] transition hover:bg-[#F7F1E8] hover:text-[#25211D]"
                       >
                         <span
                           className="grid size-5 shrink-0 place-items-center rounded-md text-[10px] font-black"
@@ -1153,17 +1173,29 @@ export default function ConclusionsDemo() {
                         >
                           M{moduleIndex + 1}
                         </span>
-                        {module}
-                      </p>
+                        <span className="flex-1">{module.label}</span>
+                        <ArrowRight
+                          size={14}
+                          className="opacity-0 transition group-hover:opacity-40"
+                          style={{ color: c.color }}
+                        />
+                      </button>
                     ))}
                   </div>
                 </div>
-                <ArrowRight
-                  size={18}
-                  className="mt-6 text-[#B2A598] transition group-hover:translate-x-1"
+                <button
+                  type="button"
+                  onClick={() => jumpToId(c.id)}
+                  className="mt-6 inline-flex items-center gap-1.5 text-[12px] font-black"
                   style={{ color: c.color }}
-                />
-              </button>
+                >
+                  进入本章
+                  <ArrowRight
+                    size={16}
+                    className="transition group-hover:translate-x-1"
+                  />
+                </button>
+              </div>
             ))}
           </div>
         </div>
@@ -1192,6 +1224,7 @@ export default function ConclusionsDemo() {
           {/* 用研洞察 · 前提：兴趣入口 */}
           <div className="mt-16 space-y-16 md:space-y-20">
             <StoryModule
+              id="mod-purchase"
               number="01"
               label="研究发现"
               title="兴趣把孩子带进来，未来学科价值让家长完成购买"
@@ -1288,6 +1321,7 @@ export default function ConclusionsDemo() {
 
             {/* 业务启发 · 品类定位 + 目标人群 */}
             <StoryModule
+              id="mod-audience"
               number="02"
               label="品类与人群"
               title="用「学科启蒙」统一品类定位、证据和目标人群"
@@ -1439,6 +1473,7 @@ export default function ConclusionsDemo() {
 
           <div className="mt-16 space-y-16 md:space-y-20">
             <StoryModule
+              id="mod-competitor"
               number="03"
               label="产品决策"
               title="先看竞品靠什么被记住，再看洋葱为什么缺少记忆点"
@@ -1517,6 +1552,7 @@ export default function ConclusionsDemo() {
             </StoryModule>
 
             <StoryModule
+              id="mod-onion-value"
               number="04"
               label="价值表达"
               title="把分散优势收束为「最专业的学科启蒙课」"
@@ -1602,6 +1638,7 @@ export default function ConclusionsDemo() {
 
           <div className="space-y-16 md:space-y-20">
             <StoryModule
+              id="mod-barrier"
               number="01"
               label="成交阻力"
               title="大量零散顾虑，最终收束为两个无法确认的问题"
@@ -1675,6 +1712,7 @@ export default function ConclusionsDemo() {
             </StoryModule>
 
             <StoryModule
+              id="mod-reassure"
               number="02"
               label="业务动作"
               title="围绕两个问题，分别提供数据证明和效果外化方案"
@@ -1768,6 +1806,7 @@ export default function ConclusionsDemo() {
 
           <div className="mt-14 space-y-16 md:space-y-20">
             <StoryModule
+              id="mod-scene"
               number="01"
               label="使用场景"
               title="一条从碎片时间到低压力观看的完整使用链路"
@@ -1812,6 +1851,7 @@ export default function ConclusionsDemo() {
             </StoryModule>
 
             <StoryModule
+              id="mod-experience"
               number="02"
               label="体验对比"
               title="用同一套结构对比四类产品的优势与折损"
