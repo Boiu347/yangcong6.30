@@ -12,9 +12,8 @@ import SummaryPage from './pages/Summary/SummaryPage';
 import ConclusionsDemo from './pages/Summary/ConclusionsStoryDemo';
 import ConclusionsLegacyDemo from './pages/Summary/ConclusionsDemo';
 import CoreConclusionsReport from './pages/CoreConclusions/CoreConclusionsReport';
-import JiatingbaoCoreConclusionsPage from './pages/JiatingbaoCoreConclusions/JiatingbaoCoreConclusionsPage';
+import JiatingbaoConclusionsDemo from './pages/JiatingbaoConclusionsDemo/JiatingbaoConclusionsDemo';
 import QualitativePage from './pages/Qualitative/QualitativePage';
-import FamilyInsights from './pages/FamilyPackage/FamilyInsights';
 import TypicalFamilyStories from './pages/FamilyPackage/TypicalFamilyStories';
 import JiatingbaoConclusionsReport from './pages/JiatingbaoConclusions/JiatingbaoConclusionsReport';
 import CompetitivePage from './pages/Competitive/CompetitivePage';
@@ -35,10 +34,16 @@ function ProjectIndexRedirect() {
 function ProjectCoreConclusionsPage() {
   const { projectId } = useParams<{ projectId: string }>();
   return projectId === 'jiatingbao_project' ? (
-    <JiatingbaoCoreConclusionsPage />
+    <JiatingbaoConclusionsReport />
   ) : (
     <CoreConclusionsReport />
   );
+}
+
+function ProjectQualitativePage() {
+  const { projectId } = useParams<{ projectId: string }>();
+  if (projectId === 'jiatingbao_project') return <Navigate to="../core-conclusions" replace />;
+  return <QualitativePage />;
 }
 
 const RoutesComponent = () => {
@@ -70,13 +75,14 @@ const RoutesComponent = () => {
         <Route path="summary-demo" element={<ConclusionsDemo />} />
         <Route path="summary-demo-legacy" element={<ConclusionsLegacyDemo />} />
         <Route path="core-conclusions" element={<ProjectCoreConclusionsPage />} />
+        <Route path="conclusions-demo" element={<JiatingbaoConclusionsDemo />} />
         <Route path="portraits" element={<PortraitsV2Page />} />
         <Route path="portraits-v2" element={<Navigate to="../portraits" replace />} />
-        <Route path="qualitative" element={<QualitativePage />} />
+        <Route path="qualitative" element={<ProjectQualitativePage />} />
         <Route path="family-stories" element={<TypicalFamilyStories />} />
-        <Route path="family-insights" element={<FamilyInsights />} />
-        <Route path="research-conclusions" element={<JiatingbaoConclusionsReport />} />
-        <Route path="qualitative/users/:userId" element={<QualitativePage />} />
+        <Route path="family-insights" element={<Navigate to="../core-conclusions" replace />} />
+        <Route path="research-conclusions" element={<Navigate to="../core-conclusions" replace />} />
+        <Route path="qualitative/users/:userId" element={<ProjectQualitativePage />} />
         <Route path="onion-praise" element={<Navigate to="../qualitative" replace />} />
         <Route path="competitive" element={<CompetitivePage />} />
         <Route path="competitive-2" element={<Competitive2Page />} />

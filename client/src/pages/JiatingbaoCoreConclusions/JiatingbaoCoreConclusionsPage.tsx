@@ -362,7 +362,11 @@ function mergeDefaultEnhancements(
   });
 }
 
-export default function JiatingbaoCoreConclusionsPage() {
+export default function JiatingbaoCoreConclusionsPage({
+  variant = 'core',
+}: {
+  variant?: 'core' | 'demo';
+}) {
   const editor = useIsEditor();
   const {
     data: storedConclusions,
@@ -533,10 +537,12 @@ export default function JiatingbaoCoreConclusionsPage() {
             <div className="mt-2.5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <h1 className="text-[28px] font-black leading-tight md:text-[34px]">
-                  核心结论
+                  {variant === 'demo' ? '结论速览 Demo' : '核心结论'}
                 </h1>
                 <p className="mt-2.5 max-w-3xl text-[14px] font-medium leading-7 text-[#8A8279]">
-                  从购买决策到机会人群，快速看清家庭包为什么成立、卡在哪里，以及优先向谁转化。
+                  {variant === 'demo'
+                    ? '用更轻量的连续阅读方式，快速浏览家庭包的成交机制、未购卡点与机会人群。'
+                    : '从购买决策到机会人群，快速看清家庭包为什么成立、卡在哪里，以及优先向谁转化。'}
                 </p>
               </div>
               <a

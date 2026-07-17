@@ -42,7 +42,7 @@ const PROJECT_COPY: Record<string, { summary: string; takeaway: string; source: 
   jiatingbao_project: {
     summary: '围绕 6 年多孩家庭包，拆解已购、未购、续购、升单家庭的购买动机和顾虑。',
     takeaway: '家庭包不是单个卖点打动，而是“长期价值、风险消解、家庭场景”共同促成决策。',
-    source: '项目总览 / 用户访谈 / 定性洞察',
+    source: '调研背景 / 典型家庭故事 / 核心结论',
   },
   paisou_project: {
     summary: '围绕 AI 拍题 4.0，从真实使用场景、竞品生态、定量验证和营销表达判断产品机会。',

@@ -260,9 +260,9 @@ export default function JiatingbaoConclusionsReport() {
           <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
             <div>
               <p className="text-[12px] font-black tracking-[0.16em] text-[#E8643C]">洋葱家庭包用户调研</p>
-              <h1 className="mt-3 text-[32px] font-black leading-tight md:text-[42px]">调研结论</h1>
+              <h1 className="mt-3 text-[32px] font-black leading-tight md:text-[42px]">家庭包核心结论</h1>
               <p className="mt-3 max-w-3xl text-[15px] font-semibold leading-7 text-[#706960]">
-                拆解已购、未购、续购、升单家庭的购买决策：家庭包不是被卖点打动，而是被“风险消解机制”撬动。每条结论落到用户原声与销售可用的话术判断。
+                用于沉淀家庭包的成交机制、未购卡点、机会人群和销售打法，帮助业务方先看判断，再追溯到用户原声。
               </p>
             </div>
             <div className="grid w-full max-w-[420px] grid-cols-2 gap-2 lg:w-[420px] lg:shrink-0">
@@ -379,12 +379,13 @@ export default function JiatingbaoConclusionsReport() {
                   </span>
                 </div>
 
-                <div className="w-full">
-                  <div className="mb-4 flex items-center justify-between">
-                    <p className="text-[14px] font-black text-[#403A34]">结论列表</p>
-                    <span className="text-[11px] font-bold text-[#8A8279]">{section.mains.length} 条</span>
-                  </div>
-                  <div className="flex flex-wrap gap-2.5">
+                <div className="grid w-full items-start gap-5 lg:grid-cols-[300px_minmax(0,1fr)]">
+                  <aside className="w-full rounded-[18px] border border-[#E6DDD3] bg-[#FBFAF7] p-3 lg:w-[300px]">
+                    <div className="mb-3 flex items-center justify-between">
+                      <p className="text-[14px] font-black text-[#403A34]">结论列表</p>
+                      <span className="text-[11px] font-bold text-[#8A8279]">{section.mains.length} 条</span>
+                    </div>
+                    <div className="space-y-2.5">
                     {section.mains.map((main, index) => {
                       const selected = main.id === selectedMain.id;
                       return (
@@ -393,36 +394,40 @@ export default function JiatingbaoConclusionsReport() {
                           type="button"
                           onClick={() => setSelectedByDimension((prev) => ({ ...prev, [section.id]: main.id }))}
                           className={cn(
-                            'flex items-center gap-2.5 rounded-full border px-4 py-2.5 text-left transition',
-                            selected ? 'shadow-[0_10px_24px_rgba(55,44,34,.08)]' : 'hover:bg-[#FFF9F5]',
+                            'w-full rounded-[14px] border p-4 text-left transition',
+                            selected
+                              ? 'bg-white shadow-[0_12px_28px_rgba(55,44,34,.08)]'
+                              : 'bg-white hover:bg-[#FFF9F5]',
                           )}
                           style={{
                             borderColor: selected ? section.color : `${section.color}55`,
-                            backgroundColor: selected ? `${section.color}12` : '#fff',
                           }}
                         >
-                          <span
-                            className="grid size-6 shrink-0 place-items-center rounded-full text-[12px] font-black text-white"
-                            style={{ backgroundColor: selected ? section.color : `${section.color}80` }}
-                          >
-                            {index + 1}
-                          </span>
-                          <span
-                            className="whitespace-nowrap text-[14px] font-black"
-                            style={{ color: selected ? section.color : '#5F5851' }}
-                          >
-                            {toShortTitle(main.title)}
-                          </span>
+                          <div className="flex items-start gap-3">
+                            <span
+                              className="grid size-8 shrink-0 place-items-center rounded-full text-[13px] font-black text-white"
+                              style={{ backgroundColor: selected ? section.color : `${section.color}80` }}
+                            >
+                              {index + 1}
+                            </span>
+                            <div className="min-w-0">
+                              <h3 className="text-[15px] font-black leading-6" style={{ color: selected ? section.color : '#292521' }}>
+                                {toShortTitle(main.title)}
+                              </h3>
+                              <p className="mt-1 text-[12px] font-semibold leading-5 text-[#6F675F]">{main.summary}</p>
+                            </div>
+                          </div>
                         </button>
                       );
                     })}
-                  </div>
+                    </div>
+                  </aside>
 
                   <section
                     ref={(node) => {
                       detailPanelRefs.current[section.id] = node;
                     }}
-                    className="mt-5 w-full min-w-0 scroll-mt-16 rounded-[18px] border border-[#E6DDD3] bg-white p-5"
+                    className="w-full min-w-0 scroll-mt-16 rounded-[18px] border border-[#E6DDD3] bg-white p-5"
                   >
                     <div className="flex items-center justify-between gap-3">
                       <div
@@ -470,7 +475,7 @@ export default function JiatingbaoConclusionsReport() {
                       {selectedMain.evidenceNote}
                     </div>
                   </section>
-                </div>
+                  </div>
               </article>
             );
           })}
@@ -484,7 +489,7 @@ export default function JiatingbaoConclusionsReport() {
       <EditDrawer
         open={!!draft}
         onClose={() => setDraft(null)}
-        title={draft ? `编辑「${toShortTitle(draft.main.title)}」` : '编辑调研结论'}
+        title={draft ? `编辑「${toShortTitle(draft.main.title)}」` : '编辑核心结论'}
       >
         {draft && (
           <div className="space-y-5">

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 
-// 文本归一化：镜像 FamilyInsights 的 cleanSpokenText（去语气词/叠词），并额外去掉
-// 大小写、所有空白与标点、加粗标记 *，使「AI 引用的原话」与「页面展示文本」可互相匹配。
+// 文本归一化：去掉语气词、叠词、大小写、空白、标点与加粗标记，
+// 使「AI 引用的原话」与「页面展示文本」可互相匹配。
 const FILLER_INTERJECTION = /[嗯呃唉噢哦诶欸唔呐啊呀哇啦嘞咯]/g;
 const STUTTER_CHARS = '他她它我你您这那就是在有会要可对先再都也还把被和跟的了不没很';
 const STUTTER_RE = new RegExp(`([${STUTTER_CHARS}])\\1`, 'g');

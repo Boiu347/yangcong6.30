@@ -154,7 +154,7 @@ export function buildSiteKnowledge(projects: Project[]): KnowledgeChunk[] {
         excerpt: compact(insight.quote || insight.detail),
         source: `用户${interview.seq}访谈纪要`,
         projectName: '洋葱家庭包用户调研',
-        route: '/projects/jiatingbao_project/qualitative',
+        route: '/projects/jiatingbao_project/core-conclusions',
         keywords: ['家庭包', interview.status, interview.purchaseType, interview.combo, insight.title],
       });
     });
@@ -167,7 +167,7 @@ export function buildSiteKnowledge(projects: Project[]): KnowledgeChunk[] {
         excerpt: compact(quote),
         source: `用户${interview.seq}访谈纪要`,
         projectName: '洋葱家庭包用户调研',
-        route: '/projects/jiatingbao_project/qualitative',
+        route: '/projects/jiatingbao_project/core-conclusions',
         keywords: ['家庭包', interview.status, interview.purchaseType, interview.combo],
       });
     });
@@ -182,8 +182,7 @@ export function buildSiteKnowledge(projects: Project[]): KnowledgeChunk[] {
       excerpt: compact(segment.quote),
       source: segment.respondent,
       projectName: segment.projectName,
-      // 片段原声实际展示在「定性归纳」页（FamilyInsights），而非「用户访谈」页
-      route: '/projects/jiatingbao_project/family-insights',
+      route: '/projects/jiatingbao_project/core-conclusions',
       keywords: ['家庭包', labelFullName(segment.primaryLabel), segment.respondent],
     });
   });
@@ -295,8 +294,8 @@ export function buildSiteKnowledge(projects: Project[]): KnowledgeChunk[] {
     });
   });
 
-  // ── 家庭包「调研结论」页：六大板块（核心结论/购买动机/关键顾虑/成立原因/放大价值/推课逻辑） ──
-  const JTB_CONCLUSIONS_ROUTE = '/projects/jiatingbao_project/research-conclusions';
+  // ── 家庭包「核心结论」页：六大板块（核心结论/购买动机/关键顾虑/成立原因/放大价值/推课逻辑） ──
+  const JTB_CONCLUSIONS_ROUTE = '/projects/jiatingbao_project/core-conclusions';
   jiatingbaoConclusionSections.forEach((section) => {
     section.mains.forEach((main) => {
       const pointsText = main.subs
