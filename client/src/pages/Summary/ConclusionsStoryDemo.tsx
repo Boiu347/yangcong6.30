@@ -6,6 +6,7 @@ import {
   BookOpen,
   CircleCheck,
   Eye,
+  ExternalLink,
   FileText,
   Headphones,
   Layers,
@@ -23,6 +24,51 @@ import { cn } from '@/lib/utils';
 
 const SOURCE_URL =
   'https://guanghe.feishu.cn/wiki/XvjcwdzsZiEiJ1kF9UOcburXnig?from=from_copylink';
+
+const RESEARCH_SOURCE_LINKS = [
+  {
+    label: '洞察小结',
+    url: 'https://guanghe.feishu.cn/wiki/BRBywMno4iK5QakFbmqcwJxen4b?from=from_copylink',
+  },
+  {
+    label: '研究方案',
+    url: 'https://guanghe.feishu.cn/wiki/S7NrwiHD8iQhkFkzR50cs54bnMf?from=from_copylink',
+  },
+  {
+    label: '访谈纪要',
+    url: 'https://guanghe.feishu.cn/wiki/STo3wNQSui7aohkP4oacAXVVnKf',
+  },
+  {
+    label: '定量报告',
+    url: 'https://guanghe.feishu.cn/wiki/HBKvwABW1ibBvPkUX1ncVVBbnRe',
+  },
+];
+
+function ResearchSourceLinks() {
+  return (
+    <nav
+      aria-label="研究资料"
+      className="flex flex-wrap items-center gap-x-5 gap-y-2"
+    >
+      {RESEARCH_SOURCE_LINKS.map((link) => (
+        <a
+          key={link.label}
+          href={link.url}
+          target="_blank"
+          rel="noreferrer"
+          className="group inline-flex items-center gap-1.5 border-b border-[#CFC3B5] pb-0.5 text-[11.5px] font-black text-[#655D54] transition hover:border-[#E95B35] hover:text-[#E95B35]"
+        >
+          <FileText size={12} className="opacity-60" />
+          {link.label}
+          <ExternalLink
+            size={10}
+            className="opacity-35 transition group-hover:opacity-80"
+          />
+        </a>
+      ))}
+    </nav>
+  );
+}
 
 /* --------------------------- 通用：减少动态 & 滚动揭示 --------------------------- */
 
@@ -949,19 +995,11 @@ export default function ConclusionsDemo() {
       >
         <div className="pointer-events-none absolute -right-24 top-14 -z-10 size-[420px] rounded-full border-[72px] border-[#E95B35]/10 md:size-[620px]" />
         <div className="mx-auto flex min-h-[calc(100vh-52px)] max-w-[1280px] flex-col px-5 py-8 md:px-10 md:py-12 lg:px-14">
-          <div className="flex items-center justify-between border-b border-[#CFC3B5] pb-4">
+          <div className="flex flex-col gap-3 border-b border-[#CFC3B5] pb-4 md:flex-row md:items-center md:justify-between">
             <p className="text-[11px] font-black tracking-[0.18em] text-[#9C4A2F]">
               从小学系列售卖策略调研 · 核心结论
             </p>
-            <a
-              href={SOURCE_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-1.5 text-[12px] font-black text-[#5C554E] transition hover:text-[#E95B35]"
-            >
-              <FileText size={14} />
-              查看研究素材
-            </a>
+            <ResearchSourceLinks />
           </div>
 
           <div className="grid flex-1 items-center gap-12 py-12 lg:grid-cols-[minmax(0,1.35fr)_minmax(320px,.65fr)] lg:gap-16">
