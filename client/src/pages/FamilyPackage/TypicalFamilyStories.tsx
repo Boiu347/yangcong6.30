@@ -2,16 +2,11 @@ import React from 'react';
 import { motion } from 'motion/react';
 import {
   AlertTriangle,
-  ArrowRight,
   BookOpenCheck,
   CheckCircle2,
-  GitCompare,
-  Heart,
   Lightbulb,
   Quote,
-  ShieldCheck,
   Sparkles,
-  Target,
   Users,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -30,32 +25,10 @@ const reveal = {
 
 type IconType = React.ComponentType<{ size?: number }>;
 
-type FlowChart = {
-  type: 'flow';
-  nodes: { title: string; desc: string }[];
-  note: string;
-};
-
-type LadderChart = {
-  type: 'ladder';
-  nodes: { title: string; desc: string }[];
-  note: string;
-};
-
-type TransferChart = {
-  type: 'transfer';
-  source: { title: string; points: string[] };
-  bridge: string;
-  target: { title: string; points: string[] };
-};
-
-type LibraryChart = {
-  type: 'library';
-  factors: { title: string; desc: string }[];
-  result: string;
-};
-
-type DecisionChart = FlowChart | LadderChart | TransferChart | LibraryChart;
+interface StoryPoint {
+  text: string;
+  quotes?: string[];
+}
 
 interface FamilyPersona {
   id: string;
@@ -67,105 +40,100 @@ interface FamilyPersona {
   portrait: {
     image: string;
     imageAlt: string;
-    definition: string;
-    boundary: string;
-    attributes: { icon: IconType; label: string; value: string }[];
-    signals: string[];
-    productOpportunity: string;
+    recognitionLabels: string[];
+    basicSituation: string[];
+    purchaseMotivation: string[];
+    familyPackageReasons: string[];
+    concernIntro?: string;
+    concerns: string[];
   };
   story: {
     banner: string;
-    region: string;
-    combo: string;
-    role: string;
-    status: string;
     coreFeature: string;
-    family: { k: string; v: string }[];
-    chartTitle: string;
-    chart: DecisionChart;
-    onion: {
-      purpose: string;
-      positives: string[];
-      concerns: string[];
-    };
+    businessInsight: string;
     narrative: {
       heading: string;
-      intro?: string;
-      points: { text: string; quote?: string }[];
+      points: StoryPoint[];
     }[];
   };
 }
 
-// 画像结论来自《家庭包用户购买决策洞察》；故事事实与原声来自四户代表家庭访谈。
+// 内容对齐飞书文档《家庭包用户购买决策洞察》主页面 4：典型家庭故事。
 const PERSONAS: FamilyPersona[] = [
   {
     id: 'transition-window',
     index: '01',
     accent: '#C9622E',
     name: '小升初窗口驱动型',
-    keyword: '升学触发',
-    tagline: '升学孩子的紧迫问题给购买理由，另一孩子权益让高客单不浪费',
+    keyword: '5/6/7 年级',
+    tagline: '兼顾同步复习小学和提前学初中',
     portrait: {
       image: '/family-stories/transition-window.png',
       imageAlt: '妈妈陪六年级哥哥准备升学，三年级妹妹在旁学习',
-      definition: '年级在小升初前后（5/6/7 年级），购买由某个孩子明确学习问题触发；核心需求是兼顾同步复习小学与提前学初中。',
-      boundary: '和「拔尖自驱超前学型」不同：这类家庭首先被明确的升学节点和当下问题推动，孩子是否长期自主学习尚未完全确定；另一孩子的权益主要负责把高客单价合理化。',
-      attributes: [
-        { icon: Users, label: '家庭与学情特征', value: '年级在小升初前后（5/6/7 年级），多孩需求有主次。' },
-        { icon: Target, label: '购买需求', value: '同步复习小学 + 提前学初中，解决暑假衔接与分班考试压力。' },
-        { icon: AlertTriangle, label: '核心顾虑', value: '提分效果不确定时，会退而买更短、更便宜的方案。' },
-        { icon: Heart, label: '决策偏好', value: '主孩紧迫需求促成购买，另一孩子能用让长期包显得不浪费。' },
+      recognitionLabels: ['年级在小升初前后（5/6/7 年级）'],
+      basicSituation: [
+        '家中有孩子处于小升初前后年级的节点（5/6 年级）',
+        '购买触发来自某个孩子的明确学习问题',
+        '对「现在不准备，后面会更被动」有较强感知',
       ],
-      signals: ['5/6/7 年级附近', '暑假预习初中', '两个孩子需求有主次', '在短期课与家庭包之间比较'],
-      productOpportunity: '先抓住大孩「紧急 + 重要」的升学问题，再把二孩打基础需求作为锦上添花；同时用试用和具体学习计划证明买后能用起来。',
+      purchaseMotivation: [
+        '兼顾同步复习小学和提前学初中',
+        '复习：五年级难度上升，成绩有下滑苗头，学期内同步复习',
+        '提前学：六年级/初一孩子需要暑假预习下学期内容',
+      ],
+      familyPackageReasons: [
+        '升学孩子的紧迫问题提供购买理由，另一个孩子的权益让高客单价不浪费',
+        '6 年时长，减少初高中反复选品和续买成本',
+      ],
+      concernIntro: '提分效果不确定时，会退而求其次买更短、更便宜的方案',
+      concerns: ['有没有效果？', '孩子能不能坚持？', '孩子能不能适应（录播课）？'],
     },
     story: {
-      banner: '广州黄妈妈 —— 两个孩子都有需求，但家长更偏向让「好的更好」',
-      region: '广东广州',
-      combo: '三年级 & 六年级',
-      role: '妈妈 · 主导购买决策',
-      status: '已购家庭包',
-      coreFeature: '大孩强需求成交（小升初衔接），小孩权益负责把高客单价合理化，二者缺一不可。',
-      family: [
-        { k: '哥哥', v: '暑假前六年级、暑假后升初一；成绩一直 A，三科均衡。' },
-        { k: '妹妹', v: '暑假前三年级、升四年级；数学一直没进入状态，有 B/C。' },
-        { k: '主需求', v: '哥哥小升初衔接、预习初中；妹妹打基础是长期需求。' },
-        { k: '使用差异', v: '哥哥能自主学习，妹妹上 AI 定制班时仍需要陪伴。' },
-      ],
-      chartTitle: '购买逻辑 · 主孩触发，二孩合理化',
-      chart: {
-        type: 'flow',
-        nodes: [
-          { title: '大孩升学触发', desc: '哥哥进入小升初衔接，暑假需要预习初中。' },
-          { title: '小孩权益合理化', desc: '妹妹未来也能打基础，让高客单不浪费。' },
-          { title: '试用确认', desc: '哥哥试用后三科都喜欢，愿意自主学习。' },
-          { title: '购买家庭包', desc: '两个孩子一起用 6 年，覆盖到高中。' },
-        ],
-        note: '如果没有妹妹的权益，家庭更可能只给哥哥购买短期课。',
-      },
-      onion: {
-        purpose: '哥哥用短视频完成初中同步预习，妹妹先打好数学基础；希望两个孩子都能用到高中。',
-        positives: ['哥哥试用后三科都喜欢，尤其喜欢语文。', '短视频预习比直播课更节省时间。'],
-        concerns: ['担心买了浪费、孩子不能坚持。', '妹妹需要陪伴，长期使用仍有不确定性。'],
-      },
+      banner: '广州黄妈妈 —— 哥哥要小升初强驱动，妹妹让家庭包变得“不浪费”',
+      coreFeature: '先被哥哥小升初衔接需求触发，再用妹妹未来可用来合理化家庭包；如果没有妹妹权益，她更可能只买短期课。',
+      businessInsight: '对这类家庭，要先讲清当下任务（小升初孩子怎么用：暑假怎么预习、初中后怎么继续接），再讲另一个孩子未来如何承接权益。',
       narrative: [
         {
-          heading: '小升初是这次购买最明确的触发点',
-          intro: '哥哥即将升初一，家庭正在准备暑假衔接与初中预习。',
+          heading: '两个孩子，哥哥 6 年级，妹妹 3 年级。',
           points: [
-            { text: '哥哥成绩稳定、三科均衡，需要的是更省时间的同步预习，而不是再上一节两小时的直播课。', quote: '大宝暑假小升初衔接，洋葱可以用短视频完成同步预习，不像直播课一节两小时占时间；二宝现在可以先用来打好基础。' },
+            { text: '这个家庭的第一需求不是“两个孩子都要同步学”，而是哥哥马上要小升初，暑假预习初中内容已经变成明确任务。' },
+            { text: '妹妹还在 3 年级，当前不是主需求，但她让家庭包的 6 年权益变得更容易被接受。' },
           ],
         },
         {
-          heading: '真正决定买家庭包的，是两个孩子需求叠加',
+          heading: '她购买家庭包，首先是为了哥哥的暑假衔接。',
           points: [
-            { text: '哥哥的需求负责促成当下成交，妹妹的长期权益让家庭觉得不用只买一份短期课。', quote: '主要考虑的是哥哥，妹妹无所谓，顺带使用；但如果没有妹妹的权益，可能就会买个短期课，不会买家庭包了。' },
+            { text: '对黄妈妈来说，暑假不是普通假期，而是哥哥进入初中前的准备窗口。' },
+            {
+              text: '她期待哥哥先用洋葱做初中预习，进入初中后周末也可以继续跟进。',
+              quotes: ['我们暑假先衔接嘛，就是暑假先预习嘛。到了初中的话，周末也是预习嘛。'],
+            },
           ],
         },
         {
-          heading: '妹妹的基础问题，让长期准备变得有现实意义',
+          heading: '她最初的顾虑不是价格本身，而是怕孩子不适应、买了浪费。',
           points: [
-            { text: '家长最担心妹妹的数学基础，认为如果现在不处理，五六年级会更难。', quote: '怕数学基础没打好，五六年级会更难搞。' },
+            {
+              text: '家庭包客单不低，如果哥哥不适应录播课，长期权益就会变成风险。',
+              quotes: ['我主要担忧是小孩不适应这个课，买了浪费。'],
+            },
+            {
+              text: '决策能继续推进，是因为哥哥自己同意学，家长相信他有较大概率会用起来。',
+              quotes: ['之前担心买了浪费，孩子不能坚持；最终打消顾虑是因为哥哥自己说喜欢学，还是相信他。'],
+            },
+          ],
+        },
+        {
+          heading: '妹妹不是成交的第一理由，但她是家庭包成立的关键补充。',
+          points: [
+            { text: '如果只给哥哥买，黄妈妈可能会退回到更短、更便宜的方案。' },
+            {
+              text: '因为妹妹以后也能用，家庭包才从“太长、太贵”变成“两个孩子都能接上”。',
+              quotes: [
+                '妹妹只要陪着上就好。',
+                '主要考虑的是哥哥，妹妹顺带着用；但如果没有妹妹的权益，可能就会买个短期课，不会买家庭包了，毕竟 7000 多块钱也不便宜。',
+              ],
+            },
           ],
         },
       ],
@@ -176,81 +144,78 @@ const PERSONAS: FamilyPersona[] = [
     index: '02',
     accent: '#3F5E8C',
     name: '拔尖自驱超前学型',
-    keyword: '自主学习',
-    tagline: '孩子已经准备好了，家庭包需要证明资源能持续跟上她',
+    keyword: '成绩优秀、提前学',
+    tagline: '孩子已经在提前学，需要覆盖初中与高中的同步、拔高资源',
     portrait: {
       image: '/family-stories/self-driven.png',
       imageAlt: '初一女儿自主规划初高中学习，妈妈在旁支持',
-      definition: '成绩优秀（小学 95、初中 110+），已在或计划提前学；需要覆盖初中与高中的同步、拔高资源，支撑长期自主学习。',
-      boundary: '和「小升初窗口驱动型」不同：购买不是由一次迫近的升学问题推动，而是孩子已经具备主动学习能力和持续往前学的意愿；家长对长期包的信心主要来自对孩子的信任。',
-      attributes: [
-        { icon: Users, label: '家庭与学情特征', value: '成绩优秀、孩子自律，已在或计划提前学习更高年级内容。' },
-        { icon: Target, label: '购买需求', value: '覆盖初中 + 高中的同步与拔高资源，让孩子按自己的节奏往前走。' },
-        { icon: AlertTriangle, label: '核心顾虑', value: '孩子是否一时兴起、能否适应录播、长期包会不会浪费。' },
-        { icon: Heart, label: '决策偏好', value: '孩子主动提出、能长期坚持，比销售承诺更能推动家长升级购买。' },
+      recognitionLabels: ['成绩优秀（如：小学 95、初中 110+），已经在/有计划提前学'],
+      basicSituation: [
+        '孩子成绩优秀、自律、主动性强',
+        '家长不是在补差，而是在支持孩子继续往前学',
+        '家长更重视孩子的自主学习能力和思维能力',
       ],
-      signals: ['成绩优秀', '主动提出学习', '已经超前学', '家长信任孩子能坚持'],
-      productOpportunity: '突出课程如何支持孩子自主学习、如何从初中自然衔接到高中，以及如何帮助孩子把知识串联成体系，而不是只强调课程数量。',
+      purchaseMotivation: ['孩子已经在提前学，需要一套覆盖初中 + 高中的同步、拔高资源。'],
+      familyPackageReasons: [
+        '下个阶段的内容不是“囤着”，孩子现在就可能用到',
+        '家庭包比单买初中 + 高中划算',
+        '产品能支撑孩子长期自主学习',
+      ],
+      concernIntro: '孩子长期自律、主动提出购买，顾虑较容易被化解',
+      concerns: ['孩子是不是一时兴起？', '孩子能不能适应录播课？', '长期包会不会浪费？'],
     },
     story: {
       banner: '景德镇王妈妈 —— 孩子自己想往前学，家长才敢一次买到高中',
-      region: '江西景德镇',
-      combo: '初一 & 已毕业',
-      role: '妈妈 · 支持孩子自主规划',
-      status: '已购家庭包 + 学习机',
       coreFeature: '家长购买家庭包，是在支持一个自律、主动、愿意提前学的孩子；孩子的长期使用确定性，降低了家庭包的浪费风险。',
-      family: [
-        { k: '孩子', v: '七年级，年级前几名；主要靠超前学，基本不用家长管。' },
-        { k: '进度', v: '数学已预习到九年级，英语在自学高中内容。' },
-        { k: '购买发起', v: '孩子自己发现洋葱、主动提出想学，家长随后评估。' },
-        { k: '家长期待', v: '不只会套公式，还要形成思维分析与知识串联能力。' },
-      ],
-      chartTitle: '学习逻辑 · 孩子主动，资源自然衔接',
-      chart: {
-        type: 'ladder',
-        nodes: [
-          { title: '孩子主动', desc: '主动发现产品、提出想学。' },
-          { title: '家长信任', desc: '平时自觉、自律，认定的事情能坚持。' },
-          { title: '初中超前学', desc: '数学学到九年级，英语接触高中内容。' },
-          { title: '高中自然衔接', desc: '高中资源不是囤课，而是学习路径的延伸。' },
-        ],
-        note: '长期包成立的关键不是“时间长”，而是孩子的学习路径本来就在持续向前。',
-      },
-      onion: {
-        purpose: '支持孩子自主超前学习，把初高中知识形成体系，提高思维分析与举一反三能力。',
-        positives: ['同步 + 培优内容可以由简入深。', '初高中资源连续，适合孩子自主安排。'],
-        concerns: ['担心孩子心血来潮，过段时间不学。', '需要持续证明知识能被消化吸收、形成体系。'],
-      },
+      businessInsight: '对这类家庭，最应该突出的是“孩子已经准备好了，这套资源能跟上她”，包括课程能否支持孩子自主学习、能否从初中自然接到高中、能否让孩子按自己的节奏往前走。',
       narrative: [
         {
-          heading: '核心对象是成绩好、也有主动学习意识的孩子',
+          heading: '核心对象是成绩好，也有主动学习意识的孩子。',
           points: [
-            { text: '这个家庭的购买动机，是孩子已经具备继续往前学的能力和意愿。', quote: '因为她平时学习也是非常主动的，非常自律。' },
-            { text: '家长相信孩子，是因为她认定的事情通常能坚持。', quote: '他只要是他自己认定的事情，他一般都还能坚持下去。所以我就相信他。' },
+            { text: '这个家庭的购买动机，是孩子已经具备继续往前学的能力和意愿。' },
+            {
+              text: '家长相信孩子，因为她平时就比较自觉、自律，认定的事情通常能坚持。',
+              quotes: ['因为她平时学习也是非常主动的，非常自律。'],
+            },
           ],
         },
         {
-          heading: '长周期家庭包并非毫无阻力',
+          heading: '长周期家庭包并非毫无阻力：王妈妈最初也想过先买初中，再看要不要买高中。',
           points: [
-            { text: '家长最初也想先买初中验证效果，再考虑高中。', quote: '当时也会想，我就买个初中的，看好不好，然后我再买高中的。' },
+            {
+              text: '家长的初始思路更谨慎：先买初中，验证效果，再考虑高中。',
+              quotes: ['当时也会想，我就买个初中的，看好不好，然后我再买高中的。'],
+            },
           ],
         },
         {
-          heading: '真正让决策升级的，是孩子自己提出想学',
+          heading: '真正让决策升级的，是孩子自己提出想学。',
           points: [
-            { text: '对王妈妈来说，孩子主动提出学习，比销售承诺更有说服力。', quote: '既然我小孩子，我女儿她是比较自觉的，自律的。她能够这样自己主动地提出出来，她说要想自己去学习，那我们就支持她。' },
+            {
+              text: '对王妈妈来说，孩子主动提出学习，比销售承诺更有说服力。',
+              quotes: [
+                '既然我小孩子，我女儿她是比较自觉的，自律的。她能够这样自己主动地提出来，她说要想自己去学习，那我们就支持她。',
+                '他只要是他自己认定的事情，他一般都还能够坚持下去。所以我就相信他。',
+              ],
+            },
           ],
         },
         {
-          heading: '高中内容不是遥远囤课，而是超前学习的自然延伸',
+          heading: '高中内容在这个家庭里不是遥远囤课，而是孩子超前学习路径的自然延伸。',
           points: [
-            { text: '孩子本来就会往前学，高中资源因此成为持续自主学习的底座。', quote: '既然要学嘛，你既然要提前学，那你就一起买。' },
+            {
+              text: '如果孩子本来就会往前学，高中资源就不是“以后再说”的权益，而是一套能支持孩子持续自主学习的资源底座。',
+              quotes: ['既然要学嘛，你既然要提前学，那你就一起买。'],
+            },
           ],
         },
         {
-          heading: '她认可洋葱的关键，是帮助孩子形成自主学习体系',
+          heading: '她认可洋葱的关键，不只是知识点多，而是能帮助孩子形成自主学习体系。',
           points: [
-            { text: '家长希望孩子消化吸收、形成自己的知识主线，而不是只会套公式。', quote: '我希望他能够自己消化吸收，形成自己的知识成体系嘛；等于是有一个主线，他能够把这知识串联起来。' },
+            {
+              text: '王妈妈希望孩子能自己消化吸收，重视孩子把知识串起来、形成主线的能力。',
+              quotes: ['我希望他能够自己消化吸收，形成自己的知识成体系嘛；等于是有一个主线，他能够把这知识串联起来。'],
+            },
           ],
         },
       ],
@@ -261,64 +226,77 @@ const PERSONAS: FamilyPersona[] = [
     index: '03',
     accent: '#2F8272',
     name: '大孩经验迁移型',
-    keyword: '经验复制',
-    tagline: '把大孩的成功与踩坑经验，转化为小孩更早、更明确的学习安排',
+    keyword: '多胎隔段',
+    tagline: '希望小孩提前准备，减少无效补课和线下奔波',
     portrait: {
       image: '/family-stories/experience-transfer.png',
       imageAlt: '妈妈把初三姐姐的学习经验迁移给四年级妹妹',
-      definition: '多胎隔段（初高中 + 小学），首购多由大孩中考复习触发，后续决策转向为小孩长期准备；家庭包被看作提前准备和减少线下补课的方案。',
-      boundary: '和「资源预置囤课型」不同：这类家庭并非单纯提前把资源备好，而是已经经历过大孩的升学、补课或使用问题，购买逻辑来自对真实经验的复盘。',
-      attributes: [
-        { icon: Users, label: '家庭与学情特征', value: '多胎隔段（初高中 + 小学），大孩与小孩需求会随升学节点转换。' },
-        { icon: Target, label: '购买需求', value: '把大孩成功或踩坑经验迁移给小孩，提前规划、减少未来补课。' },
-        { icon: AlertTriangle, label: '核心顾虑', value: '会不会像老大一样买了没用起来，长期效果能否持续看见。' },
-        { icon: Heart, label: '决策偏好', value: '比较接送、时间、私教和未来涨价等综合成本，而不只看标价。' },
+      recognitionLabels: ['多胎隔段：初高中 + 小学', '对辅导班的态度：中立或负面'],
+      basicSituation: [
+        '有明显的大孩经验',
+        '老大经历过升学压力、辅导班低效、补课疲惫',
+        '家长希望老二少走弯路，减少无效补课和线下奔波',
       ],
-      signals: ['大孩经历过升学压力', '对辅导班中立或负面', '主动复盘过去遗憾', '想为小孩更早规划'],
-      productOpportunity: '把家庭包讲成「将大孩经验转化为小孩的提前准备」：真人老师确定方向，AI 定制班落实日常安排，并用分孩子学情持续外化效果。',
+      purchaseMotivation: [
+        '首购多由大孩中考复习触发，续购转向为小孩长期准备',
+        '希望小孩初中阶段少补课、提前建立学习节奏',
+      ],
+      familyPackageReasons: [
+        '家庭包被看作提前准备和替代线下补课的方案',
+        '小初高衔接内容，帮助小孩更早适应下个阶段',
+      ],
+      concernIntro: '带着顾虑下单：“东西给你了，真不学我也没办法。”',
+      concerns: [
+        '会不会像老大一样，买了但没真正用起来？',
+        '学情报告是否能让家长持续看到学习过程和效果？',
+      ],
     },
     story: {
-      banner: '合肥张妈妈 —— 两个孩子有主次，会在节点转化',
-      region: '安徽合肥',
-      combo: '四年级 & 初三',
-      role: '妈妈 · 从大孩经验转向小孩规划',
-      status: '续购 · 家庭包首购',
-      coreFeature: '尽管希望都兼顾，但两个孩子有主次之分（初中 > 小学 > 高中），且会在特定节点发生需求转化。',
-      family: [
-        { k: '姐姐', v: '初三临近中考，理科偏弱，作业磨蹭到晚上 12 点。' },
-        { k: '妹妹', v: '四年级，成绩较稳定，洋葱主要用于复习和寒暑假预习。' },
-        { k: '过去经验', v: '此前课程主要为姐姐中考购买，但实际妹妹使用更多。' },
-        { k: '长期计划', v: '希望妹妹借助工具提前学，初中阶段尽量少补课。' },
-      ],
-      chartTitle: '家庭逻辑 · 从大孩经验迁移到小孩',
-      chart: {
-        type: 'transfer',
-        source: { title: '大孩经历', points: ['中考压力与理科短板', '买过冲刺包但没有持续使用', '小升初缺少提前准备'] },
-        bridge: '家长复盘：哪些准备可以更早发生？',
-        target: { title: '小孩规划', points: ['寒暑假提前预习', '学期中用 AI 定制班复习', '长期覆盖到高中毕业'] },
-      },
-      onion: {
-        purpose: '把大孩经历过的升学压力和补课成本转化为妹妹更早的学习规划，希望长期借助工具而不是依赖线下补课。',
-        positives: ['课程覆盖小初高，像图书馆一样可长期使用。', 'AI 定制班能规定每天学什么。'],
-        concerns: ['姐姐买过却没看，担心妹妹将来也用不起来。', '需要持续看到每个孩子的学习效果。'],
-      },
+      banner: '合肥张妈妈 —— 为了不走老大的弯路，让妈妈更早为老二准备',
+      coreFeature: '她从老大的经历中，看到老二未来的风险，希望老二提前准备，少走弯路。',
+      businessInsight: '对这类家庭，最有效的表达是把未来补课风险讲具体，同时要把产品的学习闭环展示清楚，让家长知道不是买完就只能靠孩子自觉。',
       narrative: [
         {
-          heading: '两个孩子的需求会随升学节点发生转换',
+          heading: '两个孩子，大孩初三，小孩 4 年级。',
           points: [
-            { text: '姐姐进入高中后，家长判断自己的精力会更多转向妹妹。', quote: '姐姐上高中没精力管他了，会把更多精力放在小的身上。' },
+            { text: '老二还没到强升学压力阶段，但家长已经从老大身上见过初中后的学习压力、补课成本和被动感。' },
+            {
+              text: '老大的经历让她后悔没有更早做准备：她见过身边孩子提前学，也见过没有提前准备后面可能更被动。',
+              quotes: ['姐姐小升初的时候，好像周边的人都在补（提前学），我顶住压力没有给报班，现在想起来有点后悔。'],
+            },
           ],
         },
         {
-          heading: '家长算的不是标价，而是综合成本',
+          heading: '她会拿洋葱和线下补课算一笔非常现实的账。',
           points: [
-            { text: '时间、接送和私教价格共同构成家庭对“划算”的判断。', quote: '不需要接送，孩子也不用赶路，时间成本也没有，还比私教班便宜，私教班一门就一万多。' },
+            { text: '线下补课：不只是课时费，还包括接送、路费、等待和孩子疲惫。' },
+            {
+              text: '洋葱：能承担一部分预习、复习、巩固功能，就会显得更轻、更灵活、更划算。',
+              quotes: [
+                '买这个的话肯定比那个补课要便宜多了呀。我还不需要接送，时间成本也没有。路费也没有。',
+                '孩子他自己也不会那么累，因为他不需要赶路啊……他想什么时候看都行。',
+              ],
+            },
           ],
         },
         {
-          heading: '真正推动长期准备的，是对大孩经历的复盘',
+          heading: '但她并不盲目信任课程，真正担心的是孩子不主动学。',
           points: [
-            { text: '过去没有在关键节点提前准备，成为家长希望妹妹少走弯路的直接原因。', quote: '小升初的时候没有给报，现在想起来有点后悔。' },
+            { text: '在张妈妈看来，课程设计好只是前提，不代表孩子一定会打开。' },
+            {
+              text: '她需要看到学习过程，比如错题、学习记录、家长可跟进的信息。',
+              quotes: [
+                '课程设计得再好，孩子如果主动不学，他不看，不还是没什么用嘛。',
+                '我还是希望，家长是不是能看到一些东西，或者是，假设我能看到他具体哪些错题啊，然后我再叮嘱。',
+              ],
+            },
+          ],
+        },
+        {
+          heading: '这个案例说明：大孩经验型家庭要重点证明“提前准备”和“过程可见”。',
+          points: [
+            { text: '只讲课程多，不足以打动这类家长。' },
+            { text: '她们需要看到：为什么现在准备比未来补救更好，以及孩子学没学、哪里错了、家长怎么跟进。' },
           ],
         },
       ],
@@ -329,67 +307,76 @@ const PERSONAS: FamilyPersona[] = [
     index: '04',
     accent: '#9A6B2F',
     name: '资源预置囤课型',
-    keyword: '长期预置',
-    tagline: '把家庭包当作覆盖多个孩子、多个学段的家庭学习资源库',
+    keyword: '长期资源预置',
+    tagline: '提前备着，避免问题出现后再补救',
     portrait: {
       image: '/family-stories/resource-reserve.png',
       imageAlt: '爸爸与六年级姐姐、一年级弟弟共享家庭学习资源',
-      definition: '关注“能学到高中 / 高考”“多个孩子都能用”；没有明确学业危机，但希望提前把资源准备好，以全科、长期和多孩复用建立性价比。',
-      boundary: '和「大孩经验迁移型」不同：这类家庭不一定经历过明确的升学踩坑，购买更像一次家庭资源配置；能否多人使用、长期不浪费，是方案成立的基础。',
-      attributes: [
-        { icon: Users, label: '家庭与学情特征', value: '两个或多个孩子跨学段，希望资源能覆盖到高中。' },
-        { icon: Target, label: '购买需求', value: '提前备好全科内容，多个孩子按需要使用，避免未来分开购买。' },
-        { icon: AlertTriangle, label: '核心顾虑', value: '时间太长孩子能否坚持、多人能否同时使用、学情能否分开查看。' },
-        { icon: Heart, label: '决策偏好', value: '看重可信推荐、完整资源和多人复用形成的整体性价比。' },
+      recognitionLabels: ['关注“能学到高中/高考”', '关注“多个孩子都能用”'],
+      basicSituation: [
+        '把家庭包理解成“储备资源”',
+        '消费观偏“可以买最好的，但要用到极致”',
+        '注重性价比、不浪费、多孩共用（多孩家庭）',
       ],
-      signals: ['多个孩子都能用', '关注能否学到高中', '想一步到位', '高度关注账号与并发规则'],
-      productOpportunity: '把全科、长期、多人使用讲成具体的家庭资源配置方案，同时明确并发、家庭组和分孩子学情规则，避免“买得到但一起用不了”。',
+      purchaseMotivation: ['没有非常明确的学业危机，但希望提前备着，避免问题出现再补救'],
+      familyPackageReasons: [
+        '性价比高：学到高中、多个孩子可用、分开买更麻烦',
+        '内容资源丰富：像“图书馆”一样先把资源放好',
+      ],
+      concerns: [
+        '是否能学到高中？学满 6 年不浪费？',
+        '时间太长，孩子能不能坚持学？',
+        '学情报告是否能让家长持续看到学习过程和效果？',
+      ],
     },
     story: {
-      banner: '九江刘爸爸 —— 先把资源准备好，再让两个孩子各自用起来',
-      region: '江西九江',
-      combo: '一年级 & 六年级',
-      role: '爸爸 · 主导资源选择',
-      status: '家庭包首购',
-      coreFeature: '希望 2 个孩子同时用到极致。基础要求：孩子愿意看；进阶要求：理科全学好；理想要求：2 个孩子全科覆盖学好。',
-      family: [
-        { k: '姐姐', v: '六年级，各科 95 分以上；暑假准备提前学初中。' },
-        { k: '弟弟', v: '一年级，课内成绩跟得上，对数字较强。' },
-        { k: '购买触发', v: '没有具体学习问题，主要来自第三方教育规划推荐和提前准备。' },
-        { k: '基础条件', v: '两个孩子能一起用、账号不冲突，否则家庭包不成立。' },
-      ],
-      chartTitle: '价值逻辑 · 家庭学习资源库',
-      chart: {
-        type: 'library',
-        factors: [
-          { title: '两个孩子', desc: '姐姐准备初中，弟弟从小学开始使用。' },
-          { title: '全科内容', desc: '基础目标学好理科，理想状态覆盖全科。' },
-          { title: '六年周期', desc: '现在准备好，未来需要时不用重新购买。' },
-        ],
-        result: '家庭资源库价值：多人可用 × 内容完整 × 长期覆盖',
-      },
-      onion: {
-        purpose: '一步到位准备两个孩子未来需要的学习内容，优先学好理科，并尽可能发挥全科资源价值。',
-        positives: ['第三方教育规划推荐提高了信任。', '全科、长期覆盖能减少未来重复购买。'],
-        concerns: ['两个孩子能否同时使用是基础条件。', '长期课程能否坚持、用不好能否退。'],
-      },
+      banner: '九江刘爸爸 —— 先把资源准备好，不等问题出现后再补救',
+      coreFeature: '他把家庭包当成一套长期学习资源，愿意提前配置，但前提是孩子真的会用、资源真的能发挥作用。',
+      businessInsight: '对这类家庭，要讲清楚未来哪些节点会用、不同孩子怎么接续使用、孩子如何保持使用、课程是否会持续更新。家庭包的最大说服力不是“买下很多内容”，而是“这些内容未来真的能被用起来”。',
       narrative: [
         {
-          heading: '购买首先建立在可信推荐之上',
+          heading: '两个孩子，一个低年级，一个处在小升初前后阶段。',
+          points: [],
+        },
+        {
+          heading: '他的购买触发，是“不想走到必须线下补课那一步”。',
           points: [
-            { text: '家长不太相信销售自我推荐，更相信第三方规划者的判断。', quote: '阿刘教育规划训练营，没有非常大力推销，只是单纯说这个好、提供链接，从客观公正的角度说，比起销售更相信他。' },
+            {
+              text: '他受到教育规划类内容影响，更倾向于提前准备，而不是等问题出现后被动补救；因此，家庭包在这个家庭里像一套提前放好的资源库。',
+              quotes: ['阿刘教育规划训练营知道的洋葱，不想等出现问题的时候再来，就提前去做一些准备吧；如果说读到初二、初三，发现我数学很差了，到那个时候再去赶，可能就真的只能跟着线下老师去补习班了。'],
+            },
           ],
         },
         {
-          heading: '家庭包要发挥价值，必须让两个孩子都能使用',
+          heading: '他愿意买好的，但非常在意有没有真正用起来。',
           points: [
-            { text: '对这个家庭来说，多孩复用不是附加权益，而是购买家庭包的核心前提。', quote: '希望 2 个孩子一起用，账号不会相互冲突，希望能发挥到最大的功效。' },
+            { text: '刘爸爸的消费观不是“便宜就行”，而是“可以买最好，但一定要发挥作用”。' },
+            {
+              text: '对他来说，如果孩子不用，再便宜也是浪费。',
+              quotes: ['可以买最好，但是一定要发挥出东西。不能说放在那里，你就是再便宜的东西放在那里，它也浪费钱。'],
+            },
           ],
         },
         {
-          heading: '多人并发规则会直接决定是否购买',
+          heading: '“多孩共用”是他判断家庭包值得的重要依据。',
           points: [
-            { text: '如果两个孩子不能同时学习，长期和全科带来的性价比会立即失去意义。', quote: '如果 2 个不能同时用，就不考虑了。' },
+            {
+              text: '他会自然地从家庭资源复用角度理解家庭包：大孩能用，小孩未来还能接着用，会让长期包更有性价比。',
+              quotes: ['我买衣服我都考虑到大的能穿，小的还能穿是最好，赚钱也不容易。'],
+            },
+          ],
+        },
+        {
+          heading: '这个家庭最大的顾虑，是孩子能不能长期愿意用。',
+          points: [
+            { text: '孩子不排斥，是家庭包成立的第一步。' },
+            {
+              text: '但长期来看，家长仍然关心孩子能不能坚持、课程会不会持续更新、平台是否稳定。',
+              quotes: [
+                '小孩来说，至少他不排斥。我说你用的洋葱上课吧，他自己会去点开来。',
+                '如果他能一直坚持用下去，我觉得一切都值得，我就怕这个他不愿意用。不愿意用钱也白花了，是吧？',
+              ],
+            },
           ],
         },
       ],
@@ -462,7 +449,7 @@ export default function TypicalFamilyStories() {
             </section>
           ))}
           <p className="my-10 rounded-xl border border-[#e4e2da] bg-[#f4f2ec] p-4 text-[11px] leading-5" style={{ color: MUTED }}>
-            页面结构对齐“从小学物理”用户画像：先呈现一类家庭的画像、边界与业务机会，再用一户代表家庭还原决策机制。画像结论来自《家庭包用户购买决策洞察》，事实和原声来自对应家庭访谈。
+            页面内容对齐《家庭包用户购买决策洞察》“主页面 4：典型家庭故事”，用户画像、代表案例和用户原声均按文档结构呈现。
           </p>
         </div>
       </div>
@@ -499,53 +486,90 @@ function SectionHeader({ icon: Icon, label, subtitle, accent }: { icon: IconType
 
 function PortraitSection({ persona }: { persona: FamilyPersona }) {
   const { portrait, accent } = persona;
+  const rows = [
+    { label: '销售特征识别标签', items: portrait.recognitionLabels, highlighted: true },
+    { label: '基本情况', items: portrait.basicSituation },
+    { label: '购买动机', items: portrait.purchaseMotivation },
+    { label: '家庭包为什么成立', items: portrait.familyPackageReasons },
+    { label: '关键顾虑及化解方式', items: portrait.concerns, intro: portrait.concernIntro, concern: true },
+  ];
+
   return (
     <section className="mt-8">
-      <SectionHeader icon={Users} label="用户画像" subtitle={`${persona.name}：是谁、要什么、担心什么、如何决策`} accent={accent} />
-      <motion.div {...reveal} className="mt-5 grid overflow-hidden rounded-2xl border border-[#e4e2da] bg-white shadow-sm md:grid-cols-[280px_1fr]">
-        <figure className="flex items-center justify-center bg-[#faf9f6] p-3">
-          <img src={`${BASE_PATH}${portrait.image}`} alt={portrait.imageAlt} className="max-h-[440px] w-full rounded-xl object-contain md:max-h-[390px]" loading="lazy" />
-        </figure>
-        <div className="flex flex-col justify-center p-5 md:p-8">
-          <div className="flex items-center gap-2 text-[11px] font-black tracking-[0.12em]" style={{ color: accent }}><span className="h-2 w-2 rounded-full" style={{ background: accent }} />一句话认识这类家庭</div>
-          <p className="mt-4 text-[17px] font-black leading-9 md:text-[20px]" style={{ color: INK }}>{portrait.definition}</p>
-          <div className="mt-5 h-px w-12" style={{ background: `${accent}66` }} />
-          <p className="mt-4 text-[13px] font-semibold leading-7" style={{ color: MUTED }}>{persona.tagline}</p>
+      <SectionHeader icon={Users} label="用户画像" subtitle={`${persona.name}：销售识别、基本情况、动机、成立原因与顾虑`} accent={accent} />
+      <motion.div {...reveal} className="mt-5 overflow-hidden rounded-2xl border border-[#dcd9d1] bg-white shadow-sm">
+        <div className="grid border-b border-[#e4e2da] md:grid-cols-[270px_1fr]">
+          <figure className="flex items-center justify-center bg-[#faf9f6] p-4 md:border-r md:border-[#e4e2da]">
+            <img
+              src={`${BASE_PATH}${portrait.image}`}
+              alt={portrait.imageAlt}
+              className="max-h-[360px] w-full rounded-xl object-contain"
+              loading="lazy"
+            />
+          </figure>
+          <div className="flex flex-col justify-center p-5 md:p-8">
+            <div className="flex items-center gap-2 text-[11px] font-black tracking-[0.12em]" style={{ color: accent }}>
+              <span className="h-2 w-2 rounded-full" style={{ background: accent }} />
+              {persona.name}
+            </div>
+            <p className="mt-4 text-[18px] font-black leading-9 md:text-[21px]" style={{ color: INK }}>{persona.tagline}</p>
+            <p className="mt-4 text-[12px] font-semibold leading-6" style={{ color: MUTED }}>画像信息按研究文档原始结构整理，便于销售快速识别与判断。</p>
+          </div>
+        </div>
+        <div className="divide-y divide-[#e4e2da]">
+          {rows.map((row) => (
+            <ProfileRow
+              key={row.label}
+              label={row.label}
+              items={row.items}
+              intro={row.intro}
+              highlighted={row.highlighted}
+              concern={row.concern}
+              accent={accent}
+            />
+          ))}
         </div>
       </motion.div>
-
-      <div className="mt-7 flex items-end justify-between">
-        <div><div className="text-[14px] font-black" style={{ color: INK }}>画像四维</div><p className="mt-1 text-[12px]" style={{ color: MUTED }}>从家庭学情、需求、顾虑与决策偏好快速识别</p></div>
-        <span className="text-[11px] font-black" style={{ color: accent }}>01—04</span>
-      </div>
-      <div className="mt-3 grid gap-3 sm:grid-cols-2">
-        {portrait.attributes.map((attribute, index) => {
-          const Icon = attribute.icon;
-          return (
-            <motion.div {...reveal} transition={{ ...reveal.transition, delay: index * 0.05 }} key={attribute.label} className="rounded-xl border border-[#e7e5de] bg-white p-4 md:p-5">
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-2" style={{ color: accent }}><span className="grid h-7 w-7 place-items-center rounded-lg" style={{ background: soft(accent) }}><Icon size={14} /></span><span className="text-[12px] font-black">{attribute.label}</span></div>
-                <span className="text-[10px] font-black" style={{ color: `${accent}88` }}>0{index + 1}</span>
-              </div>
-              <p className="mt-3 text-[13px] leading-7 text-[#4a453f]">{attribute.value}</p>
-            </motion.div>
-          );
-        })}
-      </div>
-
-      <motion.div {...reveal} className="mt-5 rounded-xl border border-[#e4e2da] bg-[#faf9f6] p-4 md:p-5">
-        <div className="flex items-start gap-3"><GitCompare size={15} className="mt-1 shrink-0" style={{ color: MUTED }} /><div><div className="text-[12px] font-black" style={{ color: INK }}>辅助判断 · 与其他类型的边界</div><p className="mt-2 text-[13px] leading-7 text-[#5c564f]">{portrait.boundary}</p></div></div>
-        <div className="my-4 h-px bg-[#e4e2da]" />
-        <div className="mb-2 text-[11px] font-black tracking-wide" style={{ color: MUTED }}>典型识别信号</div>
-        <div className="flex flex-wrap gap-2">{portrait.signals.map((signal) => <span key={signal} className="rounded-lg border bg-white px-3 py-2 text-[12px] font-semibold" style={{ borderColor: `${accent}44`, color: '#4a453f' }}>{signal}</span>)}</div>
-      </motion.div>
-
-      <motion.div {...reveal} className="relative mt-5 overflow-hidden rounded-xl border p-5 md:p-6" style={{ borderColor: `${accent}55`, background: soft(accent) }}>
-        <span className="absolute inset-y-0 left-0 w-1" style={{ background: accent }} />
-        <div className="flex items-center gap-2" style={{ color: accent }}><Lightbulb size={15} /><span className="text-[12px] font-black tracking-wide">行动建议 · 业务机会</span></div>
-        <p className="mt-3 text-[14px] font-semibold leading-8 text-[#332f2a]">{portrait.productOpportunity}</p>
-      </motion.div>
     </section>
+  );
+}
+
+function ProfileRow({
+  label,
+  items,
+  intro,
+  highlighted = false,
+  concern = false,
+  accent,
+}: {
+  label: string;
+  items: string[];
+  intro?: string;
+  highlighted?: boolean;
+  concern?: boolean;
+  accent: string;
+}) {
+  return (
+    <div className="grid sm:grid-cols-[170px_1fr]">
+      <div className="flex items-center bg-[#f5f6f7] px-4 py-4 text-[12.5px] font-black leading-6 text-[#3e3a36] sm:justify-center sm:border-r sm:border-[#e4e2da] sm:text-center">
+        {label}
+      </div>
+      <div className={cn('px-4 py-4 md:px-6', highlighted && 'bg-[#eef3ff]')}>
+        {intro && <p className="mb-2.5 text-[13px] font-semibold leading-7 text-[#4a453f]">{intro}</p>}
+        <ul className="space-y-2">
+          {items.map((item) => (
+            <li key={item} className="flex items-start gap-2.5 text-[13px] leading-7 text-[#4a453f]">
+              {concern ? (
+                <AlertTriangle size={14} className="mt-1.5 shrink-0" style={{ color: accent }} />
+              ) : (
+                <CheckCircle2 size={14} className="mt-1.5 shrink-0" style={{ color: accent }} />
+              )}
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 }
 
@@ -554,93 +578,68 @@ function StorySection({ persona }: { persona: FamilyPersona }) {
   return (
     <section className="mt-12">
       <SectionHeader icon={BookOpenCheck} label="典型家庭故事" subtitle="该类型中的一户代表家庭 · 真实访谈还原" accent={STORY} />
-      <motion.div {...reveal} className="mt-5 rounded-xl px-5 py-5 text-center" style={{ background: STORY }}>
-        <h3 className="text-[16px] font-black leading-snug text-white md:text-[19px]">{story.banner}</h3>
-        <p className="mt-1.5 text-[12px] font-semibold text-white/80">{story.region} · {story.combo} · {story.role} · {story.status}</p>
-      </motion.div>
-      <motion.div {...reveal} className="mt-4 grid gap-4 md:grid-cols-2">
-        <div className="rounded-xl border border-dashed border-[#cbc7bf] bg-white p-4 md:p-5">
-          <div className="text-[12px] font-black" style={{ color: STORY }}>家庭情况</div>
-          <dl className="mt-3 space-y-2">{story.family.map((row) => <div key={row.k} className="flex gap-2 text-[13px] leading-6"><dt className="w-20 shrink-0 font-bold text-[#6b655c]">{row.k}</dt><dd className="flex-1 text-[#4a453f]">{row.v}</dd></div>)}</dl>
+      <motion.div {...reveal} className="mt-5 overflow-hidden rounded-2xl border bg-white shadow-sm" style={{ borderColor: `${accent}55` }}>
+        <div className="px-5 py-5 md:px-7" style={{ background: soft(accent) }}>
+          <div className="flex items-start gap-3">
+            <Lightbulb size={19} className="mt-1 shrink-0" style={{ color: accent }} />
+            <h3 className="text-[16px] font-black leading-8 md:text-[19px]" style={{ color: INK }}>代表案例：{story.banner}</h3>
+          </div>
         </div>
-        <div className="rounded-xl border p-4 md:p-5" style={{ borderColor: `${accent}44`, background: soft(accent) }}>
-          <div className="text-[12px] font-black" style={{ color: accent }}>核心特征</div>
-          <p className="mt-3 text-[14px] font-semibold leading-8" style={{ color: INK }}>{story.coreFeature}</p>
+        <div className="grid gap-px bg-[#e4e2da] md:grid-cols-2">
+          <div className="bg-white p-5 md:p-6">
+            <div className="text-[12px] font-black" style={{ color: accent }}>核心特征</div>
+            <p className="mt-3 text-[13.5px] font-semibold leading-8 text-[#3f3a35]">{story.coreFeature}</p>
+          </div>
+          <div className="bg-white p-5 md:p-6">
+            <div className="text-[12px] font-black" style={{ color: accent }}>业务启发</div>
+            <p className="mt-3 text-[13.5px] font-semibold leading-8 text-[#3f3a35]">{story.businessInsight}</p>
+          </div>
         </div>
       </motion.div>
-
-      <div className="mt-6"><div className="mb-3 flex items-center gap-2"><span className="h-5 w-1 rounded-full" style={{ background: accent }} /><h4 className="text-[14px] font-black" style={{ color: INK }}>{story.chartTitle}</h4></div><DecisionChartView chart={story.chart} accent={accent} /></div>
-      <OnionBlock onion={story.onion} />
       <NarrativeBlock narrative={story.narrative} accent={accent} />
     </section>
   );
 }
 
-function DecisionChartView({ chart, accent }: { chart: DecisionChart; accent: string }) {
-  if (chart.type === 'flow' || chart.type === 'ladder') {
-    return (
-      <motion.div {...reveal} className="rounded-2xl border border-[#e7e5de] bg-white p-5 md:p-7">
-        <div className="grid items-stretch gap-3 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr]">
-          {chart.nodes.map((node, index) => (
-            <React.Fragment key={node.title}>
-              <div className={cn('rounded-xl border p-4', chart.type === 'ladder' && ['md:mt-12', 'md:mt-8', 'md:mt-4', 'md:mt-0'][index])} style={{ borderColor: `${accent}55`, background: index === 0 ? soft(accent) : '#fff', borderBottomWidth: chart.type === 'ladder' ? 3 : 1, borderBottomColor: accent }}>
-                <span className="text-[10px] font-black" style={{ color: accent }}>0{index + 1}</span><h5 className="mt-1 text-[13.5px] font-black" style={{ color: INK }}>{node.title}</h5><p className="mt-2 text-[12px] leading-6 text-[#5c564f]">{node.desc}</p>
-              </div>
-              {index < chart.nodes.length - 1 && <div className="flex items-center justify-center"><ArrowRight size={18} className="rotate-90 md:rotate-0" style={{ color: `${accent}88` }} /></div>}
-            </React.Fragment>
-          ))}
-        </div>
-        <p className="mt-4 rounded-xl px-4 py-3 text-center text-[12px] font-semibold leading-6" style={{ background: soft(accent), color: '#5c4a40' }}>{chart.note}</p>
-      </motion.div>
-    );
-  }
-  if (chart.type === 'transfer') {
-    return (
-      <motion.div {...reveal} className="grid items-stretch gap-3 rounded-2xl border border-[#e7e5de] bg-white p-5 md:grid-cols-[1fr_auto_1fr] md:p-7">
-        <div className="rounded-xl border p-4" style={{ borderColor: `${accent}55`, background: soft(accent) }}>
-          <h5 className="text-[14px] font-black" style={{ color: accent }}>{chart.source.title}</h5>
-          <ul className="mt-3 space-y-2">{chart.source.points.map((point) => <li key={point} className="flex gap-2 text-[12.5px] leading-6 text-[#4a453f]"><CheckCircle2 size={13} className="mt-1 shrink-0" style={{ color: accent }} />{point}</li>)}</ul>
-        </div>
-        <div className="flex flex-col items-center justify-center gap-2 text-center"><ArrowRight size={22} className="rotate-90 md:rotate-0" style={{ color: accent }} /><span className="max-w-[150px] text-[11px] font-bold leading-5" style={{ color: MUTED }}>{chart.bridge}</span></div>
-        <div className="rounded-xl border p-4" style={{ borderColor: `${accent}55`, background: soft(accent) }}>
-          <h5 className="text-[14px] font-black" style={{ color: accent }}>{chart.target.title}</h5>
-          <ul className="mt-3 space-y-2">{chart.target.points.map((point) => <li key={point} className="flex gap-2 text-[12.5px] leading-6 text-[#4a453f]"><CheckCircle2 size={13} className="mt-1 shrink-0" style={{ color: accent }} />{point}</li>)}</ul>
-        </div>
-      </motion.div>
-    );
-  }
-  return (
-    <motion.div {...reveal} className="rounded-2xl border border-[#e7e5de] bg-white p-5 md:p-7">
-      <div className="grid gap-3 md:grid-cols-3">{chart.factors.map((factor, index) => <div key={factor.title} className="rounded-xl border p-4" style={{ borderColor: `${accent}55`, background: soft(accent) }}><span className="text-[10px] font-black" style={{ color: accent }}>0{index + 1}</span><h5 className="mt-1 text-[14px] font-black" style={{ color: INK }}>{factor.title}</h5><p className="mt-2 text-[12.5px] leading-6 text-[#5c564f]">{factor.desc}</p></div>)}</div>
-      <div className="mt-4 flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-center text-[13px] font-black text-white" style={{ background: accent }}><ShieldCheck size={16} />{chart.result}</div>
-    </motion.div>
-  );
-}
-
-function OnionBlock({ onion }: { onion: FamilyPersona['story']['onion'] }) {
-  return (
-    <motion.div {...reveal} className="mt-6 rounded-xl border border-[#e7e5de] bg-white p-4 md:p-5">
-      <div className="flex items-center gap-2"><span className="h-5 w-1 rounded-full" style={{ background: STORY }} /><h4 className="text-[14px] font-black" style={{ color: INK }}>使用洋葱的目的 & 评价</h4></div>
-      <p className="mt-3 text-[13px] leading-7 text-[#4a453f]">{onion.purpose}</p>
-      <div className="mt-4 grid gap-3 sm:grid-cols-2">
-        <div className="rounded-lg border border-[#cfe6dc] bg-[#f2f8f5] p-3"><div className="flex items-center gap-2 text-[12px] font-black text-[#2F8272]"><CheckCircle2 size={14} />认可点</div><ul className="mt-2 space-y-1.5">{onion.positives.map((item) => <li key={item} className="text-[12.5px] leading-6 text-[#4a453f]">{item}</li>)}</ul></div>
-        <div className="rounded-lg border border-[#f0d6cd] bg-[#fdf4ee] p-3"><div className="flex items-center gap-2 text-[12px] font-black text-[#C9622E]"><AlertTriangle size={14} />顾虑点</div><ul className="mt-2 space-y-1.5">{onion.concerns.map((item) => <li key={item} className="text-[12.5px] leading-6 text-[#4a453f]">{item}</li>)}</ul></div>
-      </div>
-    </motion.div>
-  );
-}
-
 function NarrativeBlock({ narrative, accent }: { narrative: FamilyPersona['story']['narrative']; accent: string }) {
   return (
-    <div className="mt-6">
-      <div className="mb-3 flex items-center gap-2"><span className="h-5 w-1 rounded-full" style={{ background: STORY }} /><h4 className="text-[14px] font-black" style={{ color: INK }}>访谈还原 · 她 / 他为什么这样选</h4></div>
-      <ol className="relative space-y-4 border-l-2 pl-6" style={{ borderColor: `${accent}33` }}>
+    <div className="mt-7">
+      <div className="mb-4 flex items-center gap-2">
+        <span className="h-5 w-1 rounded-full" style={{ background: STORY }} />
+        <h4 className="text-[14px] font-black" style={{ color: INK }}>访谈还原 · 她 / 他为什么这样选</h4>
+      </div>
+      <ol className="relative space-y-5 border-l-2 pl-7" style={{ borderColor: `${accent}33` }}>
         {narrative.map((segment, index) => (
-          <motion.li {...reveal} transition={{ ...reveal.transition, delay: index * 0.05 }} key={segment.heading} className="relative">
-            <span className="absolute -left-[31px] top-0.5 grid h-5 w-5 place-items-center rounded-full text-[10px] font-black text-white" style={{ background: accent }}>{index + 1}</span>
-            <h5 className="text-[16px] font-black" style={{ color: INK }}>{segment.heading}</h5>
-            {segment.intro && <p className="mt-1.5 text-[14px] font-semibold leading-8 text-[#33302b]">{segment.intro}</p>}
-            <div className="mt-2 space-y-2.5">{segment.points.map((point, pointIndex) => <div key={pointIndex} className="space-y-1.5"><div className="flex items-start gap-2"><span className="mt-[11px] h-1 w-1 shrink-0 rounded-full" style={{ background: `${accent}99` }} /><p className="text-[13.5px] font-medium leading-7 text-[#4a453f]">{point.text}</p></div>{point.quote && <blockquote className="ml-4 flex gap-2 rounded-lg px-3.5 py-2.5 text-[12.5px] italic leading-7" style={{ background: soft(accent), color: '#746e67' }}><Quote size={14} className="mt-1 shrink-0" style={{ color: accent }} /><span>「{point.quote}」</span></blockquote>}</div>)}</div>
+          <motion.li
+            {...reveal}
+            transition={{ ...reveal.transition, delay: index * 0.05 }}
+            key={segment.heading}
+            className="relative rounded-xl border border-[#e7e5de] bg-white p-4 md:p-5"
+          >
+            <span className="absolute -left-[39px] top-4 grid h-6 w-6 place-items-center rounded-full text-[10px] font-black text-white" style={{ background: accent }}>{index + 1}</span>
+            <h5 className="text-[15px] font-black leading-7 md:text-[16px]" style={{ color: INK }}>{segment.heading}</h5>
+            {segment.points.length > 0 && (
+              <div className="mt-3 space-y-3">
+                {segment.points.map((point, pointIndex) => (
+                  <div key={`${point.text}-${pointIndex}`} className="space-y-2">
+                    <div className="flex items-start gap-2.5">
+                      <span className="mt-[11px] h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: `${accent}99` }} />
+                      <p className="text-[13.5px] font-medium leading-7 text-[#4a453f]">{point.text}</p>
+                    </div>
+                    {point.quotes?.map((quote) => (
+                      <blockquote
+                        key={quote}
+                        className="ml-4 flex gap-2 rounded-lg px-3.5 py-2.5 text-[12.5px] italic leading-7"
+                        style={{ background: soft(accent), color: '#746e67' }}
+                      >
+                        <Quote size={14} className="mt-1 shrink-0" style={{ color: accent }} />
+                        <span>「{quote}」</span>
+                      </blockquote>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            )}
           </motion.li>
         ))}
       </ol>
