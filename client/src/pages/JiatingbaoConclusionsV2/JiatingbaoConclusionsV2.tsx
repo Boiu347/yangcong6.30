@@ -50,6 +50,8 @@ function Wave({ from, to, flip = false }: { from: string; to: string; flip?: boo
 }
 
 function ConclusionDocument({ item, color }: { item: FamilyCoreConclusion; color: string }) {
+  const evidenceNote = item.evidenceNote.replace(/主页面\s*[23]·/g, '');
+
   return (
     <article className="jtb-v2-document-card jtb-v2-reveal">
       <header>
@@ -132,7 +134,7 @@ function ConclusionDocument({ item, color }: { item: FamilyCoreConclusion; color
         </aside>
       )}
 
-      <footer><FileText size={13} />{item.evidenceNote}</footer>
+      <footer><FileText size={13} />{evidenceNote}</footer>
     </article>
   );
 }
@@ -232,7 +234,6 @@ export default function JiatingbaoConclusionsV2() {
           <div className="jtb-v2-hero-tag">洋葱学园 · 家庭包用户调研 · 2026</div>
           <h1>家庭包<span>结论速览</span></h1>
           <p className="jtb-v2-hero-sub">购买决策与机会人群地图</p>
-          <p className="jtb-v2-hero-desc">内容仅对应《家庭包用户调研》主页面 2、3</p>
           <div className="jtb-v2-stats">
             <div><strong>2</strong><span>购买决策板块</span></div>
             <div><strong>3</strong><span>机会人群组</span></div>
@@ -262,7 +263,7 @@ export default function JiatingbaoConclusionsV2() {
       >
         <div className="jtb-v2-wrap jtb-v2-wide">
           <header className="jtb-v2-chapter jtb-v2-reveal">
-            <p>主页面 2 · 购买决策</p>
+            <p>购买决策</p>
             <h2>家长并不是先被“家庭包”这个概念吸引<br /><span>而是先有一个孩子具体的学习问题</span></h2>
             <div>当这个问题足够明确时，家庭包才有机会进入决策。</div>
           </header>
@@ -284,7 +285,7 @@ export default function JiatingbaoConclusionsV2() {
       >
         <div className="jtb-v2-wrap jtb-v2-wide">
           <header className="jtb-v2-chapter jtb-v2-reveal">
-            <p>主页面 3 · 机会人群地图</p>
+            <p>机会人群地图</p>
             <h2>不同二胎家庭结构的机会潜力<br /><span>不作为最终推课方案</span></h2>
             <div>该部分仅为通过调研了解不同二胎家庭结构的机会潜力的渠道，不作为最终推课方案。</div>
           </header>
@@ -302,7 +303,7 @@ export default function JiatingbaoConclusionsV2() {
 
       <footer className="jtb-v2-footer">
         <span>⭐</span><strong>洋葱学园 · 用户研究团队</strong>
-        <p>内容来源：《【网站素材】家庭包用户调研》主页面 2、3</p>
+        <p>内容来源：《【网站素材】家庭包用户调研》</p>
       </footer>
     </div>
   );
