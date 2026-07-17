@@ -293,9 +293,11 @@ function ConclusionCard({
                     className="mt-[9px] size-1 shrink-0 rounded-full"
                     style={{ backgroundColor: `${color}80` }}
                   />
-                  <HighlightText color={color} keywords={HIGHLIGHT_KEYWORDS}>
-                    {action}
-                  </HighlightText>
+                  <span className="min-w-0 flex-1">
+                    <HighlightText color={color} keywords={HIGHLIGHT_KEYWORDS}>
+                      {action}
+                    </HighlightText>
+                  </span>
                 </li>
               ))}
             </ul>

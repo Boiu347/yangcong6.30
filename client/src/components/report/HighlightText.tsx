@@ -49,7 +49,7 @@ export interface HighlightTextProps {
   keywords?: string[];
   /** 强调色，默认洋葱橙 */
   color?: string;
-  /** 外层包裹标签，默认 span；传 false 时用 Fragment */
+  /** 外层包裹标签，默认 span；传 false 时用 Fragment（勿在 flex 子项中使用） */
   as?: 'span' | 'p' | false;
   className?: string;
 }
@@ -58,7 +58,7 @@ export function HighlightText({
   children,
   keywords = DEFAULT_KEYWORDS,
   color = '#E95B35',
-  as = false,
+  as = 'span',
   className,
 }: HighlightTextProps) {
   const text = children ?? '';
@@ -71,7 +71,8 @@ export function HighlightText({
     regex.lastIndex = 0;
     let match: RegExpExecArray | null;
     while ((match = regex.exec(text)) !== null) {
-      if (match.index > lastIndex) result.push(text.slice(lastIndex, match.index));
+      if (match.index > lastIndex)
+        result.push(text.slice(lastIndex, match.index));
       const value = match[0];
       const isNumber = /\d/.test(value);
       result.push(
@@ -83,6 +84,8 @@ export function HighlightText({
             fontWeight: 800,
             padding: isNumber ? '0 3px' : undefined,
             borderRadius: isNumber ? 4 : undefined,
+            // 关键词整段不断行，避免在 flex 布局里被拆成竖排字
+            whiteSpace: isNumber ? undefined : 'nowrap',
           }}
         >
           {value}
@@ -95,9 +98,10 @@ export function HighlightText({
     return result;
   }, [text, regex, color]);
 
+  // 默认用 span 包裹，避免 Fragment 直接落在 flex 容器里被拆成多个 flex item
+  if (as === false) return <>{nodes}</>;
   if (as === 'p') return <p className={className}>{nodes}</p>;
-  if (as === 'span') return <span className={className}>{nodes}</span>;
-  return <>{nodes}</>;
+  return <span className={className}>{nodes}</span>;
 }
 
 export default HighlightText;
