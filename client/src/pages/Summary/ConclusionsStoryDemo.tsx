@@ -178,31 +178,27 @@ type ModuleTone = 'warm' | 'green' | 'rose' | 'mint';
 
 const MODULE_TONES: Record<
   ModuleTone,
-  { border: string; header: string; accent: string; badge: string }
+  { line: string; accent: string; wash: string }
 > = {
   warm: {
-    border: '#DDCFA8',
-    header: '#FFF4CF',
+    line: '#C9A75F',
     accent: '#9C6A22',
-    badge: '#F2D77E',
+    wash: '#F2D77E',
   },
   green: {
-    border: '#C9D8CC',
-    header: '#EAF1EB',
+    line: '#92AD99',
     accent: '#456A58',
-    badge: '#C8DDCE',
+    wash: '#C8DDCE',
   },
   rose: {
-    border: '#DFC4BB',
-    header: '#F8E4DF',
+    line: '#C78F80',
     accent: '#9C4A2F',
-    badge: '#EDC3B8',
+    wash: '#EDC3B8',
   },
   mint: {
-    border: '#C5DCD6',
-    header: '#E5F1EE',
+    line: '#79A99E',
     accent: '#2F7F73',
-    badge: '#BFDED7',
+    wash: '#BFDED7',
   },
 };
 
@@ -225,26 +221,29 @@ function StoryModule({
 
   return (
     <section
-      className="overflow-hidden rounded-[24px] border bg-white/65 shadow-[0_24px_55px_-48px_rgba(57,43,28,0.65)]"
-      style={{ borderColor: colors.border }}
+      className="border-t-2 pt-7 md:pt-9"
+      style={{ borderColor: colors.line }}
     >
-      <header
-        className="grid gap-4 border-b px-5 py-5 md:grid-cols-[64px_minmax(0,1fr)] md:items-start md:px-8 md:py-7"
-        style={{ backgroundColor: colors.header, borderColor: colors.border }}
-      >
-        <span
-          className="grid size-12 place-items-center rounded-[14px] text-[13px] font-black tracking-[0.08em]"
-          style={{ backgroundColor: colors.badge, color: colors.accent }}
-        >
-          M{number}
-        </span>
+      <header className="grid gap-4 md:grid-cols-[128px_minmax(0,1fr)] md:items-start">
         <div>
           <p
-            className="text-[10.5px] font-black tracking-[0.16em]"
+            className="flex items-center gap-2 text-[11px] font-black tracking-[0.14em]"
+            style={{ color: colors.accent }}
+          >
+            <span className="text-[15px] tracking-[-0.02em]">M{number}</span>
+            <span
+              className="h-px w-6"
+              style={{ backgroundColor: colors.wash }}
+            />
+          </p>
+          <p
+            className="mt-2 text-[10.5px] font-black tracking-[0.12em]"
             style={{ color: colors.accent }}
           >
             {label}
           </p>
+        </div>
+        <div>
           <h3 className="mt-2 text-[22px] font-black leading-[1.35] tracking-[-0.02em] text-[#25211D] md:text-[27px]">
             {title}
           </h3>
@@ -253,7 +252,7 @@ function StoryModule({
           </p>
         </div>
       </header>
-      <div className="px-5 py-7 md:px-8 md:py-9">{children}</div>
+      <div className="mt-9 md:mt-11">{children}</div>
     </section>
   );
 }
@@ -327,7 +326,7 @@ function VoiceCard({ voice }: { voice: Voice }) {
     ? [{ clipUrl: voice.clipUrl, startTime: 0, duration: 0 }]
     : [];
   return (
-    <div className="rounded-[14px] border border-[#E6DBCC] bg-white/70 p-4">
+    <div className="border-l-2 border-[#D7C8B5] py-1 pl-4 pr-2">
       <div className="flex items-start gap-2">
         <Quote size={13} className="mt-1 shrink-0 text-[#C99B54]" />
         <p className="text-[14px] font-semibold leading-[1.7] text-[#4C453D]">
@@ -389,7 +388,7 @@ function EvidenceFigure({
   children: React.ReactNode;
 }) {
   return (
-    <figure className="rounded-[16px] border border-[#E4D9C9] bg-white p-5 md:p-6">
+    <figure className="border-y border-[#D9CDBD] py-5 md:py-6">
       {children}
       <figcaption className="mt-4 flex items-start gap-1.5 border-t border-[#F0E8DB] pt-3 text-[10.5px] font-semibold leading-5 text-[#A99E8F]">
         <FileText size={12} className="mt-0.5 shrink-0" />
@@ -1005,7 +1004,7 @@ export default function ConclusionsDemo() {
             </Reveal>
 
             <Reveal delay={120}>
-              <div className="rounded-[18px] border border-[#E0D4C3] bg-white/70 p-6 md:p-7">
+              <div className="border-y border-[#D8CCBC] py-6 lg:border-y-0 lg:border-l lg:py-3 lg:pl-8">
                 <VoiceLead voice={HERO_VOICE} eyebrow="先听第一条真实声音" />
               </div>
             </Reveal>
@@ -1032,8 +1031,8 @@ export default function ConclusionsDemo() {
               <a
                 key={c.id}
                 href={`#${c.id}`}
-                className="group flex flex-col justify-between rounded-[16px] border border-[#DDD1C2] bg-white/60 p-6 transition hover:-translate-y-0.5 hover:border-[color:var(--c)] hover:shadow-[0_18px_30px_-24px_rgba(60,45,30,0.5)]"
-                style={{ ['--c' as string]: c.color }}
+                className="group flex flex-col justify-between border-t-2 px-1 py-5 transition hover:-translate-y-0.5"
+                style={{ borderTopColor: c.color }}
               >
                 <div>
                   <span
@@ -1055,11 +1054,8 @@ export default function ConclusionsDemo() {
                         className="flex items-center gap-2 text-[11.5px] font-bold text-[#766C61]"
                       >
                         <span
-                          className="grid size-5 place-items-center rounded-md text-[9px] font-black"
-                          style={{
-                            backgroundColor: `${c.color}18`,
-                            color: c.color,
-                          }}
+                          className="text-[9px] font-black"
+                          style={{ color: c.color }}
                         >
                           M{moduleIndex + 1}
                         </span>
@@ -1100,7 +1096,7 @@ export default function ConclusionsDemo() {
           </Reveal>
 
           {/* 用研洞察 · 前提：兴趣入口 */}
-          <div className="mt-16 space-y-8">
+          <div className="mt-16 space-y-16 md:space-y-20">
             <StoryModule
               number="01"
               label="研究发现"
@@ -1347,7 +1343,7 @@ export default function ConclusionsDemo() {
             </h2>
           </Reveal>
 
-          <div className="mt-16 space-y-8">
+          <div className="mt-16 space-y-16 md:space-y-20">
             <StoryModule
               number="03"
               label="产品决策"
@@ -1489,7 +1485,7 @@ export default function ConclusionsDemo() {
         <div className="mx-auto max-w-[1280px] px-5 py-20 md:px-10 md:py-28 lg:px-14 lg:py-32">
           <ChapterMarker number="02" label="未成交卡点" />
 
-          <div className="space-y-8">
+          <div className="space-y-16 md:space-y-20">
             <StoryModule
               number="01"
               label="成交阻力"
@@ -1655,7 +1651,7 @@ export default function ConclusionsDemo() {
             </p>
           </Reveal>
 
-          <div className="mt-14 space-y-8">
+          <div className="mt-14 space-y-16 md:space-y-20">
             <StoryModule
               number="01"
               label="使用场景"
