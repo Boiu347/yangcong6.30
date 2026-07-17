@@ -71,7 +71,7 @@ function displayStatus(status?: string, projectId?: string) {
 
 function projectEntryPath(projectId: string) {
   if (projectId === 'paisou_project') return 'qualitative';
-  if (projectId === 'jiatingbao_project') return 'core-conclusions';
+  if (projectId === 'jiatingbao_project') return 'background';
   return 'summary';
 }
 

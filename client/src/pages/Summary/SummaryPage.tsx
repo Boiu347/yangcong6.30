@@ -24,7 +24,7 @@ export default function SummaryPage() {
       </div>
     );
   }
-  if (projectId === 'jiatingbao_project') return <Navigate to="../core-conclusions" replace />;
+  if (projectId === 'jiatingbao_project') return <Navigate to="../background" replace />;
   if (projectId === 'paisou_project')
     return <PaisouUnderConstruction section="项目总结" hint="项目总结与核心结论还在汇总，完成后会在此呈现。" />;
   if (!projectId || projectId === 'default_project') return <FromPrimaryMergedReport />;
