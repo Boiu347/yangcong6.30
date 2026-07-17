@@ -4,12 +4,19 @@ import {
   AlertTriangle,
   BookOpenCheck,
   CheckCircle2,
+  ExternalLink,
+  FileText,
+  Headphones,
   Lightbulb,
   Quote,
   Sparkles,
   Users,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import EvidenceAudioClips from '@/components/EvidenceAudioClips';
+import { JTB_INTERVIEWS } from '@/store/jiatingbaoData';
+import { clipsForQuote } from '@/utils/sourceUtils';
+import type { EvidenceClip } from '@/utils/evidenceClipLookup';
 
 const INK = '#292521';
 const MUTED = '#746E67';
@@ -37,6 +44,8 @@ interface FamilyPersona {
   name: string;
   keyword: string;
   tagline: string;
+  /** 对应《家庭包已购/未购用户》访谈用户序号 */
+  interviewSeq: number;
   portrait: {
     image: string;
     imageAlt: string;
@@ -58,6 +67,91 @@ interface FamilyPersona {
   };
 }
 
+/** 研究文档润色原声 → 已切好的 ASR 片段（优先于模糊匹配，避免串用户） */
+const STORY_QUOTE_CLIPS: Record<string, EvidenceClip> = {
+  '我主要担忧是小孩不适应这个课，买了浪费。': {
+    clipUrl: '/clips/jiatingbao/seg/user1/0045.mp3',
+    startTime: 0,
+    duration: 0,
+  },
+  '因为她平时学习也是非常主动的，非常自律。': {
+    clipUrl: '/clips/jiatingbao/seg/user2/0056.mp3',
+    startTime: 0,
+    duration: 0,
+  },
+  '当时也会想，我就买个初中的，看好不好，然后我再买高中的。': {
+    clipUrl: '/clips/jiatingbao/seg/user2/0109.mp3',
+    startTime: 0,
+    duration: 0,
+  },
+  '既然我小孩子，我女儿她是比较自觉的，自律的。她能够这样自己主动地提出来，她说要想自己去学习，那我们就支持她。': {
+    clipUrl: '/clips/jiatingbao/seg/user2/0056.mp3',
+    startTime: 0,
+    duration: 0,
+  },
+  '他只要是他自己认定的事情，他一般都还能够坚持下去。所以我就相信他。': {
+    clipUrl: '/clips/jiatingbao/seg/user2/0057.mp3',
+    startTime: 0,
+    duration: 0,
+  },
+  '我希望他能够自己消化吸收，形成自己的知识成体系嘛；等于是有一个主线，他能够把这知识串联起来。': {
+    clipUrl: '/clips/jiatingbao/seg/user2/0062.mp3',
+    startTime: 0,
+    duration: 0,
+  },
+  '买这个的话肯定比那个补课要便宜多了呀。我还不需要接送，时间成本也没有。路费也没有。': {
+    clipUrl: '/clips/jiatingbao/seg/user3/0199.mp3',
+    startTime: 0,
+    duration: 0,
+  },
+  '孩子他自己也不会那么累，因为他不需要赶路啊……他想什么时候看都行。': {
+    clipUrl: '/clips/jiatingbao/seg/user3/0098.mp3',
+    startTime: 0,
+    duration: 0,
+  },
+  '课程设计得再好，孩子如果主动不学，他不看，不还是没什么用嘛。': {
+    clipUrl: '/clips/jiatingbao/seg/user3/0209.mp3',
+    startTime: 0,
+    duration: 0,
+  },
+  '我还是希望，家长是不是能看到一些东西，或者是，假设我能看到他具体哪些错题啊，然后我再叮嘱。': {
+    clipUrl: '/clips/jiatingbao/seg/user3/0216.mp3',
+    startTime: 0,
+    duration: 0,
+  },
+  '阿刘教育规划训练营知道的洋葱，不想等出现问题的时候再来，就提前去做一些准备吧；如果说读到初二、初三，发现我数学很差了，到那个时候再去赶，可能就真的只能跟着线下老师去补习班了。': {
+    clipUrl: '/clips/jiatingbao/seg/user4/0052.mp3',
+    startTime: 0,
+    duration: 0,
+  },
+  '可以买最好，但是一定要发挥出东西。不能说放在那里，你就是再便宜的东西放在那里，它也浪费钱。': {
+    clipUrl: '/clips/jiatingbao/seg/user4/0093.mp3',
+    startTime: 0,
+    duration: 0,
+  },
+  '我买衣服我都考虑到大的能穿，小的还能穿是最好，赚钱也不容易。': {
+    clipUrl: '/clips/jiatingbao/seg/user4/0092.mp3',
+    startTime: 0,
+    duration: 0,
+  },
+  '小孩来说，至少他不排斥。我说你用的洋葱上课吧，他自己会去点开来。': {
+    clipUrl: '/clips/jiatingbao/seg/user4/0049.mp3',
+    startTime: 0,
+    duration: 0,
+  },
+  '如果他能一直坚持用下去，我觉得一切都值得，我就怕这个他不愿意用。不愿意用钱也白花了，是吧？': {
+    clipUrl: '/clips/jiatingbao/seg/user4/0051.mp3',
+    startTime: 0,
+    duration: 0,
+  },
+};
+
+function clipsForStoryQuote(quote: string): EvidenceClip[] {
+  const mapped = STORY_QUOTE_CLIPS[quote];
+  if (mapped) return [mapped];
+  return clipsForQuote(quote);
+}
+
 // 内容对齐飞书文档《家庭包用户购买决策洞察》主页面 4：典型家庭故事。
 const PERSONAS: FamilyPersona[] = [
   {
@@ -67,6 +161,7 @@ const PERSONAS: FamilyPersona[] = [
     name: '小升初窗口驱动型',
     keyword: '5/6/7 年级',
     tagline: '兼顾同步复习小学和提前学初中',
+    interviewSeq: 1,
     portrait: {
       image: '/family-stories/transition-window.png',
       imageAlt: '妈妈陪六年级哥哥准备升学，三年级妹妹在旁学习',
@@ -146,6 +241,7 @@ const PERSONAS: FamilyPersona[] = [
     name: '拔尖自驱超前学型',
     keyword: '成绩优秀、提前学',
     tagline: '孩子已经在提前学，需要覆盖初中与高中的同步、拔高资源',
+    interviewSeq: 2,
     portrait: {
       image: '/family-stories/self-driven.png',
       imageAlt: '初一女儿自主规划初高中学习，妈妈在旁支持',
@@ -228,6 +324,7 @@ const PERSONAS: FamilyPersona[] = [
     name: '大孩经验迁移型',
     keyword: '多胎隔段',
     tagline: '希望小孩提前准备，减少无效补课和线下奔波',
+    interviewSeq: 3,
     portrait: {
       image: '/family-stories/experience-transfer.png',
       imageAlt: '妈妈把初三姐姐的学习经验迁移给四年级妹妹',
@@ -309,6 +406,7 @@ const PERSONAS: FamilyPersona[] = [
     name: '资源预置囤课型',
     keyword: '长期资源预置',
     tagline: '提前备着，避免问题出现后再补救',
+    interviewSeq: 4,
     portrait: {
       image: '/family-stories/resource-reserve.png',
       imageAlt: '爸爸与六年级姐姐、一年级弟弟共享家庭学习资源',
@@ -574,15 +672,57 @@ function ProfileRow({
 }
 
 function StorySection({ persona }: { persona: FamilyPersona }) {
-  const { story, accent } = persona;
+  const { story, accent, interviewSeq } = persona;
+  const interview = JTB_INTERVIEWS.find((item) => item.seq === interviewSeq);
+  const minutesUrl = interview?.minutesUrl && !interview.minutesUrl.endsWith('/') ? interview.minutesUrl : undefined;
+  const transcriptUrl = interview?.transcriptUrl;
+
   return (
     <section className="mt-12">
       <SectionHeader icon={BookOpenCheck} label="典型家庭故事" subtitle="该类型中的一户代表家庭 · 真实访谈还原" accent={STORY} />
       <motion.div {...reveal} className="mt-5 overflow-hidden rounded-2xl border bg-white shadow-sm" style={{ borderColor: `${accent}55` }}>
         <div className="px-5 py-5 md:px-7" style={{ background: soft(accent) }}>
-          <div className="flex items-start gap-3">
-            <Lightbulb size={19} className="mt-1 shrink-0" style={{ color: accent }} />
-            <h3 className="text-[16px] font-black leading-8 md:text-[19px]" style={{ color: INK }}>代表案例：{story.banner}</h3>
+          <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+            <div className="flex items-start gap-3">
+              <Lightbulb size={19} className="mt-1 shrink-0" style={{ color: accent }} />
+              <div>
+                <h3 className="text-[16px] font-black leading-8 md:text-[19px]" style={{ color: INK }}>代表案例：{story.banner}</h3>
+                {interview && (
+                  <p className="mt-1.5 text-[12px] font-semibold" style={{ color: MUTED }}>
+                    用户{interview.seq} · {interview.parent} · {interview.combo} · {interview.region}
+                  </p>
+                )}
+              </div>
+            </div>
+            {(minutesUrl || transcriptUrl) && (
+              <div className="flex flex-wrap gap-2 md:justify-end">
+                {minutesUrl && (
+                  <a
+                    href={minutesUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-lg border bg-white px-3 py-2 text-[12px] font-bold shadow-sm transition hover:bg-[#faf9f6]"
+                    style={{ borderColor: `${accent}55`, color: accent }}
+                  >
+                    <Headphones size={13} />
+                    听妙记
+                    <ExternalLink size={11} className="opacity-60" />
+                  </a>
+                )}
+                {transcriptUrl && (
+                  <a
+                    href={transcriptUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-[#d8d4cb] bg-white px-3 py-2 text-[12px] font-bold text-[#5c564f] shadow-sm transition hover:bg-[#faf9f6]"
+                  >
+                    <FileText size={13} />
+                    文字记录
+                    <ExternalLink size={11} className="opacity-60" />
+                  </a>
+                )}
+              </div>
+            )}
           </div>
         </div>
         <div className="grid gap-px bg-[#e4e2da] md:grid-cols-2">
@@ -626,16 +766,23 @@ function NarrativeBlock({ narrative, accent }: { narrative: FamilyPersona['story
                       <span className="mt-[11px] h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: `${accent}99` }} />
                       <p className="text-[13.5px] font-medium leading-7 text-[#4a453f]">{point.text}</p>
                     </div>
-                    {point.quotes?.map((quote) => (
-                      <blockquote
-                        key={quote}
-                        className="ml-4 flex gap-2 rounded-lg px-3.5 py-2.5 text-[12.5px] italic leading-7"
-                        style={{ background: soft(accent), color: '#746e67' }}
-                      >
-                        <Quote size={14} className="mt-1 shrink-0" style={{ color: accent }} />
-                        <span>「{quote}」</span>
-                      </blockquote>
-                    ))}
+                    {point.quotes?.map((quote) => {
+                      const clips = clipsForStoryQuote(quote);
+                      return (
+                        <div key={quote} className="ml-4 space-y-1.5">
+                          <blockquote
+                            className="flex gap-2 rounded-lg px-3.5 py-2.5 text-[12.5px] italic leading-7"
+                            style={{ background: soft(accent), color: '#746e67' }}
+                          >
+                            <Quote size={14} className="mt-1 shrink-0" style={{ color: accent }} />
+                            <span>「{quote}」</span>
+                          </blockquote>
+                          {clips.length > 0 && (
+                            <EvidenceAudioClips clips={clips} className="max-w-[360px]" />
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 ))}
               </div>

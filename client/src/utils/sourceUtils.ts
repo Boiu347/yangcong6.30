@@ -123,12 +123,54 @@ function findPhysicsSegmentClip(quote: string): EvidenceClip | undefined {
 }
 
 /**
+ * 家庭包逐句拆解的宽松匹配：研究文档里的润色原声常是 ASR 的精简子串。
+ * 要求较短一方长度 ≥ 10，避免短语误命中。
+ */
+function findJiatingbaoSegmentClip(quote: string): EvidenceClip | undefined {
+  const nq = normalizeForMatch(quote);
+  if (nq.length < 10) return undefined;
+
+  let best: { clip: EvidenceClip; score: number } | undefined;
+  for (const seg of JIATINGBAO_SEGMENTS) {
+    if (!seg.clipUrl) continue;
+    const nt = normalizeForMatch(seg.quote.replace(/\*\*/g, ''));
+    if (nt.length < 10) continue;
+
+    let score = 0;
+    if (nt.includes(nq) || nq.includes(nt)) {
+      score = Math.min(nq.length, nt.length);
+    } else {
+      // 取最长公共连续子串（上限截断，避免 O(n³) 过重）
+      const a = nq.length <= 48 ? nq : nq.slice(0, 48);
+      const b = nt;
+      for (let i = 0; i < a.length; i += 1) {
+        for (let j = i + 12; j <= a.length; j += 1) {
+          const sub = a.slice(i, j);
+          if (b.includes(sub) && j - i > score) score = j - i;
+        }
+      }
+    }
+    if (score >= 12 && (!best || score > best.score)) {
+      best = {
+        score,
+        clip: {
+          clipUrl: seg.clipUrl,
+          startTime: seg.startTime ?? 0,
+          duration: seg.duration,
+        },
+      };
+    }
+  }
+  return best?.clip;
+}
+
+/**
  * 为一条「代表原声」查找录音切片：优先命中家庭包逐句拆解片段，
  * 再回退到既有 lookupClips（纪要 caption / study·onion bullet 等）。
  */
 export function clipsForQuote(quote: string): EvidenceClip[] {
   const plain = quote.replace(/\*\*/g, '').trim();
-  const seg = JIATINGBAO_SEGMENT_CLIP_MAP[plain];
+  const seg = JIATINGBAO_SEGMENT_CLIP_MAP[plain] ?? findJiatingbaoSegmentClip(plain);
   if (seg) return [seg];
   return lookupClips(quote);
 }
