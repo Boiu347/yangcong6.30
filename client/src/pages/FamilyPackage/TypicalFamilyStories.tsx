@@ -213,7 +213,7 @@ function clipsForStoryQuote(quote: string): EvidenceClip[] {
 }
 
 // 内容对齐飞书文档《家庭包用户购买决策洞察》主页面 4：典型家庭故事。
-const PERSONAS: FamilyPersona[] = [
+export const FAMILY_STORY_PERSONAS: FamilyPersona[] = [
   {
     id: 'transition-window',
     index: '01',
@@ -652,8 +652,8 @@ const soft = (color: string) => `${color}14`;
 export default function TypicalFamilyStories() {
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const sectionRefs = React.useRef<Record<string, HTMLElement | null>>({});
-  const [activeId, setActiveId] = React.useState(PERSONAS[0].id);
-  const activeAccent = PERSONAS.find((persona) => persona.id === activeId)?.accent ?? PERSONAS[0].accent;
+  const [activeId, setActiveId] = React.useState(FAMILY_STORY_PERSONAS[0].id);
+  const activeAccent = FAMILY_STORY_PERSONAS.find((persona) => persona.id === activeId)?.accent ?? FAMILY_STORY_PERSONAS[0].accent;
 
   React.useEffect(() => {
     const root = scrollRef.current;
@@ -680,7 +680,7 @@ export default function TypicalFamilyStories() {
               <span className="text-[11px] font-black tracking-[0.14em]">用户画像与典型家庭故事 · 家庭包</span>
             </div>
             <div className="mt-2.5 flex flex-wrap gap-1.5">
-              {PERSONAS.map((persona) => {
+              {FAMILY_STORY_PERSONAS.map((persona) => {
                 const active = persona.id === activeId;
                 return (
                   <button
@@ -722,7 +722,7 @@ export default function TypicalFamilyStories() {
               </div>
             </div>
           </motion.div>
-          {PERSONAS.map((persona) => (
+          {FAMILY_STORY_PERSONAS.map((persona) => (
             <section
               key={persona.id}
               data-id={persona.id}
