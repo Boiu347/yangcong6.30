@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import {
   AlertTriangle,
+  ArrowRight,
   BookOpenCheck,
   CheckCircle2,
   ExternalLink,
@@ -9,7 +10,11 @@ import {
   Headphones,
   Lightbulb,
   Quote,
+  ShieldCheck,
+  ShoppingBag,
   Sparkles,
+  Target,
+  TrendingUp,
   Users,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -37,6 +42,17 @@ interface StoryPoint {
   quotes?: string[];
 }
 
+interface DecisionFlow {
+  title: string;
+  steps: {
+    label: string;
+    title: string;
+    description: string;
+  }[];
+  outcome: string;
+  breakpoint: string;
+}
+
 interface FamilyPersona {
   id: string;
   index: string;
@@ -60,6 +76,7 @@ interface FamilyPersona {
     banner: string;
     coreFeature: string;
     businessInsight: string;
+    decisionFlow: DecisionFlow;
     narrative: {
       heading: string;
       points: StoryPoint[];
@@ -187,6 +204,33 @@ const PERSONAS: FamilyPersona[] = [
       banner: '广州黄妈妈 —— 哥哥要小升初强驱动，妹妹让家庭包变得“不浪费”',
       coreFeature: '先被哥哥小升初衔接需求触发，再用妹妹未来可用来合理化家庭包；如果没有妹妹权益，她更可能只买短期课。',
       businessInsight: '对这类家庭，要先讲清当下任务（小升初孩子怎么用：暑假怎么预习、初中后怎么继续接），再讲另一个孩子未来如何承接权益。',
+      decisionFlow: {
+        title: '购买决策路径 · 主孩触发，二孩让长期包成立',
+        steps: [
+          {
+            label: '触发',
+            title: '哥哥进入升学窗口',
+            description: '小升初迫近，暑假预习初中从可选项变成明确任务。',
+          },
+          {
+            label: '任务',
+            title: '先解决衔接需求',
+            description: '先讲清暑假怎么预习、升入初中后周末怎么继续使用。',
+          },
+          {
+            label: '验证',
+            title: '孩子愿意并能适应',
+            description: '哥哥试用后愿意学，降低录播课不适应和买了不用的风险。',
+          },
+          {
+            label: '成立',
+            title: '妹妹承接长期权益',
+            description: '妹妹未来也能用，让 6 年权益从“太长”变成“两个孩子都能接上”。',
+          },
+        ],
+        outcome: '哥哥的紧迫任务负责成交，妹妹的未来权益负责证明家庭包不浪费。',
+        breakpoint: '如果没有妹妹权益，或哥哥不能适应录播课，家庭更可能退回短期课。',
+      },
       narrative: [
         {
           heading: '两个孩子，哥哥 6 年级，妹妹 3 年级。',
@@ -264,6 +308,33 @@ const PERSONAS: FamilyPersona[] = [
       banner: '景德镇王妈妈 —— 孩子自己想往前学，家长才敢一次买到高中',
       coreFeature: '家长购买家庭包，是在支持一个自律、主动、愿意提前学的孩子；孩子的长期使用确定性，降低了家庭包的浪费风险。',
       businessInsight: '对这类家庭，最应该突出的是“孩子已经准备好了，这套资源能跟上她”，包括课程能否支持孩子自主学习、能否从初中自然接到高中、能否让孩子按自己的节奏往前走。',
+      decisionFlow: {
+        title: '购买决策路径 · 孩子主动，资源顺势延伸',
+        steps: [
+          {
+            label: '触发',
+            title: '孩子主动提出想学',
+            description: '购买不是家长强推，而是孩子已经有继续往前学的意愿。',
+          },
+          {
+            label: '信任',
+            title: '长期自律形成确定性',
+            description: '孩子平时自觉、认定的事情能坚持，比销售承诺更有说服力。',
+          },
+          {
+            label: '使用',
+            title: '初中内容正在超前学',
+            description: '数学、英语等已经跨年级学习，下一阶段资源并非遥远囤课。',
+          },
+          {
+            label: '升级',
+            title: '高中资源自然接续',
+            description: '既然学习路径持续向前，家庭包就成为支持自主学习的长期底座。',
+          },
+        ],
+        outcome: '孩子的主动性与自律，把“先买初中试试”升级成“一次买到高中”。',
+        breakpoint: '如果孩子只是一时兴起，家长仍会回到先买初中、验证效果再续购。',
+      },
       narrative: [
         {
           heading: '核心对象是成绩好，也有主动学习意识的孩子。',
@@ -352,6 +423,33 @@ const PERSONAS: FamilyPersona[] = [
       banner: '合肥张妈妈 —— 为了不走老大的弯路，让妈妈更早为老二准备',
       coreFeature: '她从老大的经历中，看到老二未来的风险，希望老二提前准备，少走弯路。',
       businessInsight: '对这类家庭，最有效的表达是把未来补课风险讲具体，同时要把产品的学习闭环展示清楚，让家长知道不是买完就只能靠孩子自觉。',
+      decisionFlow: {
+        title: '购买决策路径 · 从大孩踩坑迁移到小孩规划',
+        steps: [
+          {
+            label: '经验',
+            title: '大孩经历升学与补课压力',
+            description: '见过补课低效、奔波疲惫，也经历过关键节点准备不足的被动。',
+          },
+          {
+            label: '复盘',
+            title: '算清补救的综合成本',
+            description: '不只比较课时费，也比较接送、等待、时间和孩子疲惫。',
+          },
+          {
+            label: '迁移',
+            title: '为小孩更早准备',
+            description: '把大孩的遗憾转化为小孩的预习、复习和长期学习安排。',
+          },
+          {
+            label: '闭环',
+            title: '过程可见才能持续',
+            description: '通过学习记录、错题和学情反馈，让家长知道孩子是否真正用起来。',
+          },
+        ],
+        outcome: '家庭包被理解为“提前准备 + 替代未来线下补课”的长期方案。',
+        breakpoint: '如果看不到学习过程，家长会担心小孩重演“买了却没真正用起来”。',
+      },
       narrative: [
         {
           heading: '两个孩子，大孩初三，小孩 4 年级。',
@@ -431,6 +529,33 @@ const PERSONAS: FamilyPersona[] = [
       banner: '九江刘爸爸 —— 先把资源准备好，不等问题出现后再补救',
       coreFeature: '他把家庭包当成一套长期学习资源，愿意提前配置，但前提是孩子真的会用、资源真的能发挥作用。',
       businessInsight: '对这类家庭，要讲清楚未来哪些节点会用、不同孩子怎么接续使用、孩子如何保持使用、课程是否会持续更新。家庭包的最大说服力不是“买下很多内容”，而是“这些内容未来真的能被用起来”。',
+      decisionFlow: {
+        title: '购买决策路径 · 提前配置家庭学习资源库',
+        steps: [
+          {
+            label: '触发',
+            title: '不等问题发生再补救',
+            description: '受到教育规划影响，希望在成绩掉队前先准备好可用资源。',
+          },
+          {
+            label: '配置',
+            title: '一次备好长期内容',
+            description: '把家庭包视作图书馆，需要时能随时取用，而不是临时反复选课。',
+          },
+          {
+            label: '复用',
+            title: '大孩先用，小孩接续',
+            description: '多孩跨学段承接同一套权益，让 6 年周期形成家庭整体性价比。',
+          },
+          {
+            label: '兑现',
+            title: '孩子愿用且资源持续有效',
+            description: '不排斥、能坚持、课程持续更新，才算真正发挥长期资源价值。',
+          },
+        ],
+        outcome: '多人可用、长期覆盖、内容能被持续使用，共同构成“家庭资源库”的价值。',
+        breakpoint: '如果孩子不愿意用，或不同孩子无法顺畅接续，再便宜的长期包也是浪费。',
+      },
       narrative: [
         {
           heading: '两个孩子，一个低年级，一个处在小升初前后阶段。',
@@ -534,6 +659,29 @@ export default function TypicalFamilyStories() {
         </div>
 
         <div className="mx-auto max-w-[940px] px-5 md:px-8">
+          <motion.div {...reveal} className="mt-6 rounded-2xl border border-[#e4e2da] bg-white p-4 shadow-sm md:p-5">
+            <div className="flex flex-col gap-3 md:flex-row md:items-center">
+              <div className="shrink-0">
+                <div className="text-[12px] font-black" style={{ color: INK }}>建议阅读顺序</div>
+                <p className="mt-1 text-[11px]" style={{ color: MUTED }}>先识别家庭，再理解成交，最后回到原声</p>
+              </div>
+              <div className="grid flex-1 gap-2 sm:grid-cols-3">
+                {[
+                  ['01', '用户画像', '看年级、动机和关键顾虑'],
+                  ['02', '决策路径', '看家庭包如何一步步成立'],
+                  ['03', '访谈核验', '用故事、原声和录音验证'],
+                ].map(([index, title, description]) => (
+                  <div key={index} className="flex items-center gap-2.5 rounded-xl bg-[#f8f7f3] px-3 py-2.5">
+                    <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#33302b] text-[10px] font-black text-white">{index}</span>
+                    <div>
+                      <div className="text-[12px] font-black text-[#3e3a36]">{title}</div>
+                      <div className="mt-0.5 text-[10.5px] leading-5 text-[#7a746d]">{description}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
           {PERSONAS.map((persona) => (
             <section
               key={persona.id}
@@ -736,8 +884,78 @@ function StorySection({ persona }: { persona: FamilyPersona }) {
           </div>
         </div>
       </motion.div>
+      <DecisionFlowChart flow={story.decisionFlow} accent={accent} />
       <NarrativeBlock narrative={story.narrative} accent={accent} />
     </section>
+  );
+}
+
+const FLOW_ICONS = [Target, TrendingUp, ShieldCheck, ShoppingBag];
+
+function DecisionFlowChart({ flow, accent }: { flow: DecisionFlow; accent: string }) {
+  return (
+    <div className="mt-7">
+      <div className="mb-3 flex items-center gap-2">
+        <span className="h-5 w-1 rounded-full" style={{ background: accent }} />
+        <h4 className="text-[14px] font-black" style={{ color: INK }}>{flow.title}</h4>
+      </div>
+
+      <motion.div {...reveal} className="rounded-2xl border border-[#e7e5de] bg-white p-4 shadow-sm md:p-6">
+        <div className="grid items-stretch gap-2 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr]">
+          {flow.steps.map((step, index) => {
+            const Icon = FLOW_ICONS[index] ?? Target;
+            return (
+              <React.Fragment key={step.title}>
+                <div
+                  className="relative rounded-xl border p-4"
+                  style={{
+                    borderColor: index === flow.steps.length - 1 ? accent : `${accent}44`,
+                    background: index === 0 || index === flow.steps.length - 1 ? soft(accent) : '#fff',
+                    borderBottomWidth: 3,
+                    borderBottomColor: accent,
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-white" style={{ background: accent }}>
+                      <Icon size={15} />
+                    </span>
+                    <div>
+                      <div className="text-[10px] font-black tracking-[0.12em]" style={{ color: accent }}>
+                        0{index + 1} · {step.label}
+                      </div>
+                      <h5 className="mt-0.5 text-[13.5px] font-black leading-5" style={{ color: INK }}>{step.title}</h5>
+                    </div>
+                  </div>
+                  <p className="mt-3 text-[12px] leading-6 text-[#5c564f]">{step.description}</p>
+                </div>
+                {index < flow.steps.length - 1 && (
+                  <div className="flex items-center justify-center py-1 md:py-0">
+                    <ArrowRight size={18} className="rotate-90 md:rotate-0" style={{ color: `${accent}99` }} />
+                  </div>
+                )}
+              </React.Fragment>
+            );
+          })}
+        </div>
+
+        <div className="mt-4 grid gap-3 md:grid-cols-[1.25fr_1fr]">
+          <div className="flex items-start gap-2.5 rounded-xl px-4 py-3" style={{ background: soft(accent) }}>
+            <CheckCircle2 size={15} className="mt-1 shrink-0" style={{ color: accent }} />
+            <div>
+              <div className="text-[11px] font-black tracking-wide" style={{ color: accent }}>为什么家庭包成立</div>
+              <p className="mt-1 text-[12.5px] font-semibold leading-6 text-[#4a453f]">{flow.outcome}</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-2.5 rounded-xl border border-dashed border-[#e3b7a6] bg-[#fdf4ee] px-4 py-3">
+            <AlertTriangle size={15} className="mt-1 shrink-0 text-[#C9622E]" />
+            <div>
+              <div className="text-[11px] font-black tracking-wide text-[#b0492b]">关键断点</div>
+              <p className="mt-1 text-[12.5px] font-semibold leading-6 text-[#7a5a48]">{flow.breakpoint}</p>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </div>
   );
 }
 
