@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import {
   AlertTriangle,
   ArrowRight,
+  ArrowUpRight,
   BookOpenCheck,
   CheckCircle2,
   ExternalLink,
@@ -992,31 +993,52 @@ function FlowChartView({ chart, accent }: { chart: FlowDecisionChart; accent: st
 }
 
 function LadderChartView({ chart, accent }: { chart: LadderDecisionChart; accent: string }) {
-  const lifts = ['md:mt-12', 'md:mt-8', 'md:mt-4', 'md:mt-0'];
+  const lifts = ['md:translate-y-12', 'md:translate-y-8', 'md:translate-y-4', 'md:translate-y-0'];
   return (
     <>
       <p className="mb-4 rounded-xl px-4 py-3 text-[12.5px] font-semibold leading-6" style={{ background: soft(accent), color: '#4a453f' }}>
         {chart.intro}
       </p>
-      <div className="grid items-end gap-3 md:grid-cols-4">
+      <div className="grid gap-3 md:grid-cols-4 md:items-stretch md:pb-12">
         {chart.levels.map((level, index) => {
           const Icon = FLOW_ICONS[index] ?? TrendingUp;
           return (
             <div
               key={level.stage}
-              className={cn('relative rounded-xl border p-4', lifts[index])}
-              style={{ borderColor: `${accent}55`, background: soft(accent), borderBottomWidth: 3, borderBottomColor: accent }}
+              className={cn('relative transition-transform duration-300', lifts[index])}
             >
-              <div className="flex items-center gap-2">
-                <span className="grid h-7 w-7 place-items-center rounded-full text-white" style={{ background: accent }}>
-                  <Icon size={14} />
-                </span>
-                <span className="text-[11px] font-black" style={{ color: accent }}>{level.stage}</span>
+              <div
+                className="relative h-full min-h-[170px] overflow-hidden rounded-xl border p-4"
+                style={{
+                  borderColor: `${accent}${index === chart.levels.length - 1 ? '99' : '55'}`,
+                  background: index === chart.levels.length - 1 ? soft(accent) : '#fff',
+                  borderBottomWidth: 4,
+                  borderBottomColor: accent,
+                  boxShadow: `0 ${4 + index * 2}px ${12 + index * 3}px ${accent}12`,
+                }}
+              >
+                <div className="flex items-center gap-2">
+                  <span className="grid h-7 w-7 place-items-center rounded-full text-white" style={{ background: accent }}>
+                    <Icon size={14} />
+                  </span>
+                  <span className="text-[11px] font-black" style={{ color: accent }}>
+                    第 {index + 1} 阶 · {level.stage}
+                  </span>
+                </div>
+                <h5 className="mt-2 text-[13.5px] font-black" style={{ color: INK }}>{level.title}</h5>
+                <p className="mt-1.5 text-[12px] leading-6 text-[#5c564f]">{level.description}</p>
+                <span
+                  className="absolute bottom-0 left-0 top-0 w-1"
+                  style={{ background: accent, opacity: 0.3 + index * 0.2 }}
+                />
               </div>
-              <h5 className="mt-2 text-[13.5px] font-black" style={{ color: INK }}>{level.title}</h5>
-              <p className="mt-1.5 text-[12px] leading-6 text-[#5c564f]">{level.description}</p>
               {index < chart.levels.length - 1 && (
-                <ArrowRight size={18} className="absolute -right-3 bottom-4 z-10 hidden md:block" style={{ color: `${accent}99` }} />
+                <span
+                  className="absolute -right-4 top-1/2 z-10 hidden h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border bg-white md:flex"
+                  style={{ borderColor: `${accent}55`, color: accent }}
+                >
+                  <ArrowUpRight size={17} />
+                </span>
               )}
             </div>
           );
