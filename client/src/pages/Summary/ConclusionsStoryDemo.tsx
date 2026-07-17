@@ -961,20 +961,43 @@ const CLOSING_VOICE: Voice = {
 
 /* ------------------------------------ 页面 ------------------------------------ */
 
+function getScrollParent(el: HTMLElement | null): HTMLElement | null {
+  let node = el?.parentElement ?? null;
+  while (node) {
+    const { overflowY } = getComputedStyle(node);
+    if (
+      (overflowY === 'auto' || overflowY === 'scroll') &&
+      node.scrollHeight > node.clientHeight
+    ) {
+      return node;
+    }
+    node = node.parentElement;
+  }
+  return null;
+}
+
 export default function ConclusionsDemo() {
+  const mainRef = React.useRef<HTMLElement>(null);
   const [progress, setProgress] = React.useState(0);
   const [barColor, setBarColor] = React.useState('#E95B35');
 
+  const jumpToId = React.useCallback((id: string) => {
+    const target = document.getElementById(id);
+    if (!target) return;
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, []);
+
   React.useEffect(() => {
+    const scroller =
+      getScrollParent(mainRef.current) ?? document.documentElement;
     const onScroll = () => {
-      const h = document.documentElement;
-      const scrolled = h.scrollTop;
-      const total = h.scrollHeight - h.clientHeight;
+      const scrolled = scroller.scrollTop;
+      const total = scroller.scrollHeight - scroller.clientHeight;
       setProgress(total > 0 ? Math.min(100, (scrolled / total) * 100) : 0);
     };
     onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    scroller.addEventListener('scroll', onScroll, { passive: true });
+    return () => scroller.removeEventListener('scroll', onScroll);
   }, []);
 
   React.useEffect(() => {
@@ -983,6 +1006,7 @@ export default function ConclusionsDemo() {
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => Boolean(el));
     if (els.length === 0) return;
+    const root = getScrollParent(mainRef.current);
     const io = new IntersectionObserver(
       (entries) => {
         const hit = entries
@@ -994,14 +1018,17 @@ export default function ConclusionsDemo() {
         const ch = CHAPTERS.find((c) => c.id === hit.target.id);
         setBarColor(ch ? ch.color : '#E95B35');
       },
-      { rootMargin: '-45% 0px -45% 0px', threshold: 0 },
+      { root, rootMargin: '-45% 0px -45% 0px', threshold: 0 },
     );
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, []);
 
   return (
-    <main className="min-h-full overflow-x-hidden bg-[#F7F3EC] text-[#191816]">
+    <main
+      ref={mainRef}
+      className="min-h-full overflow-x-hidden bg-[#F7F3EC] text-[#191816]"
+    >
       {/* 顶部细阅读进度线 */}
       <div className="fixed inset-x-0 top-0 z-50 h-[3px] bg-transparent">
         <div
@@ -1072,29 +1099,31 @@ export default function ConclusionsDemo() {
             </Reveal>
           </div>
 
-          <a
-            href="#ch1"
+          <button
+            type="button"
+            onClick={() => jumpToId('ch1')}
             className="flex w-fit items-center gap-2 pb-1 text-[12px] font-black tracking-[0.12em] text-[#655D54]"
           >
             继续听用户怎么说
             <ArrowDown size={16} className="motion-safe:animate-bounce" />
-          </a>
+          </button>
         </div>
       </section>
 
       {/* ============================= 全篇导航 ============================= */}
       <section className="border-b border-[#D7CCBF] bg-[#F7F3EC]">
         <div className="mx-auto max-w-[1280px] px-5 py-14 md:px-10 md:py-20 lg:px-14">
-          <p className="mb-8 text-[11px] font-black tracking-[0.16em] text-[#83796E]">
+          <p className="mb-8 text-[14px] font-black tracking-[0.12em] text-[#83796E]">
             三个研究问题 · 八个内容模组
           </p>
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-3 md:gap-5">
             {CHAPTERS.map((c) => (
-              <a
+              <button
                 key={c.id}
-                href={`#${c.id}`}
-                className="group flex flex-col justify-between border-t-2 px-1 py-5 transition hover:-translate-y-0.5"
-                style={{ borderTopColor: c.color }}
+                type="button"
+                onClick={() => jumpToId(c.id)}
+                className="group flex h-full flex-col justify-between rounded-[18px] border border-[#E0D5C6] bg-white px-5 py-6 text-left shadow-[0_10px_28px_-24px_rgba(60,45,30,0.45)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_32px_-22px_rgba(60,45,30,0.5)]"
+                style={{ borderTopWidth: 3, borderTopColor: c.color }}
               >
                 <div>
                   <span
@@ -1109,15 +1138,18 @@ export default function ConclusionsDemo() {
                   <p className="mt-2 text-[13px] font-semibold text-[#8A7E71]">
                     {c.hint}
                   </p>
-                  <div className="mt-5 space-y-1.5 border-t border-[#E7DDD0] pt-4">
+                  <div className="mt-5 space-y-2 border-t border-[#E7DDD0] pt-4">
                     {c.modules.map((module, moduleIndex) => (
                       <p
                         key={module}
-                        className="flex items-center gap-2 text-[11.5px] font-bold text-[#766C61]"
+                        className="flex items-center gap-2 text-[12px] font-bold text-[#766C61]"
                       >
                         <span
-                          className="text-[9px] font-black"
-                          style={{ color: c.color }}
+                          className="grid size-5 shrink-0 place-items-center rounded-md text-[10px] font-black"
+                          style={{
+                            backgroundColor: `${c.color}18`,
+                            color: c.color,
+                          }}
                         >
                           M{moduleIndex + 1}
                         </span>
@@ -1131,7 +1163,7 @@ export default function ConclusionsDemo() {
                   className="mt-6 text-[#B2A598] transition group-hover:translate-x-1"
                   style={{ color: c.color }}
                 />
-              </a>
+              </button>
             ))}
           </div>
         </div>
@@ -1139,7 +1171,7 @@ export default function ConclusionsDemo() {
 
       {/* ============================= 章节一：成交原因 ============================= */}
       {/* —— 1. 品类动机（浅奶油黄） —— */}
-      <section id="ch1" className="scroll-mt-2 bg-[#FFF9E8]">
+      <section id="ch1" className="scroll-mt-14 bg-[#FFF9E8]">
         <div className="mx-auto max-w-[1280px] px-5 py-20 md:px-10 md:py-28 lg:px-14 lg:py-32">
           <ChapterMarker number="01" label="成交原因 · 品类动机" />
           <Reveal>
@@ -1564,7 +1596,7 @@ export default function ConclusionsDemo() {
       </section>
 
       {/* ============================= 章节二：未成交卡点 ============================= */}
-      <section id="ch2" className="scroll-mt-2 bg-[#FCF1EE]">
+      <section id="ch2" className="scroll-mt-14 bg-[#FCF1EE]">
         <div className="mx-auto max-w-[1280px] px-5 py-20 md:px-10 md:py-28 lg:px-14 lg:py-32">
           <ChapterMarker number="02" label="未成交卡点" />
 
@@ -1721,7 +1753,7 @@ export default function ConclusionsDemo() {
       </section>
 
       {/* ============================= 章节三：产品体验 ============================= */}
-      <section id="ch3" className="scroll-mt-2 bg-[#F1F7F5]">
+      <section id="ch3" className="scroll-mt-14 bg-[#F1F7F5]">
         <div className="mx-auto max-w-[1280px] px-5 py-20 md:px-10 md:py-28 lg:px-14 lg:py-32">
           <ChapterMarker number="03" label="产品体验 · 典型使用场景" />
           <Reveal>
