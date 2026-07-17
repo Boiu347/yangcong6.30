@@ -1,8 +1,7 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import ReportExportToolbar from '../../components/report/ReportExportToolbar';
 import QuantitativePage from '../Quantitative/QuantitativePage';
-import FamilyReport from '../FamilyPackage/FamilyReport';
 import PaisouUnderConstruction from '../Paisou/PaisouUnderConstruction';
 import fromPrimaryBriefing from '../../content/from-primary-brief.md?raw';
 import FromPrimaryMergedReport from './FromPrimaryMergedReport';
@@ -25,8 +24,7 @@ export default function SummaryPage() {
       </div>
     );
   }
-  if (projectId === 'jiatingbao_project')
-    return <FamilyReport src="/jiatingbao-overview.html" fileName="洋葱家庭包用户调研·项目总结" title="项目总结" />;
+  if (projectId === 'jiatingbao_project') return <Navigate to="../core-conclusions" replace />;
   if (projectId === 'paisou_project')
     return <PaisouUnderConstruction section="项目总结" hint="项目总结与核心结论还在汇总，完成后会在此呈现。" />;
   if (!projectId || projectId === 'default_project') return <FromPrimaryMergedReport />;

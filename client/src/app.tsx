@@ -28,6 +28,7 @@ import NotFound from './pages/NotFound/NotFound';
 function ProjectIndexRedirect() {
   const { projectId } = useParams<{ projectId: string }>();
   if (projectId === 'paisou_project') return <Navigate to="qualitative" replace />;
+  if (projectId === 'jiatingbao_project') return <Navigate to="core-conclusions" replace />;
   return <Navigate to="summary" replace />;
 }
 

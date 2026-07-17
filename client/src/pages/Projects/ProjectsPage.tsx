@@ -69,6 +69,12 @@ function displayStatus(status?: string, projectId?: string) {
   return status;
 }
 
+function projectEntryPath(projectId: string) {
+  if (projectId === 'paisou_project') return 'qualitative';
+  if (projectId === 'jiatingbao_project') return 'core-conclusions';
+  return 'summary';
+}
+
 function Pill({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
     <span className={cn('inline-flex items-center rounded-full border px-2.5 py-1 text-[12px] font-bold', className)}>
@@ -146,11 +152,7 @@ export default function ProjectsPage() {
             return (
               <button
                 key={project.id}
-                onClick={() =>
-                  navigate(
-                    `/projects/${project.id}/${project.id === 'paisou_project' ? 'qualitative' : 'summary'}`,
-                  )
-                }
+                onClick={() => navigate(`/projects/${project.id}/${projectEntryPath(project.id)}`)}
                 className="group w-full rounded-2xl border border-[#e1dbd1] bg-white px-5 py-5 text-left shadow-[0_10px_26px_rgba(43,34,24,0.05)] transition hover:-translate-y-0.5 hover:border-[#e65532]/50 hover:shadow-[0_18px_44px_rgba(43,34,24,0.10)]"
               >
                 <div className="flex gap-5">
