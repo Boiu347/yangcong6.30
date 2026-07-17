@@ -202,7 +202,7 @@ function SubHead({
     <div className="mb-9">
       <p
         className={cn(
-          'text-[11px] font-black tracking-[0.16em]',
+          'text-[14px] font-black tracking-[0.1em]',
           light ? 'text-[#C9FF5B]' : 'text-[#9C4A2F]',
         )}
       >
