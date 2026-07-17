@@ -1155,6 +1155,43 @@
   flex: 0 0 auto;
 }
 
+.jtb-v2-keypoint-evidence {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  flex-direction: column;
+}
+
+.jtb-v2-keypoint-row {
+  padding: 15px;
+  background: #faf9f6;
+  border: 1px solid #ebe4da;
+  border-radius: 13px;
+}
+
+.jtb-v2-keypoint-line {
+  display: flex;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.75;
+  color: #4f4942;
+  align-items: flex-start;
+}
+
+.jtb-v2-keypoint-line svg {
+  margin-top: 4px;
+  flex: 0 0 auto;
+}
+
+.jtb-v2-keypoint-row .jtb-v2-source-grid {
+  margin-top: 11px;
+}
+
+.jtb-v2-unassigned-evidence {
+  margin-top: 14px;
+}
+
 .jtb-v2-source-grid {
   display: grid;
   gap: 10px;

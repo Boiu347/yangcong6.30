@@ -7,6 +7,7 @@ import {
   type FamilyCoreConclusion,
 } from '@/pages/JiatingbaoCoreConclusions/jiatingbaoCoreConclusionsData';
 import { JIATINGBAO_CLIP_MAP } from '@/utils/jiatingbaoClipLookup';
+import { clipsForQuote } from '@/utils/sourceUtils';
 import './JiatingbaoConclusionsV2.css';
 
 const CHAPTERS = ['开场', '购买决策', '机会人群地图'];
@@ -20,12 +21,13 @@ const TICKER_QUOTES = [
 ];
 
 function EvidenceQuote({ item, color }: { item: FamilyConclusionEvidence; color: string }) {
-  const clip = item.clipCaption ? JIATINGBAO_CLIP_MAP[item.clipCaption] : undefined;
+  const mappedClip = item.clipCaption ? JIATINGBAO_CLIP_MAP[item.clipCaption] : undefined;
+  const clips = mappedClip ? [mappedClip] : clipsForQuote(item.quote);
   return (
     <blockquote className="jtb-v2-source-quote" style={{ borderLeftColor: color }}>
       <p>「{item.quote}」</p>
       <small>— {item.source}</small>
-      {clip && <EvidenceAudioClips clips={[clip]} className="jtb-v2-audio" />}
+      {clips.length > 0 && <EvidenceAudioClips clips={clips} className="jtb-v2-audio" />}
     </blockquote>
   );
 }
@@ -65,21 +67,56 @@ function ConclusionDocument({ item, color }: { item: FamilyCoreConclusion; color
             </div>
             <p>{point.text}</p>
             {point.keyPoints && point.keyPoints.length > 0 && (
-              <ul>
-                {point.keyPoints.map((keyPoint) => (
-                  <li key={keyPoint}><Check size={14} style={{ color }} />{keyPoint}</li>
-                ))}
-              </ul>
+              <div className="jtb-v2-keypoint-evidence">
+                {point.keyPoints.map((keyPoint, keyPointIndex) => {
+                  const matchingEvidence = point.evidence?.filter(
+                    (evidence) => evidence.keyPointIndex === keyPointIndex,
+                  ) ?? [];
+                  return (
+                    <div key={keyPoint} className="jtb-v2-keypoint-row">
+                      <div className="jtb-v2-keypoint-line">
+                        <Check size={14} style={{ color }} />
+                        <span>{keyPoint}</span>
+                      </div>
+                      {matchingEvidence.length > 0 && (
+                        <div className="jtb-v2-source-grid">
+                          {matchingEvidence.map((evidence) => (
+                            <EvidenceQuote
+                              key={`${evidence.quote}-${evidence.source}`}
+                              item={evidence}
+                              color={color}
+                            />
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             )}
-            {point.evidence && point.evidence.length > 0 && (
-              <div className="jtb-v2-source-grid">
-                {point.evidence.map((evidence) => (
-                  <EvidenceQuote
-                    key={`${evidence.quote}-${evidence.source}`}
-                    item={evidence}
-                    color={color}
-                  />
-                ))}
+            {point.evidence && (
+              !point.keyPoints?.length ||
+              point.evidence.some(
+                (evidence) =>
+                  evidence.keyPointIndex == null ||
+                  evidence.keyPointIndex >= point.keyPoints!.length,
+              )
+            ) && (
+              <div className="jtb-v2-source-grid jtb-v2-unassigned-evidence">
+                {point.evidence
+                  .filter(
+                    (evidence) =>
+                      !point.keyPoints?.length ||
+                      evidence.keyPointIndex == null ||
+                      evidence.keyPointIndex >= point.keyPoints.length,
+                  )
+                  .map((evidence) => (
+                    <EvidenceQuote
+                      key={`${evidence.quote}-${evidence.source}`}
+                      item={evidence}
+                      color={color}
+                    />
+                  ))}
               </div>
             )}
           </section>
