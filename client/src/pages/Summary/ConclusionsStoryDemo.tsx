@@ -56,12 +56,12 @@ function ResearchSourceLinks() {
           href={link.url}
           target="_blank"
           rel="noreferrer"
-          className="group inline-flex items-center gap-1.5 border-b border-[#CFC3B5] pb-0.5 text-[11.5px] font-black text-[#655D54] transition hover:border-[#E95B35] hover:text-[#E95B35]"
+          className="group inline-flex items-center gap-2 border-b border-[#CFC3B5] pb-1 text-[14px] font-black text-[#655D54] transition hover:border-[#E95B35] hover:text-[#E95B35]"
         >
-          <FileText size={12} className="opacity-60" />
+          <FileText size={15} className="opacity-60" />
           {link.label}
           <ExternalLink
-            size={10}
+            size={12}
             className="opacity-35 transition group-hover:opacity-80"
           />
         </a>
@@ -169,13 +169,13 @@ function ChapterMarker({
   return (
     <div
       className={cn(
-        'mb-10 flex items-center gap-3 text-[11px] font-black tracking-[0.16em]',
+        'mb-10 flex items-center gap-4 text-[15px] font-black tracking-[0.08em]',
         light ? 'text-white/60' : 'text-[#83796E]',
       )}
     >
       <span
         className={cn(
-          'grid size-8 place-items-center rounded-full border',
+          'grid size-10 place-items-center rounded-full border text-[13px] tracking-normal',
           light
             ? 'border-white/30 text-[#C9FF5B]'
             : 'border-[#BFB3A6] text-[#9C4A2F]',
