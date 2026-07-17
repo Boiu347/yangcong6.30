@@ -224,20 +224,22 @@ function StoryModule({
       className="border-t-2 pt-7 md:pt-9"
       style={{ borderColor: colors.line }}
     >
-      <header className="grid gap-4 md:grid-cols-[128px_minmax(0,1fr)] md:items-start">
+      <header className="grid gap-4 md:grid-cols-[156px_minmax(0,1fr)] md:items-start">
         <div>
           <p
-            className="flex items-center gap-2 text-[11px] font-black tracking-[0.14em]"
+            className="flex items-center gap-3 font-black"
             style={{ color: colors.accent }}
           >
-            <span className="text-[15px] tracking-[-0.02em]">M{number}</span>
+            <span className="text-[19px] leading-none tracking-[-0.03em]">
+              M{number}
+            </span>
             <span
-              className="h-px w-6"
+              className="h-px w-8"
               style={{ backgroundColor: colors.wash }}
             />
           </p>
           <p
-            className="mt-2 text-[10.5px] font-black tracking-[0.12em]"
+            className="mt-3 text-[15px] font-black leading-6 tracking-[0.02em]"
             style={{ color: colors.accent }}
           >
             {label}
