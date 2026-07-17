@@ -40,6 +40,11 @@ function ProjectCoreConclusionsPage() {
   );
 }
 
+function ProjectConclusionsDemoPage() {
+  const { projectId } = useParams<{ projectId: string }>();
+  return projectId === 'jiatingbao_project' ? <JiatingbaoConclusionsDemo /> : <ConclusionsDemo />;
+}
+
 function ProjectQualitativePage() {
   const { projectId } = useParams<{ projectId: string }>();
   if (projectId === 'jiatingbao_project') return <Navigate to="../core-conclusions" replace />;
@@ -72,10 +77,10 @@ const RoutesComponent = () => {
         <Route index element={<ProjectIndexRedirect />} />
         <Route path="background" element={<BackgroundPage />} />
         <Route path="summary" element={<SummaryPage />} />
-        <Route path="summary-demo" element={<ConclusionsDemo />} />
+        <Route path="summary-demo" element={<ProjectConclusionsDemoPage />} />
         <Route path="summary-demo-legacy" element={<ConclusionsLegacyDemo />} />
         <Route path="core-conclusions" element={<ProjectCoreConclusionsPage />} />
-        <Route path="conclusions-demo" element={<JiatingbaoConclusionsDemo />} />
+        <Route path="conclusions-demo" element={<Navigate to="../summary-demo" replace />} />
         <Route path="portraits" element={<PortraitsV2Page />} />
         <Route path="portraits-v2" element={<Navigate to="../portraits" replace />} />
         <Route path="qualitative" element={<ProjectQualitativePage />} />

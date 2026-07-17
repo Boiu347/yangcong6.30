@@ -36,7 +36,7 @@ const familyItems = [
   { label: '调研背景', path: 'background' },
   { label: '典型家庭故事', path: 'family-stories' },
   { label: '核心结论', path: 'core-conclusions' },
-  { label: '结论速览 Demo', path: 'conclusions-demo' },
+  { label: '结论速览 Demo', path: 'summary-demo' },
 ];
 
 const paisouItems = [
