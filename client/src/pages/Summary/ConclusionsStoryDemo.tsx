@@ -25,6 +25,8 @@ import { cn } from '@/lib/utils';
 const SOURCE_URL =
   'https://guanghe.feishu.cn/wiki/XvjcwdzsZiEiJ1kF9UOcburXnig?from=from_copylink';
 
+const BASE_PATH = process.env.CLIENT_BASE_PATH || '';
+
 const RESEARCH_SOURCE_LINKS = [
   {
     label: '洞察小结',
@@ -695,30 +697,50 @@ const ONION_BUY_VOICES: Voice[] = [
   },
 ];
 
-// 最专业的学科启蒙课：系统性 / 专业性 / 丰富性
+// 最专业的学科启蒙课：系统性 / 专业性 / 丰富性（配图取自飞书原文）
 const PRO_PILLARS = [
   {
     tag: '系统性',
     icon: Layers,
-    points: [
-      '课程设计系统：目录框架式设计，将 300+ 个生活现象融入三大篇章（基础篇 / 进阶篇 / 挑战篇），从基础到挑战的梯度启蒙。',
-      '知识点覆盖系统：启蒙内容与人教版初中教材开篇要求一致（机械运动、声现象、物态变化、光现象、透镜、质量与密度……），衔接不脱节。',
+    items: [
+      {
+        text: '课程设计系统：目录框架式设计，将 300+ 个生活现象融入三大篇章（基础篇 / 进阶篇 / 挑战篇），从基础到挑战的梯度启蒙。',
+        image: `${BASE_PATH}/summary-demo/course-catalog.png`,
+        caption: '课程目录对照：基础篇 / 进阶篇 / 挑战篇 × 小科单元',
+      },
+      {
+        text: '知识点覆盖系统：启蒙内容与人教版初中教材开篇要求一致（机械运动、声现象、物态变化、光现象、透镜、质量与密度……），衔接不脱节。',
+        image: `${BASE_PATH}/summary-demo/textbook-map.png`,
+        caption: '人教版八年级上册目录与从小学物理课程对应关系',
+      },
     ],
   },
   {
     tag: '专业性',
     icon: BadgeCheck,
-    points: [
-      '老师专业：中考命题专家、竞赛专家、资深教研老师带队设计（谢虹、王少芳、朱若辰、高昕、甄鸿祥、李夏）。',
-      '讲解专业：3 大独创思维模型「抽象—推理—应用」，帮孩子从表象到本质、从现象到规律。',
+    items: [
+      {
+        text: '老师专业：中考命题专家、竞赛专家、资深教研老师带队设计（谢虹、王少芳、朱若辰、高昕、甄鸿祥、李夏）。',
+        image: `${BASE_PATH}/summary-demo/expert-advisors.png`,
+        caption: '专家顾问团：命题 / 竞赛 / 资深教研',
+      },
+      {
+        text: '讲解专业：3 大独创思维模型「抽象—推理—应用」，帮孩子从表象到本质、从现象到规律。',
+        image: `${BASE_PATH}/summary-demo/thinking-model.png`,
+        caption: '独创思维模型：抽象 — 推理 — 应用',
+      },
     ],
   },
   {
     tag: '丰富性',
     icon: Sparkles,
-    points: [
-      '知识点丰富：小初 900+ 个知识点。',
-      '实验丰富：300+ 个真动手实验。',
+    items: [
+      {
+        text: '知识点丰富：小初 900+ 个知识点。',
+      },
+      {
+        text: '实验丰富：300+ 个真动手实验。',
+      },
     ],
   },
 ];
@@ -1466,7 +1488,7 @@ export default function ConclusionsDemo() {
               number="04"
               label="价值表达"
               title="把分散优势收束为「最专业的学科启蒙课」"
-              summary="系统性、专业性和丰富性使用同一组卡片表达，成为可复用的产品价值模组。"
+              summary="系统性、专业性、丰富性分条展开，并附上研究原文中的课程目录、教材对照、专家团与思维模型配图。"
               tone="green"
             >
               {/* 业务启发 · 最专业的学科启蒙课 */}
@@ -1485,35 +1507,56 @@ export default function ConclusionsDemo() {
                   />
                 </div>
               </Reveal>
-              <div className="grid gap-4 md:grid-cols-3">
+              <div className="mt-10 space-y-14">
                 {PRO_PILLARS.map((p, i) => {
                   const Icon = p.icon;
                   return (
-                    <Reveal key={p.tag} delay={i * 70}>
-                      <div className="flex h-full flex-col rounded-[16px] border border-[#D8E1D9] bg-white/70 p-6">
-                        <div className="mb-4 flex items-center gap-2.5">
+                    <Reveal key={p.tag} delay={i * 40}>
+                      <div>
+                        <div className="mb-6 flex items-center gap-2.5">
                           <span className="grid size-9 place-items-center rounded-[10px] bg-[#DDE8E0] text-[#456A58]">
                             <Icon size={18} />
                           </span>
-                          <span className="text-[17px] font-black text-[#2F3B34]">
+                          <span className="text-[20px] font-black text-[#2F3B34]">
                             {p.tag}
                           </span>
                         </div>
-                        <ul className="space-y-3 text-[13px] font-semibold leading-7 text-[#627067]">
-                          {p.points.map((pt, pi) => (
-                            <li key={pi} className="flex gap-2.5">
-                              <span className="mt-[10px] size-1.5 shrink-0 rounded-full bg-[#6D8E7B]" />
-                              <span>{pt}</span>
-                            </li>
+                        <div className="space-y-10">
+                          {p.items.map((item) => (
+                            <div key={item.text}>
+                              <p className="flex gap-2.5 text-[15px] font-semibold leading-8 text-[#4F5A53]">
+                                <span className="mt-[13px] size-1.5 shrink-0 rounded-full bg-[#6D8E7B]" />
+                                <span>{item.text}</span>
+                              </p>
+                              {item.image && (
+                                <figure className="mt-5 border-y border-[#CDD8CF] py-5">
+                                  <img
+                                    src={item.image}
+                                    alt={item.caption ?? item.text}
+                                    className="mx-auto max-h-[520px] w-auto max-w-full object-contain"
+                                    loading="lazy"
+                                  />
+                                  {item.caption && (
+                                    <figcaption className="mt-3 flex items-start gap-1.5 text-[11px] font-semibold leading-5 text-[#99A49C]">
+                                      <FileText
+                                        size={12}
+                                        className="mt-0.5 shrink-0"
+                                      />
+                                      {item.caption}
+                                    </figcaption>
+                                  )}
+                                </figure>
+                              )}
+                            </div>
                           ))}
-                        </ul>
+                        </div>
                       </div>
                     </Reveal>
                   );
                 })}
               </div>
-              <p className="mt-4 text-[10.5px] font-semibold text-[#99A49C]">
-                系统性/专业性中的课程体系、教材对应、专家团队、思维模型，原文以配图呈现，此处提炼其要点。
+              <p className="mt-8 text-[11px] font-semibold text-[#99A49C]">
+                配图来自研究原文「产品决策 · 最专业的学科启蒙课」章节。
               </p>
             </StoryModule>
           </div>
