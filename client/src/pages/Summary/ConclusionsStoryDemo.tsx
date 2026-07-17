@@ -174,6 +174,90 @@ function SubHead({
   );
 }
 
+type ModuleTone = 'warm' | 'green' | 'rose' | 'mint';
+
+const MODULE_TONES: Record<
+  ModuleTone,
+  { border: string; header: string; accent: string; badge: string }
+> = {
+  warm: {
+    border: '#DDCFA8',
+    header: '#FFF4CF',
+    accent: '#9C6A22',
+    badge: '#F2D77E',
+  },
+  green: {
+    border: '#C9D8CC',
+    header: '#EAF1EB',
+    accent: '#456A58',
+    badge: '#C8DDCE',
+  },
+  rose: {
+    border: '#DFC4BB',
+    header: '#F8E4DF',
+    accent: '#9C4A2F',
+    badge: '#EDC3B8',
+  },
+  mint: {
+    border: '#C5DCD6',
+    header: '#E5F1EE',
+    accent: '#2F7F73',
+    badge: '#BFDED7',
+  },
+};
+
+function StoryModule({
+  number,
+  label,
+  title,
+  summary,
+  tone,
+  children,
+}: {
+  number: string;
+  label: string;
+  title: React.ReactNode;
+  summary: string;
+  tone: ModuleTone;
+  children: React.ReactNode;
+}) {
+  const colors = MODULE_TONES[tone];
+
+  return (
+    <section
+      className="overflow-hidden rounded-[24px] border bg-white/65 shadow-[0_24px_55px_-48px_rgba(57,43,28,0.65)]"
+      style={{ borderColor: colors.border }}
+    >
+      <header
+        className="grid gap-4 border-b px-5 py-5 md:grid-cols-[64px_minmax(0,1fr)] md:items-start md:px-8 md:py-7"
+        style={{ backgroundColor: colors.header, borderColor: colors.border }}
+      >
+        <span
+          className="grid size-12 place-items-center rounded-[14px] text-[13px] font-black tracking-[0.08em]"
+          style={{ backgroundColor: colors.badge, color: colors.accent }}
+        >
+          M{number}
+        </span>
+        <div>
+          <p
+            className="text-[10.5px] font-black tracking-[0.16em]"
+            style={{ color: colors.accent }}
+          >
+            {label}
+          </p>
+          <h3 className="mt-2 text-[22px] font-black leading-[1.35] tracking-[-0.02em] text-[#25211D] md:text-[27px]">
+            {title}
+          </h3>
+          <p className="mt-2 max-w-[760px] text-[13px] font-semibold leading-6 text-[#766C61]">
+            {summary}
+          </p>
+        </div>
+      </header>
+      <div className="px-5 py-7 md:px-8 md:py-9">{children}</div>
+    </section>
+  );
+}
+
 /* ------------------------------------ 原声件 ------------------------------------ */
 
 type Voice = { text: string; source: string; clipUrl?: string };
@@ -332,8 +416,7 @@ function DataBars({
   return (
     <div className="space-y-3">
       {data.map((d) => {
-        const widthPct =
-          scale === 'absolute' ? d.value : (d.value / max) * 100;
+        const widthPct = scale === 'absolute' ? d.value : (d.value / max) * 100;
         return (
           <div
             key={d.label}
@@ -385,9 +468,30 @@ const HERO_VOICE: Voice = {
 };
 
 const CHAPTERS = [
-  { id: 'ch1', no: '01', q: '为什么成交？', hint: '品类动机与产品决策', color: '#C58A3D' },
-  { id: 'ch2', no: '02', q: '为什么没有成交？', hint: '两个无法确认的问题', color: '#C0685C' },
-  { id: 'ch3', no: '03', q: '买后体验到底怎么样？', hint: '使用场景与优劣势', color: '#2F9F8F' },
+  {
+    id: 'ch1',
+    no: '01',
+    q: '为什么成交？',
+    hint: '品类动机与产品决策',
+    color: '#C58A3D',
+    modules: ['购买动机', '品类与人群', '竞品记忆点', '洋葱价值'],
+  },
+  {
+    id: 'ch2',
+    no: '02',
+    q: '为什么没有成交？',
+    hint: '两个无法确认的问题',
+    color: '#C0685C',
+    modules: ['成交阻力', '打消顾虑'],
+  },
+  {
+    id: 'ch3',
+    no: '03',
+    q: '买后体验到底怎么样？',
+    hint: '使用场景与优劣势',
+    color: '#2F9F8F',
+    modules: ['使用场景', '体验对比'],
+  },
 ];
 
 // 品类动机 · 兴趣入口
@@ -565,7 +669,10 @@ const PRO_PILLARS = [
   {
     tag: '丰富性',
     icon: Sparkles,
-    points: ['知识点丰富：小初 900+ 个知识点。', '实验丰富：300+ 个真动手实验。'],
+    points: [
+      '知识点丰富：小初 900+ 个知识点。',
+      '实验丰富：300+ 个真动手实验。',
+    ],
   },
 ];
 
@@ -590,7 +697,10 @@ const CONCERN_KEEP_VOICES: Voice[] = [
     source: '用户5｜三年级｜重庆渝中',
     clipUrl: '/clips/interview5/0045-01.mp3',
   },
-  { text: '有时候孩子会忘记看，所以会提醒孩子去看一下。', source: '用户4｜二年级｜北京顺义' },
+  {
+    text: '有时候孩子会忘记看，所以会提醒孩子去看一下。',
+    source: '用户4｜二年级｜北京顺义',
+  },
 ];
 const CONCERN_LEARN_VOICES: Voice[] = [
   {
@@ -729,7 +839,8 @@ const EXPERIENCE_MATRIX: {
       ],
     },
     con: {
-      summary: '1、无法替代真实实验，参与感不如真人　2、低龄孩子自己操作时缺少讲解和引导，容易卡住。',
+      summary:
+        '1、无法替代真实实验，参与感不如真人　2、低龄孩子自己操作时缺少讲解和引导，容易卡住。',
       voices: [
         {
           text: '你在视频上看他是完全感受不一样的。',
@@ -807,7 +918,9 @@ export default function ConclusionsDemo() {
       (entries) => {
         const hit = entries
           .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+          .sort(
+            (a, b) => a.boundingClientRect.top - b.boundingClientRect.top,
+          )[0];
         if (!hit) return;
         const ch = CHAPTERS.find((c) => c.id === hit.target.id);
         setBarColor(ch ? ch.color : '#E95B35');
@@ -866,7 +979,9 @@ export default function ConclusionsDemo() {
               </h1>
               <p className="mt-8 max-w-[680px] text-[16px] font-semibold leading-8 text-[#655D54] md:text-[19px] md:leading-9">
                 孩子因为有趣愿意看，家长因为未来学理科
-                <span className="font-black text-[#191816]">不陌生、不畏难</span>
+                <span className="font-black text-[#191816]">
+                  不陌生、不畏难
+                </span>
                 而买单——真正的品类位置是介于纯兴趣与提前学之间的
                 <Hi color="#C9FF5B">学科启蒙</Hi>。
               </p>
@@ -878,7 +993,9 @@ export default function ConclusionsDemo() {
                   ['成交理由', '未来学理科更轻松'],
                 ].map(([label, value]) => (
                   <div key={label} className="border-t-2 border-[#191816] pt-3">
-                    <p className="text-[11px] font-bold text-[#83796E]">{label}</p>
+                    <p className="text-[11px] font-bold text-[#83796E]">
+                      {label}
+                    </p>
                     <p className="mt-1.5 text-[14px] font-black leading-6 text-[#25211D] md:text-[16px]">
                       {value}
                     </p>
@@ -908,7 +1025,7 @@ export default function ConclusionsDemo() {
       <section className="border-b border-[#D7CCBF] bg-[#F7F3EC]">
         <div className="mx-auto max-w-[1280px] px-5 py-14 md:px-10 md:py-20 lg:px-14">
           <p className="mb-8 text-[11px] font-black tracking-[0.16em] text-[#83796E]">
-            全篇围绕三个研究问题展开
+            三个研究问题 · 八个内容模组
           </p>
           <div className="grid gap-4 md:grid-cols-3">
             {CHAPTERS.map((c) => (
@@ -931,6 +1048,25 @@ export default function ConclusionsDemo() {
                   <p className="mt-2 text-[13px] font-semibold text-[#8A7E71]">
                     {c.hint}
                   </p>
+                  <div className="mt-5 space-y-1.5 border-t border-[#E7DDD0] pt-4">
+                    {c.modules.map((module, moduleIndex) => (
+                      <p
+                        key={module}
+                        className="flex items-center gap-2 text-[11.5px] font-bold text-[#766C61]"
+                      >
+                        <span
+                          className="grid size-5 place-items-center rounded-md text-[9px] font-black"
+                          style={{
+                            backgroundColor: `${c.color}18`,
+                            color: c.color,
+                          }}
+                        >
+                          M{moduleIndex + 1}
+                        </span>
+                        {module}
+                      </p>
+                    ))}
+                  </div>
                 </div>
                 <ArrowRight
                   size={18}
@@ -956,206 +1092,246 @@ export default function ConclusionsDemo() {
             </h2>
             <p className="mt-6 max-w-[560px] text-[16px] font-semibold leading-8 text-[#695F4D]">
               兴趣是入口，孩子喜欢家长才会考虑；但
-              <span className="font-black text-[#25211D]">「未来学科价值」</span>
+              <span className="font-black text-[#25211D]">
+                「未来学科价值」
+              </span>
               才是最终合理化购买的理由。
             </p>
           </Reveal>
 
           {/* 用研洞察 · 前提：兴趣入口 */}
-          <div className="mt-16 space-y-16">
-            <Reveal>
-              <SubHead
-                kicker="用研洞察 · 前提"
-                title={<>兴趣是入口，孩子喜欢家长才会考虑</>}
-              />
-              <div className="grid grid-cols-2 border-y border-[#CDBE8B]">
-                {[
-                  ['53%', '趣味动画课（TOP 1）'],
-                  ['40%', '孩子喜欢（TOP 2）'],
-                ].map(([v, l]) => (
-                  <div
-                    key={v}
-                    className="border-r border-[#CDBE8B] px-3 py-6 last:border-r-0 md:px-5"
-                  >
-                    <p className="text-[34px] font-black tracking-[-0.04em] text-[#E95B35] md:text-[46px]">
-                      {v}
-                    </p>
-                    <p className="mt-2 text-[12px] font-bold leading-5 text-[#746A56]">
-                      {l}
-                    </p>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-3 text-[11px] font-semibold text-[#A89A72]">
-                问卷调研「成交被打动因素」排名
-              </p>
-              <div className="mt-8">
-                <VoiceGroup voices={INTEREST_VOICES} title="访谈录音片段" />
-              </div>
-            </Reveal>
-
-            <Reveal className="border-t border-[#E4D7B4] pt-14" delay={80}>
-              <SubHead
-                kicker="用研洞察 · 核心"
-                title={<>「未来学科价值」才是最终合理化购买的理由</>}
-              />
-              {/* 递进链路 */}
-              <div className="mb-9">
-                {['孩子觉得有趣', '家长开始考虑', '未来学科价值成立', '最终完成购买'].map(
-                  (t, i, arr) => (
-                    <div
-                      key={t}
-                      className="relative grid grid-cols-[40px_1fr] items-center gap-3 border-b border-[#D5C89A] py-4 first:pt-0"
-                    >
-                      <span className="text-[12px] font-black text-[#A5945C]">
-                        0{i + 1}
-                      </span>
-                      <p className="text-[16px] font-black text-[#25211D] md:text-[18px]">
-                        {t}
-                      </p>
-                      {i < arr.length - 1 && (
-                        <ArrowDown
-                          size={16}
-                          className="absolute -bottom-[8px] left-[12px] z-10 bg-[#FFF9E8] text-[#A5945C]"
-                        />
-                      )}
-                    </div>
-                  ),
-                )}
-              </div>
-              <div className="mb-6 inline-flex items-baseline gap-2 rounded-full bg-[#E95B35]/10 px-4 py-2">
-                <span className="text-[22px] font-black text-[#E95B35]">31%</span>
-                <span className="text-[12px] font-bold text-[#8A6A2F]">
-                  期待孩子未来进初中后，学理科时能更快听懂（TOP 1）
-                </span>
-              </div>
-              <VoiceGroup voices={FUTURE_VALUE_VOICES} title="访谈录音片段" />
-              <div className="mt-6 rounded-[14px] border border-dashed border-[#CDBE8B] bg-white/50 p-4 text-[13px] font-semibold leading-7 text-[#6B6046]">
-                <span className="font-black text-[#9C4A2F]">竞品分析：</span>
-                物理十分通卖「孩子将来上初中，物理会跟不上」的预防焦虑，妙懂卖「初中物理课听不懂，我辅导不了」的辅导焦虑，NB
-                实验室卖「初高中实验全覆盖」——本质都在指向
-                <Hi color="#FFCF4A">学科</Hi>。
-              </div>
-            </Reveal>
-          </div>
-
-          {/* 业务启发 · 品类定位 + 目标人群 */}
-          <Reveal>
-            <div className="mt-20 border-t-2 border-[#191816] pt-10">
-              <SubHead
-                kicker="业务启发"
-                title={
-                  <>
-                    结合品类需求，洋葱该占据
-                    <Hi color="#C9FF5B">「学科启蒙」</Hi>
-                    这片蓝海
-                  </>
-                }
-              />
-              <p className="max-w-[720px] text-[15px] font-semibold leading-8 text-[#695F4D]">
-                家长需求介于「纯兴趣启蒙」和「小初衔接提前学」之间，更准确的品类位置是
-                <span className="font-black text-[#25211D]">学科启蒙</span>
-                ，而这部分恰好是竞品未占据的蓝海。
-              </p>
-            </div>
-          </Reveal>
-
-          <div className="mt-10 space-y-8">
-            <Reveal>
-              <div className="rounded-[16px] border border-[#E4D9C9] bg-white p-5 md:p-6">
-                <p className="mb-4 text-[12px] font-black tracking-[0.1em] text-[#9C4A2F]">
-                  行业研究：为什么是「学科启蒙」
-                </p>
-                <ul className="space-y-4 text-[14px] font-semibold leading-7 text-[#5B534A]">
-                  <li className="border-l-2 border-[#E95B35]/35 pl-4">
-                    <span className="font-black text-[#25211D]">
-                      兴趣启蒙——竞争激烈、红海市场：
-                    </span>
-                    一边有更方便实惠护眼的绘本/科普书籍，一边有更有趣主流的线上化竞品（斑马、叫叫等），洋葱做「课」起家，在纯启蒙领域不一定有优势。
-                  </li>
-                  <li className="border-l-2 border-[#E95B35]/35 pl-4">
-                    <span className="font-black text-[#25211D]">
-                      小初衔接提前学——需求和方案不匹配：
-                    </span>
-                    有「提前学理科」需求的用户更希望直接对标课本教材，可选秒懂，或买洋葱小初 6
-                    年卡直接学【初中物理同步课】。
-                  </li>
-                </ul>
-              </div>
-            </Reveal>
-
-            <Reveal delay={60}>
-              <EvidenceFigure caption="数据来自原文配图：问卷调研「家长对课程的定位」，有效填写 41 人次">
-                <p className="mb-4 text-[12px] font-black tracking-[0.1em] text-[#9C4A2F]">
-                  家长对课程的定位（n=41）
-                </p>
-                <DataBars data={POSITION_SURVEY} scale="absolute" />
-              </EvidenceFigure>
-            </Reveal>
-
-            <Reveal delay={120}>
-              <VoiceGroup
-                voices={POSITION_VOICES}
-                title="访谈录音片段"
-                columns={1}
-              />
-            </Reveal>
-          </div>
-
-          <Reveal>
-            <div className="mt-10 grid gap-6 rounded-[18px] bg-[#1E2B24] p-6 text-white md:grid-cols-[.85fr_1.15fr] md:p-9">
-              <div>
-                <p className="text-[11px] font-black tracking-[0.15em] text-[#C9FF5B]">
-                  目标人群
-                </p>
-                <p className="mt-3 text-[46px] font-black tracking-[-0.05em] md:text-[62px]">
-                  1—4 年级
-                </p>
-                <p className="mt-3 max-w-[380px] text-[13.5px] font-semibold leading-7 text-white/60">
-                  既没有学前（3-6 岁）的纯兴趣启蒙诉求，也不到小高（5-6
-                  年级）的强应试衔接焦虑，是「低压力学科启蒙」的核心受众。
-                </p>
-              </div>
-              <div className="rounded-[14px] bg-white/[0.06] p-5">
-                <p className="mb-3 text-[11px] font-black tracking-[0.1em] text-[#C9FF5B]">
-                  内部销售数据：已购用户年级分布
-                </p>
-                <p className="mb-4 text-[13px] font-semibold leading-7 text-white/75">
-                  截至 5 月 12 日，《从小学系列课程》已购用户——
-                  <span className="font-black text-white">
-                    1-3 年级占比 77%
-                  </span>
-                  （新媒体近 7 成），从 5 年级开始断崖式下降。
-                </p>
-                <div className="overflow-hidden rounded-[10px] border border-white/15 text-[12px]">
-                  <div className="grid grid-cols-5 bg-white/[0.08] font-black text-white/80">
-                    {['年级', '整体', '新媒体', '商业化', '电销/网销'].map((h) => (
-                      <span key={h} className="px-2 py-2 text-center">
-                        {h}
-                      </span>
+          <div className="mt-16 space-y-8">
+            <StoryModule
+              number="01"
+              label="研究发现"
+              title="兴趣把孩子带进来，未来学科价值让家长完成购买"
+              summary="把购买链路放进同一个模组：先看入口数据，再看决策递进，最后用访谈原声核验。"
+              tone="warm"
+            >
+              <div className="space-y-14">
+                <Reveal>
+                  <SubHead
+                    kicker="用研洞察 · 前提"
+                    title={<>兴趣是入口，孩子喜欢家长才会考虑</>}
+                  />
+                  <div className="grid grid-cols-2 border-y border-[#CDBE8B]">
+                    {[
+                      ['53%', '趣味动画课（TOP 1）'],
+                      ['40%', '孩子喜欢（TOP 2）'],
+                    ].map(([v, l]) => (
+                      <div
+                        key={v}
+                        className="border-r border-[#CDBE8B] px-3 py-6 last:border-r-0 md:px-5"
+                      >
+                        <p className="text-[34px] font-black tracking-[-0.04em] text-[#E95B35] md:text-[46px]">
+                          {v}
+                        </p>
+                        <p className="mt-2 text-[12px] font-bold leading-5 text-[#746A56]">
+                          {l}
+                        </p>
+                      </div>
                     ))}
                   </div>
-                  {SALES_TABLE.map((r) => (
-                    <div
-                      key={r.grade}
-                      className="grid grid-cols-5 border-t border-white/10 font-bold text-white/70"
-                    >
-                      <span className="px-2 py-2 text-center text-white">
-                        {r.grade}
-                      </span>
-                      <span className="px-2 py-2 text-center">{r.overall}%</span>
-                      <span className="px-2 py-2 text-center">{r.media}%</span>
-                      <span className="px-2 py-2 text-center">{r.app}%</span>
-                      <span className="px-2 py-2 text-center">{r.tele}%</span>
-                    </div>
-                  ))}
-                </div>
-                <p className="mt-3 text-[10.5px] font-semibold text-white/35">
-                  数据来自原文配图：不同年级用户来源占比表
-                </p>
+                  <p className="mt-3 text-[11px] font-semibold text-[#A89A72]">
+                    问卷调研「成交被打动因素」排名
+                  </p>
+                  <div className="mt-8">
+                    <VoiceGroup voices={INTEREST_VOICES} title="访谈录音片段" />
+                  </div>
+                </Reveal>
+
+                <Reveal className="border-t border-[#E4D7B4] pt-14" delay={80}>
+                  <SubHead
+                    kicker="用研洞察 · 核心"
+                    title={<>「未来学科价值」才是最终合理化购买的理由</>}
+                  />
+                  {/* 递进链路 */}
+                  <div className="mb-9">
+                    {[
+                      '孩子觉得有趣',
+                      '家长开始考虑',
+                      '未来学科价值成立',
+                      '最终完成购买',
+                    ].map((t, i, arr) => (
+                      <div
+                        key={t}
+                        className="relative grid grid-cols-[40px_1fr] items-center gap-3 border-b border-[#D5C89A] py-4 first:pt-0"
+                      >
+                        <span className="text-[12px] font-black text-[#A5945C]">
+                          0{i + 1}
+                        </span>
+                        <p className="text-[16px] font-black text-[#25211D] md:text-[18px]">
+                          {t}
+                        </p>
+                        {i < arr.length - 1 && (
+                          <ArrowDown
+                            size={16}
+                            className="absolute -bottom-[8px] left-[12px] z-10 bg-[#FFF9E8] text-[#A5945C]"
+                          />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mb-6 inline-flex items-baseline gap-2 rounded-full bg-[#E95B35]/10 px-4 py-2">
+                    <span className="text-[22px] font-black text-[#E95B35]">
+                      31%
+                    </span>
+                    <span className="text-[12px] font-bold text-[#8A6A2F]">
+                      期待孩子未来进初中后，学理科时能更快听懂（TOP 1）
+                    </span>
+                  </div>
+                  <VoiceGroup
+                    voices={FUTURE_VALUE_VOICES}
+                    title="访谈录音片段"
+                  />
+                  <div className="mt-6 rounded-[14px] border border-dashed border-[#CDBE8B] bg-white/50 p-4 text-[13px] font-semibold leading-7 text-[#6B6046]">
+                    <span className="font-black text-[#9C4A2F]">
+                      竞品分析：
+                    </span>
+                    物理十分通卖「孩子将来上初中，物理会跟不上」的预防焦虑，妙懂卖「初中物理课听不懂，我辅导不了」的辅导焦虑，NB
+                    实验室卖「初高中实验全覆盖」——本质都在指向
+                    <Hi color="#FFCF4A">学科</Hi>。
+                  </div>
+                </Reveal>
               </div>
-            </div>
-          </Reveal>
+            </StoryModule>
+
+            {/* 业务启发 · 品类定位 + 目标人群 */}
+            <StoryModule
+              number="02"
+              label="品类与人群"
+              title="用「学科启蒙」统一品类定位、证据和目标人群"
+              summary="行业判断、问卷定位、用户原声与销售分布都收拢到同一模组，避免证据散落在页面不同位置。"
+              tone="warm"
+            >
+              <Reveal>
+                <div className="border-b border-[#E4D7B4] pb-8">
+                  <SubHead
+                    kicker="业务启发"
+                    title={
+                      <>
+                        结合品类需求，洋葱该占据
+                        <Hi color="#C9FF5B">「学科启蒙」</Hi>
+                        这片蓝海
+                      </>
+                    }
+                  />
+                  <p className="max-w-[720px] text-[15px] font-semibold leading-8 text-[#695F4D]">
+                    家长需求介于「纯兴趣启蒙」和「小初衔接提前学」之间，更准确的品类位置是
+                    <span className="font-black text-[#25211D]">学科启蒙</span>
+                    ，而这部分恰好是竞品未占据的蓝海。
+                  </p>
+                </div>
+              </Reveal>
+
+              <div className="mt-10 space-y-8">
+                <Reveal>
+                  <div className="rounded-[16px] border border-[#E4D9C9] bg-white p-5 md:p-6">
+                    <p className="mb-4 text-[12px] font-black tracking-[0.1em] text-[#9C4A2F]">
+                      行业研究：为什么是「学科启蒙」
+                    </p>
+                    <ul className="space-y-4 text-[14px] font-semibold leading-7 text-[#5B534A]">
+                      <li className="border-l-2 border-[#E95B35]/35 pl-4">
+                        <span className="font-black text-[#25211D]">
+                          兴趣启蒙——竞争激烈、红海市场：
+                        </span>
+                        一边有更方便实惠护眼的绘本/科普书籍，一边有更有趣主流的线上化竞品（斑马、叫叫等），洋葱做「课」起家，在纯启蒙领域不一定有优势。
+                      </li>
+                      <li className="border-l-2 border-[#E95B35]/35 pl-4">
+                        <span className="font-black text-[#25211D]">
+                          小初衔接提前学——需求和方案不匹配：
+                        </span>
+                        有「提前学理科」需求的用户更希望直接对标课本教材，可选秒懂，或买洋葱小初
+                        6 年卡直接学【初中物理同步课】。
+                      </li>
+                    </ul>
+                  </div>
+                </Reveal>
+
+                <Reveal delay={60}>
+                  <EvidenceFigure caption="数据来自原文配图：问卷调研「家长对课程的定位」，有效填写 41 人次">
+                    <p className="mb-4 text-[12px] font-black tracking-[0.1em] text-[#9C4A2F]">
+                      家长对课程的定位（n=41）
+                    </p>
+                    <DataBars data={POSITION_SURVEY} scale="absolute" />
+                  </EvidenceFigure>
+                </Reveal>
+
+                <Reveal delay={120}>
+                  <VoiceGroup
+                    voices={POSITION_VOICES}
+                    title="访谈录音片段"
+                    columns={1}
+                  />
+                </Reveal>
+              </div>
+
+              <Reveal>
+                <div className="mt-10 grid gap-6 rounded-[18px] bg-[#1E2B24] p-6 text-white md:grid-cols-[.85fr_1.15fr] md:p-9">
+                  <div>
+                    <p className="text-[11px] font-black tracking-[0.15em] text-[#C9FF5B]">
+                      目标人群
+                    </p>
+                    <p className="mt-3 text-[46px] font-black tracking-[-0.05em] md:text-[62px]">
+                      1—4 年级
+                    </p>
+                    <p className="mt-3 max-w-[380px] text-[13.5px] font-semibold leading-7 text-white/60">
+                      既没有学前（3-6 岁）的纯兴趣启蒙诉求，也不到小高（5-6
+                      年级）的强应试衔接焦虑，是「低压力学科启蒙」的核心受众。
+                    </p>
+                  </div>
+                  <div className="rounded-[14px] bg-white/[0.06] p-5">
+                    <p className="mb-3 text-[11px] font-black tracking-[0.1em] text-[#C9FF5B]">
+                      内部销售数据：已购用户年级分布
+                    </p>
+                    <p className="mb-4 text-[13px] font-semibold leading-7 text-white/75">
+                      截至 5 月 12 日，《从小学系列课程》已购用户——
+                      <span className="font-black text-white">
+                        1-3 年级占比 77%
+                      </span>
+                      （新媒体近 7 成），从 5 年级开始断崖式下降。
+                    </p>
+                    <div className="overflow-hidden rounded-[10px] border border-white/15 text-[12px]">
+                      <div className="grid grid-cols-5 bg-white/[0.08] font-black text-white/80">
+                        {['年级', '整体', '新媒体', '商业化', '电销/网销'].map(
+                          (h) => (
+                            <span key={h} className="px-2 py-2 text-center">
+                              {h}
+                            </span>
+                          ),
+                        )}
+                      </div>
+                      {SALES_TABLE.map((r) => (
+                        <div
+                          key={r.grade}
+                          className="grid grid-cols-5 border-t border-white/10 font-bold text-white/70"
+                        >
+                          <span className="px-2 py-2 text-center text-white">
+                            {r.grade}
+                          </span>
+                          <span className="px-2 py-2 text-center">
+                            {r.overall}%
+                          </span>
+                          <span className="px-2 py-2 text-center">
+                            {r.media}%
+                          </span>
+                          <span className="px-2 py-2 text-center">
+                            {r.app}%
+                          </span>
+                          <span className="px-2 py-2 text-center">
+                            {r.tele}%
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="mt-3 text-[10.5px] font-semibold text-white/35">
+                      数据来自原文配图：不同年级用户来源占比表
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
+            </StoryModule>
+          </div>
         </div>
       </section>
 
@@ -1171,118 +1347,140 @@ export default function ConclusionsDemo() {
             </h2>
           </Reveal>
 
-          {/* 用户洞察 · 竞品记忆点墙 */}
-          <Reveal>
-            <div className="mt-16">
-              <SubHead
-                kicker="用户洞察 · 竞品"
-                title={<>家长被什么吸引下单——更多来自「单点爆破」</>}
-              />
-            </div>
-          </Reveal>
-          <div className="grid gap-4 md:grid-cols-2">
-            {COMPETITORS.map((c, i) => (
-              <Reveal key={c.name} delay={i * 60}>
-                <div className="h-full rounded-[16px] border border-[#D8E1D9] bg-white/70 p-5">
-                  <div className="mb-4 flex items-center gap-3">
-                    <span
-                      className="inline-block -rotate-1 px-2.5 py-1.5 text-[13px] font-black text-[#191816]"
-                      style={{ backgroundColor: c.tone }}
-                    >
-                      {c.name}
-                    </span>
-                    <span className="text-[13px] font-bold text-[#5F6E64]">
-                      {c.hook}
-                    </span>
+          <div className="mt-16 space-y-8">
+            <StoryModule
+              number="03"
+              label="产品决策"
+              title="先看竞品靠什么被记住，再看洋葱为什么缺少记忆点"
+              summary="竞品吸引点、用户原声、洋葱购买路径和当前困境连续呈现，形成完整对照。"
+              tone="green"
+            >
+              {/* 用户洞察 · 竞品记忆点墙 */}
+              <Reveal>
+                <div>
+                  <SubHead
+                    kicker="用户洞察 · 竞品"
+                    title={<>家长被什么吸引下单——更多来自「单点爆破」</>}
+                  />
+                </div>
+              </Reveal>
+              <div className="grid gap-4 md:grid-cols-2">
+                {COMPETITORS.map((c, i) => (
+                  <Reveal key={c.name} delay={i * 60}>
+                    <div className="h-full rounded-[16px] border border-[#D8E1D9] bg-white/70 p-5">
+                      <div className="mb-4 flex items-center gap-3">
+                        <span
+                          className="inline-block -rotate-1 px-2.5 py-1.5 text-[13px] font-black text-[#191816]"
+                          style={{ backgroundColor: c.tone }}
+                        >
+                          {c.name}
+                        </span>
+                        <span className="text-[13px] font-bold text-[#5F6E64]">
+                          {c.hook}
+                        </span>
+                      </div>
+                      <div className="space-y-2.5">
+                        {c.voices.map((v, vi) => (
+                          <VoiceCard key={vi} voice={v} />
+                        ))}
+                      </div>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+
+              {/* 洋葱：品牌信任 + 顺手加购 + 洋葱困境 */}
+              <Reveal>
+                <div className="mt-12 grid gap-8 border-t border-[#CDD8CF] pt-10 lg:grid-cols-[1.05fr_.95fr] lg:gap-16">
+                  <div>
+                    <p className="text-[11px] font-black tracking-[0.15em] text-[#456A58]">
+                      洋葱：主要来自「品牌信任」和「顺手加购」
+                    </p>
+                    <ol className="mt-5 space-y-3 text-[15px] font-bold text-[#39443D]">
+                      <li className="flex gap-3 border-b border-[#D8E1D9] pb-3">
+                        <span className="text-[#A2ADA5]">01</span>信任洋葱的品牌
+                      </li>
+                      <li className="flex gap-3 border-b border-[#D8E1D9] pb-3">
+                        <span className="text-[#A2ADA5]">02</span>
+                        买小学/全科课包时顺手加购
+                      </li>
+                    </ol>
+                    <div className="mt-6 space-y-2.5">
+                      {ONION_BUY_VOICES.map((v, i) => (
+                        <VoiceCard key={i} voice={v} />
+                      ))}
+                    </div>
                   </div>
-                  <div className="space-y-2.5">
-                    {c.voices.map((v, vi) => (
-                      <VoiceCard key={vi} voice={v} />
-                    ))}
+                  <div className="self-start rounded-[16px] border border-[#1E2B24] bg-[#1E2B24] p-6">
+                    <div className="mb-3 flex items-center gap-2 text-[11px] font-black tracking-[0.12em] text-[#C9FF5B]">
+                      <TriangleAlert size={14} />
+                      洋葱困境
+                    </div>
+                    <p className="text-[17px] font-black leading-[1.7] text-white md:text-[19px]">
+                      洋葱目前既不是妙懂（有 AR+竞技），也不是物理十分通（有超级
+                      IP）；如果只用「动画易懂+教材同步」去卖，不仅在达人面前是一个没有独特故事可讲的产品，
+                      <Hi color="#C9FF5B">家长也无法清晰感知产品价值</Hi>。
+                    </p>
                   </div>
                 </div>
               </Reveal>
-            ))}
-          </div>
+            </StoryModule>
 
-          {/* 洋葱：品牌信任 + 顺手加购 + 洋葱困境 */}
-          <Reveal>
-            <div className="mt-12 grid gap-8 border-t border-[#CDD8CF] pt-10 lg:grid-cols-[1.05fr_.95fr] lg:gap-16">
-              <div>
-                <p className="text-[11px] font-black tracking-[0.15em] text-[#456A58]">
-                  洋葱：主要来自「品牌信任」和「顺手加购」
-                </p>
-                <ol className="mt-5 space-y-3 text-[15px] font-bold text-[#39443D]">
-                  <li className="flex gap-3 border-b border-[#D8E1D9] pb-3">
-                    <span className="text-[#A2ADA5]">01</span>信任洋葱的品牌
-                  </li>
-                  <li className="flex gap-3 border-b border-[#D8E1D9] pb-3">
-                    <span className="text-[#A2ADA5]">02</span>买小学/全科课包时顺手加购
-                  </li>
-                </ol>
-                <div className="mt-6 space-y-2.5">
-                  {ONION_BUY_VOICES.map((v, i) => (
-                    <VoiceCard key={i} voice={v} />
-                  ))}
+            <StoryModule
+              number="04"
+              label="价值表达"
+              title="把分散优势收束为「最专业的学科启蒙课」"
+              summary="系统性、专业性和丰富性使用同一组卡片表达，成为可复用的产品价值模组。"
+              tone="green"
+            >
+              {/* 业务启发 · 最专业的学科启蒙课 */}
+              <Reveal>
+                <div className="border-b border-[#CDD8CF] pb-8">
+                  <SubHead
+                    kicker="业务启发"
+                    title={
+                      <>
+                        最大优势不是拼单一功能，而是塑造
+                        <span className="text-[#456A58]">
+                          「最专业的学科启蒙课」
+                        </span>
+                      </>
+                    }
+                  />
                 </div>
+              </Reveal>
+              <div className="grid gap-4 md:grid-cols-3">
+                {PRO_PILLARS.map((p, i) => {
+                  const Icon = p.icon;
+                  return (
+                    <Reveal key={p.tag} delay={i * 70}>
+                      <div className="flex h-full flex-col rounded-[16px] border border-[#D8E1D9] bg-white/70 p-6">
+                        <div className="mb-4 flex items-center gap-2.5">
+                          <span className="grid size-9 place-items-center rounded-[10px] bg-[#DDE8E0] text-[#456A58]">
+                            <Icon size={18} />
+                          </span>
+                          <span className="text-[17px] font-black text-[#2F3B34]">
+                            {p.tag}
+                          </span>
+                        </div>
+                        <ul className="space-y-3 text-[13px] font-semibold leading-7 text-[#627067]">
+                          {p.points.map((pt, pi) => (
+                            <li key={pi} className="flex gap-2.5">
+                              <span className="mt-[10px] size-1.5 shrink-0 rounded-full bg-[#6D8E7B]" />
+                              <span>{pt}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </Reveal>
+                  );
+                })}
               </div>
-              <div className="self-start rounded-[16px] border border-[#1E2B24] bg-[#1E2B24] p-6">
-                <div className="mb-3 flex items-center gap-2 text-[11px] font-black tracking-[0.12em] text-[#C9FF5B]">
-                  <TriangleAlert size={14} />
-                  洋葱困境
-                </div>
-                <p className="text-[17px] font-black leading-[1.7] text-white md:text-[19px]">
-                  洋葱目前既不是妙懂（有 AR+竞技），也不是物理十分通（有超级 IP）；如果只用「动画易懂+教材同步」去卖，不仅在达人面前是一个没有独特故事可讲的产品，
-                  <Hi color="#C9FF5B">家长也无法清晰感知产品价值</Hi>。
-                </p>
-              </div>
-            </div>
-          </Reveal>
-
-          {/* 业务启发 · 最专业的学科启蒙课 */}
-          <Reveal>
-            <div className="mt-16 border-t border-[#CDD8CF] pt-10">
-              <SubHead
-                kicker="业务启发"
-                title={
-                  <>
-                    最大优势不是拼单一功能，而是塑造
-                    <span className="text-[#456A58]">「最专业的学科启蒙课」</span>
-                  </>
-                }
-              />
-            </div>
-          </Reveal>
-          <div className="grid gap-4 md:grid-cols-3">
-            {PRO_PILLARS.map((p, i) => {
-              const Icon = p.icon;
-              return (
-                <Reveal key={p.tag} delay={i * 70}>
-                  <div className="flex h-full flex-col rounded-[16px] border border-[#D8E1D9] bg-white/70 p-6">
-                    <div className="mb-4 flex items-center gap-2.5">
-                      <span className="grid size-9 place-items-center rounded-[10px] bg-[#DDE8E0] text-[#456A58]">
-                        <Icon size={18} />
-                      </span>
-                      <span className="text-[17px] font-black text-[#2F3B34]">
-                        {p.tag}
-                      </span>
-                    </div>
-                    <ul className="space-y-3 text-[13px] font-semibold leading-7 text-[#627067]">
-                      {p.points.map((pt, pi) => (
-                        <li key={pi} className="flex gap-2.5">
-                          <span className="mt-[10px] size-1.5 shrink-0 rounded-full bg-[#6D8E7B]" />
-                          <span>{pt}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </Reveal>
-              );
-            })}
+              <p className="mt-4 text-[10.5px] font-semibold text-[#99A49C]">
+                系统性/专业性中的课程体系、教材对应、专家团队、思维模型，原文以配图呈现，此处提炼其要点。
+              </p>
+            </StoryModule>
           </div>
-          <p className="mt-4 text-[10.5px] font-semibold text-[#99A49C]">
-            系统性/专业性中的课程体系、教材对应、专家团队、思维模型，原文以配图呈现，此处提炼其要点。
-          </p>
         </div>
       </section>
 
@@ -1291,132 +1489,154 @@ export default function ConclusionsDemo() {
         <div className="mx-auto max-w-[1280px] px-5 py-20 md:px-10 md:py-28 lg:px-14 lg:py-32">
           <ChapterMarker number="02" label="未成交卡点" />
 
-          {/* 顾虑弹幕过场 */}
-          <ConcernDanmu items={CONCERN_DANMU} />
+          <div className="space-y-8">
+            <StoryModule
+              number="01"
+              label="成交阻力"
+              title="大量零散顾虑，最终收束为两个无法确认的问题"
+              summary="先保留用户顾虑的真实噪声，再聚合成「会不会看」和「有没有用」两个核心判断。"
+              tone="rose"
+            >
+              {/* 顾虑弹幕过场 */}
+              <ConcernDanmu items={CONCERN_DANMU} />
 
-          <Reveal>
-            <div className="mt-4">
-              <p className="text-[18px] font-black text-[#9C4A2F]">
-                大量顾虑，最终收束为两个问题。
-              </p>
-              <h2 className="mt-4 max-w-[900px] text-[36px] font-black leading-[1.16] tracking-[-0.04em] md:text-[52px]">
-                家长无法确认
-                <Hi>「会不会看」</Hi>，
-                <br className="hidden md:block" />
-                也无法确认<Hi>「有没有用」</Hi>。
-              </h2>
-            </div>
-          </Reveal>
+              <Reveal>
+                <div className="mt-4">
+                  <p className="text-[18px] font-black text-[#9C4A2F]">
+                    大量顾虑，最终收束为两个问题。
+                  </p>
+                  <h2 className="mt-4 max-w-[900px] text-[36px] font-black leading-[1.16] tracking-[-0.04em] md:text-[52px]">
+                    家长无法确认
+                    <Hi>「会不会看」</Hi>，
+                    <br className="hidden md:block" />
+                    也无法确认<Hi>「有没有用」</Hi>。
+                  </h2>
+                </div>
+              </Reveal>
 
-          {/* 两个核心问题 */}
-          <div className="mt-14 grid gap-6 md:grid-cols-2">
-            <Reveal>
-              <div className="flex h-full flex-col rounded-[16px] border border-[#D8A99C] bg-white/60 p-6">
-                <div className="mb-4 flex items-center gap-2.5">
-                  <TriangleAlert size={22} className="text-[#9C4A2F]" />
-                  <p className="text-[20px] font-black text-[#25211D]">
-                    不确定孩子会不会坚持看
+              {/* 两个核心问题 */}
+              <div className="mt-14 grid gap-6 md:grid-cols-2">
+                <Reveal>
+                  <div className="flex h-full flex-col rounded-[16px] border border-[#D8A99C] bg-white/60 p-6">
+                    <div className="mb-4 flex items-center gap-2.5">
+                      <TriangleAlert size={22} className="text-[#9C4A2F]" />
+                      <p className="text-[20px] font-black text-[#25211D]">
+                        不确定孩子会不会坚持看
+                      </p>
+                    </div>
+                    <div className="mt-auto space-y-3">
+                      {CONCERN_KEEP_VOICES.map((v, i) => (
+                        <VoiceCard key={i} voice={v} />
+                      ))}
+                    </div>
+                  </div>
+                </Reveal>
+                <Reveal delay={80}>
+                  <div className="flex h-full flex-col rounded-[16px] border border-[#D8A99C] bg-white/60 p-6">
+                    <div className="mb-4 flex items-center gap-2.5">
+                      <Eye size={22} className="text-[#9C4A2F]" />
+                      <p className="text-[20px] font-black text-[#25211D]">
+                        不确定看完到底有没有学到
+                      </p>
+                    </div>
+                    <div className="mt-auto space-y-3">
+                      {CONCERN_LEARN_VOICES.map((v, i) => (
+                        <VoiceCard key={i} voice={v} />
+                      ))}
+                    </div>
+                  </div>
+                </Reveal>
+              </div>
+
+              {/* 深色高亮框 */}
+              <Reveal>
+                <div className="mt-10 bg-[#191816] p-7 text-white md:p-10">
+                  <p className="text-[11px] font-black tracking-[0.15em] text-[#FFCF4A]">
+                    真正阻断成交的
+                  </p>
+                  <p className="mt-4 text-[24px] font-black leading-[1.5] md:text-[30px]">
+                    不是单纯价格，而是家长无法确认
+                    <span className="text-[#FFCF4A]">「会不会看」</span>和
+                    <span className="text-[#FFCF4A]">「有没有用」</span>。
                   </p>
                 </div>
-                <div className="mt-auto space-y-3">
-                  {CONCERN_KEEP_VOICES.map((v, i) => (
-                    <VoiceCard key={i} voice={v} />
-                  ))}
-                </div>
-              </div>
-            </Reveal>
-            <Reveal delay={80}>
-              <div className="flex h-full flex-col rounded-[16px] border border-[#D8A99C] bg-white/60 p-6">
-                <div className="mb-4 flex items-center gap-2.5">
-                  <Eye size={22} className="text-[#9C4A2F]" />
-                  <p className="text-[20px] font-black text-[#25211D]">
-                    不确定看完到底有没有学到
-                  </p>
-                </div>
-                <div className="mt-auto space-y-3">
-                  {CONCERN_LEARN_VOICES.map((v, i) => (
-                    <VoiceCard key={i} voice={v} />
-                  ))}
-                </div>
-              </div>
-            </Reveal>
-          </div>
+              </Reveal>
+            </StoryModule>
 
-          {/* 深色高亮框 */}
-          <Reveal>
-            <div className="mt-10 bg-[#191816] p-7 text-white md:p-10">
-              <p className="text-[11px] font-black tracking-[0.15em] text-[#FFCF4A]">
-                真正阻断成交的
-              </p>
-              <p className="mt-4 text-[24px] font-black leading-[1.5] md:text-[30px]">
-                不是单纯价格，而是家长无法确认
-                <span className="text-[#FFCF4A]">「会不会看」</span>
-                和<span className="text-[#FFCF4A]">「有没有用」</span>。
-              </p>
-            </div>
-          </Reveal>
+            <StoryModule
+              number="02"
+              label="业务动作"
+              title="围绕两个问题，分别提供数据证明和效果外化方案"
+              summary="每个阻力对应一组行动，不再让建议与前面的用户顾虑脱节。"
+              tone="rose"
+            >
+              {/* 业务启发 · 两组硬数据动作 */}
+              <Reveal>
+                <div className="border-b border-[#E2C8C0] pb-8">
+                  <SubHead
+                    kicker="业务启发"
+                    title={<>洋葱该如何帮助家长打消顾虑</>}
+                  />
+                </div>
+              </Reveal>
 
-          {/* 业务启发 · 两组硬数据动作 */}
-          <Reveal>
-            <div className="mt-16 border-t-2 border-[#191816] pt-10">
-              <SubHead
-                kicker="业务启发"
-                title={<>洋葱该如何帮助家长打消顾虑</>}
-              />
-            </div>
-          </Reveal>
-
-          <div className="grid gap-6 lg:grid-cols-2">
-            <Reveal>
-              <div className="h-full rounded-[16px] border border-[#D8A99C] bg-white/70 p-6">
-                <p className="text-[15px] font-black text-[#9C4A2F]">
-                  ① 会不会坚持看 —— 用数据和事实说话
-                </p>
-                <p className="mt-1.5 text-[13px] font-semibold text-[#8A7062]">
-                  清楚告诉家长：我们有什么、孩子为什么喜欢。
-                </p>
-                <ul className="mt-5 space-y-4">
-                  {KEEP_ACTIONS.map((a) => (
-                    <li key={a.title} className="border-t border-[#EAD6CE] pt-4">
-                      <p className="text-[15px] font-black text-[#25211D]">
-                        {a.title}
-                      </p>
-                      <p className="mt-1.5 text-[13px] font-semibold leading-7 text-[#6E5F57]">
-                        <MarkNums text={a.text} />
-                      </p>
-                    </li>
-                  ))}
-                </ul>
+              <div className="grid gap-6 lg:grid-cols-2">
+                <Reveal>
+                  <div className="h-full rounded-[16px] border border-[#D8A99C] bg-white/70 p-6">
+                    <p className="text-[15px] font-black text-[#9C4A2F]">
+                      ① 会不会坚持看 —— 用数据和事实说话
+                    </p>
+                    <p className="mt-1.5 text-[13px] font-semibold text-[#8A7062]">
+                      清楚告诉家长：我们有什么、孩子为什么喜欢。
+                    </p>
+                    <ul className="mt-5 space-y-4">
+                      {KEEP_ACTIONS.map((a) => (
+                        <li
+                          key={a.title}
+                          className="border-t border-[#EAD6CE] pt-4"
+                        >
+                          <p className="text-[15px] font-black text-[#25211D]">
+                            {a.title}
+                          </p>
+                          <p className="mt-1.5 text-[13px] font-semibold leading-7 text-[#6E5F57]">
+                            <MarkNums text={a.text} />
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </Reveal>
+                <Reveal delay={80}>
+                  <div className="h-full rounded-[16px] border border-[#D8A99C] bg-white/70 p-6">
+                    <p className="text-[15px] font-black text-[#9C4A2F]">
+                      ② 到底有没有学到 —— 把「效果外化」前置为营销机制
+                    </p>
+                    <p className="mt-1.5 text-[13px] font-semibold text-[#8A7062]">
+                      不仅告诉家长孩子爱看，还要让家长看见孩子学到什么、学会什么。
+                    </p>
+                    <ul className="mt-5 space-y-4">
+                      <li className="border-t border-[#EAD6CE] pt-4">
+                        <p className="text-[15px] font-black text-[#25211D]">
+                          看见「阶段性信号」，而非立刻要成绩
+                        </p>
+                        <p className="mt-1.5 text-[13px] font-semibold leading-7 text-[#6E5F57]">
+                          家长需要看到孩子能解释一个生活现象、完成一个实验、讲出一个原理、做对相关题目。只要有可感知证据，对「未来有用」的信心就会增强。
+                        </p>
+                      </li>
+                      <li className="border-t border-[#EAD6CE] pt-4">
+                        <p className="text-[15px] font-black text-[#25211D]">
+                          多维数据的学情报告，定期推送家长
+                        </p>
+                        <p className="mt-1.5 text-[13px] font-semibold leading-7 text-[#6E5F57]">
+                          包含时长/模块/知识点等数据的学情报告，每周通过
+                          APP、公众号推送，让家长清晰看到孩子学了啥、学会啥。
+                        </p>
+                      </li>
+                    </ul>
+                  </div>
+                </Reveal>
               </div>
-            </Reveal>
-            <Reveal delay={80}>
-              <div className="h-full rounded-[16px] border border-[#D8A99C] bg-white/70 p-6">
-                <p className="text-[15px] font-black text-[#9C4A2F]">
-                  ② 到底有没有学到 —— 把「效果外化」前置为营销机制
-                </p>
-                <p className="mt-1.5 text-[13px] font-semibold text-[#8A7062]">
-                  不仅告诉家长孩子爱看，还要让家长看见孩子学到什么、学会什么。
-                </p>
-                <ul className="mt-5 space-y-4">
-                  <li className="border-t border-[#EAD6CE] pt-4">
-                    <p className="text-[15px] font-black text-[#25211D]">
-                      看见「阶段性信号」，而非立刻要成绩
-                    </p>
-                    <p className="mt-1.5 text-[13px] font-semibold leading-7 text-[#6E5F57]">
-                      家长需要看到孩子能解释一个生活现象、完成一个实验、讲出一个原理、做对相关题目。只要有可感知证据，对「未来有用」的信心就会增强。
-                    </p>
-                  </li>
-                  <li className="border-t border-[#EAD6CE] pt-4">
-                    <p className="text-[15px] font-black text-[#25211D]">
-                      多维数据的学情报告，定期推送家长
-                    </p>
-                    <p className="mt-1.5 text-[13px] font-semibold leading-7 text-[#6E5F57]">
-                      包含时长/模块/知识点等数据的学情报告，每周通过 APP、公众号推送，让家长清晰看到孩子学了啥、学会啥。
-                    </p>
-                  </li>
-                </ul>
-              </div>
-            </Reveal>
+            </StoryModule>
           </div>
         </div>
       </section>
@@ -1428,139 +1648,161 @@ export default function ConclusionsDemo() {
           <Reveal>
             <h2 className="max-w-[900px] text-[34px] font-black leading-[1.2] tracking-[-0.035em] md:text-[50px]">
               碎片化、低压力、
-              <br className="hidden md:block" />
-              由<Hi>兴趣触发</Hi>的补充学习。
+              <br className="hidden md:block" />由<Hi>兴趣触发</Hi>的补充学习。
             </h2>
             <p className="mt-6 max-w-[600px] text-[15px] font-semibold leading-8 text-[#695F4D]">
               常见于周末/假期、主科学习间隙、孩子主动感兴趣想看时。
             </p>
           </Reveal>
 
-          {/* 横向时间带 */}
-          <Reveal>
-            <div className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {SCENE_STEPS.map(([t, d], i) => (
-                <div key={t} className="relative rounded-[14px] border border-[#DDD1C2] bg-white/60 p-5">
-                  <span className="text-[12px] font-black text-[#2F9F8F]">
-                    0{i + 1}
-                  </span>
-                  <p className="mt-3 text-[17px] font-black text-[#25211D]">{t}</p>
-                  <p className="mt-1.5 text-[12.5px] font-semibold leading-6 text-[#8A7E71]">
-                    {d}
-                  </p>
-                  {i < SCENE_STEPS.length - 1 && (
-                    <ArrowRight
-                      size={16}
-                      className="absolute -right-[11px] top-1/2 z-10 hidden -translate-y-1/2 bg-[#F1F7F5] text-[#B7C7B3] lg:block"
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
-          </Reveal>
-
-          <Reveal>
-            <div className="mt-8 grid gap-3 md:grid-cols-2">
-              {SCENE_VOICES.map((v, i) => (
-                <VoiceCard key={i} voice={v} />
-              ))}
-            </div>
-          </Reveal>
-
-          {/* 体验优劣势矩阵 */}
-          <Reveal>
-            <div className="mt-20 border-t-2 border-[#191816] pt-10">
-              <SubHead
-                kicker="产品体验 · 体验优劣势"
-                title={<>四类产品的优势与折损，各有一手用户原声</>}
-              />
-              <div className="mb-6 flex flex-wrap gap-4 text-[12px] font-bold">
-                <span className="flex items-center gap-2">
-                  <span className="size-3 rounded-full bg-[#DDF5EF]" />
-                  体验优势
-                </span>
-                <span className="flex items-center gap-2">
-                  <span className="size-3 rounded-full bg-[#F5DCD5]" />
-                  体验劣势
-                </span>
-              </div>
-            </div>
-          </Reveal>
-
-          <div className="space-y-4">
-            {EXPERIENCE_MATRIX.map((row, i) => (
-              <Reveal key={row.product} delay={i * 50}>
-                <div
-                  className={cn(
-                    'overflow-hidden rounded-[16px] border',
-                    row.highlight
-                      ? 'border-[#E95B35] bg-white shadow-[0_18px_30px_-26px_rgba(233,91,53,0.6)]'
-                      : 'border-[#DDD1C2] bg-white/70',
-                  )}
-                >
-                  <div
-                    className={cn(
-                      'flex items-center gap-2 px-5 py-3.5 md:px-6',
-                      row.highlight ? 'bg-[#E95B35]/10' : 'bg-[#F1EADF]',
-                    )}
-                  >
-                    <span
-                      className={cn(
-                        'text-[16px] font-black',
-                        row.highlight ? 'text-[#E95B35]' : 'text-[#25211D]',
-                      )}
+          <div className="mt-14 space-y-8">
+            <StoryModule
+              number="01"
+              label="使用场景"
+              title="一条从碎片时间到低压力观看的完整使用链路"
+              summary="场景步骤和用户原声成组出现，让行为路径与真实体验互相解释。"
+              tone="mint"
+            >
+              {/* 横向时间带 */}
+              <Reveal>
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                  {SCENE_STEPS.map(([t, d], i) => (
+                    <div
+                      key={t}
+                      className="relative rounded-[14px] border border-[#DDD1C2] bg-white/60 p-5"
                     >
-                      {row.product}
-                    </span>
-                    {row.highlight && (
-                      <span className="rounded-full bg-[#E95B35] px-2 py-0.5 text-[10px] font-black text-white">
-                        本品
+                      <span className="text-[12px] font-black text-[#2F9F8F]">
+                        0{i + 1}
                       </span>
-                    )}
-                  </div>
-                  <div className="grid gap-px bg-[#EBE1D4] md:grid-cols-2">
-                    <div className="bg-[#F4FBF8] p-5 md:p-6">
-                      <p className="mb-3 flex items-center gap-1.5 text-[11px] font-black tracking-[0.1em] text-[#2F9F8F]">
-                        <CircleCheck size={13} /> 体验优势
+                      <p className="mt-3 text-[17px] font-black text-[#25211D]">
+                        {t}
                       </p>
-                      <p className="text-[14.5px] font-black leading-7 text-[#25211D]">
-                        {row.pro.summary}
+                      <p className="mt-1.5 text-[12.5px] font-semibold leading-6 text-[#8A7E71]">
+                        {d}
                       </p>
-                      <div className="mt-4 space-y-2.5">
-                        {row.pro.voices.map((v, vi) => (
-                          <VoiceCard key={vi} voice={v} />
-                        ))}
-                      </div>
+                      {i < SCENE_STEPS.length - 1 && (
+                        <ArrowRight
+                          size={16}
+                          className="absolute -right-[11px] top-1/2 z-10 hidden -translate-y-1/2 bg-[#F1F7F5] text-[#B7C7B3] lg:block"
+                        />
+                      )}
                     </div>
-                    <div className="bg-[#FBF3F1] p-5 md:p-6">
-                      <p className="mb-3 flex items-center gap-1.5 text-[11px] font-black tracking-[0.1em] text-[#C0685C]">
-                        <TriangleAlert size={13} /> 体验劣势
-                      </p>
-                      <p className="text-[14.5px] font-black leading-7 text-[#25211D]">
-                        {row.con.summary}
-                      </p>
-                      <div className="mt-4 space-y-2.5">
-                        {row.con.voices.map((v, vi) => (
-                          <VoiceCard key={vi} voice={v} />
-                        ))}
-                      </div>
-                    </div>
+                  ))}
+                </div>
+              </Reveal>
+
+              <Reveal>
+                <div className="mt-8 grid gap-3 md:grid-cols-2">
+                  {SCENE_VOICES.map((v, i) => (
+                    <VoiceCard key={i} voice={v} />
+                  ))}
+                </div>
+              </Reveal>
+            </StoryModule>
+
+            <StoryModule
+              number="02"
+              label="体验对比"
+              title="用同一套结构对比四类产品的优势与折损"
+              summary="每个产品固定呈现优势、劣势和对应原声，读者不需要在不同视觉组件之间反复切换。"
+              tone="mint"
+            >
+              {/* 体验优劣势矩阵 */}
+              <Reveal>
+                <div className="border-b border-[#C5DCD6] pb-8">
+                  <SubHead
+                    kicker="产品体验 · 体验优劣势"
+                    title={<>四类产品的优势与折损，各有一手用户原声</>}
+                  />
+                  <div className="mb-6 flex flex-wrap gap-4 text-[12px] font-bold">
+                    <span className="flex items-center gap-2">
+                      <span className="size-3 rounded-full bg-[#DDF5EF]" />
+                      体验优势
+                    </span>
+                    <span className="flex items-center gap-2">
+                      <span className="size-3 rounded-full bg-[#F5DCD5]" />
+                      体验劣势
+                    </span>
                   </div>
                 </div>
               </Reveal>
-            ))}
-          </div>
 
-          {/* 章节结论框 */}
-          <Reveal>
-            <div className="mt-12 rounded-[4px] border-l-4 border-[#E95B35] bg-white p-7 md:p-9">
-              <p className="text-[20px] font-black leading-[1.7] text-[#25211D] md:text-[26px]">
-                <Hi>有趣</Hi>解决了「愿不愿意看」，但
-                <Hi color="#F5DCD5">儿童化表达和效果外化</Hi>
-                决定了「能不能持续、值不值得买」。
-              </p>
-            </div>
-          </Reveal>
+              <div className="space-y-4">
+                {EXPERIENCE_MATRIX.map((row, i) => (
+                  <Reveal key={row.product} delay={i * 50}>
+                    <div
+                      className={cn(
+                        'overflow-hidden rounded-[16px] border',
+                        row.highlight
+                          ? 'border-[#E95B35] bg-white shadow-[0_18px_30px_-26px_rgba(233,91,53,0.6)]'
+                          : 'border-[#DDD1C2] bg-white/70',
+                      )}
+                    >
+                      <div
+                        className={cn(
+                          'flex items-center gap-2 px-5 py-3.5 md:px-6',
+                          row.highlight ? 'bg-[#E95B35]/10' : 'bg-[#F1EADF]',
+                        )}
+                      >
+                        <span
+                          className={cn(
+                            'text-[16px] font-black',
+                            row.highlight ? 'text-[#E95B35]' : 'text-[#25211D]',
+                          )}
+                        >
+                          {row.product}
+                        </span>
+                        {row.highlight && (
+                          <span className="rounded-full bg-[#E95B35] px-2 py-0.5 text-[10px] font-black text-white">
+                            本品
+                          </span>
+                        )}
+                      </div>
+                      <div className="grid gap-px bg-[#EBE1D4] md:grid-cols-2">
+                        <div className="bg-[#F4FBF8] p-5 md:p-6">
+                          <p className="mb-3 flex items-center gap-1.5 text-[11px] font-black tracking-[0.1em] text-[#2F9F8F]">
+                            <CircleCheck size={13} /> 体验优势
+                          </p>
+                          <p className="text-[14.5px] font-black leading-7 text-[#25211D]">
+                            {row.pro.summary}
+                          </p>
+                          <div className="mt-4 space-y-2.5">
+                            {row.pro.voices.map((v, vi) => (
+                              <VoiceCard key={vi} voice={v} />
+                            ))}
+                          </div>
+                        </div>
+                        <div className="bg-[#FBF3F1] p-5 md:p-6">
+                          <p className="mb-3 flex items-center gap-1.5 text-[11px] font-black tracking-[0.1em] text-[#C0685C]">
+                            <TriangleAlert size={13} /> 体验劣势
+                          </p>
+                          <p className="text-[14.5px] font-black leading-7 text-[#25211D]">
+                            {row.con.summary}
+                          </p>
+                          <div className="mt-4 space-y-2.5">
+                            {row.con.voices.map((v, vi) => (
+                              <VoiceCard key={vi} voice={v} />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+
+              {/* 章节结论框 */}
+              <Reveal>
+                <div className="mt-12 rounded-[4px] border-l-4 border-[#E95B35] bg-white p-7 md:p-9">
+                  <p className="text-[20px] font-black leading-[1.7] text-[#25211D] md:text-[26px]">
+                    <Hi>有趣</Hi>解决了「愿不愿意看」，但
+                    <Hi color="#F5DCD5">儿童化表达和效果外化</Hi>
+                    决定了「能不能持续、值不值得买」。
+                  </p>
+                </div>
+              </Reveal>
+            </StoryModule>
+          </div>
         </div>
       </section>
 
@@ -1580,7 +1822,10 @@ export default function ConclusionsDemo() {
 
           <Reveal>
             <div className="mt-12 grid gap-8 rounded-[18px] bg-[#FFF4CC] p-6 md:p-10 lg:grid-cols-[1fr_auto] lg:items-center">
-              <VoiceLead voice={CLOSING_VOICE} eyebrow="效果外化已经有真实苗头" />
+              <VoiceLead
+                voice={CLOSING_VOICE}
+                eyebrow="效果外化已经有真实苗头"
+              />
               <a
                 href={SOURCE_URL}
                 target="_blank"
@@ -1689,7 +1934,9 @@ function ConcernDanmu({ items }: { items: string[] }) {
 
 /* 高亮数字（业务启发中的关键记忆锚点） */
 function MarkNums({ text }: { text: string }) {
-  const parts = text.split(/(\d[\d.,]*\s*(?:个|次|节|周|年|万|万级)?\+?|\d+\+)/g);
+  const parts = text.split(
+    /(\d[\d.,]*\s*(?:个|次|节|周|年|万|万级)?\+?|\d+\+)/g,
+  );
   return (
     <>
       {parts.map((p, i) =>
