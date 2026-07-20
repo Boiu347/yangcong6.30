@@ -25,8 +25,7 @@ import {
   type FamilyConclusionEvidence,
   type FamilyCoreConclusion,
 } from '@/pages/JiatingbaoCoreConclusions/jiatingbaoCoreConclusionsData';
-import { JIATINGBAO_CLIP_MAP } from '@/utils/jiatingbaoClipLookup';
-import { clipsForQuote } from '@/utils/sourceUtils';
+import { resolveJiatingbaoEvidenceAudio } from '@/utils/jiatingbaoEvidenceAudio';
 import './JiatingbaoConclusionsV3.css';
 
 const RESEARCH_RESOURCES = [
@@ -134,23 +133,20 @@ function ResearchDrawer() {
 }
 
 function EvidenceQuote({ item }: { item: FamilyConclusionEvidence }) {
-  const mappedClip = item.clipCaption
-    ? JIATINGBAO_CLIP_MAP[item.clipCaption]
-    : undefined;
-  const clips = mappedClip ? [mappedClip] : clipsForQuote(item.quote);
+  const audio = resolveJiatingbaoEvidenceAudio(item);
 
   return (
     <blockquote className="jtb-v3-evidence-quote">
       <Quote size={16} aria-hidden="true" />
       <p>“{item.quote}”</p>
       <footer>- {item.source}</footer>
-      {clips.length > 0 && (
+      {audio.clips.length > 0 && (
         <div className="jtb-v3-audio-wrap">
           <span>
             <Headphones size={13} aria-hidden="true" />
-            真实访谈原声
+            {audio.label}
           </span>
-          <EvidenceAudioClips clips={clips} className="jtb-v3-audio" />
+          <EvidenceAudioClips clips={audio.clips} className="jtb-v3-audio" />
         </div>
       )}
     </blockquote>
@@ -200,13 +196,14 @@ function ConclusionDocument({
               key={point.title}
               data-v3-point-reveal
             >
-              <div className="jtb-v3-point-number">
-                {String(pointIndex + 1).padStart(2, '0')}
-              </div>
-              <div className="jtb-v3-point-content">
+              <div className="jtb-v3-point-lead">
+                <div className="jtb-v3-point-number">
+                  {String(pointIndex + 1).padStart(2, '0')}
+                </div>
                 <h4>{point.title}</h4>
                 <p className="jtb-v3-point-summary">{point.text}</p>
-
+              </div>
+              <div className="jtb-v3-point-body">
                 {point.keyPoints && point.keyPoints.length > 0 && (
                   <div className="jtb-v3-keypoints">
                     {point.keyPoints.map((keyPoint, keyPointIndex) => {
