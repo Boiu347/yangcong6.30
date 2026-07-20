@@ -74,6 +74,16 @@ const audienceConclusions = familyCoreConclusions.filter(
   (item) => item.dimension === 'audience',
 );
 
+const CONCLUSION_LAYOUTS: Record<string, string> = {
+  'purchase-reasons': 'is-decision-chain',
+  'purchase-barriers': 'is-risk-ladder',
+  'audience-lower-primary': 'is-family-scenes',
+  'audience-upper-primary': 'is-triad',
+  'audience-other': 'is-opportunity-matrix',
+};
+
+const featuredVoice = purchaseConclusions[0]?.points[0]?.evidence?.[0];
+
 function ResearchDrawer() {
   return (
     <Sheet>
@@ -156,9 +166,11 @@ function ConclusionDocument({
   index: number;
   chapter: 'purchase' | 'audience';
 }) {
+  const layoutClass = CONCLUSION_LAYOUTS[item.id] ?? '';
+
   return (
     <article
-      className={`jtb-v3-document is-${chapter} is-index-${index + 1}`}
+      className={`jtb-v3-document is-${chapter} is-index-${index + 1} ${layoutClass}`}
       data-v3-section-reveal
       id={`jtb-v3-${item.id}`}
     >
@@ -184,7 +196,7 @@ function ConclusionDocument({
 
           return (
             <section
-              className="jtb-v3-point"
+              className={`jtb-v3-point is-point-${pointIndex + 1}`}
               key={point.title}
               data-v3-point-reveal
             >
@@ -379,38 +391,67 @@ export default function JiatingbaoConclusionsV3() {
       <main>
         <section className="jtb-v3-hero">
           <div className="jtb-v3-hero-inner">
-            <div className="jtb-v3-hero-copy">
+            <div className="jtb-v3-hero-copy jtb-v3-hero-judgment">
               <span className="jtb-v3-kicker" data-v3-hero-kicker>
                 洋葱学园 / 家庭包用户调研
               </span>
               <h1>
-                <span data-v3-hero-title>家庭包</span>
-                <span data-v3-hero-title>结论速览</span>
+                <span data-v3-hero-title>
+                  先解决一个孩子的<em>明确需求</em>，
+                </span>
+                <span data-v3-hero-title>
+                  再让另一个孩子的<em>长期价值</em>完成加码。
+                </span>
               </h1>
               <p className="jtb-v3-hero-subtitle" data-v3-hero-copy>
                 购买决策与机会人群地图
               </p>
               <p className="jtb-v3-hero-lead" data-v3-hero-copy>
-                沿着家长的决策过程，读完购买原因、顾虑与不同家庭组合的机会。
+                家庭包并非以“家庭”进入家长心智，而是先从某个孩子的具体学习场景切入。
               </p>
+
+              <div className="jtb-v3-hero-facts" data-v3-hero-copy>
+                <div>
+                  <span>主需求</span>
+                  <strong>一个孩子当下明确</strong>
+                </div>
+                <div>
+                  <span>价值加码</span>
+                  <strong>另一个孩子也能用</strong>
+                </div>
+                <div>
+                  <span>推动成交</span>
+                  <strong>对比辅导班更值得</strong>
+                </div>
+              </div>
             </div>
 
-            <nav className="jtb-v3-chapter-nav" aria-label="本页章节">
-              <a href="#jtb-v3-purchase" data-v3-chapter-link>
-                <div>
-                  <b>购买决策</b>
-                </div>
-                <p>成立原因 / 未成交卡点</p>
-                <ArrowDown size={18} aria-hidden="true" />
-              </a>
-              <a href="#jtb-v3-audience" data-v3-chapter-link>
-                <div>
-                  <b>机会人群地图</b>
-                </div>
-                <p>小低组 / 小高组 / 其他潜力组合</p>
-                <ArrowDown size={18} aria-hidden="true" />
-              </a>
-            </nav>
+            <div className="jtb-v3-hero-aside">
+              {featuredVoice && (
+                <figure className="jtb-v3-hero-voice" data-v3-hero-copy>
+                  <Quote size={22} aria-hidden="true" />
+                  <blockquote>“{featuredVoice.quote}”</blockquote>
+                  <figcaption>{featuredVoice.source}</figcaption>
+                </figure>
+              )}
+
+              <nav className="jtb-v3-chapter-nav" aria-label="本页章节">
+                <a href="#jtb-v3-purchase" data-v3-chapter-link>
+                  <div>
+                    <b>购买决策</b>
+                  </div>
+                  <p>成立原因 / 未成交卡点</p>
+                  <ArrowDown size={18} aria-hidden="true" />
+                </a>
+                <a href="#jtb-v3-audience" data-v3-chapter-link>
+                  <div>
+                    <b>机会人群地图</b>
+                  </div>
+                  <p>小低组 / 小高组 / 其他潜力组合</p>
+                  <ArrowDown size={18} aria-hidden="true" />
+                </a>
+              </nav>
+            </div>
           </div>
         </section>
 

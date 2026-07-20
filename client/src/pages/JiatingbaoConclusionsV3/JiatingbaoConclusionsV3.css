@@ -1270,3 +1270,565 @@
     animation-iteration-count: 1 !important;
   }
 }
+
+/* Conclusion-led editorial system */
+.jtb-v3-hero {
+  min-height: min(860px, calc(100svh - 48px));
+  padding-bottom: clamp(72px, 9vw, 120px);
+}
+
+.jtb-v3-hero-inner {
+  grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.62fr);
+  gap: clamp(46px, 7vw, 106px);
+}
+
+.jtb-v3-hero-judgment h1 {
+  max-width: 950px;
+  margin: 22px 0 24px;
+  font-size: clamp(44px, 6.3vw, 88px);
+  letter-spacing: -0.07em;
+  line-height: 1.02;
+}
+
+.jtb-v3-hero-judgment h1 span {
+  display: block;
+}
+
+.jtb-v3-hero-judgment h1 em {
+  color: var(--jtb-v3-orange);
+  font-style: normal;
+}
+
+.jtb-v3-hero-subtitle {
+  font-size: clamp(19px, 2vw, 27px);
+  font-weight: 850;
+  letter-spacing: -0.04em;
+}
+
+.jtb-v3-hero-facts {
+  display: grid;
+  max-width: 850px;
+  margin-top: 36px;
+  border-top: 1px solid var(--jtb-v3-line);
+  border-bottom: 1px solid var(--jtb-v3-line);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.jtb-v3-hero-facts > div {
+  min-width: 0;
+  padding: 18px 20px 19px 0;
+}
+
+.jtb-v3-hero-facts > div + div {
+  padding-left: 20px;
+  border-left: 1px solid var(--jtb-v3-line);
+}
+
+.jtb-v3-hero-facts span,
+.jtb-v3-hero-facts strong {
+  display: block;
+}
+
+.jtb-v3-hero-facts span {
+  margin-bottom: 6px;
+  color: var(--jtb-v3-orange);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+}
+
+.jtb-v3-hero-facts strong {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.jtb-v3-hero-aside {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 18px;
+  align-self: end;
+}
+
+.jtb-v3-hero-voice {
+  position: relative;
+  margin: 0;
+  padding: clamp(28px, 3.5vw, 46px);
+  color: #fff;
+  border-radius: 50% 50% 10px 50%;
+  background: var(--jtb-v3-ink);
+  box-shadow: 0 22px 54px rgba(23, 23, 23, 0.2);
+}
+
+.jtb-v3-hero-voice svg {
+  margin-bottom: 20px;
+  color: var(--jtb-v3-orange);
+}
+
+.jtb-v3-hero-voice blockquote {
+  margin: 0;
+  font-size: clamp(18px, 2vw, 26px);
+  font-weight: 780;
+  letter-spacing: -0.035em;
+  line-height: 1.55;
+}
+
+.jtb-v3-hero-voice figcaption {
+  margin-top: 20px;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.jtb-v3-chapter-nav {
+  background: rgba(255, 253, 248, 0.9);
+}
+
+.jtb-v3-chapter-nav a {
+  min-height: 96px;
+}
+
+.jtb-v3-documents {
+  gap: clamp(88px, 11vw, 150px);
+}
+
+.jtb-v3-document.is-decision-chain,
+.jtb-v3-document.is-risk-ladder,
+.jtb-v3-document.is-family-scenes,
+.jtb-v3-document.is-triad,
+.jtb-v3-document.is-opportunity-matrix {
+  margin-right: 0;
+  margin-left: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.jtb-v3-document.is-decision-chain::before,
+.jtb-v3-document.is-risk-ladder::before,
+.jtb-v3-document.is-family-scenes::before,
+.jtb-v3-document.is-triad::before,
+.jtb-v3-document.is-opportunity-matrix::before {
+  display: none;
+}
+
+.jtb-v3-document:is(
+    .is-decision-chain,
+    .is-risk-ladder,
+    .is-family-scenes,
+    .is-triad,
+    .is-opportunity-matrix
+  )
+  .jtb-v3-document-header {
+  display: grid;
+  margin-bottom: 28px;
+  padding: 0 0 28px;
+  color: var(--jtb-v3-ink);
+  border-bottom: 1px solid var(--jtb-v3-line);
+  background: transparent;
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+.jtb-v3-document:is(
+    .is-decision-chain,
+    .is-risk-ladder,
+    .is-family-scenes,
+    .is-triad,
+    .is-opportunity-matrix
+  )
+  .jtb-v3-document-header
+  p {
+  max-width: 760px;
+  color: var(--jtb-v3-muted);
+}
+
+.jtb-v3-document:is(
+    .is-decision-chain,
+    .is-risk-ladder,
+    .is-family-scenes,
+    .is-triad,
+    .is-opportunity-matrix
+  )
+  .jtb-v3-document-index {
+  color: #fff;
+  background: var(--jtb-v3-orange);
+}
+
+.jtb-v3-document:is(
+    .is-decision-chain,
+    .is-risk-ladder,
+    .is-family-scenes,
+    .is-triad,
+    .is-opportunity-matrix
+  )
+  .jtb-v3-points {
+  padding: 0;
+}
+
+.jtb-v3-document:is(
+    .is-decision-chain,
+    .is-risk-ladder,
+    .is-family-scenes,
+    .is-triad,
+    .is-opportunity-matrix
+  )
+  .jtb-v3-point {
+  border: 0;
+}
+
+.jtb-v3-document:is(
+    .is-decision-chain,
+    .is-risk-ladder,
+    .is-family-scenes,
+    .is-triad,
+    .is-opportunity-matrix
+  )
+  .jtb-v3-actions {
+  margin-top: 30px;
+  border: 1px solid rgba(23, 23, 23, 0.12);
+  border-radius: 10px;
+}
+
+.jtb-v3-document:is(
+    .is-decision-chain,
+    .is-risk-ladder,
+    .is-family-scenes,
+    .is-triad,
+    .is-opportunity-matrix
+  )
+  .jtb-v3-evidence-note {
+  margin-top: 14px;
+  padding-right: 0;
+  padding-left: 0;
+  border-top: 0;
+  background: transparent;
+}
+
+/* 01. Purchase reasons become a decision chain. */
+.jtb-v3-document.is-decision-chain .jtb-v3-points {
+  position: relative;
+  display: grid;
+  gap: 22px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.jtb-v3-document.is-decision-chain .jtb-v3-points::before {
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  right: 10%;
+  left: 10%;
+  height: 2px;
+  background: var(--jtb-v3-orange);
+  content: '';
+}
+
+.jtb-v3-document.is-decision-chain .jtb-v3-point {
+  position: relative;
+  z-index: 1;
+  display: block;
+  min-width: 0;
+  padding: clamp(26px, 3.5vw, 40px);
+  border: 1px solid rgba(23, 23, 23, 0.14);
+  border-radius: 10px;
+  background: var(--jtb-v3-white);
+}
+
+.jtb-v3-document.is-decision-chain .jtb-v3-point-number {
+  margin-bottom: 34px;
+  color: var(--jtb-v3-orange);
+  font-size: clamp(28px, 4vw, 50px);
+}
+
+.jtb-v3-document.is-decision-chain .jtb-v3-point:nth-child(2),
+.jtb-v3-document.is-decision-chain .jtb-v3-point:nth-child(3) {
+  background: var(--jtb-v3-orange-soft);
+}
+
+.jtb-v3-document.is-decision-chain .jtb-v3-point:nth-child(4) {
+  color: #fff;
+  background: var(--jtb-v3-ink);
+}
+
+.jtb-v3-document.is-decision-chain
+  .jtb-v3-point:nth-child(4)
+  :is(.jtb-v3-point-summary, .jtb-v3-evidence-quote > footer) {
+  color: rgba(255, 255, 255, 0.66);
+}
+
+/* 02. Purchase barriers are a widening risk ladder. */
+.jtb-v3-document.is-risk-ladder .jtb-v3-points {
+  display: grid;
+  gap: 16px;
+}
+
+.jtb-v3-document.is-risk-ladder .jtb-v3-point {
+  display: grid;
+  width: 78%;
+  padding: clamp(28px, 4vw, 48px);
+  border-radius: 10px;
+  background: #e7e0d5;
+  grid-template-columns: 66px minmax(0, 1fr);
+}
+
+.jtb-v3-document.is-risk-ladder .jtb-v3-point:nth-child(2) {
+  width: 89%;
+  background: #d6cec1;
+}
+
+.jtb-v3-document.is-risk-ladder .jtb-v3-point:nth-child(3) {
+  width: 100%;
+  color: #fff;
+  background: var(--jtb-v3-ink);
+}
+
+.jtb-v3-document.is-risk-ladder
+  .jtb-v3-point:nth-child(3)
+  :is(.jtb-v3-point-summary, .jtb-v3-evidence-quote > footer) {
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.jtb-v3-document.is-risk-ladder .jtb-v3-point-number {
+  color: var(--jtb-v3-orange);
+  font-size: clamp(26px, 3.6vw, 46px);
+}
+
+/* 03. Lower-primary opportunities are shown as family scenes. */
+.jtb-v3-document.is-family-scenes .jtb-v3-points {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.jtb-v3-document.is-family-scenes .jtb-v3-point {
+  display: block;
+  min-width: 0;
+  padding: clamp(28px, 4vw, 46px);
+  border: 1px solid rgba(23, 23, 23, 0.14);
+  border-radius: 50px 10px 10px;
+  background: var(--jtb-v3-white);
+}
+
+.jtb-v3-document.is-family-scenes .jtb-v3-point:first-child {
+  display: grid;
+  border-radius: 10px 70px 10px 10px;
+  background: var(--jtb-v3-orange-soft);
+  grid-column: 1 / -1;
+  grid-template-columns: 72px minmax(0, 1fr);
+}
+
+.jtb-v3-document.is-family-scenes .jtb-v3-point-number {
+  margin-bottom: 26px;
+  color: var(--jtb-v3-orange);
+  font-size: clamp(26px, 3.5vw, 44px);
+}
+
+/* 04. Upper-primary findings become demand, advantage and risk. */
+.jtb-v3-document.is-triad .jtb-v3-points {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 1.2fr 1fr 1fr;
+}
+
+.jtb-v3-document.is-triad .jtb-v3-point {
+  display: block;
+  min-width: 0;
+  padding: clamp(24px, 3vw, 36px);
+  border: 1px solid rgba(23, 23, 23, 0.14);
+  border-radius: 10px;
+  background: var(--jtb-v3-white);
+}
+
+.jtb-v3-document.is-triad .jtb-v3-point:nth-child(2) {
+  background: var(--jtb-v3-orange-soft);
+}
+
+.jtb-v3-document.is-triad .jtb-v3-point:nth-child(3) {
+  color: #fff;
+  background: var(--jtb-v3-ink);
+}
+
+.jtb-v3-document.is-triad
+  .jtb-v3-point:nth-child(3)
+  :is(.jtb-v3-point-summary, .jtb-v3-evidence-quote > footer) {
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.jtb-v3-document.is-triad .jtb-v3-point-number {
+  margin-bottom: 28px;
+  color: var(--jtb-v3-orange);
+  font-size: clamp(25px, 3vw, 39px);
+}
+
+/* 05. Remaining combinations form an asymmetric opportunity matrix. */
+.jtb-v3-document.is-opportunity-matrix .jtb-v3-points {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1.35fr 1fr;
+}
+
+.jtb-v3-document.is-opportunity-matrix .jtb-v3-point {
+  display: block;
+  min-width: 0;
+  padding: clamp(28px, 3.5vw, 42px);
+  border: 1px solid rgba(23, 23, 23, 0.14);
+  border-radius: 10px;
+  background: var(--jtb-v3-white);
+}
+
+.jtb-v3-document.is-opportunity-matrix .jtb-v3-point:first-child {
+  color: #fff;
+  background: var(--jtb-v3-ink);
+  grid-row: span 2;
+}
+
+.jtb-v3-document.is-opportunity-matrix
+  .jtb-v3-point:first-child
+  :is(.jtb-v3-point-summary, .jtb-v3-evidence-quote > footer) {
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.jtb-v3-document.is-opportunity-matrix .jtb-v3-point:nth-child(2) {
+  background: var(--jtb-v3-orange-soft);
+}
+
+.jtb-v3-document.is-opportunity-matrix .jtb-v3-point-number {
+  margin-bottom: 28px;
+  color: var(--jtb-v3-orange);
+  font-size: clamp(25px, 3vw, 40px);
+}
+
+.jtb-v3-document:is(
+    .is-decision-chain,
+    .is-risk-ladder,
+    .is-family-scenes,
+    .is-triad,
+    .is-opportunity-matrix
+  )
+  .jtb-v3-evidence-quote {
+  color: var(--jtb-v3-ink);
+  background: rgba(255, 253, 248, 0.84);
+}
+
+@media (max-width: 1160px) {
+  .jtb-v3-hero-inner {
+    grid-template-columns: minmax(0, 1.3fr) minmax(270px, 0.7fr);
+    gap: 42px;
+  }
+
+  .jtb-v3-document.is-triad .jtb-v3-points {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .jtb-v3-document.is-triad .jtb-v3-point:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 900px) {
+  .jtb-v3-hero-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .jtb-v3-hero-aside {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    align-items: stretch;
+  }
+
+  .jtb-v3-hero-voice {
+    border-radius: 80px 10px 10px 10px;
+  }
+
+  .jtb-v3-chapter-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .jtb-v3-document.is-decision-chain .jtb-v3-points,
+  .jtb-v3-document.is-family-scenes .jtb-v3-points,
+  .jtb-v3-document.is-opportunity-matrix .jtb-v3-points {
+    grid-template-columns: 1fr;
+  }
+
+  .jtb-v3-document.is-family-scenes .jtb-v3-point:first-child,
+  .jtb-v3-document.is-opportunity-matrix .jtb-v3-point:first-child {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .jtb-v3-document.is-decision-chain .jtb-v3-points::before {
+    top: 5%;
+    bottom: 5%;
+    left: 28px;
+    width: 2px;
+    height: auto;
+  }
+}
+
+@media (max-width: 680px) {
+  .jtb-v3-hero-judgment h1 {
+    font-size: clamp(40px, 12.5vw, 62px);
+  }
+
+  .jtb-v3-hero-facts,
+  .jtb-v3-hero-aside {
+    grid-template-columns: 1fr;
+  }
+
+  .jtb-v3-hero-facts > div {
+    padding: 14px 0;
+  }
+
+  .jtb-v3-hero-facts > div + div {
+    padding-left: 0;
+    border-top: 1px solid var(--jtb-v3-line);
+    border-left: 0;
+  }
+
+  .jtb-v3-hero-voice {
+    border-radius: 70px 10px 10px 10px;
+  }
+
+  .jtb-v3-document:is(
+      .is-decision-chain,
+      .is-risk-ladder,
+      .is-family-scenes,
+      .is-triad,
+      .is-opportunity-matrix
+    )
+    .jtb-v3-document-header {
+    grid-template-columns: 1fr;
+  }
+
+  .jtb-v3-document.is-decision-chain .jtb-v3-point,
+  .jtb-v3-document.is-risk-ladder .jtb-v3-point,
+  .jtb-v3-document.is-family-scenes .jtb-v3-point,
+  .jtb-v3-document.is-family-scenes .jtb-v3-point:first-child,
+  .jtb-v3-document.is-triad .jtb-v3-point,
+  .jtb-v3-document.is-opportunity-matrix .jtb-v3-point {
+    display: block;
+    width: 100%;
+    padding: 28px 20px;
+    border-radius: 9px;
+  }
+
+  .jtb-v3-document.is-triad .jtb-v3-points {
+    grid-template-columns: 1fr;
+  }
+
+  .jtb-v3-document.is-triad .jtb-v3-point:first-child {
+    grid-column: auto;
+  }
+
+  .jtb-v3-document:is(
+      .is-decision-chain,
+      .is-risk-ladder,
+      .is-family-scenes,
+      .is-triad,
+      .is-opportunity-matrix
+    )
+    .jtb-v3-point-number {
+    margin-bottom: 22px;
+  }
+}
