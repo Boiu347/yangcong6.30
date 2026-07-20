@@ -14,6 +14,7 @@ import ConclusionsLegacyDemo from './pages/Summary/ConclusionsDemo';
 import CoreConclusionsReport from './pages/CoreConclusions/CoreConclusionsReport';
 import JiatingbaoConclusionsDemo from './pages/JiatingbaoConclusionsDemo/JiatingbaoConclusionsDemo';
 import JiatingbaoConclusionsV2 from './pages/JiatingbaoConclusionsV2/JiatingbaoConclusionsV2';
+import JiatingbaoConclusionsV3 from './pages/JiatingbaoConclusionsV3/JiatingbaoConclusionsV3';
 import QualitativePage from './pages/Qualitative/QualitativePage';
 import TypicalFamilyStories from './pages/FamilyPackage/TypicalFamilyStories';
 import JiatingbaoConclusionsReport from './pages/JiatingbaoConclusions/JiatingbaoConclusionsReport';
@@ -83,6 +84,7 @@ const RoutesComponent = () => {
         <Route path="core-conclusions" element={<ProjectCoreConclusionsPage />} />
         <Route path="conclusions-demo" element={<Navigate to="../summary-demo" replace />} />
         <Route path="conclusions-v2" element={<JiatingbaoConclusionsV2 />} />
+        <Route path="conclusions-v3" element={<JiatingbaoConclusionsV3 />} />
         <Route path="portraits" element={<PortraitsV2Page />} />
         <Route path="portraits-v2" element={<Navigate to="../portraits" replace />} />
         <Route path="qualitative" element={<ProjectQualitativePage />} />

@@ -17,6 +17,8 @@ import {
 import EvidenceAudioClips from '@/components/EvidenceAudioClips';
 import type { EvidenceClip } from '@/utils/evidenceClipLookup';
 import { cn } from '@/lib/utils';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 // summary-demo-legacy：把「主页面 2：核心结论」重构为编辑部叙事 × 真实声场的深度专题。
 // 内容全部取自飞书主页面 2（成交原因 / 未成交卡点 / 产品体验）原文，不增删、不编造；
@@ -25,7 +27,8 @@ import { cn } from '@/lib/utils';
 const SOURCE_URL =
   'https://guanghe.feishu.cn/wiki/XvjcwdzsZiEiJ1kF9UOcburXnig?from=from_copylink';
 
-const BASE_PATH = process.env.CLIENT_BASE_PATH || '';
+const BASE_PATH =
+  typeof process !== 'undefined' ? process.env.CLIENT_BASE_PATH || '' : '';
 
 const RESEARCH_SOURCE_LINKS = [
   {
@@ -122,9 +125,12 @@ function Reveal({
   return (
     <div
       ref={ref}
-      style={{ transitionDelay: shown ? `${delay}ms` : '0ms' }}
+      style={{
+        transitionDelay: shown ? `${delay}ms` : '0ms',
+        willChange: shown ? 'auto' : 'opacity, transform',
+      }}
       className={cn(
-        'transition-[opacity,transform] duration-[650ms] ease-out will-change-transform',
+        'transition-[opacity,transform] duration-[650ms] ease-out',
         shown
           ? 'translate-y-0 scale-100 opacity-100'
           : 'translate-y-6 scale-[0.985] opacity-0',
@@ -150,6 +156,7 @@ function Hi({
   return (
     <span className={cn('relative inline-block', className)}>
       <span
+        data-gsap-highlight
         className="absolute inset-x-[-3px] bottom-[3px] -z-10 h-[34%] -rotate-1"
         style={{ backgroundColor: color }}
       />
@@ -170,12 +177,14 @@ function ChapterMarker({
   const light = tone === 'light';
   return (
     <div
+      data-gsap-chapter-marker
       className={cn(
         'mb-10 flex items-center gap-4 text-[15px] font-black tracking-[0.08em]',
         light ? 'text-white/60' : 'text-[#83796E]',
       )}
     >
       <span
+        data-gsap-chapter-number
         className={cn(
           'grid size-10 place-items-center rounded-full border text-[13px] tracking-normal',
           light
@@ -185,7 +194,7 @@ function ChapterMarker({
       >
         {number}
       </span>
-      {label}
+      <span data-gsap-chapter-label>{label}</span>
     </div>
   );
 }
@@ -272,11 +281,17 @@ function StoryModule({
   return (
     <section
       id={id}
-      className="scroll-mt-14 border-t-2 pt-7 md:pt-9"
-      style={{ borderColor: colors.line }}
+      data-gsap-module
+      className="relative scroll-mt-14 border-t-2 pt-7 md:pt-9"
+      style={{ borderColor: colors.wash }}
     >
+      <span
+        data-gsap-module-line
+        className="pointer-events-none absolute inset-x-0 -top-0.5 h-0.5 origin-left"
+        style={{ backgroundColor: colors.line }}
+      />
       <header className="grid gap-4 md:grid-cols-[156px_minmax(0,1fr)] md:items-start">
-        <div>
+        <div data-gsap-module-code>
           <p
             className="flex items-center gap-3 font-black"
             style={{ color: colors.accent }}
@@ -296,7 +311,7 @@ function StoryModule({
             {label}
           </p>
         </div>
-        <div>
+        <div data-gsap-module-title>
           <h3 className="mt-2 text-[22px] font-black leading-[1.35] tracking-[-0.02em] text-[#25211D] md:text-[27px]">
             {title}
           </h3>
@@ -466,7 +481,7 @@ function DataBars({
   const max = Math.max(...data.map((d) => d.value), 1);
   const meterMax = scale === 'absolute' ? 100 : max;
   return (
-    <div className="space-y-3">
+    <div data-gsap-bars data-gsap-count-group className="space-y-3">
       {data.map((d) => {
         const widthPct = scale === 'absolute' ? d.value : (d.value / max) * 100;
         return (
@@ -489,6 +504,7 @@ function DataBars({
               aria-label={d.label}
             >
               <div
+                data-gsap-bar
                 className="h-full rounded-full transition-[width] duration-700 ease-out"
                 style={{
                   width: `${Math.min(100, Math.max(0, widthPct))}%`,
@@ -498,6 +514,9 @@ function DataBars({
               />
             </div>
             <span
+              data-gsap-count
+              data-value={d.value}
+              data-suffix={unit}
               className="text-right text-[12.5px] font-black tabular-nums"
               style={{ color }}
             >
@@ -992,26 +1011,435 @@ function getScrollParent(el: HTMLElement | null): HTMLElement | null {
 
 export default function ConclusionsDemo() {
   const mainRef = React.useRef<HTMLElement>(null);
-  const [progress, setProgress] = React.useState(0);
+  const progressRef = React.useRef<HTMLDivElement>(null);
+  const jumpTimerRef = React.useRef<number | null>(null);
+  const landingTweenRef = React.useRef<gsap.core.Tween | null>(null);
+  const landingFeedbackRef = React.useRef<(target: HTMLElement) => void>(
+    () => undefined,
+  );
   const [barColor, setBarColor] = React.useState('#E95B35');
 
   const jumpToId = React.useCallback((id: string) => {
     const target = document.getElementById(id);
     if (!target) return;
     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (jumpTimerRef.current !== null)
+      window.clearTimeout(jumpTimerRef.current);
+    jumpTimerRef.current = window.setTimeout(() => {
+      landingFeedbackRef.current(target);
+    }, 520);
   }, []);
 
-  React.useEffect(() => {
-    const scroller =
-      getScrollParent(mainRef.current) ?? document.documentElement;
-    const onScroll = () => {
-      const scrolled = scroller.scrollTop;
-      const total = scroller.scrollHeight - scroller.clientHeight;
-      setProgress(total > 0 ? Math.min(100, (scrolled / total) * 100) : 0);
+  React.useLayoutEffect(() => {
+    const main = mainRef.current;
+    if (!main) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+    const scroller = getScrollParent(main);
+    const scrollerVars = scroller ? { scroller } : {};
+    const media = gsap.matchMedia();
+
+    media.add(
+      {
+        motionSafe: '(prefers-reduced-motion: no-preference)',
+        reduceMotion: '(prefers-reduced-motion: reduce)',
+      },
+      (context) => {
+        const reduceMotion = Boolean(context.conditions?.reduceMotion);
+        const progress = progressRef.current;
+        const restoreCounterText: Array<() => void> = [];
+
+        if (progress) {
+          gsap.set(progress, {
+            scaleX: 0,
+            transformOrigin: 'left center',
+          });
+          ScrollTrigger.create({
+            trigger: main,
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: true,
+            ...scrollerVars,
+            onUpdate: (self) => gsap.set(progress, { scaleX: self.progress }),
+          });
+        }
+
+        if (reduceMotion) {
+          landingFeedbackRef.current = () => undefined;
+          return () => {
+            if (progress) gsap.set(progress, { clearProps: 'transform' });
+          };
+        }
+
+        const heroMeta = main.querySelector<HTMLElement>(
+          '[data-gsap-hero-meta]',
+        );
+        const heroKicker = main.querySelector<HTMLElement>(
+          '[data-gsap-hero-kicker]',
+        );
+        const heroTitle = main.querySelector<HTMLElement>(
+          '[data-gsap-hero-title]',
+        );
+        const heroBody = main.querySelector<HTMLElement>(
+          '[data-gsap-hero-body]',
+        );
+        const heroStats = gsap.utils.toArray<HTMLElement>(
+          '[data-gsap-hero-stat]',
+          main,
+        );
+        const heroVoice = main.querySelector<HTMLElement>(
+          '[data-gsap-hero-voice]',
+        );
+        const heroCue = main.querySelector<HTMLElement>('[data-gsap-hero-cue]');
+        const heroHighlights = heroTitle
+          ? gsap.utils.toArray<HTMLElement>(
+              heroTitle.querySelectorAll('[data-gsap-highlight]'),
+            )
+          : [];
+        const heroSequence = [
+          heroMeta,
+          heroKicker,
+          heroTitle,
+          heroBody,
+          ...heroStats,
+          heroVoice,
+          heroCue,
+        ].filter((node): node is HTMLElement => Boolean(node));
+
+        gsap.set(heroSequence, { autoAlpha: 0, y: 20 });
+        gsap.set(heroHighlights, {
+          scaleX: 0,
+          transformOrigin: 'left center',
+        });
+
+        const heroTimeline = gsap.timeline({
+          defaults: { duration: 0.55, ease: 'power2.out' },
+        });
+        if (heroMeta) heroTimeline.to(heroMeta, { autoAlpha: 1, y: 0 }, 0);
+        if (heroKicker)
+          heroTimeline.to(heroKicker, { autoAlpha: 1, y: 0 }, 0.12);
+        if (heroTitle) heroTimeline.to(heroTitle, { autoAlpha: 1, y: 0 }, 0.22);
+        if (heroHighlights.length)
+          heroTimeline.to(
+            heroHighlights,
+            { scaleX: 1, duration: 0.48, stagger: 0.12 },
+            0.48,
+          );
+        if (heroBody) heroTimeline.to(heroBody, { autoAlpha: 1, y: 0 }, 0.48);
+        if (heroStats.length)
+          heroTimeline.to(
+            heroStats,
+            { autoAlpha: 1, y: 0, stagger: 0.08, duration: 0.42 },
+            0.62,
+          );
+        if (heroVoice) heroTimeline.to(heroVoice, { autoAlpha: 1, y: 0 }, 0.72);
+        if (heroCue) heroTimeline.to(heroCue, { autoAlpha: 1, y: 0 }, 0.94);
+
+        const genericHighlights = gsap.utils
+          .toArray<HTMLElement>('[data-gsap-highlight]', main)
+          .filter((mark) => !mark.closest('[data-gsap-hero-title]'));
+        genericHighlights.forEach((mark) => {
+          gsap.fromTo(
+            mark,
+            { scaleX: 0, transformOrigin: 'left center' },
+            {
+              scaleX: 1,
+              duration: 0.65,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: mark.parentElement ?? mark,
+                start: 'top 84%',
+                once: true,
+                ...scrollerVars,
+              },
+            },
+          );
+        });
+
+        const navGrid = main.querySelector<HTMLElement>('[data-gsap-nav-grid]');
+        const navCards = gsap.utils.toArray<HTMLElement>(
+          '[data-gsap-nav-card]',
+          main,
+        );
+        if (navGrid && navCards.length) {
+          gsap.fromTo(
+            navCards,
+            { autoAlpha: 0, y: 22 },
+            {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.58,
+              stagger: 0.1,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: navGrid,
+                start: 'top 84%',
+                once: true,
+                ...scrollerVars,
+              },
+            },
+          );
+        }
+
+        gsap.utils
+          .toArray<HTMLElement>('[data-gsap-chapter-marker]', main)
+          .forEach((marker) => {
+            const number = marker.querySelector<HTMLElement>(
+              '[data-gsap-chapter-number]',
+            );
+            const label = marker.querySelector<HTMLElement>(
+              '[data-gsap-chapter-label]',
+            );
+            const timeline = gsap.timeline({
+              scrollTrigger: {
+                trigger: marker,
+                start: 'top 86%',
+                once: true,
+                ...scrollerVars,
+              },
+            });
+            if (number)
+              timeline.fromTo(
+                number,
+                { autoAlpha: 0, scale: 0.72, rotation: -12 },
+                {
+                  autoAlpha: 1,
+                  scale: 1,
+                  rotation: 0,
+                  duration: 0.48,
+                  ease: 'back.out(1.7)',
+                },
+              );
+            if (label)
+              timeline.fromTo(
+                label,
+                { autoAlpha: 0, x: -10 },
+                { autoAlpha: 1, x: 0, duration: 0.42, ease: 'power2.out' },
+                '<0.12',
+              );
+          });
+
+        gsap.utils
+          .toArray<HTMLElement>('[data-gsap-module]', main)
+          .forEach((module) => {
+            const line = module.querySelector<HTMLElement>(
+              '[data-gsap-module-line]',
+            );
+            const code = module.querySelector<HTMLElement>(
+              '[data-gsap-module-code]',
+            );
+            const title = module.querySelector<HTMLElement>(
+              '[data-gsap-module-title]',
+            );
+            const timeline = gsap.timeline({
+              scrollTrigger: {
+                trigger: module,
+                start: 'top 82%',
+                once: true,
+                ...scrollerVars,
+              },
+            });
+            if (line)
+              timeline.fromTo(
+                line,
+                { scaleX: 0, transformOrigin: 'left center' },
+                { scaleX: 1, duration: 0.68, ease: 'power2.out' },
+              );
+            if (code)
+              timeline.fromTo(
+                code,
+                { autoAlpha: 0, x: -14 },
+                { autoAlpha: 1, x: 0, duration: 0.46, ease: 'power2.out' },
+                '<0.08',
+              );
+            if (title)
+              timeline.fromTo(
+                title,
+                { autoAlpha: 0, y: 14 },
+                { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+                '<0.1',
+              );
+          });
+
+        gsap.utils
+          .toArray<HTMLElement>('[data-gsap-bars]', main)
+          .forEach((group) => {
+            const bars = gsap.utils.toArray<HTMLElement>(
+              group.querySelectorAll('[data-gsap-bar]'),
+            );
+            gsap.fromTo(
+              bars,
+              { scaleX: 0, transformOrigin: 'left center' },
+              {
+                scaleX: 1,
+                duration: 0.72,
+                stagger: 0.08,
+                ease: 'power2.out',
+                scrollTrigger: {
+                  trigger: group,
+                  start: 'top 84%',
+                  once: true,
+                  ...scrollerVars,
+                },
+              },
+            );
+          });
+
+        gsap.utils
+          .toArray<HTMLElement>('[data-gsap-count-group]', main)
+          .forEach((group) => {
+            const counters = gsap.utils.toArray<HTMLElement>(
+              group.querySelectorAll('[data-gsap-count]'),
+            );
+            if (!counters.length) return;
+            const timeline = gsap.timeline({
+              scrollTrigger: {
+                trigger: group,
+                start: 'top 84%',
+                once: true,
+                ...scrollerVars,
+              },
+            });
+            counters.forEach((counter, index) => {
+              const target = Number(counter.dataset.value ?? 0);
+              const suffix = counter.dataset.suffix ?? '';
+              const decimals = String(counter.dataset.value ?? '').includes('.')
+                ? (String(counter.dataset.value).split('.')[1]?.length ?? 0)
+                : 0;
+              const original = counter.textContent ?? `${target}${suffix}`;
+              const proxy = { value: 0 };
+              restoreCounterText.push(() => {
+                counter.textContent = original;
+              });
+              counter.textContent = `0${suffix}`;
+              gsap.set(counter, { autoAlpha: 0, y: 8 });
+              const position = index * 0.08;
+              timeline.to(
+                counter,
+                { autoAlpha: 1, y: 0, duration: 0.3, ease: 'power2.out' },
+                position,
+              );
+              timeline.to(
+                proxy,
+                {
+                  value: target,
+                  duration: 0.78,
+                  ease: 'power2.out',
+                  onUpdate: () => {
+                    counter.textContent = `${proxy.value.toFixed(decimals)}${suffix}`;
+                  },
+                },
+                position,
+              );
+            });
+          });
+
+        const purchaseSteps = gsap.utils.toArray<HTMLElement>(
+          '[data-gsap-purchase-step]',
+          main,
+        );
+        const purchaseFlow = main.querySelector<HTMLElement>(
+          '[data-gsap-purchase-flow]',
+        );
+        if (purchaseFlow && purchaseSteps.length) {
+          gsap.fromTo(
+            purchaseSteps,
+            { autoAlpha: 0, x: -18 },
+            {
+              autoAlpha: 1,
+              x: 0,
+              duration: 0.5,
+              stagger: 0.16,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: purchaseFlow,
+                start: 'top 82%',
+                once: true,
+                ...scrollerVars,
+              },
+            },
+          );
+        }
+
+        const sceneFlow = main.querySelector<HTMLElement>(
+          '[data-gsap-scene-flow]',
+        );
+        const sceneSteps = gsap.utils.toArray<HTMLElement>(
+          '[data-gsap-scene-step]',
+          main,
+        );
+        if (sceneFlow && sceneSteps.length) {
+          gsap.fromTo(
+            sceneSteps,
+            { autoAlpha: 0, x: -18, y: 10 },
+            {
+              autoAlpha: 1,
+              x: 0,
+              y: 0,
+              duration: 0.52,
+              stagger: 0.13,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: sceneFlow,
+                start: 'top 84%',
+                once: true,
+                ...scrollerVars,
+              },
+            },
+          );
+        }
+
+        landingFeedbackRef.current = (target) => {
+          const focus =
+            target.querySelector<HTMLElement>('[data-gsap-module-title]') ??
+            target.querySelector<HTMLElement>('h2, h3') ??
+            target;
+          landingTweenRef.current?.kill();
+          landingTweenRef.current = gsap.fromTo(
+            focus,
+            { autoAlpha: 0.58, x: 14 },
+            {
+              autoAlpha: 1,
+              x: 0,
+              duration: 0.58,
+              ease: 'power3.out',
+              overwrite: 'auto',
+              clearProps: 'transform,opacity,visibility',
+            },
+          );
+        };
+
+        return () => {
+          restoreCounterText.forEach((restore) => restore());
+          landingFeedbackRef.current = () => undefined;
+        };
+      },
+      main,
+    );
+
+    const refreshCall = gsap
+      .delayedCall(0.12, () => ScrollTrigger.refresh())
+      .pause();
+    const requestRefresh = () => refreshCall.restart(true);
+    const pendingImages = Array.from(
+      main.querySelectorAll<HTMLImageElement>('img[loading="lazy"]'),
+    ).filter((image) => !image.complete);
+    pendingImages.forEach((image) =>
+      image.addEventListener('load', requestRefresh),
+    );
+    requestRefresh();
+
+    return () => {
+      pendingImages.forEach((image) =>
+        image.removeEventListener('load', requestRefresh),
+      );
+      refreshCall.kill();
+      media.revert();
+      landingTweenRef.current?.kill();
+      landingTweenRef.current = null;
+      if (jumpTimerRef.current !== null)
+        window.clearTimeout(jumpTimerRef.current);
     };
-    onScroll();
-    scroller.addEventListener('scroll', onScroll, { passive: true });
-    return () => scroller.removeEventListener('scroll', onScroll);
   }, []);
 
   React.useEffect(() => {
@@ -1046,8 +1474,9 @@ export default function ConclusionsDemo() {
       {/* 顶部细阅读进度线 */}
       <div className="fixed inset-x-0 top-0 z-50 h-[3px] bg-transparent">
         <div
-          className="h-full transition-[width,background-color] duration-300 ease-out"
-          style={{ width: `${progress}%`, backgroundColor: barColor }}
+          ref={progressRef}
+          className="h-full transition-colors duration-300 ease-out"
+          style={{ backgroundColor: barColor }}
         />
       </div>
 
@@ -1058,7 +1487,10 @@ export default function ConclusionsDemo() {
       >
         <div className="pointer-events-none absolute -right-24 top-14 -z-10 size-[420px] rounded-full border-[72px] border-[#E95B35]/10 md:size-[620px]" />
         <div className="mx-auto flex min-h-[calc(100vh-52px)] max-w-[1280px] flex-col px-5 py-8 md:px-10 md:py-12 lg:px-14">
-          <div className="flex flex-col gap-3 border-b border-[#CFC3B5] pb-4 md:flex-row md:items-center md:justify-between">
+          <div
+            data-gsap-hero-meta
+            className="flex flex-col gap-3 border-b border-[#CFC3B5] pb-4 md:flex-row md:items-center md:justify-between"
+          >
             <p className="text-[11px] font-black tracking-[0.18em] text-[#9C4A2F]">
               从小学系列售卖策略调研 · 核心结论
             </p>
@@ -1066,12 +1498,18 @@ export default function ConclusionsDemo() {
           </div>
 
           <div className="grid flex-1 items-center gap-12 py-12 lg:grid-cols-[minmax(0,1.35fr)_minmax(320px,.65fr)] lg:gap-16">
-            <Reveal>
-              <p className="mb-7 inline-flex items-center gap-2 rounded-full border border-[#CFC3B5] px-3 py-1.5 text-[11px] font-black tracking-[0.12em] text-[#73695F]">
+            <div>
+              <p
+                data-gsap-hero-kicker
+                className="mb-7 inline-flex items-center gap-2 rounded-full border border-[#CFC3B5] px-3 py-1.5 text-[11px] font-black tracking-[0.12em] text-[#73695F]"
+              >
                 <Sparkles size={13} className="text-[#E95B35]" />
                 一句话总判断
               </p>
-              <h1 className="max-w-[920px] text-[40px] font-black leading-[1.14] tracking-[-0.045em] sm:text-[54px] md:text-[68px] lg:text-[76px]">
+              <h1
+                data-gsap-hero-title
+                className="max-w-[920px] text-[40px] font-black leading-[1.14] tracking-[-0.045em] sm:text-[54px] md:text-[68px] lg:text-[76px]"
+              >
                 从小学物理，卖的不是
                 <Hi>更早学物理</Hi>，
                 <br className="hidden md:block" />
@@ -1079,7 +1517,10 @@ export default function ConclusionsDemo() {
                 <span className="text-[#E95B35]">「不陌生、不畏难」</span>
                 的确定感。
               </h1>
-              <p className="mt-8 max-w-[680px] text-[16px] font-semibold leading-8 text-[#655D54] md:text-[19px] md:leading-9">
+              <p
+                data-gsap-hero-body
+                className="mt-8 max-w-[680px] text-[16px] font-semibold leading-8 text-[#655D54] md:text-[19px] md:leading-9"
+              >
                 孩子因为有趣愿意看，家长因为未来学理科
                 <span className="font-black text-[#191816]">
                   不陌生、不畏难
@@ -1094,7 +1535,11 @@ export default function ConclusionsDemo() {
                   ['购买入口', '孩子愿意看'],
                   ['成交理由', '未来学理科更轻松'],
                 ].map(([label, value]) => (
-                  <div key={label} className="border-t-2 border-[#191816] pt-3">
+                  <div
+                    key={label}
+                    data-gsap-hero-stat
+                    className="border-t-2 border-[#191816] pt-3"
+                  >
                     <p className="text-[11px] font-bold text-[#83796E]">
                       {label}
                     </p>
@@ -1104,16 +1549,17 @@ export default function ConclusionsDemo() {
                   </div>
                 ))}
               </div>
-            </Reveal>
+            </div>
 
-            <Reveal delay={120}>
+            <div data-gsap-hero-voice>
               <div className="border-y border-[#D8CCBC] py-6 lg:border-y-0 lg:border-l lg:py-3 lg:pl-8">
                 <VoiceLead voice={HERO_VOICE} eyebrow="先听第一条真实声音" />
               </div>
-            </Reveal>
+            </div>
           </div>
 
           <button
+            data-gsap-hero-cue
             type="button"
             onClick={() => jumpToId('ch1')}
             className="flex w-fit items-center gap-2 pb-1 text-[12px] font-black tracking-[0.12em] text-[#655D54]"
@@ -1130,10 +1576,14 @@ export default function ConclusionsDemo() {
           <p className="mb-8 text-[14px] font-black tracking-[0.12em] text-[#83796E]">
             三个研究问题 · 八个内容模组
           </p>
-          <div className="grid gap-4 md:grid-cols-3 md:gap-5">
+          <div
+            data-gsap-nav-grid
+            className="grid gap-4 md:grid-cols-3 md:gap-5"
+          >
             {CHAPTERS.map((c) => (
               <div
                 key={c.id}
+                data-gsap-nav-card
                 className="group flex h-full flex-col justify-between rounded-[18px] border border-[#E0D5C6] bg-white px-5 py-6 shadow-[0_10px_28px_-24px_rgba(60,45,30,0.45)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_32px_-22px_rgba(60,45,30,0.5)]"
                 style={{ borderTopWidth: 3, borderTopColor: c.color }}
               >
@@ -1237,7 +1687,10 @@ export default function ConclusionsDemo() {
                     kicker="用研洞察 · 前提"
                     title={<>兴趣是入口，孩子喜欢家长才会考虑</>}
                   />
-                  <div className="grid grid-cols-2 border-y border-[#CDBE8B]">
+                  <div
+                    data-gsap-count-group
+                    className="grid grid-cols-2 border-y border-[#CDBE8B]"
+                  >
                     {[
                       ['53%', '趣味动画课（TOP 1）'],
                       ['40%', '孩子喜欢（TOP 2）'],
@@ -1246,7 +1699,12 @@ export default function ConclusionsDemo() {
                         key={v}
                         className="border-r border-[#CDBE8B] px-3 py-6 last:border-r-0 md:px-5"
                       >
-                        <p className="text-[34px] font-black tracking-[-0.04em] text-[#E95B35] md:text-[46px]">
+                        <p
+                          data-gsap-count
+                          data-value={Number.parseFloat(v)}
+                          data-suffix="%"
+                          className="text-[34px] font-black tracking-[-0.04em] text-[#E95B35] md:text-[46px]"
+                        >
                           {v}
                         </p>
                         <p className="mt-2 text-[12px] font-bold leading-5 text-[#746A56]">
@@ -1269,7 +1727,7 @@ export default function ConclusionsDemo() {
                     title={<>「未来学科价值」才是最终合理化购买的理由</>}
                   />
                   {/* 递进链路 */}
-                  <div className="mb-9">
+                  <div data-gsap-purchase-flow className="mb-9">
                     {[
                       '孩子觉得有趣',
                       '家长开始考虑',
@@ -1278,6 +1736,7 @@ export default function ConclusionsDemo() {
                     ].map((t, i, arr) => (
                       <div
                         key={t}
+                        data-gsap-purchase-step
                         className="relative grid grid-cols-[40px_1fr] items-center gap-3 border-b border-[#D5C89A] py-4 first:pt-0"
                       >
                         <span className="text-[12px] font-black text-[#A5945C]">
@@ -1295,8 +1754,16 @@ export default function ConclusionsDemo() {
                       </div>
                     ))}
                   </div>
-                  <div className="mb-6 inline-flex items-baseline gap-2 rounded-full bg-[#E95B35]/10 px-4 py-2">
-                    <span className="text-[22px] font-black text-[#E95B35]">
+                  <div
+                    data-gsap-count-group
+                    className="mb-6 inline-flex items-baseline gap-2 rounded-full bg-[#E95B35]/10 px-4 py-2"
+                  >
+                    <span
+                      data-gsap-count
+                      data-value={31}
+                      data-suffix="%"
+                      className="text-[22px] font-black text-[#E95B35]"
+                    >
                       31%
                     </span>
                     <span className="text-[12px] font-bold text-[#8A6A2F]">
@@ -1391,7 +1858,10 @@ export default function ConclusionsDemo() {
               </div>
 
               <Reveal>
-                <div className="mt-10 grid gap-6 rounded-[18px] bg-[#1E2B24] p-6 text-white md:grid-cols-[.85fr_1.15fr] md:p-9">
+                <div
+                  data-gsap-count-group
+                  className="mt-10 grid gap-6 rounded-[18px] bg-[#1E2B24] p-6 text-white md:grid-cols-[.85fr_1.15fr] md:p-9"
+                >
                   <div>
                     <p className="text-[11px] font-black tracking-[0.15em] text-[#C9FF5B]">
                       目标人群
@@ -1411,7 +1881,10 @@ export default function ConclusionsDemo() {
                     <p className="mb-4 text-[13px] font-semibold leading-7 text-white/75">
                       截至 5 月 12 日，《从小学系列课程》已购用户——
                       <span className="font-black text-white">
-                        1-3 年级占比 77%
+                        1-3 年级占比{' '}
+                        <span data-gsap-count data-value={77} data-suffix="%">
+                          77%
+                        </span>
                       </span>
                       （新媒体近 7 成），从 5 年级开始断崖式下降。
                     </p>
@@ -1815,10 +2288,14 @@ export default function ConclusionsDemo() {
             >
               {/* 横向时间带 */}
               <Reveal>
-                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                <div
+                  data-gsap-scene-flow
+                  className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4"
+                >
                   {SCENE_STEPS.map(([t, d], i) => (
                     <div
                       key={t}
+                      data-gsap-scene-step
                       className="relative rounded-[14px] border border-[#DDD1C2] bg-white/60 p-5"
                     >
                       <span className="text-[12px] font-black text-[#2F9F8F]">
@@ -2011,6 +2488,23 @@ export default function ConclusionsDemo() {
 function ConcernDanmu({ items }: { items: string[] }) {
   const reduced = useReducedMotion();
   const [paused, setPaused] = React.useState(false);
+  const [visible, setVisible] = React.useState(false);
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (reduced) {
+      setVisible(false);
+      return;
+    }
+    const container = containerRef.current;
+    if (!container) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setVisible(entry.isIntersecting),
+      { threshold: 0.05 },
+    );
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [reduced]);
 
   if (reduced) {
     // 减少动态：静态原声墙
@@ -2036,6 +2530,7 @@ function ConcernDanmu({ items }: { items: string[] }) {
   const rows = [items.slice(0, 4), items.slice(4, 7), items.slice(7)];
   return (
     <div
+      ref={containerRef}
       className="relative mb-6 h-[200px] overflow-hidden rounded-[16px] border border-[#E1C4BB] bg-white/40"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -2051,7 +2546,7 @@ function ConcernDanmu({ items }: { items: string[] }) {
             top: `${44 + ri * 48}px`,
             animation: `danmu-scroll ${20 + ri * 4}s linear infinite`,
             animationDelay: `${ri * -6}s`,
-            animationPlayState: paused ? 'paused' : 'running',
+            animationPlayState: paused || !visible ? 'paused' : 'running',
           }}
         >
           {[...row, ...row].map((t, i) => {

@@ -34,10 +34,11 @@ const computingItems = [
 
 const familyItems = [
   { label: '调研背景', path: 'background' },
-  { label: '典型家庭故事', path: 'family-stories' },
   { label: '核心结论', path: 'core-conclusions' },
   { label: '结论速览 Demo', path: 'summary-demo' },
   { label: '结论速览V2', path: 'conclusions-v2' },
+  { label: '结论速览V3', path: 'conclusions-v3' },
+  { label: '典型家庭故事', path: 'family-stories' },
 ];
 
 const paisouItems = [
