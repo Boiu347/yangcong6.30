@@ -123,15 +123,26 @@
   outline-offset: 3px;
 }
 
+/* Sheet 会 portal 到 body，必须自带色板，不能依赖 .jtb-v3-page 变量 */
 .jtb-v3-research-sheet {
+  --jtb-v3-paper: #f7f3ec;
+  --jtb-v3-ink: #1d1915;
+  --jtb-v3-muted: #6f655b;
+  --jtb-v3-line: rgba(29, 25, 21, 0.14);
+  --jtb-v3-orange: #e95b35;
+  --jtb-v3-white: #fffdf8;
   width: min(92vw, 440px) !important;
   max-width: 440px !important;
   gap: 0 !important;
   overflow-y: auto;
   padding: 0 !important;
-  color: var(--jtb-v3-ink) !important;
-  border-left: 1px solid var(--jtb-v3-line) !important;
-  background: var(--jtb-v3-paper) !important;
+  color: #1d1915 !important;
+  border-left: 1px solid rgba(29, 25, 21, 0.14) !important;
+  background: #f7f3ec !important;
+}
+
+body:has(.jtb-v3-research-sheet[data-state='open']) [data-slot='sheet-overlay'] {
+  background: rgba(29, 25, 21, 0.28) !important;
 }
 
 .jtb-v3-research-header {
@@ -153,6 +164,7 @@
 
 .jtb-v3-research-title {
   margin: 0 !important;
+  color: #1d1915 !important;
   font-size: 28px !important;
   font-weight: 900 !important;
   letter-spacing: -0.04em;
