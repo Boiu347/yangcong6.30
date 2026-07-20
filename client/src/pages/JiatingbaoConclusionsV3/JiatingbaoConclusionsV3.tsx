@@ -86,7 +86,9 @@ function ResearchDrawer() {
       </SheetTrigger>
       <SheetContent className="jtb-v3-research-sheet" side="right">
         <SheetHeader className="jtb-v3-research-header">
-          <span className="jtb-v3-research-kicker">RESEARCH ARCHIVE · 05</span>
+          <span className="jtb-v3-research-kicker">
+            家庭包用户调研资料 · 05
+          </span>
           <SheetTitle className="jtb-v3-research-title">研究资料</SheetTitle>
           <SheetDescription className="jtb-v3-research-description">
             家庭包用户调研的研究规划、访谈材料与结论小结。
@@ -131,7 +133,7 @@ function EvidenceQuote({ item }: { item: FamilyConclusionEvidence }) {
     <blockquote className="jtb-v3-evidence-quote">
       <Quote size={16} aria-hidden="true" />
       <p>“{item.quote}”</p>
-      <footer>— {item.source}</footer>
+      <footer>- {item.source}</footer>
       {clips.length > 0 && (
         <div className="jtb-v3-audio-wrap">
           <span>
@@ -156,7 +158,7 @@ function ConclusionDocument({
 }) {
   return (
     <article
-      className={`jtb-v3-document is-${chapter}`}
+      className={`jtb-v3-document is-${chapter} is-index-${index + 1}`}
       data-v3-section-reveal
       id={`jtb-v3-${item.id}`}
     >
@@ -165,7 +167,6 @@ function ConclusionDocument({
           {String.fromCharCode(97 + index)}
         </div>
         <div>
-          <span className="jtb-v3-document-label">用研洞察</span>
           <h3>{item.title}</h3>
           <p>{item.conclusion}</p>
         </div>
@@ -244,7 +245,6 @@ function ConclusionDocument({
       {item.actions.length > 0 && (
         <aside className="jtb-v3-actions">
           <div className="jtb-v3-actions-heading">
-            <span>BUSINESS IMPLICATIONS</span>
             <h4>业务启发</h4>
           </div>
           <div className="jtb-v3-actions-list">
@@ -301,7 +301,11 @@ export default function JiatingbaoConclusionsV3() {
           },
         });
 
-        if (!motionSafe) return undefined;
+        // Keep the research readable when the page is restored in a background tab.
+        // GSAP's `from` tweens set their initial hidden state immediately, but a
+        // background document may defer the first animation frame indefinitely.
+        if (!motionSafe || document.visibilityState !== 'visible')
+          return undefined;
 
         const heroTimeline = gsap.timeline({
           defaults: { duration: 0.62, ease: 'power3.out' },
@@ -328,7 +332,6 @@ export default function JiatingbaoConclusionsV3() {
           .toArray<HTMLElement>('[data-v3-section-reveal]', page)
           .forEach((element) => {
             gsap.from(element, {
-              autoAlpha: 0,
               y: 36,
               duration: 0.7,
               ease: 'power2.out',
@@ -345,7 +348,6 @@ export default function JiatingbaoConclusionsV3() {
           .toArray<HTMLElement>('[data-v3-point-reveal]', page)
           .forEach((element) => {
             gsap.from(element, {
-              autoAlpha: 0,
               y: 22,
               duration: 0.55,
               ease: 'power2.out',
@@ -379,7 +381,7 @@ export default function JiatingbaoConclusionsV3() {
           <div className="jtb-v3-hero-inner">
             <div className="jtb-v3-hero-copy">
               <span className="jtb-v3-kicker" data-v3-hero-kicker>
-                洋葱学园 · 家庭包用户调研
+                洋葱学园 / 家庭包用户调研
               </span>
               <h1>
                 <span data-v3-hero-title>家庭包</span>
@@ -389,8 +391,7 @@ export default function JiatingbaoConclusionsV3() {
                 购买决策与机会人群地图
               </p>
               <p className="jtb-v3-hero-lead" data-v3-hero-copy>
-                本页按研究资料原始结构呈现主页面 2 与主页面
-                3，保留全部结论、要点、证据、原声与业务启发。
+                沿着家长的决策过程，读完购买原因、顾虑与不同家庭组合的机会。
               </p>
             </div>
 
@@ -400,7 +401,7 @@ export default function JiatingbaoConclusionsV3() {
                   <span>主页面 2</span>
                   <b>购买决策</b>
                 </div>
-                <p>成立原因 · 未成交卡点</p>
+                <p>成立原因 / 未成交卡点</p>
                 <ArrowDown size={18} aria-hidden="true" />
               </a>
               <a href="#jtb-v3-audience" data-v3-chapter-link>
@@ -408,75 +409,96 @@ export default function JiatingbaoConclusionsV3() {
                   <span>主页面 3</span>
                   <b>机会人群地图</b>
                 </div>
-                <p>小低组 · 小高组 · 其他潜力组合</p>
+                <p>小低组 / 小高组 / 其他潜力组合</p>
                 <ArrowDown size={18} aria-hidden="true" />
               </a>
             </nav>
           </div>
         </section>
 
-        <section className="jtb-v3-chapter" id="jtb-v3-purchase">
-          <header className="jtb-v3-chapter-header" data-v3-section-reveal>
-            <div className="jtb-v3-chapter-number">02</div>
-            <div>
-              <span>主页面 2</span>
-              <h2>购买决策</h2>
-              <p>按照“成立原因 → 未成交卡点”的原始顺序呈现。</p>
-            </div>
-          </header>
+        <div className="jtb-v3-reading-shell">
+          <aside className="jtb-v3-journey-rail" aria-label="研究路径">
+            <span>研究路径</span>
+            <a href="#jtb-v3-purchase">
+              <b>2</b>
+              <div>
+                购买决策
+                <small>成立原因 / 未成交卡点</small>
+              </div>
+            </a>
+            <a href="#jtb-v3-audience">
+              <b>3</b>
+              <div>
+                机会人群地图
+                <small>小低组 / 小高组 / 其他潜力组合</small>
+              </div>
+            </a>
+          </aside>
 
-          <div className="jtb-v3-documents">
-            {purchaseConclusions.map((item, index) => (
-              <ConclusionDocument
-                chapter="purchase"
-                index={index}
-                item={item}
-                key={item.id}
-              />
-            ))}
+          <div className="jtb-v3-reading-content">
+            <section className="jtb-v3-chapter" id="jtb-v3-purchase">
+              <header className="jtb-v3-chapter-header" data-v3-section-reveal>
+                <span className="jtb-v3-chapter-tape">主页面 2 / 购买决策</span>
+                <h2>为什么购买，为什么犹豫</h2>
+                <p>按照“成立原因 → 未成交卡点”的原始顺序呈现。</p>
+              </header>
+
+              <div className="jtb-v3-documents">
+                {purchaseConclusions.map((item, index) => (
+                  <ConclusionDocument
+                    chapter="purchase"
+                    index={index}
+                    item={item}
+                    key={item.id}
+                  />
+                ))}
+              </div>
+            </section>
+
+            <section
+              className="jtb-v3-chapter is-audience"
+              id="jtb-v3-audience"
+            >
+              <header className="jtb-v3-chapter-header" data-v3-section-reveal>
+                <span className="jtb-v3-chapter-tape is-orange">
+                  主页面 3 / 机会人群地图
+                </span>
+                <h2>不同组合，不同机会</h2>
+                <p>
+                  该部分仅为通过调研了解不同二胎家庭结构机会潜力的渠道，不作为最终推课方案。
+                </p>
+              </header>
+
+              <div className="jtb-v3-documents">
+                {audienceConclusions.map((item, index) => (
+                  <ConclusionDocument
+                    chapter="audience"
+                    index={index}
+                    item={item}
+                    key={item.id}
+                  />
+                ))}
+              </div>
+            </section>
+
+            <section className="jtb-v3-next" data-v3-section-reveal>
+              <div>
+                <span>继续阅读</span>
+                <h2>典型家庭故事</h2>
+                <p>沿着真实家庭的选择过程，继续查看结论如何发生。</p>
+              </div>
+              <button
+                onClick={() =>
+                  navigate('/projects/jiatingbao_project/family-stories')
+                }
+                type="button"
+              >
+                进入下一页
+                <ArrowRight size={18} aria-hidden="true" />
+              </button>
+            </section>
           </div>
-        </section>
-
-        <section className="jtb-v3-chapter is-audience" id="jtb-v3-audience">
-          <header className="jtb-v3-chapter-header" data-v3-section-reveal>
-            <div className="jtb-v3-chapter-number">03</div>
-            <div>
-              <span>主页面 3</span>
-              <h2>机会人群地图</h2>
-              <p>
-                该部分仅为通过调研了解不同二胎家庭结构机会潜力的渠道，不作为最终推课方案。
-              </p>
-            </div>
-          </header>
-
-          <div className="jtb-v3-documents">
-            {audienceConclusions.map((item, index) => (
-              <ConclusionDocument
-                chapter="audience"
-                index={index}
-                item={item}
-                key={item.id}
-              />
-            ))}
-          </div>
-        </section>
-
-        <section className="jtb-v3-next" data-v3-section-reveal>
-          <div>
-            <span>NEXT PAGE</span>
-            <h2>典型家庭故事</h2>
-            <p>沿着真实家庭的选择过程，继续查看结论如何发生。</p>
-          </div>
-          <button
-            onClick={() =>
-              navigate('/projects/jiatingbao_project/family-stories')
-            }
-            type="button"
-          >
-            进入下一页
-            <ArrowRight size={18} aria-hidden="true" />
-          </button>
-        </section>
+        </div>
       </main>
     </div>
   );
