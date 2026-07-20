@@ -398,7 +398,6 @@ export default function JiatingbaoConclusionsV3() {
             <nav className="jtb-v3-chapter-nav" aria-label="本页章节">
               <a href="#jtb-v3-purchase" data-v3-chapter-link>
                 <div>
-                  <span>主页面 2</span>
                   <b>购买决策</b>
                 </div>
                 <p>成立原因 / 未成交卡点</p>
@@ -406,7 +405,6 @@ export default function JiatingbaoConclusionsV3() {
               </a>
               <a href="#jtb-v3-audience" data-v3-chapter-link>
                 <div>
-                  <span>主页面 3</span>
                   <b>机会人群地图</b>
                 </div>
                 <p>小低组 / 小高组 / 其他潜力组合</p>
@@ -420,16 +418,14 @@ export default function JiatingbaoConclusionsV3() {
           <aside className="jtb-v3-journey-rail" aria-label="研究路径">
             <span>研究路径</span>
             <a href="#jtb-v3-purchase">
-              <b>2</b>
               <div>
-                购买决策
+                <strong>购买决策</strong>
                 <small>成立原因 / 未成交卡点</small>
               </div>
             </a>
             <a href="#jtb-v3-audience">
-              <b>3</b>
               <div>
-                机会人群地图
+                <strong>机会人群地图</strong>
                 <small>小低组 / 小高组 / 其他潜力组合</small>
               </div>
             </a>
@@ -438,7 +434,7 @@ export default function JiatingbaoConclusionsV3() {
           <div className="jtb-v3-reading-content">
             <section className="jtb-v3-chapter" id="jtb-v3-purchase">
               <header className="jtb-v3-chapter-header" data-v3-section-reveal>
-                <span className="jtb-v3-chapter-tape">主页面 2 / 购买决策</span>
+                <strong className="jtb-v3-chapter-name">购买决策</strong>
                 <h2>为什么购买，为什么犹豫</h2>
                 <p>按照“成立原因 → 未成交卡点”的原始顺序呈现。</p>
               </header>
@@ -460,9 +456,9 @@ export default function JiatingbaoConclusionsV3() {
               id="jtb-v3-audience"
             >
               <header className="jtb-v3-chapter-header" data-v3-section-reveal>
-                <span className="jtb-v3-chapter-tape is-orange">
-                  主页面 3 / 机会人群地图
-                </span>
+                <strong className="jtb-v3-chapter-name is-orange">
+                  机会人群地图
+                </strong>
                 <h2>不同组合，不同机会</h2>
                 <p>
                   该部分仅为通过调研了解不同二胎家庭结构机会潜力的渠道，不作为最终推课方案。
