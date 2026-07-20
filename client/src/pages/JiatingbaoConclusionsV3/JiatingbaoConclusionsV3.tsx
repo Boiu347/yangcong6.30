@@ -196,13 +196,15 @@ function ConclusionDocument({
               key={point.title}
               data-v3-point-reveal
             >
-              <div className="jtb-v3-point-lead">
-                <div className="jtb-v3-point-number">
-                  {String(pointIndex + 1).padStart(2, '0')}
+              <header className="jtb-v3-point-header">
+                <div className="jtb-v3-point-lead">
+                  <div className="jtb-v3-point-number">
+                    {String(pointIndex + 1).padStart(2, '0')}
+                  </div>
+                  <h4>{point.title}</h4>
                 </div>
-                <h4>{point.title}</h4>
                 <p className="jtb-v3-point-summary">{point.text}</p>
-              </div>
+              </header>
               <div className="jtb-v3-point-body">
                 {point.keyPoints && point.keyPoints.length > 0 && (
                   <div className="jtb-v3-keypoints">

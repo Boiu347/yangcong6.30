@@ -1419,6 +1419,74 @@
   }
 }
 
+/* Physics-demo reading rhythm: judgment first, evidence at full width. */
+.jtb-v3-document:is(
+    .is-decision-chain,
+    .is-risk-ladder,
+    .is-family-scenes,
+    .is-triad,
+    .is-opportunity-matrix
+  )
+  .jtb-v3-point {
+  display: block !important;
+}
+
+.jtb-v3-point-header {
+  display: grid;
+  gap: clamp(28px, 5vw, 70px);
+  align-items: end;
+  grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.1fr);
+}
+
+.jtb-v3-point-header .jtb-v3-point-lead {
+  padding-right: 0;
+}
+
+.jtb-v3-point-header .jtb-v3-point-summary {
+  max-width: 680px;
+  margin: 0;
+  padding-bottom: 4px;
+  font-size: clamp(15px, 1.45vw, 18px);
+  line-height: 1.85;
+}
+
+.jtb-v3-point-body {
+  width: 100%;
+  margin-top: clamp(30px, 4vw, 48px);
+  padding-top: clamp(28px, 3.5vw, 42px);
+  padding-left: 0;
+  border-top: 1px solid rgba(23, 23, 23, 0.16);
+  border-left: 0;
+}
+
+.jtb-v3-point-body .jtb-v3-keypoints {
+  display: grid;
+  gap: clamp(26px, 3.5vw, 42px) clamp(20px, 3vw, 34px);
+  grid-template-columns: 1fr;
+}
+
+.jtb-v3-point-body .jtb-v3-keypoint {
+  align-content: start;
+}
+
+.jtb-v3-point-body .jtb-v3-keypoint:only-child {
+  max-width: 760px;
+}
+
+.jtb-v3-point-body .jtb-v3-evidence-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+}
+
+@media (max-width: 820px) {
+  .jtb-v3-point-header {
+    grid-template-columns: 1fr;
+  }
+
+  .jtb-v3-point-header {
+    gap: 20px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .jtb-v3-page *,
   .jtb-v3-page *::before,
