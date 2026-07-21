@@ -2,6 +2,7 @@ import type { EvidenceClip } from './evidenceClipLookup';
 import { JIATINGBAO_CLIP_MAP } from './jiatingbaoClipLookup';
 import { clipsForQuote } from './sourceUtils';
 import { JTB_VOICE_CLIPS } from '@/store/jiatingbaoVoiceClips';
+import { JIATINGBAO_SEGMENTS } from '@/store/jiatingbaoSegments';
 
 interface EvidenceAudioInput {
   quote: string;
@@ -10,8 +11,14 @@ interface EvidenceAudioInput {
 
 export interface ResolvedEvidenceAudio {
   clips: EvidenceClip[];
+  /** 实际播出内容（与 clips 对齐）；有值时应优先展示，避免文案与录音错位 */
+  spokenText?: string;
   label: '真实访谈原声' | '相关访谈切片';
 }
+
+const VOICE_BY_CAPTION = Object.fromEntries(
+  JTB_VOICE_CLIPS.map((clip) => [clip.caption, clip]),
+);
 
 const VOICE_CLIP_BY_CAPTION: Record<string, EvidenceClip> = Object.fromEntries(
   JTB_VOICE_CLIPS.map((clip) => [
@@ -24,6 +31,7 @@ const VOICE_CLIP_BY_CAPTION: Record<string, EvidenceClip> = Object.fromEntries(
   ]),
 );
 
+/** 研究摘录找不到逐字切片时，仅用主题相近的旁证；UI 必须展示 spokenText */
 const RELATED_CLIP_CAPTIONS: Record<string, string> = {
   '不确定孩子学得到底怎么样，如果后面好，我肯定会一次性投入。':
     '花这么多钱不一定能见到提分效果。',
@@ -37,38 +45,113 @@ const RELATED_CLIP_CAPTIONS: Record<string, string> = {
     '现在复习五年级，暑假再提前学六年级。',
 };
 
-const EXACT_QUOTE_CLIPS: Record<string, EvidenceClip> = {
+const EXACT_QUOTE_CLIPS: Record<string, { clip: EvidenceClip; spokenText: string }> = {
   '主要担忧是小孩不适应这个课，买了浪费。': {
-    clipUrl: '/clips/jiatingbao/seg/user1/0045.mp3',
-    startTime: 0,
-    duration: 0,
+    clip: {
+      clipUrl: '/clips/jiatingbao/seg/user1/0045.mp3',
+      startTime: 0,
+      duration: 0,
+    },
+    spokenText: '也当时也也不，我觉得担忧是小孩不适应这个课，就是买了浪费啊',
   },
 };
+
+function normalize(text: string): string {
+  return text.replace(/[^\u4e00-\u9fffA-Za-z0-9]/g, '').toLowerCase();
+}
+
+function overlapScore(a: string, b: string): number {
+  const na = normalize(a);
+  const nb = normalize(b);
+  if (!na || !nb) return 0;
+  if (na.includes(nb) || nb.includes(na)) {
+    return Math.min(na.length, nb.length) / Math.max(na.length, nb.length);
+  }
+  const set = new Set([...na]);
+  let hit = 0;
+  for (const ch of nb) if (set.has(ch)) hit += 1;
+  return hit / Math.max(na.length, nb.length);
+}
+
+/** 在逐句拆解库里找与 quote 最接近的片段 */
+function findBestSegment(quote: string): { clip: EvidenceClip; spokenText: string } | null {
+  let best: { score: number; clip: EvidenceClip; spokenText: string } | null = null;
+  for (const seg of JIATINGBAO_SEGMENTS) {
+    const score = overlapScore(quote, seg.quote);
+    if (score < 0.55) continue;
+    if (!best || score > best.score) {
+      best = {
+        score,
+        spokenText: seg.quote,
+        clip: {
+          clipUrl: seg.clipUrl!,
+          startTime: seg.startTime ?? 0,
+          duration: seg.duration,
+        },
+      };
+    }
+  }
+  return best ? { clip: best.clip, spokenText: best.spokenText } : null;
+}
+
+function spokenTextForClipUrl(clipUrl: string): string | undefined {
+  const voice = JTB_VOICE_CLIPS.find((c) => c.clipUrl === clipUrl);
+  if (voice?.text) return voice.text;
+  const seg = JIATINGBAO_SEGMENTS.find((s) => s.clipUrl === clipUrl);
+  return seg?.quote;
+}
 
 export function resolveJiatingbaoEvidenceAudio({
   quote,
   clipCaption,
 }: EvidenceAudioInput): ResolvedEvidenceAudio {
   if (clipCaption) {
-    const clip =
-      JIATINGBAO_CLIP_MAP[clipCaption] ?? VOICE_CLIP_BY_CAPTION[clipCaption];
-    if (clip) return { clips: [clip], label: '真实访谈原声' };
+    const voice = VOICE_BY_CAPTION[clipCaption];
+    const clip = JIATINGBAO_CLIP_MAP[clipCaption] ?? VOICE_CLIP_BY_CAPTION[clipCaption];
+    if (clip) {
+      return {
+        clips: [clip],
+        spokenText: voice?.text ?? spokenTextForClipUrl(clip.clipUrl),
+        label: '真实访谈原声',
+      };
+    }
   }
 
-  const directClip = EXACT_QUOTE_CLIPS[quote];
-  if (directClip) return { clips: [directClip], label: '真实访谈原声' };
+  const exact = EXACT_QUOTE_CLIPS[quote];
+  if (exact) {
+    return { clips: [exact.clip], spokenText: exact.spokenText, label: '真实访谈原声' };
+  }
+
+  const segmentHit = findBestSegment(quote);
+  if (segmentHit) {
+    return {
+      clips: [segmentHit.clip],
+      spokenText: segmentHit.spokenText,
+      label: '真实访谈原声',
+    };
+  }
 
   const matchedClips = clipsForQuote(quote);
   if (matchedClips.length > 0) {
-    return { clips: matchedClips, label: '真实访谈原声' };
+    return {
+      clips: matchedClips,
+      spokenText: spokenTextForClipUrl(matchedClips[0].clipUrl),
+      label: '真实访谈原声',
+    };
   }
 
   const relatedCaption = RELATED_CLIP_CAPTIONS[quote];
+  const relatedVoice = relatedCaption ? VOICE_BY_CAPTION[relatedCaption] : undefined;
   const relatedClip = relatedCaption
     ? VOICE_CLIP_BY_CAPTION[relatedCaption]
     : undefined;
-  return {
-    clips: relatedClip ? [relatedClip] : [],
-    label: relatedClip ? '相关访谈切片' : '真实访谈原声',
-  };
+  if (relatedClip && relatedVoice) {
+    return {
+      clips: [relatedClip],
+      spokenText: relatedVoice.text,
+      label: '相关访谈切片',
+    };
+  }
+
+  return { clips: [], label: '真实访谈原声' };
 }

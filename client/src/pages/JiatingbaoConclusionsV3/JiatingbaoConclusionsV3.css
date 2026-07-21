@@ -930,6 +930,14 @@ body:has(.jtb-v3-research-sheet[data-state='open']) [data-slot='sheet-overlay'] 
   line-height: 1.7;
 }
 
+.jtb-v3-voice-excerpt {
+  margin: 8px 0 0 !important;
+  color: #9a8d7e;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1.6 !important;
+}
+
 .jtb-v3-voice footer {
   margin-top: 10px;
   color: #9a8d7e;

@@ -183,6 +183,8 @@ function ResearchDrawer() {
 
 function EvidenceQuote({ item }: { item: FamilyConclusionEvidence }) {
   const audio = resolveJiatingbaoEvidenceAudio(item);
+  const spoken = audio.spokenText?.trim();
+  const showSpoken = Boolean(spoken && spoken !== item.quote);
 
   return (
     <blockquote className="jtb-v3-voice" data-v3-voice>
@@ -194,7 +196,11 @@ function EvidenceQuote({ item }: { item: FamilyConclusionEvidence }) {
         )}
         <span>{audio.clips.length > 0 ? audio.label : '访谈原声'}</span>
       </div>
-      <p>“{item.quote}”</p>
+      {/* 有录音时优先展示实际播出文案，避免「字」和「声」错位 */}
+      <p>“{showSpoken ? spoken : item.quote}”</p>
+      {showSpoken ? (
+        <p className="jtb-v3-voice-excerpt">研究摘录：{item.quote}</p>
+      ) : null}
       <footer>— {item.source}</footer>
       {audio.clips.length > 0 ? (
         <EvidenceAudioClips clips={audio.clips} className="jtb-v3-audio" />

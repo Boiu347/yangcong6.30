@@ -808,7 +808,7 @@ const CONCERN_LEARN_VOICES: Voice[] = [
   {
     text: '我想知道他到底学了什么东西？学到了什么东西？学了多少？能记住什么？',
     source: '用户5｜三年级｜重庆渝中',
-    clipUrl: '/clips/interview5/0057-01.mp3',
+    clipUrl: '/clips/interview5/0035-01.mp3',
   },
   { text: '到初中正式学物理才能看出来，现在没法判断。', source: '访谈原声' },
 ];
@@ -918,7 +918,7 @@ const EXPERIENCE_MATRIX: {
         {
           text: '我想知道他到底学了什么东西？学到了什么东西？学了多少？能记住什么？',
           source: '用户5｜三年级｜重庆渝中',
-          clipUrl: '/clips/interview5/0057-01.mp3',
+          clipUrl: '/clips/interview5/0035-01.mp3',
         },
       ],
     },
@@ -972,8 +972,9 @@ const EXPERIENCE_MATRIX: {
       summary: '1、价格和进阶成本高；2、部分理论讲解仍不够儿童化。',
       voices: [
         {
-          text: '如果要再进阶的话，还需要再付费……性价比确实不高。',
+          text: '当时买的时候不知道他后面还有一个需要再多加额外的这个费用的这样的一个事。',
           source: '用户2｜三年级｜北京昌平',
+          clipUrl: '/clips/interview2/0014-01.mp3',
         },
         {
           text: '老师讲解知识点也是有点问题，理论讲解不好，没用孩子的语言讲解。',

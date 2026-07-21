@@ -134,7 +134,7 @@ const STORY_QUOTE_CLIPS: Record<string, EvidenceClip> = {
     startTime: 0,
     duration: 0,
   },
-  '因为她平时学习也是非常主动的，非常自律。': {
+  '我女儿她是比较自觉的、自律的。她能够这样自己主动地提出来，说要想自己去学习。': {
     clipUrl: '/clips/jiatingbao/seg/user2/0056.mp3',
     startTime: 0,
     duration: 0,
@@ -164,7 +164,7 @@ const STORY_QUOTE_CLIPS: Record<string, EvidenceClip> = {
     startTime: 0,
     duration: 0,
   },
-  '孩子他自己也不会那么累，因为他不需要赶路啊……他想什么时候看都行。': {
+  '一个是我真的不想让她这样跑来跑去的，好好累呀……我都想培养他们有一个自主学习的能力。': {
     clipUrl: '/clips/jiatingbao/seg/user3/0098.mp3',
     startTime: 0,
     duration: 0,
@@ -388,7 +388,7 @@ const PERSONAS: FamilyPersona[] = [
             { text: '这个家庭的购买动机，是孩子已经具备继续往前学的能力和意愿。' },
             {
               text: '家长相信孩子，因为她平时就比较自觉、自律，认定的事情通常能坚持。',
-              quotes: ['因为她平时学习也是非常主动的，非常自律。'],
+              quotes: ['我女儿她是比较自觉的、自律的。她能够这样自己主动地提出来，说要想自己去学习。'],
             },
           ],
         },
@@ -511,7 +511,7 @@ const PERSONAS: FamilyPersona[] = [
               text: '洋葱：能承担一部分预习、复习、巩固功能，就会显得更轻、更灵活、更划算。',
               quotes: [
                 '买这个的话肯定比那个补课要便宜多了呀。我还不需要接送，时间成本也没有。路费也没有。',
-                '孩子他自己也不会那么累，因为他不需要赶路啊……他想什么时候看都行。',
+                '一个是我真的不想让她这样跑来跑去的，好好累呀……我都想培养他们有一个自主学习的能力。',
               ],
             },
           ],
