@@ -737,7 +737,7 @@ export default function JiatingbaoConclusionsV3() {
           <div className="jtb-v3-hero-ring" aria-hidden="true" />
           <div className="jtb-v3-hero-inner">
             <p className="jtb-v3-kicker" data-v3-hero-kicker>
-              洋葱学园 / 家庭包用户调研 · 结论速览
+              洋葱学园 / 家庭包用户调研 · 研究结论
             </p>
             <h1 data-v3-hero-title>
               先解决一个孩子的

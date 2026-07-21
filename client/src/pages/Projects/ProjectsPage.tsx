@@ -32,7 +32,7 @@ const PROJECT_COPY: Record<string, { summary: string; takeaway: string; source: 
   default_project: {
     summary: '围绕“从小学物理”新课定位，判断低龄家庭到底买的是兴趣启蒙、学科启蒙，还是小初衔接。',
     takeaway: '核心不是卖“提前学物理”，而是把“孩子喜欢看”和“未来有用”的学科启蒙路径讲清楚。',
-    source: '项目总结 / 定性访谈 / 定量报告',
+    source: '调研背景 / 研究结论 / 用户画像 / 竞品分析 / 营销落地',
   },
   jisuanying_project: {
     summary: '从计算能力、付费意愿和续费判断出发，评估计算营的定位、商业模型和增长抓手。',
@@ -42,7 +42,7 @@ const PROJECT_COPY: Record<string, { summary: string; takeaway: string; source: 
   jiatingbao_project: {
     summary: '围绕 6 年多孩家庭包，拆解已购、未购、续购、升单家庭的购买动机和顾虑。',
     takeaway: '家庭包不是单个卖点打动，而是“长期价值、风险消解、家庭场景”共同促成决策。',
-    source: '调研背景 / 典型家庭故事 / 核心结论',
+    source: '调研背景 / 研究结论 / 典型家庭故事',
   },
   paisou_project: {
     summary: '围绕 AI 拍题 4.0，从真实使用场景、竞品生态、定量验证和营销表达判断产品机会。',

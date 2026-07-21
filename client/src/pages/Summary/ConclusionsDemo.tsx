@@ -280,10 +280,10 @@ export default function ConclusionsDemo() {
         <div className="min-w-0 py-9">
           <header>
             <p className="text-[12px] font-bold tracking-[0.14em] text-[#B29B7E]">
-              从小学系列售卖策略调研 · DEMO
+              从小学系列售卖策略调研
             </p>
             <h1 className="mt-2.5 text-[28px] font-black leading-tight md:text-[34px]">
-              结论速览
+              研究结论
             </h1>
             <p className="mt-2.5 text-[14px] font-medium leading-7 text-[#8A8279]">
               先扫一遍总览目录抓全貌，再往下逐条看；每条结论标题、要点、支撑信息层层分明。
