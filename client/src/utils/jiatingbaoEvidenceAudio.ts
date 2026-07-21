@@ -77,6 +77,7 @@ function overlapScore(a: string, b: string): number {
 function findBestSegment(quote: string): { clip: EvidenceClip; spokenText: string } | null {
   let best: { score: number; clip: EvidenceClip; spokenText: string } | null = null;
   for (const seg of JIATINGBAO_SEGMENTS) {
+    if (!seg.clipUrl) continue;
     const score = overlapScore(quote, seg.quote);
     if (score < 0.55) continue;
     if (!best || score > best.score) {
@@ -84,7 +85,7 @@ function findBestSegment(quote: string): { clip: EvidenceClip; spokenText: strin
         score,
         spokenText: seg.quote,
         clip: {
-          clipUrl: seg.clipUrl!,
+          clipUrl: seg.clipUrl,
           startTime: seg.startTime ?? 0,
           duration: seg.duration,
         },
